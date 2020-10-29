@@ -25,7 +25,7 @@ struct ContentView: View {
                     Image("volume")
                 }
                 .tag(0)
-            Text("Publications")
+            PublicationList()
                 .tabItem {
                     Image("publications")
                 }
@@ -33,7 +33,6 @@ struct ContentView: View {
             Text("Bookmarks")
                 .tabItem {
                     Image("bookmark")
-                        .offset(x: 20, y: 50)
                 }
                 .tag(2)
         }
