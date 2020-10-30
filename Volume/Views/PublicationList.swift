@@ -17,24 +17,27 @@ struct PublicationList: View {
                 Text("FOLLOWING")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading, 20)
+                    .padding(.bottom, 8)
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 20) {
                         ForEach (publicationsData) { publication in
                             NavigationLink(destination: PublicationDetail(publication: publication)) {
-                                PublicationRow(publication: publication)
+                                FollowingPublicationRow(publication: publication)
                             }
                         }
                     }
-                    .padding([.bottom, .leading, .trailing])
+                    .padding([.leading, .trailing])
+                    .padding(.bottom, 35)
                 }
                 
                 Text("MORE PUBLICATIONS")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading, 20)
+                    .padding(.bottom, 10)
                 VStack(spacing: 12.5) {
                     ForEach (publicationsData) { publication in
                         NavigationLink(destination: PublicationDetail(publication: publication)) {
-                            PublicationColumn(publication: publication)
+                            MorePublicationRow(publication: publication)
                         }
                     }
                 }

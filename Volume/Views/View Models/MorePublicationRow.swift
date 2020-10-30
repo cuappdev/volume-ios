@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct PublicationColumn: View {
+struct MorePublicationRow: View {
     
     var publication: Publication!
     
@@ -76,8 +76,8 @@ struct PublicationColumn: View {
     
 }
 
-struct PublicationColumn_Previews: PreviewProvider {
+struct MorePublicationRow_Previews: PreviewProvider {
     static var previews: some View {
-        PublicationColumn()
+        MorePublicationRow()
     }
 }
