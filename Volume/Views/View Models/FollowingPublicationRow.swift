@@ -23,6 +23,7 @@ struct FollowingPublicationRow: View {
                 .font(.system(size: 12, weight: .bold))
                 .foregroundColor(.black)
                 .lineLimit(2)
+                .multilineTextAlignment(.center)
         }
         .frame(width: 90)
     }

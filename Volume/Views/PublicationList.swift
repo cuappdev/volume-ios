@@ -16,8 +16,7 @@ struct PublicationList: View {
                 
                 Text("FOLLOWING")
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 20)
-                    .padding(.bottom, 8)
+                    .padding([.bottom, .leading])
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 20) {
                         ForEach (publicationsData) { publication in
@@ -32,8 +31,7 @@ struct PublicationList: View {
                 
                 Text("MORE PUBLICATIONS")
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 20)
-                    .padding(.bottom, 10)
+                    .padding([.bottom, .leading])
                 VStack(spacing: 12.5) {
                     ForEach (publicationsData) { publication in
                         NavigationLink(destination: PublicationDetail(publication: publication)) {
