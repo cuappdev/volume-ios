@@ -11,25 +11,38 @@ import SwiftUI
 struct PublicationList: View {
     
     var body: some View {
-        ScrollView(showsIndicators: false) {
-            
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 20) {
+        NavigationView {
+            ScrollView(showsIndicators: false) {
+                
+                Text("FOLLOWING")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.leading, 20)
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 20) {
+                        ForEach (publicationsData) { publication in
+                            NavigationLink(destination: PublicationDetail(publication: publication)) {
+                                PublicationRow(publication: publication)
+                            }
+                        }
+                    }
+                    .padding([.bottom, .leading, .trailing])
+                }
+                
+                Text("MORE PUBLICATIONS")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.leading, 20)
+                VStack(spacing: 12.5) {
                     ForEach (publicationsData) { publication in
                         NavigationLink(destination: PublicationDetail(publication: publication)) {
-                            PublicationRow(publication: publication)
+                            PublicationColumn(publication: publication)
                         }
                     }
                 }
+                
             }
-            
-            VStack(spacing: 10) {
-                ForEach (publicationsData) { publication in
-                    NavigationLink(destination: PublicationDetail(publication: publication)) {
-                        PublicationColumn(publication: publication)
-                    }
-                }
-            }
+            .buttonStyle(PlainButtonStyle())
+            .padding(.bottom)
+            .navigationTitle("Publications.")
         }
     }
 }

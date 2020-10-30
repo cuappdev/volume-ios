@@ -9,10 +9,10 @@
 import Foundation
 
 let example = Publication(
-    description: "A short description that might take two lines.",
-    name: "Cornell Review",
+    description: "Dependent since 1984, bringing the oldest information to the Ithaca Community",
+    name: "The Cornell Daily Moon",
     image: "todo",
-    recent: "American History: Nov 3 2020")
+    recent: "Volume I: 3 Nov. 2020, USA")
 
 let publicationsData = [
     example, example, example, example, example, example, example, example, example, example, example, example

@@ -18,15 +18,13 @@ struct PublicationRow: View {
                 .resizable()
                 .clipShape(Circle())
                 .frame(width: 75, height: 75)
-                .overlay(Circle().stroke(Color.black, lineWidth: 0.5))
-                .shadow(radius: 5)
+                .shadow(color: ._verylightGray, radius: 2)
             Text(publication.name)
-                .lineLimit(2)
-                .truncationMode(.tail)
-                .frame(width: 90)
                 .font(.system(size: 12, weight: .bold))
                 .foregroundColor(.black)
+                .lineLimit(2)
         }
+        .frame(width: 90)
     }
 }
 
