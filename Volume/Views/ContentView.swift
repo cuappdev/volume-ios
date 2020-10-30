@@ -20,7 +20,7 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            Text("Home Feed")
+            HomeList()
                 .tabItem {
                     Image("volume")
                 }
