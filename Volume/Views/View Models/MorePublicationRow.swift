@@ -8,47 +8,54 @@
 
 import SwiftUI
 
+/// `MorePublicationsRow`displays the basis information about a publications the user is not currently following
 struct MorePublicationRow: View {
     
-    var publication: Publication!
+    var publication: Publication
     
     @State private var buttonTapped = false
         
     var body: some View {
-        HStack(spacing: 20) {
-            // Image + Text
+        HStack(spacing: 10) {
+            // The publication's image, name, description, and most recent article
             HStack(spacing: 20) {
                 Image(publication.image)
                     .resizable()
                     .clipShape(Circle())
-                    .frame(width: 52, height: 52)
-                    .shadow(color: ._verylightGray, radius: 1.5)
+                    .frame(width: 58, height: 58)
+                    .shadow(color: Color(white: 0, opacity: 0.1), radius: 5)
                     .padding(.bottom)
+                    .offset(y: -5)
                 
-                VStack(alignment: .leading, spacing: 5) {
-                    Text(publication.name)
-                        .font(.system(size: 18, weight: .medium))
-                        .foregroundColor(Color(white: 51/255, opacity: 1))
-                    Text(publication.description)
-                        .font(.system(size: 12))
-                        .foregroundColor(Color(white: 151/255, opacity: 1))
-                        .lineLimit(2)
-                        .truncationMode(.tail)
-                    HStack {
-                        Text("|")
-                            .font(.system(size: 14, weight: .bold))
-                            .foregroundColor(._lightGray)
-                        Text("\"\(publication.recent)\"")
-                            .font(.system(size: 12, weight: .bold))
-                            .foregroundColor(Color(white: 51/255, opacity: 1))
-                            .lineLimit(1)
+                HStack {
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(publication.name)
+                            .font(.custom("Futura-Medium", size: 18))
+                            .foregroundColor(.black)
+                        Text(publication.description)
+                            .font(.custom("Helvetica-Regular", size: 12))
+                            .foregroundColor(Color(white: 151/255))
+                            .lineLimit(2)
                             .truncationMode(.tail)
+                            .lineSpacing(4)
+                        HStack {
+                            Text("|")
+                                .font(.system(size: 14, weight: .bold))
+                                .foregroundColor(._verylightGray)
+                            Text("\"\(publication.recent)\"")
+                                .font(.custom("Helvetica-Bold", size: 12))
+                                .foregroundColor(.black)
+                                .lineLimit(1)
+                                .truncationMode(.tail)
+                        }
+                        .padding(.top, 2)
                     }
+                    Spacer()
                 }
-                .frame(width: 255)
+                .frame(width: 265)
             }
-            
-            // Add Button
+                        
+            // The button to add the publication to one's following
             VStack {
                 Button(action: {
                     self.buttonTapped.toggle()
@@ -68,16 +75,13 @@ struct MorePublicationRow: View {
                 }
                 Spacer()
             }
-            
         }
-        .ignoresSafeArea()
-
     }
     
 }
 
 struct MorePublicationRow_Previews: PreviewProvider {
     static var previews: some View {
-        MorePublicationRow()
+        MorePublicationRow(publication: publicationsData[0])
     }
 }

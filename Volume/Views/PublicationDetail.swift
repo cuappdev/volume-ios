@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+/// `PublicationDetail` displays detailed information about a publication
 struct PublicationDetail: View {
     
     var publication: Publication
@@ -15,10 +16,11 @@ struct PublicationDetail: View {
     var body: some View {
         Text("Publication Detail")
     }
+    
 }
 
-//struct PublicationDetail_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PublicationDetail()
-//    }
-//}
+struct PublicationDetail_Previews: PreviewProvider {
+    static var previews: some View {
+        PublicationDetail(publication: publicationsData[0])
+    }
+}

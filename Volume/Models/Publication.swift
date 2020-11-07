@@ -14,8 +14,14 @@ let example = Publication(
     image: "todo",
     recent: "Volume I: 3 Nov. 2020, USA")
 
+let example2 = Publication(
+    description: "Dependent since 1984",
+    name: "Moon",
+    image: "todo",
+    recent: "Volume II: 4 Nov. 2020, USA")
+
 let publicationsData = [
-    example, example, example, example, example, example, example, example, example, example, example, example
+    example, example2, example, example, example, example, example, example, example, example, example, example
 ]
 
 struct Publication: Identifiable {

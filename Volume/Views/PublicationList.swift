@@ -13,33 +13,30 @@ struct PublicationList: View {
     var body: some View {
         NavigationView {
             ScrollView(showsIndicators: false) {
-                
                 Text("FOLLOWING")
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding([.bottom, .leading])
+                    .padding(EdgeInsets(top: 10, leading: 20.25, bottom: 0, trailing: 0))
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 20) {
+                    HStack(spacing: 24) {
                         ForEach (publicationsData) { publication in
                             NavigationLink(destination: PublicationDetail(publication: publication)) {
                                 FollowingPublicationRow(publication: publication)
                             }
                         }
                     }
-                    .padding([.leading, .trailing])
-                    .padding(.bottom, 35)
+                    .padding([.leading, .bottom, .trailing], 10)
                 }
                 
                 Text("MORE PUBLICATIONS")
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding([.bottom, .leading])
-                VStack(spacing: 12.5) {
+                    .padding(EdgeInsets(top: 0, leading: 20.25, bottom: 10, trailing: 0))
+                VStack(spacing: 24) {
                     ForEach (publicationsData) { publication in
                         NavigationLink(destination: PublicationDetail(publication: publication)) {
                             MorePublicationRow(publication: publication)
                         }
                     }
                 }
-                
             }
             .buttonStyle(PlainButtonStyle())
             .padding(.bottom)

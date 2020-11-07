@@ -8,24 +8,28 @@
 
 import SwiftUI
 
+/// `FollowingPublicationRow` displays the imagse and name of a publication a user is currently following
 struct FollowingPublicationRow: View {
     
     var publication: Publication
-    
+        
     var body: some View {
-        VStack(spacing: 10) {
+        VStack {
             Image(publication.image)
                 .resizable()
                 .clipShape(Circle())
+                .shadow(color: Color(white: 0, opacity: 0.1), radius: 5)
                 .frame(width: 75, height: 75)
-                .shadow(color: ._verylightGray, radius: 2)
+                .padding(.top)  // so shadow doesn't cut off
             Text(publication.name)
-                .font(.system(size: 12, weight: .bold))
+                .font(.custom("Futura-Medium", size: 12))
                 .foregroundColor(.black)
                 .lineLimit(2)
                 .multilineTextAlignment(.center)
+                .padding(.top, 8)
+            Spacer()
         }
-        .frame(width: 90)
+        .frame(width: 90, height: 150)
     }
 }
 
