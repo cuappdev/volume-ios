@@ -12,7 +12,7 @@ private let article = Article(
     image: "kale",
     publication: "Scientific American",
     title: "Correlation Between Hello World Search Frequency and Computer Science Salaries",
-    read_duration: 5,
+    shout_outs: 5,
     date: "Today")
 
 let articleData = [
@@ -23,17 +23,17 @@ struct Article: Identifiable {
     
     var id = UUID()
     
-    var image: String
+    var image: String?
     var publication: String
     var title: String
-    var read_duration: Int
+    var shout_outs: Int
     var date: String
     
-    init(image: String, publication: String, title: String, read_duration: Int, date: String) {
+    init(image: String, publication: String, title: String, shout_outs: Int, date: String) {
         self.image = image
         self.publication = publication
         self.title = title
-        self.read_duration = read_duration
+        self.shout_outs = shout_outs
         self.date = date
     }
     

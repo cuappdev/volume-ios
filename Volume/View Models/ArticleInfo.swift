@@ -20,7 +20,7 @@ struct ArticleInfo: View {
                 .lineLimit(3)
                 .font(.system(size: 18, weight: .bold))
             Spacer()
-            Text("\(article.date) · \(article.read_duration) min read")
+            Text("\(article.date) · \(article.shout_outs) shout-outs")
                 .font(.system(size: 10))
                 .foregroundColor(Color(white: 79/255, opacity: 1.0))
         }

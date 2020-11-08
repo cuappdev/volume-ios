@@ -14,7 +14,7 @@ struct ArticleRow: View {
     
     var body: some View {
         HStack(spacing: 20) {
-            Image(article.image)
+            Image(article.image!) // TODO: change
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 100, height: 100)
