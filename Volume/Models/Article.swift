@@ -15,8 +15,19 @@ private let article = Article(
     shout_outs: 5,
     date: "Today")
 
+private let article2 = Article(
+    image: nil,
+    publication: "Scientific American",
+    title: "Correlation Between Hello World Search Frequency and Computer Science Salaries",
+    shout_outs: 5,
+    date: "Today")
+
 let articleData = [
     article, article, article, article, article, article, article
+]
+
+let articleData2 = [
+    article, article2, article
 ]
 
 struct Article: Identifiable {
@@ -29,7 +40,7 @@ struct Article: Identifiable {
     var shout_outs: Int
     var date: String
     
-    init(image: String, publication: String, title: String, shout_outs: Int, date: String) {
+    init(image: String?, publication: String, title: String, shout_outs: Int, date: String) {
         self.image = image
         self.publication = publication
         self.title = title

@@ -20,8 +20,9 @@ struct BigReadArticleRow: View {
                 .frame(width: 180, height: 180)
                 .clipped()
             ArticleInfo(article: article)
+                .padding(.top, 4)
         }
-        .frame(width: 180)
+        .frame(width: 180, height: 330)
     }
 }
 

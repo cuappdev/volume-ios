@@ -11,17 +11,21 @@ import SwiftUI
 struct ArticleRow: View {
     
     var article: Article
-    
+        
     var body: some View {
         HStack(spacing: 20) {
-            Image(article.image!) // TODO: change
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 100, height: 100)
-                .clipped()
             ArticleInfo(article: article)
+            
+            article.image != nil ?
+                Image(article.image!) // TODO: change
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 110, height: 110)
+                    .clipped() as? AnyView
+                : AnyView(EmptyView())
         }
-        .frame(height: 100)
+        .frame(maxWidth: .infinity, idealHeight: 110, alignment: .leading)
+        
     }
 }
 

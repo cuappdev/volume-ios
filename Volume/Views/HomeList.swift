@@ -10,7 +10,7 @@ import SwiftUI
 
 struct HomeList: View {
     
-    private var spacing: CGFloat = 20.0
+    private var spacing: CGFloat = 24.0
     
     var body: some View {
         NavigationView {
@@ -18,20 +18,21 @@ struct HomeList: View {
                 
                 Text("THE BIG READ")
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding([.leading, .bottom])
+                    .padding(EdgeInsets(top: 10, leading: 20.25, bottom: 15, trailing: 0))
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: spacing) {
                         ForEach (articleData) { article in
                             BigReadArticleRow(article: article)
                         }
                     }
-                    .padding([.bottom, .leading, .trailing])
+                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 15, trailing: 20))
                 }
                 
                 VStack(spacing: spacing) {
                     Text("FOLLOWING")
                         .frame(maxWidth: .infinity, alignment: .leading)
-                    ForEach (articleData) { article in
+                        .padding(EdgeInsets(top: 17.5, leading: 3, bottom: 0, trailing: 0))
+                    ForEach (articleData2) { article in
                         ArticleRow(article: article)
                     }
                     
@@ -40,6 +41,7 @@ struct HomeList: View {
                     
                     Text("OTHER ARTICLES")
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(EdgeInsets(top: 10, leading: 3, bottom: 0, trailing: 0))
                     ForEach (articleData) { article in
                         ArticleRow(article: article)
                     }

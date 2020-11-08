@@ -12,16 +12,19 @@ struct ArticleInfo: View {
     
     var article: Article
     
+    @State var lineLimit = 3
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text(article.publication)
-                .font(.system(size: 12, weight: .medium))
+                .font(.custom("Futura-Medium", size: 12))
             Text(article.title)
-                .lineLimit(3)
-                .font(.system(size: 18, weight: .bold))
+                .lineLimit(lineLimit)
+                .font(.custom("Helvetica-Bold", size: 18))
+                .padding(.top, 0.5)
             Spacer()
             Text("\(article.date) · \(article.shout_outs) shout-outs")
-                .font(.system(size: 10))
+                .font(.custom("Helvetica-Regular", size: 10))
                 .foregroundColor(Color(white: 79/255, opacity: 1.0))
         }
     }
