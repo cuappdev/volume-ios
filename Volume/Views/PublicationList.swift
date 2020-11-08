@@ -24,13 +24,13 @@ struct PublicationList: View {
                             }
                         }
                     }
-                    .padding([.leading, .bottom, .trailing], 10)
+                    .padding([.leading, .trailing], 10)
                 }
                 
                 Text("MORE PUBLICATIONS")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(EdgeInsets(top: 0, leading: 20.25, bottom: 10, trailing: 0))
-                VStack(spacing: 24) {
+                VStack(spacing: 16) {
                     ForEach (publicationsData) { publication in
                         NavigationLink(destination: PublicationDetail(publication: publication)) {
                             MorePublicationRow(publication: publication)
@@ -39,8 +39,8 @@ struct PublicationList: View {
                 }
             }
             .buttonStyle(PlainButtonStyle())
-            .padding(.bottom)
             .navigationTitle("Publications.")
+            .offset(y: 5)
         }
     }
 }

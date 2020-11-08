@@ -8,20 +8,20 @@
 
 import Foundation
 
-let example = Publication(
-    description: "Dependent since 1984, bringing the oldest information to the Ithaca Community",
-    name: "The Cornell Daily Moon",
-    image: "todo",
-    recent: "Volume I: 3 Nov. 2020, USA")
+let cremeDeCornell = Publication(
+    description: "Passionate food enthusiasts coming together to publish a diversity of recipes and stories.",
+    name: "Creme de Cornell",
+    image: "creme",
+    recent: "Kale Chips")
 
-let example2 = Publication(
-    description: "Dependent since 1984",
-    name: "Moon",
-    image: "todo",
-    recent: "Volume II: 4 Nov. 2020, USA")
+let cremeDeCornell2 = Publication(
+    description: "Passionate food enthusiasts",
+    name: "Creme de Cornell",
+    image: "creme",
+    recent: "Kale Chips")
 
 let publicationsData = [
-    example, example2, example, example, example, example, example, example, example, example, example, example
+    cremeDeCornell, cremeDeCornell2, cremeDeCornell, cremeDeCornell, cremeDeCornell,cremeDeCornell, cremeDeCornell, cremeDeCornell
 ]
 
 struct Publication: Identifiable {
