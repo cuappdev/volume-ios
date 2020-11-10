@@ -14,30 +14,24 @@ struct MorePublicationRow: View {
     var publication: Publication
     
     @State private var buttonTapped = false
-    
-    @State private var expanded: Bool = false
+    @State private var expanded = false
 
     private func determineTruncation(_ geometry: GeometryProxy) {
-            // Calculate the bounding box we'd need to render the
-            // text given the width from the GeometryReader.
         let total = publication.description.boundingRect(
-                with: CGSize(
-                    width: geometry.size.width,
-                    height: .greatestFiniteMagnitude
-                ),
+                with: CGSize(width: geometry.size.width, height: .greatestFiniteMagnitude),
                 options: .usesLineFragmentOrigin,
                 attributes: [.font: UIFont.systemFont(ofSize: 11)],
                 context: nil
             )
 
-            if total.size.height > geometry.size.height {
-                self.expanded = true
-            }
+        if total.size.height > geometry.size.height {
+            self.expanded = true
+        }
     }
     
     var body: some View {
         HStack(spacing: 10) {
-                // Publication image
+            // Publication image
             VStack {
                 Image(publication.image)
                     .resizable()
@@ -47,7 +41,7 @@ struct MorePublicationRow: View {
                 Spacer()
             }
                 
-            // Name, description, most recent article
+            // Name, description, and most recent article name
             HStack {
                 VStack(alignment: .leading, spacing: 5) {
                     Text(publication.name)
@@ -56,7 +50,6 @@ struct MorePublicationRow: View {
                     Text(publication.description)
                         .font(.custom("Helvetica-Regular", size: 12))
                         .foregroundColor(Color(white: 151/255))
-                        //.lineLimit(2)
                         .truncationMode(.tail)
                         .lineSpacing(4)
                         .background(GeometryReader { geometry in
@@ -69,7 +62,7 @@ struct MorePublicationRow: View {
                     HStack {
                         Text("|")
                             .font(.system(size: 14, weight: .bold))
-                            .foregroundColor(._verylightGray)
+                            .foregroundColor(._gray1)
                         Text("\"\(publication.recent)\"")
                             .font(.custom("Helvetica-Bold", size: 12))
                             .foregroundColor(.black)
@@ -77,10 +70,10 @@ struct MorePublicationRow: View {
                             .truncationMode(.tail)
                     }
                     .padding(.top, 2)
+                    
                     Spacer()
                 }
                 .frame(width: 265, alignment: .leading)
-                
                 
                 // The button to add the publication to one's following
                 VStack {
@@ -92,11 +85,11 @@ struct MorePublicationRow: View {
                             Rectangle()
                                 .cornerRadius(8.0)
                                 .frame(width: 25, height: 25)
-                                .foregroundColor(buttonTapped ? ._orange : ._verylightGray)
+                                .foregroundColor(buttonTapped ? ._orange : ._gray1)
                             Image(systemName: buttonTapped ? "checkmark" : "plus")
                                 .resizable()
                                 .frame(width: 12, height: 12)
-                                .foregroundColor(buttonTapped ? ._verylightGray : ._orange)
+                                .foregroundColor(buttonTapped ? ._gray1 : ._orange)
                                 .font(Font.title.weight(.bold))
                         }
                     }
@@ -105,6 +98,7 @@ struct MorePublicationRow: View {
             }
         }
         .frame(height: expanded ? 100 : 82)
+        .offset(x: -5)
     }
     
 }

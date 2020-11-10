@@ -13,9 +13,8 @@ struct PublicationList: View {
     var body: some View {
         NavigationView {
             ScrollView(showsIndicators: false) {
-                Text("FOLLOWING")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(EdgeInsets(top: 10, leading: 20.25, bottom: 0, trailing: 0))
+                Header(text: "FOLLOWING")
+                    .padding(.top)
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 24) {
                         ForEach (publicationsData) { publication in
@@ -27,9 +26,7 @@ struct PublicationList: View {
                     .padding([.leading, .trailing], 10)
                 }
                 
-                Text("MORE PUBLICATIONS")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(EdgeInsets(top: 0, leading: 20.25, bottom: 10, trailing: 0))
+                Header(text: "MORE PUBLICATIONS")
                 VStack(spacing: 16) {
                     ForEach (publicationsData) { publication in
                         NavigationLink(destination: PublicationDetail(publication: publication)) {
@@ -37,12 +34,26 @@ struct PublicationList: View {
                         }
                     }
                 }
+                .padding(.bottom)
             }
             .buttonStyle(PlainButtonStyle())
             .navigationTitle("Publications.")
-            .offset(y: 5)
         }
     }
+    
+}
+
+// TODO: replace w/ Volume specific design
+private struct Header : View {
+    
+    @State var text: String!
+    
+    var body : some View {
+        Text(text)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(EdgeInsets(top: 0, leading: 20.25, bottom: 10, trailing: 0))
+    }
+    
 }
 
 struct PublicationList_Previews: PreviewProvider {

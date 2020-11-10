@@ -16,12 +16,13 @@ let cremeDeCornell = Publication(
 
 let cremeDeCornell2 = Publication(
     description: "Passionate food enthusiasts",
-    name: "Creme de Cornell",
+    name: "Creme",
     image: "creme",
     recent: "Kale Chips")
 
 let publicationsData = [
-    cremeDeCornell, cremeDeCornell2, cremeDeCornell, cremeDeCornell, cremeDeCornell,cremeDeCornell, cremeDeCornell, cremeDeCornell
+    cremeDeCornell, cremeDeCornell2, cremeDeCornell, cremeDeCornell,
+    cremeDeCornell, cremeDeCornell, cremeDeCornell, cremeDeCornell
 ]
 
 struct Publication: Identifiable {

@@ -15,7 +15,7 @@ struct ContentView: View {
     init() {
         UITabBar.appearance().backgroundColor = UIColor(white: 250/255, alpha: 0.9)
         UITabBar.appearance().clipsToBounds = true  // removes top border
-        UITabBar.appearance().unselectedItemTintColor = UIColor(Color._lightGray)
+        UITabBar.appearance().unselectedItemTintColor = UIColor(Color(white: 153/255, opacity: 1))
     }
     
     var body: some View {

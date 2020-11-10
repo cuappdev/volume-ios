@@ -10,8 +10,7 @@ import SwiftUI
 
 extension Color {
     
-    public static let _verylightGray = Color(white: 229/255, opacity: 1)
-    public static let _lightGray = Color(white: 153/255, opacity: 1)
+    public static let _gray1 = Color(white: 229/255, opacity: 1)
     
     public static let _orange = Color(red: 208/255, green: 112/255, blue: 0/255, opacity: 1)
     
