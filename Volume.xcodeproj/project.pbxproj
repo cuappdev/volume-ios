@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		061233A12553127C0025F7E0 /* UnderlinedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061233A02553127C0025F7E0 /* UnderlinedText.swift */; };
+		061DB39725571D760038BEF5 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061DB39625571D760038BEF5 /* Font+Extension.swift */; };
 		7E23DFD2254A05EF0001C3A3 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E23DFD1254A05EF0001C3A3 /* Color+Extension.swift */; };
 		7ED7C337252D117A0078B1BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED7C336252D117A0078B1BD /* AppDelegate.swift */; };
 		7ED7C339252D117A0078B1BD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED7C338252D117A0078B1BD /* SceneDelegate.swift */; };
@@ -19,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		061233A02553127C0025F7E0 /* UnderlinedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlinedText.swift; sourceTree = "<group>"; };
+		061DB39625571D760038BEF5 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
 		7E23DFD1254A05EF0001C3A3 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		7ED7C333252D117A0078B1BD /* Volume.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Volume.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ED7C336252D117A0078B1BD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -45,6 +47,7 @@
 			isa = PBXGroup;
 			children = (
 				7E23DFD1254A05EF0001C3A3 /* Color+Extension.swift */,
+				061DB39625571D760038BEF5 /* Font+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -208,6 +211,7 @@
 			files = (
 				7E23DFD2254A05EF0001C3A3 /* Color+Extension.swift in Sources */,
 				7ED7C337252D117A0078B1BD /* AppDelegate.swift in Sources */,
+				061DB39725571D760038BEF5 /* Font+Extension.swift in Sources */,
 				061233A12553127C0025F7E0 /* UnderlinedText.swift in Sources */,
 				7ED7C339252D117A0078B1BD /* SceneDelegate.swift in Sources */,
 				7ED7C33B252D117A0078B1BD /* ContentView.swift in Sources */,
@@ -351,6 +355,7 @@
 				DEVELOPMENT_TEAM = 9W8TDKYZ6C;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Volume/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -371,6 +376,7 @@
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Volume/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
