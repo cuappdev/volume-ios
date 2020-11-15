@@ -62,7 +62,7 @@ struct MorePublicationRow: View {
                         .font(.system(size: 14, weight: .bold))
                         .foregroundColor(._gray1)
                     Text("\"\(publication.recent)\"")
-                        .font(.custom("Helvetica-Bold", size: 12))
+                        .font(.custom("Helvetica-Regular", size: 12))
                         .foregroundColor(.black)
                         .lineLimit(1)
                         .truncationMode(.tail)

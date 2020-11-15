@@ -30,6 +30,7 @@ struct PublicationList: View {
                 }
                     
                 Header(text: "MORE PUBLICATIONS")
+                    .padding(.bottom)
                 ForEach(publicationsData) { publication in
                     NavigationLink(destination: PublicationDetail(publication: publication)) {
                         MorePublicationRow(publication: publication)
@@ -38,7 +39,6 @@ struct PublicationList: View {
                     }
                 }
             }
-            .buttonStyle(PlainButtonStyle())
             .navigationTitle("Publications.")
         }
     }
@@ -53,7 +53,8 @@ private struct Header : View {
     var body : some View {
         Text(text)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(EdgeInsets(top: 0, leading: 20.25, bottom: 10, trailing: 0))
+            .padding(.leading)
+        
     }
     
 }

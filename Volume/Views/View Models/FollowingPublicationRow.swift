@@ -28,7 +28,7 @@ struct FollowingPublicationRow: View {
                 .offset(y: -5)
             Spacer()
         }
-        .frame(width: 90, height: 145)
+        .frame(width: 90, height: 135)
     }
 }
 
