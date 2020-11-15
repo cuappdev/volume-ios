@@ -9,11 +9,8 @@
 import SwiftUI
 
 struct PublicationList: View {
-    
-    @Environment(\.defaultMinListRowHeight) var minRowHeight
-    
+        
     var body: some View {
-
         NavigationView {
             ScrollView(showsIndicators: false) {
                 Header(text: "FOLLOWING")
@@ -54,7 +51,6 @@ private struct Header : View {
         Text(text)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.leading)
-        
     }
     
 }
