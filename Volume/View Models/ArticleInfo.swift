@@ -11,21 +11,33 @@ import SwiftUI
 struct ArticleInfo: View {
     
     var article: Article
-    
+        
     @State var lineLimit = 3
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(article.publication)
-                .font(.custom("Futura-Medium", size: 12))
-            Text(article.title)
-                .lineLimit(lineLimit)
-                .font(.custom("Helvetica-Bold", size: 18))
-                .padding(.top, 0.5)
+        HStack {
+            VStack(alignment: .leading) {
+                Text(article.publication)
+                    .font(.custom("Futura-Medium", size: 12)) // TODO: Begum
+                Text(article.title)
+                    .font(.custom("Helvetica-Bold", size: 16))
+                    .lineLimit(lineLimit)
+                    .padding(.top, 0.5)
+                Spacer()
+                HStack {
+                    Text("\(article.date.string) • \(article.shout_outs) shout-outs")
+                        .font(.custom("Helvetica-Regular", size: 10))
+                        .foregroundColor(.lightGray)
+                    if article.saved {
+                        Image(systemName: "bookmark.fill")
+                            .resizable()
+                            .foregroundColor(.volumeOrange)
+                            .frame(width: 8, height: 11)
+                    }
+                }
+                
+            }
             Spacer()
-            Text("\(article.date) · \(article.shout_outs) shout-outs")
-                .font(.custom("Helvetica-Regular", size: 10))
-                .foregroundColor(Color(white: 79/255, opacity: 1.0))
         }
     }
     

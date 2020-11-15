@@ -14,20 +14,26 @@ struct BigReadArticleRow: View {
     
     var body: some View {
         VStack(spacing: 15) {
-            Image(article.image!) // TODO: change
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 180, height: 180)
-                .clipped()
+            if article.image != nil {
+                Image(article.image!)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 180, height: 180)
+                    .clipped()
+                    .padding(.bottom, 4)
+            } else {
+                Rectangle() // TODO: Custom image displaying beginning of article in large font
+                    .frame(width: 180, height: 180)
+                    .foregroundColor(.blue)
+            }
             ArticleInfo(article: article)
-                .padding(.top, 4)
         }
-        .frame(width: 180, height: 330)
+        .frame(width: 180, height: 300)
     }
 }
 
-//struct BigReadArticleRow_Previews: PreviewProvider {
-//    static var previews: some View {
-//        BigReadArticleRow()
-//    }
-//}
+struct BigReadArticleRow_Previews: PreviewProvider {
+    static var previews: some View {
+        BigReadArticleRow(article: articleData[0])
+    }
+}

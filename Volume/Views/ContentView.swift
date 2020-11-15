@@ -15,7 +15,7 @@ struct ContentView: View {
     init() {
         UITabBar.appearance().backgroundColor = UIColor(white: 250/255, alpha: 0.9)
         UITabBar.appearance().clipsToBounds = true  // removes top border
-        UITabBar.appearance().unselectedItemTintColor = UIColor(Color._lightGray)
+        UITabBar.appearance().unselectedItemTintColor = UIColor(Color.lightGray)
     }
     
     var body: some View {
@@ -30,14 +30,14 @@ struct ContentView: View {
                     Image("publications")
                 }
                 .tag(1)
-            Text("Bookmarks")
+            BookmarksList()
                 .tabItem {
                     Image("bookmark")
                         .offset(x: 20, y: 50)
                 }
                 .tag(2)
         }
-        .accentColor(._orange)
+        .accentColor(.volumeOrange)
     }
     
 }

@@ -8,44 +8,71 @@
 
 import Foundation
 
-private let article = Article(
-    image: "kale",
-    publication: "Scientific American",
-    title: "Correlation Between Hello World Search Frequency and Computer Science Salaries",
-    shout_outs: 5,
-    date: "Today")
+// TODO: backend
+private let slopeMedia =
+    Article(
+        date: Date(timeInterval: -1000, since: Date()),
+        image: "iceCream",
+        publication: "Slope Media",
+        saved: false,
+        shout_outs: 123,
+        title: "Top 6 Ice Cream Places in Ithaca: Ranked"
+    )
 
-private let article2 = Article(
-    image: nil,
-    publication: "Scientific American",
-    title: "Correlation Between Hello World Search Frequency and Computer Science Salaries",
-    shout_outs: 5,
-    date: "Today")
+private let cuNooz =
+    Article(
+        date: Date(timeInterval: -10000, since: Date()),
+        image: "tcatkiss",
+        publication: "CU Nooz",
+        saved: true,
+        shout_outs: 12,
+        title: "Students Low On Cash Can Now Give TCAT Bus Drivers a Kiss On The Lips As Payment"
+    )
+
+private let cremeDeCornell =
+    Article(
+        date: Date(timeInterval: -20000, since: Date()),
+        image: "bulgogi",
+        publication: "Creme de Cornell",
+        saved: false,
+        shout_outs: 1200,
+        title: "Vegan Bulgogi"
+    )
+
+private let cuReview =
+    Article(
+        date: Date(timeInterval: -20, since: Date()),
+        image: nil,
+        publication: "Cornell Review",
+        saved: false,
+        shout_outs: 0,
+        title: "The Cornell Student Body’s Problem with Tolerance"
+    )
+
 
 let articleData = [
-    article, article, article, article, article, article, article
-]
-
-let articleData2 = [
-    article, article2, article
+    cuReview, slopeMedia, cremeDeCornell, slopeMedia, cremeDeCornell,
+    slopeMedia, cuReview, cremeDeCornell, cuNooz, cremeDeCornell, cuNooz
 ]
 
 struct Article: Identifiable {
     
     var id = UUID()
     
+    var date: Date
     var image: String?
     var publication: String
-    var title: String
+    var saved: Bool
     var shout_outs: Int
-    var date: String
+    var title: String
     
-    init(image: String?, publication: String, title: String, shout_outs: Int, date: String) {
+    init(date: Date, image: String?, publication: String, saved: Bool, shout_outs: Int, title: String) {
+        self.date = date
         self.image = image
         self.publication = publication
-        self.title = title
+        self.saved = saved
         self.shout_outs = shout_outs
-        self.date = date
+        self.title = title
     }
     
 }

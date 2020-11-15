@@ -8,25 +8,26 @@
 
 import SwiftUI
 
-struct UpToDateView: View {
+struct UpToDate: View {
+    
     var body: some View {
         VStack(spacing: 10) {
             Image("volume")
-                .foregroundColor(._orange)
-            Text("You're up to date!")
+                .foregroundColor(.volumeOrange)
+            Text("You're up to date!") // TODO: Begum
                 .font(.system(size: 12, weight: .bold))
             Text("You've seen all new articles from the publications you're following.")
-                .font(.system(size: 10, weight: .medium))
-                .lineLimit(2)
+                .font(.custom("Helvetica-Regular", size: 10))
                 .multilineTextAlignment(.center)
-            
+                .lineLimit(2)
         }
-        .frame(width: 205)
+        .frame(width: 205, height: 100)
     }
+    
 }
 
 struct UpToDateView_Previews: PreviewProvider {
     static var previews: some View {
-        UpToDateView()
+        UpToDate()
     }
 }

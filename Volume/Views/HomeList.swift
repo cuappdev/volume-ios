@@ -11,48 +11,39 @@ import SwiftUI
 struct HomeList: View {
     
     private var spacing: CGFloat = 24.0
-    
+            
     var body: some View {
         NavigationView {
             ScrollView(showsIndicators: false) {
-                
-                Text("THE BIG READ")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(EdgeInsets(top: 10, leading: 20.25, bottom: 15, trailing: 0))
+                Header(text: "THE BIG READ")
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: spacing) {
-                        ForEach (articleData) { article in
+                        ForEach (articleData.shuffled()) { article in
                             BigReadArticleRow(article: article)
                         }
                     }
-                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 15, trailing: 20))
+                }
+                .padding([.bottom, .leading, .trailing])
+                
+                Header(text: "FOLLOWING")
+                ForEach (articleData.shuffled()) { article in
+                    ArticleRow(article: article)
+                        .padding([.bottom, .leading, .trailing])
                 }
                 
-                VStack(spacing: spacing) {
-                    Text("FOLLOWING")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(EdgeInsets(top: 17.5, leading: 3, bottom: 0, trailing: 0))
-                    ForEach (articleData2) { article in
-                        ArticleRow(article: article)
-                    }
-                    
-                    UpToDateView()
-                        .padding([.top, .bottom], 25)
-                    
-                    Text("OTHER ARTICLES")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(EdgeInsets(top: 10, leading: 3, bottom: 0, trailing: 0))
-                    ForEach (articleData) { article in
-                        ArticleRow(article: article)
-                    }
+                UpToDate()
+                    .padding([.top, .bottom], 25)
+                
+                Header(text: "OTHER ARTICLES")
+                ForEach (articleData.shuffled()) { article in
+                    ArticleRow(article: article)
+                        .padding([.bottom, .leading, .trailing])
                 }
-                .padding([.leading, .trailing])
             }
-            .buttonStyle(PlainButtonStyle())
-            .padding(.bottom)
             .navigationTitle("Volume.")
         }
     }
+    
 }
 
 struct HomeList_Previews: PreviewProvider {
