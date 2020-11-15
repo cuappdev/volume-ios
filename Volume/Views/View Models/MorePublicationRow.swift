@@ -15,6 +15,7 @@ struct MorePublicationRow: View {
     
     @State private var buttonTapped = false
     @State private var expanded = false
+    @State private var spacing: CGFloat = 12
 
     private func determineTruncation(_ geometry: GeometryProxy) {
         let total = publication.description.boundingRect(
@@ -30,75 +31,59 @@ struct MorePublicationRow: View {
     }
     
     var body: some View {
-        HStack(spacing: 10) {
-            // Publication image
+            
+        HStack {
             VStack {
                 Image(publication.image)
                     .resizable()
                     .clipShape(Circle())
-                    .frame(width: 75, height: 75)
-                    .offset(y: -5)
+                    .frame(width: 60, height: 60)
+                    .padding(.leading)
                 Spacer()
             }
-                
-            // Name, description, and most recent article name
-            HStack {
-                VStack(alignment: .leading, spacing: 5) {
-                    Text(publication.name)
-                        .font(.custom("Futura-Medium", size: 18))
-                        .foregroundColor(.black)
-                    Text(publication.description)
-                        .font(.custom("Helvetica-Regular", size: 12))
-                        .foregroundColor(Color(white: 151/255))
-                        .truncationMode(.tail)
-                        .lineSpacing(4)
-                        .background(GeometryReader { geometry in
-                            Color.clear.onAppear {
-                                self.determineTruncation(geometry)
-                            }
-                        })
-                        .lineLimit(self.expanded ? 2 : 1)
-                    
-                    HStack {
-                        Text("|")
-                            .font(.system(size: 14, weight: .bold))
-                            .foregroundColor(._gray1)
-                        Text("\"\(publication.recent)\"")
-                            .font(.custom("Helvetica-Bold", size: 12))
-                            .foregroundColor(.black)
-                            .lineLimit(1)
-                            .truncationMode(.tail)
-                    }
-                    .padding(.top, 2)
-                    
-                    Spacer()
-                }
-                .frame(width: 265, alignment: .leading)
-                
-                // The button to add the publication to one's following
-                VStack {
-                    Button(action: {
-                        self.buttonTapped.toggle()
-                        // TODO: Add to list of subscribers
-                    }) {
-                        ZStack {
-                            Rectangle()
-                                .cornerRadius(8.0)
-                                .frame(width: 25, height: 25)
-                                .foregroundColor(buttonTapped ? ._orange : ._gray1)
-                            Image(systemName: buttonTapped ? "checkmark" : "plus")
-                                .resizable()
-                                .frame(width: 12, height: 12)
-                                .foregroundColor(buttonTapped ? ._gray1 : ._orange)
-                                .font(Font.title.weight(.bold))
+            
+            VStack(alignment: .leading, spacing: 5) {
+                Text("Creme de Cornell")
+                    .font(.custom("Futura-Medium", size: 18))
+                    .foregroundColor(.black)
+                Text(publication.description)
+                    .font(.custom("Helvetica-Regular", size: 12))
+                    .foregroundColor(Color(white: 151/255))
+                    .truncationMode(.tail)
+                    .lineSpacing(4)
+                    .background(GeometryReader { geometry in
+                        Color.clear.onAppear {
+                            self.determineTruncation(geometry)
                         }
-                    }
-                    Spacer()
+                    })
+                    .lineLimit(self.expanded ? 2 : 1)
+                HStack {
+                    Text("|")
+                        .font(.system(size: 14, weight: .bold))
+                        .foregroundColor(._gray1)
+                    Text("\"\(publication.recent)\"")
+                        .font(.custom("Helvetica-Bold", size: 12))
+                        .foregroundColor(.black)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
                 }
+                .padding(.top, 2)
+                    
+                Spacer()
+            }
+            
+            Spacer()
+            VStack {
+                Button(action: {
+                    self.buttonTapped.toggle()
+                    // TODO: Add to list of subscribers
+                }) {
+                    Image(buttonTapped ? "followed" : "follow")
+                }
+                Spacer()
             }
         }
-        .frame(height: expanded ? 100 : 82)
-        .offset(x: -5)
+        .frame(height: expanded ? 98 + spacing : 80 + spacing)
     }
     
 }

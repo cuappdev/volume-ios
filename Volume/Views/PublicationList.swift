@@ -10,13 +10,16 @@ import SwiftUI
 
 struct PublicationList: View {
     
+    @Environment(\.defaultMinListRowHeight) var minRowHeight
+    
     var body: some View {
+
         NavigationView {
             ScrollView(showsIndicators: false) {
                 Header(text: "FOLLOWING")
                     .padding(.top)
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 24) {
+                    HStack(spacing: 12) {
                         ForEach (publicationsData) { publication in
                             NavigationLink(destination: PublicationDetail(publication: publication)) {
                                 FollowingPublicationRow(publication: publication)
@@ -25,16 +28,15 @@ struct PublicationList: View {
                     }
                     .padding([.leading, .trailing], 10)
                 }
-                
+                    
                 Header(text: "MORE PUBLICATIONS")
-                VStack(spacing: 16) {
-                    ForEach (publicationsData) { publication in
-                        NavigationLink(destination: PublicationDetail(publication: publication)) {
-                            MorePublicationRow(publication: publication)
-                        }
+                ForEach(publicationsData) { publication in
+                    NavigationLink(destination: PublicationDetail(publication: publication)) {
+                        MorePublicationRow(publication: publication)
+                            .buttonStyle(PlainButtonStyle())
+                            .padding(.trailing)
                     }
                 }
-                .padding(.bottom)
             }
             .buttonStyle(PlainButtonStyle())
             .navigationTitle("Publications.")
