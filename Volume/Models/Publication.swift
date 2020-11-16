@@ -8,6 +8,7 @@
 
 import Foundation
 
+// MARK: start of dummy data
 let cremeDeCornell = Publication(
     description: "Passionate food enthusiasts coming together to publish a diversity of recipes and stories.",
     name: "Creme de Cornell",
@@ -21,12 +22,11 @@ let cremeDeCornell2 = Publication(
     recent: "Kale Chips")
 
 let publicationsData = [
-    cremeDeCornell, cremeDeCornell2, cremeDeCornell, cremeDeCornell,
-    cremeDeCornell, cremeDeCornell, cremeDeCornell, cremeDeCornell
+    cremeDeCornell, cremeDeCornell2
 ]
+// MARK: end of dummy data
 
-struct Publication: Identifiable {
-    
+struct Publication: Hashable, Identifiable {
     var id = UUID()
     
     var description: String
@@ -40,5 +40,4 @@ struct Publication: Identifiable {
         self.image = image
         self.recent = recent
     }
-    
 }

@@ -8,10 +8,9 @@
 
 import SwiftUI
 
-/// `FollowingPublicationRow` displays the imagse and name of a publication a user is currently following
+/// `FollowingPublicationRow` displays the images and name of a publication a user is currently following
 struct FollowingPublicationRow: View {
-    
-    var publication: Publication
+    let publication: Publication
         
     var body: some View {
         VStack {

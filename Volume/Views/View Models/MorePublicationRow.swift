@@ -8,30 +8,15 @@
 
 import SwiftUI
 
-/// `MorePublicationsRow`displays the basis information about a publications the user is not currently following
+/// `MorePublicationRow`displays the basis information about a publications the user is not currently following
 struct MorePublicationRow: View {
+    let publication: Publication
     
-    var publication: Publication
-    
-    @State private var buttonTapped = false
+    @State private var didAddPublication = false
     @State private var expanded = false
     @State private var spacing: CGFloat = 12
-
-    private func determineTruncation(_ geometry: GeometryProxy) {
-        let total = publication.description.boundingRect(
-                with: CGSize(width: geometry.size.width, height: .greatestFiniteMagnitude),
-                options: .usesLineFragmentOrigin,
-                attributes: [.font: UIFont.systemFont(ofSize: 11)],
-                context: nil
-            )
-
-        if total.size.height > geometry.size.height {
-            self.expanded = true
-        }
-    }
     
     var body: some View {
-            
         HStack {
             VStack {
                 Image(publication.image)
@@ -60,7 +45,7 @@ struct MorePublicationRow: View {
                 HStack {
                     Text("|")
                         .font(.system(size: 14, weight: .bold))
-                        .foregroundColor(._gray1)
+                        .foregroundColor(Color(white: 225 / 255))
                     Text("\"\(publication.recent)\"")
                         .font(.custom("Helvetica-Regular", size: 12))
                         .foregroundColor(.black)
@@ -68,17 +53,17 @@ struct MorePublicationRow: View {
                         .truncationMode(.tail)
                 }
                 .padding(.top, 2)
-                    
                 Spacer()
             }
             
             Spacer()
+            
             VStack {
                 Button(action: {
-                    self.buttonTapped.toggle()
+                    self.didAddPublication.toggle()
                     // TODO: Add to list of subscribers
                 }) {
-                    Image(buttonTapped ? "followed" : "follow")
+                    Image(didAddPublication ? "followed" : "follow")
                 }
                 Spacer()
             }
@@ -86,6 +71,18 @@ struct MorePublicationRow: View {
         .frame(height: expanded ? 98 + spacing : 80 + spacing)
     }
     
+    private func determineTruncation(_ geometry: GeometryProxy) {
+        let total = publication.description.boundingRect(
+                with: CGSize(width: geometry.size.width, height: .greatestFiniteMagnitude),
+                options: .usesLineFragmentOrigin,
+                attributes: [.font: UIFont.systemFont(ofSize: 11)],
+                context: nil
+            )
+
+        if total.size.height > geometry.size.height {
+            self.expanded = true
+        }
+    }
 }
 
 struct MorePublicationRow_Previews: PreviewProvider {

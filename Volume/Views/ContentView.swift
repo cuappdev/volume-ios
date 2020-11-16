@@ -9,13 +9,12 @@
 import SwiftUI
 
 struct ContentView: View {
-    
-    @State private var selectedTab = 1
+    @State private var selectedTab: Tab = .publications
     
     init() {
-        UITabBar.appearance().backgroundColor = UIColor(white: 250/255, alpha: 0.9)
+        UITabBar.appearance().backgroundColor = UIColor(white: 250 / 255, alpha: 0.9)
         UITabBar.appearance().clipsToBounds = true  // removes top border
-        UITabBar.appearance().unselectedItemTintColor = UIColor(Color(white: 153/255, opacity: 1))
+        UITabBar.appearance().unselectedItemTintColor = UIColor(Color(white: 153 / 255, opacity: 1))
                 
         UIView.appearance().backgroundColor = UIColor.clear
     }
@@ -26,21 +25,27 @@ struct ContentView: View {
                 .tabItem {
                     Image("volume")
                 }
-                .tag(0)
+                .tag(Tab.home)
             PublicationList()
                 .tabItem {
                     Image("publications")
                 }
-                .tag(1)
+                .tag(Tab.publications)
             Text("Bookmarks")
                 .tabItem {
                     Image("bookmark")
                 }
-                .tag(2)
+                .tag(Tab.bookmarks)
         }
-        .accentColor(._orange)
+        .accentColor(.volumeOrange)
     }
-    
+}
+
+/// An enum to keep track of which tab the user is currently on
+enum Tab {
+    case bookmarks
+    case home
+    case publications
 }
 
 struct ContentView_Previews: PreviewProvider {

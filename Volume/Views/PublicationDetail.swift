@@ -10,13 +10,11 @@ import SwiftUI
 
 /// `PublicationDetail` displays detailed information about a publication
 struct PublicationDetail: View {
-    
-    var publication: Publication
+    let publication: Publication
     
     var body: some View {
         Text("Publication Detail")
     }
-    
 }
 
 struct PublicationDetail_Previews: PreviewProvider {
