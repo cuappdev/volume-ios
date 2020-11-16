@@ -9,8 +9,7 @@
 import SwiftUI
 
 struct BigReadArticleRow: View {
-    
-    var article: Article
+    let article: Article
     
     var body: some View {
         VStack(spacing: 15) {

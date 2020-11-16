@@ -9,10 +9,8 @@
 import SwiftUI
 
 struct ArticleInfo: View {
-    
-    var article: Article
-        
-    @State var lineLimit = 3
+    let article: Article
+    private let lineLimit = 3
     
     var body: some View {
         HStack {
@@ -40,7 +38,6 @@ struct ArticleInfo: View {
             Spacer()
         }
     }
-    
 }
 
 struct ArticleInfo_Previews: PreviewProvider {

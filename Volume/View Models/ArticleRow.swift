@@ -9,8 +9,7 @@
 import SwiftUI
 
 struct ArticleRow: View {
-    
-    var article: Article
+    let article: Article
         
     var body: some View {
         HStack(spacing: 20) {

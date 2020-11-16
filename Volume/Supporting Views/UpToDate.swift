@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct UpToDate: View {
-    
     var body: some View {
         VStack(spacing: 10) {
             Image("volume")
@@ -23,7 +22,6 @@ struct UpToDate: View {
         }
         .frame(width: 205, height: 100)
     }
-    
 }
 
 struct UpToDateView_Previews: PreviewProvider {

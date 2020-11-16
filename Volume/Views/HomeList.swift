@@ -9,16 +9,15 @@
 import SwiftUI
 
 struct HomeList: View {
-    
-    private var spacing: CGFloat = 24.0
+    private let spacing: CGFloat = 24.0
             
     var body: some View {
         NavigationView {
             ScrollView(showsIndicators: false) {
                 Header(text: "THE BIG READ")
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: spacing) {
-                        ForEach (articleData.shuffled()) { article in
+                    LazyHStack(spacing: spacing) {
+                        ForEach(Array(Set(articleData)).shuffled()) { article in
                             BigReadArticleRow(article: article)
                         }
                     }
@@ -43,7 +42,6 @@ struct HomeList: View {
             .navigationTitle("Volume.")
         }
     }
-    
 }
 
 struct HomeList_Previews: PreviewProvider {

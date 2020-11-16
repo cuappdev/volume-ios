@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct BookmarksList: View {
-    
     var body: some View {
         NavigationView {
             ScrollView(showsIndicators: false) {
@@ -22,7 +21,6 @@ struct BookmarksList: View {
             .navigationTitle("Bookmarks.")
         }
     }
-    
 }
 
 struct BookmarksList_Previews: PreviewProvider {

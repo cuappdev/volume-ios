@@ -8,7 +8,7 @@
 
 import Foundation
 
-// TODO: backend
+// MARK: start of dummy data
 private let slopeMedia =
     Article(
         date: Date(timeInterval: -1000, since: Date()),
@@ -49,15 +49,14 @@ private let cuReview =
         title: "The Cornell Student Body’s Problem with Tolerance"
     )
 
-
 let articleData = [
     cuReview, slopeMedia, cremeDeCornell, slopeMedia, cremeDeCornell,
     slopeMedia, cuReview, cremeDeCornell, cuNooz, cremeDeCornell, cuNooz
 ]
+// MARK: end of dummy data
 
-struct Article: Identifiable {
-    
-    var id = UUID()
+struct Article: Hashable, Identifiable {
+    let id = UUID()
     
     var date: Date
     var image: String?
@@ -74,5 +73,4 @@ struct Article: Identifiable {
         self.shout_outs = shout_outs
         self.title = title
     }
-    
 }
