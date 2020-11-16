@@ -10,15 +10,24 @@ import SwiftUI
 
 struct BookmarksList: View {
     var body: some View {
-        NavigationView {
-            ScrollView(showsIndicators: false) {
-                Header(text: "Saved Articles")
-                ForEach (articleData.filter{ $0.saved }) { article in
-                    ArticleRow(article: article)
-                        .padding([.bottom, .leading, .trailing])
+        GeometryReader { geometry in
+            NavigationView {
+                ScrollView(showsIndicators: false) {
+                    Header(text: "Saved Articles")
+                    if let savedArticles = articleData.filter{ $0.saved }, savedArticles.count > 0 {
+                        ForEach (savedArticles) { article in
+                            ArticleRow(article: article)
+                                .padding([.bottom, .leading, .trailing])
+                        }
+                    } else {
+                        VStack {
+                            Spacer(minLength: geometry.size.height / 5)
+                            VolumeMessage(message: .noBookmarks)
+                        }
+                    }
                 }
+                .navigationTitle("Bookmarks.")
             }
-            .navigationTitle("Bookmarks.")
         }
     }
 }

@@ -30,7 +30,7 @@ struct HomeList: View {
                         .padding([.bottom, .leading, .trailing])
                 }
                 
-                UpToDate()
+                VolumeMessage(message: .upToDate)
                     .padding([.top, .bottom], 25)
                 
                 Header(text: "OTHER ARTICLES")
