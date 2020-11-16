@@ -19,7 +19,7 @@ struct BookmarksList: View {
                         .padding([.bottom, .leading, .trailing])
                 }
             }
-            .navigationTitle("Bookmakrs.")
+            .navigationTitle("Bookmarks.")
         }
     }
     
