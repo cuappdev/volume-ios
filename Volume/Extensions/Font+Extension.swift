@@ -10,24 +10,24 @@ import SwiftUI
 
 extension Font {
 
-    private static let futuraBold = "Futura-Bold"
-    private static let helveticaBold = "Helvetica-Bold"
-    private static let helveticaRegular = "Helvetica-Regular"
-
-    static let sectionHeader1: Font = .custom(Font.futuraBold, size: 18)
-    static let sectionHeader2: Font = .custom(Font.futuraBold, size: 15)
-
-    static let bodyHeader1: Font = .custom(Font.helveticaBold, size: 18)
-    static let body: Font = .custom(Font.helveticaRegular, size: 14)
-
-    static let detail1: Font = .custom(Font.helveticaRegular, size: 12)
-    static let detail2: Font = .custom(Font.helveticaRegular, size: 10)
-
-    static let ctaPrimary: Font = .custom(Font.helveticaBold, size: 12)
-    static let ctaSecondary: Font = .custom(Font.helveticaRegular, size: 12)
-
-//    public static let _lightGray = Color(white: 153/255, opacity: 1)
-
-//    public static let _orange = Color(red: 208/255, green: 112/255, blue: 0/255, opacity: 1)
+    static func begumRegular(size: CGFloat) -> Font {
+        .custom("Begum-Regular", size: size)
+    }
+    
+    static func begumMedium(size: CGFloat) -> Font {
+        .custom("Begum-Medium", size: size)
+    }
+    
+    static func begumBold(size: CGFloat) -> Font {
+        .custom("Begum-Bold", size: size)
+    }
+    
+    static func helveticaRegular(size: CGFloat) -> Font {
+        .custom("Helvetica-Regular", size: size)
+    }
+    
+    static func helveticaBold(size: CGFloat) -> Font {
+        .custom("Helvetica-Bold", size: size)
+    }
 
 }

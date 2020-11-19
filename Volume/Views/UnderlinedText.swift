@@ -9,8 +9,13 @@
 import SwiftUI
 
 struct UnderlinedText: View {
+    
     @State var text: String
     @State private var textSize: CGSize = .zero
+    
+    init(_ text: String) {
+        _text = State(initialValue: text)
+    }
 
     var body: some View {
         VStack {
@@ -21,14 +26,13 @@ struct UnderlinedText: View {
             Image("underline")
                 .resizable()
                 .scaledToFit()
-                // 112x6
                 .frame(width: textSize.width + 4, height:
                     (textSize.width + 4) * 6 / 112)
                 .clipped()
-                .padding(.top, -12 * textSize.height / 20)
-                .offset(x: 2)
+                .padding(.top, -10 * textSize.height / 25)
         }
     }
+    
 }
 
 struct UnderlinedText_Previews: PreviewProvider {
@@ -38,13 +42,14 @@ struct UnderlinedText_Previews: PreviewProvider {
 
     struct PreviewWrapper: View {
         var body: some View {
-            UnderlinedText(text: "THE BIG READ AND OTHER THINGS")
+            UnderlinedText("THE BIG READ AND OTHER THINGS")
                 .font(.custom("Futura-Bold", size: 15))
         }
     }
 }
 
 struct SizeGetter: View {
+    
     @Binding var size: CGSize
 
     var body: some View {
@@ -60,4 +65,5 @@ struct SizeGetter: View {
 
         return Rectangle().fill(Color.clear)
     }
+    
 }

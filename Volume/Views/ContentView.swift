@@ -10,73 +10,106 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var selectedTab = 0
+    @State private var selectedTab: Tab = .home
     
     init() {
-        UITabBar.appearance().backgroundColor = UIColor(white: 250 / 255, alpha: 0.9)
-        UITabBar.appearance().clipsToBounds = true  // removes top border
-        UITabBar.appearance().unselectedItemTintColor = .lightGray// UIColor(Color._lightGray)
+        let grayColor = UIColor(Color._gray)
+        UINavigationBar.appearance().backgroundColor = grayColor
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UITabBar.appearance().backgroundColor = grayColor
+        UITabBar.appearance().clipsToBounds = true
+        UITabBar.appearance().unselectedItemTintColor = UIColor(Color._lightGray)
     }
     
     var body: some View {
-        NavigationView {
-            TabView(selection: $selectedTab) {
-                ScrollView {
+        TabView(selection: $selectedTab) {
+            NavigationView {
+                HStack(alignment: .center) {
+                    Spacer()
                     VStack {
-                        HStack {
-                            UnderlinedText(text: "THE BIG READ")
-                                .font(.sectionHeader2)
-                            Spacer()
-                        }
-                        Spacer().frame(height: 30)
-                        HStack {
-                            UnderlinedText(text: "MORE PUBLICATIONS")
-                                .font(.sectionHeader2)
-                            Spacer()
-                        }
-                        Spacer().frame(height: 30)
-                        UnderlinedText(text: "You're up to date!")
-                            .font(.custom("Futura-Medium", size: 12))
                         Spacer()
-                        HStack {
-                            Image("volume")
-                            VStack(alignment: .leading) {
-                                Text("Creme de Cornell")
-                                    .font(.headline)
-                                Text("Some multiline text so long boo, Some multiline text so long boo, Some multiline text so long boo")
-                                    .font(.subheadline)
-                            }
-                            Spacer()
-                            VStack {
-                                Button(action: {
-
-                                }) {
-                                    Image("bookmark")
-                                }
-                                Spacer()
-                            }
-                        }
+                        UnderlinedText("Saved Articles")
+                            .font(.begumMedium(size: 20))
+                        UnderlinedText("Articles")
+                            .font(.begumMedium(size: 30))
+                        UnderlinedText("And a really long one too!")
+                            .font(.begumBold(size: 15))
+                        Spacer()
                     }
-                    .padding(16)
+                    Spacer()
                 }
-                .tabItem {
-                    Image("volume")
+                .background(Color._gray)
+                .toolbar {
+                    ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+                        Image("volume-logo")
+                    }
                 }
-                .tag(0)
-                Text("Publications")
-                    .tabItem {
-                        Image("publications")
+                .navigationBarTitleDisplayMode(.inline)
+            }
+            .tabItem {
+                Image("volume")
+            }
+            .tag(Tab.home)
+            
+            NavigationView {
+                HStack {
+                    Spacer()
+                    VStack {
+                        Spacer()
+                        Text("Publications")
+                        Spacer()
+                    }
+                    Spacer()
                 }
-                .tag(1)
-                Text("Bookmarks")
-                    .tabItem {
-                        Image("bookmark")
-                            .offset(x: 20, y: 50)
+                .background(Color._gray)
+                .toolbar {
+                    ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+                        BubblePeriodText("Publications")
+                            .font(.begumMedium(size: 24))
+                            .offset(y: 8)
+                    }
                 }
-                .tag(2)
-            }.navigationBarTitle("Volume")
+                .navigationBarTitleDisplayMode(.inline)
+            }
+            .tabItem {
+                Image("publications")
+            }
+            .tag(Tab.publications)
+            
+            NavigationView {
+                HStack {
+                    Spacer()
+                    VStack {
+                        Spacer()
+                        Text("Bookmarks")
+                        Spacer()
+                    }
+                    Spacer()
+                }
+                .background(Color._gray)
+                .toolbar {
+                    ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+                        BubblePeriodText("Bookmarks")
+                            .font(.begumMedium(size: 24))
+                            .offset(y: 8)
+                    }
+                }
+                .navigationBarTitleDisplayMode(.inline)
+            }
+            .tabItem {
+                Image("bookmark")
+            }
+            .tag(Tab.bookmarks)
         }
         .accentColor(._orange)
+    }
+    
+}
+
+extension ContentView {
+    
+    private enum Tab {
+        case home, publications, bookmarks
     }
     
 }

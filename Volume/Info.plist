@@ -56,5 +56,11 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Begum-Regular.ttf</string>
+		<string>Begum-Medium.ttf</string>
+		<string>Begum-Bold.ttf</string>
+	</array>
 </dict>
 </plist>
