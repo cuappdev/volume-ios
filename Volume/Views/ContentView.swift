@@ -24,27 +24,14 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationView {
-                HStack(alignment: .center) {
-                    Spacer()
-                    VStack {
-                        Spacer()
-                        UnderlinedText("Saved Articles")
-                            .font(.begumMedium(size: 20))
-                        UnderlinedText("Articles")
-                            .font(.begumMedium(size: 30))
-                        UnderlinedText("And a really long one too!")
-                            .font(.begumBold(size: 15))
-                        Spacer()
+                Text("Home")
+                    .background(Color._gray)
+                    .toolbar {
+                        ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+                            Image("volume-logo")
+                        }
                     }
-                    Spacer()
-                }
-                .background(Color._gray)
-                .toolbar {
-                    ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
-                        Image("volume-logo")
-                    }
-                }
-                .navigationBarTitleDisplayMode(.inline)
+                    .navigationBarTitleDisplayMode(.inline)
             }
             .tabItem {
                 Image("volume")
@@ -52,24 +39,16 @@ struct ContentView: View {
             .tag(Tab.home)
             
             NavigationView {
-                HStack {
-                    Spacer()
-                    VStack {
-                        Spacer()
-                        Text("Publications")
-                        Spacer()
+                Text("Publications")
+                    .background(Color._gray)
+                    .toolbar {
+                        ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+                            BubblePeriodText("Publications")
+                                .font(.begumMedium(size: 24))
+                                .offset(y: 8)
+                        }
                     }
-                    Spacer()
-                }
-                .background(Color._gray)
-                .toolbar {
-                    ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
-                        BubblePeriodText("Publications")
-                            .font(.begumMedium(size: 24))
-                            .offset(y: 8)
-                    }
-                }
-                .navigationBarTitleDisplayMode(.inline)
+                    .navigationBarTitleDisplayMode(.inline)
             }
             .tabItem {
                 Image("publications")
@@ -77,24 +56,16 @@ struct ContentView: View {
             .tag(Tab.publications)
             
             NavigationView {
-                HStack {
-                    Spacer()
-                    VStack {
-                        Spacer()
-                        Text("Bookmarks")
-                        Spacer()
+                Text("Bookmarks")
+                    .background(Color._gray)
+                    .toolbar {
+                        ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+                            BubblePeriodText("Bookmarks")
+                                .font(.begumMedium(size: 24))
+                                .offset(y: 8)
+                        }
                     }
-                    Spacer()
-                }
-                .background(Color._gray)
-                .toolbar {
-                    ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
-                        BubblePeriodText("Bookmarks")
-                            .font(.begumMedium(size: 24))
-                            .offset(y: 8)
-                    }
-                }
-                .navigationBarTitleDisplayMode(.inline)
+                    .navigationBarTitleDisplayMode(.inline)
             }
             .tabItem {
                 Image("bookmark")

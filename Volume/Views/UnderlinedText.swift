@@ -10,8 +10,9 @@ import SwiftUI
 
 struct UnderlinedText: View {
     
-    @State var text: String
     @State private var textSize: CGSize = .zero
+    
+    @State var text: String
     
     init(_ text: String) {
         _text = State(initialValue: text)
@@ -35,19 +36,6 @@ struct UnderlinedText: View {
     
 }
 
-struct UnderlinedText_Previews: PreviewProvider {
-    static var previews: some View {
-        PreviewWrapper()
-    }
-
-    struct PreviewWrapper: View {
-        var body: some View {
-            UnderlinedText("THE BIG READ AND OTHER THINGS")
-                .font(.custom("Futura-Bold", size: 15))
-        }
-    }
-}
-
 struct SizeGetter: View {
     
     @Binding var size: CGSize
@@ -66,4 +54,17 @@ struct SizeGetter: View {
         return Rectangle().fill(Color.clear)
     }
     
+}
+
+struct UnderlinedText_Previews: PreviewProvider {
+    static var previews: some View {
+        PreviewWrapper()
+    }
+
+    struct PreviewWrapper: View {
+        var body: some View {
+            UnderlinedText("THE BIG READ AND OTHER THINGS")
+                .font(.custom("Futura-Bold", size: 15))
+        }
+    }
 }
