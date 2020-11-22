@@ -9,7 +9,6 @@
 import SwiftUI
 
 extension Font {
-
     static func begumRegular(size: CGFloat) -> Font {
         .custom("Begum-Regular", size: size)
     }
@@ -29,5 +28,4 @@ extension Font {
     static func helveticaBold(size: CGFloat) -> Font {
         .custom("Helvetica-Bold", size: size)
     }
-
 }

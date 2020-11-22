@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct BubblePeriodText: View {
-    
     @State var text: String
     
     init(_ text: String) {
@@ -23,7 +22,6 @@ struct BubblePeriodText: View {
                 .offset(x: -5, y: -5)
         }
     }
-    
 }
 
 struct BubblePeriodText_Previews: PreviewProvider {

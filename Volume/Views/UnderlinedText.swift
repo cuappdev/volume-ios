@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct UnderlinedText: View {
-    
     @State private var textSize: CGSize = .zero
     
     @State var text: String
@@ -33,11 +32,9 @@ struct UnderlinedText: View {
                 .padding(.top, -10 * textSize.height / 25)
         }
     }
-    
 }
 
 struct SizeGetter: View {
-    
     @Binding var size: CGSize
 
     var body: some View {
@@ -53,7 +50,6 @@ struct SizeGetter: View {
 
         return Rectangle().fill(Color.clear)
     }
-    
 }
 
 struct UnderlinedText_Previews: PreviewProvider {

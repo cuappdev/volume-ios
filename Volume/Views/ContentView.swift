@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    
     @State private var selectedTab: Tab = .home
     
     init() {
@@ -74,15 +73,12 @@ struct ContentView: View {
         }
         .accentColor(._orange)
     }
-    
 }
 
 extension ContentView {
-    
     private enum Tab {
         case home, publications, bookmarks
     }
-    
 }
 
 struct ContentView_Previews: PreviewProvider {
