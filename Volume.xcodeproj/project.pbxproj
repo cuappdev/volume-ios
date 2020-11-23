@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		060B738B256340580035E252 /* BubblePeriodText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060B738A256340580035E252 /* BubblePeriodText.swift */; };
+		060B739A256373AF0035E252 /* Begum-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 060B7399256373AE0035E252 /* Begum-Medium.ttf */; };
+		061233A12553127C0025F7E0 /* UnderlinedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061233A02553127C0025F7E0 /* UnderlinedText.swift */; };
+		061DB39725571D760038BEF5 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061DB39625571D760038BEF5 /* Font+Extension.swift */; };
+		06379C74256725C000FC185A /* Begum-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06379C73256725C000FC185A /* Begum-Regular.ttf */; };
+		06379C792567297400FC185A /* Begum-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06379C782567297400FC185A /* Begum-Bold.ttf */; };
 		7E23DFD2254A05EF0001C3A3 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E23DFD1254A05EF0001C3A3 /* Color+Extension.swift */; };
 		7ED7C337252D117A0078B1BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED7C336252D117A0078B1BD /* AppDelegate.swift */; };
 		7ED7C339252D117A0078B1BD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED7C338252D117A0078B1BD /* SceneDelegate.swift */; };
@@ -17,6 +23,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		060B738A256340580035E252 /* BubblePeriodText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubblePeriodText.swift; sourceTree = "<group>"; };
+		060B7399256373AE0035E252 /* Begum-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Begum-Medium.ttf"; sourceTree = "<group>"; };
+		061233A02553127C0025F7E0 /* UnderlinedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlinedText.swift; sourceTree = "<group>"; };
+		061DB39625571D760038BEF5 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
+		06379C73256725C000FC185A /* Begum-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Begum-Regular.ttf"; sourceTree = "<group>"; };
+		06379C782567297400FC185A /* Begum-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Begum-Bold.ttf"; sourceTree = "<group>"; };
 		7E23DFD1254A05EF0001C3A3 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		7ED7C333252D117A0078B1BD /* Volume.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Volume.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ED7C336252D117A0078B1BD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -39,10 +51,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		06379C76256725C900FC185A /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				06379C73256725C000FC185A /* Begum-Regular.ttf */,
+				060B7399256373AE0035E252 /* Begum-Medium.ttf */,
+				06379C782567297400FC185A /* Begum-Bold.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		7E23DFD4254A05F80001C3A3 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				7E23DFD1254A05EF0001C3A3 /* Color+Extension.swift */,
+				061DB39625571D760038BEF5 /* Font+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -51,22 +74,10 @@
 			isa = PBXGroup;
 			children = (
 				7ED7C33A252D117A0078B1BD /* ContentView.swift */,
+				061233A02553127C0025F7E0 /* UnderlinedText.swift */,
+				060B738A256340580035E252 /* BubblePeriodText.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		7E23DFDD254A0FF10001C3A3 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		7E23DFDE254A0FFD0001C3A3 /* View Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "View Models";
 			sourceTree = "<group>";
 		};
 		7ED7C32A252D117A0078B1BD = {
@@ -89,14 +100,13 @@
 			isa = PBXGroup;
 			children = (
 				7E23DFD4254A05F80001C3A3 /* Extensions */,
-				7E23DFDD254A0FF10001C3A3 /* Models */,
 				7E23DFDC254A0FEA0001C3A3 /* Views */,
-				7E23DFDE254A0FFD0001C3A3 /* View Models */,
 				7ED7C336252D117A0078B1BD /* AppDelegate.swift */,
 				7ED7C338252D117A0078B1BD /* SceneDelegate.swift */,
 				7ED7C33C252D117B0078B1BD /* Assets.xcassets */,
 				7ED7C341252D117B0078B1BD /* LaunchScreen.storyboard */,
 				7ED7C344252D117B0078B1BD /* Info.plist */,
+				06379C76256725C900FC185A /* Fonts */,
 				7ED7C33E252D117B0078B1BD /* Preview Content */,
 			);
 			path = Volume;
@@ -169,9 +179,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				060B739A256373AF0035E252 /* Begum-Medium.ttf in Resources */,
 				7ED7C343252D117B0078B1BD /* LaunchScreen.storyboard in Resources */,
 				7ED7C340252D117B0078B1BD /* Preview Assets.xcassets in Resources */,
 				7ED7C33D252D117B0078B1BD /* Assets.xcassets in Resources */,
+				06379C792567297400FC185A /* Begum-Bold.ttf in Resources */,
+				06379C74256725C000FC185A /* Begum-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,8 +218,11 @@
 			files = (
 				7E23DFD2254A05EF0001C3A3 /* Color+Extension.swift in Sources */,
 				7ED7C337252D117A0078B1BD /* AppDelegate.swift in Sources */,
+				061DB39725571D760038BEF5 /* Font+Extension.swift in Sources */,
+				061233A12553127C0025F7E0 /* UnderlinedText.swift in Sources */,
 				7ED7C339252D117A0078B1BD /* SceneDelegate.swift in Sources */,
 				7ED7C33B252D117A0078B1BD /* ContentView.swift in Sources */,
+				060B738B256340580035E252 /* BubblePeriodText.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,9 +360,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Volume/Preview Content\"";
-				DEVELOPMENT_TEAM = ZGMCXU7X3U;
+				DEVELOPMENT_TEAM = 9W8TDKYZ6C;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Volume/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -367,6 +384,7 @@
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Volume/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

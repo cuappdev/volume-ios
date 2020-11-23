@@ -9,37 +9,76 @@
 import SwiftUI
 
 struct ContentView: View {
-    
-    @State private var selectedTab = 0
+    @State private var selectedTab: Tab = .home
     
     init() {
-        UITabBar.appearance().backgroundColor = UIColor(white: 250/255, alpha: 0.9)
-        UITabBar.appearance().clipsToBounds = true  // removes top border
+        let grayColor = UIColor(Color._gray)
+        UINavigationBar.appearance().backgroundColor = grayColor
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UITabBar.appearance().backgroundColor = grayColor
+        UITabBar.appearance().clipsToBounds = true
         UITabBar.appearance().unselectedItemTintColor = UIColor(Color._lightGray)
     }
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            Text("Home Feed")
-                .tabItem {
-                    Image("volume")
-                }
-                .tag(0)
-            Text("Publications")
-                .tabItem {
-                    Image("publications")
-                }
-                .tag(1)
-            Text("Bookmarks")
-                .tabItem {
-                    Image("bookmark")
-                        .offset(x: 20, y: 50)
-                }
-                .tag(2)
+            NavigationView {
+                Text("Home")
+                    .background(Color._gray)
+                    .toolbar {
+                        ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+                            Image("volume-logo")
+                        }
+                    }
+                    .navigationBarTitleDisplayMode(.inline)
+            }
+            .tabItem {
+                Image("volume")
+            }
+            .tag(Tab.home)
+            
+            NavigationView {
+                Text("Publications")
+                    .background(Color._gray)
+                    .toolbar {
+                        ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+                            BubblePeriodText("Publications")
+                                .font(.begumMedium(size: 24))
+                                .offset(y: 8)
+                        }
+                    }
+                    .navigationBarTitleDisplayMode(.inline)
+            }
+            .tabItem {
+                Image("publications")
+            }
+            .tag(Tab.publications)
+            
+            NavigationView {
+                Text("Bookmarks")
+                    .background(Color._gray)
+                    .toolbar {
+                        ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+                            BubblePeriodText("Bookmarks")
+                                .font(.begumMedium(size: 24))
+                                .offset(y: 8)
+                        }
+                    }
+                    .navigationBarTitleDisplayMode(.inline)
+            }
+            .tabItem {
+                Image("bookmark")
+            }
+            .tag(Tab.bookmarks)
         }
         .accentColor(._orange)
     }
-    
+}
+
+extension ContentView {
+    private enum Tab {
+        case home, publications, bookmarks
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
