@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-/// `MorePublicationRow`displays the basis information about a publications the user is not currently following
+/// `MorePublicationRow` displays the basis information about a publications the user is not currently following
 struct MorePublicationRow: View {
     @State private var didAddPublication = false
     
@@ -26,12 +26,12 @@ struct MorePublicationRow: View {
             }
             
             VStack(alignment: .leading, spacing: 5) {
-                Text("Creme de Cornell")
+                Text(publication.name)
                     .font(.custom("Futura-Medium", size: 18))
                     .foregroundColor(.black)
                 Text(publication.description)
                     .font(.custom("Helvetica-Regular", size: 12))
-                    .foregroundColor(Color(white: 151/255))
+                    .foregroundColor(Color(white: 151 / 255))
                     .truncationMode(.tail)
                     .lineSpacing(4)
                     .lineLimit(2)
