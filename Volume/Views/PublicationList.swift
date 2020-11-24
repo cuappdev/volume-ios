@@ -46,6 +46,8 @@ struct PublicationList: View {
         NavigationView {
             ScrollView(showsIndicators: false) {
                 followedPublications
+                Spacer()
+                    .frame(height: 48)
                 notFollowedPublications
             }
             .navigationTitle("Publications.")
