@@ -8,13 +8,26 @@
 
 import SwiftUI
 
-/// `MorePublicationRow`displays the basis information about a publications the user is not currently following
+/// `MorePublicationRow` displays the basis information about a publications the user is not currently following
 struct MorePublicationRow: View {
-    let publication: Publication
-    
     @State private var didAddPublication = false
     @State private var expanded = false
     @State private var spacing: CGFloat = 12
+    
+    let publication: Publication
+    
+    private func determineTruncation(_ geometry: GeometryProxy) {
+        let total = publication.description.boundingRect(
+                with: CGSize(width: geometry.size.width, height: .greatestFiniteMagnitude),
+                options: .usesLineFragmentOrigin,
+                attributes: [.font: UIFont.systemFont(ofSize: 11)],
+                context: nil
+            )
+
+        if total.size.height > geometry.size.height {
+            self.expanded = true
+        }
+    }
     
     var body: some View {
         HStack {
@@ -28,12 +41,12 @@ struct MorePublicationRow: View {
             }
             
             VStack(alignment: .leading, spacing: 5) {
-                Text("Creme de Cornell")
+                Text(publication.name)
                     .font(.custom("Futura-Medium", size: 18))
                     .foregroundColor(.black)
                 Text(publication.description)
                     .font(.custom("Helvetica-Regular", size: 12))
-                    .foregroundColor(Color(white: 151/255))
+                    .foregroundColor(Color(white: 151 / 255))
                     .truncationMode(.tail)
                     .lineSpacing(4)
                     .background(GeometryReader { geometry in
@@ -69,19 +82,6 @@ struct MorePublicationRow: View {
             }
         }
         .frame(height: expanded ? 98 + spacing : 80 + spacing)
-    }
-    
-    private func determineTruncation(_ geometry: GeometryProxy) {
-        let total = publication.description.boundingRect(
-                with: CGSize(width: geometry.size.width, height: .greatestFiniteMagnitude),
-                options: .usesLineFragmentOrigin,
-                attributes: [.font: UIFont.systemFont(ofSize: 11)],
-                context: nil
-            )
-
-        if total.size.height > geometry.size.height {
-            self.expanded = true
-        }
     }
 }
 

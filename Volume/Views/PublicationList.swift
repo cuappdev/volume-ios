@@ -9,18 +9,8 @@
 import SwiftUI
 
 struct PublicationList: View {
-    var body: some View {
-        NavigationView {
-            ScrollView(showsIndicators: false) {
-                sectionOne
-                sectionTwo
-            }
-            .navigationTitle("Publications.")
-        }
-    }
-    
     // The publications a user is following
-    private var sectionOne: some View {
+    private var followedPublications: some View {
         Section {
             Header(text: "FOLLOWING")
                 .padding(.top)
@@ -38,7 +28,7 @@ struct PublicationList: View {
     }
     
     // The publications a user is not following
-    private var sectionTwo: some View {
+    private var notFollowedPublications: some View {
         Section {
             Header(text: "MORE PUBLICATIONS")
                 .padding(.bottom)
@@ -49,6 +39,16 @@ struct PublicationList: View {
                         .padding(.trailing)
                 }
             }
+        }
+    }
+    
+    var body: some View {
+        NavigationView {
+            ScrollView(showsIndicators: false) {
+                followedPublications
+                notFollowedPublications
+            }
+            .navigationTitle("Publications.")
         }
     }
 }
