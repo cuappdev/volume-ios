@@ -9,8 +9,9 @@
 import SwiftUI
 
 struct ArticleInfo: View {
-    let article: Article
     private let lineLimit = 3
+
+    let article: Article
     
     var body: some View {
         HStack {
@@ -23,17 +24,16 @@ struct ArticleInfo: View {
                     .padding(.top, 0.5)
                 Spacer()
                 HStack {
-                    Text("\(article.date.string) • \(article.shout_outs) shout-outs")
+                    Text("\(article.date.string) • \(article.shoutOuts) shout-outs")
                         .font(.custom("Helvetica-Regular", size: 10))
                         .foregroundColor(.lightGray)
-                    if article.saved {
+                    if article.isSaved {
                         Image(systemName: "bookmark.fill")
                             .resizable()
                             .foregroundColor(.volumeOrange)
                             .frame(width: 8, height: 11)
                     }
                 }
-                
             }
             Spacer()
         }

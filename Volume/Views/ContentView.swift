@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    
     @State private var selectedTab = 0
     
     init() {
@@ -39,7 +38,6 @@ struct ContentView: View {
         }
         .accentColor(.volumeOrange)
     }
-    
 }
 
 struct ContentView_Previews: PreviewProvider {

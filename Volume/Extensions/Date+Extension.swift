@@ -9,12 +9,9 @@
 import Foundation
 
 extension Date {
-    
     public var string: String {
         let formatter = RelativeDateTimeFormatter()
         formatter.unitsStyle = .full
-        let relativeDate = formatter.localizedString(for: self, relativeTo: Date())
-        return relativeDate
+        return formatter.localizedString(for: self, relativeTo: Date())
     }
-    
 }

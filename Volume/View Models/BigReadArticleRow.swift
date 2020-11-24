@@ -13,8 +13,8 @@ struct BigReadArticleRow: View {
     
     var body: some View {
         VStack(spacing: 15) {
-            if article.image != nil {
-                Image(article.image!)
+            if let image = article.image {
+                Image(image)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 180, height: 180)

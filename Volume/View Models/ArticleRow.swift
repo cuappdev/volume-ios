@@ -15,15 +15,15 @@ struct ArticleRow: View {
         HStack(spacing: 20) {
             ArticleInfo(article: article)
             
-            if article.image != nil {
-                Image(article.image!)
+            if let image = article.image {
+                Image(image)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 110, height: 110)
+                    .frame(width: 100, height: 100)
                     .clipped()
             }
         }
-        .frame(maxWidth: .infinity, idealHeight: 110, alignment: .leading)
+        .frame(maxWidth: .infinity, idealHeight: 100, alignment: .leading)
     }
 }
 
