@@ -13,8 +13,11 @@ struct PublicationList: View {
         NavigationView {
             ScrollView(showsIndicators: false) {
                 sectionOne
+                Spacer()
+                    .frame(height: 48)
                 sectionTwo
             }
+            .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("Publications.")
         }
     }
@@ -32,7 +35,7 @@ struct PublicationList: View {
                         }
                     }
                 }
-                .padding([.leading, .trailing], 10)
+                .padding([.top, .leading, .trailing], 10)
             }
         }
     }
@@ -58,9 +61,11 @@ private struct Header : View {
     @State var text: String
     
     var body : some View {
-        Text(text)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.leading)
+        HStack {
+            Text(text)
+                .padding(.leading)
+            Spacer()
+        }
     }
 }
 

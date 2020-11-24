@@ -13,7 +13,7 @@ struct FollowingPublicationRow: View {
     let publication: Publication
         
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             Image(publication.image)
                 .resizable()
                 .clipShape(Circle())
@@ -24,10 +24,9 @@ struct FollowingPublicationRow: View {
                 .foregroundColor(.black)
                 .lineLimit(2)
                 .multilineTextAlignment(.center)
-                .offset(y: -5)
             Spacer()
         }
-        .frame(width: 90, height: 135)
+        .frame(width: 90, height: 130)
     }
 }
 

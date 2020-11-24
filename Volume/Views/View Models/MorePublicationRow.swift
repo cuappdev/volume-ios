@@ -10,11 +10,9 @@ import SwiftUI
 
 /// `MorePublicationRow`displays the basis information about a publications the user is not currently following
 struct MorePublicationRow: View {
-    let publication: Publication
-    
     @State private var didAddPublication = false
-    @State private var expanded = false
-    @State private var spacing: CGFloat = 12
+    
+    let publication: Publication
     
     var body: some View {
         HStack {
@@ -36,12 +34,7 @@ struct MorePublicationRow: View {
                     .foregroundColor(Color(white: 151/255))
                     .truncationMode(.tail)
                     .lineSpacing(4)
-                    .background(GeometryReader { geometry in
-                        Color.clear.onAppear {
-                            self.determineTruncation(geometry)
-                        }
-                    })
-                    .lineLimit(self.expanded ? 2 : 1)
+                    .lineLimit(2)
                 HStack {
                     Text("|")
                         .font(.system(size: 14, weight: .bold))
@@ -67,20 +60,6 @@ struct MorePublicationRow: View {
                 }
                 Spacer()
             }
-        }
-        .frame(height: expanded ? 98 + spacing : 80 + spacing)
-    }
-    
-    private func determineTruncation(_ geometry: GeometryProxy) {
-        let total = publication.description.boundingRect(
-                with: CGSize(width: geometry.size.width, height: .greatestFiniteMagnitude),
-                options: .usesLineFragmentOrigin,
-                attributes: [.font: UIFont.systemFont(ofSize: 11)],
-                context: nil
-            )
-
-        if total.size.height > geometry.size.height {
-            self.expanded = true
         }
     }
 }
