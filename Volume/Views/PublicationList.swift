@@ -12,8 +12,8 @@ struct PublicationList: View {
     // The publications a user is following
     private var followedPublications: some View {
         Section {
-            Header(text: "FOLLOWING")
-                .padding(.top)
+            header("Following")
+                .padding(.top, 18)
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 12) {
                     ForEach(publicationsData) { publication in
@@ -30,13 +30,11 @@ struct PublicationList: View {
     // The publications a user is not following
     private var notFollowedPublications: some View {
         Section {
-            Header(text: "MORE PUBLICATIONS")
-                .padding(.bottom)
+            header("More publications")
             ForEach(publicationsData) { publication in
                 NavigationLink(destination: PublicationDetail(publication: publication)) {
                     MorePublicationRow(publication: publication)
                         .buttonStyle(PlainButtonStyle())
-                        .padding(.trailing)
                 }
             }
         }
@@ -50,21 +48,27 @@ struct PublicationList: View {
                     .frame(height: 48)
                 notFollowedPublications
             }
-            .navigationTitle("Publications.")
+            .background(Color.volume.backgroundGray)
+            .toolbar {
+                ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+                    BubblePeriodText("Publications")
+                        .font(.begumMedium(size: 24))
+                        .offset(y: 8)
+                }
+            }
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
 
-// TODO: replace w/ Volume specific design
-private struct Header : View {
-    @State var text: String
-    
-    var body : some View {
+extension PublicationList {
+    func header(_ text: String) -> some View {
         HStack {
-            Text(text)
-                .padding(.leading)
+            UnderlinedText(text)
+                .font(.begumMedium(size: 20))
             Spacer()
         }
+        .padding(.leading)
     }
 }
 

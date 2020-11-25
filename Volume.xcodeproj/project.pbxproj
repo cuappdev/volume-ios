@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		060B738B256340580035E252 /* BubblePeriodText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060B738A256340580035E252 /* BubblePeriodText.swift */; };
+		060B739A256373AF0035E252 /* Begum-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 060B7399256373AE0035E252 /* Begum-Medium.ttf */; };
+		061233A12553127C0025F7E0 /* UnderlinedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061233A02553127C0025F7E0 /* UnderlinedText.swift */; };
+		061DB39725571D760038BEF5 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061DB39625571D760038BEF5 /* Font+Extension.swift */; };
+		06379C74256725C000FC185A /* Begum-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06379C73256725C000FC185A /* Begum-Regular.ttf */; };
+		06379C792567297400FC185A /* Begum-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06379C782567297400FC185A /* Begum-Bold.ttf */; };
 		7E23DFD2254A05EF0001C3A3 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E23DFD1254A05EF0001C3A3 /* Color+Extension.swift */; };
 		7E8658A5254B7173002DEE68 /* PublicationDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8658A4254B7173002DEE68 /* PublicationDetail.swift */; };
 		7E8658A8254B719A002DEE68 /* PublicationList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8658A7254B719A002DEE68 /* PublicationList.swift */; };
@@ -22,6 +28,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		060B738A256340580035E252 /* BubblePeriodText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubblePeriodText.swift; sourceTree = "<group>"; };
+		060B7399256373AE0035E252 /* Begum-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Begum-Medium.ttf"; sourceTree = "<group>"; };
+		061233A02553127C0025F7E0 /* UnderlinedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlinedText.swift; sourceTree = "<group>"; };
+		061DB39625571D760038BEF5 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
+		06379C73256725C000FC185A /* Begum-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Begum-Regular.ttf"; sourceTree = "<group>"; };
+		06379C782567297400FC185A /* Begum-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Begum-Bold.ttf"; sourceTree = "<group>"; };
 		7E23DFD1254A05EF0001C3A3 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		7E8658A4254B7173002DEE68 /* PublicationDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicationDetail.swift; sourceTree = "<group>"; };
 		7E8658A7254B719A002DEE68 /* PublicationList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicationList.swift; sourceTree = "<group>"; };
@@ -49,10 +61,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		06379C76256725C900FC185A /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				06379C73256725C000FC185A /* Begum-Regular.ttf */,
+				060B7399256373AE0035E252 /* Begum-Medium.ttf */,
+				06379C782567297400FC185A /* Begum-Bold.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		7E23DFD4254A05F80001C3A3 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				7E23DFD1254A05EF0001C3A3 /* Color+Extension.swift */,
+				061DB39625571D760038BEF5 /* Font+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -63,6 +86,8 @@
 				7ED7C33A252D117A0078B1BD /* ContentView.swift */,
 				7E8658A4254B7173002DEE68 /* PublicationDetail.swift */,
 				7E8658A7254B719A002DEE68 /* PublicationList.swift */,
+				061233A02553127C0025F7E0 /* UnderlinedText.swift */,
+				060B738A256340580035E252 /* BubblePeriodText.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -113,6 +138,7 @@
 				7ED7C33C252D117B0078B1BD /* Assets.xcassets */,
 				7ED7C341252D117B0078B1BD /* LaunchScreen.storyboard */,
 				7ED7C344252D117B0078B1BD /* Info.plist */,
+				06379C76256725C900FC185A /* Fonts */,
 				7ED7C33E252D117B0078B1BD /* Preview Content */,
 			);
 			path = Volume;
@@ -136,6 +162,7 @@
 				7ED7C32F252D117A0078B1BD /* Sources */,
 				7ED7C330252D117A0078B1BD /* Frameworks */,
 				7ED7C331252D117A0078B1BD /* Resources */,
+				7E1092AB2545262000914ED6 /* SwiftLint Run Script */,
 			);
 			buildRules = (
 			);
@@ -184,13 +211,37 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				060B739A256373AF0035E252 /* Begum-Medium.ttf in Resources */,
 				7ED7C343252D117B0078B1BD /* LaunchScreen.storyboard in Resources */,
 				7ED7C340252D117B0078B1BD /* Preview Assets.xcassets in Resources */,
 				7ED7C33D252D117B0078B1BD /* Assets.xcassets in Resources */,
+				06379C792567297400FC185A /* Begum-Bold.ttf in Resources */,
+				06379C74256725C000FC185A /* Begum-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7E1092AB2545262000914ED6 /* SwiftLint Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "SwiftLint Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7ED7C32F252D117A0078B1BD /* Sources */ = {
@@ -200,12 +251,15 @@
 				7E23DFD2254A05EF0001C3A3 /* Color+Extension.swift in Sources */,
 				7ED7C337252D117A0078B1BD /* AppDelegate.swift in Sources */,
 				7E8658A5254B7173002DEE68 /* PublicationDetail.swift in Sources */,
+				061DB39725571D760038BEF5 /* Font+Extension.swift in Sources */,
+				061233A12553127C0025F7E0 /* UnderlinedText.swift in Sources */,
 				7ED7C339252D117A0078B1BD /* SceneDelegate.swift in Sources */,
 				7E8658A8254B719A002DEE68 /* PublicationList.swift in Sources */,
 				7E8658B5254B7FF2002DEE68 /* FollowingPublicationRow.swift in Sources */,
 				7E8658AB254B71D7002DEE68 /* MorePublicationRow.swift in Sources */,
 				7E8658AE254B71FF002DEE68 /* Publication.swift in Sources */,
 				7ED7C33B252D117A0078B1BD /* ContentView.swift in Sources */,
+				060B738B256340580035E252 /* BubblePeriodText.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,9 +399,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Volume/Preview Content\"";
-				DEVELOPMENT_TEAM = ZGMCXU7X3U;
+				DEVELOPMENT_TEAM = 9W8TDKYZ6C;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Volume/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -368,6 +423,7 @@
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Volume/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

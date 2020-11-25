@@ -12,40 +12,61 @@ struct ContentView: View {
     @State private var selectedTab: Tab = .publications
     
     init() {
-        UITabBar.appearance().backgroundColor = UIColor(white: 250 / 255, alpha: 0.9)
-        UITabBar.appearance().clipsToBounds = true  // removes top border
-        UITabBar.appearance().unselectedItemTintColor = UIColor(Color(white: 153 / 255, opacity: 1))
-                
-        UIView.appearance().backgroundColor = UIColor.clear
+        let grayColor = UIColor(Color.volume.navigationBarGray)
+        UINavigationBar.appearance().backgroundColor = grayColor
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UITabBar.appearance().backgroundColor = grayColor
+        UITabBar.appearance().clipsToBounds = true
+        UITabBar.appearance().unselectedItemTintColor = UIColor(Color.volume.lightGray)
     }
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            Text("Home Feed")
-                .tabItem {
-                    Image("volume")
-                }
-                .tag(Tab.home)
+            NavigationView {
+                Text("Home")
+                    .toolbar {
+                        ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+                            Image("volume-logo")
+                        }
+                    }
+                    .navigationBarTitleDisplayMode(.inline)
+            }
+            .tabItem {
+                Image("volume")
+            }
+            .tag(Tab.home)
+            
             PublicationList()
-                .tabItem {
-                    Image("publications")
-                }
-                .tag(Tab.publications)
-            Text("Bookmarks")
-                .tabItem {
-                    Image("bookmark")
-                }
-                .tag(Tab.bookmarks)
+            .tabItem {
+                Image("publications")
+            }
+            .tag(Tab.publications)
+            
+            NavigationView {
+                Text("Bookmarks")
+                    .toolbar {
+                        ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+                            BubblePeriodText("Bookmarks")
+                                .font(.begumMedium(size: 24))
+                                .offset(y: 8)
+                        }
+                    }
+                    .navigationBarTitleDisplayMode(.inline)
+            }
+            .tabItem {
+                Image("bookmark")
+            }
+            .tag(Tab.bookmarks)
         }
-        .accentColor(.volumeOrange)
+        .accentColor(Color.volume.orange)
     }
 }
 
-/// An enum to keep track of which tab the user is currently on
-enum Tab {
-    case bookmarks
-    case home
-    case publications
+extension ContentView {
+    /// An enum to keep track of which tab the user is currently on
+    private enum Tab {
+        case bookmarks, home, publications
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {

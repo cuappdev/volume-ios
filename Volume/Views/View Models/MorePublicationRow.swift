@@ -21,18 +21,16 @@ struct MorePublicationRow: View {
                     .resizable()
                     .clipShape(Circle())
                     .frame(width: 60, height: 60)
-                    .padding(.leading)
                 Spacer()
             }
             
             VStack(alignment: .leading, spacing: 5) {
                 Text(publication.name)
-                    .font(.custom("Futura-Medium", size: 18))
+                    .font(.begumMedium(size: 18))
                     .foregroundColor(.black)
                 Text(publication.description)
-                    .font(.custom("Helvetica-Regular", size: 12))
+                    .font(.helveticaRegular(size: 12))
                     .foregroundColor(Color(white: 151 / 255))
-                    .truncationMode(.tail)
                     .lineSpacing(4)
                     .lineLimit(2)
                 HStack {
@@ -40,10 +38,9 @@ struct MorePublicationRow: View {
                         .font(.system(size: 14, weight: .bold))
                         .foregroundColor(Color(white: 225 / 255))
                     Text("\"\(publication.recent)\"")
-                        .font(.custom("Helvetica-Regular", size: 12))
+                        .font(.helveticaRegular(size: 12))
                         .foregroundColor(.black)
                         .lineLimit(1)
-                        .truncationMode(.tail)
                 }
                 .padding(.top, 2)
                 Spacer()
@@ -61,12 +58,12 @@ struct MorePublicationRow: View {
                 Spacer()
             }
         }
+        .padding([.leading, .trailing])
     }
 }
 
 struct MorePublicationRow_Previews: PreviewProvider {
     static var previews: some View {
         MorePublicationRow(publication: publicationsData[0])
-        MorePublicationRow(publication: publicationsData[1])
     }
 }

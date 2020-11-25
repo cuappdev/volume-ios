@@ -20,7 +20,7 @@ struct FollowingPublicationRow: View {
                 .shadow(color: Color(white: 0, opacity: 0.1), radius: 5)
                 .frame(width: 85, height: 85)
             Text(publication.name)
-                .font(.custom("Futura-Medium", size: 12))
+                .font(.begumMedium(size: 12))
                 .foregroundColor(.black)
                 .lineLimit(2)
                 .multilineTextAlignment(.center)
