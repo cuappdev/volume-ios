@@ -11,11 +11,9 @@ import SwiftUI
 struct PublicationList: View {
     // The publications a user is following
     private var followedPublications: some View {
-        Section {
-            Header(text: "Following")
-                .padding(.bottom, -12)
+        Section(header: header("Following")) {
             ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(spacing: 12) {
+                HStack(spacing: 12) {
                     ForEach(publicationsData) { publication in
                         NavigationLink(destination: PublicationDetail(publication: publication)) {
                             FollowingPublicationRow(publication: publication)
@@ -29,13 +27,14 @@ struct PublicationList: View {
     
     // The publications a user is not following
     private var notFollowedPublications: some View {
-        Section {
-            Header(text: "More Publications")
-            ForEach(publicationsData) { publication in
-                NavigationLink(destination: PublicationDetail(publication: publication)) {
-                    MorePublicationRow(publication: publication)
-                        .buttonStyle(PlainButtonStyle())
-                        .padding(.trailing)
+        Section(header: header("More publications")) {
+            LazyVStack {
+                ForEach(0..<15) { i in
+                    let publication = publicationsData[i % publicationsData.count]
+                    NavigationLink(destination: PublicationDetail(publication: publication)) {
+                        MorePublicationRow(publication: publication)
+                            .padding(.bottom, 15)
+                    }
                 }
             }
         }
@@ -46,9 +45,10 @@ struct PublicationList: View {
             ScrollView(showsIndicators: false) {
                 followedPublications
                 Spacer()
-                    .frame(height: 48)
+                    .frame(height: 40)
                 notFollowedPublications
             }
+            .padding(.top, 18)
             .background(Color.volume.backgroundGray)
             .toolbar {
                 ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {

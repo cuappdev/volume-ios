@@ -30,15 +30,11 @@ struct MorePublicationRow: View {
     }
     
     var body: some View {
-        HStack {
-            VStack {
-                Image(publication.image)
-                    .resizable()
-                    .clipShape(Circle())
-                    .frame(width: 60, height: 60)
-                    .padding(.leading)
-                Spacer()
-            }
+        HStack(alignment: .top) {
+            Image(publication.image)
+                .resizable()
+                .clipShape(Circle())
+                .frame(width: 60, height: 60)
             
             VStack(alignment: .leading, spacing: 5) {
                 Text(publication.name)
@@ -49,12 +45,8 @@ struct MorePublicationRow: View {
                     .foregroundColor(Color(white: 151 / 255))
                     .truncationMode(.tail)
                     .lineSpacing(4)
-                    .background(GeometryReader { geometry in
-                        Color.clear.onAppear {
-                            self.determineTruncation(geometry)
-                        }
-                    })
-                    .lineLimit(self.expanded ? 2 : 1)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
                 HStack {
                     Text("|")
                         .font(.system(size: 14, weight: .bold))
@@ -62,23 +54,17 @@ struct MorePublicationRow: View {
                     Text("\"\(publication.recent)\"")
                         .font(.custom("Helvetica-Regular", size: 12))
                         .foregroundColor(.black)
-                        .lineLimit(1)
-                        .truncationMode(.tail)
                 }
                 .padding(.top, 2)
-                Spacer()
             }
             
             Spacer()
             
-            VStack {
-                Button(action: {
-                    self.didAddPublication.toggle()
-                    // TODO: Add to list of subscribers
-                }) {
-                    Image(didAddPublication ? "followed" : "follow")
-                }
-                Spacer()
+            Button(action: {
+                self.didAddPublication.toggle()
+                // TODO: Add to list of subscribers
+            }) {
+                Image(didAddPublication ? "followed" : "follow")
             }
         }
         .frame(height: expanded ? 98 + spacing : 80 + spacing)

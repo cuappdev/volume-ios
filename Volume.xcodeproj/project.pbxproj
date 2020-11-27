@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		060B738B256340580035E252 /* BubblePeriodText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060B738A256340580035E252 /* BubblePeriodText.swift */; };
 		060B739A256373AF0035E252 /* Begum-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 060B7399256373AE0035E252 /* Begum-Medium.ttf */; };
+		060FFDDC2577EC800052F3EA /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060FFDD92577EC800052F3EA /* WelcomeView.swift */; };
+		060FFDDD2577EC800052F3EA /* FollowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060FFDDA2577EC800052F3EA /* FollowView.swift */; };
+		060FFDDE2577EC800052F3EA /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060FFDDB2577EC800052F3EA /* OnboardingView.swift */; };
 		061233A12553127C0025F7E0 /* UnderlinedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061233A02553127C0025F7E0 /* UnderlinedText.swift */; };
 		061DB39725571D760038BEF5 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061DB39625571D760038BEF5 /* Font+Extension.swift */; };
 		06379C74256725C000FC185A /* Begum-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06379C73256725C000FC185A /* Begum-Regular.ttf */; };
@@ -39,6 +42,9 @@
 /* Begin PBXFileReference section */
 		060B738A256340580035E252 /* BubblePeriodText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubblePeriodText.swift; sourceTree = "<group>"; };
 		060B7399256373AE0035E252 /* Begum-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Begum-Medium.ttf"; sourceTree = "<group>"; };
+		060FFDD92577EC800052F3EA /* WelcomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		060FFDDA2577EC800052F3EA /* FollowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowView.swift; sourceTree = "<group>"; };
+		060FFDDB2577EC800052F3EA /* OnboardingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		061233A02553127C0025F7E0 /* UnderlinedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlinedText.swift; sourceTree = "<group>"; };
 		061DB39625571D760038BEF5 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
 		06379C73256725C000FC185A /* Begum-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Begum-Regular.ttf"; sourceTree = "<group>"; };
@@ -79,6 +85,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		060FFDD82577EC800052F3EA /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				060FFDD92577EC800052F3EA /* WelcomeView.swift */,
+				060FFDDA2577EC800052F3EA /* FollowView.swift */,
+				060FFDDB2577EC800052F3EA /* OnboardingView.swift */,
+			);
+			name = Onboarding;
+			path = Volume/Views/Onboarding;
+			sourceTree = SOURCE_ROOT;
+		};
 		06379C76256725C900FC185A /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -123,6 +140,7 @@
 		7E51586425589D52003A0F4A /* View Models */ = {
 			isa = PBXGroup;
 			children = (
+				060FFDD82577EC800052F3EA /* Onboarding */,
 				7EA73D30254CA7E1009E8F9F /* ArticleInfo.swift */,
 				7EA73D21254C9C21009E8F9F /* ArticleRow.swift */,
 				7EA73D24254C9C5B009E8F9F /* BigReadArticleRow.swift */,
@@ -295,13 +313,16 @@
 				7ED7C337252D117A0078B1BD /* AppDelegate.swift in Sources */,
 				7E416C322561D7870010D70B /* Header.swift in Sources */,
 				061DB39725571D760038BEF5 /* Font+Extension.swift in Sources */,
+				060FFDDD2577EC800052F3EA /* FollowView.swift in Sources */,
 				061233A12553127C0025F7E0 /* UnderlinedText.swift in Sources */,
 				7ED7C339252D117A0078B1BD /* SceneDelegate.swift in Sources */,
 				7EA73D31254CA7E2009E8F9F /* ArticleInfo.swift in Sources */,
 				7EA73D28254C9C67009E8F9F /* Article.swift in Sources */,
 				7EE96DC82562505B000B246F /* VolumeMessage.swift in Sources */,
+				060FFDDC2577EC800052F3EA /* WelcomeView.swift in Sources */,
 				7EA73D25254C9C5B009E8F9F /* BigReadArticleRow.swift in Sources */,
 				7ED7C33B252D117A0078B1BD /* ContentView.swift in Sources */,
+				060FFDDE2577EC800052F3EA /* OnboardingView.swift in Sources */,
 				7EA73D22254C9C21009E8F9F /* ArticleRow.swift in Sources */,
 				060B738B256340580035E252 /* BubblePeriodText.swift in Sources */,
 			);
