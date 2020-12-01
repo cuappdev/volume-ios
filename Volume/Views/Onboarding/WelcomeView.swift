@@ -18,17 +18,17 @@ extension OnboardingView {
                     FeatureRow(
                         image: "publications",
                         textBold: "Stay updated ",
-                        textNormal: "with Cornell student publications, all in one place"
+                        textRegular: "with Cornell student publications, all in one place"
                     )
                     FeatureRow(
                         image: "volume",
                         textBold: "Read articles ",
-                        textNormal: "trending in the Cornell commnity and from publications you follow"
+                        textRegular: "trending in the Cornell commnity and from publications you follow"
                     )
                     FeatureRow(
-                        image: "bookmark",
+                        image: "shout-out",
                         textBold: "Give shout-outs ",
-                        textNormal: "to support student content"
+                        textRegular: "to support student content"
                     )
                 }
                 .transition(.asymmetric(insertion: .opacity, removal: .move(edge: .leading)))
@@ -38,7 +38,7 @@ extension OnboardingView {
                 PageControl(currentPage: page == .welcome ? 0 : 1, numberOfPages: 2)
                     .padding(.bottom, 47)
                 Button("Next") {
-                    withAnimation {
+                    withAnimation(.spring()) {
                         self.page = .follow
                     }
                 }
@@ -59,7 +59,7 @@ extension OnboardingView.WelcomeView {
     private struct FeatureRow: View {
         let image: String
         let textBold: String
-        let textNormal: String
+        let textRegular: String
         
         var body: some View {
             HStack(alignment: .top, spacing: 28) {
@@ -71,7 +71,7 @@ extension OnboardingView.WelcomeView {
                 Text(textBold)
                     .font(.begumBold(size: 16))
                     +
-                    Text(textNormal)
+                    Text(textRegular)
                     .font(.begumRegular(size: 16))
                 
             }

@@ -11,15 +11,36 @@ import SwiftUI
 extension OnboardingView {
     struct FollowView: View {
         @State private var didFollowPublication = false
+        @State private var publications: [Publication] = publicationsData + publicationsData
         
         @Binding var page: OnboardingView.Page
         
+        @AppStorage("isFirstLaunch") var isFirstLaunch = true
+        
+        private func onToggleFollowing(publication: Publication) {
+            if let index = publications.firstIndex(of: publication) {
+                publications[index] = Publication(
+                    id: UUID(),
+                    description: publication.description,
+                    name: publication.name,
+                    image: publication.image,
+                    isFollowing: !publication.isFollowing,
+                    recent: publication.recent
+                )
+            }
+            
+            withAnimation {
+                self.didFollowPublication = true
+            }
+        }
+        
         var body: some View {
             Group {
+                // Empty array for axes means that scroll is disabled
                 ScrollView([]) {
                     VStack(spacing: 24) {
-                        ForEach(0..<4) { i in
-                            MorePublicationRow(publication: publicationsData[i % publicationsData.count])
+                        ForEach(publications) { publication in
+                            MorePublicationRow(publication: publication, onToggleFollowing: onToggleFollowing)
                         }
                     }
                 }
@@ -32,8 +53,8 @@ extension OnboardingView {
                 PageControl(currentPage: page == .welcome ? 0 : 1, numberOfPages: 2)
                     .padding(.bottom, 47)
                 Button("Start reading") {
-                    withAnimation {
-                        self.page = .welcome
+                    withAnimation(.spring()) {
+                        self.isFirstLaunch = false
                     }
                 }
                 .font(.helveticaBold(size: 16))

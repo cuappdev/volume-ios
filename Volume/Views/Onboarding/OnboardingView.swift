@@ -10,7 +10,7 @@ import SwiftUI
 
 struct OnboardingView: View {
     @State private var isShowingSplash = true
-    @State private var page: Page = .follow
+    @State private var page: Page = .welcome
     @Namespace private var namespace
     
     private let volumeLogoID = "volume-logo"
@@ -66,8 +66,8 @@ struct OnboardingView: View {
         }
         .background(Color.volume.backgroundGray)
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                withAnimation {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                withAnimation(.spring()) {
                     self.isShowingSplash = false
                 }
             }

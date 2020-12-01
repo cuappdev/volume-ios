@@ -13,13 +13,17 @@ private let cremeDeCornell = Publication(
     description: "Passionate food enthusiasts coming together to publish a diversity of recipes and stories.",
     name: "Creme de Cornell",
     image: "creme",
-    recent: "Kale Chips")
+    isFollowing: false,
+    recent: "Kale Chips"
+)
 
 private let cremeDeCornell2 = Publication(
     description: "Passionate food enthusiasts",
     name: "Creme",
     image: "creme",
-    recent: "Kale Chips")
+    isFollowing: false,
+    recent: "Kale Chips"
+)
 
 let publicationsData = [
     cremeDeCornell, cremeDeCornell2
@@ -29,15 +33,10 @@ let publicationsData = [
 struct Publication: Hashable, Identifiable {
     var id = UUID()
     
-    var description: String
-    var name: String
-    var image: String
-    var recent: String
+    let description: String
+    let name: String
+    let image: String
+    let isFollowing: Bool
+    let recent: String
     
-    init(description: String, name: String, image: String, recent: String) {
-        self.description = description
-        self.name = name
-        self.image = image
-        self.recent = recent
-    }
 }

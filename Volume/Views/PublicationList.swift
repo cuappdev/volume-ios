@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct PublicationList: View {
-    // The publications a user is following
+    /// The publications a user is following
     private var followedPublications: some View {
         Section(header: header("Following")) {
             ScrollView(.horizontal, showsIndicators: false) {
@@ -25,19 +25,24 @@ struct PublicationList: View {
         }
     }
     
-    // The publications a user is not following
+    /// The publications a user is not following
     private var notFollowedPublications: some View {
         Section(header: header("More publications")) {
-            LazyVStack {
+            VStack {
                 ForEach(0..<15) { i in
                     let publication = publicationsData[i % publicationsData.count]
                     NavigationLink(destination: PublicationDetail(publication: publication)) {
-                        MorePublicationRow(publication: publication)
+                        MorePublicationRow(publication: publication, onToggleFollowing: onToggleFollowing)
                             .padding(.bottom, 15)
                     }
                 }
             }
         }
+    }
+    
+    /// Toggle following this Publication
+    private func onToggleFollowing(publication: Publication) {
+        
     }
     
     var body: some View {
@@ -59,6 +64,14 @@ struct PublicationList: View {
             }
             .navigationBarTitleDisplayMode(.inline)
         }
+    }
+}
+
+extension PublicationList {
+    private func header(_ text: String) -> some View {
+        UnderlinedText(text)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding()
     }
 }
 
