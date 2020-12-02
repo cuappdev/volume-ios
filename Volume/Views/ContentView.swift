@@ -27,7 +27,7 @@ struct ContentView: View {
                      Image("volume")
                  }
                 .tag(Tab.home)
-             Text("Publications")
+            PublicationList()
                  .tabItem {
                      Image("publications")
                  }

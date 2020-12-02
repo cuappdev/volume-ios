@@ -14,7 +14,7 @@ struct HomeList: View {
     var body: some View {
         NavigationView {
             ScrollView(showsIndicators: false) {
-                Header(text: "THE BIG READ")
+                Header(text: "The Big Read")
                 ScrollView(.horizontal, showsIndicators: false) {
                     LazyHStack(spacing: spacing) {
                         ForEach(Array(Set(articleData)).shuffled()) { article in
@@ -24,7 +24,7 @@ struct HomeList: View {
                 }
                 .padding([.bottom, .leading, .trailing])
                 
-                Header(text: "FOLLOWING")
+                Header(text: "Following")
                 ForEach (articleData.shuffled()) { article in
                     ArticleRow(article: article)
                         .padding([.bottom, .leading, .trailing])
@@ -33,7 +33,7 @@ struct HomeList: View {
                 VolumeMessage(message: .upToDate)
                     .padding([.top, .bottom], 25)
                 
-                Header(text: "OTHER ARTICLES")
+                Header(text: "Other Articles")
                 ForEach (articleData.shuffled()) { article in
                     ArticleRow(article: article)
                         .padding([.bottom, .leading, .trailing])
