@@ -11,9 +11,9 @@ import SwiftUI
 struct PublicationList: View {
     /// The publications a user is following
     private var followedPublications: some View {
-        Section(header: header("Following")) {
+        Section(header: Header("Following")) {
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
+                LazyHStack(spacing: 12) {
                     ForEach(publicationsData) { publication in
                         NavigationLink(destination: PublicationDetail(publication: publication)) {
                             FollowingPublicationRow(publication: publication)
@@ -27,8 +27,8 @@ struct PublicationList: View {
     
     /// The publications a user is not following
     private var notFollowedPublications: some View {
-        Section(header: header("More publications")) {
-            VStack {
+        Section(header: Header("More publications")) {
+            LazyVStack {
                 ForEach(0..<15) { i in
                     let publication = publicationsData[i % publicationsData.count]
                     NavigationLink(destination: PublicationDetail(publication: publication)) {
@@ -50,10 +50,9 @@ struct PublicationList: View {
             ScrollView(showsIndicators: false) {
                 followedPublications
                 Spacer()
-                    .frame(height: 40)
+                    .frame(height: 16)
                 notFollowedPublications
             }
-            .padding(.top, 18)
             .background(Color.volume.backgroundGray)
             .toolbar {
                 ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
@@ -64,14 +63,6 @@ struct PublicationList: View {
             }
             .navigationBarTitleDisplayMode(.inline)
         }
-    }
-}
-
-extension PublicationList {
-    private func header(_ text: String) -> some View {
-        UnderlinedText(text)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding()
     }
 }
 

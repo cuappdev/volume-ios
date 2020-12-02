@@ -38,10 +38,10 @@ struct VolumeMessage: View {
         VStack(spacing: 10) {
             Image("volume")
                 .foregroundColor(Color.volume.orange)
-            Text(message.title) // TODO: Begum
-                .font(.system(size: 12, weight: .bold))
+            Text(message.title)
+                .font(.begumMedium(size: 12))
             Text(message.subtitle)
-                .font(.custom("Helvetica-Regular", size: 10))
+                .font(.helveticaRegular(size: 10))
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
         }

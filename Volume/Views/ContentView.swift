@@ -22,12 +22,6 @@ struct ContentView: View {
     }
 }
 
-extension ContentView {
-    private enum Tab {
-        case home, publications, bookmarks
-    }
-}
-
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()

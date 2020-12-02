@@ -22,10 +22,10 @@ struct MorePublicationRow: View {
             
             VStack(alignment: .leading, spacing: 5) {
                 Text(publication.name)
-                    .font(.custom("Futura-Medium", size: 18))
+                    .font(.begumMedium(size: 18))
                     .foregroundColor(.black)
                 Text(publication.description)
-                    .font(.custom("Helvetica-Regular", size: 12))
+                    .font(.helveticaRegular(size: 12))
                     .foregroundColor(Color(white: 151 / 255))
                     .truncationMode(.tail)
                     .lineSpacing(4)
@@ -36,7 +36,7 @@ struct MorePublicationRow: View {
                         .font(.system(size: 14, weight: .bold))
                         .foregroundColor(Color(white: 225 / 255))
                     Text("\"\(publication.recent)\"")
-                        .font(.custom("Helvetica-Regular", size: 12))
+                        .font(.helveticaRegular(size: 12))
                         .foregroundColor(.black)
                 }
                 .padding(.top, 2)
@@ -49,7 +49,7 @@ struct MorePublicationRow: View {
             }) {
                 Image(publication.isFollowing ? "followed" : "follow")
             }
-        }
+        }.padding([.leading, .trailing])
     }
 }
 

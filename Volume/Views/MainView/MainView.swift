@@ -22,15 +22,7 @@ struct MainView: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            NavigationView {
-                Text("Home")
-                    .toolbar {
-                        ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
-                            Image("volume-logo")
-                        }
-                    }
-                    .navigationBarTitleDisplayMode(.inline)
-            }
+            HomeList()
             .tabItem {
                 Image("volume")
             }
@@ -42,17 +34,7 @@ struct MainView: View {
             }
             .tag(Tab.publications)
             
-            NavigationView {
-                Text("Bookmarks")
-                    .toolbar {
-                        ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
-                            BubblePeriodText("Bookmarks")
-                                .font(.begumMedium(size: 24))
-                                .offset(y: 8)
-                        }
-                    }
-                    .navigationBarTitleDisplayMode(.inline)
-            }
+            BookmarksList()
             .tabItem {
                 Image("bookmark")
             }

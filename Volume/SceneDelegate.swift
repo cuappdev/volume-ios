@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Create the SwiftUI view that provides the window contents.
 //        let contentView = OnboardingView()
         let contentView = ContentView()
-        UserDefaults.standard.set(true, forKey: "isFirstLaunch")
+//        UserDefaults.standard.set(true, forKey: "isFirstLaunch")
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
