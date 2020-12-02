@@ -9,13 +9,13 @@
 import Foundation
 
 // MARK: start of dummy data
-let cremeDeCornell = Publication(
+private let cremeDeCornell = Publication(
     description: "Passionate food enthusiasts coming together to publish a diversity of recipes and stories.",
     name: "Creme de Cornell",
     image: "creme",
     recent: "Kale Chips")
 
-let cremeDeCornell2 = Publication(
+private let cremeDeCornell2 = Publication(
     description: "Passionate food enthusiasts",
     name: "Creme",
     image: "creme",

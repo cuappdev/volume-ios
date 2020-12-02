@@ -12,8 +12,8 @@ struct PublicationList: View {
     // The publications a user is following
     private var followedPublications: some View {
         Section {
-            Header(text: "FOLLOWING")
-                .padding(.top)
+            Header(text: "Following")
+                .padding(.bottom, -12)
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 12) {
                     ForEach(publicationsData) { publication in
@@ -30,8 +30,7 @@ struct PublicationList: View {
     // The publications a user is not following
     private var notFollowedPublications: some View {
         Section {
-            Header(text: "MORE PUBLICATIONS")
-                .padding(.bottom)
+            Header(text: "More Publications")
             ForEach(publicationsData) { publication in
                 NavigationLink(destination: PublicationDetail(publication: publication)) {
                     MorePublicationRow(publication: publication)
@@ -48,19 +47,16 @@ struct PublicationList: View {
                 followedPublications
                 notFollowedPublications
             }
-            .navigationTitle("Publications.")
+            .background(Color.volume.backgroundGray)
+            .toolbar {
+                ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+                    BubblePeriodText("Publications")
+                        .font(.begumMedium(size: 28))
+                        .offset(y: 8)
+                }
+            }
+            .navigationBarTitleDisplayMode(.inline)
         }
-    }
-}
-
-// TODO: replace w/ Volume specific design
-private struct Header : View {
-    @State var text: String
-    
-    var body : some View {
-        Text(text)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.leading)
     }
 }
 
