@@ -37,7 +37,7 @@ struct VolumeMessage: View {
     var body: some View {
         VStack(spacing: 10) {
             Image("volume")
-                .foregroundColor(.volumeOrange)
+                .foregroundColor(Color.volume.orange)
             Text(message.title) // TODO: Begum
                 .font(.system(size: 12, weight: .bold))
             Text(message.subtitle)

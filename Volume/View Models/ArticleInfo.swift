@@ -26,11 +26,11 @@ struct ArticleInfo: View {
                 HStack {
                     Text("\(article.date.string) • \(article.shoutOuts) shout-outs")
                         .font(.custom("Helvetica-Regular", size: 10))
-                        .foregroundColor(.lightGray)
+                        .foregroundColor(Color.volume.lightGray)
                     if article.isSaved {
                         Image(systemName: "bookmark.fill")
                             .resizable()
-                            .foregroundColor(.volumeOrange)
+                            .foregroundColor(Color.volume.orange)
                             .frame(width: 8, height: 11)
                     }
                 }

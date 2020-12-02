@@ -13,7 +13,8 @@ struct Header : View {
     @State var text: String
     
     var body : some View {
-        Text(text)
+        UnderlinedText(text)
+            .font(.begumMedium(size: 20))
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding()
     }

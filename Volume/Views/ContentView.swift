@@ -12,68 +12,34 @@ struct ContentView: View {
     @State private var selectedTab: Tab = .home
     
     init() {
-        let grayColor = UIColor(Color._gray)
+        let grayColor = UIColor(Color.volume.navigationBarGray)
         UINavigationBar.appearance().backgroundColor = grayColor
         UINavigationBar.appearance().shadowImage = UIImage()
         UITabBar.appearance().backgroundColor = grayColor
         UITabBar.appearance().clipsToBounds = true
-        UITabBar.appearance().unselectedItemTintColor = UIColor(Color._lightGray)
+        UITabBar.appearance().unselectedItemTintColor = UIColor(Color.volume.lightGray)
     }
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            NavigationView {
-                Text("Home")
-                    .background(Color._gray)
-                    .toolbar {
-                        ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
-                            Image("volume-logo")
-                        }
-                    }
-                    .navigationBarTitleDisplayMode(.inline)
-            }
-            .tabItem {
-                Image("volume")
-            }
-            .tag(Tab.home)
-            
-            NavigationView {
-                Text("Publications")
-                    .background(Color._gray)
-                    .toolbar {
-                        ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
-                            BubblePeriodText("Publications")
-                                .font(.begumMedium(size: 24))
-                                .offset(y: 8)
-                        }
-                    }
-                    .navigationBarTitleDisplayMode(.inline)
-            }
-            .tabItem {
-                Image("publications")
-            }
-            .tag(Tab.publications)
-            
-            NavigationView {
-                Text("Bookmarks")
-                    .background(Color._gray)
-                    .toolbar {
-                        ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
-                            BubblePeriodText("Bookmarks")
-                                .font(.begumMedium(size: 24))
-                                .offset(y: 8)
-                        }
-                    }
-                    .navigationBarTitleDisplayMode(.inline)
-            }
-            .tabItem {
-                Image("bookmark")
-            }
-            .tag(Tab.bookmarks)
+            HomeList()
+                 .tabItem {
+                     Image("volume")
+                 }
+                .tag(Tab.home)
+             Text("Publications")
+                 .tabItem {
+                     Image("publications")
+                 }
+                .tag(Tab.publications)
+             BookmarksList()
+                 .tabItem {
+                     Image("bookmark")
+                 }
+                .tag(Tab.bookmarks)
         }
-        .accentColor(.volumeOrange)
+        .accentColor(Color.volume.orange)
     }
-
 }
 
 extension ContentView {

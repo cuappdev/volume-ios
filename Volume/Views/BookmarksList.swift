@@ -14,7 +14,7 @@ struct BookmarksList: View {
             NavigationView {
                 ScrollView(showsIndicators: false) {
                     Header(text: "Saved Articles")
-                    if let savedArticles = articleData.filter{ $0.isSaved }, savedArticles.count < 0 {
+                    if let savedArticles = articleData.filter{ $0.isSaved }, savedArticles.count > 0 {
                         ForEach (savedArticles) { article in
                             ArticleRow(article: article)
                                 .padding([.bottom, .leading, .trailing])
@@ -26,7 +26,15 @@ struct BookmarksList: View {
                         }
                     }
                 }
-                .navigationTitle("Bookmarks.")
+                .background(Color.volume.backgroundGray)
+                .toolbar {
+                    ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+                        BubblePeriodText("Bookmarks")
+                            .font(.begumMedium(size: 28))
+                            .offset(y: 8)
+                    }
+                }
+                .navigationBarTitleDisplayMode(.inline)
             }
         }
     }
