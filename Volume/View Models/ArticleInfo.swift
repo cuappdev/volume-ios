@@ -17,7 +17,7 @@ struct ArticleInfo: View {
         HStack {
             VStack(alignment: .leading) {
                 Text(article.publication)
-                    .font(.custom("Futura-Medium", size: 12)) // TODO: Begum
+                    .font(Font.begumMedium(size: 12))
                 Text(article.title)
                     .font(.custom("Helvetica-Bold", size: 16))
                     .lineLimit(lineLimit)

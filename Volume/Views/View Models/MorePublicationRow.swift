@@ -42,7 +42,7 @@ struct MorePublicationRow: View {
             
             VStack(alignment: .leading, spacing: 5) {
                 Text(publication.name)
-                    .font(.custom("Futura-Medium", size: 18))
+                    .font(Font.begumMedium(size: 18))
                     .foregroundColor(.black)
                 Text(publication.description)
                     .font(.custom("Helvetica-Regular", size: 12))
