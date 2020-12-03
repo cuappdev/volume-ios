@@ -10,23 +10,32 @@ import SwiftUI
 
 extension OnboardingView {
     struct FollowView: View {
+        @AppStorage("isFirstLaunch") private var isFirstLaunch = true
+        @State private var contentOffset: CGPoint = .zero
+        @State private var maxContentOffset: CGPoint = .zero
         @State private var didFollowPublication = false
-        @State private var publications: [Publication] = publicationsData + publicationsData
+        
+        private var publications: [Publication] {
+            var p: [Publication] = []
+            for i in 0..<10 {
+                let src = publicationsData[i % publicationsData.count]
+                p.append(Publication(id: UUID(), description: src.description, name: src.name, image: src.image, isFollowing: src.isFollowing, recent: src.recent))
+            }
+            return p
+        }
         
         @Binding var page: OnboardingView.Page
         
-        @AppStorage("isFirstLaunch") var isFirstLaunch = true
-        
         private func onToggleFollowing(publication: Publication) {
             if let index = publications.firstIndex(of: publication) {
-                publications[index] = Publication(
-                    id: UUID(),
-                    description: publication.description,
-                    name: publication.name,
-                    image: publication.image,
-                    isFollowing: !publication.isFollowing,
-                    recent: publication.recent
-                )
+//                publications[index] = Publication(
+//                    id: UUID(),
+//                    description: publication.description,
+//                    name: publication.name,
+//                    image: publication.image,
+//                    isFollowing: !publication.isFollowing,
+//                    recent: publication.recent
+//                )
             }
             
             withAnimation {
@@ -36,15 +45,33 @@ extension OnboardingView {
         
         var body: some View {
             Group {
-                // Empty array for axes means that scroll is disabled
-                ScrollView([]) {
-                    VStack(spacing: 24) {
+                TrackableScrollView(
+                    contentOffset: $contentOffset,
+                    maxOffsetDidChange: { self.maxContentOffset = $0 }
+                ) {
+                    LazyVStack(spacing: 24) {
                         ForEach(publications) { publication in
                             MorePublicationRow(publication: publication, onToggleFollowing: onToggleFollowing)
                         }
                     }
+                    .background(Color.volume.backgroundGray)
                 }
-                .overlay(BottomFadeView())
+                .overlay(
+                    VStack {
+                        fadeView(fadesDown: false)
+                            .opacity(contentOffset.y > 0 ? 1 : 0)
+                        Spacer()
+                        fadeView(fadesDown: true)
+                            .opacity(
+                                contentOffset.y < maxContentOffset.y - 1
+                                    || maxContentOffset.y == 0
+                                    ? 1 : 0
+                            )
+                    }
+                    .allowsHitTesting(false)
+                    .transition(.opacity)
+                    .animation(.linear(duration: 0.2))
+                )
                 .padding(.top, 48)
                 .transition(.move(edge: .trailing))
                 
@@ -72,21 +99,25 @@ extension OnboardingView {
 }
 
 extension OnboardingView.FollowView {
-    private struct BottomFadeView: View {
-        var body: some View {
-            VStack {
+    /// `fadesDown` if the fade gets stronger (more opaque) at the bottom
+    private func fadeView(fadesDown: Bool) -> some View {
+        Group {
+            if fadesDown {
                 Spacer()
-                LinearGradient(
-                    gradient: Gradient(
-                        colors: [
-                            Color.volume.backgroundGray.opacity(0),
-                            Color.volume.backgroundGray
-                        ]
-                    ),
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .frame(height: 83)
+            }
+            LinearGradient(
+                gradient: Gradient(
+                    colors: [
+                        Color.volume.backgroundGray.opacity(0),
+                        Color.volume.backgroundGray
+                    ]
+                ),
+                startPoint: fadesDown ? .top : .bottom,
+                endPoint: fadesDown ? .bottom : .top
+            )
+            .frame(height: 50)
+            if !fadesDown {
+                Spacer()
             }
         }
     }

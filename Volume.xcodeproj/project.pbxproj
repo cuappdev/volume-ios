@@ -16,6 +16,7 @@
 		061DB39725571D760038BEF5 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061DB39625571D760038BEF5 /* Font+Extension.swift */; };
 		06379C74256725C000FC185A /* Begum-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06379C73256725C000FC185A /* Begum-Regular.ttf */; };
 		06379C792567297400FC185A /* Begum-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06379C782567297400FC185A /* Begum-Bold.ttf */; };
+		06491F7325787E870045F27D /* TrackableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06491F7225787E870045F27D /* TrackableScrollView.swift */; };
 		06A8E2532575429200C28C68 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A8E2522575429200C28C68 /* MainView.swift */; };
 		7E23DFD2254A05EF0001C3A3 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E23DFD1254A05EF0001C3A3 /* Color+Extension.swift */; };
 		7E416C2F2561D47C0010D70B /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E416C2E2561D47C0010D70B /* Date+Extension.swift */; };
@@ -50,6 +51,7 @@
 		061DB39625571D760038BEF5 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
 		06379C73256725C000FC185A /* Begum-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Begum-Regular.ttf"; sourceTree = "<group>"; };
 		06379C782567297400FC185A /* Begum-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Begum-Bold.ttf"; sourceTree = "<group>"; };
+		06491F7225787E870045F27D /* TrackableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackableScrollView.swift; sourceTree = "<group>"; };
 		06A8E2522575429200C28C68 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		7E23DFD1254A05EF0001C3A3 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		7E416C2E2561D47C0010D70B /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
@@ -90,9 +92,9 @@
 		060FFDD82577EC800052F3EA /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				060FFDDB2577EC800052F3EA /* OnboardingView.swift */,
 				060FFDD92577EC800052F3EA /* WelcomeView.swift */,
 				060FFDDA2577EC800052F3EA /* FollowView.swift */,
-				060FFDDB2577EC800052F3EA /* OnboardingView.swift */,
 			);
 			name = Onboarding;
 			path = Volume/Views/Onboarding;
@@ -166,6 +168,7 @@
 			children = (
 				060B738A256340580035E252 /* BubblePeriodText.swift */,
 				7E416C312561D7870010D70B /* Header.swift */,
+				06491F7225787E870045F27D /* TrackableScrollView.swift */,
 				061233A02553127C0025F7E0 /* UnderlinedText.swift */,
 				7EE96DC72562505B000B246F /* VolumeMessage.swift */,
 			);
@@ -336,6 +339,7 @@
 				060FFDDE2577EC800052F3EA /* OnboardingView.swift in Sources */,
 				7EA73D22254C9C21009E8F9F /* ArticleRow.swift in Sources */,
 				060B738B256340580035E252 /* BubblePeriodText.swift in Sources */,
+				06491F7325787E870045F27D /* TrackableScrollView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

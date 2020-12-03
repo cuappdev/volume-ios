@@ -68,11 +68,14 @@ extension OnboardingView.WelcomeView {
                     .scaledToFit()
                     .frame(width: 36, height: 36)
                     .foregroundColor(Color.volume.orange)
-                Text(textBold)
+                (
+                    Text(textBold)
                     .font(.begumBold(size: 16))
                     +
                     Text(textRegular)
                     .font(.begumRegular(size: 16))
+                )
+                .frame(width: 222)
                 
             }
             .padding([.leading, .trailing, .top], 48)
