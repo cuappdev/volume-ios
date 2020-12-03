@@ -13,7 +13,21 @@ struct PublicationDetail: View {
     let publication: Publication
     
     var body: some View {
-        Text("Publication Detail")
+        NavigationView {
+            ScrollView(showsIndicators: false) {
+                Header(text: "Articles")
+                ScrollView(showsIndicators: false) {
+                    LazyVStack {
+                        ForEach(Array(Set(articleData))) { article in  // TODO: replace with publication's articles
+                            ArticleRow(article: article)
+                                .padding([.bottom, .leading, .trailing])
+                        }
+                    }
+                }
+            }
+            .background(Color.volume.backgroundGray)
+            .navigationBarTitleDisplayMode(.inline)
+        }
     }
 }
 
