@@ -11,7 +11,7 @@ import SwiftUI
 extension OnboardingView {
     struct WelcomeView: View {
         @Binding var page: OnboardingView.Page
-        
+
         var body: some View {
             Group {
                 Group {
@@ -32,9 +32,9 @@ extension OnboardingView {
                     )
                 }
                 .transition(.asymmetric(insertion: .opacity, removal: .move(edge: .leading)))
-               
+
                 Spacer()
-                
+
                 PageControl(currentPage: page == .welcome ? 0 : 1, numberOfPages: 2)
                     .padding(.bottom, 47)
                 Button("Next") {
@@ -60,7 +60,7 @@ extension OnboardingView.WelcomeView {
         let image: String
         let textBold: String
         let textRegular: String
-        
+
         var body: some View {
             HStack(alignment: .top, spacing: 28) {
                 Image(image)
@@ -70,13 +70,12 @@ extension OnboardingView.WelcomeView {
                     .foregroundColor(Color.volume.orange)
                 (
                     Text(textBold)
-                    .font(.begumBold(size: 16))
+                        .font(.begumBold(size: 16))
                     +
                     Text(textRegular)
-                    .font(.begumRegular(size: 16))
+                        .font(.begumRegular(size: 16))
                 )
                 .frame(width: 222)
-                
             }
             .padding([.leading, .trailing, .top], 48)
         }

@@ -11,7 +11,7 @@ import SwiftUI
 struct PublicationList: View {
     /// The publications a user is following
     private var followedPublications: some View {
-        Section(header: Header("Following")) {
+        Section(header: Header("Following").padding(.bottom, -12)) {
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 12) {
                     ForEach(publicationsData) { publication in
@@ -27,8 +27,9 @@ struct PublicationList: View {
     
     /// The publications a user is not following
     private var notFollowedPublications: some View {
-        Section(header: Header("More publications")) {
+        Section(header: Header("More publications").padding(.bottom, -12)) {
             LazyVStack {
+                // TODO: Replace with real data.
                 ForEach(0..<15) { i in
                     let publication = publicationsData[i % publicationsData.count]
                     NavigationLink(destination: PublicationDetail(publication: publication)) {

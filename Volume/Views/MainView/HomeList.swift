@@ -13,7 +13,7 @@ struct HomeList: View {
         NavigationView {
             ScrollView(showsIndicators: false) {
                 LazyVStack {
-                    Header("The Big Read")
+                    Header("The Big Read").padding(.bottom, -12)
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHStack(spacing: 24) {
                             ForEach(articleData[0..<1]) { article in
@@ -23,7 +23,7 @@ struct HomeList: View {
                     }
                     .padding([.bottom, .leading, .trailing])
 
-                    Header("Following")
+                    Header("Following").padding(.bottom, -12)
                     ForEach(articleData[1..<2]) { article in
                         ArticleRow(article: article)
                             .padding([.bottom, .leading, .trailing])
@@ -32,7 +32,7 @@ struct HomeList: View {
                     VolumeMessage(message: .upToDate)
                         .padding([.top, .bottom], 25)
                     
-                    Header("Other Articles")
+                    Header("Other Articles").padding(.bottom, -12)
                     ForEach(articleData[2..<3]) { article in
                         ArticleRow(article: article)
                             .padding([.bottom, .leading, .trailing])

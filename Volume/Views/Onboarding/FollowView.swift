@@ -14,7 +14,7 @@ extension OnboardingView {
         @State private var contentOffset: CGPoint = .zero
         @State private var maxContentOffset: CGPoint = .zero
         @State private var didFollowPublication = false
-        
+        // TODO: Replace with real @State data.
         private var publications: [Publication] {
             var p: [Publication] = []
             for i in 0..<10 {
@@ -27,7 +27,7 @@ extension OnboardingView {
         @Binding var page: OnboardingView.Page
         
         private func onToggleFollowing(publication: Publication) {
-            if let index = publications.firstIndex(of: publication) {
+//            if let index = publications.firstIndex(of: publication) {
 //                publications[index] = Publication(
 //                    id: UUID(),
 //                    description: publication.description,
@@ -36,7 +36,7 @@ extension OnboardingView {
 //                    isFollowing: !publication.isFollowing,
 //                    recent: publication.recent
 //                )
-            }
+//            }
             
             withAnimation {
                 self.didFollowPublication = true
