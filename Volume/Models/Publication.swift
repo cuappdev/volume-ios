@@ -26,7 +26,8 @@ struct Publication: Hashable, Identifiable {
         shoutouts: Int,
         websiteURL: URL?
     ) {
-        self.bio = bio
+        self.articles = articles
+        self.description = description
         self.name = name
         self.id = id
         self.profileImageURL = imageURL

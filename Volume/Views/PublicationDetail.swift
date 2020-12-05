@@ -15,13 +15,18 @@ struct PublicationDetail: View {
     var body: some View {
         NavigationView {
             ScrollView(showsIndicators: false) {
+                PublicationHeader(publication: publication)
+                    .padding()
+                
+                Divider()
+                    .background(Color(white: 238 / 255))
+                    .frame(width: 100)
+                
                 Header(text: "Articles")
-                ScrollView(showsIndicators: false) {
-                    LazyVStack {
-                        ForEach(Array(Set(articleData))) { article in  // TODO: replace with publication's articles
-                            ArticleRow(article: article)
-                                .padding([.bottom, .leading, .trailing])
-                        }
+                LazyVStack {
+                    ForEach(Array(Set(publication.articles))) { article in
+                        ArticleRow(article: article)
+                            .padding([.bottom, .leading, .trailing])
                     }
                 }
             }
