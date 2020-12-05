@@ -10,11 +10,10 @@ import SwiftUI
 
 struct UnderlinedText: View {
     @State private var textSize: CGSize = .zero
-    
-    @State var text: String
+    private let text: String
     
     init(_ text: String) {
-        _text = State(initialValue: text)
+        self.text = text
     }
 
     var body: some View {
@@ -60,7 +59,7 @@ struct UnderlinedText_Previews: PreviewProvider {
     struct PreviewWrapper: View {
         var body: some View {
             UnderlinedText("THE BIG READ AND OTHER THINGS")
-                .font(.custom("Futura-Bold", size: 15))
+                .font(.helveticaBold(size: 15))
         }
     }
 }

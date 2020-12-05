@@ -9,23 +9,21 @@
 import SwiftUI
 
 struct ArticleInfo: View {
-    private let lineLimit = 3
-
     let article: Article
     
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
                 Text(article.publication)
-                    .font(.custom("Futura-Medium", size: 12)) // TODO: Begum
+                    .font(.begumMedium(size: 12))
                 Text(article.title)
-                    .font(.custom("Helvetica-Bold", size: 16))
-                    .lineLimit(lineLimit)
+                    .font(.helveticaBold(size: 16))
+                    .lineLimit(3)
                     .padding(.top, 0.5)
                 Spacer()
                 HStack {
                     Text("\(article.date.string) • \(article.shoutOuts) shout-outs")
-                        .font(.custom("Helvetica-Regular", size: 10))
+                        .font(.helveticaRegular(size: 10))
                         .foregroundColor(Color.volume.lightGray)
                     if article.isSaved {
                         Image(systemName: "bookmark.fill")

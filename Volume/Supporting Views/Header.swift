@@ -8,9 +8,12 @@
 
 import SwiftUI
 
-// TODO: Combine w/ publication PR
 struct Header : View {
-    @State var text: String
+    private let text: String
+    
+    init(_ text: String) {
+        self.text = text
+    }
     
     var body : some View {
         UnderlinedText(text)
@@ -22,6 +25,6 @@ struct Header : View {
 
 struct Header_Previews: PreviewProvider {
     static var previews: some View {
-        Header(text: "Header")
+        Header("Header")
     }
 }

@@ -13,18 +13,17 @@ struct FollowingPublicationRow: View {
     let publication: Publication
         
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             Image(publication.image)
                 .resizable()
                 .clipShape(Circle())
                 .shadow(color: Color(white: 0, opacity: 0.1), radius: 5)
                 .frame(width: 85, height: 85)
             Text(publication.name)
-                .font(.custom("Futura-Medium", size: 12))
+                .font(.begumMedium(size: 12))
                 .foregroundColor(.black)
                 .lineLimit(2)
                 .multilineTextAlignment(.center)
-                .offset(y: -5)
             Spacer()
         }
         .frame(width: 90, height: 135)

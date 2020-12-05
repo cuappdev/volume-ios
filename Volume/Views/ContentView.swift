@@ -9,42 +9,16 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var selectedTab: Tab = .home
-    
-    init() {
-        let grayColor = UIColor(Color.volume.navigationBarGray)
-        UINavigationBar.appearance().backgroundColor = grayColor
-        UINavigationBar.appearance().shadowImage = UIImage()
-        UITabBar.appearance().backgroundColor = grayColor
-        UITabBar.appearance().clipsToBounds = true
-        UITabBar.appearance().unselectedItemTintColor = UIColor(Color.volume.lightGray)
-    }
+    @AppStorage("isFirstLaunch") private var isFirstLaunch = true
     
     var body: some View {
-        TabView(selection: $selectedTab) {
-            HomeList()
-                 .tabItem {
-                     Image("volume")
-                 }
-                .tag(Tab.home)
-            PublicationList()
-                 .tabItem {
-                     Image("publications")
-                 }
-                .tag(Tab.publications)
-             BookmarksList()
-                 .tabItem {
-                     Image("bookmark")
-                 }
-                .tag(Tab.bookmarks)
+        if isFirstLaunch {
+            OnboardingView()
+                .transition(.asymmetric(insertion: .opacity, removal: .move(edge: .leading)))
+        } else {
+            MainView()
+                .transition(.move(edge: .trailing))
         }
-        .accentColor(Color.volume.orange)
-    }
-}
-
-extension ContentView {
-    private enum Tab {
-        case home, publications, bookmarks
     }
 }
 

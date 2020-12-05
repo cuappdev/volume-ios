@@ -9,10 +9,15 @@
 /* Begin PBXBuildFile section */
 		060B738B256340580035E252 /* BubblePeriodText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060B738A256340580035E252 /* BubblePeriodText.swift */; };
 		060B739A256373AF0035E252 /* Begum-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 060B7399256373AE0035E252 /* Begum-Medium.ttf */; };
+		060FFDDC2577EC800052F3EA /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060FFDD92577EC800052F3EA /* WelcomeView.swift */; };
+		060FFDDD2577EC800052F3EA /* FollowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060FFDDA2577EC800052F3EA /* FollowView.swift */; };
+		060FFDDE2577EC800052F3EA /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060FFDDB2577EC800052F3EA /* OnboardingView.swift */; };
 		061233A12553127C0025F7E0 /* UnderlinedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061233A02553127C0025F7E0 /* UnderlinedText.swift */; };
 		061DB39725571D760038BEF5 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061DB39625571D760038BEF5 /* Font+Extension.swift */; };
 		06379C74256725C000FC185A /* Begum-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06379C73256725C000FC185A /* Begum-Regular.ttf */; };
 		06379C792567297400FC185A /* Begum-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06379C782567297400FC185A /* Begum-Bold.ttf */; };
+		06491F7325787E870045F27D /* TrackableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06491F7225787E870045F27D /* TrackableScrollView.swift */; };
+		06A8E2532575429200C28C68 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A8E2522575429200C28C68 /* MainView.swift */; };
 		7E23DFD2254A05EF0001C3A3 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E23DFD1254A05EF0001C3A3 /* Color+Extension.swift */; };
 		7E416C2F2561D47C0010D70B /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E416C2E2561D47C0010D70B /* Date+Extension.swift */; };
 		7E416C322561D7870010D70B /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E416C312561D7870010D70B /* Header.swift */; };
@@ -39,10 +44,15 @@
 /* Begin PBXFileReference section */
 		060B738A256340580035E252 /* BubblePeriodText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubblePeriodText.swift; sourceTree = "<group>"; };
 		060B7399256373AE0035E252 /* Begum-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Begum-Medium.ttf"; sourceTree = "<group>"; };
+		060FFDD92577EC800052F3EA /* WelcomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		060FFDDA2577EC800052F3EA /* FollowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowView.swift; sourceTree = "<group>"; };
+		060FFDDB2577EC800052F3EA /* OnboardingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		061233A02553127C0025F7E0 /* UnderlinedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlinedText.swift; sourceTree = "<group>"; };
 		061DB39625571D760038BEF5 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
 		06379C73256725C000FC185A /* Begum-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Begum-Regular.ttf"; sourceTree = "<group>"; };
 		06379C782567297400FC185A /* Begum-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Begum-Bold.ttf"; sourceTree = "<group>"; };
+		06491F7225787E870045F27D /* TrackableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackableScrollView.swift; sourceTree = "<group>"; };
+		06A8E2522575429200C28C68 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		7E23DFD1254A05EF0001C3A3 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		7E416C2E2561D47C0010D70B /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		7E416C312561D7870010D70B /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
@@ -79,6 +89,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		060FFDD82577EC800052F3EA /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				060FFDDB2577EC800052F3EA /* OnboardingView.swift */,
+				060FFDD92577EC800052F3EA /* WelcomeView.swift */,
+				060FFDDA2577EC800052F3EA /* FollowView.swift */,
+			);
+			name = Onboarding;
+			path = Volume/Views/Onboarding;
+			sourceTree = SOURCE_ROOT;
+		};
 		06379C76256725C900FC185A /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -87,6 +108,17 @@
 				06379C782567297400FC185A /* Begum-Bold.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		0647BF8C2577F60400D44BC7 /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+				06A8E2522575429200C28C68 /* MainView.swift */,
+				7EA73D1E254C9BC8009E8F9F /* HomeList.swift */,
+				7E8658A7254B719A002DEE68 /* PublicationList.swift */,
+				7E416C352561E0650010D70B /* BookmarksList.swift */,
+			);
+			path = MainView;
 			sourceTree = "<group>";
 		};
 		7E23DFD4254A05F80001C3A3 /* Extensions */ = {
@@ -102,11 +134,10 @@
 		7E23DFDC254A0FEA0001C3A3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7E416C352561E0650010D70B /* BookmarksList.swift */,
 				7ED7C33A252D117A0078B1BD /* ContentView.swift */,
-				7EA73D1E254C9BC8009E8F9F /* HomeList.swift */,
+				060FFDD82577EC800052F3EA /* Onboarding */,
+				0647BF8C2577F60400D44BC7 /* MainView */,
 				7E8658A4254B7173002DEE68 /* PublicationDetail.swift */,
-				7E8658A7254B719A002DEE68 /* PublicationList.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -129,8 +160,7 @@
 				7E8658B4254B7FF2002DEE68 /* FollowingPublicationRow.swift */,
 				7E8658AA254B71D7002DEE68 /* MorePublicationRow.swift */,
 			);
-			name = "View Models";
-			path = "Views/View Models";
+			path = "View Models";
 			sourceTree = "<group>";
 		};
 		7EA73D2B254C9E55009E8F9F /* Supporting Views */ = {
@@ -138,6 +168,7 @@
 			children = (
 				060B738A256340580035E252 /* BubblePeriodText.swift */,
 				7E416C312561D7870010D70B /* Header.swift */,
+				06491F7225787E870045F27D /* TrackableScrollView.swift */,
 				061233A02553127C0025F7E0 /* UnderlinedText.swift */,
 				7EE96DC72562505B000B246F /* VolumeMessage.swift */,
 			);
@@ -295,15 +326,20 @@
 				7ED7C337252D117A0078B1BD /* AppDelegate.swift in Sources */,
 				7E416C322561D7870010D70B /* Header.swift in Sources */,
 				061DB39725571D760038BEF5 /* Font+Extension.swift in Sources */,
+				060FFDDD2577EC800052F3EA /* FollowView.swift in Sources */,
 				061233A12553127C0025F7E0 /* UnderlinedText.swift in Sources */,
 				7ED7C339252D117A0078B1BD /* SceneDelegate.swift in Sources */,
 				7EA73D31254CA7E2009E8F9F /* ArticleInfo.swift in Sources */,
 				7EA73D28254C9C67009E8F9F /* Article.swift in Sources */,
 				7EE96DC82562505B000B246F /* VolumeMessage.swift in Sources */,
+				060FFDDC2577EC800052F3EA /* WelcomeView.swift in Sources */,
 				7EA73D25254C9C5B009E8F9F /* BigReadArticleRow.swift in Sources */,
+				06A8E2532575429200C28C68 /* MainView.swift in Sources */,
 				7ED7C33B252D117A0078B1BD /* ContentView.swift in Sources */,
+				060FFDDE2577EC800052F3EA /* OnboardingView.swift in Sources */,
 				7EA73D22254C9C21009E8F9F /* ArticleRow.swift in Sources */,
 				060B738B256340580035E252 /* BubblePeriodText.swift in Sources */,
+				06491F7325787E870045F27D /* TrackableScrollView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

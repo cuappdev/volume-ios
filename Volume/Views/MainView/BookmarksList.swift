@@ -13,11 +13,14 @@ struct BookmarksList: View {
         GeometryReader { geometry in
             NavigationView {
                 ScrollView(showsIndicators: false) {
-                    Header(text: "Saved Articles")
-                    if let savedArticles = articleData.filter{ $0.isSaved }, savedArticles.count > 0 {
-                        ForEach (savedArticles) { article in
-                            ArticleRow(article: article)
-                                .padding([.bottom, .leading, .trailing])
+                    Header("Saved Articles").padding(.bottom, -12)
+                    if let savedArticles = articleData.filter{ $0.isSaved }[0..<1],
+                       savedArticles.count > 0 {
+                        LazyVStack {
+                            ForEach (savedArticles) { article in
+                                ArticleRow(article: article)
+                                    .padding([.bottom, .leading, .trailing])
+                            }
                         }
                     } else {
                         VStack {
