@@ -14,15 +14,8 @@ extension OnboardingView {
         @State private var contentOffset: CGPoint = .zero
         @State private var maxContentOffset: CGPoint = .zero
         @State private var didFollowPublication = false
-        // TODO: Replace with real @State data.
-        private var publications: [Publication] {
-            var p: [Publication] = []
-            for i in 0..<10 {
-                let src = publicationsData[i % publicationsData.count]
-                p.append(Publication(id: UUID(), description: src.description, name: src.name, image: src.image, isFollowing: src.isFollowing, recent: src.recent))
-            }
-            return p
-        }
+        // TODO: GET FROM SERVER
+        @State private var publications: [Publication] = []
         
         @Binding var page: OnboardingView.Page
         
@@ -51,7 +44,7 @@ extension OnboardingView {
                 ) {
                     LazyVStack(spacing: 24) {
                         ForEach(publications) { publication in
-                            MorePublicationRow(publication: publication, onToggleFollowing: onToggleFollowing)
+                            MorePublicationRow(publication: publication)
                         }
                     }
                     .background(Color.volume.backgroundGray)

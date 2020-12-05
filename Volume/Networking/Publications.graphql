@@ -1,0 +1,10 @@
+query GetAllPublications {
+  publications: getAllPublications {
+    id
+    bio
+    name
+    shoutouts
+    imageURL
+    websiteURL
+  }
+}

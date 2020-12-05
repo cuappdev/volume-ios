@@ -17,8 +17,16 @@ struct PublicationDetail: View {
     }
 }
 
-struct PublicationDetail_Previews: PreviewProvider {
-    static var previews: some View {
-        PublicationDetail(publication: publicationsData[0])
-    }
-}
+//struct PublicationDetail_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PublicationDetail(
+//            publication: Publication(
+//                description: "A publication bringing you only the collest horse facts.",
+//                name: "Guac",
+//                id: "asdfsf39201sd923k",
+//                imageURL: nil,
+//                recent: "Horses love to swim"
+//            )
+//        )
+//    }
+//}

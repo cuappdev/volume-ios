@@ -6,6 +6,7 @@
 //  Copyright © 2020 Cornell AppDev. All rights reserved.
 //
 
+import SDWebImageSwiftUI
 import SwiftUI
 
 struct ArticleRow: View {
@@ -15,9 +16,10 @@ struct ArticleRow: View {
         HStack(spacing: 20) {
             ArticleInfo(article: article)
             
-            if let image = article.image {
-                Image(image)
+            if let url = article.imageURL {
+                WebImage(url: url)
                     .resizable()
+                    .grayBackground()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 100, height: 100)
                     .clipped()
@@ -27,8 +29,24 @@ struct ArticleRow: View {
     }
 }
 
-struct ArticleRow_Previews: PreviewProvider {
-    static var previews: some View {
-        ArticleRow(article: articleData[0])
-    }
-}
+//struct ArticleRow_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ArticleRow(
+//            article: Article(
+//                articleURL: nil,
+//                date: Date(),
+//                id: "a",
+//                imageURL: nil,
+//                publication: Publication(
+//                    description: "CU",
+//                    name: "CUNooz",
+//                    id: "sdfsdf",
+//                    imageURL: nil,
+//                    recent: "Sandpaper Tastes Like What?!"
+//                ),
+//                shoutOuts: 14,
+//                title: "Children Discover the Meaning of Christmas"
+//            )
+//        )
+//    }
+//}

@@ -1,4 +1,6 @@
-# Keys
+# Secrets
+Volume/Supporting/Secrets.plist
+Volume/Networking/schema.json
 
 # OS X
 .DS_Store
@@ -45,3 +47,6 @@ xcuserdata/
 ## Obj-C/Swift specific
 *.hmap
 *.ipa
+
+## Pods
+Pods

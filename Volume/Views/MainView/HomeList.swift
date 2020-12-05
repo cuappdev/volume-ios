@@ -6,9 +6,32 @@
 //  Copyright © 2020 Cornell AppDev. All rights reserved.
 //
 
+import Combine
 import SwiftUI
 
 struct HomeList: View {
+    @State private var trendingArticles: [Article] = []
+    @State private var followingArticles: [Article] = []
+    @State private var otherArticles: [Article] = []
+    @State private var cancellableQuery: Cancellable?
+    
+    private func fetch() {
+        guard let date = Calendar.current.date(byAdding: .day, value: -7, to: Date()) else {
+            return
+        }
+        let query = GetHomeArticlesQuery(since: date.dateString)
+        cancellableQuery = Network.shared.apollo.fetch(query: query)
+            .sink(receiveCompletion: { completion in
+                if case let .failure(error) = completion {
+                    print(error.localizedDescription)
+                }
+            }, receiveValue: { value in
+                trendingArticles = [Article](value.trending)
+                followingArticles = [Article](value.following)
+                otherArticles = [Article](value.other)
+            })
+    }
+    
     var body: some View {
         NavigationView {
             ScrollView(showsIndicators: false) {
@@ -16,7 +39,7 @@ struct HomeList: View {
                     Header("The Big Read").padding(.bottom, -12)
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHStack(spacing: 24) {
-                            ForEach(articleData[0..<1]) { article in
+                            ForEach(trendingArticles) { article in
                                 BigReadArticleRow(article: article)
                             }
                         }
@@ -24,7 +47,7 @@ struct HomeList: View {
                     .padding([.bottom, .leading, .trailing])
 
                     Header("Following").padding(.bottom, -12)
-                    ForEach(articleData[1..<2]) { article in
+                    ForEach(followingArticles) { article in
                         ArticleRow(article: article)
                             .padding([.bottom, .leading, .trailing])
                     }
@@ -33,7 +56,7 @@ struct HomeList: View {
                         .padding([.top, .bottom], 25)
                     
                     Header("Other Articles").padding(.bottom, -12)
-                    ForEach(articleData[2..<3]) { article in
+                    ForEach(otherArticles) { article in
                         ArticleRow(article: article)
                             .padding([.bottom, .leading, .trailing])
                     }
@@ -46,6 +69,7 @@ struct HomeList: View {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
+            .onAppear(perform: fetch)
         }
     }
 }

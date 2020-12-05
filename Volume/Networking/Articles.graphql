@@ -1,0 +1,39 @@
+query GetHomeArticles($since: String!) {
+    trending: getTrendingArticles(since: $since) {
+        id
+        articleURL
+        date
+        title
+        imageURL
+        shoutouts
+    }
+    
+    following: getArticlesByPublication(publicationID: "5fcd4d4953db0000138e03c9") {
+        id
+        articleURL
+        date
+        title
+        imageURL
+        shoutouts
+    }
+    
+    other: getArticlesByPublication(publicationID: "5fcd4d4953db0000138e03cc") {
+        id
+        articleURL
+        date
+        title
+        imageURL
+        shoutouts
+    }
+}
+
+query GetArticleByID($id: String!) {
+    article: getArticleByID(id: $id) {
+        id
+        articleURL
+        date
+        title
+        imageURL
+        shoutouts
+    }
+}
