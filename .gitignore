@@ -2,6 +2,9 @@
 Volume/Supporting/Secrets.plist
 Volume/Networking/schema.json
 
+# API
+Volume/Networking/API.swift
+
 # OS X
 .DS_Store
 */.DS_Store
