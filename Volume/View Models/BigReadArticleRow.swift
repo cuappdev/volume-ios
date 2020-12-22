@@ -34,6 +34,19 @@ struct BigReadArticleRow: View {
     }
 }
 
+extension BigReadArticleRow {
+    struct Skeleton: View {
+        var body: some View {
+            VStack(spacing: 15) {
+                SkeletonView()
+                    .frame(width: 180, height: 180)
+                ArticleInfo.Skeleton()
+            }
+            .frame(width: 180, height: 300)
+        }
+    }
+}
+
 //struct BigReadArticleRow_Previews: PreviewProvider {
 //    static var previews: some View {
 //        BigReadArticleRow(

@@ -40,6 +40,23 @@ struct FollowingPublicationRow: View {
     }
 }
 
+extension FollowingPublicationRow {
+    struct Skeleton: View {
+        var body: some View {
+            VStack(spacing: 5) {
+                SkeletonView()
+                    .clipShape(Circle())
+                    .shadow(color: Color(white: 0, opacity: 0.1), radius: 5)
+                    .frame(width: 85, height: 85)
+                SkeletonView()
+                    .frame(width: 65, height: 14)
+                Spacer()
+            }
+            .frame(width: 90, height: 135)
+        }
+    }
+}
+
 //struct FollowingPublicationRow_Previews: PreviewProvider {
 //    static var previews: some View {
 //        FollowingPublicationRow(

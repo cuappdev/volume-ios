@@ -60,6 +60,46 @@ struct MorePublicationRow: View {
     }
 }
 
+extension MorePublicationRow {
+    struct Skeleton: View {
+        var body: some View {
+            HStack(alignment: .top) {
+                SkeletonView()
+                    .clipShape(Circle())
+                    .frame(width: 60, height: 60)
+                
+                VStack(alignment: .leading, spacing: 0) {
+                    SkeletonView()
+                        .frame(width: 80, height: 23)
+                        .padding(.bottom, 5)
+                    
+                    SkeletonView()
+                        .frame(height: 15)
+                        .padding(.bottom, 4)
+                    SkeletonView()
+                        .frame(height: 15)
+                        .padding(.bottom, 5)
+                    
+                    HStack {
+                        Text("|")
+                            .font(.system(size: 14, weight: .bold))
+                            .foregroundColor(Color(white: 225 / 255))
+                        SkeletonView()
+                            .frame(height: 14)
+                    }
+                    .padding(.top, 2)
+                }
+                
+                Spacer()
+                
+                SkeletonView()
+                    .frame(width: 24, height: 24)
+                    .cornerRadius(8)
+            }.padding([.leading, .trailing])
+        }
+    }
+}
+
 //struct MorePublicationRow_Previews: PreviewProvider {
 //    static var previews: some View {
 //        MorePublicationRow(

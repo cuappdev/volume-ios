@@ -38,6 +38,30 @@ struct ArticleInfo: View {
     }
 }
 
+extension ArticleInfo {
+    struct Skeleton: View {
+        var body: some View {
+            HStack {
+                VStack(alignment: .leading) {
+                    SkeletonView()
+                        .frame(width: 70, height: 14)
+                    SkeletonView()
+                        .frame(height: 40)
+                    Spacer()
+                    HStack(spacing: 0) {
+                        SkeletonView()
+                            .frame(width: 33, height: 10)
+                        Text(" • ")
+                        SkeletonView()
+                            .frame(width: 70, height: 10)
+                    }
+                }
+                Spacer()
+            }
+        }
+    }
+}
+
 //struct ArticleInfo_Previews: PreviewProvider {
 //    static var previews: some View {
 //        ArticleInfo(

@@ -29,6 +29,19 @@ struct ArticleRow: View {
     }
 }
 
+extension ArticleRow {
+    struct Skeleton: View {
+        var body: some View {
+            HStack(spacing: 20) {
+                ArticleInfo.Skeleton()
+                SkeletonView()
+                    .frame(width: 100, height: 100)
+            }
+            .frame(maxWidth: .infinity, idealHeight: 100, alignment: .leading)
+        }
+    }
+}
+
 //struct ArticleRow_Previews: PreviewProvider {
 //    static var previews: some View {
 //        ArticleRow(
