@@ -11,6 +11,8 @@ import SwiftUI
 
 /// `MorePublicationRow` displays the basis information about a publications the user is not currently following
 struct MorePublicationRow: View {
+    @EnvironmentObject private var userData: UserData
+    
     let publication: Publication
     
     var body: some View {
@@ -52,9 +54,11 @@ struct MorePublicationRow: View {
             Spacer()
             
             Button(action: {
-                self.publication.isFollowed.toggle()
+                withAnimation {
+                    userData.togglePublicationFollowed(publication)
+                }
             }) {
-                Image(publication.isFollowed ? "followed" : "follow")
+                Image(userData.isPublicationFollowed(publication) ? "followed" : "follow")
             }
         }.padding([.leading, .trailing])
     }

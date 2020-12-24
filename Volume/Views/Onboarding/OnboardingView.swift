@@ -12,63 +12,110 @@ struct OnboardingView: View {
     @State private var isShowingSplash = true
     @State private var page: Page = .welcome
     @Namespace private var namespace
+    @AppStorage("isFirstLaunch") private var isFirstLaunch = true
+    @EnvironmentObject private var userData: UserData
     
     private let volumeLogoID = "volume-logo"
+    
+    private var didFollowPublication: Bool {
+        userData.followedPublicationIDs.count > 0
+    }
+    
+    private var splashView: some View {
+        Group {
+            Spacer()
+            Image("volume-logo")
+                .resizable()
+                .scaledToFit()
+                .frame(maxWidth: .infinity)
+                .padding([.leading, .trailing], 65)
+                .matchedGeometryEffect(id: volumeLogoID, in: namespace)
+            Spacer()
+        }
+    }
+    
+    private var contentView: some View {
+        Group {
+            Image("volume-logo")
+                .resizable()
+                .scaledToFit()
+                .frame(maxWidth: .infinity)
+                .padding([.leading, .trailing], 65)
+                .padding(.top, 25)
+                .matchedGeometryEffect(id: volumeLogoID, in: namespace)
+            
+            Group {
+                switch page {
+                case .welcome:
+                    Text("Welcome to Volume")
+                case .follow:
+                    Text("Follow student publications that you are interested in")
+                        .multilineTextAlignment(.center)
+                        .lineSpacing(4)
+                }
+            }
+            .font(.begumRegular(size: 16))
+            .frame(height: 80)
+            .padding([.leading, .trailing], 50)
+            
+            Divider()
+                .background(Color(white: 238 / 255))
+                .frame(width: 100)
+            
+            switch page {
+            case .welcome:
+                WelcomeView()
+            case .follow:
+                FollowView()
+            }
+            
+            Spacer()
+            
+            PageControl(currentPage: page == .welcome ? 0 : 1, numberOfPages: 2)
+                .padding(.bottom, 47)
+            
+            Group {
+                switch page {
+                case .welcome:
+                    Button("Next") {
+                        withAnimation(.spring()) {
+                            page = .follow
+                        }
+                    }
+                    .foregroundColor(Color.volume.orange)
+                case .follow:
+                    Button("Start reading") {
+                        withAnimation(.spring()) {
+                            isFirstLaunch = false
+                        }
+                    }
+                    .foregroundColor(didFollowPublication ? Color.volume.orange : Color(white: 151 / 255))
+                    .disabled(!didFollowPublication)
+                }
+            }
+            .font(.helveticaBold(size: 16))
+            .padding([.leading, .trailing], 32)
+            .padding([.top, .bottom], 8)
+            .background(Color(white: 238 / 255))
+            .cornerRadius(5)
+            .shadow(color: Color.black.opacity(0.1), radius: page == .welcome || didFollowPublication ? 5 : 0)
+            .padding(.bottom, 20)
+        }
+    }
     
     var body: some View {
         VStack {
             if isShowingSplash {
-                Spacer()
-                Image("volume-logo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(maxWidth: .infinity)
-                    .padding([.leading, .trailing], 65)
-                    .matchedGeometryEffect(id: volumeLogoID, in: namespace)
-                Spacer()
+                splashView
             } else {
-                Image("volume-logo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(maxWidth: .infinity)
-                    .padding([.leading, .trailing], 65)
-                    .padding(.top, 25)
-                    .matchedGeometryEffect(id: volumeLogoID, in: namespace)
-                
-                Group {
-                    switch page {
-                    case .welcome:
-                        Text("Welcome to Volume")
-                            .padding([.top, .bottom], 32)
-                            .transition(.asymmetric(insertion: .opacity, removal: .move(edge: .leading)))
-                    case .follow:
-                        Text("Follow student publications that you are interested in")
-                            .padding([.top, .bottom], 20.75)
-                            .multilineTextAlignment(.center)
-                            .lineSpacing(4)
-                            .transition(.move(edge: .trailing))
-                    }
-                }
-                .font(.begumRegular(size: 16))
-                .padding([.leading, .trailing], 50)
-                
-                Divider()
-                    .background(Color(white: 238 / 255))
-                    .frame(width: 100)
-                
-                switch page {
-                case .welcome:
-                    WelcomeView(page: $page)
-                case .follow:
-                    FollowView(page: $page)
-                }
+                contentView
             }
         }
         .background(Color.volume.backgroundGray)
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 withAnimation(.spring()) {
-                    self.isShowingSplash = false
+                    isShowingSplash = false
                 }
             }
         }

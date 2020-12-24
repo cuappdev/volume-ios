@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct ArticleInfo: View {
+    @EnvironmentObject private var userData: UserData
+    
     let article: Article
     
     var body: some View {
@@ -25,7 +27,7 @@ struct ArticleInfo: View {
                     Text("\(article.date.fullString) • \(article.shoutOuts) shout-outs")
                         .font(.helveticaRegular(size: 10))
                         .foregroundColor(Color.volume.lightGray)
-                    if article.isSaved {
+                    if userData.isArticleSaved(article) {
                         Image(systemName: "bookmark.fill")
                             .resizable()
                             .foregroundColor(Color.volume.orange)

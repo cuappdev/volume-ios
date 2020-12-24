@@ -6,13 +6,15 @@
 //  Copyright © 2020 Cornell AppDev. All rights reserved.
 //
 
+import Combine
 import Foundation
 
 class UserData: ObservableObject {
-    private let articlesKey = "savedArticlesData"
-    private let publicationsKey = "savedPublicationsData"
+    private let articlesKey = "savedArticleIds"
+    private let publicationsKey = "savedPublicationIds"
+    private let isFirstLauncyKey = "isFirstLaunch"
     
-    static let `default` = UserData()
+    var can: AnyCancellable?
     
     @Published private(set) var savedArticleIDs: [String] = [] {
         didSet {
@@ -26,26 +28,6 @@ class UserData: ObservableObject {
         }
     }
     
-    func setArticle(id: String, isSaved: Bool) {
-        if isSaved {
-            if !savedArticleIDs.contains(id) {
-                savedArticleIDs.insert(id, at: 0)
-            }
-        } else {
-            savedArticleIDs.removeAll(where: { $0 == id })
-        }
-    }
-    
-    func setPublication(id: String, isFollowed: Bool) {
-        if isFollowed {
-            if !followedPublicationIDs.contains(id) {
-                followedPublicationIDs.insert(id, at: 0)
-            }
-        } else {
-            followedPublicationIDs.removeAll(where: { $0 == id })
-        }
-    }
-    
     init() {
         if let ids = UserDefaults.standard.object(forKey: articlesKey) as? [String] {
             savedArticleIDs = ids
@@ -53,6 +35,42 @@ class UserData: ObservableObject {
         
         if let ids = UserDefaults.standard.object(forKey: publicationsKey) as? [String] {
             followedPublicationIDs = ids
+        }
+    }
+    
+    func isArticleSaved(_ article: Article) -> Bool {
+        savedArticleIDs.contains(article.id)
+    }
+    
+    func isPublicationFollowed(_ publication: Publication) -> Bool {
+        followedPublicationIDs.contains(publication.id)
+    }
+    
+    func toggleArticleSaved(_ article: Article) {
+        set(article: article, isSaved: !isArticleSaved(article))
+    }
+    
+    func togglePublicationFollowed(_ publication: Publication) {
+        set(publication: publication, isFollowed: !isPublicationFollowed(publication))
+    }
+    
+    func set(article: Article, isSaved: Bool) {
+        if isSaved {
+            if !savedArticleIDs.contains(article.id) {
+                savedArticleIDs.insert(article.id, at: 0)
+            }
+        } else {
+            savedArticleIDs.removeAll(where: { $0 == article.id })
+        }
+    }
+    
+    func set(publication: Publication, isFollowed: Bool) {
+        if isFollowed {
+            if !followedPublicationIDs.contains(publication.id) {
+                followedPublicationIDs.insert(publication.id, at: 0)
+            }
+        } else {
+            followedPublicationIDs.removeAll(where: { $0 == publication.id })
         }
     }
 }

@@ -14,10 +14,6 @@ struct Article: Codable, Hashable, Identifiable {
     let date: Date
     let id: String
     let imageURL: URL?
-    var isSaved: Bool {
-        get { UserData.default.savedArticleIDs.contains(id) }
-        nonmutating set { UserData.default.setArticle(id: id, isSaved: newValue) }
-    }
     let publication: Publication
     let shoutOuts: Int
     let title: String

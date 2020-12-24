@@ -13,10 +13,6 @@ struct Publication: Codable, Hashable, Identifiable {
     let name: String
     let id: String
     let imageURL: URL?
-    var isFollowed: Bool {
-        get { UserData.default.followedPublicationIDs.contains(id) }
-        nonmutating set { UserData.default.setPublication(id: id, isFollowed: newValue) }
-    }
     let recent: String
     let shoutouts: Int
     let websiteURL: URL?

@@ -18,8 +18,8 @@ struct PublicationList: View {
         // if there already are results, sort again `onAppear` in case a `followed` status changed
         if case .results(let results) = state {
             let publications = results.followedPublications + results.morePublications
-            let followedPublications = publications.filter(\.isFollowed)
-            let morePublications = publications.filter { !$0.isFollowed }
+            let followedPublications = publications.filter(userData.isPublicationFollowed)
+            let morePublications = publications.filter { !userData.isPublicationFollowed($0) }
             state = .results((followedPublications, morePublications))
         }
         
@@ -31,12 +31,11 @@ struct PublicationList: View {
                 }
             }, receiveValue: { value in
                 let publications = [Publication](value)
-                let followedPublications = publications.filter(\.isFollowed)
-                let morePublications = publications.filter { !$0.isFollowed }
+                let followedPublications = publications.filter(userData.isPublicationFollowed)
+                let morePublications = publications.filter { !userData.isPublicationFollowed($0) }
                 withAnimation(.linear(duration: 0.1)) {
                     state = .results((followedPublications, morePublications))
                 }
-                
             })
     }
     

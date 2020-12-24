@@ -230,10 +230,10 @@
 			children = (
 				060B738A256340580035E252 /* BubblePeriodText.swift */,
 				7E416C312561D7870010D70B /* Header.swift */,
+				06B23227258EDDA9006D9A53 /* SkeletonView.swift */,
 				06491F7225787E870045F27D /* TrackableScrollView.swift */,
 				061233A02553127C0025F7E0 /* UnderlinedText.swift */,
 				7EE96DC72562505B000B246F /* VolumeMessage.swift */,
-				06B23227258EDDA9006D9A53 /* SkeletonView.swift */,
 			);
 			path = "Supporting Views";
 			sourceTree = "<group>";

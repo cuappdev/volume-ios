@@ -44,15 +44,6 @@ struct BookmarksList: View {
         }
     }
     
-    private var isLoading: Bool {
-        switch state {
-        case .loading:
-            return true
-        default:
-            return false
-        }
-    }
-    
     var body: some View {
         GeometryReader { geometry in
             NavigationView {
@@ -80,7 +71,7 @@ struct BookmarksList: View {
                         }
                     }
                 }
-                .disabled(isLoading)
+                .disabled(state == .loading)
                 .padding(.top)
                 .background(Color.volume.backgroundGray)
                 .toolbar {
@@ -98,7 +89,7 @@ struct BookmarksList: View {
 }
 
 extension BookmarksList {
-    private enum BookmarksListState {
+    private enum BookmarksListState: Equatable {
         case loading
         case results([Article])
     }

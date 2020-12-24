@@ -6,86 +6,67 @@
 //  Copyright © 2020 Cornell AppDev. All rights reserved.
 //
 
+import Combine
 import SwiftUI
 
 extension OnboardingView {
     struct FollowView: View {
-        @AppStorage("isFirstLaunch") private var isFirstLaunch = true
         @State private var contentOffset: CGPoint = .zero
         @State private var maxContentOffset: CGPoint = .zero
-        @State private var didFollowPublication = false
-        // TODO: GET FROM SERVER
-        @State private var publications: [Publication] = []
+        @State private var cancellableQuery: AnyCancellable?
+        @State private var state: FollowViewState = .loading
         
-        @Binding var page: OnboardingView.Page
-        
-        private func onToggleFollowing(publication: Publication) {
-//            if let index = publications.firstIndex(of: publication) {
-//                publications[index] = Publication(
-//                    id: UUID(),
-//                    description: publication.description,
-//                    name: publication.name,
-//                    image: publication.image,
-//                    isFollowing: !publication.isFollowing,
-//                    recent: publication.recent
-//                )
-//            }
-            
-            withAnimation {
-                self.didFollowPublication = true
-            }
+        private func fetch() {
+            cancellableQuery = Network.shared.apollo.fetch(query: GetAllPublicationsQuery())
+                .map { data in data.publications.compactMap { $0 } }
+                .sink(receiveCompletion: { completion in
+                    if case let .failure(error) = completion {
+                        print(error.localizedDescription)
+                    }
+                }, receiveValue: { value in
+                    state = .results([Publication](value))
+                })
         }
         
         var body: some View {
-            Group {
-                TrackableScrollView(
-                    contentOffset: $contentOffset,
-                    maxOffsetDidChange: { self.maxContentOffset = $0 }
-                ) {
-                    LazyVStack(spacing: 24) {
+            TrackableScrollView(
+                contentOffset: $contentOffset,
+                maxOffsetDidChange: { self.maxContentOffset = $0 }
+            ) {
+                LazyVStack(spacing: 24) {
+                    switch state {
+                    case .loading:
+                        ForEach(0..<4) { _ in
+                            MorePublicationRow.Skeleton()
+                        }
+                    case .results(let publications):
                         ForEach(publications) { publication in
                             MorePublicationRow(publication: publication)
                         }
                     }
-                    .background(Color.volume.backgroundGray)
                 }
-                .overlay(
-                    VStack {
-                        fadeView(fadesDown: false)
-                            .opacity(contentOffset.y > 0 ? 1 : 0)
-                        Spacer()
-                        fadeView(fadesDown: true)
-                            .opacity(
-                                contentOffset.y < maxContentOffset.y - 1
-                                    || maxContentOffset.y == 0
-                                    ? 1 : 0
-                            )
-                    }
-                    .allowsHitTesting(false)
-                    .transition(.opacity)
-                    .animation(.linear(duration: 0.2))
-                )
-                .padding(.top, 48)
-                .transition(.move(edge: .trailing))
-                
-                Spacer()
-                
-                PageControl(currentPage: page == .welcome ? 0 : 1, numberOfPages: 2)
-                    .padding(.bottom, 47)
-                Button("Start reading") {
-                    withAnimation(.spring()) {
-                        self.isFirstLaunch = false
-                    }
+                .background(Color.volume.backgroundGray)
+            }
+            .overlay(
+                VStack {
+                    fadeView(fadesDown: false)
+                        .opacity(contentOffset.y > 0 ? 1 : 0)
+                    Spacer()
+                    fadeView(fadesDown: true)
+                        .opacity(
+                            contentOffset.y < maxContentOffset.y - 1
+                                || maxContentOffset.y == 0
+                                ? 1 : 0
+                        )
                 }
-                .font(.helveticaBold(size: 16))
-                .padding([.leading, .trailing], 32)
-                .padding([.top, .bottom], 8)
-                .foregroundColor(didFollowPublication ? Color.volume.orange : Color(white: 151 / 255))
-                .background(Color(white: 238 / 255))
-                .cornerRadius(5)
-                .shadow(color: Color.black.opacity(0.1), radius: didFollowPublication ? 5 : 0)
-                .padding(.bottom, 20)
-                .disabled(!didFollowPublication)
+                .transition(.opacity)
+                .animation(.linear(duration: 0.2))
+            )
+            .padding(.top, 48)
+            .disabled(state == .loading)
+            .transition(.move(edge: .trailing))
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: fetch)
             }
         }
     }
@@ -113,6 +94,13 @@ extension OnboardingView.FollowView {
                 Spacer()
             }
         }
+    }
+}
+
+extension OnboardingView.FollowView {
+    private enum FollowViewState: Equatable {
+        case loading
+        case results([Publication])
     }
 }
 
