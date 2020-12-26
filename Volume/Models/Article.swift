@@ -9,12 +9,45 @@
 import Foundation
 import SwiftUI
 
-struct Article: Codable, Hashable, Identifiable {
+// MARK: - ArticleQueryResult
+
+/// An umbrella type for minimizing repetition of the code that casts query results to
+/// `Article`s. This type is not to be explicitly referenced outside of this file. Cast
+/// instances to `Article`s instead and then work with that type.
+protocol ArticleQueryResult {
+    var articleUrl: String { get }
+    var date: String { get }
+    var id: String { get }
+    var imageUrl: String { get }
+    var shoutouts: Double { get }
+    var title: String { get }
+    var publicationName: String { get }
+}
+
+extension GetHomeArticlesQuery.Data.Trending: ArticleQueryResult {
+    var publicationName: String { publication.name }
+}
+
+extension GetHomeArticlesQuery.Data.Following: ArticleQueryResult {
+    var publicationName: String { publication.name }
+}
+
+extension GetHomeArticlesQuery.Data.Other: ArticleQueryResult {
+    var publicationName: String { publication.name }
+}
+
+extension GetArticleByIdQuery.Data.Article: ArticleQueryResult {
+    var publicationName: String { publication.name }
+}
+
+// MARK: - Article
+
+struct Article: Hashable, Identifiable {
     let articleURL: URL?
     let date: Date
     let id: String
     let imageURL: URL?
-    let publication: Publication
+    let publicationName: String
     let shoutOuts: Int
     let title: String
     
@@ -23,7 +56,7 @@ struct Article: Codable, Hashable, Identifiable {
         date: Date,
         id: String,
         imageURL: URL?,
-        publication: Publication,
+        publicationName: String,
         shoutOuts: Int,
         title: String
     ) {
@@ -31,66 +64,24 @@ struct Article: Codable, Hashable, Identifiable {
         self.date = date
         self.id = id
         self.imageURL = imageURL
-        self.publication = publication
+        self.publicationName = publicationName
         self.shoutOuts = shoutOuts
         self.title = title
     }
     
-    init(from article: GetHomeArticlesQuery.Data.Trending) {
+    init(from article: ArticleQueryResult) {
         articleURL = URL(string: article.articleUrl)
         date = Date.from(iso8601: article.date)
         id = article.id
         imageURL = URL(string: article.imageUrl)
-        publication = Publication(bio: "", name: "", id: "", imageURL: nil, recent: "", shoutouts: 0, websiteURL: nil)
-        shoutOuts = Int(article.shoutouts)
-        title = article.title
-    }
-    
-    init(from article: GetHomeArticlesQuery.Data.Following) {
-        articleURL = URL(string: article.articleUrl)
-        date = Date.from(iso8601: article.date)
-        id = article.id
-        imageURL = URL(string: article.imageUrl)
-        publication = Publication(bio: "", name: "", id: "", imageURL: nil, recent: "", shoutouts: 0, websiteURL: nil)
-        shoutOuts = Int(article.shoutouts)
-        title = article.title
-    }
-    
-    init(from article: GetHomeArticlesQuery.Data.Other) {
-        articleURL = URL(string: article.articleUrl)
-        date = Date.from(iso8601: article.date)
-        id = article.id
-        imageURL = URL(string: article.imageUrl)
-        publication = Publication(bio: "", name: "", id: "", imageURL: nil, recent: "", shoutouts: 0, websiteURL: nil)
-        shoutOuts = Int(article.shoutouts)
-        title = article.title
-    }
-    
-    init(from article: GetArticleByIdQuery.Data.Article) {
-        articleURL = URL(string: article.articleUrl)
-        date = Date.from(iso8601: article.date)
-        id = article.id
-        imageURL = URL(string: article.imageUrl)
-        publication = Publication(bio: "", name: "", id: "", imageURL: nil, recent: "", shoutouts: 0, websiteURL: nil)
+        publicationName = article.publicationName
         shoutOuts = Int(article.shoutouts)
         title = article.title
     }
 }
 
 extension Array where Element == Article {
-    init(_ articles: [GetHomeArticlesQuery.Data.Trending]) {
-        self.init(articles.map(Article.init))
-    }
-    
-    init(_ articles: [GetHomeArticlesQuery.Data.Following]) {
-        self.init(articles.map(Article.init))
-    }
-    
-    init(_ articles: [GetHomeArticlesQuery.Data.Other]) {
-        self.init(articles.map(Article.init))
-    }
-    
-    init(_ articles: [GetArticleByIdQuery.Data.Article]) {
+    init(_ articles: [ArticleQueryResult]) {
         self.init(articles.map(Article.init))
     }
 }

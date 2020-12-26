@@ -4,7 +4,10 @@ query GetAllPublications {
     bio
     name
     shoutouts
-    imageURL
+    profileImageURL
     websiteURL
+    mostRecentArticle {
+      title
+    }
   }
 }

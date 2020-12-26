@@ -8,11 +8,11 @@
 
 import Foundation
 
-struct Publication: Codable, Hashable, Identifiable {
+struct Publication: Hashable, Identifiable {
     let bio: String
     let name: String
     let id: String
-    let imageURL: URL?
+    let profileImageURL: URL?
     let recent: String
     let shoutouts: Int
     let websiteURL: URL?
@@ -29,7 +29,7 @@ struct Publication: Codable, Hashable, Identifiable {
         self.bio = bio
         self.name = name
         self.id = id
-        self.imageURL = imageURL
+        self.profileImageURL = imageURL
         self.recent = recent
         self.shoutouts = shoutouts
         self.websiteURL = websiteURL
@@ -39,8 +39,8 @@ struct Publication: Codable, Hashable, Identifiable {
         bio = publication.bio
         name = publication.name
         id = publication.id
-        imageURL = URL(string: publication.imageUrl)
-        recent = "Horse"
+        profileImageURL = URL(string: publication.profileImageUrl)
+        recent = publication.mostRecentArticle.title
         shoutouts = Int(publication.shoutouts)
         websiteURL = URL(string: publication.websiteUrl)
     }

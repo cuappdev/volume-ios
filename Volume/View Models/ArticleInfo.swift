@@ -8,6 +8,10 @@
 
 import SwiftUI
 
+protocol Animal {
+    var name: String { get }
+}
+
 struct ArticleInfo: View {
     @EnvironmentObject private var userData: UserData
     
@@ -16,7 +20,7 @@ struct ArticleInfo: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(article.publication.name)
+                Text(article.publicationName)
                     .font(.begumMedium(size: 12))
                 Text(article.title)
                     .font(.helveticaBold(size: 16))

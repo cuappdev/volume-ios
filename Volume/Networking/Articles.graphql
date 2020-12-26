@@ -6,6 +6,9 @@ query GetHomeArticles($since: String!) {
         title
         imageURL
         shoutouts
+        publication {
+          name
+        }
     }
     
     following: getArticlesByPublication(publicationID: "5fcd4d4953db0000138e03c9") {
@@ -15,6 +18,9 @@ query GetHomeArticles($since: String!) {
         title
         imageURL
         shoutouts
+        publication {
+          name
+        }
     }
     
     other: getArticlesByPublication(publicationID: "5fcd4d4953db0000138e03cc") {
@@ -24,6 +30,9 @@ query GetHomeArticles($since: String!) {
         title
         imageURL
         shoutouts
+        publication {
+          name
+        }
     }
 }
 
@@ -35,5 +44,8 @@ query GetArticleByID($id: String!) {
         title
         imageURL
         shoutouts
+        publication {
+          name
+        }
     }
 }

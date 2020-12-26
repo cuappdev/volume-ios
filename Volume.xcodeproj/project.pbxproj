@@ -17,12 +17,12 @@
 		06379C74256725C000FC185A /* Begum-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06379C73256725C000FC185A /* Begum-Regular.ttf */; };
 		06379C792567297400FC185A /* Begum-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06379C782567297400FC185A /* Begum-Bold.ttf */; };
 		063EED25257BF8A7002136EE /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063EED24257BF8A7002136EE /* Network.swift */; };
-		063EED47257BFD53002136EE /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 063EED46257BFD53002136EE /* schema.json */; };
 		063EED4A257BFDA9002136EE /* Publications.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 063EED49257BFDA9002136EE /* Publications.graphql */; };
 		063EED56257BFF0C002136EE /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063EED55257BFF0C002136EE /* API.swift */; };
 		06491F7325787E870045F27D /* TrackableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06491F7225787E870045F27D /* TrackableScrollView.swift */; };
 		06662888257F204E006FEBCF /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06662887257F204E006FEBCF /* Secrets.swift */; };
 		0666288C257F2060006FEBCF /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0666288B257F2060006FEBCF /* Secrets.plist */; };
+		06997DB9259510E300F5CFB1 /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 06997DB8259510E300F5CFB1 /* schema.json */; };
 		06A8E2532575429200C28C68 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A8E2522575429200C28C68 /* MainView.swift */; };
 		06B23228258EDDA9006D9A53 /* SkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B23227258EDDA9006D9A53 /* SkeletonView.swift */; };
 		06B80CFC257D9E9700F3BF9B /* Articles.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 06B80CFB257D9E9700F3BF9B /* Articles.graphql */; };
@@ -64,12 +64,12 @@
 		06379C782567297400FC185A /* Begum-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Begum-Bold.ttf"; sourceTree = "<group>"; };
 		063EED22257BF870002136EE /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; };
 		063EED24257BF8A7002136EE /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
-		063EED46257BFD53002136EE /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		063EED49257BFDA9002136EE /* Publications.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = Publications.graphql; sourceTree = "<group>"; };
 		063EED55257BFF0C002136EE /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		06491F7225787E870045F27D /* TrackableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackableScrollView.swift; sourceTree = "<group>"; };
 		06662887257F204E006FEBCF /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		0666288B257F2060006FEBCF /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
+		06997DB8259510E300F5CFB1 /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		06A8E2522575429200C28C68 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		06B23227258EDDA9006D9A53 /* SkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonView.swift; sourceTree = "<group>"; };
 		06B80CFB257D9E9700F3BF9B /* Articles.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = Articles.graphql; sourceTree = "<group>"; };
@@ -141,7 +141,7 @@
 			children = (
 				063EED55257BFF0C002136EE /* API.swift */,
 				063EED24257BF8A7002136EE /* Network.swift */,
-				063EED46257BFD53002136EE /* schema.json */,
+				06997DB8259510E300F5CFB1 /* schema.json */,
 				063EED49257BFDA9002136EE /* Publications.graphql */,
 				06B80CFB257D9E9700F3BF9B /* Articles.graphql */,
 			);
@@ -358,7 +358,7 @@
 				063EED4A257BFDA9002136EE /* Publications.graphql in Resources */,
 				0666288C257F2060006FEBCF /* Secrets.plist in Resources */,
 				06B80CFC257D9E9700F3BF9B /* Articles.graphql in Resources */,
-				063EED47257BFD53002136EE /* schema.json in Resources */,
+				06997DB9259510E300F5CFB1 /* schema.json in Resources */,
 				7ED7C33D252D117B0078B1BD /* Assets.xcassets in Resources */,
 				06379C792567297400FC185A /* Begum-Bold.ttf in Resources */,
 				06379C74256725C000FC185A /* Begum-Regular.ttf in Resources */,
