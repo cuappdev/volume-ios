@@ -23,10 +23,10 @@ To access the project, clone the project, and run `pod install` in the project d
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>graphql-endpoint-production</key>
-	<string>your graphql prod endpoint</string>
-	<key>your garphql debug endpoint</key>
-	<string>http://volume-backend.cornellappdev.com/graphql</string>
+  <key>graphql-endpoint-production</key>
+  <string>your graphql prod endpoint</string>
+  <key>your garphql debug endpoint</key>
+  <string>http://volume-backend.cornellappdev.com/graphql</string>
 </dict>
 </plist>
 ```
