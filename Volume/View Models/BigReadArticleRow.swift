@@ -6,6 +6,8 @@
 //  Copyright © 2020 Cornell AppDev. All rights reserved.
 //
 
+import Combine
+import SDWebImageSwiftUI
 import SwiftUI
 
 struct BigReadArticleRow: View {
@@ -13,9 +15,10 @@ struct BigReadArticleRow: View {
     
     var body: some View {
         VStack(spacing: 15) {
-            if let image = article.image {
-                Image(image)
+            if let url = article.imageURL {
+                WebImage(url: url)
                     .resizable()
+                    .grayBackground()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 180, height: 180)
                     .clipped()
@@ -31,8 +34,37 @@ struct BigReadArticleRow: View {
     }
 }
 
-struct BigReadArticleRow_Previews: PreviewProvider {
-    static var previews: some View {
-        BigReadArticleRow(article: articleData[0])
+extension BigReadArticleRow {
+    struct Skeleton: View {
+        var body: some View {
+            VStack(spacing: 15) {
+                SkeletonView()
+                    .frame(width: 180, height: 180)
+                ArticleInfo.Skeleton()
+            }
+            .frame(width: 180, height: 300)
+        }
     }
 }
+
+//struct BigReadArticleRow_Previews: PreviewProvider {
+//    static var previews: some View {
+//        BigReadArticleRow(
+//            article: Article(
+//                articleURL: nil,
+//                date: Date(),
+//                id: "a",
+//                imageURL: nil,
+//                publication: Publication(
+//                    description: "CU",
+//                    name: "CUNooz",
+//                    id: "sdfsdf",
+//                    imageURL: nil,
+//                    recent: "Sandpaper Tastes Like What?!"
+//                ),
+//                shoutOuts: 14,
+//                title: "Children Discover the Meaning of Christmas"
+//            )
+//        )
+//    }
+//}

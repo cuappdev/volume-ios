@@ -6,25 +6,34 @@
 //  Copyright © 2020 Cornell AppDev. All rights reserved.
 //
 
+import SDWebImageSwiftUI
 import SwiftUI
 
 /// `MorePublicationRow` displays the basis information about a publications the user is not currently following
 struct MorePublicationRow: View {
+    @EnvironmentObject private var userData: UserData
+    
     let publication: Publication
-    let onToggleFollowing: (Publication) -> Void
     
     var body: some View {
         HStack(alignment: .top) {
-            Image(publication.image)
-                .resizable()
-                .clipShape(Circle())
-                .frame(width: 60, height: 60)
+            if let imageUrl = publication.profileImageURL {
+                WebImage(url: imageUrl)
+                    .grayBackground()
+                    .resizable()
+                    .clipShape(Circle())
+                    .frame(width: 60, height: 60)
+            } else {
+                Circle()
+                    .fill(Color.gray)
+                    .frame(width: 60, height: 60)
+            }
             
             VStack(alignment: .leading, spacing: 5) {
                 Text(publication.name)
                     .font(.begumMedium(size: 18))
                     .foregroundColor(.black)
-                Text(publication.description)
+                Text(publication.bio)
                     .font(.helveticaRegular(size: 12))
                     .foregroundColor(Color(white: 151 / 255))
                     .truncationMode(.tail)
@@ -45,18 +54,68 @@ struct MorePublicationRow: View {
             Spacer()
             
             Button(action: {
-                self.onToggleFollowing(self.publication)
+                withAnimation {
+                    userData.togglePublicationFollowed(publication)
+                }
             }) {
-                Image(publication.isFollowing ? "followed" : "follow")
+                Image(userData.isPublicationFollowed(publication) ? "followed" : "follow")
             }
         }.padding([.leading, .trailing])
     }
 }
 
-struct MorePublicationRow_Previews: PreviewProvider {
-    static var previews: some View {
-        MorePublicationRow(publication: publicationsData[0]) { publication in
-            
+extension MorePublicationRow {
+    struct Skeleton: View {
+        var body: some View {
+            HStack(alignment: .top) {
+                SkeletonView()
+                    .clipShape(Circle())
+                    .frame(width: 60, height: 60)
+                
+                VStack(alignment: .leading, spacing: 0) {
+                    SkeletonView()
+                        .frame(width: 80, height: 23)
+                        .padding(.bottom, 5)
+                    
+                    SkeletonView()
+                        .frame(height: 15)
+                        .padding(.bottom, 4)
+                    SkeletonView()
+                        .frame(height: 15)
+                        .padding(.bottom, 5)
+                    
+                    HStack {
+                        Text("|")
+                            .font(.system(size: 14, weight: .bold))
+                            .foregroundColor(Color(white: 225 / 255))
+                        SkeletonView()
+                            .frame(height: 14)
+                    }
+                    .padding(.top, 2)
+                }
+                
+                Spacer()
+                
+                SkeletonView()
+                    .frame(width: 24, height: 24)
+                    .cornerRadius(8)
+            }.padding([.leading, .trailing])
         }
     }
 }
+
+//struct MorePublicationRow_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MorePublicationRow(
+//            publication: Publication(
+//                description: "CU",
+//                name: "CUNooz",
+//                id: "sdfsdf",
+//                imageURL: nil,
+//                recent: "Sandpaper Tastes Like What?!"
+//            )
+//        ) { publication in
+//
+//        }
+//    }
+//}

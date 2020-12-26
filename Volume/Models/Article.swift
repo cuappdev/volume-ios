@@ -7,70 +7,81 @@
 //
 
 import Foundation
+import SwiftUI
 
-// MARK: start of dummy data
-private let slopeMedia =
-    Article(
-        date: Date(timeInterval: -1000, since: Date()),
-        image: "iceCream",
-        isSaved: false,
-        publication: "Slope Media",
-        shoutOuts: 123,
-        title: "Top 6 Ice Cream Places in Ithaca: Ranked"
-    )
+// MARK: - ArticleQueryResult
 
-private let cuNooz =
-    Article(
-        date: Date(timeInterval: -10000, since: Date()),
-        image: "tcatkiss",
-        isSaved: true,
-        publication: "CU Nooz",
-        shoutOuts: 12,
-        title: "Students Low On Cash Can Now Give TCAT Bus Drivers a Kiss On The Lips As Payment"
-    )
+/// An umbrella type for minimizing repetition of the code that casts query results to
+/// `Article`s. This type is not to be explicitly referenced outside of this file. Cast
+/// instances to `Article`s instead and then work with that type.
+protocol ArticleQueryResult {
+    var articleUrl: String { get }
+    var date: String { get }
+    var id: String { get }
+    var imageUrl: String { get }
+    var shoutouts: Double { get }
+    var title: String { get }
+    var publicationName: String { get }
+}
 
-private let cremeDeCornell =
-    Article(
-        date: Date(timeInterval: -20000, since: Date()),
-        image: "bulgogi",
-        isSaved: false,
-        publication: "Creme de Cornell",
-        shoutOuts: 1200,
-        title: "Vegan Bulgogi"
-    )
+extension GetHomeArticlesQuery.Data.Trending: ArticleQueryResult {
+    var publicationName: String { publication.name }
+}
 
-private let cuReview =
-    Article(
-        date: Date(timeInterval: -20, since: Date()),
-        image: nil,
-        isSaved: false,
-        publication: "Cornell Review",
-        shoutOuts: 0,
-        title: "The Cornell Student Body’s Problem with Tolerance"
-    )
+extension GetHomeArticlesQuery.Data.Following: ArticleQueryResult {
+    var publicationName: String { publication.name }
+}
 
-let articleData = [
-    cuReview, slopeMedia, cremeDeCornell, slopeMedia, cremeDeCornell,
-    slopeMedia, cuReview, cremeDeCornell, cuNooz, cremeDeCornell, cuNooz
-]
-// MARK: end of dummy data
+extension GetHomeArticlesQuery.Data.Other: ArticleQueryResult {
+    var publicationName: String { publication.name }
+}
+
+extension GetArticleByIdQuery.Data.Article: ArticleQueryResult {
+    var publicationName: String { publication.name }
+}
+
+// MARK: - Article
 
 struct Article: Hashable, Identifiable {
-    let id = UUID()
+    let articleURL: URL?
+    let date: Date
+    let id: String
+    let imageURL: URL?
+    let publicationName: String
+    let shoutOuts: Int
+    let title: String
     
-    var date: Date
-    var image: String?
-    var isSaved: Bool
-    var publication: String
-    var shoutOuts: Int
-    var title: String
-    
-    init(date: Date, image: String?, isSaved: Bool, publication: String, shoutOuts: Int, title: String) {
+    init(
+        articleURL: URL?,
+        date: Date,
+        id: String,
+        imageURL: URL?,
+        publicationName: String,
+        shoutOuts: Int,
+        title: String
+    ) {
+        self.articleURL = articleURL
         self.date = date
-        self.image = image
-        self.isSaved = isSaved
-        self.publication = publication
+        self.id = id
+        self.imageURL = imageURL
+        self.publicationName = publicationName
         self.shoutOuts = shoutOuts
         self.title = title
+    }
+    
+    init(from article: ArticleQueryResult) {
+        articleURL = URL(string: article.articleUrl)
+        date = Date.from(iso8601: article.date)
+        id = article.id
+        imageURL = URL(string: article.imageUrl)
+        publicationName = article.publicationName
+        shoutOuts = Int(article.shoutouts)
+        title = article.title
+    }
+}
+
+extension Array where Element == Article {
+    init(_ articles: [ArticleQueryResult]) {
+        self.init(articles.map(Article.init))
     }
 }

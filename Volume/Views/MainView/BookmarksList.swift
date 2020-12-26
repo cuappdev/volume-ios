@@ -6,20 +6,62 @@
 //  Copyright © 2020 Cornell AppDev. All rights reserved.
 //
 
+import Combine
 import SwiftUI
 
 struct BookmarksList: View {
+    @State private var cancellableQueries: Set<AnyCancellable> = Set()
+    @State private var state: BookmarksListState = .loading
+    @EnvironmentObject private var userData: UserData
+    
+    private func fetch() {
+        guard userData.savedArticleIDs.count > 0 else {
+            state = .results([])
+            return
+        }
+        
+        userData.savedArticleIDs.publisher
+            .map(GetArticleByIdQuery.init)
+            .flatMap(Network.shared.apollo.fetch)
+            .collect()
+            .sink { completion in
+                if case let .failure(error) = completion {
+                    print(error.localizedDescription)
+                }
+            } receiveValue: { value in
+                withAnimation(.linear(duration: 0.1)) {
+                    state = .results([Article](value.map(\.article)))
+                }
+            }.store(in: &cancellableQueries)
+    }
+    
+    private var someFollowedArticles: Bool {
+        switch state {
+        case .loading:
+            return userData.savedArticleIDs.count > 0
+        case .results(let savedArticles):
+            return savedArticles.count > 0
+        }
+    }
+    
     var body: some View {
         GeometryReader { geometry in
             NavigationView {
                 ScrollView(showsIndicators: false) {
                     Header("Saved Articles").padding(.bottom, -12)
-                    if let savedArticles = articleData.filter{ $0.isSaved }[0..<1],
-                       savedArticles.count > 0 {
-                        LazyVStack {
-                            ForEach (savedArticles) { article in
-                                ArticleRow(article: article)
+                    if someFollowedArticles {
+                        switch state {
+                        case .loading:
+                            ForEach(0..<10) { _ in
+                                ArticleRow.Skeleton()
                                     .padding([.bottom, .leading, .trailing])
+                            }
+                        case .results(let savedArticles):
+                            LazyVStack {
+                                ForEach (savedArticles) { article in
+                                    ArticleRow(article: article)
+                                        .padding([.bottom, .leading, .trailing])
+                                }
                             }
                         }
                     } else {
@@ -29,6 +71,8 @@ struct BookmarksList: View {
                         }
                     }
                 }
+                .disabled(state == .loading)
+                .padding(.top)
                 .background(Color.volume.backgroundGray)
                 .toolbar {
                     ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
@@ -38,8 +82,16 @@ struct BookmarksList: View {
                     }
                 }
                 .navigationBarTitleDisplayMode(.inline)
+                .onAppear(perform: fetch)
             }
         }
+    }
+}
+
+extension BookmarksList {
+    private enum BookmarksListState: Equatable {
+        case loading
+        case results([Article])
     }
 }
 

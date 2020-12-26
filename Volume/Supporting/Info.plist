@@ -62,5 +62,10 @@
 		<string>Begum-Medium.ttf</string>
 		<string>Begum-Bold.ttf</string>
 	</array>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>

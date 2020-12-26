@@ -7,7 +7,7 @@
 //
 import SwiftUI
 
-struct TrackableScrollView: UIViewControllerRepresentable {
+struct TrackableScrollView<Content: View>: UIViewControllerRepresentable {
     /// Lets the parent control the storage of `contentOffset`. Updates the parent's
     /// value on scroll and lets it update the actual offset.
     @Binding var contentOffset: CGPoint
@@ -15,24 +15,25 @@ struct TrackableScrollView: UIViewControllerRepresentable {
     /// value directly.
     let maxOffsetDidChange: ((CGPoint) -> Void)?
     /// The `ScrollView`'s content. It's width is constrained to equal this view's width.
-    let content: AnyView
+    let content: () -> Content
 
-    init<Content: View>(
+    init(
         contentOffset: Binding<CGPoint>,
         maxOffsetDidChange: ((CGPoint) -> Void)? = nil,
         @ViewBuilder content: @escaping () -> Content
     ) {
         _contentOffset = contentOffset
         self.maxOffsetDidChange = maxOffsetDidChange
-        self.content = AnyView(content())
+        self.content = content
     }
 
-    func makeCoordinator() -> Coordinator {
+    func makeCoordinator() -> Coordinator<Content> {
         Coordinator(contentOffset: $contentOffset)
     }
 
     func makeUIViewController(context: Context) -> UIViewController {
-        let viewController = UIViewController()
+        let viewController = context.coordinator.viewController
+        
         let scrollView = UIScrollView()
         scrollView.verticalScrollIndicatorInsets.top = -20
         scrollView.delegate = context.coordinator
@@ -49,8 +50,8 @@ struct TrackableScrollView: UIViewControllerRepresentable {
                 )
             )
         }
-
-        let hostingController = UIHostingController(rootView: content)
+        
+        let hostingController = UIHostingController(rootView: content())
         if let contentView = hostingController.view {
             viewController.addChild(hostingController)
             scrollView.addSubview(contentView)
@@ -62,23 +63,31 @@ struct TrackableScrollView: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        if let scrollView = uiViewController.view.subviews.first as? UIScrollView {
-            DispatchQueue.main.async {
-                maxOffsetDidChange?(
-                    CGPoint(
-                        x: 0,
-                        y: scrollView.contentSize.height
-                            + scrollView.contentInset.bottom
-                            - scrollView.bounds.height
-                    )
-                )
-            }
-            scrollView.contentOffset = contentOffset
+        let viewController = context.coordinator.viewController
+        guard let scrollView = viewController.view.subviews.first as? UIScrollView,
+              let oldHost = viewController.children.last as? UIHostingController<Content> else {
+            return
         }
+        
+        oldHost.rootView = content()
+        
+        DispatchQueue.main.async {
+            maxOffsetDidChange?(
+                CGPoint(
+                    x: 0,
+                    y: scrollView.contentSize.height
+                        + scrollView.contentInset.bottom
+                        - scrollView.bounds.height
+                )
+            )
+        }
+        
+        scrollView.contentOffset = contentOffset
     }
 
-    class Coordinator: NSObject, UIScrollViewDelegate {
+    class Coordinator<Content: View>: NSObject, UIScrollViewDelegate {
         @Binding var contentOffset: CGPoint
+        let viewController = UIViewController()
         
         init(contentOffset: Binding<CGPoint>) {
             _contentOffset = contentOffset
