@@ -10,8 +10,8 @@ import Combine
 import SwiftUI
 
 struct PublicationList: View {
-    @State private var state: PublicationListState = .loading
     @State private var cancellableQuery: AnyCancellable?
+    @State private var state: PublicationListState = .loading
     @EnvironmentObject private var userData: UserData
     
     private func fetch() {

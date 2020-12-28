@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct MainView: View {
-    @State private var selectedTab: Tab = .publications
+    @State private var selectedTab: Tab = .home
     
     init() {
         let grayColor = UIColor(Color.volume.navigationBarGray)

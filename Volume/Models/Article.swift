@@ -24,15 +24,15 @@ protocol ArticleQueryResult {
     var publicationName: String { get }
 }
 
-extension GetHomeArticlesQuery.Data.Trending: ArticleQueryResult {
+extension GetTrendingArticlesQuery.Data.Article: ArticleQueryResult {
     var publicationName: String { publication.name }
 }
 
-extension GetHomeArticlesQuery.Data.Following: ArticleQueryResult {
+extension GetArticlesByPublicationIdQuery.Data.Article: ArticleQueryResult {
     var publicationName: String { publication.name }
 }
 
-extension GetHomeArticlesQuery.Data.Other: ArticleQueryResult {
+extension GetArticlesAfterDateQuery.Data.Article: ArticleQueryResult {
     var publicationName: String { publication.name }
 }
 

@@ -154,10 +154,11 @@
 				7ED7C336252D117A0078B1BD /* AppDelegate.swift */,
 				7ED7C338252D117A0078B1BD /* SceneDelegate.swift */,
 				06662887257F204E006FEBCF /* Secrets.swift */,
-				0666288B257F2060006FEBCF /* Secrets.plist */,
-				063EED22257BF870002136EE /* Podfile */,
+				06DBC683257DE35F00B6A453 /* UserData.swift */,
 				7ED7C344252D117B0078B1BD /* Info.plist */,
 				7ED7C341252D117B0078B1BD /* LaunchScreen.storyboard */,
+				063EED22257BF870002136EE /* Podfile */,
+				0666288B257F2060006FEBCF /* Secrets.plist */,
 			);
 			path = Supporting;
 			sourceTree = "<group>";
@@ -208,7 +209,6 @@
 			children = (
 				7EA73D27254C9C67009E8F9F /* Article.swift */,
 				7E8658AD254B71FF002DEE68 /* Publication.swift */,
-				06DBC683257DE35F00B6A453 /* UserData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";

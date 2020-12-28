@@ -58,6 +58,7 @@ class GraphQLSubscription<Query: GraphQLQuery, S: Subscriber>:
                     subscriber.receive(completion: .failure(.graphQL(errors)))
                 } else if let data = result.data {
                     _ = subscriber.receive(data)
+                    subscriber.receive(completion: .finished)
                 } else {
                     subscriber.receive(completion: .failure(.noData))
                 }
