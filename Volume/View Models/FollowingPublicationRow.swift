@@ -23,11 +23,13 @@ struct FollowingPublicationRow: View {
                     .frame(width: 75, height: 75)
                     .shadow(color: Color(white: 0, opacity: 0.1), radius: 5)
                     .transition(.fade(duration: 0.5))
+                    .padding(.top, 4)
             } else {
                 Circle()
                     .foregroundColor(.gray)
                     .frame(width: 75, height: 75)
                     .shadow(color: Color(white: 0, opacity: 0.1), radius: 5)
+                    .padding(.top, 4)
             }
             Text(publication.name)
                 .font(.begumMedium(size: 12))
@@ -48,6 +50,7 @@ extension FollowingPublicationRow {
                     .clipShape(Circle())
                     .shadow(color: Color(white: 0, opacity: 0.1), radius: 5)
                     .frame(width: 75, height: 75)
+                    .padding(.top, 4)
                 SkeletonView()
                     .frame(width: 65, height: 14)
                 Spacer()
