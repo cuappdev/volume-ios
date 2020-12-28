@@ -223,7 +223,6 @@
 				7EA73D24254C9C5B009E8F9F /* BigReadArticleRow.swift */,
 				7E8658B4254B7FF2002DEE68 /* FollowingPublicationRow.swift */,
 				7E8658AA254B71D7002DEE68 /* MorePublicationRow.swift */,
-				7E1140CD2578555200D3BD26 /* PublicationHeader.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -459,7 +458,6 @@
 				7EC15DA1257767ED0053BA0B /* MorePublicationRow.swift in Sources */,
 				7EC15DA2257767ED0053BA0B /* PublicationDetail.swift in Sources */,
 				7EC15DA3257767ED0053BA0B /* PublicationList.swift in Sources */,
-				7E1140CE2578555200D3BD26 /* PublicationHeader.swift in Sources */,
 				7E416C362561E0650010D70B /* BookmarksList.swift in Sources */,
 				063EED56257BFF0C002136EE /* API.swift in Sources */,
 				7E23DFD2254A05EF0001C3A3 /* Color+Extension.swift in Sources */,
