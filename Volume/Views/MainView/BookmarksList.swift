@@ -10,7 +10,7 @@ import Combine
 import SwiftUI
 
 struct BookmarksList: View {
-    @State private var cancellableQueries: Set<AnyCancellable> = Set()
+    @State private var cancellableQuery: AnyCancellable?
     @State private var state: BookmarksListState = .loading
     @EnvironmentObject private var userData: UserData
     
@@ -20,7 +20,7 @@ struct BookmarksList: View {
             return
         }
         
-        userData.savedArticleIDs.publisher
+        cancellableQuery = userData.savedArticleIDs.publisher
             .map(GetArticleByIdQuery.init)
             .flatMap(Network.shared.apollo.fetch)
             .collect()
@@ -32,7 +32,7 @@ struct BookmarksList: View {
                 withAnimation(.linear(duration: 0.1)) {
                     state = .results([Article](value.map(\.article)))
                 }
-            }.store(in: &cancellableQueries)
+            }
     }
     
     private var someFollowedArticles: Bool {

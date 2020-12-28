@@ -45,6 +45,7 @@ struct MorePublicationRow: View {
                         .font(.system(size: 14, weight: .bold))
                         .foregroundColor(Color(white: 225 / 255))
                     Text("\"\(publication.recent)\"")
+                        .lineLimit(1)
                         .font(.helveticaRegular(size: 12))
                         .foregroundColor(.black)
                 }

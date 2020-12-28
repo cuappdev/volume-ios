@@ -58,6 +58,8 @@ extension ArticleInfo {
                         SkeletonView()
                             .frame(width: 33, height: 10)
                         Text(" • ")
+                            .font(.helveticaRegular(size: 10))
+                            .foregroundColor(Color.volume.lightGray)
                         SkeletonView()
                             .frame(width: 70, height: 10)
                     }

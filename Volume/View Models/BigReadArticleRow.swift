@@ -22,7 +22,6 @@ struct BigReadArticleRow: View {
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 180, height: 180)
                     .clipped()
-                    .padding(.bottom, 4)
             } else {
                 Rectangle() // TODO: Custom image displaying beginning of article in large font
                     .frame(width: 180, height: 180)

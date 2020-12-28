@@ -39,7 +39,10 @@ struct Publication: Hashable, Identifiable {
         bio = publication.bio
         name = publication.name
         id = publication.id
-        profileImageURL = URL(string: publication.profileImageUrl)
+        // TODO: Delete this once backend is updated
+        profileImageURL = URL(
+            string: publication.profileImageUrl.replacingOccurrences(of: "'", with: "")
+        )
         recent = publication.mostRecentArticle.title
         shoutouts = Int(publication.shoutouts)
         websiteURL = URL(string: publication.websiteUrl)

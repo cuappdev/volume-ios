@@ -10,28 +10,60 @@ import Combine
 import SwiftUI
 
 struct HomeList: View {
-    @State private var cancellableQuery: Cancellable?
+    @State private var cancellableQuery: AnyCancellable?
     @State private var state: HomeListState = .loading
+    @EnvironmentObject private var userData: UserData
     
     private func fetch() {
-        guard let date = Calendar.current.date(byAdding: .day, value: -7, to: Date()) else {
+        guard let oneWeekAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) else {
             return
         }
-        let query = GetHomeArticlesQuery(since: date.dateString)
-        cancellableQuery = Network.shared.apollo.fetch(query: query)
-            .sink(receiveCompletion: { completion in
+        
+        guard let twoWeeksAgo = Calendar.current.date(byAdding: .day, value: -14, to: Date()) else {
+            return
+        }
+        
+        let trendingQuery = Network.shared.apollo.fetch(
+            query: GetTrendingArticlesQuery(since: oneWeekAgo.dateString)
+        )
+        
+        let followedQuery = userData.followedPublicationIDs.publisher
+            .flatMap { id in
+                Network.shared.apollo.fetch(query: GetArticlesByPublicationIdQuery(id: id))
+            }
+            .map(\.articles)
+            .collect()
+        
+        let otherQuery = Network.shared.apollo.fetch(
+            query: GetArticlesAfterDateQuery(since: twoWeeksAgo.dateString, limit: 20)
+        )
+        
+        cancellableQuery = Publishers.Zip3(trendingQuery, followedQuery, otherQuery)
+            .sink { completion in
                 if case let .failure(error) = completion {
                     print(error.localizedDescription)
                 }
-            }, receiveValue: { value in
-                withAnimation(.linear(duration: 0.1)) {
+            } receiveValue: { (trending, followed, other) in
+                // Take up to 10 random followed articles
+                let followedArticles = Array(followed.joined().shuffled().prefix(10))
+                // Exclude followed articles from trending articles
+                let trendingArticles = trending.articles.filter { article in
+                    !followedArticles.contains(where: { $0.id == article.id })
+                }
+                // Exclude followed and trending articles from other articles
+                let otherArticles = other.articles.filter { article in
+                    !(followedArticles.contains(where: { $0.id == article.id })
+                        || trendingArticles.contains(where: { $0.id == article.id }))
+                }
+                
+                withAnimation(.linear(duration: 0.1)) { 
                     state = .results((
-                        trendingArticles: [Article](value.trending),
-                        followingArticles: [Article](value.following),
-                        otherArticles: [Article](value.other)
+                        trendingArticles: [Article](trendingArticles),
+                        followedArticles: [Article](followedArticles),
+                        otherArticles: [Article](otherArticles)
                     ))
                 }
-            })
+            }
     }
     
     private var isLoading: Bool {
@@ -74,7 +106,7 @@ struct HomeList: View {
                                 .padding([.bottom, .leading, .trailing])
                         }
                     case .results(let results):
-                        ForEach(results.followingArticles) { article in
+                        ForEach(results.followedArticles) { article in
                             ArticleRow(article: article)
                                 .padding([.bottom, .leading, .trailing])
                         }
@@ -113,7 +145,7 @@ struct HomeList: View {
 extension HomeList {
     typealias Results = (
         trendingArticles: [Article],
-        followingArticles: [Article],
+        followedArticles: [Article],
         otherArticles: [Article]
     )
     private enum HomeListState {
