@@ -14,8 +14,6 @@ class UserData: ObservableObject {
     private let publicationsKey = "savedPublicationIds"
     private let isFirstLauncyKey = "isFirstLaunch"
     
-    var can: AnyCancellable?
-    
     @Published private(set) var savedArticleIDs: [String] = [] {
         didSet {
             UserDefaults.standard.setValue(savedArticleIDs, forKey: articlesKey)
