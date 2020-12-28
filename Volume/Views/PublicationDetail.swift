@@ -13,26 +13,25 @@ struct PublicationDetail: View {
     let publication: Publication
     
     var body: some View {
-        NavigationView {
-            ScrollView(showsIndicators: false) {
-                PublicationHeader(publication: publication)
-                    .padding()
-                
-                Divider()
-                    .background(Color(white: 238 / 255))
-                    .frame(width: 100)
-                
-                Header(text: "Articles")
-                LazyVStack {
-                    ForEach(Array(Set(publication.articles))) { article in
-                        ArticleRow(article: article)
-                            .padding([.bottom, .leading, .trailing])
-                    }
+        ScrollView(showsIndicators: false) {
+            PublicationHeader(publication: publication)
+                .padding(.bottom)
+            
+            Divider()
+                .background(Color(white: 238 / 255))
+                .frame(width: 100)
+
+            Header(text: "Articles")
+            LazyVStack {
+                ForEach(Array(Set(publication.articles))) { article in
+                    ArticleRow(article: article, showsPublicationName: false)
+                        .padding([.bottom, .leading, .trailing])
                 }
             }
-            .background(Color.volume.backgroundGray)
-            .navigationBarTitleDisplayMode(.inline)
         }
+        .edgesIgnoringSafeArea(.top)
+        .navigationBarHidden(true)
+        
     }
 }
 

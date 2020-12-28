@@ -20,7 +20,6 @@ struct PublicationList: View {
                         NavigationLink(destination: PublicationDetail(publication: publication)) {
                             FollowingPublicationRow(publication: publication)
                         }
-                        .navigationBarTitle("", displayMode: .inline)
                     }
                 }
                 .padding([.leading, .trailing], 10)
@@ -38,7 +37,6 @@ struct PublicationList: View {
                         .buttonStyle(PlainButtonStyle())
                         .padding(.trailing)
                 }
-                .navigationBarTitle("", displayMode: .inline)
             }
         }
     }
