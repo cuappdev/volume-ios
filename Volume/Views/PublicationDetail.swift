@@ -62,7 +62,7 @@ struct PublicationDetail: View {
                     .background(Color(white: 238 / 255))
                     .frame(width: 100)
 
-                Header(text: "Articles")
+                Header("Articles")
                 LazyVStack {
                     ForEach(Array(Set(publication.articles))) { article in
                         ArticleRow(article: article, showsPublicationName: false)
@@ -80,6 +80,7 @@ struct PublicationDetail: View {
         }))
     }
 }
+
 
 private struct PublicationHeader: View {
     @State private var didAddPublication = false
@@ -173,5 +174,11 @@ private struct PublicationHeader: View {
 //                recent: "Horses love to swim"
 //            )
 //        )
+//    }
+//}
+
+//struct PublicationDetail_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PublicationDetail(publication: publicationsData[0])
 //    }
 //}
