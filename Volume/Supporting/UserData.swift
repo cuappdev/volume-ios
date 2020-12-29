@@ -15,14 +15,16 @@ class UserData: ObservableObject {
     private let isFirstLauncyKey = "isFirstLaunch"
     
     @Published private(set) var savedArticleIDs: [String] = [] {
-        didSet {
-            UserDefaults.standard.setValue(savedArticleIDs, forKey: articlesKey)
+        willSet {
+            UserDefaults.standard.setValue(newValue, forKey: articlesKey)
+            objectWillChange.send()
         }
     }
     
     @Published private(set) var followedPublicationIDs: [String] = [] {
-        didSet {
-            UserDefaults.standard.setValue(followedPublicationIDs, forKey: publicationsKey)
+        willSet {
+            UserDefaults.standard.setValue(newValue, forKey: publicationsKey)
+            objectWillChange.send()
         }
     }
     
