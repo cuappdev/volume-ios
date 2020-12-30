@@ -9,14 +9,13 @@
 import SwiftUI
 
 struct PublicationHeader: View {
-    @State private var didAddPublication = false
+    @EnvironmentObject private var userData: UserData
     private let iconGray = Color(white: 196 / 255)
 
     let publication: Publication
     
-    /// Computes the total number of shout-outs on all articles by `publication`
-    private var shoutOuts: Int {
-        publication.shoutouts
+    private var isFollowed: Bool {
+        userData.isPublicationFollowed(publication)
     }
 
     // TODO: refactor
@@ -65,19 +64,23 @@ struct PublicationHeader: View {
                 Spacer()
                 
                 Button(action: {
-                    self.didAddPublication.toggle()
+                    withAnimation {
+                        userData.togglePublicationFollowed(publication)
+                    }
                 }) {
-                    Text(didAddPublication ? "Followed" : "＋ Follow")
+                    Text(isFollowed ? "Followed" : "＋ Follow")
                         .font(.helveticaBold(size: 12))
                         .frame(width: 85, height: 30)
-                        .background(didAddPublication ? Color.volume.orange : Color.volume.buttonGray)
-                        .foregroundColor(didAddPublication ? Color.volume.buttonGray : Color.volume.orange)
+                        .background(isFollowed ? Color.volume.orange : Color.volume.buttonGray)
+                        .foregroundColor(
+                            isFollowed ? Color.volume.buttonGray : Color.volume.orange
+                        )
                         .cornerRadius(5)
                 }
                 .buttonStyle(PlainButtonStyle())
             }
             // TODO: `publication.articles.count` articles
-            Text("\(0) articles  •  \(shoutOuts) shout-outs")
+            Text("\(0) articles  •  \(publication.shoutouts) shout-outs")
                 .font(.helveticaRegular(size: 12))
                 .foregroundColor(Color(white: 151 / 255))
                 .padding([.bottom, .top], 8)

@@ -11,12 +11,7 @@ import SwiftUI
 
 struct ArticleRow: View {
     let article: Article
-    let showsPublicationName: Bool
-    
-    init(article: Article, showsPublicationName: Bool = true) {
-        self.article = article
-        self.showsPublicationName = showsPublicationName
-    }
+    let showsPublicationName = true
         
     var body: some View {
         HStack(spacing: 20) {
