@@ -10,7 +10,6 @@ import SwiftUI
 
 struct ContentView: View {
     @AppStorage("isFirstLaunch") private var isFirstLaunch = true
-    @State private var selectedTab: Tab = .publications
     
     init() {
         let grayColor = UIColor(Color.volume.navigationBarGray)

@@ -18,7 +18,7 @@ struct ArticleInfo: View {
         HStack {
             VStack(alignment: .leading) {
                 if showsPublicationName {
-                    Text(article.publication.name)
+                    Text(article.publicationName)
                         .font(.begumMedium(size: 12))
                 }
 
@@ -28,7 +28,7 @@ struct ArticleInfo: View {
                     .padding(.top, 0.5)
                 Spacer()
                 HStack {
-                    Text("\(article.date.string) • \(article.shoutOuts) shout-outs")
+                    Text("\(article.date.fullString) • \(article.shoutOuts) shout-outs")
                         .font(.helveticaRegular(size: 10))
                         .foregroundColor(Color.volume.lightGray)
                     if userData.isArticleSaved(article) {

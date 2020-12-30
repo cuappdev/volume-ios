@@ -28,8 +28,8 @@
 		06B80CFC257D9E9700F3BF9B /* Articles.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 06B80CFB257D9E9700F3BF9B /* Articles.graphql */; };
 		06B80D13257DC18600F3BF9B /* WebImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B80D12257DC18600F3BF9B /* WebImage+Extension.swift */; };
 		06DBC684257DE35F00B6A453 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DBC683257DE35F00B6A453 /* UserData.swift */; };
+		06EC2D24259CED0500FE0A71 /* PublicationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EC2D23259CED0500FE0A71 /* PublicationHeader.swift */; };
 		3EFA024161D57110FD6230CC /* Pods_Volume.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D32EB2090817668BEAC82D6E /* Pods_Volume.framework */; };
-		7E1140CE2578555200D3BD26 /* PublicationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1140CD2578555200D3BD26 /* PublicationHeader.swift */; };
 		7E23DFD2254A05EF0001C3A3 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E23DFD1254A05EF0001C3A3 /* Color+Extension.swift */; };
 		7E416C2F2561D47C0010D70B /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E416C2E2561D47C0010D70B /* Date+Extension.swift */; };
 		7E416C322561D7870010D70B /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E416C312561D7870010D70B /* Header.swift */; };
@@ -76,7 +76,7 @@
 		06B80CFB257D9E9700F3BF9B /* Articles.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = Articles.graphql; sourceTree = "<group>"; };
 		06B80D12257DC18600F3BF9B /* WebImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebImage+Extension.swift"; sourceTree = "<group>"; };
 		06DBC683257DE35F00B6A453 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
-		7E1140CD2578555200D3BD26 /* PublicationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicationHeader.swift; sourceTree = "<group>"; };
+		06EC2D23259CED0500FE0A71 /* PublicationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicationHeader.swift; sourceTree = "<group>"; };
 		7E23DFD1254A05EF0001C3A3 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		7E416C2E2561D47C0010D70B /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		7E416C312561D7870010D70B /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
@@ -176,6 +176,15 @@
 			path = MainView;
 			sourceTree = "<group>";
 		};
+		06EC2D21259CECF800FE0A71 /* PublicationDetail */ = {
+			isa = PBXGroup;
+			children = (
+				7E8658A4254B7173002DEE68 /* PublicationDetail.swift */,
+				06EC2D23259CED0500FE0A71 /* PublicationHeader.swift */,
+			);
+			path = PublicationDetail;
+			sourceTree = "<group>";
+		};
 		6765CF872AD6C3F7EF82641F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -201,7 +210,7 @@
 				7ED7C33A252D117A0078B1BD /* ContentView.swift */,
 				060FFDD82577EC800052F3EA /* Onboarding */,
 				0647BF8C2577F60400D44BC7 /* MainView */,
-				7E8658A4254B7173002DEE68 /* PublicationDetail.swift */,
+				06EC2D21259CECF800FE0A71 /* PublicationDetail */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -479,6 +488,7 @@
 				7EA73D25254C9C5B009E8F9F /* BigReadArticleRow.swift in Sources */,
 				06A8E2532575429200C28C68 /* MainView.swift in Sources */,
 				7ED7C33B252D117A0078B1BD /* ContentView.swift in Sources */,
+				06EC2D24259CED0500FE0A71 /* PublicationHeader.swift in Sources */,
 				060FFDDE2577EC800052F3EA /* OnboardingView.swift in Sources */,
 				063EED25257BF8A7002136EE /* Network.swift in Sources */,
 				7EA73D22254C9C21009E8F9F /* ArticleRow.swift in Sources */,
@@ -624,7 +634,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Volume/Preview Content\"";
-				DEVELOPMENT_TEAM = ZGMCXU7X3U;
+				DEVELOPMENT_TEAM = 9W8TDKYZ6C;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Volume/Supporting/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
@@ -646,7 +656,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Volume/Preview Content\"";
-				DEVELOPMENT_TEAM = ZGMCXU7X3U;
+				DEVELOPMENT_TEAM = 9W8TDKYZ6C;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Volume/Supporting/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
