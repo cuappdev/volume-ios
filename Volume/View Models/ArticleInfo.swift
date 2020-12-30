@@ -8,20 +8,20 @@
 
 import SwiftUI
 
-protocol Animal {
-    var name: String { get }
-}
-
 struct ArticleInfo: View {
     @EnvironmentObject private var userData: UserData
     
     let article: Article
+    let showsPublicationName: Bool
     
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(article.publicationName)
-                    .font(.begumMedium(size: 12))
+                if showsPublicationName {
+                    Text(article.publicationName)
+                        .font(.begumMedium(size: 12))
+                }
+
                 Text(article.title)
                     .font(.helveticaBold(size: 16))
                     .lineLimit(3)

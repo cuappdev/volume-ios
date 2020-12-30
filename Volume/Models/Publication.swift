@@ -16,6 +16,7 @@ struct Publication: Hashable, Identifiable {
     let recent: String
     let shoutouts: Int
     let websiteURL: URL?
+    let socials: [String : String] = [:]
     
     init(
         bio: String,
@@ -26,6 +27,7 @@ struct Publication: Hashable, Identifiable {
         shoutouts: Int,
         websiteURL: URL?
     ) {
+//        self.articles = articles
         self.bio = bio
         self.name = name
         self.id = id

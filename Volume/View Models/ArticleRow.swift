@@ -11,10 +11,11 @@ import SwiftUI
 
 struct ArticleRow: View {
     let article: Article
+    let showsPublicationName = true
         
     var body: some View {
         HStack(spacing: 20) {
-            ArticleInfo(article: article)
+            ArticleInfo(article: article, showsPublicationName: showsPublicationName)
             
             if let url = article.imageURL {
                 WebImage(url: url)
