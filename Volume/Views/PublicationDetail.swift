@@ -73,7 +73,7 @@ struct PublicationDetail: View {
             .edgesIgnoringSafeArea(.top)
             .navigationBarHidden(true)
         }
-        .gesture(DragGesture().updating($dragOffset, body: { (value, state, transaction) in
+        .gesture(DragGesture().updating($dragOffset, body: { value, _, _ in
             if(value.startLocation.x < 20 && value.translation.width > 100) {
                 self.presentationMode.wrappedValue.dismiss()
             }

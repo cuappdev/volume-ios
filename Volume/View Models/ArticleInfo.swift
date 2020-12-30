@@ -12,13 +12,13 @@ struct ArticleInfo: View {
     @EnvironmentObject private var userData: UserData
     
     let article: Article
-    let showsPublicationName = true
+    let showsPublicationName: Bool
     
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
                 if showsPublicationName {
-                    Text(article.publication)
+                    Text(article.publication.name)
                         .font(.begumMedium(size: 12))
                 }
 

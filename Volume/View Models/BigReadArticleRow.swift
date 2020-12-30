@@ -27,7 +27,7 @@ struct BigReadArticleRow: View {
                     .frame(width: 180, height: 180)
                     .foregroundColor(.blue)
             }
-            ArticleInfo(article: article)
+            ArticleInfo(article: article, showsPublicationName: true)
         }
         .frame(width: 180, height: 300)
     }

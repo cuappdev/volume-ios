@@ -16,10 +16,10 @@ struct PublicationHeader: View {
     
     /// Computes the total number of shout-outs on all articles by `publication`
     private var shoutOuts: Int {
-        publication.articles.map({ $0.shoutOuts }).reduce(0, +)
+        publication.articles.map(\.shoutOuts).reduce(0, +)
     }
 
-    private func link(for social: String, image: String, isUnderlined: Bool) -> some View {
+    func link(for social: String, image: String, isUnderlined: Bool) -> some View {
         return (
             Section {
                 Button(
@@ -62,7 +62,7 @@ struct PublicationHeader: View {
                 Spacer()
                 
                 Button(action: {
-                    self.didAddPublication.toggle()
+                    didAddPublication.toggle()
                 }) {
                     Text(didAddPublication ? "Followed" : "＋ Follow")
                         .font(.helveticaBold(size: 12))
@@ -79,20 +79,10 @@ struct PublicationHeader: View {
                 .padding([.bottom, .top], 8)
             Text(publication.description)
                 .font(.helveticaRegular(size: 14))
-                .lineLimit(nil)
             externalLinks
         }
         .padding([.leading, .trailing])
     }
-}
-
-private enum Link: String {
-    case facebook = "Facebook"
-    case instagram = "Instagram"
-    case website = "Link"
-    
-    
-    
 }
 
 struct PublicationHeader_Previews: PreviewProvider {
