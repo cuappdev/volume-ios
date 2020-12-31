@@ -5,6 +5,7 @@ query GetAllPublications {
     name
     shoutouts
     profileImageURL
+    backgroundImageURL
     websiteURL
     mostRecentArticle {
       title

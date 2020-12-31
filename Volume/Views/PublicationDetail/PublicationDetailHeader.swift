@@ -1,5 +1,5 @@
 //
-//  PublicationHeader.swift
+//  PublicationDetailHeader.swift
 //  Volume
 //
 //  Created by Daniel Vebman on 12/30/20.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct PublicationHeader: View {
+struct PublicationDetailHeader: View {
     @EnvironmentObject private var userData: UserData
     private let iconGray = Color(white: 196 / 255)
 
@@ -57,7 +57,7 @@ struct PublicationHeader: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            HStack {
+            HStack(alignment: .top) {
                 Text(publication.name)
                     .font(.begumMedium(size: 18))
                 
@@ -72,9 +72,7 @@ struct PublicationHeader: View {
                         .font(.helveticaBold(size: 12))
                         .frame(width: 85, height: 30)
                         .background(isFollowed ? Color.volume.orange : Color.volume.buttonGray)
-                        .foregroundColor(
-                            isFollowed ? Color.volume.buttonGray : Color.volume.orange
-                        )
+                        .foregroundColor(isFollowed ? Color.volume.buttonGray : Color.volume.orange)
                         .cornerRadius(5)
                 }
                 .buttonStyle(PlainButtonStyle())

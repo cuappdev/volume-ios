@@ -46,11 +46,19 @@ struct ArticleInfo: View {
 
 extension ArticleInfo {
     struct Skeleton: View {
+        let showsPublicationName: Bool
+
+        init(showsPublicationName: Bool = true) {
+            self.showsPublicationName = showsPublicationName
+        }
+
         var body: some View {
             HStack {
                 VStack(alignment: .leading) {
+                    if showsPublicationName {
                     SkeletonView()
                         .frame(width: 70, height: 14)
+                    }
                     SkeletonView()
                         .frame(height: 40)
                     Spacer()
