@@ -13,6 +13,8 @@
 		060FFDDD2577EC800052F3EA /* FollowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060FFDDA2577EC800052F3EA /* FollowView.swift */; };
 		060FFDDE2577EC800052F3EA /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060FFDDB2577EC800052F3EA /* OnboardingView.swift */; };
 		061233A12553127C0025F7E0 /* UnderlinedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061233A02553127C0025F7E0 /* UnderlinedText.swift */; };
+		061BA9E1259E355C00B93AEB /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 061BA9E0259E355C00B93AEB /* Secrets.plist */; };
+		061BA9E3259E35A000B93AEB /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 061BA9E2259E35A000B93AEB /* schema.json */; };
 		061DB39725571D760038BEF5 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061DB39625571D760038BEF5 /* Font+Extension.swift */; };
 		06379C74256725C000FC185A /* Begum-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06379C73256725C000FC185A /* Begum-Regular.ttf */; };
 		06379C792567297400FC185A /* Begum-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06379C782567297400FC185A /* Begum-Bold.ttf */; };
@@ -21,14 +23,12 @@
 		063EED56257BFF0C002136EE /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063EED55257BFF0C002136EE /* API.swift */; };
 		06491F7325787E870045F27D /* TrackableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06491F7225787E870045F27D /* TrackableScrollView.swift */; };
 		06662888257F204E006FEBCF /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06662887257F204E006FEBCF /* Secrets.swift */; };
-		0666288C257F2060006FEBCF /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0666288B257F2060006FEBCF /* Secrets.plist */; };
-		06997DB9259510E300F5CFB1 /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 06997DB8259510E300F5CFB1 /* schema.json */; };
 		06A8E2532575429200C28C68 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A8E2522575429200C28C68 /* MainView.swift */; };
 		06B23228258EDDA9006D9A53 /* SkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B23227258EDDA9006D9A53 /* SkeletonView.swift */; };
 		06B80CFC257D9E9700F3BF9B /* Articles.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 06B80CFB257D9E9700F3BF9B /* Articles.graphql */; };
 		06B80D13257DC18600F3BF9B /* WebImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B80D12257DC18600F3BF9B /* WebImage+Extension.swift */; };
 		06DBC684257DE35F00B6A453 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DBC683257DE35F00B6A453 /* UserData.swift */; };
-		06EC2D24259CED0500FE0A71 /* PublicationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EC2D23259CED0500FE0A71 /* PublicationHeader.swift */; };
+		06EC2D24259CED0500FE0A71 /* PublicationDetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EC2D23259CED0500FE0A71 /* PublicationDetailHeader.swift */; };
 		3EFA024161D57110FD6230CC /* Pods_Volume.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D32EB2090817668BEAC82D6E /* Pods_Volume.framework */; };
 		7E23DFD2254A05EF0001C3A3 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E23DFD1254A05EF0001C3A3 /* Color+Extension.swift */; };
 		7E416C2F2561D47C0010D70B /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E416C2E2561D47C0010D70B /* Date+Extension.swift */; };
@@ -60,6 +60,8 @@
 		060FFDDA2577EC800052F3EA /* FollowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowView.swift; sourceTree = "<group>"; };
 		060FFDDB2577EC800052F3EA /* OnboardingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		061233A02553127C0025F7E0 /* UnderlinedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlinedText.swift; sourceTree = "<group>"; };
+		061BA9E0259E355C00B93AEB /* Secrets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
+		061BA9E2259E35A000B93AEB /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		061DB39625571D760038BEF5 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
 		06379C73256725C000FC185A /* Begum-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Begum-Regular.ttf"; sourceTree = "<group>"; };
 		06379C782567297400FC185A /* Begum-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Begum-Bold.ttf"; sourceTree = "<group>"; };
@@ -69,14 +71,12 @@
 		063EED55257BFF0C002136EE /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		06491F7225787E870045F27D /* TrackableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackableScrollView.swift; sourceTree = "<group>"; };
 		06662887257F204E006FEBCF /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
-		0666288B257F2060006FEBCF /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
-		06997DB8259510E300F5CFB1 /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		06A8E2522575429200C28C68 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		06B23227258EDDA9006D9A53 /* SkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonView.swift; sourceTree = "<group>"; };
 		06B80CFB257D9E9700F3BF9B /* Articles.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = Articles.graphql; sourceTree = "<group>"; };
 		06B80D12257DC18600F3BF9B /* WebImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebImage+Extension.swift"; sourceTree = "<group>"; };
 		06DBC683257DE35F00B6A453 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
-		06EC2D23259CED0500FE0A71 /* PublicationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicationHeader.swift; sourceTree = "<group>"; };
+		06EC2D23259CED0500FE0A71 /* PublicationDetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicationDetailHeader.swift; sourceTree = "<group>"; };
 		7E23DFD1254A05EF0001C3A3 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		7E416C2E2561D47C0010D70B /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		7E416C312561D7870010D70B /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
@@ -143,7 +143,7 @@
 			children = (
 				063EED55257BFF0C002136EE /* API.swift */,
 				063EED24257BF8A7002136EE /* Network.swift */,
-				06997DB8259510E300F5CFB1 /* schema.json */,
+				061BA9E2259E35A000B93AEB /* schema.json */,
 				063EED49257BFDA9002136EE /* Publications.graphql */,
 				06B80CFB257D9E9700F3BF9B /* Articles.graphql */,
 			);
@@ -160,7 +160,7 @@
 				7ED7C344252D117B0078B1BD /* Info.plist */,
 				7ED7C341252D117B0078B1BD /* LaunchScreen.storyboard */,
 				063EED22257BF870002136EE /* Podfile */,
-				0666288B257F2060006FEBCF /* Secrets.plist */,
+				061BA9E0259E355C00B93AEB /* Secrets.plist */,
 			);
 			path = Supporting;
 			sourceTree = "<group>";
@@ -180,7 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				7E8658A4254B7173002DEE68 /* PublicationDetail.swift */,
-				06EC2D23259CED0500FE0A71 /* PublicationHeader.swift */,
+				06EC2D23259CED0500FE0A71 /* PublicationDetailHeader.swift */,
 			);
 			path = PublicationDetail;
 			sourceTree = "<group>";
@@ -364,12 +364,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				060B739A256373AF0035E252 /* Begum-Medium.ttf in Resources */,
+				061BA9E1259E355C00B93AEB /* Secrets.plist in Resources */,
 				7ED7C343252D117B0078B1BD /* LaunchScreen.storyboard in Resources */,
 				7ED7C340252D117B0078B1BD /* Preview Assets.xcassets in Resources */,
 				063EED4A257BFDA9002136EE /* Publications.graphql in Resources */,
-				0666288C257F2060006FEBCF /* Secrets.plist in Resources */,
 				06B80CFC257D9E9700F3BF9B /* Articles.graphql in Resources */,
-				06997DB9259510E300F5CFB1 /* schema.json in Resources */,
+				061BA9E3259E35A000B93AEB /* schema.json in Resources */,
 				7ED7C33D252D117B0078B1BD /* Assets.xcassets in Resources */,
 				06379C792567297400FC185A /* Begum-Bold.ttf in Resources */,
 				06379C74256725C000FC185A /* Begum-Regular.ttf in Resources */,
@@ -488,7 +488,7 @@
 				7EA73D25254C9C5B009E8F9F /* BigReadArticleRow.swift in Sources */,
 				06A8E2532575429200C28C68 /* MainView.swift in Sources */,
 				7ED7C33B252D117A0078B1BD /* ContentView.swift in Sources */,
-				06EC2D24259CED0500FE0A71 /* PublicationHeader.swift in Sources */,
+				06EC2D24259CED0500FE0A71 /* PublicationDetailHeader.swift in Sources */,
 				060FFDDE2577EC800052F3EA /* OnboardingView.swift in Sources */,
 				063EED25257BF8A7002136EE /* Network.swift in Sources */,
 				7EA73D22254C9C21009E8F9F /* ArticleRow.swift in Sources */,

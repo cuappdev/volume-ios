@@ -59,7 +59,7 @@ struct OnboardingView: View {
             .padding([.leading, .trailing], 50)
             
             Divider()
-                .background(Color(white: 238 / 255))
+                .background(Color.volume.buttonGray)
                 .frame(width: 100)
             
             switch page {
@@ -96,7 +96,7 @@ struct OnboardingView: View {
             .font(.helveticaBold(size: 16))
             .padding([.leading, .trailing], 32)
             .padding([.top, .bottom], 8)
-            .background(Color(white: 238 / 255))
+            .background(Color.volume.buttonGray)
             .cornerRadius(5)
             .shadow(color: Color.black.opacity(0.1), radius: page == .welcome || didFollowPublication ? 5 : 0)
             .padding(.bottom, 20)

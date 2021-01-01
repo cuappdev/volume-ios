@@ -6,42 +6,86 @@
 //  Copyright © 2020 Cornell AppDev. All rights reserved.
 //
 
+import Combine
+import SDWebImageSwiftUI
 import SwiftUI
 
 /// `PublicationDetail` displays detailed information about a publication
 struct PublicationDetail: View {
+    @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @GestureState private var dragOffset = CGSize.zero
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @State private var cancellableQuery: AnyCancellable?
+    @State private var state: PublicationDetailState = .loading
 
     let publication: Publication
+
+    private func fetch() {
+        cancellableQuery = Network.shared.apollo.fetch(query: GetArticlesByPublicationIdQuery(id: publication.id))
+            .map(\.articles)
+            .sink(receiveCompletion: { completion in
+                if case let .failure(error) = completion {
+                    print(error.localizedDescription)
+                }
+            }, receiveValue: { value in
+                withAnimation(.linear(duration: 0.1)) {
+                    state = .results([Article](value))
+                }
+            })
+    }
+
+    private var isLoading: Bool {
+        switch state {
+        case .loading:
+            return true
+        case .results:
+            return false
+        }
+    }
     
     private var backgroundImage: some View {
         ZStack {
             GeometryReader { geometry in
-                Image("cremeCoverImage")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: geometry.size.width, height: 140)
+                if let url = publication.backgroundImageURL {
+                    WebImage(url: url)
+                        .resizable()
+                        .grayBackground()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: geometry.size.width, height: 140)
+                        .clipped()
+                } else {
+                    Rectangle() // TODO: Custom image 
+                        .frame(width: geometry.size.width, height: 140)
+                        .foregroundColor(.blue)
+                }
             }
             HStack {
                 VStack(alignment: .leading) {
                     Button(action: {
                         self.presentationMode.wrappedValue.dismiss()
-                       // TODO: update following list
                     }) {
-                        Image("backarrow")
-                            .padding(EdgeInsets(top: 55, leading: 20, bottom: 0, trailing: 0))
+                        Image("back-arrow")
+                            .padding(.top, 55)
+                            .padding(.leading, 20)
                     }
                     
                     Spacer()
-                    Image("iceCream")
-                        .resizable()
-                        .frame(width: 60, height: 60)
-                        .clipShape(Circle())
-                        .scaledToFill()
-                        .overlay(Circle().stroke(Color.white, lineWidth: 3))
-                        .shadow(color: Color.volume.shadowBlack, radius: 5, x: 0, y: 0)
-                        .padding(.leading, 16)
+
+                    if let imageUrl = publication.profileImageURL {
+                        WebImage(url: imageUrl)
+                            .grayBackground()
+                            .resizable()
+                            .clipShape(Circle())
+                            .frame(width: 60, height: 60)
+                            .overlay(Circle().stroke(Color.white, lineWidth: 3))
+                            .shadow(color: Color.volume.shadowBlack, radius: 5, x: 0, y: 0)
+                            .padding(.leading, 16)
+                    } else {
+                        Circle()
+                            .frame(width: 60, height: 60)
+                            .overlay(Circle().stroke(Color.white, lineWidth: 3))
+                            .shadow(color: Color.volume.shadowBlack, radius: 5, x: 0, y: 0)
+                            .padding(.leading, 16)
+                    }
                 }
                 
                 Spacer()
@@ -52,32 +96,51 @@ struct PublicationDetail: View {
     
     var body: some View {
         Section {
-            ScrollView(showsIndicators: false) {
+            ScrollView {
                 backgroundImage
                 
-                PublicationHeader(publication: publication)
+                PublicationDetailHeader(publication: publication)
                     .padding(.bottom)
                 
                 Divider()
-                    .background(Color(white: 238 / 255))
+                    .background(Color.volume.buttonGray)
                     .frame(width: 100)
 
                 Header("Articles")
-//                LazyVStack {
-//                    ForEach(Array(Set(publication.articles))) { article in
-//                        ArticleRow(article: article, showsPublicationName: false)
-//                            .padding([.bottom, .leading, .trailing])
-//                    }
-//                }
+                switch state {
+                case .loading:
+                    VStack {
+                        ForEach(0..<5) { _ in
+                            ArticleRow.Skeleton(showsPublicationName: false)
+                                .padding([.bottom, .leading, .trailing])
+                        }
+                    }
+                case .results(let articles):
+                    LazyVStack {
+                        ForEach(articles) { article in
+                            ArticleRow(article: article, showsPublicationName: false)
+                                .padding([.bottom, .leading, .trailing])
+                        }
+                    }
+                }
             }
             .edgesIgnoringSafeArea(.top)
             .navigationBarHidden(true)
+            .disabled(isLoading)
         }
         .gesture(DragGesture().updating($dragOffset, body: { value, _, _ in
-            if(value.startLocation.x < 20 && value.translation.width > 100) {
-                self.presentationMode.wrappedValue.dismiss()
+            if value.startLocation.x < 20 && value.translation.width > 100 {
+                presentationMode.wrappedValue.dismiss()
             }
         }))
+        .onAppear(perform: fetch)
+    }
+}
+
+extension PublicationDetail {
+    private enum PublicationDetailState {
+        case loading
+        case results([Article])
     }
 }
 
@@ -92,11 +155,5 @@ struct PublicationDetail: View {
 //                recent: "Horses love to swim"
 //            )
 //        )
-//    }
-//}
-
-//struct PublicationDetail_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PublicationDetail(publication: publicationsData[0])
 //    }
 //}

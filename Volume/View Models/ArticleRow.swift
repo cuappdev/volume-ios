@@ -11,7 +11,12 @@ import SwiftUI
 
 struct ArticleRow: View {
     let article: Article
-    let showsPublicationName = true
+    let showsPublicationName: Bool
+
+    init(article: Article, showsPublicationName: Bool = true) {
+        self.article = article
+        self.showsPublicationName = showsPublicationName
+    }
         
     var body: some View {
         HStack(spacing: 20) {
@@ -22,23 +27,29 @@ struct ArticleRow: View {
                     .resizable()
                     .grayBackground()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 100, height: 100)
+                    .frame(width: showsPublicationName ? 100 : 80, height: showsPublicationName ? 100 : 80)
                     .clipped()
             }
         }
-        .frame(maxWidth: .infinity, idealHeight: 100, alignment: .leading)
+        .frame(maxWidth: .infinity, idealHeight: showsPublicationName ? 100 : 80, alignment: .leading)
     }
 }
 
 extension ArticleRow {
     struct Skeleton: View {
+        let showsPublicationName: Bool
+
+        init(showsPublicationName: Bool = true) {
+            self.showsPublicationName = showsPublicationName
+        }
+
         var body: some View {
             HStack(spacing: 20) {
-                ArticleInfo.Skeleton()
+                ArticleInfo.Skeleton(showsPublicationName: showsPublicationName)
                 SkeletonView()
-                    .frame(width: 100, height: 100)
+                    .frame(width: showsPublicationName ? 100 : 80, height: showsPublicationName ? 100 : 80)
             }
-            .frame(maxWidth: .infinity, idealHeight: 100, alignment: .leading)
+            .frame(maxWidth: .infinity, idealHeight: showsPublicationName ? 100 : 80, alignment: .leading)
         }
     }
 }

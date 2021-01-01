@@ -13,6 +13,7 @@ struct Publication: Hashable, Identifiable {
     let name: String
     let id: String
     let profileImageURL: URL?
+    let backgroundImageURL: URL?
     let recent: String
     let shoutouts: Int
     let websiteURL: URL?
@@ -22,7 +23,8 @@ struct Publication: Hashable, Identifiable {
         bio: String,
         name: String,
         id: String,
-        imageURL: URL?,
+        profileImageURL: URL?,
+        backgroundImageURL: URL?,
         recent: String,
         shoutouts: Int,
         websiteURL: URL?
@@ -31,7 +33,8 @@ struct Publication: Hashable, Identifiable {
         self.bio = bio
         self.name = name
         self.id = id
-        self.profileImageURL = imageURL
+        self.profileImageURL = profileImageURL
+        self.backgroundImageURL = backgroundImageURL
         self.recent = recent
         self.shoutouts = shoutouts
         self.websiteURL = websiteURL
@@ -43,7 +46,10 @@ struct Publication: Hashable, Identifiable {
         id = publication.id
         // TODO: Delete this once backend is updated
         profileImageURL = URL(
-            string: publication.profileImageUrl.replacingOccurrences(of: "'", with: "")
+            string: publication.profileImageUrl
+        )
+        backgroundImageURL = URL(
+            string: publication.backgroundImageUrl
         )
         recent = publication.mostRecentArticle.title
         shoutouts = Int(publication.shoutouts)
