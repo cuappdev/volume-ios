@@ -17,7 +17,7 @@ struct MorePublicationRow: View {
     
     var body: some View {
         HStack(alignment: .top) {
-            if let imageUrl = publication.profileImageURL {
+            if let imageUrl = publication.profileImageUrl {
                 WebImage(url: imageUrl)
                     .grayBackground()
                     .resizable()

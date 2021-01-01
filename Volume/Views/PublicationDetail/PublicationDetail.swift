@@ -45,7 +45,7 @@ struct PublicationDetail: View {
     private var backgroundImage: some View {
         ZStack {
             GeometryReader { geometry in
-                if let url = publication.backgroundImageURL {
+                if let url = publication.backgroundImageUrl {
                     WebImage(url: url)
                         .resizable()
                         .grayBackground()
@@ -70,7 +70,7 @@ struct PublicationDetail: View {
                     
                     Spacer()
 
-                    if let imageUrl = publication.profileImageURL {
+                    if let imageUrl = publication.profileImageUrl {
                         WebImage(url: imageUrl)
                             .grayBackground()
                             .resizable()

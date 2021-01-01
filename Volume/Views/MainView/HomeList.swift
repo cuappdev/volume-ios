@@ -13,8 +13,19 @@ struct HomeList: View {
     @State private var cancellableQuery: AnyCancellable?
     @State private var state: HomeListState = .loading
     @EnvironmentObject private var userData: UserData
-    
+
+    private var isLoading: Bool {
+        switch state {
+        case .loading:
+            return true
+        default:
+            return false
+        }
+    }
+
     private func fetch() {
+        guard isLoading else { return }
+
         guard let oneWeekAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) else {
             return
         }
@@ -64,15 +75,6 @@ struct HomeList: View {
                     ))
                 }
             }
-    }
-    
-    private var isLoading: Bool {
-        switch state {
-        case .loading:
-            return true
-        default:
-            return false
-        }
     }
     
     var body: some View {

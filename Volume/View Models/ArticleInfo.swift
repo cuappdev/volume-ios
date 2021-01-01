@@ -18,7 +18,7 @@ struct ArticleInfo: View {
         HStack {
             VStack(alignment: .leading) {
                 if showsPublicationName {
-                    Text(article.publicationName)
+                    Text(article.publication.name)
                         .font(.begumMedium(size: 12))
                 }
 

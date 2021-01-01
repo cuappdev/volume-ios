@@ -14,22 +14,25 @@ struct BigReadArticleRow: View {
     let article: Article
     
     var body: some View {
-        VStack(spacing: 15) {
-            if let url = article.imageURL {
-                WebImage(url: url)
-                    .resizable()
-                    .grayBackground()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 180, height: 180)
-                    .clipped()
-            } else {
-                Rectangle() // TODO: Custom image displaying beginning of article in large font
-                    .frame(width: 180, height: 180)
-                    .foregroundColor(.blue)
+        NavigationLink(destination: BrowserView(article: article)) {
+            VStack(spacing: 15) {
+                if let url = article.imageUrl {
+                    WebImage(url: url)
+                        .resizable()
+                        .grayBackground()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 180, height: 180)
+                        .clipped()
+                } else {
+                    Rectangle() // TODO: Custom image displaying beginning of article in large font
+                        .frame(width: 180, height: 180)
+                        .foregroundColor(.blue)
+                }
+                ArticleInfo(article: article, showsPublicationName: true)
             }
-            ArticleInfo(article: article, showsPublicationName: true)
+            .frame(width: 180, height: 300)
         }
-        .frame(width: 180, height: 300)
+        .accentColor(Color.black)
     }
 }
 

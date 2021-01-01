@@ -21,62 +21,66 @@ protocol ArticleQueryResult {
     var imageUrl: String { get }
     var shoutouts: Double { get }
     var title: String { get }
-    var publicationName: String { get }
+    var _publication: ArticleQueryResultPublication { get }
+}
+
+protocol ArticleQueryResultPublication {
+    var id: String { get }
+    var name: String { get }
+    var profileImageUrl: String { get }
 }
 
 extension GetTrendingArticlesQuery.Data.Article: ArticleQueryResult {
-    var publicationName: String { publication.name }
+    var _publication: ArticleQueryResultPublication { publication }
 }
+extension GetTrendingArticlesQuery.Data.Article.Publication: ArticleQueryResultPublication { }
 
 extension GetArticlesByPublicationIdQuery.Data.Article: ArticleQueryResult {
-    var publicationName: String { publication.name }
+    var _publication: ArticleQueryResultPublication { publication }
 }
+extension GetArticlesByPublicationIdQuery.Data.Article.Publication: ArticleQueryResultPublication { }
 
 extension GetArticlesAfterDateQuery.Data.Article: ArticleQueryResult {
-    var publicationName: String { publication.name }
+    var _publication: ArticleQueryResultPublication { publication }
 }
+extension GetArticlesAfterDateQuery.Data.Article.Publication: ArticleQueryResultPublication { }
 
 extension GetArticleByIdQuery.Data.Article: ArticleQueryResult {
-    var publicationName: String { publication.name }
+    var _publication: ArticleQueryResultPublication { publication }
 }
+extension GetArticleByIdQuery.Data.Article.Publication: ArticleQueryResultPublication { }
 
 // MARK: - Article
 
 struct Article: Hashable, Identifiable {
-    let articleURL: URL?
+    let articleUrl: URL?
     let date: Date
     let id: String
-    let imageURL: URL?
-    let publicationName: String
+    let imageUrl: URL?
+    let publication: Article.Publication
     let shoutOuts: Int
     let title: String
     
-    init(
-        articleURL: URL?,
-        date: Date,
-        id: String,
-        imageURL: URL?,
-        publicationName: String,
-        shoutOuts: Int,
-        title: String
-    ) {
-        self.articleURL = articleURL
-        self.date = date
-        self.id = id
-        self.imageURL = imageURL
-        self.publicationName = publicationName
-        self.shoutOuts = shoutOuts
-        self.title = title
-    }
-    
     init(from article: ArticleQueryResult) {
-        articleURL = URL(string: article.articleUrl)
+        articleUrl = URL(string: article.articleUrl)
         date = Date.from(iso8601: article.date)
         id = article.id
-        imageURL = URL(string: article.imageUrl)
-        publicationName = article.publicationName
+        imageUrl = URL(string: article.imageUrl)
+        publication = Publication(from: article._publication)
         shoutOuts = Int(article.shoutouts)
         title = article.title
+    }
+
+    struct Publication: Hashable, Identifiable {
+        let id: String
+        let name: String
+        let profileImageUrl: URL?
+
+        init(from publication: ArticleQueryResultPublication) {
+            self.id = publication.id
+            self.name = publication.name
+            self.profileImageUrl = URL(string: publication.profileImageUrl)
+        }
     }
 }
 

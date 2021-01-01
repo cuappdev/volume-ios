@@ -19,13 +19,16 @@
 		06379C74256725C000FC185A /* Begum-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06379C73256725C000FC185A /* Begum-Regular.ttf */; };
 		06379C792567297400FC185A /* Begum-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06379C782567297400FC185A /* Begum-Bold.ttf */; };
 		063EED25257BF8A7002136EE /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063EED24257BF8A7002136EE /* Network.swift */; };
-		063EED4A257BFDA9002136EE /* Publications.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 063EED49257BFDA9002136EE /* Publications.graphql */; };
+		063EED4A257BFDA9002136EE /* PublicationsQueries.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 063EED49257BFDA9002136EE /* PublicationsQueries.graphql */; };
 		063EED56257BFF0C002136EE /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063EED55257BFF0C002136EE /* API.swift */; };
 		06491F7325787E870045F27D /* TrackableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06491F7225787E870045F27D /* TrackableScrollView.swift */; };
 		06662888257F204E006FEBCF /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06662887257F204E006FEBCF /* Secrets.swift */; };
+		0685AA9E259EA84900DD55C4 /* BrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0685AA9D259EA84900DD55C4 /* BrowserView.swift */; };
+		0685AAA1259EBA3800DD55C4 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0685AAA0259EBA3800DD55C4 /* WebView.swift */; };
+		0685AAA4259EC2AF00DD55C4 /* ArticlesMutations.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 0685AAA3259EC2AF00DD55C4 /* ArticlesMutations.graphql */; };
 		06A8E2532575429200C28C68 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A8E2522575429200C28C68 /* MainView.swift */; };
 		06B23228258EDDA9006D9A53 /* SkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B23227258EDDA9006D9A53 /* SkeletonView.swift */; };
-		06B80CFC257D9E9700F3BF9B /* Articles.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 06B80CFB257D9E9700F3BF9B /* Articles.graphql */; };
+		06B80CFC257D9E9700F3BF9B /* ArticlesQueries.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 06B80CFB257D9E9700F3BF9B /* ArticlesQueries.graphql */; };
 		06B80D13257DC18600F3BF9B /* WebImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B80D12257DC18600F3BF9B /* WebImage+Extension.swift */; };
 		06DBC684257DE35F00B6A453 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DBC683257DE35F00B6A453 /* UserData.swift */; };
 		06EC2D24259CED0500FE0A71 /* PublicationDetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EC2D23259CED0500FE0A71 /* PublicationDetailHeader.swift */; };
@@ -67,13 +70,16 @@
 		06379C782567297400FC185A /* Begum-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Begum-Bold.ttf"; sourceTree = "<group>"; };
 		063EED22257BF870002136EE /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; };
 		063EED24257BF8A7002136EE /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
-		063EED49257BFDA9002136EE /* Publications.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = Publications.graphql; sourceTree = "<group>"; };
+		063EED49257BFDA9002136EE /* PublicationsQueries.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = PublicationsQueries.graphql; sourceTree = "<group>"; };
 		063EED55257BFF0C002136EE /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		06491F7225787E870045F27D /* TrackableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackableScrollView.swift; sourceTree = "<group>"; };
 		06662887257F204E006FEBCF /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
+		0685AA9D259EA84900DD55C4 /* BrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserView.swift; sourceTree = "<group>"; };
+		0685AAA0259EBA3800DD55C4 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		0685AAA3259EC2AF00DD55C4 /* ArticlesMutations.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = ArticlesMutations.graphql; sourceTree = "<group>"; };
 		06A8E2522575429200C28C68 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		06B23227258EDDA9006D9A53 /* SkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonView.swift; sourceTree = "<group>"; };
-		06B80CFB257D9E9700F3BF9B /* Articles.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = Articles.graphql; sourceTree = "<group>"; };
+		06B80CFB257D9E9700F3BF9B /* ArticlesQueries.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = ArticlesQueries.graphql; sourceTree = "<group>"; };
 		06B80D12257DC18600F3BF9B /* WebImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebImage+Extension.swift"; sourceTree = "<group>"; };
 		06DBC683257DE35F00B6A453 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		06EC2D23259CED0500FE0A71 /* PublicationDetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicationDetailHeader.swift; sourceTree = "<group>"; };
@@ -144,8 +150,9 @@
 				063EED55257BFF0C002136EE /* API.swift */,
 				063EED24257BF8A7002136EE /* Network.swift */,
 				061BA9E2259E35A000B93AEB /* schema.json */,
-				063EED49257BFDA9002136EE /* Publications.graphql */,
-				06B80CFB257D9E9700F3BF9B /* Articles.graphql */,
+				063EED49257BFDA9002136EE /* PublicationsQueries.graphql */,
+				06B80CFB257D9E9700F3BF9B /* ArticlesQueries.graphql */,
+				0685AAA3259EC2AF00DD55C4 /* ArticlesMutations.graphql */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -208,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				7ED7C33A252D117A0078B1BD /* ContentView.swift */,
+				0685AA9D259EA84900DD55C4 /* BrowserView.swift */,
 				060FFDD82577EC800052F3EA /* Onboarding */,
 				0647BF8C2577F60400D44BC7 /* MainView */,
 				06EC2D21259CECF800FE0A71 /* PublicationDetail */,
@@ -245,6 +253,7 @@
 				06491F7225787E870045F27D /* TrackableScrollView.swift */,
 				061233A02553127C0025F7E0 /* UnderlinedText.swift */,
 				7EE96DC72562505B000B246F /* VolumeMessage.swift */,
+				0685AAA0259EBA3800DD55C4 /* WebView.swift */,
 			);
 			path = "Supporting Views";
 			sourceTree = "<group>";
@@ -367,9 +376,10 @@
 				061BA9E1259E355C00B93AEB /* Secrets.plist in Resources */,
 				7ED7C343252D117B0078B1BD /* LaunchScreen.storyboard in Resources */,
 				7ED7C340252D117B0078B1BD /* Preview Assets.xcassets in Resources */,
-				063EED4A257BFDA9002136EE /* Publications.graphql in Resources */,
-				06B80CFC257D9E9700F3BF9B /* Articles.graphql in Resources */,
+				063EED4A257BFDA9002136EE /* PublicationsQueries.graphql in Resources */,
+				06B80CFC257D9E9700F3BF9B /* ArticlesQueries.graphql in Resources */,
 				061BA9E3259E35A000B93AEB /* schema.json in Resources */,
+				0685AAA4259EC2AF00DD55C4 /* ArticlesMutations.graphql in Resources */,
 				7ED7C33D252D117B0078B1BD /* Assets.xcassets in Resources */,
 				06379C792567297400FC185A /* Begum-Bold.ttf in Resources */,
 				06379C74256725C000FC185A /* Begum-Regular.ttf in Resources */,
@@ -467,7 +477,9 @@
 				7EC15DA1257767ED0053BA0B /* MorePublicationRow.swift in Sources */,
 				7EC15DA2257767ED0053BA0B /* PublicationDetail.swift in Sources */,
 				7EC15DA3257767ED0053BA0B /* PublicationList.swift in Sources */,
+				0685AAA1259EBA3800DD55C4 /* WebView.swift in Sources */,
 				7E416C362561E0650010D70B /* BookmarksList.swift in Sources */,
+				0685AA9E259EA84900DD55C4 /* BrowserView.swift in Sources */,
 				063EED56257BFF0C002136EE /* API.swift in Sources */,
 				7E23DFD2254A05EF0001C3A3 /* Color+Extension.swift in Sources */,
 				7E416C2F2561D47C0010D70B /* Date+Extension.swift in Sources */,
