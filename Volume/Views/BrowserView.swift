@@ -22,23 +22,26 @@ struct BrowserView: View {
 
     private var toolbar: some View {
         HStack(spacing: 0) {
-            if let imageUrl = article.publication.profileImageUrl {
-                WebImage(url: imageUrl)
-                    .grayBackground()
-                    .resizable()
-                    .clipShape(Circle())
-                    .frame(width: 32, height: 32)
-            } else {
-                Circle()
-                    .fill(Color.gray)
-                    .frame(width: 32, height: 32)
+            NavigationLink(destination: PublicationDetail(publication: article.publication)) {
+                if let imageUrl = article.publication.profileImageUrl {
+                    WebImage(url: imageUrl)
+                        .grayBackground()
+                        .resizable()
+                        .clipShape(Circle())
+                        .frame(width: 32, height: 32)
+                } else {
+                    Circle()
+                        .fill(Color.gray)
+                        .frame(width: 32, height: 32)
+                }
+
+                Spacer()
+                    .frame(width: 7)
+
+                Text("See more")
+                    .font(.helveticaRegular(size: 12))
+                    .foregroundColor(Color.black)
             }
-
-            Spacer()
-                .frame(width: 7)
-
-            Text("See more")
-                .font(.helveticaRegular(size: 12))
 
             Spacer()
 

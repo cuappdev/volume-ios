@@ -128,6 +128,7 @@ struct PublicationDetail: View {
             .navigationBarHidden(true)
             .disabled(isLoading)
         }
+        .background(Color.volume.backgroundGray)
         .gesture(DragGesture().updating($dragOffset, body: { value, _, _ in
             if value.startLocation.x < 20 && value.translation.width > 100 {
                 presentationMode.wrappedValue.dismiss()

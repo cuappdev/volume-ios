@@ -11,9 +11,16 @@ query GetTrendingArticles($since: String!) {
         imageURL
         shoutouts
         publication {
-          id
-          name
-          profileImageURL
+            id
+            bio
+            name
+            shoutouts
+            profileImageURL
+            backgroundImageURL
+            websiteURL
+            mostRecentArticle {
+                title
+            }
         }
     }
 }
@@ -27,9 +34,16 @@ query GetArticlesAfterDate($since: String!, $limit: Float!) {
         imageURL
         shoutouts
         publication {
-          id
-          name
-          profileImageURL
+            id
+            bio
+            name
+            shoutouts
+            profileImageURL
+            backgroundImageURL
+            websiteURL
+            mostRecentArticle {
+                title
+            }
         }
     }
 }
@@ -43,9 +57,16 @@ query GetArticlesByPublicationID($id: String!) {
         imageURL
         shoutouts
         publication {
-          id
-          name
-          profileImageURL
+            id
+            bio
+            name
+            shoutouts
+            profileImageURL
+            backgroundImageURL
+            websiteURL
+            mostRecentArticle {
+                title
+            }
         }
     }
 }
@@ -61,9 +82,16 @@ query GetArticleByID($id: String!) {
         imageURL
         shoutouts
         publication {
-          id
-          name
-          profileImageURL
+            id
+            bio
+            name
+            shoutouts
+            profileImageURL
+            backgroundImageURL
+            websiteURL
+            mostRecentArticle {
+                title
+            }
         }
     }
 }
