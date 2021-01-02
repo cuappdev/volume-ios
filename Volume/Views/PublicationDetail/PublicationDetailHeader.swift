@@ -78,7 +78,7 @@ struct PublicationDetailHeader: View {
                 .buttonStyle(PlainButtonStyle())
             }
             // TODO: `publication.articles.count` articles
-            Text("\(0) articles  •  \(publication.shoutouts) shout-outs")
+            Text("\(0) articles  •  \(max(publication.shoutouts, userData.shoutoutsCache[publication.id, default: 0])) shout-outs")
                 .font(.helveticaRegular(size: 12))
                 .foregroundColor(Color(white: 151 / 255))
                 .padding([.bottom, .top], 8)

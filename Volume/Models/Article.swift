@@ -48,7 +48,7 @@ struct Article: Hashable, Identifiable {
     let id: String
     let imageUrl: URL?
     let publication: Publication
-    let shoutOuts: Int
+    let shoutouts: Int
     let title: String
     
     init(from article: ArticleQueryResult) {
@@ -57,7 +57,7 @@ struct Article: Hashable, Identifiable {
         id = article.id
         imageUrl = URL(string: article.imageUrl)
         publication = Publication(from: article._publication)
-        shoutOuts = Int(article.shoutouts)
+        shoutouts = Int(article.shoutouts)
         title = article.title
     }
 }

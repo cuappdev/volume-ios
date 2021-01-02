@@ -28,7 +28,7 @@ struct ArticleInfo: View {
                     .padding(.top, 0.5)
                 Spacer()
                 HStack {
-                    Text("\(article.date.fullString) • \(article.shoutOuts) shout-outs")
+                    Text("\(article.date.fullString) • \(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0])) shout-outs")
                         .font(.helveticaRegular(size: 10))
                         .foregroundColor(Color.volume.lightGray)
                     if userData.isArticleSaved(article) {

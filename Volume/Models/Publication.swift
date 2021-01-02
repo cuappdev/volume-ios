@@ -8,6 +8,8 @@
 
 import Foundation
 
+// MARK: - PublicationQueryResult
+
 /// An umbrella type for minimizing repetition of the code that casts query results to
 /// `Publication`s. This type is not to be explicitly referenced outside of this file. Cast
 /// instances to `Publication`s instead and then work with that type.
@@ -42,6 +44,8 @@ extension GetArticleByIdQuery.Data.Article.Publication: PublicationQueryResult {
     var recent: String { mostRecentArticle.title }
 }
 
+// MARK: - Publication
+
 struct Publication: Hashable, Identifiable {
     let bio: String
     let name: String
@@ -57,13 +61,8 @@ struct Publication: Hashable, Identifiable {
         bio = publication.bio
         name = publication.name
         id = publication.id
-        // TODO: Delete this once backend is updated
-        profileImageUrl = URL(
-            string: publication.profileImageUrl
-        )
-        backgroundImageUrl = URL(
-            string: publication.backgroundImageUrl
-        )
+        profileImageUrl = URL(string: publication.profileImageUrl)
+        backgroundImageUrl = URL(string: publication.backgroundImageUrl)
         recent = publication.recent
         shoutouts = Int(publication.shoutouts)
         websiteUrl = URL(string: publication.websiteUrl)

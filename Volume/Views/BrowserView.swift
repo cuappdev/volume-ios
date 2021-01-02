@@ -16,7 +16,8 @@ struct BrowserView: View {
     let article: Article
 
     private func incrementShoutouts() {
-        // TODO: propagate this change immediately upon completion
+        userData.shoutoutsCache[article.id, default: 0] += 1
+        userData.shoutoutsCache[article.publication.id, default: 0] += 1
         Network.shared.apollo.perform(mutation: IncrementShoutoutsMutation(id: article.id))
     }
 
@@ -69,7 +70,7 @@ struct BrowserView: View {
                 Spacer()
                     .frame(width: 5)
 
-                Text(String(article.shoutOuts))
+                Text(String(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0])))
                     .font(.helveticaRegular(size: 12))
             }
         }
