@@ -1,15 +1,5 @@
 mutation IncrementShoutouts($id: String!) {
   incrementShoutouts(id: $id) {
     id
-    articleURL
-    date
-    title
-    imageURL
-    shoutouts
-    publication {
-      id
-      name
-      profileImageURL
-    }
   }
 }

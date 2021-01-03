@@ -30,7 +30,7 @@ struct PublicationList: View {
                     print(error.localizedDescription)
                 }
             }, receiveValue: { value in
-                let publications = [Publication](value)
+                let publications = [Publication](value.map(\.fragments.publicationFields))
                 let followedPublications = publications.filter(userData.isPublicationFollowed)
                 let morePublications = publications.filter { !userData.isPublicationFollowed($0) }
                 withAnimation(.linear(duration: 0.1)) {

@@ -18,7 +18,7 @@ extension OnboardingView {
         
         private func fetch() {
             cancellableQuery = Network.shared.apollo.fetch(query: GetAllPublicationsQuery())
-                .map { data in data.publications.compactMap { $0 } }
+                .map { data in data.publications.compactMap { $0.fragments.publicationFields } }
                 .sink(receiveCompletion: { completion in
                     if case let .failure(error) = completion {
                         print(error.localizedDescription)

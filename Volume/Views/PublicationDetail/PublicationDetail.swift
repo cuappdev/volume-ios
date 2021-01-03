@@ -28,7 +28,7 @@ struct PublicationDetail: View {
                 }
             }, receiveValue: { value in
                 withAnimation(.linear(duration: 0.1)) {
-                    state = .results([Article](value))
+                    state = .results([Article](value.map(\.fragments.articleFields)))
                 }
             })
     }

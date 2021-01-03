@@ -1,97 +1,41 @@
+fragment articleFields on Article {
+  id
+  articleURL
+  date
+  title
+  imageURL
+  shoutouts
+  publication {
+    ...publicationFields
+  }
+}
+
 # MARK: - HomeList
 
 # should be combined into 1 GetHomeArticles query once backend permits
 
 query GetTrendingArticles($since: String!) {
-    articles: getTrendingArticles(since: $since) {
-        id
-        articleURL
-        date
-        title
-        imageURL
-        shoutouts
-        publication {
-            id
-            bio
-            name
-            shoutouts
-            profileImageURL
-            backgroundImageURL
-            websiteURL
-            mostRecentArticle {
-                title
-            }
-        }
-    }
+  articles: getTrendingArticles(since: $since) {
+    ...articleFields
+  }
 }
 
 query GetArticlesAfterDate($since: String!, $limit: Float!) {
-    articles: getArticlesAfterDate(since: $since, limit: $limit) {
-        id
-        articleURL
-        date
-        title
-        imageURL
-        shoutouts
-        publication {
-            id
-            bio
-            name
-            shoutouts
-            profileImageURL
-            backgroundImageURL
-            websiteURL
-            mostRecentArticle {
-                title
-            }
-        }
-    }
+  articles: getArticlesAfterDate(since: $since, limit: $limit) {
+    ...articleFields
+  }
 }
 
 query GetArticlesByPublicationID($id: String!) {
-    articles: getArticlesByPublication(publicationID: $id) {
-        id
-        articleURL
-        date
-        title
-        imageURL
-        shoutouts
-        publication {
-            id
-            bio
-            name
-            shoutouts
-            profileImageURL
-            backgroundImageURL
-            websiteURL
-            mostRecentArticle {
-                title
-            }
-        }
-    }
+  articles: getArticlesByPublication(publicationID: $id) {
+    ...articleFields
+  }
 }
 
 # MARK: - BookmarksList
 
 query GetArticleByID($id: String!) {
-    article: getArticleByID(id: $id) {
-        id
-        articleURL
-        date
-        title
-        imageURL
-        shoutouts
-        publication {
-            id
-            bio
-            name
-            shoutouts
-            profileImageURL
-            backgroundImageURL
-            websiteURL
-            mostRecentArticle {
-                title
-            }
-        }
-    }
+  article: getArticleByID(id: $id) {
+    ...articleFields
+  }
 }

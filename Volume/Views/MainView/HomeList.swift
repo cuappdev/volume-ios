@@ -34,20 +34,18 @@ struct HomeList: View {
             return
         }
         
-        let trendingQuery = Network.shared.apollo.fetch(
-            query: GetTrendingArticlesQuery(since: oneWeekAgo.dateString)
-        )
+        let trendingQuery = Network.shared.apollo.fetch(query: GetTrendingArticlesQuery(since: oneWeekAgo.dateString))
+            .map { $0.articles.map(\.fragments.articleFields) }
         
         let followedQuery = userData.followedPublicationIDs.publisher
             .flatMap { id in
                 Network.shared.apollo.fetch(query: GetArticlesByPublicationIdQuery(id: id))
             }
-            .map(\.articles)
+            .map { $0.articles.map(\.fragments.articleFields) }
             .collect()
         
-        let otherQuery = Network.shared.apollo.fetch(
-            query: GetArticlesAfterDateQuery(since: twoWeeksAgo.dateString, limit: 20)
-        )
+        let otherQuery = Network.shared.apollo.fetch(query: GetArticlesAfterDateQuery(since: twoWeeksAgo.dateString, limit: 20))
+            .map { $0.articles.map(\.fragments.articleFields) }
         
         cancellableQuery = Publishers.Zip3(trendingQuery, followedQuery, otherQuery)
             .sink { completion in
@@ -55,14 +53,16 @@ struct HomeList: View {
                     print(error.localizedDescription)
                 }
             } receiveValue: { (trending, followed, other) in
+//                trending.articles.map(\.fragments)
+//                trending.articles.first!.fragments.articleFields
                 // Take up to 10 random followed articles
                 let followedArticles = Array(followed.joined().shuffled().prefix(10))
                 // Exclude followed articles from trending articles
-                let trendingArticles = trending.articles.filter { article in
+                let trendingArticles = trending.filter { article in
                     !followedArticles.contains(where: { $0.id == article.id })
                 }
                 // Exclude followed and trending articles from other articles
-                let otherArticles = other.articles.filter { article in
+                let otherArticles = other.filter { article in
                     !(followedArticles.contains(where: { $0.id == article.id })
                         || trendingArticles.contains(where: { $0.id == article.id }))
                 }

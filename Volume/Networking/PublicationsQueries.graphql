@@ -1,14 +1,19 @@
 query GetAllPublications {
   publications: getAllPublications {
-    id
-    bio
-    name
-    shoutouts
-    profileImageURL
-    backgroundImageURL
-    websiteURL
-    mostRecentArticle {
-      title
-    }
+    ...publicationFields
+  }
+}
+
+fragment publicationFields on Publication {
+  id
+  bio
+  name
+  shoutouts
+  profileImageURL
+  backgroundImageURL
+  numArticles
+  websiteURL
+  mostRecentArticle {
+    title
   }
 }
