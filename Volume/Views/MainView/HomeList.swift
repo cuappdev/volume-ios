@@ -53,14 +53,12 @@ struct HomeList: View {
                     print(error.localizedDescription)
                 }
             } receiveValue: { (trending, followed, other) in
-//                trending.articles.map(\.fragments)
-//                trending.articles.first!.fragments.articleFields
                 // Take up to 10 random followed articles
                 let followedArticles = Array(followed.joined().shuffled().prefix(10))
                 // Exclude followed articles from trending articles
-                let trendingArticles = trending.filter { article in
+                let trendingArticles = Array(trending.filter { article in
                     !followedArticles.contains(where: { $0.id == article.id })
-                }
+                }.prefix(10))
                 // Exclude followed and trending articles from other articles
                 let otherArticles = other.filter { article in
                     !(followedArticles.contains(where: { $0.id == article.id })
