@@ -17,7 +17,7 @@ struct MorePublicationRow: View {
     
     var body: some View {
         HStack(alignment: .top) {
-            if let imageUrl = publication.profileImageURL {
+            if let imageUrl = publication.profileImageUrl {
                 WebImage(url: imageUrl)
                     .grayBackground()
                     .resizable()
@@ -40,16 +40,18 @@ struct MorePublicationRow: View {
                     .lineSpacing(4)
                     .lineLimit(2)
                     .fixedSize(horizontal: false, vertical: true)
-                HStack {
-                    Text("|")
-                        .font(.system(size: 14, weight: .bold))
-                        .foregroundColor(Color(white: 225 / 255))
-                    Text("\"\(publication.recent)\"")
-                        .lineLimit(1)
-                        .font(.helveticaRegular(size: 12))
-                        .foregroundColor(.black)
+                if let recent = publication.recent {
+                    HStack {
+                        Text("|")
+                            .font(.system(size: 14, weight: .bold))
+                            .foregroundColor(Color(white: 225 / 255))
+                        Text("\"\(recent)\"")
+                            .lineLimit(1)
+                            .font(.helveticaRegular(size: 12))
+                            .foregroundColor(.black)
+                    }
+                    .padding(.top, 2)
                 }
-                .padding(.top, 2)
             }
             
             Spacer()

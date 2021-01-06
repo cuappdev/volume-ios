@@ -13,8 +13,19 @@ struct HomeList: View {
     @State private var cancellableQuery: AnyCancellable?
     @State private var state: HomeListState = .loading
     @EnvironmentObject private var userData: UserData
-    
+
+    private var isLoading: Bool {
+        switch state {
+        case .loading:
+            return true
+        default:
+            return false
+        }
+    }
+
     private func fetch() {
+        guard isLoading else { return }
+
         guard let oneWeekAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) else {
             return
         }
@@ -23,20 +34,18 @@ struct HomeList: View {
             return
         }
         
-        let trendingQuery = Network.shared.apollo.fetch(
-            query: GetTrendingArticlesQuery(since: oneWeekAgo.dateString)
-        )
+        let trendingQuery = Network.shared.apollo.fetch(query: GetTrendingArticlesQuery(since: oneWeekAgo.dateString))
+            .map { $0.articles.map(\.fragments.articleFields) }
         
         let followedQuery = userData.followedPublicationIDs.publisher
             .flatMap { id in
                 Network.shared.apollo.fetch(query: GetArticlesByPublicationIdQuery(id: id))
             }
-            .map(\.articles)
+            .map { $0.articles.map(\.fragments.articleFields) }
             .collect()
         
-        let otherQuery = Network.shared.apollo.fetch(
-            query: GetArticlesAfterDateQuery(since: twoWeeksAgo.dateString, limit: 20)
-        )
+        let otherQuery = Network.shared.apollo.fetch(query: GetArticlesAfterDateQuery(since: twoWeeksAgo.dateString, limit: 20))
+            .map { $0.articles.map(\.fragments.articleFields) }
         
         cancellableQuery = Publishers.Zip3(trendingQuery, followedQuery, otherQuery)
             .sink { completion in
@@ -46,12 +55,12 @@ struct HomeList: View {
             } receiveValue: { (trending, followed, other) in
                 // Take up to 10 random followed articles
                 let followedArticles = Array(followed.joined().shuffled().prefix(10))
-                // Exclude followed articles from trending articles
-                let trendingArticles = trending.articles.filter { article in
+                // Exclude followed articles from trending articles, taking at most 10
+                let trendingArticles = Array(trending.filter { article in
                     !followedArticles.contains(where: { $0.id == article.id })
-                }
+                }.prefix(10))
                 // Exclude followed and trending articles from other articles
-                let otherArticles = other.articles.filter { article in
+                let otherArticles = other.filter { article in
                     !(followedArticles.contains(where: { $0.id == article.id })
                         || trendingArticles.contains(where: { $0.id == article.id }))
                 }
@@ -64,15 +73,6 @@ struct HomeList: View {
                     ))
                 }
             }
-    }
-    
-    private var isLoading: Bool {
-        switch state {
-        case .loading:
-            return true
-        default:
-            return false
-        }
     }
     
     var body: some View {

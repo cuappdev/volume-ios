@@ -28,7 +28,7 @@ struct PublicationDetail: View {
                 }
             }, receiveValue: { value in
                 withAnimation(.linear(duration: 0.1)) {
-                    state = .results([Article](value))
+                    state = .results([Article](value.map(\.fragments.articleFields)))
                 }
             })
     }
@@ -45,7 +45,7 @@ struct PublicationDetail: View {
     private var backgroundImage: some View {
         ZStack {
             GeometryReader { geometry in
-                if let url = publication.backgroundImageURL {
+                if let url = publication.backgroundImageUrl {
                     WebImage(url: url)
                         .resizable()
                         .grayBackground()
@@ -70,7 +70,7 @@ struct PublicationDetail: View {
                     
                     Spacer()
 
-                    if let imageUrl = publication.profileImageURL {
+                    if let imageUrl = publication.profileImageUrl {
                         WebImage(url: imageUrl)
                             .grayBackground()
                             .resizable()
@@ -128,6 +128,7 @@ struct PublicationDetail: View {
             .navigationBarHidden(true)
             .disabled(isLoading)
         }
+        .background(Color.volume.backgroundGray)
         .gesture(DragGesture().updating($dragOffset, body: { value, _, _ in
             if value.startLocation.x < 20 && value.translation.width > 100 {
                 presentationMode.wrappedValue.dismiss()

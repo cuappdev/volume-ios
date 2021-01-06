@@ -29,8 +29,13 @@ struct BookmarksList: View {
                     print(error.localizedDescription)
                 }
             } receiveValue: { value in
+                let articles = [Article](value.compactMap(\.article?.fragments.articleFields)).sorted {
+                    guard let index1 = userData.savedArticleIDs.firstIndex(of: $0.id) else { return true }
+                    guard let index2 = userData.savedArticleIDs.firstIndex(of: $1.id) else { return true }
+                    return index1 < index2
+                }
                 withAnimation(.linear(duration: 0.1)) {
-                    state = .results([Article](value.map(\.article)))
+                    state = .results(articles)
                 }
             }
     }

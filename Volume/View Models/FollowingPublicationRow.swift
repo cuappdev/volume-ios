@@ -15,7 +15,7 @@ struct FollowingPublicationRow: View {
         
     var body: some View {
         VStack(spacing: 5) {
-            if let url = publication.profileImageURL {
+            if let url = publication.profileImageUrl {
                 WebImage(url: url)
                     .resizable()
                     .grayBackground()

@@ -17,21 +17,24 @@ struct ArticleRow: View {
         self.article = article
         self.showsPublicationName = showsPublicationName
     }
-        
+
     var body: some View {
-        HStack(spacing: 20) {
-            ArticleInfo(article: article, showsPublicationName: showsPublicationName)
-            
-            if let url = article.imageURL {
-                WebImage(url: url)
-                    .resizable()
-                    .grayBackground()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: showsPublicationName ? 100 : 80, height: showsPublicationName ? 100 : 80)
-                    .clipped()
+        NavigationLink(destination: BrowserView(article: article)) {
+            HStack(spacing: 20) {
+                ArticleInfo(article: article, showsPublicationName: showsPublicationName)
+
+                if let url = article.imageUrl {
+                    WebImage(url: url)
+                        .resizable()
+                        .grayBackground()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: showsPublicationName ? 100 : 80, height: showsPublicationName ? 100 : 80)
+                        .clipped()
+                }
             }
+            .frame(maxWidth: .infinity, idealHeight: showsPublicationName ? 100 : 80, alignment: .leading)
         }
-        .frame(maxWidth: .infinity, idealHeight: showsPublicationName ? 100 : 80, alignment: .leading)
+        .accentColor(Color.black)
     }
 }
 
