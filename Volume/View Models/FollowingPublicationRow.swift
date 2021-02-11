@@ -12,7 +12,7 @@ import SwiftUI
 /// `FollowingPublicationRow` displays the images and name of a publication a user is currently following
 struct FollowingPublicationRow: View {
     let publication: Publication
-        
+
     var body: some View {
         VStack(spacing: 5) {
             if let url = publication.profileImageUrl {

@@ -26,7 +26,7 @@ struct PublicationList: View {
             }
         }
     }
-    
+
     // The publications a user is not following
     private var notFollowedPublications: some View {
         Section {
@@ -40,7 +40,7 @@ struct PublicationList: View {
             }
         }
     }
-    
+
     var body: some View {
         NavigationView {
             ScrollView(showsIndicators: false) {

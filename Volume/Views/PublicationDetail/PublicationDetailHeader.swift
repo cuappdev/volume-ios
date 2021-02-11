@@ -13,7 +13,7 @@ struct PublicationDetailHeader: View {
     private let iconGray = Color(white: 196 / 255)
 
     let publication: Publication
-    
+
     private var isFollowed: Bool {
         userData.isPublicationFollowed(publication)
     }
@@ -25,6 +25,7 @@ struct PublicationDetailHeader: View {
     // TODO: refactor
     private var externalLinks: some View {
         HStack {
+            // swiftlint:disable:next unused_optional_binding
             if let _ = publication.socials["Instagram"] {
                 Image("instagram")
                     .resizable()
@@ -35,6 +36,7 @@ struct PublicationDetailHeader: View {
                     .foregroundColor(Color.volume.orange)
                     .padding(.trailing, 10)
             }
+            //swiftlint:disable:next unused_optional_binding
             if let _ = publication.socials["Facebook"] {
                 Image("facebook")
                     .resizable()
@@ -58,15 +60,15 @@ struct PublicationDetailHeader: View {
         }
         .padding(.top, 15)
     }
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .top) {
                 Text(publication.name)
                     .font(.begumMedium(size: 18))
-                
+
                 Spacer()
-                
+
                 Button(action: {
                     withAnimation {
                         userData.togglePublicationFollowed(publication)

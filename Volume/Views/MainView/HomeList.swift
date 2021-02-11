@@ -29,24 +29,26 @@ struct HomeList: View {
         guard let oneWeekAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) else {
             return
         }
-        
+
         guard let twoWeeksAgo = Calendar.current.date(byAdding: .day, value: -14, to: Date()) else {
             return
         }
-        
+
         let trendingQuery = Network.shared.apollo.fetch(query: GetTrendingArticlesQuery(since: oneWeekAgo.dateString))
             .map { $0.articles.map(\.fragments.articleFields) }
-        
+
         let followedQuery = userData.followedPublicationIDs.publisher
             .flatMap { id in
                 Network.shared.apollo.fetch(query: GetArticlesByPublicationIdQuery(id: id))
             }
             .map { $0.articles.map(\.fragments.articleFields) }
             .collect()
-        
-        let otherQuery = Network.shared.apollo.fetch(query: GetArticlesAfterDateQuery(since: twoWeeksAgo.dateString, limit: 20))
-            .map { $0.articles.map(\.fragments.articleFields) }
-        
+
+        let otherQuery = Network.shared.apollo.fetch(
+            query: GetArticlesAfterDateQuery(since: twoWeeksAgo.dateString, limit: 20)
+        )
+        .map { $0.articles.map(\.fragments.articleFields) }
+
         cancellableQuery = Publishers.Zip3(trendingQuery, followedQuery, otherQuery)
             .sink { completion in
                 if case let .failure(error) = completion {
@@ -56,16 +58,19 @@ struct HomeList: View {
                 // Take up to 10 random followed articles
                 let followedArticles = Array(followed.joined().shuffled().prefix(10))
                 // Exclude followed articles from trending articles, taking at most 10
-                let trendingArticles = Array(trending.filter { article in
-                    !followedArticles.contains(where: { $0.id == article.id })
-                }.prefix(10))
+                let trendingArticles = Array(
+                    trending.filter { article in
+                        !followedArticles.contains(where: { $0.id == article.id })
+                    }
+                    .prefix(10)
+                )
                 // Exclude followed and trending articles from other articles
                 let otherArticles = other.filter { article in
                     !(followedArticles.contains(where: { $0.id == article.id })
                         || trendingArticles.contains(where: { $0.id == article.id }))
                 }
-                
-                withAnimation(.linear(duration: 0.1)) { 
+
+                withAnimation(.linear(duration: 0.1)) {
                     state = .results((
                         trendingArticles: [Article](trendingArticles),
                         followedArticles: [Article](followedArticles),
@@ -74,7 +79,7 @@ struct HomeList: View {
                 }
             }
     }
-    
+
     var body: some View {
         NavigationView {
             ScrollView(showsIndicators: false) {
@@ -97,7 +102,7 @@ struct HomeList: View {
                         }
                     }
                     .padding([.bottom, .leading, .trailing])
-                    
+
                     Header("Following").padding(.bottom, -12)
                     switch state {
                     case .loading:
@@ -111,10 +116,10 @@ struct HomeList: View {
                                 .padding([.bottom, .leading, .trailing])
                         }
                     }
-                    
+
                     VolumeMessage(message: .upToDate)
                         .padding([.top, .bottom], 25)
-                    
+
                     Header("Other Articles").padding(.bottom, -12)
                     switch state {
                     case .loading:

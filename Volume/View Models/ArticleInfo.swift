@@ -10,10 +10,10 @@ import SwiftUI
 
 struct ArticleInfo: View {
     @EnvironmentObject private var userData: UserData
-    
+
     let article: Article
     let showsPublicationName: Bool
-    
+
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
@@ -28,6 +28,7 @@ struct ArticleInfo: View {
                     .padding(.top, 0.5)
                 Spacer()
                 HStack {
+                    // swiftlint:disable:next line_length
                     Text("\(article.date.fullString) • \(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0])) shout-outs")
                         .font(.helveticaRegular(size: 10))
                         .foregroundColor(Color.volume.lightGray)

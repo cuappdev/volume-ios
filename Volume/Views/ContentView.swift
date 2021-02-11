@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
     @AppStorage("isFirstLaunch") private var isFirstLaunch = true
-    
+
     init() {
         let grayColor = UIColor(Color.volume.navigationBarGray)
         UINavigationBar.appearance().backgroundColor = grayColor
@@ -19,7 +19,7 @@ struct ContentView: View {
         UITabBar.appearance().clipsToBounds = true
         UITabBar.appearance().unselectedItemTintColor = UIColor(Color.volume.lightGray)
     }
-    
+
     var body: some View {
         if isFirstLaunch {
             OnboardingView()
