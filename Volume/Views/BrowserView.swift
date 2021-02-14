@@ -18,6 +18,7 @@ struct BrowserView: View {
     private func incrementShoutouts() {
         let currentArticleShoutouts = max(userData.shoutoutsCache[article.id, default: 0], article.shoutouts)
         userData.shoutoutsCache[article.id, default: 0] = currentArticleShoutouts + 1
+        // swiftlint:disable:next line_length
         let currentPublicationShoutouts = max(userData.shoutoutsCache[article.publication.id, default: 0], article.publication.shoutouts)
         userData.shoutoutsCache[article.publication.id, default: 0] = currentPublicationShoutouts + 1
         Network.shared.apollo.perform(mutation: IncrementShoutoutsMutation(id: article.id))

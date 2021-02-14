@@ -15,7 +15,7 @@ extension OnboardingView {
         @State private var maxContentOffset: CGPoint = .zero
         @State private var cancellableQuery: AnyCancellable?
         @State private var state: FollowViewState = .loading
-        
+
         private func fetch() {
             cancellableQuery = Network.shared.apollo.fetch(query: GetAllPublicationsQuery())
                 .map { data in data.publications.compactMap { $0.fragments.publicationFields } }
@@ -27,7 +27,7 @@ extension OnboardingView {
                     state = .results([Publication](value))
                 })
         }
-        
+
         var body: some View {
             TrackableScrollView(
                 contentOffset: $contentOffset,

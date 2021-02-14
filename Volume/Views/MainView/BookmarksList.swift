@@ -13,13 +13,13 @@ struct BookmarksList: View {
     @State private var cancellableQuery: AnyCancellable?
     @State private var state: BookmarksListState = .loading
     @EnvironmentObject private var userData: UserData
-    
+
     private func fetch() {
         guard userData.savedArticleIDs.count > 0 else {
             state = .results([])
             return
         }
-        
+
         cancellableQuery = userData.savedArticleIDs.publisher
             .map(GetArticleByIdQuery.init)
             .flatMap(Network.shared.apollo.fetch)
@@ -39,7 +39,7 @@ struct BookmarksList: View {
                 }
             }
     }
-    
+
     private var someFollowedArticles: Bool {
         switch state {
         case .loading:
@@ -48,7 +48,7 @@ struct BookmarksList: View {
             return savedArticles.count > 0
         }
     }
-    
+
     var body: some View {
         GeometryReader { geometry in
             NavigationView {
@@ -63,7 +63,7 @@ struct BookmarksList: View {
                             }
                         case .results(let savedArticles):
                             LazyVStack {
-                                ForEach (savedArticles) { article in
+                                ForEach(savedArticles) { article in
                                     ArticleRow(article: article)
                                         .padding([.bottom, .leading, .trailing])
                                 }

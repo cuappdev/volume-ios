@@ -17,9 +17,9 @@ struct Publication: Hashable, Identifiable {
     let backgroundImageUrl: URL?
     let recent: String?
     let shoutouts: Int
-    let socials: [String : String] = [:]
+    let socials: [String: String] = [:]
     let websiteUrl: URL?
-    
+
     init(from publication: PublicationFields) {
         bio = publication.bio
         name = publication.name

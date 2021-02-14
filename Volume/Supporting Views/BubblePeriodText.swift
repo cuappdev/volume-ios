@@ -10,11 +10,11 @@ import SwiftUI
 
 struct BubblePeriodText: View {
     @State var text: String
-    
+
     init(_ text: String) {
         _text = State(initialValue: text)
     }
-    
+
     var body: some View {
         HStack(alignment: .bottom) {
             Text(text)
