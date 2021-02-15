@@ -10,8 +10,8 @@ import SwiftUI
 
 struct PublicationDetailHeader: View {
     @EnvironmentObject private var userData: UserData
+    @State private var hasOddNumberOfTaps = false
     private let iconGray = Color(white: 196 / 255)
-    @State var hasOddNumberOfTaps = false
 
     let publication: Publication
     
