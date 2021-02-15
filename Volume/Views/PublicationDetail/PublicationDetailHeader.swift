@@ -11,15 +11,22 @@ import SwiftUI
 struct PublicationDetailHeader: View {
     @EnvironmentObject private var userData: UserData
     private let iconGray = Color(white: 196 / 255)
+    @State var hasOddNumberOfTaps = false
 
     let publication: Publication
     
+    // Whether the publication is followed at the time this view is displayed
     private var isFollowed: Bool {
         userData.isPublicationFollowed(publication)
     }
 
     private var shoutouts: Int {
         max(publication.shoutouts, userData.shoutoutsCache[publication.id, default: 0])
+    }
+    
+    // Takes into account any new user taps of the following button
+    private var isFollowedAdjusted: Bool {
+        isFollowed && !hasOddNumberOfTaps || !isFollowed && hasOddNumberOfTaps
     }
 
     // TODO: refactor
@@ -64,19 +71,18 @@ struct PublicationDetailHeader: View {
             HStack(alignment: .top) {
                 Text(publication.name)
                     .font(.begumMedium(size: 18))
+                    .frame(idealHeight: 23, maxHeight: .infinity, alignment: .leading)
                 
                 Spacer()
                 
                 Button(action: {
-                    withAnimation {
-                        userData.togglePublicationFollowed(publication)
-                    }
+                    hasOddNumberOfTaps.toggle()
                 }) {
-                    Text(isFollowed ? "Followed" : "＋ Follow")
+                    Text(isFollowedAdjusted ? "Followed" : "＋ Follow")
                         .font(.helveticaBold(size: 12))
                         .frame(width: 85, height: 30)
-                        .background(isFollowed ? Color.volume.orange : Color.volume.buttonGray)
-                        .foregroundColor(isFollowed ? Color.volume.buttonGray : Color.volume.orange)
+                        .background(isFollowedAdjusted ? Color.volume.orange : Color.volume.buttonGray)
+                        .foregroundColor(isFollowedAdjusted ? Color.volume.buttonGray : Color.volume.orange)
                         .cornerRadius(5)
                 }
                 .buttonStyle(PlainButtonStyle())
@@ -90,5 +96,10 @@ struct PublicationDetailHeader: View {
             externalLinks
         }
         .padding([.leading, .trailing])
+        .onDisappear {
+            if hasOddNumberOfTaps {
+                userData.togglePublicationFollowed(publication)
+            }
+        }
     }
 }

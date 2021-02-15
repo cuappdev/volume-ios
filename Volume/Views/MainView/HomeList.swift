@@ -54,7 +54,7 @@ struct HomeList: View {
                 }
             } receiveValue: { (trending, followed, other) in
                 // Take up to 10 random followed articles
-                let followedArticles = Array(followed.joined().shuffled().prefix(10))
+                let followedArticles = Array(followed.joined().shuffled().prefix(20))
                 // Exclude followed articles from trending articles, taking at most 10
                 let trendingArticles = Array(trending.filter { article in
                     !followedArticles.contains(where: { $0.id == article.id })
