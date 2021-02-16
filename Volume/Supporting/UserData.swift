@@ -86,9 +86,7 @@ class UserData: ObservableObject {
 
     func incrementShoutoutCounter(_ article: Article) {
         if articleHasShoutouts(article) {
-            if !articleShoutoutMaxed(article) {
-                articleShoutoutCounter[article.id]! += 1
-            }
+            articleShoutoutCounter[article.id]! += 1
         } else {
             articleShoutoutCounter[article.id] = 1
         }

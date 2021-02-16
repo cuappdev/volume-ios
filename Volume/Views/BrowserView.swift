@@ -17,6 +17,7 @@ struct BrowserView: View {
 
     private func incrementShoutouts() {
         if !userData.articleShoutoutMaxed(article) {
+            userData.incrementShoutoutCounter(article)
             let currentArticleShoutouts = max(userData.shoutoutsCache[article.id, default: 0], article.shoutouts)
             userData.shoutoutsCache[article.id, default: 0] = currentArticleShoutouts + 1
             // swiftlint:disable:next line_length
@@ -24,7 +25,6 @@ struct BrowserView: View {
             userData.shoutoutsCache[article.publication.id, default: 0] = currentPublicationShoutouts + 1
             Network.shared.apollo.perform(mutation: IncrementShoutoutsMutation(id: article.id))
         }
-        userData.incrementShoutoutCounter(article)
     }
 
     private var toolbar: some View {
