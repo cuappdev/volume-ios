@@ -15,18 +15,13 @@ struct PublicationDetailHeader: View {
 
     let publication: Publication
     
-    // Whether the publication is followed at the time this view is displayed
+    // Takes into account any new user taps of the following button
     private var isFollowed: Bool {
-        userData.isPublicationFollowed(publication)
-    }
-
-    private var shoutouts: Int {
-        max(publication.shoutouts, userData.shoutoutsCache[publication.id, default: 0])
+        userData.isPublicationFollowed(publication) != hasOddNumberOfTaps
     }
     
-    // Takes into account any new user taps of the following button
-    private var isFollowedAdjusted: Bool {
-        isFollowed && !hasOddNumberOfTaps || !isFollowed && hasOddNumberOfTaps
+    private var shoutouts: Int {
+        max(publication.shoutouts, userData.shoutoutsCache[publication.id, default: 0])
     }
 
     // TODO: refactor
@@ -78,11 +73,11 @@ struct PublicationDetailHeader: View {
                 Button(action: {
                     hasOddNumberOfTaps.toggle()
                 }) {
-                    Text(isFollowedAdjusted ? "Followed" : "＋ Follow")
+                    Text(isFollowed ? "Followed" : "＋ Follow")
                         .font(.helveticaBold(size: 12))
                         .frame(width: 85, height: 30)
-                        .background(isFollowedAdjusted ? Color.volume.orange : Color.volume.buttonGray)
-                        .foregroundColor(isFollowedAdjusted ? Color.volume.buttonGray : Color.volume.orange)
+                        .background(isFollowed ? Color.volume.orange : Color.volume.buttonGray)
+                        .foregroundColor(isFollowed ? Color.volume.buttonGray : Color.volume.orange)
                         .cornerRadius(5)
                 }
                 .buttonStyle(PlainButtonStyle())
