@@ -12,6 +12,7 @@ import Foundation
 class UserData: ObservableObject {
     private let articlesKey = "savedArticleIds"
     private let publicationsKey = "savedPublicationIds"
+    private let articleShoutoutKey = "articleShoutoutCounter"
     private let isFirstLauncyKey = "isFirstLaunch"
 
     /// This cache maps `Article` and `Publication`  ids to shout outs. Its purpose is to allow the UI to
@@ -38,6 +39,13 @@ class UserData: ObservableObject {
         }
     }
 
+    @Published private var articleShoutoutCounter: [String: Int] = [:] {
+        willSet {
+            UserDefaults.standard.setValue(newValue, forKey: articleShoutoutKey)
+            objectWillChange.send()
+        }
+    }
+
     init() {
         if let ids = UserDefaults.standard.object(forKey: articlesKey) as? [String] {
             savedArticleIDs = ids
@@ -45,6 +53,10 @@ class UserData: ObservableObject {
 
         if let ids = UserDefaults.standard.object(forKey: publicationsKey) as? [String] {
             followedPublicationIDs = ids
+        }
+
+        if let shoutoutCounter = UserDefaults.standard.object(forKey: articleShoutoutKey) as? [String: Int] {
+            articleShoutoutCounter = shoutoutCounter
         }
     }
 
@@ -56,12 +68,30 @@ class UserData: ObservableObject {
         followedPublicationIDs.contains(publication.id)
     }
 
+    func articleHasShoutouts(_ article: Article) -> Bool {
+        articleShoutoutCounter[article.id] != nil
+    }
+
+    func articleShoutoutMaxed(_ article: Article) -> Bool {
+        articleShoutoutCounter[article.id] ?? 0 >= 5
+    }
+
     func toggleArticleSaved(_ article: Article) {
         set(article: article, isSaved: !isArticleSaved(article))
     }
 
     func togglePublicationFollowed(_ publication: Publication) {
         set(publication: publication, isFollowed: !isPublicationFollowed(publication))
+    }
+
+    func incrementShoutoutCounter(_ article: Article) {
+        if articleHasShoutouts(article) {
+            if !articleShoutoutMaxed(article) {
+                articleShoutoutCounter[article.id]! += 1
+            }
+        } else {
+            articleShoutoutCounter[article.id] = 1
+        }
     }
 
     func set(article: Article, isSaved: Bool) {
@@ -83,4 +113,9 @@ class UserData: ObservableObject {
             followedPublicationIDs.removeAll(where: { $0 == publication.id })
         }
     }
+
+    func set(article: Article, newCounter: Int) {
+        articleShoutoutCounter[article.id] = newCounter
+    }
+
 }
