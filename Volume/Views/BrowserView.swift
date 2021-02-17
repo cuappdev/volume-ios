@@ -67,7 +67,6 @@ struct BrowserView: View {
                     incrementShoutouts()
                 } label: {
                     Image("shout-out")
-                        .renderingMode(.template)
                         .resizable()
                         .scaledToFit()
                         .frame(height: 24)
