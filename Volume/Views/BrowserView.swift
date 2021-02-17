@@ -12,11 +12,13 @@ import WebKit
 
 struct BrowserView: View {
     @EnvironmentObject private var userData: UserData
+    @State var shoutoutsButtonEnabled: Bool = true
 
     let article: Article
 
     private func incrementShoutouts() {
         userData.incrementShoutoutsCounter(article)
+        shoutoutsButtonEnabled = userData.canIncrementShoutouts(article)
         let currentArticleShoutouts = max(userData.shoutoutsCache[article.id, default: 0], article.shoutouts)
         userData.shoutoutsCache[article.id, default: 0] = currentArticleShoutouts + 1
         // swiftlint:disable:next line_length
@@ -64,13 +66,13 @@ struct BrowserView: View {
                 Button {
                     incrementShoutouts()
                 } label: {
-                    Image("shout-out")
+                    Image(shoutoutsButtonEnabled ? "shout-out-orange" : "shout-out-gray")
                         .resizable()
                         .scaledToFit()
                         .frame(height: 24)
                         .foregroundColor(Color.black)
                 }
-                .disabled(!userData.canIncrementShoutouts(article))
+                .disabled(!shoutoutsButtonEnabled)
 
                 Spacer()
                     .frame(width: 5)
@@ -82,6 +84,9 @@ struct BrowserView: View {
         .padding([.leading, .trailing], 16)
         .padding([.top, .bottom], 8)
         .background(Color.volume.backgroundGray)
+        .onAppear(perform: {
+            shoutoutsButtonEnabled = userData.canIncrementShoutouts(article)
+        })
     }
 
     var body: some View {
