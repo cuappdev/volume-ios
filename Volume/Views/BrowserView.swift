@@ -15,6 +15,9 @@ struct BrowserView: View {
     @State var shoutoutsButtonEnabled: Bool = true
 
     let article: Article
+    var isShoutoutsButtonEnabled: Bool {
+        userData.canIncrementShoutouts(article)
+    }
 
     private func incrementShoutouts() {
         userData.incrementShoutoutsCounter(article)
@@ -63,7 +66,6 @@ struct BrowserView: View {
                 Spacer()
                     .frame(width: 16)
 
-                let isShoutoutsButtonEnabled = userData.canIncrementShoutouts(article)
                 Button {
                     incrementShoutouts()
                 } label: {
