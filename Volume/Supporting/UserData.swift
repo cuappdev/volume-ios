@@ -12,7 +12,7 @@ import Foundation
 class UserData: ObservableObject {
     private let articlesKey = "savedArticleIds"
     private let publicationsKey = "savedPublicationIds"
-    private let articleShoutoutsKey = "articleShoutoutCounter"
+    private let articleShoutoutsKey = "articleShoutoutsCounter"
     private let isFirstLauncyKey = "isFirstLaunch"
 
     /// This cache maps `Article` and `Publication`  ids to shout outs. Its purpose is to allow the UI to

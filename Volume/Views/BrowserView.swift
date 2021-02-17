@@ -63,6 +63,7 @@ struct BrowserView: View {
                 Spacer()
                     .frame(width: 16)
 
+                let isShoutoutsButtonEnabled = userData.canIncrementShoutouts(article)
                 Button {
                     incrementShoutouts()
                 } label: {
@@ -70,9 +71,9 @@ struct BrowserView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(height: 24)
-                        .foregroundColor(shoutoutsButtonEnabled ? Color.volume.orange : Color.gray)
+                        .foregroundColor(isShoutoutsButtonEnabled ? Color.volume.orange : Color.gray)
                 }
-                .disabled(!shoutoutsButtonEnabled)
+                .disabled(!isShoutoutsButtonEnabled)
 
                 Spacer()
                     .frame(width: 5)

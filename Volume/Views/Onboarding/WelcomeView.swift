@@ -23,7 +23,7 @@ extension OnboardingView {
                     textRegular: "trending in the Cornell commnity and from publications you follow"
                 )
                 FeatureRow(
-                    image: "shout-out-orange",
+                    image: "shout-out",
                     textBold: "Give shout-outs ",
                     textRegular: "to support student content"
                 )
