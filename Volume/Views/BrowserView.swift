@@ -87,9 +87,6 @@ struct BrowserView: View {
         .padding([.leading, .trailing], 16)
         .padding([.top, .bottom], 8)
         .background(Color.volume.backgroundGray)
-        .onAppear(perform: {
-            shoutoutsButtonEnabled = userData.canIncrementShoutouts(article)
-        })
     }
 
     var body: some View {
