@@ -66,11 +66,12 @@ struct BrowserView: View {
                 Button {
                     incrementShoutouts()
                 } label: {
-                    Image(shoutoutsButtonEnabled ? "shout-out-orange" : "shout-out-gray")
+                    Image("shout-out")
+                        .renderingMode(.template)
                         .resizable()
                         .scaledToFit()
                         .frame(height: 24)
-                        .foregroundColor(Color.black)
+                        .foregroundColor(shoutoutsButtonEnabled ? Color.volume.orange : Color.gray)
                 }
                 .disabled(!shoutoutsButtonEnabled)
 
