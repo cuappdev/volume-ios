@@ -16,15 +16,13 @@ struct BrowserView: View {
     let article: Article
 
     private func incrementShoutouts() {
-        if !userData.articleShoutoutMaxed(article) {
-            userData.incrementShoutoutCounter(article)
-            let currentArticleShoutouts = max(userData.shoutoutsCache[article.id, default: 0], article.shoutouts)
-            userData.shoutoutsCache[article.id, default: 0] = currentArticleShoutouts + 1
-            // swiftlint:disable:next line_length
-            let currentPublicationShoutouts = max(userData.shoutoutsCache[article.publication.id, default: 0], article.publication.shoutouts)
-            userData.shoutoutsCache[article.publication.id, default: 0] = currentPublicationShoutouts + 1
-            Network.shared.apollo.perform(mutation: IncrementShoutoutsMutation(id: article.id))
-        }
+        userData.incrementShoutoutsCounter(article)
+        let currentArticleShoutouts = max(userData.shoutoutsCache[article.id, default: 0], article.shoutouts)
+        userData.shoutoutsCache[article.id, default: 0] = currentArticleShoutouts + 1
+        // swiftlint:disable:next line_length
+        let currentPublicationShoutouts = max(userData.shoutoutsCache[article.publication.id, default: 0], article.publication.shoutouts)
+        userData.shoutoutsCache[article.publication.id, default: 0] = currentPublicationShoutouts + 1
+        Network.shared.apollo.perform(mutation: IncrementShoutoutsMutation(id: article.id))
     }
 
     private var toolbar: some View {
@@ -69,9 +67,10 @@ struct BrowserView: View {
                     Image("shout-out")
                         .resizable()
                         .scaledToFit()
-                        .foregroundColor(Color.black)
                         .frame(height: 24)
+                        .foregroundColor(Color.black)
                 }
+                .disabled(!userData.canIncrementShoutouts(article))
 
                 Spacer()
                     .frame(width: 5)
