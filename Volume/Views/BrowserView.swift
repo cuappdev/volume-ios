@@ -12,7 +12,6 @@ import WebKit
 
 struct BrowserView: View {
     @EnvironmentObject private var userData: UserData
-    @State var shoutoutsButtonEnabled: Bool = true
 
     let article: Article
     var isShoutoutsButtonEnabled: Bool {
@@ -21,7 +20,6 @@ struct BrowserView: View {
 
     private func incrementShoutouts() {
         userData.incrementShoutoutsCounter(article)
-        shoutoutsButtonEnabled = userData.canIncrementShoutouts(article)
         let currentArticleShoutouts = max(userData.shoutoutsCache[article.id, default: 0], article.shoutouts)
         userData.shoutoutsCache[article.id, default: 0] = currentArticleShoutouts + 1
         // swiftlint:disable:next line_length
