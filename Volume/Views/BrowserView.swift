@@ -14,8 +14,12 @@ struct BrowserView: View {
     @EnvironmentObject private var userData: UserData
 
     let article: Article
+    var isShoutoutsButtonEnabled: Bool {
+        userData.canIncrementShoutouts(article)
+    }
 
     private func incrementShoutouts() {
+        userData.incrementShoutoutsCounter(article)
         let currentArticleShoutouts = max(userData.shoutoutsCache[article.id, default: 0], article.shoutouts)
         userData.shoutoutsCache[article.id, default: 0] = currentArticleShoutouts + 1
         // swiftlint:disable:next line_length
@@ -66,9 +70,10 @@ struct BrowserView: View {
                     Image("shout-out")
                         .resizable()
                         .scaledToFit()
-                        .foregroundColor(Color.black)
                         .frame(height: 24)
+                        .foregroundColor(isShoutoutsButtonEnabled ? Color.volume.orange : Color.gray)
                 }
+                .disabled(!isShoutoutsButtonEnabled)
 
                 Spacer()
                     .frame(width: 5)
