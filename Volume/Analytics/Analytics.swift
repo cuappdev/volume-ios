@@ -6,4 +6,5 @@
 //  Copyright © 2021 Cornell AppDev. All rights reserved.
 //
 
-import Foundation
+import AppDevAnalytics
+
