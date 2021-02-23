@@ -54,6 +54,7 @@
 		7ED7C340252D117B0078B1BD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7ED7C33F252D117B0078B1BD /* Preview Assets.xcassets */; };
 		7ED7C343252D117B0078B1BD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7ED7C341252D117B0078B1BD /* LaunchScreen.storyboard */; };
 		7EE96DC82562505B000B246F /* VolumeMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE96DC72562505B000B246F /* VolumeMessage.swift */; };
+		990081EF25E5C31600BF8362 /* Events.md in Resources */ = {isa = PBXBuildFile; fileRef = 990081EE25E5C31600BF8362 /* Events.md */; };
 		995C9A0025E5770D00F6FBA5 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995C99FF25E5770D00F6FBA5 /* Analytics.swift */; };
 		995C9A0425E57B0D00F6FBA5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 995C9A0325E57B0D00F6FBA5 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
@@ -108,6 +109,7 @@
 		7ED7C342252D117B0078B1BD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7ED7C344252D117B0078B1BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7EE96DC72562505B000B246F /* VolumeMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeMessage.swift; sourceTree = "<group>"; };
+		990081EE25E5C31600BF8362 /* Events.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Events.md; sourceTree = "<group>"; };
 		995C99FF25E5770D00F6FBA5 /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		995C9A0325E57B0D00F6FBA5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		995C9A0C25E581BA00F6FBA5 /* Secrets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Secrets.plist; path = ../../../../../Downloads/Secrets.plist; sourceTree = "<group>"; };
@@ -323,6 +325,7 @@
 		995C99FE25E576E600F6FBA5 /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
+				990081EE25E5C31600BF8362 /* Events.md */,
 				995C99FF25E5770D00F6FBA5 /* Analytics.swift */,
 			);
 			path = Analytics;
@@ -399,6 +402,7 @@
 				06B80CFC257D9E9700F3BF9B /* ArticlesQueries.graphql in Resources */,
 				0685AAA4259EC2AF00DD55C4 /* ArticlesMutations.graphql in Resources */,
 				7ED7C33D252D117B0078B1BD /* Assets.xcassets in Resources */,
+				990081EF25E5C31600BF8362 /* Events.md in Resources */,
 				06379C74256725C000FC185A /* Begum-Regular.ttf in Resources */,
 				060B739A256373AF0035E252 /* Begum-Medium.ttf in Resources */,
 				06379C792567297400FC185A /* Begum-Bold.ttf in Resources */,

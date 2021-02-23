@@ -45,3 +45,11 @@ cd "${SRCROOT}/${TARGET_NAME}"
 ```
 
 Finally, open `Volume.xcworkspace` and enjoy Volume!
+
+## Analytics
+
+A custom cocoapod, [`AppDevAnalytics`](https://github.com/cuappdev/ios-analytics), is used to setup Volume's data pipeline.
+
+`AppDevAnalytics` uses Google Firebase to log user actions and this data is linked to a Google BigQuery data warehouse.
+All produced data is anonymized with potentially identifying information removed.
+A full list of all events and their associated data is listed under [Volume/Analytics/Events.md](./Volume/Analytics/Events.md)
