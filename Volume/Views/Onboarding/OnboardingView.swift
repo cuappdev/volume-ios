@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import AppDevAnalytics
 
 struct OnboardingView: View {
     @State private var isShowingSplash = true
@@ -87,6 +88,7 @@ struct OnboardingView: View {
                     Button("Start reading") {
                         withAnimation(.spring()) {
                             isFirstLaunch = false
+                            AppDevAnalytics.logEvent(CompleteOnboarding())
                         }
                     }
                     .foregroundColor(didFollowPublication ? Color.volume.orange : Color(white: 151 / 255))
@@ -116,6 +118,7 @@ struct OnboardingView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 withAnimation(.spring()) {
                     isShowingSplash = false
+                    AppDevAnalytics.logEvent(StartOnboarding())
                 }
             }
         }
