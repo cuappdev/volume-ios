@@ -12,6 +12,7 @@ import Foundation
 class UserData: ObservableObject {
     private let articlesKey = "savedArticleIds"
     private let publicationsKey = "savedPublicationIds"
+    private let articleShoutoutsKey = "articleShoutoutsCounter"
     private let isFirstLauncyKey = "isFirstLaunch"
 
     /// This cache maps `Article` and `Publication`  ids to shout outs. Its purpose is to allow the UI to
@@ -38,6 +39,13 @@ class UserData: ObservableObject {
         }
     }
 
+    @Published private var articleShoutoutsCounter: [String: Int] = [:] {
+        willSet {
+            UserDefaults.standard.setValue(newValue, forKey: articleShoutoutsKey)
+            objectWillChange.send()
+        }
+    }
+
     init() {
         if let ids = UserDefaults.standard.object(forKey: articlesKey) as? [String] {
             savedArticleIDs = ids
@@ -45,6 +53,10 @@ class UserData: ObservableObject {
 
         if let ids = UserDefaults.standard.object(forKey: publicationsKey) as? [String] {
             followedPublicationIDs = ids
+        }
+
+        if let shoutoutsCounter = UserDefaults.standard.object(forKey: articleShoutoutsKey) as? [String: Int] {
+            articleShoutoutsCounter = shoutoutsCounter
         }
     }
 
@@ -62,6 +74,14 @@ class UserData: ObservableObject {
 
     func togglePublicationFollowed(_ publication: Publication) {
         set(publication: publication, isFollowed: !isPublicationFollowed(publication))
+    }
+
+    func canIncrementShoutouts(_ article: Article) -> Bool {
+        articleShoutoutsCounter[article.id, default: 0] < 5
+    }
+
+    func incrementShoutoutsCounter(_ article: Article) {
+        articleShoutoutsCounter[article.id, default: 0] += 1
     }
 
     func set(article: Article, isSaved: Bool) {
