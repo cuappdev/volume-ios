@@ -101,7 +101,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   AppDevAnalytics:
-    :commit: 51cc2b96bf40394d6004fe84e43772a7b7ba6ba9
+    :commit: e0e0f6704bde769383ad1c6fef606d6f46a137fa
     :git: https://github.com/cuappdev/ios-analytics.git
 
 SPEC CHECKSUMS:
