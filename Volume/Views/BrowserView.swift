@@ -10,18 +10,6 @@ import SDWebImageSwiftUI
 import SwiftUI
 import WebKit
 
-struct SharePopUp: UIViewControllerRepresentable {
-    let activityItems: [Any]
-
-    func makeUIViewController(context: Context) -> UIActivityViewController {
-        UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
-    }
-
-    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {
-        // Satisfies UIViewControllerRepresentable
-    }
-}
-
 struct BrowserView: View {
     @EnvironmentObject private var userData: UserData
     @State private var isSharing: Bool = false
@@ -111,7 +99,7 @@ struct BrowserView: View {
         .padding([.top, .bottom], 8)
         .background(Color.volume.backgroundGray)
         .sheet(isPresented: $isSharing) {
-            SharePopUp(activityItems: [article.articleUrl ?? ""])
+            ShareModalView(activityItems: [article.articleUrl ?? ""])
         }
     }
 
