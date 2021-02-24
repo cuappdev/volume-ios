@@ -10,8 +10,21 @@ import SDWebImageSwiftUI
 import SwiftUI
 import WebKit
 
+struct SharePopUp: UIViewControllerRepresentable {
+    let activityItems: [Any]
+
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+    }
+
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {
+        // Satisfies UIViewControllerRepresentable
+    }
+}
+
 struct BrowserView: View {
     @EnvironmentObject private var userData: UserData
+    @State private var isSharing: Bool = false
 
     let article: Article
 
@@ -54,6 +67,18 @@ struct BrowserView: View {
                     userData.toggleArticleSaved(article)
                 } label: {
                     Image(systemName: userData.isArticleSaved(article) ? "bookmark.fill" : "bookmark")
+                        .font(Font.system(size: 18, weight: .semibold))
+                        .foregroundColor(Color.volume.orange)
+                }
+
+                Spacer()
+                    .frame(width: 16)
+
+                Button {
+                    isSharing = true
+                } label: {
+                    Image(systemName: "square.and.arrow.up.on.square")
+                        .font(Font.system(size: 16, weight: .semibold))
                         .foregroundColor(Color.volume.orange)
                 }
 
@@ -71,7 +96,7 @@ struct BrowserView: View {
                 }
 
                 Spacer()
-                    .frame(width: 5)
+                    .frame(width: 6)
 
                 Text(String(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0])))
                     .font(.helveticaRegular(size: 12))
@@ -80,6 +105,9 @@ struct BrowserView: View {
         .padding([.leading, .trailing], 16)
         .padding([.top, .bottom], 8)
         .background(Color.volume.backgroundGray)
+        .sheet(isPresented: $isSharing) {
+            SharePopUp(activityItems: [article.articleUrl ?? ""])
+        }
     }
 
     var body: some View {

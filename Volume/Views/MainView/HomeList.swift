@@ -83,8 +83,9 @@ struct HomeList: View {
     var body: some View {
         NavigationView {
             ScrollView(showsIndicators: false) {
-                LazyVStack {
-                    Header("The Big Read").padding(.bottom, -12)
+                LazyVStack(spacing: 0) {
+                    Header("The Big Read", sidesWithDefaultPadding: [.top, .leading, .trailing])
+                        .padding(.bottom, 20)
                     ScrollView(.horizontal, showsIndicators: false) {
                         switch state {
                         case .loading:
@@ -101,19 +102,23 @@ struct HomeList: View {
                             }
                         }
                     }
-                    .padding([.bottom, .leading, .trailing])
+                    .padding([.leading, .trailing])
 
-                    Header("Following").padding(.bottom, -12)
+                    Header("Following", sidesWithDefaultPadding: [.leading, .trailing])
+                        .padding(.top, 36)
+                        .padding(.bottom, 20)
                     switch state {
                     case .loading:
                         ForEach(0..<5) { _ in
                             ArticleRow.Skeleton()
-                                .padding([.bottom, .leading, .trailing])
+                                .padding([.leading, .trailing])
+                                .padding(.bottom, 20)
                         }
                     case .results(let results):
                         ForEach(results.followedArticles) { article in
                             ArticleRow(article: article)
-                                .padding([.bottom, .leading, .trailing])
+                                .padding([.leading, .trailing])
+                                .padding(.bottom, 20)
                         }
                     }
 

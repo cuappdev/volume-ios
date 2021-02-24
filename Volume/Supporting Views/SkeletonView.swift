@@ -11,6 +11,6 @@ import SwiftUI
 struct SkeletonView: View {
     var body: some View {
         Rectangle()
-            .fill(Color.volume.lightGray)
+            .fill(Color.volume.veryLightGray)
     }
 }
