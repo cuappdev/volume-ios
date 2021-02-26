@@ -31,11 +31,18 @@ To access the project, clone the project, and run `pod install` in the project d
 </plist>
 ```
 
-For AppDev members, the `Supporting/Keys.plist` file is pinned in the `#volume-ios` channel.
+AppDev members can access the `Supporting/Keys.plist` file via a pinned message in the `#volume-ios` channel.
 
 2.  Volume uses GraphQL instead of a RESTful API, so you need a `schema.json`. Add it in the `Networking` group
 
-3.  Finally, you need to generate `API.swift`. The Apollo iOS pod offers a build run script to do this. Go to the Volume target Build Phases and click the pluss to add a new Run Script Phase. Name it something like "Generate Apollo GraphQL API", and paste in the following script. When you build, Xcode will autogenerate `API.swift` if one of the query or mutation `.graphql` files has changed.
+AppDev members can access the `schema.json` file in the `#volume-dev` channel.
+
+3. AppDev uses Firebase for event logging which requires a `GoogleService-Info.plist` file in the project.
+
+AppDev members can access the `GoogleService-Info.plist` file via a pinned message in the `#volume-ios` channel.
+Place the file in the `Volume/` directory.
+
+4.  Finally, you need to generate `API.swift`. The Apollo iOS pod offers a build run script to do this. Go to the Volume target Build Phases and click the pluss to add a new Run Script Phase. Name it something like "Generate Apollo GraphQL API", and paste in the following script. When you build, Xcode will autogenerate `API.swift` if one of the query or mutation `.graphql` files has changed.
 
 ```bash
 SCRIPT_PATH="${PODS_ROOT}/Apollo/scripts"
@@ -48,8 +55,8 @@ Finally, open `Volume.xcworkspace` and enjoy Volume!
 
 ## Analytics
 
-A custom cocoapod, [`AppDevAnalytics`](https://github.com/cuappdev/ios-analytics), is used to setup Volume's data pipeline.
+A custom cocoapod, [`AppDevAnalytics`](https://github.com/cuappdev/analytics-ios), is used to setup Volume's data pipeline.
 
 `AppDevAnalytics` uses Google Firebase to log user actions and this data is linked to a Google BigQuery data warehouse.
 All produced data is anonymized with potentially identifying information removed.
-A full list of all events and their associated data is listed under [Volume/Analytics/Events.md](./Volume/Analytics/Events.md)
+A full list of all events and their associated data is listed under [`Volume/Analytics/Events.md`](./Volume/Analytics/Events.md)
