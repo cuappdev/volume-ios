@@ -75,7 +75,7 @@ PODS:
 
 DEPENDENCIES:
   - Apollo
-  - AppDevAnalytics (from `https://github.com/cuappdev/ios-analytics.git`, branch `conner/update`)
+  - AppDevAnalytics (from `https://github.com/cuappdev/analytics-ios.git`, commit `5d459c0475`)
   - SDWebImageSwiftUI
 
 SPEC REPOS:
@@ -96,17 +96,17 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   AppDevAnalytics:
-    :branch: conner/update
-    :git: https://github.com/cuappdev/ios-analytics.git
+    :commit: 5d459c0475
+    :git: https://github.com/cuappdev/analytics-ios.git
 
 CHECKOUT OPTIONS:
   AppDevAnalytics:
-    :commit: e0e0f6704bde769383ad1c6fef606d6f46a137fa
-    :git: https://github.com/cuappdev/ios-analytics.git
+    :commit: 5d459c0475
+    :git: https://github.com/cuappdev/analytics-ios.git
 
 SPEC CHECKSUMS:
   Apollo: abe51edae238da17570535e370ffe1bec276275b
-  AppDevAnalytics: e16c2150fc1f30afeb3c69995a45f82a8fdd6405
+  AppDevAnalytics: 994c1ca730d79fbe530ce06b7bbffd5d05deff80
   Firebase: cd2ab85eec8170dc260186159f21072ecb679ad5
   FirebaseAnalytics: f3f8f75de34fe04141a69bb1c4bd7e24a80178e1
   FirebaseCore: ac35d680a0bf32319a59966a1478e0741536b97b
@@ -120,6 +120,6 @@ SPEC CHECKSUMS:
   SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
   SDWebImageSwiftUI: 4ecaa843f6b38d9b9e7875c015e5c92852ddfdbe
 
-PODFILE CHECKSUM: 32c9a015b150f0b2aaf4730757d25450652e2ccb
+PODFILE CHECKSUM: dde239a631c2df1d71ca2a6816246d0b00e5df41
 
 COCOAPODS: 1.10.1
