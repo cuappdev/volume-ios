@@ -15,7 +15,5 @@ struct ShareModalView: UIViewControllerRepresentable {
         UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
     }
 
-    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {
-        // Satisfies UIViewControllerRepresentable
-    }
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }

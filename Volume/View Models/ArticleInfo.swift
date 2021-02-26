@@ -58,9 +58,9 @@ extension ArticleInfo {
             HStack {
                 VStack(alignment: .leading, spacing: 0) {
                     if showsPublicationName {
-                    SkeletonView()
-                        .frame(width: 70, height: 14)
-                        .padding(.bottom, 3)
+                        SkeletonView()
+                            .frame(width: 70, height: 14)
+                            .padding(.bottom, 3)
                     }
                     SkeletonView()
                         .frame(height: 40)

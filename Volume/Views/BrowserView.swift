@@ -67,7 +67,8 @@ struct BrowserView: View {
                     .frame(width: 16)
 
                 Button {
-                    isSharing = true
+//                    isSharing = true
+                    actionSheet()
                 } label: {
                     Image(systemName: "square.and.arrow.up.on.square")
                         .font(Font.system(size: 16, weight: .semibold))
@@ -101,6 +102,11 @@ struct BrowserView: View {
         .sheet(isPresented: $isSharing) {
             ShareModalView(activityItems: [article.articleUrl ?? ""])
         }
+    }
+
+    func actionSheet() {
+        let shareVC = UIActivityViewController(activityItems: [article.articleUrl ?? ""], applicationActivities: nil)
+        UIApplication.shared.windows.first?.rootViewController?.present(shareVC, animated: true, completion: nil)
     }
 
     var body: some View {
