@@ -53,7 +53,9 @@ struct BookmarksList: View {
         GeometryReader { geometry in
             NavigationView {
                 ScrollView(showsIndicators: false) {
-                    Header("Saved Articles").padding(.bottom, -12)
+                    Header("Saved Articles")
+                        .padding([.leading, .top, .trailing])
+                        .padding(.bottom, 6)
                     if someFollowedArticles {
                         switch state {
                         case .loading:

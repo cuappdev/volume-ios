@@ -84,7 +84,8 @@ struct HomeList: View {
         NavigationView {
             ScrollView(showsIndicators: false) {
                 LazyVStack(spacing: 0) {
-                    Header("The Big Read", sidesWithDefaultPadding: [.top, .leading, .trailing])
+                    Header("The Big Read")
+                        .padding([.top, .leading, .trailing])
                         .padding(.bottom, 20)
                     ScrollView(.horizontal, showsIndicators: false) {
                         switch state {
@@ -104,7 +105,8 @@ struct HomeList: View {
                     }
                     .padding([.leading, .trailing])
 
-                    Header("Following", sidesWithDefaultPadding: [.leading, .trailing])
+                    Header("Following")
+                        .padding([.leading, .trailing])
                         .padding(.top, 36)
                         .padding(.bottom, 20)
                     switch state {
@@ -122,10 +124,14 @@ struct HomeList: View {
                         }
                     }
 
+                    Spacer()
+
                     VolumeMessage(message: .upToDate)
                         .padding([.top, .bottom], 25)
 
-                    Header("Other Articles").padding(.bottom, -12)
+                    Spacer()
+
+                    Header("Other Articles").padding()
                     switch state {
                     case .loading:
                         // will be off the page, so pointless to show anything

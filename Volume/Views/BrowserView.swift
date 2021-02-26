@@ -67,8 +67,7 @@ struct BrowserView: View {
                     .frame(width: 16)
 
                 Button {
-//                    isSharing = true
-                    actionSheet()
+                    displayShareScreen()
                 } label: {
                     Image(systemName: "square.and.arrow.up.on.square")
                         .font(Font.system(size: 16, weight: .semibold))
@@ -99,14 +98,14 @@ struct BrowserView: View {
         .padding([.leading, .trailing], 16)
         .padding([.top, .bottom], 8)
         .background(Color.volume.backgroundGray)
-        .sheet(isPresented: $isSharing) {
-            ShareModalView(activityItems: [article.articleUrl ?? ""])
-        }
     }
 
-    func actionSheet() {
-        let shareVC = UIActivityViewController(activityItems: [article.articleUrl ?? ""], applicationActivities: nil)
-        UIApplication.shared.windows.first?.rootViewController?.present(shareVC, animated: true, completion: nil)
+    func displayShareScreen() {
+        if let articleUrl = article.articleUrl {
+            // TODO: Allow users to share "DOWNLOAD VOLUME LINK" when we push to AppStore
+            let shareVC = UIActivityViewController(activityItems: [articleUrl], applicationActivities: nil)
+            UIApplication.shared.windows.first?.rootViewController?.present(shareVC, animated: true, completion: nil)
+        }
     }
 
     var body: some View {

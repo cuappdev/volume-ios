@@ -107,6 +107,7 @@ struct PublicationDetail: View {
                     .frame(width: 100)
 
                 Header("Articles")
+                    .padding()
                 switch state {
                 case .loading:
                     VStack {
