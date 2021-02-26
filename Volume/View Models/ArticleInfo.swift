@@ -70,7 +70,7 @@ extension ArticleInfo {
                             .frame(width: 33, height: 10)
                         Text(" • ")
                             .font(.helveticaRegular(size: 10))
-                            .foregroundColor(Color.volume.lightGray)
+                            .foregroundColor(Color.volume.veryLightGray)
                         SkeletonView()
                             .frame(width: 70, height: 10)
                     }
