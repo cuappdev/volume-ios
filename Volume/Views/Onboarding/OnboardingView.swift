@@ -6,8 +6,8 @@
 //  Copyright © 2020 Cornell AppDev. All rights reserved.
 //
 
-import SwiftUI
 import AppDevAnalytics
+import SwiftUI
 
 struct OnboardingView: View {
     @State private var isShowingSplash = true
@@ -86,9 +86,9 @@ struct OnboardingView: View {
                     .foregroundColor(Color.volume.orange)
                 case .follow:
                     Button("Start reading") {
+                        AppDevAnalytics.logEvent(CompleteOnboarding())
                         withAnimation(.spring()) {
                             isFirstLaunch = false
-                            AppDevAnalytics.logEvent(CompleteOnboarding())
                         }
                     }
                     .foregroundColor(didFollowPublication ? Color.volume.orange : Color(white: 151 / 255))
@@ -116,9 +116,9 @@ struct OnboardingView: View {
         .background(Color.volume.backgroundGray)
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                AppDevAnalytics.logEvent(StartOnboarding())
                 withAnimation(.spring()) {
                     isShowingSplash = false
-                    AppDevAnalytics.logEvent(StartOnboarding())
                 }
             }
         }
