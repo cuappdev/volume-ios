@@ -83,10 +83,9 @@ struct HomeList: View {
     var body: some View {
         NavigationView {
             ScrollView(showsIndicators: false) {
-                LazyVStack(spacing: 0) {
+                LazyVStack(spacing: 20) {
                     Header("The Big Read")
                         .padding([.top, .leading, .trailing])
-                        .padding(.bottom, 20)
                     ScrollView(.horizontal, showsIndicators: false) {
                         switch state {
                         case .loading:
@@ -108,26 +107,24 @@ struct HomeList: View {
                     Header("Following")
                         .padding([.leading, .trailing])
                         .padding(.top, 36)
-                        .padding(.bottom, 20)
                     switch state {
                     case .loading:
                         ForEach(0..<5) { _ in
                             ArticleRow.Skeleton()
                                 .padding([.leading, .trailing])
-                                .padding(.bottom, 20)
                         }
                     case .results(let results):
                         ForEach(results.followedArticles) { article in
                             ArticleRow(article: article)
                                 .padding([.leading, .trailing])
-                                .padding(.bottom, 20)
                         }
                     }
 
                     Spacer()
 
                     VolumeMessage(message: .upToDate)
-                        .padding([.top, .bottom], 25)
+                        .padding(.top, 25)
+                        .padding(.bottom, -5)
 
                     Spacer()
 

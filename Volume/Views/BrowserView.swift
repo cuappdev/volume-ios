@@ -12,7 +12,6 @@ import WebKit
 
 struct BrowserView: View {
     @EnvironmentObject private var userData: UserData
-    @State private var isSharing: Bool = false
 
     let article: Article
     var isShoutoutsButtonEnabled: Bool {
@@ -104,7 +103,7 @@ struct BrowserView: View {
         if let articleUrl = article.articleUrl {
             // TODO: Allow users to share "DOWNLOAD VOLUME LINK" when we push to AppStore
             let shareVC = UIActivityViewController(activityItems: [articleUrl], applicationActivities: nil)
-            UIApplication.shared.windows.first?.rootViewController?.present(shareVC, animated: true, completion: nil)
+            UIApplication.shared.windows.first?.rootViewController?.present(shareVC, animated: true)
         }
     }
 
