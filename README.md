@@ -42,7 +42,7 @@ AppDev members can access the `schema.json` file in the `#volume-dev` channel.
 AppDev members can access the `GoogleService-Info.plist` file via a pinned message in the `#volume-ios` channel.
 Place the file in the `Volume/` directory.
 
-4.  Finally, you need to generate `API.swift`. The Apollo iOS pod offers a build run script to do this. Go to the Volume target Build Phases and click the pluss to add a new Run Script Phase. Name it something like "Generate Apollo GraphQL API", and paste in the following script. When you build, Xcode will autogenerate `API.swift` if one of the query or mutation `.graphql` files has changed.
+4.  Finally, you need to generate `API.swift`. The Apollo iOS pod offers a build run script to do this. Go to the Volume target Build Phases and click the plus to add a new Run Script Phase. Name it something like "Generate Apollo GraphQL API", and paste in the following script. When you build, Xcode will autogenerate `API.swift` if one of the query or mutation `.graphql` files has changed.
 
 ```bash
 SCRIPT_PATH="${PODS_ROOT}/Apollo/scripts"
