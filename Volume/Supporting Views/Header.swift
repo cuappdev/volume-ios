@@ -19,7 +19,6 @@ struct Header: View {
         UnderlinedText(text)
             .font(.begumMedium(size: 20))
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding()
     }
 }
 

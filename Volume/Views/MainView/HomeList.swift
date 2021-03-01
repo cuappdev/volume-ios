@@ -83,8 +83,9 @@ struct HomeList: View {
     var body: some View {
         NavigationView {
             ScrollView(showsIndicators: false) {
-                LazyVStack {
-                    Header("The Big Read").padding(.bottom, -12)
+                LazyVStack(spacing: 20) {
+                    Header("The Big Read")
+                        .padding([.top, .leading, .trailing])
                     ScrollView(.horizontal, showsIndicators: false) {
                         switch state {
                         case .loading:
@@ -101,26 +102,33 @@ struct HomeList: View {
                             }
                         }
                     }
-                    .padding([.bottom, .leading, .trailing])
+                    .padding([.leading, .trailing])
 
-                    Header("Following").padding(.bottom, -12)
+                    Header("Following")
+                        .padding([.leading, .trailing])
+                        .padding(.top, 36)
                     switch state {
                     case .loading:
                         ForEach(0..<5) { _ in
                             ArticleRow.Skeleton()
-                                .padding([.bottom, .leading, .trailing])
+                                .padding([.leading, .trailing])
                         }
                     case .results(let results):
                         ForEach(results.followedArticles) { article in
                             ArticleRow(article: article)
-                                .padding([.bottom, .leading, .trailing])
+                                .padding([.leading, .trailing])
                         }
                     }
 
-                    VolumeMessage(message: .upToDate)
-                        .padding([.top, .bottom], 25)
+                    Spacer()
 
-                    Header("Other Articles").padding(.bottom, -12)
+                    VolumeMessage(message: .upToDate)
+                        .padding(.top, 25)
+                        .padding(.bottom, -5)
+
+                    Spacer()
+
+                    Header("Other Articles").padding()
                     switch state {
                     case .loading:
                         // will be off the page, so pointless to show anything

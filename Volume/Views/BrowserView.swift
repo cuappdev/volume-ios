@@ -58,6 +58,18 @@ struct BrowserView: View {
                     userData.toggleArticleSaved(article)
                 } label: {
                     Image(systemName: userData.isArticleSaved(article) ? "bookmark.fill" : "bookmark")
+                        .font(Font.system(size: 18, weight: .semibold))
+                        .foregroundColor(Color.volume.orange)
+                }
+
+                Spacer()
+                    .frame(width: 16)
+
+                Button {
+                    displayShareScreen()
+                } label: {
+                    Image(systemName: "square.and.arrow.up.on.square")
+                        .font(Font.system(size: 16, weight: .semibold))
                         .foregroundColor(Color.volume.orange)
                 }
 
@@ -76,7 +88,7 @@ struct BrowserView: View {
                 .disabled(!isShoutoutsButtonEnabled)
 
                 Spacer()
-                    .frame(width: 5)
+                    .frame(width: 6)
 
                 Text(String(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0])))
                     .font(.helveticaRegular(size: 12))
@@ -85,6 +97,14 @@ struct BrowserView: View {
         .padding([.leading, .trailing], 16)
         .padding([.top, .bottom], 8)
         .background(Color.volume.backgroundGray)
+    }
+
+    func displayShareScreen() {
+        if let articleUrl = article.articleUrl {
+            // TODO: Allow users to share "DOWNLOAD VOLUME LINK" when we push to AppStore
+            let shareVC = UIActivityViewController(activityItems: [articleUrl], applicationActivities: nil)
+            UIApplication.shared.windows.first?.rootViewController?.present(shareVC, animated: true)
+        }
     }
 
     var body: some View {

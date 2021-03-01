@@ -61,7 +61,11 @@ struct PublicationList: View {
 
     /// The publications a user is following
     private var followedPublicationsSection: some View {
-        Section(header: Header("Following").padding(.bottom, -12)) {
+        Section(
+            header: Header("Following")
+                .padding([.leading, .top, .trailing])
+                .padding(.bottom, 6)
+        ) {
             if someFollowedPublications {
                 ScrollView(.horizontal, showsIndicators: false) {
                     switch state {
@@ -101,7 +105,11 @@ struct PublicationList: View {
 
     /// The publications a user is not following
     private var morePublicationsSection: some View {
-        Section(header: Header("More publications").padding(.bottom, -12)) {
+        Section(
+            header: Header("More publications")
+                .padding([.leading, .top, .trailing])
+                .padding(.bottom, 6)
+        ) {
             switch state {
             case .loading:
                 VStack {

@@ -16,10 +16,11 @@ struct ArticleInfo: View {
 
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 0) {
                 if showsPublicationName {
                     Text(article.publication.name)
                         .font(.begumMedium(size: 12))
+                        .padding(.bottom, 1.5)
                 }
 
                 Text(article.title)
@@ -55,10 +56,11 @@ extension ArticleInfo {
 
         var body: some View {
             HStack {
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 0) {
                     if showsPublicationName {
-                    SkeletonView()
-                        .frame(width: 70, height: 14)
+                        SkeletonView()
+                            .frame(width: 70, height: 14)
+                            .padding(.bottom, 3)
                     }
                     SkeletonView()
                         .frame(height: 40)
@@ -68,7 +70,7 @@ extension ArticleInfo {
                             .frame(width: 33, height: 10)
                         Text(" • ")
                             .font(.helveticaRegular(size: 10))
-                            .foregroundColor(Color.volume.lightGray)
+                            .foregroundColor(Color.volume.veryLightGray)
                         SkeletonView()
                             .frame(width: 70, height: 10)
                     }

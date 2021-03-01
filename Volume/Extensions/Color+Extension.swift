@@ -19,6 +19,8 @@ extension Color {
         /// The color used as the background for buttons.
         let buttonGray = Color(white: 238 / 255)
         let lightGray = Color(white: 153 / 255)
+        /// The color used for SkeletonViews
+        let veryLightGray = Color(white: 230 / 255)
         let orange = Color(red: 208 / 255, green: 112 / 255, blue: 0 / 255)
         let shadowBlack = Color(white: 10 / 255, opacity: 0.10)
     }
