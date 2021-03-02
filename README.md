@@ -1,8 +1,7 @@
 # Volume
 
-<p align="center"><img src=https://github.com/cuappdev/volume-ios/blob/cam/icon/Volume/Assets.xcassets/AppIcon.appiconset/logo.png?raw=True
-width=210 style="padding:1px;border:thin solid black;"/></p>
-
+<p align="center"><img src=https://github.com/cuappdev/volume-ios/blob/master/Volume/Assets.xcassets/AppIcon.appiconset/logo.png
+width=210/></p>
 
 Volume is one of the latest applications by [Cornell AppDev](http://cornellappdev.com), an engineering project team at Cornell University focused on mobile app development. Volume aims to amplify the voice of student publications, helping them reach a broader audience.
 
