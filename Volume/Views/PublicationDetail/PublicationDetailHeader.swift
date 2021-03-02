@@ -22,10 +22,10 @@ struct PublicationDetailHeader: View {
         max(publication.shoutouts, userData.shoutoutsCache[publication.id, default: 0])
     }
     
-    private var validSocials: [String:String] {
+    private var validSocials: [String: String] {
         ["insta": "Instagram", "facebook": "Facebook"]
     }
-    
+
     private var externalLinks: some View {
         HStack {
             ForEach(publication.socials, id: \.name) { social in
