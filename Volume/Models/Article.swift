@@ -14,6 +14,7 @@ struct Article: Hashable, Identifiable {
     let date: Date
     let id: String
     let imageUrl: URL?
+    let nsfw: Bool
     let publication: Publication
     let shoutouts: Int
     let title: String
@@ -23,6 +24,7 @@ struct Article: Hashable, Identifiable {
         date = Date.from(iso8601: article.date)
         id = article.id
         imageUrl = URL(string: article.imageUrl)
+        nsfw = article.nsfw
         publication = Publication(from: article.publication.fragments.publicationFields)
         shoutouts = Int(article.shoutouts)
         title = article.title

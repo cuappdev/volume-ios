@@ -26,6 +26,8 @@ struct ArticleInfo: View {
                     .font(.helveticaBold(size: 16))
                     .lineLimit(3)
                     .padding(.top, 0.5)
+                    .blur(radius: article.nsfw ? 3 : 0)
+                
                 Spacer()
                 HStack {
                     Text("\(article.date.fullString) • \(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0])) shout-outs")

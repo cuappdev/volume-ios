@@ -21,39 +21,33 @@ struct PublicationDetailHeader: View {
     private var shoutouts: Int {
         max(publication.shoutouts, userData.shoutoutsCache[publication.id, default: 0])
     }
+    
+    private func findUrl(for social: String) -> URL? {
+        publication.socials?.first(where: { $0.name == social })?.url
+    }
 
-    // TODO: refactor
     private var externalLinks: some View {
         HStack {
-            if let _ = publication.socials["Instagram"] {
+            if let url = findUrl(for: "instagram") {
                 Image("instagram")
                     .resizable()
                     .frame(width: 16, height: 16)
                     .foregroundColor(iconGray)
-                Text("Instagram")
-                    .font(.helveticaRegular(size: 12))
-                    .foregroundColor(Color.volume.orange)
-                    .padding(.trailing, 10)
+                MediaText(title: "Instagram", url: url)
             }
-            if let _ = publication.socials["Facebook"] {
+            if let url = findUrl(for: "facebook") {
                 Image("facebook")
                     .resizable()
                     .frame(width: 16, height: 16)
                     .foregroundColor(iconGray)
-                Text("Facebook")
-                    .font(.helveticaRegular(size: 12))
-                    .foregroundColor(Color.volume.orange)
-                    .padding(.trailing, 10)
+               MediaText(title: "Facebook", url: url)
             }
-            if let website = publication.socials["Website"] {
+            if let url = publication.websiteUrl {
                 Image(systemName: "link")
                     .resizable()
                     .frame(width: 16, height: 16)
                     .foregroundColor(iconGray)
-                Text(website)
-                    .font(.helveticaRegular(size: 12))
-                    .foregroundColor(Color.volume.orange)
-                    .underline()
+                MediaText(title: url.host ?? "Website", url: url)
             }
         }
         .padding(.top, 15)
@@ -90,5 +84,17 @@ struct PublicationDetailHeader: View {
             externalLinks
         }
         .padding([.leading, .trailing])
+    }
+}
+
+struct MediaText: View {
+    let title: String!
+    let url: URL!
+    
+    var body: some View {
+        Link(title, destination: url)
+            .font(.helveticaRegular(size: 12))
+            .foregroundColor(Color.volume.orange)
+            .padding(.trailing, 10)
     }
 }

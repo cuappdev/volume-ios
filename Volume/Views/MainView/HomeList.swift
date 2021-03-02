@@ -26,48 +26,42 @@ struct HomeList: View {
     private func fetch() {
         guard isLoading else { return }
 
-        guard let oneWeekAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) else {
-            return
-        }
-        
-        guard let twoWeeksAgo = Calendar.current.date(byAdding: .day, value: -14, to: Date()) else {
-            return
-        }
-        
-        let trendingQuery = Network.shared.apollo.fetch(query: GetTrendingArticlesQuery(since: oneWeekAgo.dateString))
-            .map { $0.articles.map(\.fragments.articleFields) }
-        
-        let followedQuery = userData.followedPublicationIDs.publisher
-            .flatMap { id in
-                Network.shared.apollo.fetch(query: GetArticlesByPublicationIdQuery(id: id))
+        cancellableQuery = Network.shared.apollo.fetch(query: GetAllPublicationIDsQuery())
+            .map { $0.publications.map(\.id) }
+            .flatMap { publicationIDs -> ResultsPublisher in
+                let trendingQuery = Network.shared.apollo.fetch(query: GetTrendingArticlesQuery())
+                    .map { $0.articles.map(\.fragments.articleFields) }
+
+                let followedQuery = Network.shared.apollo.fetch(query: GetArticlesByPublicationIDsQuery(ids: userData.followedPublicationIDs))
+                    .map { $0.articles.map(\.fragments.articleFields) }
+                    .collect()
+
+                let morePublicationIDs = publicationIDs.filter { !userData.followedPublicationIDs.contains($0) }
+
+                let otherQuery = Network.shared.apollo.fetch(query: GetArticlesByPublicationIDsQuery(ids: morePublicationIDs))
+                    .map { $0.articles.map(\.fragments.articleFields) }
+                
+                return Publishers.Zip3(trendingQuery, followedQuery, otherQuery)
             }
-            .map { $0.articles.map(\.fragments.articleFields) }
-            .collect()
-        
-        let otherQuery = Network.shared.apollo.fetch(query: GetArticlesAfterDateQuery(since: twoWeeksAgo.dateString, limit: 20))
-            .map { $0.articles.map(\.fragments.articleFields) }
-        
-        cancellableQuery = Publishers.Zip3(trendingQuery, followedQuery, otherQuery)
             .sink { completion in
                 if case let .failure(error) = completion {
                     print(error.localizedDescription)
                 }
             } receiveValue: { (trending, followed, other) in
-                // Take up to 10 random followed articles
-                let followedArticles = Array(followed.joined().shuffled().prefix(10))
-                // Exclude followed articles from trending articles, taking at most 10
-                let trendingArticles = Array(trending.filter { article in
-                    !followedArticles.contains(where: { $0.id == article.id })
-                }.prefix(10))
+                // Exclude trending articles from following articles
+                // Take up to 20 followed articles, sorted in descending chronological order
+                let followedArticles = Array(followed.joined().filter { article in
+                    !trending.contains(where: { $0.id == article.id })
+                }).sorted(by: { $0.date > $1.date } ).prefix(20)
                 // Exclude followed and trending articles from other articles
-                let otherArticles = other.filter { article in
+                let otherArticles = Array(other.filter { article in
                     !(followedArticles.contains(where: { $0.id == article.id })
-                        || trendingArticles.contains(where: { $0.id == article.id }))
-                }
-                
-                withAnimation(.linear(duration: 0.1)) { 
+                        || trending.contains(where: { $0.id == article.id }))
+                }).sorted(by: { $0.date > $1.date } ).prefix(45)
+
+                withAnimation(.linear(duration: 0.1)) {
                     state = .results((
-                        trendingArticles: [Article](trendingArticles),
+                        trendingArticles: [Article](trending),
                         followedArticles: [Article](followedArticles),
                         otherArticles: [Article](otherArticles)
                     ))
@@ -148,6 +142,12 @@ extension HomeList {
         followedArticles: [Article],
         otherArticles: [Article]
     )
+    typealias ResultsPublisher =
+        Publishers.Zip3<
+            Publishers.Map<GraphQLPublisher<GetTrendingArticlesQuery>,[ArticleFields]>,
+            Publishers.Collect<Publishers.Map<GraphQLPublisher<GetArticlesByPublicationIDsQuery>, [ArticleFields]>>,
+            Publishers.Map<GraphQLPublisher<GetArticlesByPublicationIDsQuery>, [ArticleFields]>
+        >
     private enum HomeListState {
         case loading
         case results(Results)
