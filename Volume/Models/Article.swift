@@ -18,7 +18,7 @@ struct Article: Hashable, Identifiable {
     let publication: Publication
     let shoutouts: Int
     let title: String
-    
+
     init(from article: ArticleFields) {
         articleUrl = URL(string: article.articleUrl)
         date = Date.from(iso8601: article.date)

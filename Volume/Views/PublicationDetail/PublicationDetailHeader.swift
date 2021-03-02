@@ -13,7 +13,7 @@ struct PublicationDetailHeader: View {
     private let iconGray = Color(white: 196 / 255)
 
     let publication: Publication
-    
+
     private var isFollowed: Bool {
         userData.isPublicationFollowed(publication)
     }
@@ -47,15 +47,15 @@ struct PublicationDetailHeader: View {
         }
         .padding(.top, 15)
     }
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .top) {
                 Text(publication.name)
                     .font(.begumMedium(size: 18))
-                
+
                 Spacer()
-                
+
                 Button(action: {
                     withAnimation {
                         userData.togglePublicationFollowed(publication)

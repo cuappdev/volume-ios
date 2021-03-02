@@ -6,6 +6,7 @@
 //  Copyright © 2020 Cornell AppDev. All rights reserved.
 //
 
+import AppDevAnalytics
 import SwiftUI
 
 struct OnboardingView: View {
@@ -14,13 +15,13 @@ struct OnboardingView: View {
     @Namespace private var namespace
     @AppStorage("isFirstLaunch") private var isFirstLaunch = true
     @EnvironmentObject private var userData: UserData
-    
+
     private let volumeLogoID = "volume-logo"
-    
+
     private var didFollowPublication: Bool {
         userData.followedPublicationIDs.count > 0
     }
-    
+
     private var splashView: some View {
         Group {
             Spacer()
@@ -33,7 +34,7 @@ struct OnboardingView: View {
             Spacer()
         }
     }
-    
+
     private var contentView: some View {
         Group {
             Image("volume-logo")
@@ -43,7 +44,7 @@ struct OnboardingView: View {
                 .padding([.leading, .trailing], 65)
                 .padding(.top, 25)
                 .matchedGeometryEffect(id: volumeLogoID, in: namespace)
-            
+
             Group {
                 switch page {
                 case .welcome:
@@ -57,23 +58,23 @@ struct OnboardingView: View {
             .font(.begumRegular(size: 16))
             .frame(height: 80)
             .padding([.leading, .trailing], 50)
-            
+
             Divider()
                 .background(Color.volume.buttonGray)
                 .frame(width: 100)
-            
+
             switch page {
             case .welcome:
                 WelcomeView()
             case .follow:
                 FollowView()
             }
-            
+
             Spacer()
-            
+
             PageControl(currentPage: page == .welcome ? 0 : 1, numberOfPages: 2)
                 .padding(.bottom, 47)
-            
+
             Group {
                 switch page {
                 case .welcome:
@@ -85,6 +86,7 @@ struct OnboardingView: View {
                     .foregroundColor(Color.volume.orange)
                 case .follow:
                     Button("Start reading") {
+                        AppDevAnalytics.log(CompleteOnboarding())
                         withAnimation(.spring()) {
                             isFirstLaunch = false
                         }
@@ -102,7 +104,7 @@ struct OnboardingView: View {
             .padding(.bottom, 20)
         }
     }
-    
+
     var body: some View {
         VStack {
             if isShowingSplash {
@@ -114,6 +116,7 @@ struct OnboardingView: View {
         .background(Color.volume.backgroundGray)
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                AppDevAnalytics.log(StartOnboarding())
                 withAnimation(.spring()) {
                     isShowingSplash = false
                 }
@@ -126,14 +129,14 @@ extension OnboardingView {
     enum Page {
         case welcome, follow
     }
-    
+
     struct PageControl: View {
         private let selectedColor = Color(white: 153 / 255)
         private let unselectedColor = Color(white: 196 / 255)
-        
+
         let currentPage: Int
         let numberOfPages: Int
-        
+
         var body: some View {
             HStack(spacing: 12) {
                 ForEach(0..<numberOfPages) { i in

@@ -12,10 +12,10 @@ import SwiftUI
 
 struct BigReadArticleRow: View {
     let article: Article
-    
+
     var body: some View {
         NavigationLink(destination: BrowserView(article: article)) {
-            VStack(spacing: 15) {
+            VStack(spacing: 16) {
                 if let url = article.imageUrl {
                     WebImage(url: url)
                         .resizable()

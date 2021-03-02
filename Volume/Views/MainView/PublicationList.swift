@@ -13,7 +13,7 @@ struct PublicationList: View {
     @State private var cancellableQuery: AnyCancellable?
     @State private var state: PublicationListState = .loading
     @EnvironmentObject private var userData: UserData
-    
+
     private func fetch() {
         // if there already are results, sort again `onAppear` in case a `followed` status changed
         if case .results(let results) = state {
@@ -22,7 +22,7 @@ struct PublicationList: View {
             let morePublications = publications.filter { !userData.isPublicationFollowed($0) }
             state = .results((followedPublications, morePublications))
         }
-        
+
         cancellableQuery = Network.shared.apollo.fetch(query: GetAllPublicationsQuery())
             .map { data in data.publications.compactMap { $0 } }
             .sink(receiveCompletion: { completion in
@@ -38,7 +38,7 @@ struct PublicationList: View {
                 }
             })
     }
-    
+
     // Whether, given the state, at least 1 publication is followed. These two may differ if a
     // publication which was already followed is suddenly not returned from the server.
     private var someFollowedPublications: Bool {
@@ -49,7 +49,7 @@ struct PublicationList: View {
             return results.followedPublications.count > 0
         }
     }
-    
+
     private var isLoading: Bool {
         switch state {
         case .loading:
@@ -58,10 +58,14 @@ struct PublicationList: View {
             return false
         }
     }
-    
+
     /// The publications a user is following
     private var followedPublicationsSection: some View {
-        Section(header: Header("Following").padding(.bottom, -12)) {
+        Section(
+            header: Header("Following")
+                .padding([.leading, .top, .trailing])
+                .padding(.bottom, 6)
+        ) {
             if someFollowedPublications {
                 ScrollView(.horizontal, showsIndicators: false) {
                     switch state {
@@ -98,10 +102,14 @@ struct PublicationList: View {
             }
         }
     }
-    
+
     /// The publications a user is not following
     private var morePublicationsSection: some View {
-        Section(header: Header("More publications").padding(.bottom, -12)) {
+        Section(
+            header: Header("More publications")
+                .padding([.leading, .top, .trailing])
+                .padding(.bottom, 6)
+        ) {
             switch state {
             case .loading:
                 VStack {
@@ -122,7 +130,7 @@ struct PublicationList: View {
             }
         }
     }
-    
+
     var body: some View {
         NavigationView {
             ScrollView(showsIndicators: false) {

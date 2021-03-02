@@ -41,7 +41,7 @@ struct PublicationDetail: View {
             return false
         }
     }
-    
+
     private var backgroundImage: some View {
         ZStack {
             GeometryReader { geometry in
@@ -67,7 +67,7 @@ struct PublicationDetail: View {
                             .padding(.top, 55)
                             .padding(.leading, 20)
                     }
-                    
+
                     Spacer()
 
                     if let imageUrl = publication.profileImageUrl {
@@ -87,26 +87,27 @@ struct PublicationDetail: View {
                             .padding(.leading, 16)
                     }
                 }
-                
+
                 Spacer()
             }
         }
         .frame(height: 156)
     }
-    
+
     var body: some View {
         Section {
             ScrollView {
                 backgroundImage
-                
+
                 PublicationDetailHeader(publication: publication)
                     .padding(.bottom)
-                
+
                 Divider()
                     .background(Color.volume.buttonGray)
                     .frame(width: 100)
 
                 Header("Articles")
+                    .padding()
                 switch state {
                 case .loading:
                     VStack {
@@ -129,11 +130,13 @@ struct PublicationDetail: View {
             .disabled(isLoading)
         }
         .background(Color.volume.backgroundGray)
-        .gesture(DragGesture().updating($dragOffset, body: { value, _, _ in
-            if value.startLocation.x < 20 && value.translation.width > 100 {
-                presentationMode.wrappedValue.dismiss()
-            }
-        }))
+        .gesture(
+            DragGesture().updating($dragOffset, body: { value, _, _ in
+                if value.startLocation.x < 20 && value.translation.width > 100 {
+                    presentationMode.wrappedValue.dismiss()
+                }
+            })
+        )
         .onAppear(perform: fetch)
     }
 }

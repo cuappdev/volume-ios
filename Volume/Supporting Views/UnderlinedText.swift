@@ -11,7 +11,7 @@ import SwiftUI
 struct UnderlinedText: View {
     @State private var textSize: CGSize = .zero
     private let text: String
-    
+
     init(_ text: String) {
         self.text = text
     }
@@ -37,7 +37,7 @@ struct SizeGetter: View {
     @Binding var size: CGSize
 
     var body: some View {
-        return GeometryReader { geometry in
+        GeometryReader { geometry in
             self.makeView(geometry: geometry)
         }
     }

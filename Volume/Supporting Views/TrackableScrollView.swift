@@ -33,13 +33,13 @@ struct TrackableScrollView<Content: View>: UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> UIViewController {
         let viewController = context.coordinator.viewController
-        
+
         let scrollView = UIScrollView()
         scrollView.verticalScrollIndicatorInsets.top = -20
         scrollView.delegate = context.coordinator
         viewController.view.addSubview(scrollView)
         pinEdges(of: scrollView, to: viewController.view)
-        
+
         DispatchQueue.main.async {
             maxOffsetDidChange?(
                 CGPoint(
@@ -50,7 +50,7 @@ struct TrackableScrollView<Content: View>: UIViewControllerRepresentable {
                 )
             )
         }
-        
+
         let hostingController = UIHostingController(rootView: content())
         if let contentView = hostingController.view {
             viewController.addChild(hostingController)
@@ -65,12 +65,12 @@ struct TrackableScrollView<Content: View>: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
         let viewController = context.coordinator.viewController
         guard let scrollView = viewController.view.subviews.first as? UIScrollView,
-              let oldHost = viewController.children.last as? UIHostingController<Content> else {
+            let oldHost = viewController.children.last as? UIHostingController<Content> else {
             return
         }
-        
+
         oldHost.rootView = content()
-        
+
         DispatchQueue.main.async {
             maxOffsetDidChange?(
                 CGPoint(
@@ -81,14 +81,14 @@ struct TrackableScrollView<Content: View>: UIViewControllerRepresentable {
                 )
             )
         }
-        
+
         scrollView.contentOffset = contentOffset
     }
 
     class Coordinator<Content: View>: NSObject, UIScrollViewDelegate {
         @Binding var contentOffset: CGPoint
         let viewController = UIViewController()
-        
+
         init(contentOffset: Binding<CGPoint>) {
             _contentOffset = contentOffset
         }

@@ -14,8 +14,8 @@ struct BookmarksList: View {
             NavigationView {
                 ScrollView(showsIndicators: false) {
                     Header(text: "Saved Articles")
-                    if let savedArticles = articleData.filter{ $0.isSaved }, savedArticles.count > 0 {
-                        ForEach (savedArticles) { article in
+                    if let savedArticles = articleData.filter { $0.isSaved }, savedArticles.count > 0 {
+                        ForEach(savedArticles) { article in
                             ArticleRow(article: article, showsPublicationName: true)
                                 .padding([.bottom, .leading, .trailing])
                         }

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct MainView: View {
     @State private var selectedTab: Tab = .home
-    
+
     init() {
         let grayColor = UIColor(Color.volume.navigationBarGray)
         UINavigationBar.appearance().backgroundColor = grayColor
@@ -19,7 +19,7 @@ struct MainView: View {
         UITabBar.appearance().clipsToBounds = true
         UITabBar.appearance().unselectedItemTintColor = UIColor(Color.volume.lightGray)
     }
-    
+
     var body: some View {
         TabView(selection: $selectedTab) {
             HomeList()
@@ -27,13 +27,13 @@ struct MainView: View {
                 Image("volume")
             }
             .tag(Tab.home)
-            
+
             PublicationList()
             .tabItem {
                 Image("publications")
             }
             .tag(Tab.publications)
-            
+
             BookmarksList()
             .tabItem {
                 Image("bookmark")
