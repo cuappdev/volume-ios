@@ -29,7 +29,7 @@ struct HomeList: View {
         cancellableQuery = Network.shared.apollo.fetch(query: GetAllPublicationIDsQuery())
             .map { $0.publications.map(\.id) }
             .flatMap { publicationIDs -> ResultsPublisher in
-                let trendingQuery = Network.shared.apollo.fetch(query: GetTrendingArticlesQuery())
+                let trendingQuery = Network.shared.apollo.fetch(query: GetTrendingArticlesQuery(limit: 7))
                     .map { $0.articles.map(\.fragments.articleFields) }
 
                 let followedQuery = Network.shared.apollo.fetch(query: GetArticlesByPublicationIDsQuery(ids: userData.followedPublicationIDs))
@@ -47,21 +47,21 @@ struct HomeList: View {
                 if case let .failure(error) = completion {
                     print(error.localizedDescription)
                 }
-            } receiveValue: { (trending, followed, other) in
+            } receiveValue: { (trendingArticles, followed, other) in
                 // Exclude trending articles from following articles
                 // Take up to 20 followed articles, sorted in descending chronological order
                 let followedArticles = Array(followed.joined().filter { article in
-                    !trending.contains(where: { $0.id == article.id })
-                }).sorted(by: { $0.date > $1.date } ).prefix(20)
+                    !trendingArticles.contains(where: { $0.id == article.id })
+                }).sorted(by: { $0.date > $1.date }).prefix(20)
                 // Exclude followed and trending articles from other articles
                 let otherArticles = Array(other.filter { article in
                     !(followedArticles.contains(where: { $0.id == article.id })
-                        || trending.contains(where: { $0.id == article.id }))
-                }).sorted(by: { $0.date > $1.date } ).prefix(45)
+                        || trendingArticles.contains(where: { $0.id == article.id }))
+                }).sorted(by: { $0.date > $1.date }).prefix(45)
 
                 withAnimation(.linear(duration: 0.1)) {
                     state = .results((
-                        trendingArticles: [Article](trending),
+                        trendingArticles: [Article](trendingArticles),
                         followedArticles: [Article](followedArticles),
                         otherArticles: [Article](otherArticles)
                     ))

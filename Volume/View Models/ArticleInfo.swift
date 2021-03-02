@@ -26,7 +26,7 @@ struct ArticleInfo: View {
                     .font(.helveticaBold(size: 16))
                     .lineLimit(3)
                     .padding(.top, 0.5)
-                    .blur(radius: article.nsfw ? 3 : 0)
+                    .blur(radius: article.isNsfw ? 3 : 0)
                 
                 Spacer()
                 HStack {

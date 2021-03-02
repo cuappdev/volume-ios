@@ -15,8 +15,8 @@ fragment articleFields on Article {
 
 # should be combined into 1 GetHomeArticles query once backend permits
 
-query GetTrendingArticles {
-  articles: getTrendingArticles {
+query GetTrendingArticles($limit: Float!) {
+  articles: getTrendingArticles(limit: $limit) {
     ...articleFields
   }
 }

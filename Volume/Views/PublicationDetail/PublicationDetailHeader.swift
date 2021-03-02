@@ -22,25 +22,20 @@ struct PublicationDetailHeader: View {
         max(publication.shoutouts, userData.shoutoutsCache[publication.id, default: 0])
     }
     
-    private func findUrl(for social: String) -> URL? {
-        publication.socials?.first(where: { $0.name == social })?.url
+    private var validSocials: [String:String] {
+        ["insta": "Instagram", "facebook": "Facebook"]
     }
-
+    
     private var externalLinks: some View {
         HStack {
-            if let url = findUrl(for: "instagram") {
-                Image("instagram")
-                    .resizable()
-                    .frame(width: 16, height: 16)
-                    .foregroundColor(iconGray)
-                MediaText(title: "Instagram", url: url)
-            }
-            if let url = findUrl(for: "facebook") {
-                Image("facebook")
-                    .resizable()
-                    .frame(width: 16, height: 16)
-                    .foregroundColor(iconGray)
-               MediaText(title: "Facebook", url: url)
+            ForEach(publication.socials, id: \.name) { social in
+                if let title = validSocials[social.name] {
+                    Image(social.name)
+                        .resizable()
+                        .frame(width: 16, height: 16)
+                        .foregroundColor(iconGray)
+                    MediaText(title: title, url: social.url)
+                }
             }
             if let url = publication.websiteUrl {
                 Image(systemName: "link")
@@ -88,8 +83,8 @@ struct PublicationDetailHeader: View {
 }
 
 struct MediaText: View {
-    let title: String!
-    let url: URL!
+    let title: String
+    let url: URL
     
     var body: some View {
         Link(title, destination: url)

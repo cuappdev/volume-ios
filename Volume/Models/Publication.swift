@@ -18,7 +18,7 @@ struct Publication: Hashable, Identifiable {
     let recent: String?
     let shoutouts: Int
     let websiteUrl: URL?
-    let socials: [Social]?
+    let socials: [Social]
     
     struct Social: Equatable, Hashable {
         let name: String
@@ -35,7 +35,12 @@ struct Publication: Hashable, Identifiable {
         recent = publication.mostRecentArticle?.title
         shoutouts = Int(publication.shoutouts)
         websiteUrl = URL(string: publication.websiteUrl)
-        socials = publication.socials.map { Social(name: $0.social, url: URL(string: $0.url) ?? URL(string: "https://www.cornellappdev.com/")!) }
+        socials = publication.socials.compactMap {
+            if let url = URL(string: $0.url) {
+                return Social(name: $0.social, url: url)
+            }
+            return nil
+        }
     }
 }
 
