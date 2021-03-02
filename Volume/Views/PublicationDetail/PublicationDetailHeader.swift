@@ -10,14 +10,16 @@ import SwiftUI
 
 struct PublicationDetailHeader: View {
     @EnvironmentObject private var userData: UserData
+    @State private var hasOddNumberOfTaps = false
     private let iconGray = Color(white: 196 / 255)
 
     let publication: Publication
-
+    
+    // Takes into account any new user taps of the following button
     private var isFollowed: Bool {
-        userData.isPublicationFollowed(publication)
+        userData.isPublicationFollowed(publication) != hasOddNumberOfTaps
     }
-
+    
     private var shoutouts: Int {
         max(publication.shoutouts, userData.shoutoutsCache[publication.id, default: 0])
     }
@@ -53,13 +55,12 @@ struct PublicationDetailHeader: View {
             HStack(alignment: .top) {
                 Text(publication.name)
                     .font(.begumMedium(size: 18))
+                    .frame(idealHeight: 23, maxHeight: .infinity, alignment: .leading)
 
                 Spacer()
 
                 Button(action: {
-                    withAnimation {
-                        userData.togglePublicationFollowed(publication)
-                    }
+                    hasOddNumberOfTaps.toggle()
                 }) {
                     Text(isFollowed ? "Followed" : "＋ Follow")
                         .font(.helveticaBold(size: 12))
@@ -79,6 +80,11 @@ struct PublicationDetailHeader: View {
             externalLinks
         }
         .padding([.leading, .trailing])
+        .onDisappear {
+            if hasOddNumberOfTaps {
+                userData.togglePublicationFollowed(publication)
+            }
+        }
     }
 }
 

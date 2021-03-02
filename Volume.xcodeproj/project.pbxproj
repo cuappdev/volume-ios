@@ -42,6 +42,7 @@
 		7EA73D25254C9C5B009E8F9F /* BigReadArticleRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA73D24254C9C5B009E8F9F /* BigReadArticleRow.swift */; };
 		7EA73D28254C9C67009E8F9F /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA73D27254C9C67009E8F9F /* Article.swift */; };
 		7EA73D31254CA7E2009E8F9F /* ArticleInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA73D30254CA7E1009E8F9F /* ArticleInfo.swift */; };
+		7EB1B19425D4791400C13460 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EB1B19325D4791400C13460 /* Secrets.plist */; };
 		7EC15D9F257767ED0053BA0B /* Publication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8658AD254B71FF002DEE68 /* Publication.swift */; };
 		7EC15DA0257767ED0053BA0B /* FollowingPublicationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8658B4254B7FF2002DEE68 /* FollowingPublicationRow.swift */; };
 		7EC15DA1257767ED0053BA0B /* MorePublicationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8658AA254B71D7002DEE68 /* MorePublicationRow.swift */; };
@@ -100,6 +101,7 @@
 		7EA73D24254C9C5B009E8F9F /* BigReadArticleRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BigReadArticleRow.swift; path = "Volume/View Models/BigReadArticleRow.swift"; sourceTree = SOURCE_ROOT; };
 		7EA73D27254C9C67009E8F9F /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Article.swift; path = Volume/Models/Article.swift; sourceTree = SOURCE_ROOT; };
 		7EA73D30254CA7E1009E8F9F /* ArticleInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ArticleInfo.swift; path = "Volume/View Models/ArticleInfo.swift"; sourceTree = SOURCE_ROOT; };
+		7EB1B19325D4791400C13460 /* Secrets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		7ED7C333252D117A0078B1BD /* Volume.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Volume.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ED7C336252D117A0078B1BD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7ED7C338252D117A0078B1BD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -176,7 +178,7 @@
 				7ED7C344252D117B0078B1BD /* Info.plist */,
 				7ED7C341252D117B0078B1BD /* LaunchScreen.storyboard */,
 				063EED22257BF870002136EE /* Podfile */,
-				061BA9E0259E355C00B93AEB /* Secrets.plist */,
+				7EB1B19325D4791400C13460 /* Secrets.plist */,
 			);
 			path = Supporting;
 			sourceTree = "<group>";
