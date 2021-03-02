@@ -27,6 +27,8 @@ struct ArticleInfo: View {
                     .font(.helveticaBold(size: 16))
                     .lineLimit(3)
                     .padding(.top, 0.5)
+                    .blur(radius: article.isNsfw ? 3 : 0)
+                
                 Spacer()
                 HStack {
                     // swiftlint:disable:next line_length

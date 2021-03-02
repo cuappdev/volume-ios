@@ -4,6 +4,12 @@ query GetAllPublications {
   }
 }
 
+query GetAllPublicationIDs {
+    publications: getAllPublications {
+        id
+    }
+}
+
 fragment publicationFields on Publication {
   id
   bio
@@ -13,6 +19,10 @@ fragment publicationFields on Publication {
   backgroundImageURL
   numArticles
   websiteURL
+  socials {
+    social
+    URL
+  }
   mostRecentArticle {
     title
   }
