@@ -10,24 +10,28 @@ import SwiftUI
 
 struct ArticleInfo: View {
     @EnvironmentObject private var userData: UserData
-    
+
     let article: Article
     let showsPublicationName: Bool
-    
+
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 0) {
                 if showsPublicationName {
                     Text(article.publication.name)
                         .font(.begumMedium(size: 12))
+                        .padding(.bottom, 1.5)
                 }
 
                 Text(article.title)
                     .font(.helveticaBold(size: 16))
                     .lineLimit(3)
                     .padding(.top, 0.5)
+                    .blur(radius: article.isNsfw ? 3 : 0)
+                
                 Spacer()
                 HStack {
+                    // swiftlint:disable:next line_length
                     Text("\(article.date.fullString) • \(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0])) shout-outs")
                         .font(.helveticaRegular(size: 10))
                         .foregroundColor(Color.volume.lightGray)
@@ -54,10 +58,11 @@ extension ArticleInfo {
 
         var body: some View {
             HStack {
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 0) {
                     if showsPublicationName {
-                    SkeletonView()
-                        .frame(width: 70, height: 14)
+                        SkeletonView()
+                            .frame(width: 70, height: 14)
+                            .padding(.bottom, 3)
                     }
                     SkeletonView()
                         .frame(height: 40)
@@ -67,7 +72,7 @@ extension ArticleInfo {
                             .frame(width: 33, height: 10)
                         Text(" • ")
                             .font(.helveticaRegular(size: 10))
-                            .foregroundColor(Color.volume.lightGray)
+                            .foregroundColor(Color.volume.veryLightGray)
                         SkeletonView()
                             .frame(width: 70, height: 10)
                     }

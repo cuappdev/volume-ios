@@ -27,28 +27,28 @@ enum WrappedGraphQLError: Error {
     case noData
 }
 
-class GraphQLSubscription<Query: GraphQLQuery, S: Subscriber>:
-    Subscription where S.Input == Query.Data, S.Failure == WrappedGraphQLError {
-    
+class GraphQLSubscription<Query: GraphQLQuery, S: Subscriber>: Subscription
+    where S.Input == Query.Data, S.Failure == WrappedGraphQLError {
+
     private let client: ApolloClient
     private let query: Query
     private var cancellableQuery: Apollo.Cancellable?
     private var subscriber: S?
-    
+
     init(client: ApolloClient, query: Query, subscriber: S) {
         self.client = client
         self.query = query
         self.subscriber = subscriber
         fetchQuery()
     }
-    
+
     func request(_ demand: Subscribers.Demand) { }
-    
+
     func cancel() {
         subscriber = nil
         cancellableQuery?.cancel()
     }
-    
+
     private func fetchQuery() {
         guard let subscriber = subscriber else { return }
         cancellableQuery = client.fetch(query: query) { result in
@@ -72,18 +72,17 @@ class GraphQLSubscription<Query: GraphQLQuery, S: Subscriber>:
 struct GraphQLPublisher<Query: GraphQLQuery>: Publisher {
     typealias Output = Query.Data
     typealias Failure = WrappedGraphQLError
-    
+
     private let client: ApolloClient
     private let query: Query
-    
+
     init(client: ApolloClient, query: Query) {
         self.client = client
         self.query = query
     }
-    
-    func receive<S>(
-        subscriber: S
-    ) where S : Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
+
+    func receive<S>(subscriber: S)
+        where S: Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
         let subscription = GraphQLSubscription(client: client, query: query, subscriber: subscriber)
         subscriber.receive(subscription: subscription)
     }

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct HomeList: View {
     private let spacing: CGFloat = 24.0
-            
+
     var body: some View {
         NavigationView {
             ScrollView(showsIndicators: false) {
@@ -23,18 +23,18 @@ struct HomeList: View {
                     }
                 }
                 .padding([.bottom, .leading, .trailing])
-                
+
                 Header(text: "Following")
-                ForEach (articleData.shuffled()) { article in
+                ForEach(articleData.shuffled()) { article in
                     ArticleRow(article: article, showsPublicationName: true)
                         .padding([.bottom, .leading, .trailing])
                 }
-                
+
                 VolumeMessage(message: .upToDate)
                     .padding([.top, .bottom], 25)
-                
+
                 Header(text: "Other Articles")
-                ForEach (articleData.shuffled()) { article in
+                ForEach(articleData.shuffled()) { article in
                     ArticleRow(article: article, showsPublicationName: true)
                         .padding([.bottom, .leading, .trailing])
                 }

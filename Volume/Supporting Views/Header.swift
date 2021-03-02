@@ -8,18 +8,17 @@
 
 import SwiftUI
 
-struct Header : View {
+struct Header: View {
     private let text: String
-    
+
     init(_ text: String) {
         self.text = text
     }
-    
-    var body : some View {
+
+    var body: some View {
         UnderlinedText(text)
             .font(.begumMedium(size: 20))
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding()
     }
 }
 

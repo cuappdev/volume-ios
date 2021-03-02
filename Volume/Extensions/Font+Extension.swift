@@ -12,19 +12,19 @@ extension Font {
     static func begumRegular(size: CGFloat) -> Font {
         .custom("Begum-Regular", size: size)
     }
-    
+
     static func begumMedium(size: CGFloat) -> Font {
         .custom("Begum-Medium", size: size)
     }
-    
+
     static func begumBold(size: CGFloat) -> Font {
         .custom("Begum-Bold", size: size)
     }
-    
+
     static func helveticaRegular(size: CGFloat) -> Font {
         .custom("Helvetica-Regular", size: size)
     }
-    
+
     static func helveticaBold(size: CGFloat) -> Font {
         .custom("Helvetica-Bold", size: size)
     }

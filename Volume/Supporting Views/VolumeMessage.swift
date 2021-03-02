@@ -11,7 +11,7 @@ import SwiftUI
 enum Message {
     case noBookmarks
     case upToDate
-    
+
     var title: String {
         switch self {
         case .noBookmarks:
@@ -20,7 +20,7 @@ enum Message {
             return "You're up to date!"
         }
     }
-    
+
     var subtitle: String {
         switch self {
         case .noBookmarks:
@@ -33,7 +33,7 @@ enum Message {
 
 struct VolumeMessage: View {
     @State var message: Message
-    
+
     var body: some View {
         VStack(spacing: 10) {
             Image("volume")

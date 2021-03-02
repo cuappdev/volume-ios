@@ -4,6 +4,7 @@ fragment articleFields on Article {
   date
   title
   imageURL
+  nsfw
   shoutouts
   publication {
     ...publicationFields
@@ -14,8 +15,8 @@ fragment articleFields on Article {
 
 # should be combined into 1 GetHomeArticles query once backend permits
 
-query GetTrendingArticles($since: String!) {
-  articles: getTrendingArticles(since: $since) {
+query GetTrendingArticles($limit: Float!) {
+  articles: getTrendingArticles(limit: $limit) {
     ...articleFields
   }
 }
@@ -27,7 +28,13 @@ query GetArticlesAfterDate($since: String!, $limit: Float!) {
 }
 
 query GetArticlesByPublicationID($id: String!) {
-  articles: getArticlesByPublication(publicationID: $id) {
+  articles: getArticlesByPublicationID(publicationID: $id) {
+    ...articleFields
+  }
+}
+
+query GetArticlesByPublicationIDs($ids: [String!]!) {
+  articles: getArticlesByPublicationIDs(publicationIDs: $ids) {
     ...articleFields
   }
 }

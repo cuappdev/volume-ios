@@ -17,8 +17,13 @@ struct Publication: Hashable, Identifiable {
     let backgroundImageUrl: URL?
     let recent: String?
     let shoutouts: Int
-    let socials: [String : String] = [:]
     let websiteUrl: URL?
+    let socials: [Social]
+    
+    struct Social: Equatable, Hashable {
+        let name: String
+        let url: URL
+    }
     
     init(from publication: PublicationFields) {
         bio = publication.bio
@@ -30,6 +35,12 @@ struct Publication: Hashable, Identifiable {
         recent = publication.mostRecentArticle?.title
         shoutouts = Int(publication.shoutouts)
         websiteUrl = URL(string: publication.websiteUrl)
+        socials = publication.socials.compactMap {
+            if let url = URL(string: $0.url) {
+                return Social(name: $0.social, url: url)
+            }
+            return nil
+        }
     }
 }
 

@@ -12,9 +12,9 @@ import SwiftUI
 /// `MorePublicationRow` displays the basis information about a publications the user is not currently following
 struct MorePublicationRow: View {
     @EnvironmentObject private var userData: UserData
-    
+
     let publication: Publication
-    
+
     var body: some View {
         HStack(alignment: .top) {
             if let imageUrl = publication.profileImageUrl {
@@ -28,7 +28,7 @@ struct MorePublicationRow: View {
                     .fill(Color.gray)
                     .frame(width: 60, height: 60)
             }
-            
+
             VStack(alignment: .leading, spacing: 5) {
                 Text(publication.name)
                     .font(.begumMedium(size: 18))
@@ -53,9 +53,9 @@ struct MorePublicationRow: View {
                     .padding(.top, 2)
                 }
             }
-            
+
             Spacer()
-            
+
             Button(action: {
                 withAnimation {
                     userData.togglePublicationFollowed(publication)
@@ -74,19 +74,19 @@ extension MorePublicationRow {
                 SkeletonView()
                     .clipShape(Circle())
                     .frame(width: 60, height: 60)
-                
+
                 VStack(alignment: .leading, spacing: 0) {
                     SkeletonView()
                         .frame(width: 80, height: 23)
                         .padding(.bottom, 5)
-                    
+
                     SkeletonView()
                         .frame(height: 15)
                         .padding(.bottom, 4)
                     SkeletonView()
                         .frame(height: 15)
                         .padding(.bottom, 5)
-                    
+
                     HStack {
                         Text("|")
                             .font(.system(size: 14, weight: .bold))
@@ -96,9 +96,9 @@ extension MorePublicationRow {
                     }
                     .padding(.top, 2)
                 }
-                
+
                 Spacer()
-                
+
                 SkeletonView()
                     .frame(width: 24, height: 24)
                     .cornerRadius(8)

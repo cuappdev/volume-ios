@@ -12,10 +12,10 @@ import SwiftUI
 
 struct BigReadArticleRow: View {
     let article: Article
-    
+
     var body: some View {
         NavigationLink(destination: BrowserView(article: article)) {
-            VStack(spacing: 15) {
+            VStack(spacing: 16) {
                 if let url = article.imageUrl {
                     WebImage(url: url)
                         .resizable()
@@ -24,9 +24,11 @@ struct BigReadArticleRow: View {
                         .frame(width: 180, height: 180)
                         .clipped()
                 } else {
-                    Rectangle() // TODO: Custom image displaying beginning of article in large font
-                        .frame(width: 180, height: 180)
-                        .foregroundColor(.blue)
+                    WebImage(url: article.publication.profileImageUrl)
+                        .resizable()
+                        .grayBackground()
+                        .frame(width: 120, height: 120)
+                        .padding(30)
                 }
                 ArticleInfo(article: article, showsPublicationName: true)
             }
