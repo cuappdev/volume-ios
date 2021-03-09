@@ -55,7 +55,7 @@ struct PublicationDetailHeader: View {
             HStack(alignment: .top) {
                 Text(publication.name)
                     .font(.begumMedium(size: 18))
-                    .frame(idealHeight: 23, maxHeight: .infinity, alignment: .leading)
+                    .fixedSize(horizontal: false, vertical: true)
 
                 Spacer()
 
@@ -77,6 +77,8 @@ struct PublicationDetailHeader: View {
                 .padding([.bottom, .top], 8)
             Text(publication.bio)
                 .font(.helveticaRegular(size: 14))
+                .fixedSize(horizontal: false, vertical: true)
+            
             externalLinks
         }
         .padding([.leading, .trailing])
@@ -97,5 +99,6 @@ struct MediaText: View {
             .font(.helveticaRegular(size: 12))
             .foregroundColor(Color.volume.orange)
             .padding(.trailing, 10)
+            .lineLimit(1)
     }
 }
