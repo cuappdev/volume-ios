@@ -1,7 +1,7 @@
 # Secrets
 Volume/Supporting/Secrets.plist
 Volume/Networking/schema.json
-Volume/GoogleService-Info.plist
+Volume/Supporting/GoogleService-Info.plist
 
 # API
 Volume/Networking/API.swift
