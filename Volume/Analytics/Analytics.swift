@@ -9,7 +9,6 @@
 import AppDevAnalytics
 
 // volume-specific extensions of base Event protocol
-
 struct StartOnboarding: Event {
     let name = "start_onboarding"
 }
