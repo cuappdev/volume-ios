@@ -6,6 +6,7 @@
 //  Copyright © 2020 Cornell AppDev. All rights reserved.
 //
 
+import AppDevAnalytics
 import SDWebImageSwiftUI
 import SwiftUI
 import WebKit
@@ -14,11 +15,21 @@ struct BrowserView: View {
     @EnvironmentObject private var userData: UserData
 
     let article: Article
+    let entryPoint: EntryPoint
+
     var isShoutoutsButtonEnabled: Bool {
         userData.canIncrementShoutouts(article)
     }
 
+    private var params: [String: Any] {
+        Parameters.params(for: .article, id: article.id, at: entryPoint)
+    }
+
     private func incrementShoutouts() {
+        if isShoutoutsButtonEnabled {
+            AppDevAnalytics.log(ShoutoutArticle(parameters: params))
+        }
+        
         userData.incrementShoutoutsCounter(article)
         let currentArticleShoutouts = max(userData.shoutoutsCache[article.id, default: 0], article.shoutouts)
         userData.shoutoutsCache[article.id, default: 0] = currentArticleShoutouts + 1
@@ -30,7 +41,7 @@ struct BrowserView: View {
 
     private var toolbar: some View {
         HStack(spacing: 0) {
-            NavigationLink(destination: PublicationDetail(publication: article.publication)) {
+            NavigationLink(destination: PublicationDetail(entryPoint: entryPoint, publication: article.publication)) {
                 if let imageUrl = article.publication.profileImageUrl {
                     WebImage(url: imageUrl)
                         .grayBackground()
@@ -56,6 +67,11 @@ struct BrowserView: View {
             Group {
                 Button {
                     userData.toggleArticleSaved(article)
+                    AppDevAnalytics.log(
+                        userData.isArticleSaved(article) ?
+                            BookmarkArticle(parameters: params) :
+                            UnbookmarkArticle(parameters: params)
+                    )
                 } label: {
                     Image(systemName: userData.isArticleSaved(article) ? "bookmark.fill" : "bookmark")
                         .font(Font.system(size: 18, weight: .semibold))
@@ -66,6 +82,7 @@ struct BrowserView: View {
                     .frame(width: 16)
 
                 Button {
+                    AppDevAnalytics.log(ShareArticle(parameters: params))
                     displayShareScreen()
                 } label: {
                     Image(systemName: "square.and.arrow.up.on.square")
@@ -111,6 +128,12 @@ struct BrowserView: View {
         VStack(spacing: 0) {
             if let articleUrl = article.articleUrl {
                 WebView(url: articleUrl)
+                    .onAppear {
+                        AppDevAnalytics.log(OpenArticle(parameters: params))
+                    }
+                    .onDisappear {
+                        AppDevAnalytics.log(CloseArticle(parameters: params))
+                    }
             }
             toolbar
         }.toolbar {

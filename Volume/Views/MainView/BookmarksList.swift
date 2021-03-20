@@ -66,7 +66,7 @@ struct BookmarksList: View {
                         case .results(let savedArticles):
                             LazyVStack {
                                 ForEach(savedArticles) { article in
-                                    ArticleRow(article: article)
+                                    ArticleRow(article: article, entryPoint: .bookmarkArticles)
                                         .padding([.bottom, .leading, .trailing])
                                 }
                             }

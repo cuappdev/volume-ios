@@ -6,6 +6,7 @@
 //  Copyright © 2020 Cornell AppDev. All rights reserved.
 //
 
+import AppDevAnalytics
 import SDWebImageSwiftUI
 import SwiftUI
 
@@ -13,6 +14,7 @@ import SwiftUI
 struct MorePublicationRow: View {
     @EnvironmentObject private var userData: UserData
 
+    let entryPoint: EntryPoint
     let publication: Publication
 
     var body: some View {
@@ -59,6 +61,12 @@ struct MorePublicationRow: View {
             Button(action: {
                 withAnimation {
                     userData.togglePublicationFollowed(publication)
+                    let params = Parameters.params(for: .publication, id: publication.id, at: entryPoint)
+                    AppDevAnalytics.log(
+                        userData.isPublicationFollowed(publication) ?
+                            FollowPublication(parameters: params) :
+                            UnfollowPublication(parameters: params)
+                    )
                 }
             }) {
                 Image(userData.isPublicationFollowed(publication) ? "followed" : "follow")
