@@ -6,6 +6,7 @@
 //  Copyright © 2020 Cornell AppDev. All rights reserved.
 //
 
+import AppDevAnalytics
 import SwiftUI
 
 struct PublicationDetailHeader: View {
@@ -13,6 +14,7 @@ struct PublicationDetailHeader: View {
     @State private var hasOddNumberOfTaps = false
     private let iconGray = Color(white: 196 / 255)
 
+    let entryPoint: EntryPoint
     let publication: Publication
     
     // Takes into account any new user taps of the following button
@@ -77,14 +79,18 @@ struct PublicationDetailHeader: View {
                 .padding([.bottom, .top], 8)
             Text(publication.bio)
                 .font(.helveticaRegular(size: 14))
-                .fixedSize(horizontal: false, vertical: true)
-            
             externalLinks
         }
         .padding([.leading, .trailing])
         .onDisappear {
             if hasOddNumberOfTaps {
                 userData.togglePublicationFollowed(publication)
+                let params = Parameters.params(for: .publication, id: publication.id, at: entryPoint)
+                AppDevAnalytics.log(
+                    userData.isPublicationFollowed(publication) ?
+                        FollowPublication(parameters: params) :
+                        UnfollowPublication(parameters: params)
+                )
             }
         }
     }

@@ -104,7 +104,7 @@ struct HomeList: View {
                         }
                     case .results(let results):
                         ForEach(results.followedArticles) { article in
-                            ArticleRow(article: article)
+                            ArticleRow(article: article, entryPoint: .followingArticles)
                                 .padding([.leading, .trailing])
                         }
                     }
@@ -124,7 +124,7 @@ struct HomeList: View {
                         Spacer().frame(height: 0)
                     case .results(let results):
                         ForEach(results.otherArticles) { article in
-                            ArticleRow(article: article)
+                            ArticleRow(article: article, entryPoint: .otherArticles)
                                 .padding([.bottom, .leading, .trailing])
                         }
                     }
