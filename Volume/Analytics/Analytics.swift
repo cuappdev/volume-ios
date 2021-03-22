@@ -8,7 +8,6 @@
 
 import AppDevAnalytics
 
-
 protocol Payload {
     var eventName: String { get }
     var parameters: [String: Any]? { get }
@@ -37,7 +36,6 @@ class VolumeAppDevAnalytics {
         print("[Debug]: Logged event: \(payload.eventName), parameters: \(payload.parameters?.description ?? "nil")")
         #endif
     }
-
 }
 
 /// volume-specific extensions of base Event protocol
