@@ -32,9 +32,7 @@ To access the project, clone the project, and run `pod install` in the project d
 
 AppDev members can access the `Supporting/Keys.plist` file via a pinned message in the `#volume-ios` channel.
 
-2.  Volume uses GraphQL instead of a RESTful API, so you need a `schema.json`. Add it in the `Networking` group
-
-AppDev members can access the `schema.json` file in the `#volume-dev` channel.
+2.  Volume uses GraphQL instead of a RESTful API, so you need a `schema.json`. To get a schema.json, run the following command in the project directory: `apollo schema:download --endpoint={Backend_URL} schema.json`.  This should add a new `schema.json` file in the main project directory.  Move it to the `Networking` directory and make sure it's in the `Networking` group within your Xcode project.
 
 3. AppDev uses Firebase for event logging which requires a `GoogleService-Info.plist` file in the project.
 

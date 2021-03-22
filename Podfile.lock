@@ -4,6 +4,7 @@ PODS:
   - Apollo/Core (0.41.0)
   - AppDevAnalytics (0.2.0):
     - Firebase/Analytics (~> 7.7.0)
+  - AppDevAnnouncements (0.0.1)
   - Firebase/Analytics (7.7.0):
     - Firebase/Core
   - Firebase/Core (7.7.0):
@@ -76,6 +77,7 @@ PODS:
 DEPENDENCIES:
   - Apollo
   - AppDevAnalytics (from `https://github.com/cuappdev/analytics-ios.git`, commit `5d459c0475`)
+  - AppDevAnnouncements (from `https://github.com/cuappdev/appdev-announcements.git`)
   - SDWebImageSwiftUI
 
 SPEC REPOS:
@@ -98,15 +100,21 @@ EXTERNAL SOURCES:
   AppDevAnalytics:
     :commit: 5d459c0475
     :git: https://github.com/cuappdev/analytics-ios.git
+  AppDevAnnouncements:
+    :git: https://github.com/cuappdev/appdev-announcements.git
 
 CHECKOUT OPTIONS:
   AppDevAnalytics:
     :commit: 5d459c0475
     :git: https://github.com/cuappdev/analytics-ios.git
+  AppDevAnnouncements:
+    :commit: 5451b3507e35f99e3e87f52d8c4e5bfe86b435e7
+    :git: https://github.com/cuappdev/appdev-announcements.git
 
 SPEC CHECKSUMS:
   Apollo: abe51edae238da17570535e370ffe1bec276275b
   AppDevAnalytics: 994c1ca730d79fbe530ce06b7bbffd5d05deff80
+  AppDevAnnouncements: e17a7f441fb0664583bb08e21dc709214d15b70f
   Firebase: cd2ab85eec8170dc260186159f21072ecb679ad5
   FirebaseAnalytics: f3f8f75de34fe04141a69bb1c4bd7e24a80178e1
   FirebaseCore: ac35d680a0bf32319a59966a1478e0741536b97b
@@ -120,6 +128,6 @@ SPEC CHECKSUMS:
   SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
   SDWebImageSwiftUI: 4ecaa843f6b38d9b9e7875c015e5c92852ddfdbe
 
-PODFILE CHECKSUM: dde239a631c2df1d71ca2a6816246d0b00e5df41
+PODFILE CHECKSUM: dc7b234c2edd10ab9b2deb6f74e40d52198eb34c
 
 COCOAPODS: 1.10.1

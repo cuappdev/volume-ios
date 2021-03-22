@@ -9,8 +9,38 @@
 import AppDevAnalytics
 
 
-/// volume-specific extensions of base Event protocol
+protocol Payload {
+    var eventName: String { get }
+    var parameters: [String: Any]? { get }
+}
 
+extension Payload {
+    var parameters: [String: Any]? {
+        nil
+    }
+}
+
+struct AnnouncementPresentedPayload: Payload {
+    let eventName = "announcement_presented"
+}
+
+class VolumeAppDevAnalytics {
+
+    static let shared = VolumeAppDevAnalytics()
+
+    private init() {}
+
+    func logFirebase(_ payload: Payload) {
+        #if !DEBUG
+        Analytics.logEvent(payload.eventName, parameters: payload.parameters)
+        #else
+        print("[Debug]: Logged event: \(payload.eventName), parameters: \(payload.parameters?.description ?? "nil")")
+        #endif
+    }
+
+}
+
+/// volume-specific extensions of base Event protocol
 struct AnyEvent: Event {
     let name: String
     let parameters: [String: Any]?
