@@ -6,6 +6,7 @@
 //  Copyright © 2020 Cornell AppDev. All rights reserved.
 //
 
+import AppDevAnnouncements
 import Firebase
 import UIKit
 
@@ -17,6 +18,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        AnnouncementNetworking.setupConfig(
+            scheme: Secrets.announcementsScheme,
+            host: Secrets.announcementsHost,
+            commonPath: Secrets.announcementsCommonPath,
+            announcementPath: Secrets.announcementsPath
+        )
         return true
     }
 

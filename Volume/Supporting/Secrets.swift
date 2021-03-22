@@ -17,6 +17,11 @@ struct Secrets {
     #endif
     // swiftlint:enable force_cast
 
+    static let announcementsCommonPath = Secrets.keyDict["announcements-common-path"] as! String
+    static let announcementsHost = Secrets.keyDict["announcements-host"] as! String
+    static let announcementsPath = Secrets.keyDict["announcements-path"] as! String
+    static let announcementsScheme = Secrets.keyDict["announcements-scheme"] as! String
+
     private static let keyDict: NSDictionary = {
         guard let path = Bundle.main.path(forResource: "Secrets", ofType: "plist"),
             let dict = NSDictionary(contentsOfFile: path)
