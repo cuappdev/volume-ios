@@ -14,8 +14,8 @@ import SwiftUI
 struct MorePublicationRow: View {
     @EnvironmentObject private var userData: UserData
 
-    let entryPoint: EntryPoint
     let publication: Publication
+    let navigationSource: NavigationSource
 
     var body: some View {
         HStack(alignment: .top) {
@@ -61,11 +61,10 @@ struct MorePublicationRow: View {
             Button(action: {
                 withAnimation {
                     userData.togglePublicationFollowed(publication)
-                    let params = Parameters.params(for: .publication, id: publication.id, at: entryPoint)
                     AppDevAnalytics.log(
                         userData.isPublicationFollowed(publication) ?
-                            FollowPublication(parameters: params) :
-                            UnfollowPublication(parameters: params)
+                            VolumeEvent.followPublication.toEvent(.publication, id: publication.id, navigationSource: navigationSource) :
+                            VolumeEvent.unfollowPublication.toEvent(.publication, id: publication.id, navigationSource: navigationSource)
                     )
                 }
             }) {

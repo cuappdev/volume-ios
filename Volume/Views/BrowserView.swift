@@ -15,21 +15,14 @@ struct BrowserView: View {
     @EnvironmentObject private var userData: UserData
 
     let article: Article
-    let entryPoint: EntryPoint
+    let navigationSource: NavigationSource
 
     var isShoutoutsButtonEnabled: Bool {
         userData.canIncrementShoutouts(article)
     }
 
-    private var params: [String: Any] {
-        Parameters.params(for: .article, id: article.id, at: entryPoint)
-    }
-
     private func incrementShoutouts() {
-        if isShoutoutsButtonEnabled {
-            AppDevAnalytics.log(ShoutoutArticle(parameters: params))
-        }
-        
+        AppDevAnalytics.log(VolumeEvent.shoutoutArticle.toEvent(.article, id: article.id, navigationSource: navigationSource))
         userData.incrementShoutoutsCounter(article)
         let currentArticleShoutouts = max(userData.shoutoutsCache[article.id, default: 0], article.shoutouts)
         userData.shoutoutsCache[article.id, default: 0] = currentArticleShoutouts + 1
@@ -41,7 +34,7 @@ struct BrowserView: View {
 
     private var toolbar: some View {
         HStack(spacing: 0) {
-            NavigationLink(destination: PublicationDetail(entryPoint: entryPoint, publication: article.publication)) {
+            NavigationLink(destination: PublicationDetail(navigationSource: navigationSource, publication: article.publication)) {
                 if let imageUrl = article.publication.profileImageUrl {
                     WebImage(url: imageUrl)
                         .grayBackground()
@@ -69,8 +62,8 @@ struct BrowserView: View {
                     userData.toggleArticleSaved(article)
                     AppDevAnalytics.log(
                         userData.isArticleSaved(article) ?
-                            BookmarkArticle(parameters: params) :
-                            UnbookmarkArticle(parameters: params)
+                            VolumeEvent.bookmarkArticle.toEvent(.article, id: article.id, navigationSource: navigationSource) :
+                            VolumeEvent.unbookmarkArticle.toEvent(.article, id: article.id, navigationSource: navigationSource)
                     )
                 } label: {
                     Image(systemName: userData.isArticleSaved(article) ? "bookmark.fill" : "bookmark")
@@ -82,7 +75,7 @@ struct BrowserView: View {
                     .frame(width: 16)
 
                 Button {
-                    AppDevAnalytics.log(ShareArticle(parameters: params))
+                    AppDevAnalytics.log(VolumeEvent.shareArticle.toEvent(.article, id: article.id, navigationSource: navigationSource))
                     displayShareScreen()
                 } label: {
                     Image(systemName: "square.and.arrow.up.on.square")
@@ -129,10 +122,10 @@ struct BrowserView: View {
             if let articleUrl = article.articleUrl {
                 WebView(url: articleUrl)
                     .onAppear {
-                        AppDevAnalytics.log(OpenArticle(parameters: params))
+                        AppDevAnalytics.log(VolumeEvent.openArticle.toEvent(.article, id: article.id, navigationSource: navigationSource))
                     }
                     .onDisappear {
-                        AppDevAnalytics.log(CloseArticle(parameters: params))
+                        AppDevAnalytics.log(VolumeEvent.closeArticle.toEvent(.article, id: article.id, navigationSource: navigationSource))
                     }
             }
             toolbar

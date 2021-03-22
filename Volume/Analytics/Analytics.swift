@@ -8,68 +8,48 @@
 
 import AppDevAnalytics
 
-// volume-specific extensions of base Event protocol
-struct StartOnboarding: Event {
-    let name = "start_onboarding"
+
+/// volume-specific extensions of base Event protocol
+
+struct AnyEvent: Event {
+    let name: String
+    let parameters: [String: Any]?
 }
 
-struct CompleteOnboarding: Event {
-    let name = "complete_onboarding"
-}
+enum VolumeEvent: String {
+    /// General events
+    case startOnboarding = "start_onboarding"
+    case completeOnboarding = "complete_onboarding"
+    /// Publication-specific events
+    case followPublication = "follow_publication"
+    case unfollowPublication = "unfollow_publication"
+    /// Article-specific events
+    case openArticle = "open_article"
+    case closeArticle = "close_article"
+    case shareArticle = "share_article"
+    case shoutoutArticle = "shoutout_article"
+    case bookmarkArticle = "bookmark_article"
+    case unbookmarkArticle = "unbookmark_article"
+    
+    enum EventType {
+        case article, general, publication
+    }
 
-struct FollowPublication: Event {
-    let name = "follow_publication"
-    var parameters: [String : Any]?
-}
-
-struct UnfollowPublication: Event {
-    let name = "unfollow_publication"
-    var parameters: [String : Any]?
-}
-
-struct OpenArticle: Event {
-    let name = "open_article"
-    var parameters: [String : Any]?
-}
-
-struct CloseArticle: Event {
-    let name = "close_article"
-    var parameters: [String : Any]?
-}
-
-struct ShareArticle: Event {
-    let name = "share_article"
-    var parameters: [String : Any]?
-}
-
-struct ShoutoutArticle: Event {
-    let name = "shoutout_article"
-    var parameters: [String : Any]?
-}
-
-struct BookmarkArticle: Event {
-    let name = "bookmark_article"
-    var parameters: [String : Any]?
-}
-
-struct UnbookmarkArticle: Event {
-    let name = "unbookmark_article"
-    var parameters: [String : Any]?
-}
-
-// Helper struct and enums to disambiguate parameters for different event types
-struct Parameters {
-    static func params(for event: EventLevel, id: String, at entry: EntryPoint) -> [String: Any] {
+    func toEvent(_ event: EventType, id: String = "error", navigationSource: NavigationSource = .unspecified) -> AnyEvent {
+        let parameters: [String: Any]
         switch event {
         case .article:
-            return ["articleID": id, "entryPoint": entry.rawValue]
+            parameters = ["articleID": id, "entryPoint": navigationSource.rawValue]
         case .publication:
-            return ["publicationID": id, "entryPoint": entry.rawValue]
+            parameters = ["publicationID": id, "entryPoint": navigationSource.rawValue]
+        default:
+            parameters = [:]
         }
+        return AnyEvent(name: rawValue, parameters: parameters)
     }
 }
 
-enum EntryPoint: String {
+enum NavigationSource: String {
     // Article Entry Points
     case bookmarkArticles = "bookmark_articles"
     case followingArticles = "following_articles"
@@ -82,9 +62,69 @@ enum EntryPoint: String {
     case followingPublications = "following_publications"
     case morePublications = "more_publications"
     case onboarding = "onboarding"
+    
+    case unspecified
 }
 
-enum EventLevel {
-    case article
-    case publication
-}
+// Helper struct and enums to disambiguate parameters for different event types
+//struct Parameters {
+//    static func create(_ event: EventType, id: String, at entry: NavigationSource) -> [String: Any] {
+//
+//    }
+//}
+
+
+
+//enum EventType {
+//    case article, publication
+//}
+
+
+
+//struct StartOnboarding: Event {
+//    let name = "start_onboarding"
+//}
+//
+//struct CompleteOnboarding: Event {
+//    let name = "complete_onboarding"
+//}
+//
+//struct FollowPublication: Event {
+//    let name = "follow_publication"
+//    let parameters: [String: Any]?
+//}
+//
+//struct UnfollowPublication: Event {
+//    let name = "unfollow_publication"
+//    let parameters: [String: Any]?
+//}
+//
+//struct OpenArticle: Event {
+//    let name = "open_article"
+//    let parameters: [String: Any]?
+//}
+//
+//struct CloseArticle: Event {
+//    let name = "close_article"
+//    let parameters: [String: Any]?
+//}
+//
+//struct ShareArticle: Event {
+//    let name = "share_article"
+//    let parameters: [String: Any]?
+//}
+//
+//struct ShoutoutArticle: Event {
+//    let name = "shoutout_article"
+//    let parameters: [String: Any]?
+//}
+//
+//struct BookmarkArticle: Event {
+//    let name = "bookmark_article"
+//    let parameters: [String: Any]?
+//}
+//
+//struct UnbookmarkArticle: Event {
+//    let name = "unbookmark_article"
+//    let parameters: [String: Any]?
+//}

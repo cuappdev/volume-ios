@@ -17,7 +17,7 @@ struct PublicationDetail: View {
     @State private var cancellableQuery: AnyCancellable?
     @State private var state: PublicationDetailState = .loading
 
-    let entryPoint: EntryPoint
+    let navigationSource: NavigationSource
     let publication: Publication
 
     private func fetch() {
@@ -100,7 +100,7 @@ struct PublicationDetail: View {
             ScrollView {
                 backgroundImage
 
-                PublicationDetailHeader(entryPoint: entryPoint, publication: publication)
+                PublicationDetailHeader(navigationSource: navigationSource, publication: publication)
                     .padding(.bottom)
 
                 Divider()
@@ -120,7 +120,7 @@ struct PublicationDetail: View {
                 case .results(let articles):
                     LazyVStack {
                         ForEach(articles) { article in
-                            ArticleRow(article: article, entryPoint: entryPoint, showsPublicationName: false)
+                            ArticleRow(article: article, navigationSource: navigationSource, showsPublicationName: false)
                                 .padding([.bottom, .leading, .trailing])
                         }
                     }

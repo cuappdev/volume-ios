@@ -79,7 +79,7 @@ struct PublicationList: View {
                     case .results(let results):
                         LazyHStack(spacing: 12) {
                             ForEach(results.followedPublications) { publication in
-                                NavigationLink(destination: PublicationDetail(entryPoint: .followingPublications, publication: publication)) {
+                                NavigationLink(destination: PublicationDetail(navigationSource: .followingPublications, publication: publication)) {
                                     FollowingPublicationRow(publication: publication)
                                 }
                             }
@@ -121,8 +121,8 @@ struct PublicationList: View {
             case .results(let results):
                 LazyVStack {
                     ForEach(results.morePublications) { publication in
-                        NavigationLink(destination: PublicationDetail(entryPoint: .morePublications, publication: publication)) {
-                            MorePublicationRow(entryPoint: .morePublications, publication: publication)
+                        NavigationLink(destination: PublicationDetail(navigationSource: .morePublications, publication: publication)) {
+                            MorePublicationRow(publication: publication, navigationSource: .morePublications)
                                 .padding(.bottom, 15)
                         }
                     }

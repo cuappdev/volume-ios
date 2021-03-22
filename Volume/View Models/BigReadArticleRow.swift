@@ -14,7 +14,7 @@ struct BigReadArticleRow: View {
     let article: Article
 
     var body: some View {
-        NavigationLink(destination: BrowserView(article: article, entryPoint: .trendingArticles)) {
+        NavigationLink(destination: BrowserView(article: article, navigationSource: .trendingArticles)) {
             VStack(spacing: 16) {
                 if let url = article.imageUrl {
                     WebImage(url: url)
