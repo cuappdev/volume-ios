@@ -86,7 +86,7 @@ struct OnboardingView: View {
                     .foregroundColor(Color.volume.orange)
                 case .follow:
                     Button("Start reading") {
-                        AppDevAnalytics.log(CompleteOnboarding())
+                        AppDevAnalytics.log(VolumeEvent.completeOnboarding.toEvent(.general))
                         withAnimation(.spring()) {
                             isFirstLaunch = false
                         }
@@ -116,7 +116,7 @@ struct OnboardingView: View {
         .background(Color.volume.backgroundGray)
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                AppDevAnalytics.log(StartOnboarding())
+                AppDevAnalytics.log(VolumeEvent.startOnboarding.toEvent(.general))
                 withAnimation(.spring()) {
                     isShowingSplash = false
                 }

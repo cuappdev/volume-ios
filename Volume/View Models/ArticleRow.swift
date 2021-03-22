@@ -11,15 +11,17 @@ import SwiftUI
 
 struct ArticleRow: View {
     let article: Article
+    let navigationSource: NavigationSource
     let showsPublicationName: Bool
 
-    init(article: Article, showsPublicationName: Bool = true) {
+    init(article: Article, navigationSource: NavigationSource, showsPublicationName: Bool = true) {
         self.article = article
+        self.navigationSource = navigationSource
         self.showsPublicationName = showsPublicationName
     }
 
     var body: some View {
-        NavigationLink(destination: BrowserView(article: article)) {
+        NavigationLink(destination: BrowserView(article: article, navigationSource: navigationSource)) {
             HStack(spacing: 20) {
                 ArticleInfo(article: article, showsPublicationName: showsPublicationName)
 

@@ -6,6 +6,7 @@
 //  Copyright © 2020 Cornell AppDev. All rights reserved.
 //
 
+import AppDevAnalytics
 import SDWebImageSwiftUI
 import SwiftUI
 
@@ -14,6 +15,7 @@ struct MorePublicationRow: View {
     @EnvironmentObject private var userData: UserData
 
     let publication: Publication
+    let navigationSource: NavigationSource
 
     var body: some View {
         HStack(alignment: .top) {
@@ -59,6 +61,11 @@ struct MorePublicationRow: View {
             Button(action: {
                 withAnimation {
                     userData.togglePublicationFollowed(publication)
+                    AppDevAnalytics.log(
+                        userData.isPublicationFollowed(publication) ?
+                            VolumeEvent.followPublication.toEvent(.publication, id: publication.id, navigationSource: navigationSource) :
+                            VolumeEvent.unfollowPublication.toEvent(.publication, id: publication.id, navigationSource: navigationSource)
+                    )
                 }
             }) {
                 Image(userData.isPublicationFollowed(publication) ? "followed" : "follow")

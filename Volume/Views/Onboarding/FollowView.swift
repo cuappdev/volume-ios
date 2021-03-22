@@ -41,7 +41,7 @@ extension OnboardingView {
                         }
                     case .results(let publications):
                         ForEach(publications) { publication in
-                            MorePublicationRow(publication: publication)
+                            MorePublicationRow(publication: publication, navigationSource: .onboarding)
                         }
                     }
                 }
