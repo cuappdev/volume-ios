@@ -8,6 +8,7 @@ target 'Volume' do
   # Pods for Volume
   pod 'Apollo'
   pod 'SDWebImageSwiftUI'
+  pod 'SwiftUIRefresh'
   pod 'AppDevAnalytics', :git => 'https://github.com/cuappdev/analytics-ios.git', :commit => '5d459c0475'
 
 end

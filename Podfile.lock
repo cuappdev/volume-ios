@@ -61,6 +61,7 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.2.2):
     - GoogleUtilities/Logger
+  - Introspect (0.1.2)
   - nanopb (2.30907.0):
     - nanopb/decode (= 2.30907.0)
     - nanopb/encode (= 2.30907.0)
@@ -72,11 +73,14 @@ PODS:
   - SDWebImage/Core (5.10.4)
   - SDWebImageSwiftUI (2.0.0):
     - SDWebImage (~> 5.10)
+  - SwiftUIRefresh (0.0.3):
+    - Introspect (~> 0.1.0)
 
 DEPENDENCIES:
   - Apollo
   - AppDevAnalytics (from `https://github.com/cuappdev/analytics-ios.git`, commit `5d459c0475`)
   - SDWebImageSwiftUI
+  - SwiftUIRefresh
 
 SPEC REPOS:
   trunk:
@@ -89,10 +93,12 @@ SPEC REPOS:
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleUtilities
+    - Introspect
     - nanopb
     - PromisesObjC
     - SDWebImage
     - SDWebImageSwiftUI
+    - SwiftUIRefresh
 
 EXTERNAL SOURCES:
   AppDevAnalytics:
@@ -115,11 +121,13 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 0c3b134b2c0a90c4c24833873894bfe0e42a0384
   GoogleDataTransport: 1024b1a4dfbd7a0e92cb20d7e0a6f1fb66b449a4
   GoogleUtilities: 31c5b01f978a70c6cff2afc6272b3f1921614b43
+  Introspect: 85a29d2c5ee4d3d15469ad0b75fd8839f3e72674
   nanopb: 59221d7f958fb711001e6a449489542d92ae113e
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
   SDWebImageSwiftUI: 4ecaa843f6b38d9b9e7875c015e5c92852ddfdbe
+  SwiftUIRefresh: ca6ae2718d25aad5dd68bbf5d2ae36ef6ade98bf
 
-PODFILE CHECKSUM: dde239a631c2df1d71ca2a6816246d0b00e5df41
+PODFILE CHECKSUM: 95b04d3acf558f7b55d9714f790b80ab83f09b19
 
 COCOAPODS: 1.10.1
