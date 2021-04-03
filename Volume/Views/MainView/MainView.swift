@@ -6,6 +6,7 @@
 //  Copyright © 2020 Cornell AppDev. All rights reserved.
 //
 
+import AppDevAnalytics
 import AppDevAnnouncements
 import SwiftUI
 
@@ -45,7 +46,7 @@ struct MainView: View {
         .onAppear {
             presentAnnouncement { presented in
                 if presented {
-                    VolumeAppDevAnalytics.shared.logFirebase(AnnouncementPresentedPayload())
+                    AppDevAnalytics.log(VolumeEvent.announcementPresented.toEvent(.general))
                 }
             }
         }
