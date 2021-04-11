@@ -13,6 +13,7 @@ struct BookmarksList: View {
     @State private var cancellableQuery: AnyCancellable?
     @State private var state: BookmarksListState = .loading
     @EnvironmentObject private var userData: UserData
+    @EnvironmentObject private var networkState: NetworkState
 
     private func fetch() {
         guard userData.savedArticleIDs.count > 0 else {
@@ -26,7 +27,10 @@ struct BookmarksList: View {
             .collect()
             .sink { completion in
                 if case let .failure(error) = completion {
+                    networkState.networkFailed = true
                     print(error.localizedDescription)
+                } else {
+                    networkState.networkFailed = false
                 }
             } receiveValue: { value in
                 let articles = [Article](value.compactMap(\.article?.fragments.articleFields)).sorted {

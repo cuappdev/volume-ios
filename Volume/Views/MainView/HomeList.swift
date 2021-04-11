@@ -13,6 +13,7 @@ struct HomeList: View {
     @State private var cancellableQuery: AnyCancellable?
     @State private var state: HomeListState = .loading
     @EnvironmentObject private var userData: UserData
+    @EnvironmentObject private var networkState: NetworkState
 
     private var isLoading: Bool {
         switch state {
@@ -45,7 +46,10 @@ struct HomeList: View {
             }
             .sink { completion in
                 if case let .failure(error) = completion {
+                    networkState.networkFailed = true
                     print(error.localizedDescription)
+                } else {
+                    networkState.networkFailed = false
                 }
             } receiveValue: { (trendingArticles, followed, other) in
                 // Exclude trending articles from following articles
@@ -72,7 +76,7 @@ struct HomeList: View {
     var body: some View {
         NavigationView {
             ScrollView(showsIndicators: false) {
-                LazyVStack(spacing: 20) {
+                VStack(spacing: 20) {
                     Header("The Big Read")
                         .padding([.top, .leading, .trailing])
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -139,7 +143,10 @@ struct HomeList: View {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
-            .onAppear(perform: fetch)
+            .onAppear(perform: {
+                fetch()
+                print("YELLOW")
+            })
         }
     }
 }

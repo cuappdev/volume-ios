@@ -87,3 +87,7 @@ struct GraphQLPublisher<Query: GraphQLQuery>: Publisher {
         subscriber.receive(subscription: subscription)
     }
 }
+
+class NetworkState: ObservableObject {
+    @Published var networkFailed = false
+}
