@@ -17,12 +17,10 @@ struct HomeList: View {
 
     private var isLoading: Bool {
         switch state {
-        case .loading:
-            return true
-        case .reloading:
-            return true
-        default:
+        case .results:
             return false
+        default:
+            return true
         }
     }
 
@@ -61,11 +59,8 @@ struct HomeList: View {
                     !(followedArticles.contains(where: { $0.id == article.id })
                         || trendingArticles.contains(where: { $0.id == article.id }))
                 }).sorted(by: { $0.date > $1.date }).prefix(45)
-
-                DispatchQueue.main.async {
-                    completion()
-                }
                 
+                completion()
                 withAnimation(.linear(duration: 0.1)) {
                     state = .results((
                         trendingArticles: [Article](trendingArticles),
@@ -84,13 +79,7 @@ struct HomeList: View {
                     return
                 case .reloading(let results), .results(let results):
                     state = .reloading(results)
-                    DispatchQueue.global(qos: .userInitiated).async {
-                        self.fetch(done)
-                    }
-                    // stuck forever loading
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                        done()
-                    }
+                    self.fetch(done)
                 }
             }) {
                 VStack(spacing: 20) {
