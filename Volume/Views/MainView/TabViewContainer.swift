@@ -23,9 +23,8 @@ struct TabContainer<Content: View>: View {
 
             if networkState.networkFailed {
                 ConnectionFailedView()
-                    .offset(x: 0, y: 48)
+                    .offset(x: 0, y: 48) // Offset includes navigation bar
             }
-
         }
     }
 }

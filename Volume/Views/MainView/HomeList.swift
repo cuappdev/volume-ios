@@ -145,7 +145,6 @@ struct HomeList: View {
             .navigationBarTitleDisplayMode(.inline)
             .onAppear(perform: {
                 fetch()
-                print("YELLOW")
             })
         }
     }
