@@ -143,9 +143,7 @@ struct HomeList: View {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
-            .onAppear(perform: {
-                fetch()
-            })
+            .onAppear(perform: fetch)
         }
     }
 }

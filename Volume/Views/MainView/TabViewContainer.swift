@@ -17,7 +17,7 @@ struct TabContainer<Content: View>: View {
     }
 
     var body: some View {
-        ZStack {
+        return ZStack {
             self.content
             .environmentObject(networkState)
 
