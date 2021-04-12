@@ -87,6 +87,15 @@ struct BookmarksList: View {
                             .font(.begumMedium(size: 28))
                             .offset(y: 8)
                     }
+                    
+                    ToolbarItem(placement: ToolbarItemPlacement.navigationBarTrailing) {
+                        NavigationLink(destination: SettingsView()) {
+                            Image("settings")
+                                .frame(width: 24, height: 24)
+                                .padding([.top, .trailing], 4)  // TODO: this does not work with the navigationLink
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
                 }
                 .navigationBarTitleDisplayMode(.inline)
                 .onAppear(perform: fetch)
