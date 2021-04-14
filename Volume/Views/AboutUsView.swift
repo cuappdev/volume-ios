@@ -32,10 +32,12 @@ struct AboutUsView: View {
                 Header("The Team")
                 Text(volume.messages.teamInfo)
                     .font(.helveticaRegular(size: 16))
-                    .frame(alignment: .leading)
-                
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding([.bottom, .top])
+
+
                 ForEach(keys.indices) { index in
-                    SubteamMembersView(subteam: keys[index], names: values[index])
+//                    SubteamMembersView(subteam: keys[index], names: values[index])
                 }
             }
             .navigationBarTitle("About Us", displayMode: .inline)
@@ -75,8 +77,8 @@ struct Messages: Codable {
     var teamInfo: String
 }
 
-//struct AboutUsView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AboutUsView()
-//    }
-//}
+struct AboutUsView_Previews: PreviewProvider {
+    static var previews: some View {
+        AboutUsView()
+    }
+}
