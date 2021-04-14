@@ -24,7 +24,7 @@ struct HomeList: View {
         }
     }
 
-    private func fetch(_ completion: @escaping () -> Void = { }) {
+    private func fetch(_ done: @escaping () -> Void = { }) {
         guard isLoading else { return }
 
         cancellableQuery = Network.shared.apollo.fetch(query: GetAllPublicationIDsQuery())
@@ -60,7 +60,7 @@ struct HomeList: View {
                         || trendingArticles.contains(where: { $0.id == article.id }))
                 }).sorted(by: { $0.date > $1.date }).prefix(45)
                 
-                completion()
+                done()
                 withAnimation(.linear(duration: 0.1)) {
                     state = .results((
                         trendingArticles: [Article](trendingArticles),
@@ -75,9 +75,9 @@ struct HomeList: View {
         NavigationView {
             RefreshableScrollView(onRefresh: { done in
                 switch state {
-                case .loading:
+                case .loading, .reloading:
                     return
-                case .reloading(let results), .results(let results):
+                case .results(let results):
                     state = .reloading(results)
                     self.fetch(done)
                 }
@@ -140,7 +140,7 @@ struct HomeList: View {
                     }
                 }
             }
-            .disabled(isLoading)
+//            .disabled(isLoading) // TODO: only on loading
             .padding(.top)
             .background(Color.volume.backgroundGray)
             .toolbar {

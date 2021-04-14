@@ -51,7 +51,7 @@ class GraphQLSubscription<Query: GraphQLQuery, S: Subscriber>: Subscription
 
     private func fetchQuery() {
         guard let subscriber = subscriber else { return }
-        cancellableQuery = client.fetch(query: query, queue: DispatchQueue.global()) { result in
+        cancellableQuery = client.fetch(query: query) { result in
             switch result {
             case .success(let result):
                 if let errors = result.errors {
