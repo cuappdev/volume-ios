@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct TabContainer<Content: View>: View {
-    @EnvironmentObject var networkState: NetworkState
+    @EnvironmentObject private var networkState: NetworkState
     let content: Content
 
     init(content: () -> Content) {
@@ -17,9 +17,8 @@ struct TabContainer<Content: View>: View {
     }
 
     var body: some View {
-        return ZStack {
+        ZStack {
             self.content
-            .environmentObject(networkState)
 
             if networkState.networkFailed {
                 ConnectionFailedView()

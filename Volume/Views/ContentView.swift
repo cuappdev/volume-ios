@@ -10,7 +10,6 @@ import SwiftUI
 
 struct ContentView: View {
     @AppStorage("isFirstLaunch") private var isFirstLaunch = true
-    @StateObject var networkState = NetworkState()
 
     init() {
         let grayColor = UIColor(Color.volume.navigationBarGray)
@@ -28,7 +27,6 @@ struct ContentView: View {
         } else {
             MainView()
                 .transition(.move(edge: .trailing))
-                .environmentObject(networkState)
         }
     }
 }

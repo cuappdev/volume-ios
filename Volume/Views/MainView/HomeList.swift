@@ -11,9 +11,9 @@ import SwiftUI
 
 struct HomeList: View {
     @State private var cancellableQuery: AnyCancellable?
+    @EnvironmentObject private var networkState: NetworkState
     @State private var state: HomeListState = .loading
     @EnvironmentObject private var userData: UserData
-    @EnvironmentObject private var networkState: NetworkState
 
     private var isLoading: Bool {
         switch state {
@@ -45,12 +45,7 @@ struct HomeList: View {
                 return Publishers.Zip3(trendingQuery, followedQuery, otherQuery)
             }
             .sink { completion in
-                if case let .failure(error) = completion {
-                    networkState.networkFailed = true
-                    print(error.localizedDescription)
-                } else {
-                    networkState.networkFailed = false
-                }
+                networkState.handleNetworkFailure(completion)
             } receiveValue: { (trendingArticles, followed, other) in
                 // Exclude trending articles from following articles
                 // Take up to 20 followed articles, sorted in descending chronological order

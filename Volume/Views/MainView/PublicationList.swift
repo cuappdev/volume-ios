@@ -11,9 +11,9 @@ import SwiftUI
 
 struct PublicationList: View {
     @State private var cancellableQuery: AnyCancellable?
+    @EnvironmentObject private var networkState: NetworkState
     @State private var state: PublicationListState = .loading
     @EnvironmentObject private var userData: UserData
-    @EnvironmentObject private var networkState: NetworkState
 
     private func fetch() {
         // if there already are results, sort again `onAppear` in case a `followed` status changed
@@ -27,12 +27,7 @@ struct PublicationList: View {
         cancellableQuery = Network.shared.apollo.fetch(query: GetAllPublicationsQuery())
             .map { data in data.publications.compactMap { $0 } }
             .sink(receiveCompletion: { completion in
-                if case let .failure(error) = completion {
-                    networkState.networkFailed = true
-                    print(error.localizedDescription)
-                } else {
-                    networkState.networkFailed = false
-                }
+                networkState.handleNetworkFailure(completion)
             }, receiveValue: { value in
                 let publications = [Publication](value.map(\.fragments.publicationFields))
                 let followedPublications = publications.filter(userData.isPublicationFollowed)

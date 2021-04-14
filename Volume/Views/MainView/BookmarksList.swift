@@ -11,9 +11,9 @@ import SwiftUI
 
 struct BookmarksList: View {
     @State private var cancellableQuery: AnyCancellable?
+    @EnvironmentObject private var networkState: NetworkState
     @State private var state: BookmarksListState = .loading
     @EnvironmentObject private var userData: UserData
-    @EnvironmentObject private var networkState: NetworkState
 
     private func fetch() {
         guard userData.savedArticleIDs.count > 0 else {
@@ -26,12 +26,7 @@ struct BookmarksList: View {
             .flatMap(Network.shared.apollo.fetch)
             .collect()
             .sink { completion in
-                if case let .failure(error) = completion {
-                    networkState.networkFailed = true
-                    print(error.localizedDescription)
-                } else {
-                    networkState.networkFailed = false
-                }
+                networkState.handleNetworkFailure(completion)
             } receiveValue: { value in
                 let articles = [Article](value.compactMap(\.article?.fragments.articleFields)).sorted {
                     guard let index1 = userData.savedArticleIDs.firstIndex(of: $0.id) else { return true }

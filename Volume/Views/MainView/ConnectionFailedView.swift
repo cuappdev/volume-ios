@@ -9,9 +9,8 @@
 import SwiftUI
 
 struct ConnectionFailedView: View {
-
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             Spacer()
 
             Image("no-connection")
@@ -26,13 +25,11 @@ struct ConnectionFailedView: View {
 
             Text("Please try again later")
                 .font(.system(size: 18))
-                .padding(.top, 0)
 
             Spacer()
-            Spacer()
+            Spacer() // second spacer adjusts content to top third of view
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
         .background(Color.volume.backgroundGray)
     }
-
 }

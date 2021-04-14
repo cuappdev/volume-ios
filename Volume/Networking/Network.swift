@@ -90,4 +90,13 @@ struct GraphQLPublisher<Query: GraphQLQuery>: Publisher {
 
 class NetworkState: ObservableObject {
     @Published var networkFailed = false
+
+    func handleNetworkFailure(_ completion: Subscribers.Completion<WrappedGraphQLError>) {
+        if case let .failure(error) = completion {
+            networkFailed = true
+            print(error.localizedDescription)
+        } else {
+            networkFailed = false
+        }
+    }
 }

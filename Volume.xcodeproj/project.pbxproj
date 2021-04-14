@@ -53,7 +53,7 @@
 		7ED7C340252D117B0078B1BD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7ED7C33F252D117B0078B1BD /* Preview Assets.xcassets */; };
 		7ED7C343252D117B0078B1BD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7ED7C341252D117B0078B1BD /* LaunchScreen.storyboard */; };
 		7EE96DC82562505B000B246F /* VolumeMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE96DC72562505B000B246F /* VolumeMessage.swift */; };
-		95A79FB42622255D00CADF88 /* TabViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A79FB32622255D00CADF88 /* TabViewContainer.swift */; };
+		95A79FB42622255D00CADF88 /* TabContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A79FB32622255D00CADF88 /* TabContainer.swift */; };
 		95A79FB82622296800CADF88 /* ConnectionFailedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A79FB72622296800CADF88 /* ConnectionFailedView.swift */; };
 		95F1DC8A2608F4DD000B3D91 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 95F1DC892608F4DD000B3D91 /* GoogleService-Info.plist */; };
 		95F1DC8D2608F4F9000B3D91 /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 95F1DC8C2608F4F9000B3D91 /* schema.json */; };
@@ -113,7 +113,7 @@
 		7ED7C342252D117B0078B1BD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7ED7C344252D117B0078B1BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7EE96DC72562505B000B246F /* VolumeMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeMessage.swift; sourceTree = "<group>"; };
-		95A79FB32622255D00CADF88 /* TabViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewContainer.swift; sourceTree = "<group>"; };
+		95A79FB32622255D00CADF88 /* TabContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabContainer.swift; sourceTree = "<group>"; };
 		95A79FB72622296800CADF88 /* ConnectionFailedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionFailedView.swift; sourceTree = "<group>"; };
 		95F1DC892608F4DD000B3D91 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		95F1DC8C2608F4F9000B3D91 /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
@@ -190,7 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				06A8E2522575429200C28C68 /* MainView.swift */,
-				95A79FB32622255D00CADF88 /* TabViewContainer.swift */,
+				95A79FB32622255D00CADF88 /* TabContainer.swift */,
 				7EA73D1E254C9BC8009E8F9F /* HomeList.swift */,
 				7E8658A7254B719A002DEE68 /* PublicationList.swift */,
 				7E416C352561E0650010D70B /* BookmarksList.swift */,
@@ -540,7 +540,7 @@
 				06A8E2532575429200C28C68 /* MainView.swift in Sources */,
 				7ED7C33B252D117A0078B1BD /* ContentView.swift in Sources */,
 				06EC2D24259CED0500FE0A71 /* PublicationDetailHeader.swift in Sources */,
-				95A79FB42622255D00CADF88 /* TabViewContainer.swift in Sources */,
+				95A79FB42622255D00CADF88 /* TabContainer.swift in Sources */,
 				060FFDDE2577EC800052F3EA /* OnboardingView.swift in Sources */,
 				063EED25257BF8A7002136EE /* Network.swift in Sources */,
 				7EA73D22254C9C21009E8F9F /* ArticleRow.swift in Sources */,

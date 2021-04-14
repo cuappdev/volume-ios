@@ -11,8 +11,8 @@ import AppDevAnnouncements
 import SwiftUI
 
 struct MainView: View {
-    @State private var selectedTab: Tab = .home
     @EnvironmentObject var networkState: NetworkState
+    @State private var selectedTab: Tab = .home
 
     init() {
         let grayColor = UIColor(Color.volume.navigationBarGray)
@@ -49,7 +49,6 @@ struct MainView: View {
             }
             .tag(Tab.bookmarks)
         }
-        .environmentObject(networkState)
         .accentColor(Color.volume.orange)
         .onAppear {
             SwiftUIAnnounce.presentAnnouncement { presented in
