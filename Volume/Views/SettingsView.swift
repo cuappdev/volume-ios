@@ -8,28 +8,28 @@
 
 import SwiftUI
 
-struct SettingsView: View {
-    private var mappings = ["AboutUs": AboutUsView()]
-    private let pages = [
+struct SettingsData {
+    static let mappings = ["AboutUs": AboutUsView()]  // Is this a singleton??
+    static let pages = [
         Page(destination: .externalLink("https://www.cornellappdev.com/feedback/"), imageName: "flag", info: "Send Feedback"),
         Page(destination: .externalLink("https://www.cornellappdev.com/"), imageName: "link", info: "Visit Our Website"),
         Page(destination: .internalView("AboutUs"), imageName: "info", info: "About Us"),
     ]
-    
+}
+
+struct SettingsView: View {
     init() {
         UINavigationBar.appearance().titleTextAttributes = [.font : UIFont(name: "Begum-Medium", size: 20)!]
     }
     
     var body: some View {
-        NavigationView {
-            ScrollView(showsIndicators: false) {
-                ForEach (0..<pages.count) { index in
-                    PageRow(page: pages[index])
-                }
+        ScrollView(showsIndicators: false) {
+            ForEach (0..<SettingsData.pages.count) { index in
+                PageRow(page: SettingsData.pages[index])
             }
-            .background(Color.volume.backgroundGray)
-            .navigationBarTitle(Text("Settings"), displayMode: .inline)
         }
+        .navigationBarTitle(Text("Settings"), displayMode: .inline)
+        .background(Color.volume.backgroundGray)
     }
 }
 
@@ -49,7 +49,7 @@ struct Page: Identifiable {
 struct PageRow: View {
     let page: Page
     
-    var body: some View {
+    private var row: some View {
         HStack {
             Image(page.imageName)
                 .resizable()
@@ -59,10 +59,27 @@ struct PageRow: View {
                 .padding()
             Text(page.info)
                 .font(.helveticaRegular(size: 16))
+                .foregroundColor(.black)
             Spacer()
             Image("back-arrow")
                 .rotationEffect(Angle(degrees: 180))
                 .padding()
+        }
+        .padding([.leading, .trailing])
+    }
+    
+    var body: some View {
+        switch page.destination {
+        case .externalLink(let urlString):
+            if let url = URL(string: urlString) {
+                Link(destination: url) {
+                    row
+                }
+            }
+        case .internalView(let view):
+            NavigationLink(destination: SettingsData.mappings[view]) {
+                row
+            }
         }
     }
 }
