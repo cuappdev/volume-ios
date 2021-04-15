@@ -151,7 +151,7 @@ struct PublicationList: View {
                     morePublicationsSection
                 }
             }
-            .disabled(state.disablesScroll)
+            .disabled(state.shouldDisableScroll)
             .padding(.top)
             .background(Color.volume.backgroundGray)
             .toolbar {
@@ -179,7 +179,7 @@ extension PublicationList {
         case reloading(Results)
         case results(Results)
         
-        var disablesScroll: Bool {
+        var shouldDisableScroll: Bool {
             switch self {
             case .loading:
                 return true

@@ -11,7 +11,6 @@ import SwiftUI
 
 struct HomeList: View {
     @State private var cancellableQuery: AnyCancellable?
-    @State private var isShowing = false
     @State private var state: HomeListState = .loading
     @EnvironmentObject private var userData: UserData
 
@@ -140,7 +139,7 @@ struct HomeList: View {
                     }
                 }
             }
-            .disabled(state.disablesScroll)
+            .disabled(state.shouldDisableScroll)
             .padding(.top)
             .background(Color.volume.backgroundGray)
             .toolbar {
@@ -173,7 +172,7 @@ extension HomeList {
         case reloading(Results)
         case results(Results)
         
-        var disablesScroll: Bool {
+        var shouldDisableScroll: Bool {
             switch self {
             case .loading:
                 return true
