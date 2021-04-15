@@ -8,30 +8,25 @@
 
 import SwiftUI
 
-struct SettingsData {
+
+struct Settings {
+    enum SettingView: String {
+        case aboutUs = "aboutUs"
+    }
+    
     static private let googleForm = "https://docs.google.com/forms/d/1koNhNlQTKIVx-gaKVNNEwSfH_hrATeCyLCv139cMSUs/"
     
-    static let mappings = ["AboutUs": AboutUsView()]
     static let pages = [
         Page(destination: .externalLink(googleForm), imageName: "flag", info: "Send Feedback"),
         Page(destination: .externalLink("https://www.cornellappdev.com/"), imageName: "link", info: "Visit Our Website"),
-        Page(destination: .internalView("AboutUs"), imageName: "info", info: "About Us"),
+        Page(destination: .internalView("aboutUs"), imageName: "info", info: "About Us"),
     ]
-}
-
-struct SettingsView: View {
-    init() {
-        UINavigationBar.appearance().titleTextAttributes = [.font : UIFont(name: "Begum-Medium", size: 20)!]
-    }
     
-    var body: some View {
-        ScrollView(showsIndicators: false) {
-            ForEach (0..<SettingsData.pages.count) { index in
-                PageRow(page: SettingsData.pages[index])
-            }
+    static func getView(for viewName: SettingView) -> some View {
+        switch viewName {
+        case .aboutUs:
+            return AboutUsView()
         }
-        .navigationBarTitle(Text("Settings"), displayMode: .inline)
-        .background(Color.volume.backgroundGray)
     }
 }
 
@@ -48,41 +43,19 @@ struct Page: Identifiable {
     }
 }
 
-struct PageRow: View {
-    let page: Page
-    
-    private var row: some View {
-        HStack {
-            Image(page.imageName)
-                .resizable()
-                .renderingMode(.template)
-                .foregroundColor(Color.volume.lightGray)
-                .frame(width: 24, height: 24)
-                .padding()
-            Text(page.info)
-                .font(.helveticaRegular(size: 16))
-                .foregroundColor(.black)
-            Spacer()
-            Image("back-arrow")
-                .rotationEffect(Angle(degrees: 180))
-                .padding()
-        }
-        .padding([.leading, .trailing])
+struct SettingsView: View {
+    init() {
+        UINavigationBar.appearance().titleTextAttributes = [.font : UIFont(name: "Begum-Medium", size: 20)!]
     }
     
     var body: some View {
-        switch page.destination {
-        case .externalLink(let urlString):
-            if let url = URL(string: urlString) {
-                Link(destination: url) {
-                    row
-                }
-            }
-        case .internalView(let view):
-            NavigationLink(destination: SettingsData.mappings[view]) {
-                row
+        ScrollView(showsIndicators: false) {
+            ForEach (0..<Settings.pages.count) { index in
+                SettingsPageRow(page: Settings.pages[index])
             }
         }
+        .navigationBarTitle(Text("Settings"), displayMode: .inline)
+        .background(Color.volume.backgroundGray)
     }
 }
 
