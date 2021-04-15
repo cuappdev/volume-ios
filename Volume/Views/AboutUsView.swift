@@ -17,27 +17,42 @@ struct AboutUsView: View {
     }
     
     var body: some View {
-        let keys = volume.subteams.map { $0.key }
-        let values = volume.subteams.map { $0.value }
+        let kvPairs = volume.subteams.sorted { $0.0.compare($1.0, options: .caseInsensitive) == .orderedAscending }
+        let keys = kvPairs.map { $0.key }
+        let values = kvPairs.map { $0.value }
         
         return Group {
             ScrollView(showsIndicators: false) {
-                Header("Our Mission")
-                Text(volume.messages.ourMission)
-                    .font(.helveticaRegular(size: 16))
-                    .lineSpacing(2)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding([.bottom, .top])
-                
-                Header("The Team")
-                Text(volume.messages.teamInfo)
-                    .font(.helveticaRegular(size: 16))
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding([.bottom, .top])
+                VStack(alignment: .leading) {
+                    Header("Our Mission")
+                    Text(volume.messages.ourMission)
+                        .font(.helveticaRegular(size: 16))
+                        .lineSpacing(2)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding([.bottom, .top])
+                    
+                    Header("The Team")
+                    Text(volume.messages.teamInfo)
+                        .font(.helveticaRegular(size: 16))
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding([.bottom, .top])
 
-
-                ForEach(keys.indices) { index in
-//                    SubteamMembersView(subteam: keys[index], names: values[index])
+                    ForEach(keys.indices) { index in
+                        HStack {
+                            VStack {
+                                Text("📣")
+                                Spacer()
+                            }
+                            VStack(alignment: .leading) {
+                                Text(keys[index])
+                                    .font(.helveticaBold(size: 16))
+                                    .padding(.bottom, 1)
+                                Text(values[index].joined(separator: ", "))
+                            }
+                        }
+                        .padding([.bottom, .trailing], 10)
+//                        SubteamMembersView(subteam: keys[index], names: values[index])
+                    }
                 }
             }
             .navigationBarTitle("About Us", displayMode: .inline)
@@ -55,15 +70,21 @@ struct SubteamMembersView: View {
         HStack {
             VStack {
                 Text("📣")
-                    .padding([.leading, .trailing])
                 Spacer()
             }
             VStack(alignment: .leading) {
                 Text(subteam)
                     .font(.helveticaBold(size: 16))
                 Text(names.joined(separator: ", "))
+//                    .truncationMode(.tail)
+                    .lineSpacing(4)
+//                    .lineLimit(2)
+                    .fixedSize(horizontal: true, vertical: false)
+
             }
+            .frame(maxHeight: .infinity)
         }
+        .padding([.bottom, .trailing], 10)
     }
 }
 
