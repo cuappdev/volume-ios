@@ -9,9 +9,11 @@
 import SwiftUI
 
 struct SettingsData {
-    static let mappings = ["AboutUs": AboutUsView()]  // Is this a singleton??
+    static private let googleForm = "https://docs.google.com/forms/d/1koNhNlQTKIVx-gaKVNNEwSfH_hrATeCyLCv139cMSUs/"
+    
+    static let mappings = ["AboutUs": AboutUsView()]
     static let pages = [
-        Page(destination: .externalLink("https://www.cornellappdev.com/feedback/"), imageName: "flag", info: "Send Feedback"),
+        Page(destination: .externalLink(googleForm), imageName: "flag", info: "Send Feedback"),
         Page(destination: .externalLink("https://www.cornellappdev.com/"), imageName: "link", info: "Visit Our Website"),
         Page(destination: .internalView("AboutUs"), imageName: "info", info: "About Us"),
     ]

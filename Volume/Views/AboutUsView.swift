@@ -18,8 +18,8 @@ struct AboutUsView: View {
     
     var body: some View {
         let kvPairs = volume.subteams.sorted { $0.0.compare($1.0, options: .caseInsensitive) == .orderedAscending }
-        let keys = kvPairs.map { $0.key }
-        let values = kvPairs.map { $0.value }
+        let subteams = kvPairs.map { $0.key }
+        let subteamMembers = kvPairs.map { $0.value }
         
         return Group {
             ScrollView(showsIndicators: false) {
@@ -34,24 +34,12 @@ struct AboutUsView: View {
                     Header("The Team")
                     Text(volume.messages.teamInfo)
                         .font(.helveticaRegular(size: 16))
+                        .lineSpacing(2)
                         .fixedSize(horizontal: false, vertical: true)
                         .padding([.bottom, .top])
 
-                    ForEach(keys.indices) { index in
-                        HStack {
-                            VStack {
-                                Text("📣")
-                                Spacer()
-                            }
-                            VStack(alignment: .leading) {
-                                Text(keys[index])
-                                    .font(.helveticaBold(size: 16))
-                                    .padding(.bottom, 1)
-                                Text(values[index].joined(separator: ", "))
-                            }
-                        }
-                        .padding([.bottom, .trailing], 10)
-//                        SubteamMembersView(subteam: keys[index], names: values[index])
+                    ForEach(subteams.indices) { index in
+                        SubteamMembersView(subteam: subteams[index], members: subteamMembers[index])
                     }
                 }
             }
@@ -64,7 +52,7 @@ struct AboutUsView: View {
 
 struct SubteamMembersView: View {
     let subteam: String
-    let names: [String]
+    let members: [String]
     
     var body: some View {
         HStack {
@@ -72,19 +60,15 @@ struct SubteamMembersView: View {
                 Text("📣")
                 Spacer()
             }
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 3) {
                 Text(subteam)
                     .font(.helveticaBold(size: 16))
-                Text(names.joined(separator: ", "))
-//                    .truncationMode(.tail)
-                    .lineSpacing(4)
-//                    .lineLimit(2)
-                    .fixedSize(horizontal: true, vertical: false)
-
+                    .fixedSize(horizontal: false, vertical: true)
+                Text(members.joined(separator: ", "))
+                    .fixedSize(horizontal: false, vertical: true)
             }
-            .frame(maxHeight: .infinity)
         }
-        .padding([.bottom, .trailing], 10)
+        .padding([.bottom, .trailing], 15)
     }
 }
 
@@ -98,8 +82,8 @@ struct Messages: Codable {
     var teamInfo: String
 }
 
-struct AboutUsView_Previews: PreviewProvider {
-    static var previews: some View {
-        AboutUsView()
-    }
-}
+//struct AboutUsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AboutUsView()
+//    }
+//}

@@ -11,6 +11,7 @@ import SwiftUI
 
 struct BookmarksList: View {
     @State private var cancellableQuery: AnyCancellable?
+    @State private var showSettings = false
     @State private var state: BookmarksListState = .loading
     @EnvironmentObject private var userData: UserData
 
@@ -64,7 +65,7 @@ struct BookmarksList: View {
                                     .padding([.bottom, .leading, .trailing])
                             }
                         case .results(let savedArticles):
-                            LazyVStack {
+                            VStack {
                                 ForEach(savedArticles) { article in
                                     ArticleRow(article: article, navigationSource: .bookmarkArticles)
                                         .padding([.bottom, .leading, .trailing])
@@ -89,16 +90,21 @@ struct BookmarksList: View {
                     }
                     
                     ToolbarItem(placement: ToolbarItemPlacement.navigationBarTrailing) {
-                        NavigationLink(destination: SettingsView()) {
-                            Image("settings")
-                                .frame(width: 24, height: 24)
-                                .padding([.top, .trailing], 4)  // TODO: this does not work with the navigationLink
-                        }
-                        .buttonStyle(PlainButtonStyle())
+                        Image("settings")
+                            .offset(x: -5, y: 5)
+                            .onTapGesture {
+                                self.showSettings = true
+                            }
+                            .buttonStyle(PlainButtonStyle())
                     }
                 }
                 .navigationBarTitleDisplayMode(.inline)
                 .onAppear(perform: fetch)
+                .background(
+                        NavigationLink(destination: SettingsView(), isActive: $showSettings) {
+                            EmptyView()
+                        }
+                    )
             }
         }
     }
