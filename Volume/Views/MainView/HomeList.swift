@@ -140,7 +140,7 @@ struct HomeList: View {
                     }
                 }
             }
-//            .disabled(isLoading) // TODO: only on loading
+            .disabled(state.disablesScroll)
             .padding(.top)
             .background(Color.volume.backgroundGray)
             .toolbar {
@@ -172,6 +172,15 @@ extension HomeList {
         case loading
         case reloading(Results)
         case results(Results)
+        
+        var disablesScroll: Bool {
+            switch self {
+            case .loading:
+                return true
+            default:
+                return false
+            }
+        }
     }
 }
 
