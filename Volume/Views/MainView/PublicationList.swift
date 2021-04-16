@@ -11,7 +11,7 @@ import SwiftUI
 
 struct PublicationList: View {
     @State private var cancellableQuery: AnyCancellable?
-    @State private var state: PublicationListState = .loading
+    @State private var state: MainView.TabState<Results> = .loading
     @EnvironmentObject private var userData: UserData
 
     private func fetch(_ done: @escaping () -> Void = { }) {
@@ -49,15 +49,6 @@ struct PublicationList: View {
             return userData.followedPublicationIDs.count > 0
         case .reloading(let results), .results(let results):
             return results.followedPublications.count > 0
-        }
-    }
-
-    private var isLoading: Bool {
-        switch state {
-        case .loading:
-            return true
-        default:
-            return false
         }
     }
 
@@ -141,7 +132,7 @@ struct PublicationList: View {
                     return
                 case .results(let results):
                     state = .reloading(results)
-                    self.fetch(done)
+                    fetch(done)
                 }
             }) {
                 VStack {
@@ -174,20 +165,6 @@ extension PublicationList {
         followedPublications: [Publication],
         morePublications: [Publication]
     )
-    private enum PublicationListState {
-        case loading
-        case reloading(Results)
-        case results(Results)
-        
-        var shouldDisableScroll: Bool {
-            switch self {
-            case .loading:
-                return true
-            default:
-                return false
-            }
-        }
-    }
 }
 
 struct PublicationList_Previews: PreviewProvider {

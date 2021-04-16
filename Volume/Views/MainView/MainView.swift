@@ -49,6 +49,30 @@ extension MainView {
     private enum Tab {
         case bookmarks, home, publications
     }
+    
+    enum TabState<Results> {
+        case loading
+        case reloading(Results)
+        case results(Results)
+        
+        var isLoading: Bool {
+            switch self {
+            case .results:
+                return false
+            default:
+                return true
+            }
+        }
+        
+        var shouldDisableScroll: Bool {
+            switch self {
+            case .loading:
+                return true
+            default:
+                return false
+            }
+        }
+    }
 }
 
 struct MainView_Previews: PreviewProvider {

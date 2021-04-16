@@ -11,20 +11,11 @@ import SwiftUI
 
 struct HomeList: View {
     @State private var cancellableQuery: AnyCancellable?
-    @State private var state: HomeListState = .loading
+    @State private var state: MainView.TabState<Results> = .loading
     @EnvironmentObject private var userData: UserData
 
-    private var isLoading: Bool {
-        switch state {
-        case .results:
-            return false
-        default:
-            return true
-        }
-    }
-
     private func fetch(_ done: @escaping () -> Void = { }) {
-        guard isLoading else { return }
+        guard state.isLoading else { return }
 
         cancellableQuery = Network.shared.apollo.fetch(query: GetAllPublicationIDsQuery())
             .map { $0.publications.map(\.id) }
@@ -78,7 +69,7 @@ struct HomeList: View {
                     return
                 case .results(let results):
                     state = .reloading(results)
-                    self.fetch(done)
+                    fetch(done)
                 }
             }) {
                 VStack(spacing: 20) {
@@ -167,20 +158,6 @@ extension HomeList {
             Publishers.Collect<Publishers.Map<GraphQLPublisher<GetArticlesByPublicationIDsQuery>, [ArticleFields]>>,
             Publishers.Map<GraphQLPublisher<GetArticlesByPublicationIDsQuery>, [ArticleFields]>
         >
-    private enum HomeListState {
-        case loading
-        case reloading(Results)
-        case results(Results)
-        
-        var shouldDisableScroll: Bool {
-            switch self {
-            case .loading:
-                return true
-            default:
-                return false
-            }
-        }
-    }
 }
 
 struct HomeList_Previews: PreviewProvider {

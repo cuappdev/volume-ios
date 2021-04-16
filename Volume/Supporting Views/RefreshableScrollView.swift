@@ -52,7 +52,7 @@ struct RefreshableScrollView<Content: View>: View {
     typealias OnRefresh = (@escaping RefreshComplete) -> Void
 
     @State private var state = RefreshState.waiting // the current state
-    private let THRESHOLD: CGFloat = 50
+    private let threshold: CGFloat = 50
     
     let content: Content
     let onRefresh: OnRefresh
@@ -74,18 +74,17 @@ struct RefreshableScrollView<Content: View>: View {
 
                 content
                     .alignmentGuide(.top) { _ in
-                        (state == .loading) ? -THRESHOLD : 0
+                        (state == .loading) ? -threshold : 0
                     }
 
                 ZStack {
                     Rectangle()
                         .foregroundColor(.clear)
-                        .frame(height: THRESHOLD)
-                    ActivityIndicator(isAnimating: state == .loading) {
-                        $0.hidesWhenStopped = false
-                    }
+                        .frame(height: threshold)
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
                 }
-                .offset(y: (state == .loading) ? 0 : -THRESHOLD)
+                .offset(y: (state == .loading) ? 0 : -threshold)
             }
         }
         .background(PositionIndicator(type: .fixed))
@@ -96,9 +95,9 @@ struct RefreshableScrollView<Content: View>: View {
                     let fixedY = values.first { $0.type == .fixed }?.y ?? 0
                     let offset = movingY - fixedY
 
-                    if offset > THRESHOLD && state == .waiting {
+                    if offset > threshold && state == .waiting {
                         state = .primed
-                    } else if offset < THRESHOLD && state == .primed {
+                    } else if offset < threshold && state == .primed {
                         state = .loading
                         onRefresh {
                             withAnimation {
@@ -109,27 +108,5 @@ struct RefreshableScrollView<Content: View>: View {
                 }
             }
         }
-    }
-}
-
-struct ActivityIndicator: UIViewRepresentable {
-    public typealias UIView = UIActivityIndicatorView
-    public var isAnimating: Bool = true
-    public var configuration = { (indicator: UIView) in }
-
-    public init(isAnimating: Bool, configuration: ((UIView) -> Void)? = nil) {
-        self.isAnimating = isAnimating
-        if let configuration = configuration {
-            self.configuration = configuration
-        }
-    }
-
-    public func makeUIView(context: UIViewRepresentableContext<Self>) -> UIView {
-        UIView()
-    }
-
-    public func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<Self>) {
-        isAnimating ? uiView.startAnimating() : uiView.stopAnimating()
-        configuration(uiView)
     }
 }
