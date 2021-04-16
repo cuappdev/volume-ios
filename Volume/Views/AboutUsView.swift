@@ -10,22 +10,21 @@ import SwiftUI
 
 struct AboutUsView: View {
     var body: some View {
-        let kvPairs = Metadata.aboutUs.subteams.sorted { $0.0.compare($1.0, options: .caseInsensitive) == .orderedAscending }
-        let subteams = kvPairs.map { $0.key }
-        let subteamMembers = kvPairs.map { $0.value }
+        let subteams = Constants.subteams.map { $0.key }
+        let subteamMembers = Constants.subteams.map { $0.value }
         
         return Group {
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading) {
                     Header("Our Mission")
-                    Text(Metadata.aboutUs.messages.ourMission)
+                    Text(Constants.missionStatement)
                         .font(.helveticaRegular(size: 16))
                         .lineSpacing(2)
                         .fixedSize(horizontal: false, vertical: true)
                         .padding([.bottom, .top])
                     
                     Header("The Team")
-                    Text(Metadata.aboutUs.messages.teamInfo)
+                    Text(Constants.teamInfo)
                         .font(.helveticaRegular(size: 16))
                         .lineSpacing(2)
                         .fixedSize(horizontal: false, vertical: true)

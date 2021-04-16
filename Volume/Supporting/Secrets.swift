@@ -21,6 +21,8 @@ struct Secrets {
     static let announcementsHost = Secrets.keyDict["announcements-host"] as! String
     static let announcementsPath = Secrets.keyDict["announcements-path"] as! String
     static let announcementsScheme = Secrets.keyDict["announcements-scheme"] as! String
+    
+    static let feedbackForm = Secrets.keyDict["feedback-form"] as! String
 
     private static let keyDict: NSDictionary = {
         guard let path = Bundle.main.path(forResource: "Secrets", ofType: "plist"),

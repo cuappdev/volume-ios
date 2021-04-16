@@ -8,22 +8,19 @@
 
 import SwiftUI
 
-
 struct Settings {
-    enum SettingView: String {
+    enum NestedView: String {
         case aboutUs = "aboutUs"
     }
-    
-    static private let googleForm = "https://docs.google.com/forms/d/1koNhNlQTKIVx-gaKVNNEwSfH_hrATeCyLCv139cMSUs/"
-    
+        
     static let pages = [
-        Page(destination: .externalLink(googleForm), imageName: "flag", info: "Send Feedback"),
+        Page(destination: .externalLink(Secrets.feedbackForm), imageName: "flag", info: "Send Feedback"),
         Page(destination: .externalLink("https://www.cornellappdev.com/"), imageName: "link", info: "Visit Our Website"),
         Page(destination: .internalView("aboutUs"), imageName: "info", info: "About Us"),
     ]
     
-    static func getView(for viewName: SettingView) -> some View {
-        switch viewName {
+    static func getView(for view: NestedView) -> some View {
+        switch view {
         case .aboutUs:
             return AboutUsView()
         }
