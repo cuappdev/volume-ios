@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct SettingsPageRow: View {
-    let page: Page
+    let page: SettingsPage
     
     private var row: some View {
         HStack {
@@ -38,11 +38,9 @@ struct SettingsPageRow: View {
                     row
                 }
             }
-        case .internalView(let viewName):
-            if let destination = Settings.SettingView(rawValue: viewName) {
-                NavigationLink(destination: Settings.getView(for: destination)) {
-                    row
-                }
+        case .internalView(let view):
+            NavigationLink(destination: SettingsView.getView(for: view)) {
+                row
             }
         }
     }

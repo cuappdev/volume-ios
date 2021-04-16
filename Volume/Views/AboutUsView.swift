@@ -10,8 +10,9 @@ import SwiftUI
 
 struct AboutUsView: View {
     var body: some View {
-        let subteams = Constants.subteams.map { $0.key }
-        let subteamMembers = Constants.subteams.map { $0.value }
+        let kvPairs = Constants.subteams.sorted { $0.0.compare($1.0, options: .caseInsensitive) == .orderedAscending }
+        let subteams = kvPairs.map { $0.key }
+        let subteamMembers = kvPairs.map { $0.value }
         
         return Group {
             ScrollView(showsIndicators: false) {
@@ -24,6 +25,7 @@ struct AboutUsView: View {
                         .padding([.bottom, .top])
                     
                     Header("The Team")
+                        .padding(.top)
                     Text(Constants.teamInfo)
                         .font(.helveticaRegular(size: 16))
                         .lineSpacing(2)
