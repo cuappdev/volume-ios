@@ -38,9 +38,9 @@ enum VolumeEvent: String {
         let parameters: [String: Any]
         switch event {
         case .article:
-            parameters = ["articleID": id, "entryPoint": navigationSource.rawValue]
+            parameters = ["articleID": id, "navigationSource": navigationSource.rawValue]
         case .publication:
-            parameters = ["publicationID": id, "entryPoint": navigationSource.rawValue]
+            parameters = ["publicationID": id, "navigationSource": navigationSource.rawValue]
         default:
             parameters = [:]
         }

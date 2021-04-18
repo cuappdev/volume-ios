@@ -11,10 +11,10 @@ import SwiftUI
 
 struct PublicationList: View {
     @State private var cancellableQuery: AnyCancellable?
-    @State private var state: PublicationListState = .loading
+    @State private var state: MainView.TabState<Results> = .loading
     @EnvironmentObject private var userData: UserData
 
-    private func fetch() {
+    private func fetch(_ done: @escaping () -> Void = { }) {
         // if there already are results, sort again `onAppear` in case a `followed` status changed
         if case .results(let results) = state {
             let publications = results.followedPublications + results.morePublications
@@ -33,6 +33,8 @@ struct PublicationList: View {
                 let publications = [Publication](value.map(\.fragments.publicationFields))
                 let followedPublications = publications.filter(userData.isPublicationFollowed)
                 let morePublications = publications.filter { !userData.isPublicationFollowed($0) }
+                
+                done()
                 withAnimation(.linear(duration: 0.1)) {
                     state = .results((followedPublications, morePublications))
                 }
@@ -45,17 +47,8 @@ struct PublicationList: View {
         switch state {
         case .loading:
             return userData.followedPublicationIDs.count > 0
-        case .results(let results):
+        case .reloading(let results), .results(let results):
             return results.followedPublications.count > 0
-        }
-    }
-
-    private var isLoading: Bool {
-        switch state {
-        case .loading:
-            return true
-        default:
-            return false
         }
     }
 
@@ -76,8 +69,8 @@ struct PublicationList: View {
                             }
                         }
                         .padding([.leading, .trailing], 10)
-                    case .results(let results):
-                        LazyHStack(spacing: 12) {
+                    case .reloading(let results), .results(let results):
+                        HStack(spacing: 12) {
                             ForEach(results.followedPublications) { publication in
                                 NavigationLink(destination: PublicationDetail(navigationSource: .followingPublications, publication: publication)) {
                                     FollowingPublicationRow(publication: publication)
@@ -118,8 +111,8 @@ struct PublicationList: View {
                             .padding(.bottom, 15)
                     }
                 }
-            case .results(let results):
-                LazyVStack {
+            case .reloading(let results), .results(let results):
+                VStack {
                     ForEach(results.morePublications) { publication in
                         NavigationLink(destination: PublicationDetail(navigationSource: .morePublications, publication: publication)) {
                             MorePublicationRow(publication: publication, navigationSource: .morePublications)
@@ -133,13 +126,23 @@ struct PublicationList: View {
 
     var body: some View {
         NavigationView {
-            ScrollView(showsIndicators: false) {
-                followedPublicationsSection
-                Spacer()
-                    .frame(height: 16)
-                morePublicationsSection
+            RefreshableScrollView(onRefresh: { done in
+                switch state {
+                case .loading, .reloading:
+                    return
+                case .results(let results):
+                    state = .reloading(results)
+                    fetch(done)
+                }
+            }) {
+                VStack {
+                    followedPublicationsSection
+                    Spacer()
+                        .frame(height: 16)
+                    morePublicationsSection
+                }
             }
-            .disabled(isLoading)
+            .disabled(state.shouldDisableScroll)
             .padding(.top)
             .background(Color.volume.backgroundGray)
             .toolbar {
@@ -150,7 +153,9 @@ struct PublicationList: View {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
-            .onAppear(perform: fetch)
+            .onAppear {
+                fetch()
+            }
         }
     }
 }
@@ -160,10 +165,6 @@ extension PublicationList {
         followedPublications: [Publication],
         morePublications: [Publication]
     )
-    private enum PublicationListState {
-        case loading
-        case results(Results)
-    }
 }
 
 struct PublicationList_Previews: PreviewProvider {
