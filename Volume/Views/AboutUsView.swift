@@ -9,49 +9,47 @@
 import SwiftUI
 
 struct AboutUsView: View {
+    private let subteams = Constants.subteams.keys.sorted { a, b in
+        a.uppercased() < b.uppercased()
+    }
+    
     var body: some View {
-        let kvPairs = Constants.subteams.sorted { $0.0.compare($1.0, options: .caseInsensitive) == .orderedAscending }
-        let subteams = kvPairs.map { $0.key }
-        let subteamMembers = kvPairs.map { $0.value }
-        
-        return Group {
-            ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading) {
-                    Header("Our Mission")
-                    Text(Constants.missionStatement)
-                        .font(.helveticaRegular(size: 16))
-                        .lineSpacing(2)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .padding([.bottom, .top])
-                    
-                    Header("The Team")
-                        .padding(.top)
-                    Text(Constants.teamInfo)
-                        .font(.helveticaRegular(size: 16))
-                        .lineSpacing(2)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .padding([.bottom, .top])
+        ScrollView(showsIndicators: false) {
+            VStack(alignment: .leading) {
+                Header("Our Mission")
+                Text(Constants.missionStatement)
+                    .font(.helveticaRegular(size: 16))
+                    .lineSpacing(2)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding([.bottom, .top])
+                
+                Header("The Team")
+                    .padding(.top)
+                Text(Constants.teamInfo)
+                    .font(.helveticaRegular(size: 16))
+                    .lineSpacing(2)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding([.bottom, .top])
 
-                    ForEach(subteams.indices) { index in
-                        HStack {
-                            VStack {
-                                Text("📣")
-                                Spacer()
-                            }
-                            VStack(alignment: .leading, spacing: 3) {
-                                Text(subteams[index])
-                                    .font(.helveticaBold(size: 16))
-                                    .fixedSize(horizontal: false, vertical: true)
-                                Text(subteamMembers[index].joined(separator: ", "))
-                                    .fixedSize(horizontal: false, vertical: true)
-                            }
+                ForEach(subteams, id: \.self) { subteam in
+                    HStack {
+                        VStack {
+                            Text("📣")
+                            Spacer()
                         }
-                        .padding([.bottom, .trailing], 15)
+                        VStack(alignment: .leading, spacing: 3) {
+                            Text(subteam)
+                                .font(.helveticaBold(size: 16))
+                                .fixedSize(horizontal: false, vertical: true)
+                            Text(Constants.subteams[subteam]!.joined(separator: ", "))
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
                     }
+                    .padding([.bottom, .trailing], 15)
                 }
             }
-            .navigationBarTitle("About Us", displayMode: .inline)
         }
+        .navigationBarTitle("About Us", displayMode: .inline)
         .padding(20)
         .background(Color.volume.backgroundGray)
     }

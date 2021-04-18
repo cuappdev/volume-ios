@@ -11,7 +11,7 @@ import SwiftUI
 struct SettingsView: View {
     static let pages = [
         SettingsPage(destination: .externalLink(Secrets.feedbackForm), imageName: "flag", info: "Send Feedback"),
-        SettingsPage(destination: .externalLink("https://www.cornellappdev.com/"), imageName: "link", info: "Visit Our Website"),
+        SettingsPage(destination: .externalLink(Secrets.appdevWebsite), imageName: "link", info: "Visit Our Website"),
         SettingsPage(destination: .internalView(.aboutUs), imageName: "info", info: "About Us"),
     ]
     

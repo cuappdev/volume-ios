@@ -65,7 +65,7 @@ struct BookmarksList: View {
                                     .padding([.bottom, .leading, .trailing])
                             }
                         case .results(let savedArticles):
-                            VStack {
+                            LazyVStack {
                                 ForEach(savedArticles) { article in
                                     ArticleRow(article: article, navigationSource: .bookmarkArticles)
                                         .padding([.bottom, .leading, .trailing])
@@ -83,17 +83,17 @@ struct BookmarksList: View {
                 .padding(.top)
                 .background(Color.volume.backgroundGray)
                 .toolbar {
-                    ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+                    ToolbarItem(placement: .navigationBarLeading) {
                         BubblePeriodText("Bookmarks")
                             .font(.begumMedium(size: 28))
                             .offset(y: 8)
                     }
                     
-                    ToolbarItem(placement: ToolbarItemPlacement.navigationBarTrailing) {
+                    ToolbarItem(placement: .navigationBarTrailing) {
                         Image("settings")
                             .offset(x: -5, y: 5)
                             .onTapGesture {
-                                self.showSettings = true
+                                showSettings = true
                             }
                             .buttonStyle(PlainButtonStyle())
                     }
