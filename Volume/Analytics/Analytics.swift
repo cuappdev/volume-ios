@@ -8,9 +8,7 @@
 
 import AppDevAnalytics
 
-
 /// volume-specific extensions of base Event protocol
-
 struct AnyEvent: Event {
     let name: String
     let parameters: [String: Any]?
@@ -18,6 +16,7 @@ struct AnyEvent: Event {
 
 enum VolumeEvent: String {
     /// General events
+    case announcementPresented = "announcement_presented"
     case startOnboarding = "start_onboarding"
     case completeOnboarding = "complete_onboarding"
     /// Publication-specific events

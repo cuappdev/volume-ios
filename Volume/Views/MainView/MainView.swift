@@ -6,6 +6,8 @@
 //  Copyright © 2020 Cornell AppDev. All rights reserved.
 //
 
+import AppDevAnalytics
+import AppDevAnnouncements
 import SwiftUI
 
 struct MainView: View {
@@ -41,6 +43,13 @@ struct MainView: View {
             .tag(Tab.bookmarks)
         }
         .accentColor(Color.volume.orange)
+        .onAppear {
+            presentAnnouncement { presented in
+                if presented {
+                    AppDevAnalytics.log(VolumeEvent.announcementPresented.toEvent(.general))
+                }
+            }
+        }
     }
 }
 
