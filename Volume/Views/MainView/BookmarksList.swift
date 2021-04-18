@@ -11,6 +11,7 @@ import SwiftUI
 
 struct BookmarksList: View {
     @State private var cancellableQuery: AnyCancellable?
+    @State private var showSettings = false
     @State private var state: BookmarksListState = .loading
     @EnvironmentObject private var userData: UserData
 
@@ -82,14 +83,28 @@ struct BookmarksList: View {
                 .padding(.top)
                 .background(Color.volume.backgroundGray)
                 .toolbar {
-                    ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+                    ToolbarItem(placement: .navigationBarLeading) {
                         BubblePeriodText("Bookmarks")
                             .font(.begumMedium(size: 28))
                             .offset(y: 8)
                     }
+                    
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Image("settings")
+                            .offset(x: -5, y: 5)
+                            .onTapGesture {
+                                showSettings = true
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                    }
                 }
                 .navigationBarTitleDisplayMode(.inline)
                 .onAppear(perform: fetch)
+                .background(
+                        NavigationLink(destination: SettingsView(), isActive: $showSettings) {
+                            EmptyView()
+                        }
+                    )
             }
         }
     }
