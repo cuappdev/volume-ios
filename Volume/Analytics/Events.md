@@ -20,7 +20,7 @@
 |---|---|---|---|
 | publicationID | publication | Publication UUID | |
 | articleID | article | Article UUID | |
-| userID | userID | The user's device ID as a UUID; for data analytics | | 
+| userID | userID | The user's device ID as a UUID; for data analytics | |
 | articleEntrypoint | navigationSource | Location within app that user engages with Article from | publication_detail, trending_articles, following_articles, other_articles, bookmark_articles |
 | publicationEntrypoint | navigationSource | Location within app that user engages with Publication from | article_detail, onboarding, following_publications, more_publications |
 | | | | |
