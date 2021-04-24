@@ -45,7 +45,7 @@ enum VolumeEvent: String {
             parameters = [:]
         }
         parameters["navigationSource"] = navigationSource.rawValue
-        parameters["uid"] = UIDevice.current.identifierForVendor?.uuidString
+        parameters["userID"] = UIDevice.current.identifierForVendor?.uuidString
         return AnyEvent(name: rawValue, parameters: parameters)
     }
 }
