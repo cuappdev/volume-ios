@@ -11,21 +11,12 @@ import SwiftUI
 
 struct HomeList: View {
     @State private var cancellableQuery: AnyCancellable?
-    @State private var state: HomeListState = .loading
+    @State private var state: MainView.TabState<Results> = .loading
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
 
-    private var isLoading: Bool {
-        switch state {
-        case .loading:
-            return true
-        default:
-            return false
-        }
-    }
-
-    private func fetch() {
-        guard isLoading else { return }
+    private func fetch(_ done: @escaping () -> Void = { }) {
+        guard state.isLoading else { return }
 
         cancellableQuery = Network.shared.apollo.fetch(query: GetAllPublicationIDsQuery())
             .map { $0.publications.map(\.id) }
@@ -57,7 +48,8 @@ struct HomeList: View {
                     !(followedArticles.contains(where: { $0.id == article.id })
                         || trendingArticles.contains(where: { $0.id == article.id }))
                 }).sorted(by: { $0.date > $1.date }).prefix(45)
-
+                
+                done()
                 withAnimation(.linear(duration: 0.1)) {
                     state = .results((
                         trendingArticles: [Article](trendingArticles),
@@ -69,7 +61,15 @@ struct HomeList: View {
     }
 
     var body: some View {
-        ScrollView(showsIndicators: false) {
+        RefreshableScrollView(onRefresh: { done in
+            switch state {
+            case .loading, .reloading:
+                return
+            case .results(let results):
+                state = .reloading(results)
+                fetch(done)
+            }
+        }) {
             VStack(spacing: 20) {
                 Header("The Big Read")
                     .padding([.top, .leading, .trailing])
@@ -81,8 +81,8 @@ struct HomeList: View {
                                 BigReadArticleRow.Skeleton()
                             }
                         }
-                    case .results(let results):
-                        LazyHStack(spacing: 24) {
+                    case .reloading(let results), .results(let results):
+                        HStack(spacing: 24) {
                             ForEach(results.trendingArticles) { article in
                                 BigReadArticleRow(article: article)
                             }
@@ -100,7 +100,7 @@ struct HomeList: View {
                         ArticleRow.Skeleton()
                             .padding([.leading, .trailing])
                     }
-                case .results(let results):
+                case .reloading(let results), .results(let results):
                     ForEach(results.followedArticles) { article in
                         ArticleRow(article: article, navigationSource: .followingArticles)
                             .padding([.leading, .trailing])
@@ -120,7 +120,7 @@ struct HomeList: View {
                 case .loading:
                     // will be off the page, so pointless to show anything
                     Spacer().frame(height: 0)
-                case .results(let results):
+                case .reloading(let results), .results(let results):
                     ForEach(results.otherArticles) { article in
                         ArticleRow(article: article, navigationSource: .otherArticles)
                             .padding([.bottom, .leading, .trailing])
@@ -128,7 +128,7 @@ struct HomeList: View {
                 }
             }
         }
-        .disabled(isLoading)
+        .disabled(state.shouldDisableScroll)
         .padding(.top)
         .background(Color.volume.backgroundGray)
         .toolbar {
@@ -137,8 +137,12 @@ struct HomeList: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear(perform: fetch)
+        .onAppear {
+            fetch()
+        }
     }
+    .navigationBarTitleDisplayMode(.inline)
+    .onAppear(perform: fetch)
 }
 
 extension HomeList {
@@ -153,10 +157,6 @@ extension HomeList {
             Publishers.Collect<Publishers.Map<GraphQLPublisher<GetArticlesByPublicationIDsQuery>, [ArticleFields]>>,
             Publishers.Map<GraphQLPublisher<GetArticlesByPublicationIDsQuery>, [ArticleFields]>
         >
-    private enum HomeListState {
-        case loading
-        case results(Results)
-    }
 }
 
 struct HomeList_Previews: PreviewProvider {
