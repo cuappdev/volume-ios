@@ -89,14 +89,28 @@ struct GraphQLPublisher<Query: GraphQLQuery>: Publisher {
 }
 
 class NetworkState: ObservableObject {
-    @Published var networkFailed = false
+    @Published var networkScreenFailed: [Screen : Bool] = [:]
 
-    func handleNetworkFailure(_ completion: Subscribers.Completion<WrappedGraphQLError>) {
+    public enum Screen: CaseIterable {
+        case homeList, publicationList, bookmarksList
+    }
+
+    init() {
+        for screen in Screen.allCases {
+            networkScreenFailed[screen] = false
+        }
+    }
+
+    func determineState(screen: Screen, _ completion: Subscribers.Completion<WrappedGraphQLError>) {
         if case let .failure(error) = completion {
-            networkFailed = true
+            networkScreenFailed[screen] = true
             print(error.localizedDescription)
         } else {
-            networkFailed = false
+            networkScreenFailed[screen] = false
         }
+    }
+
+    func didNetworkFail(for screen: Screen) -> Bool {
+        networkScreenFailed[screen] ?? false
     }
 }

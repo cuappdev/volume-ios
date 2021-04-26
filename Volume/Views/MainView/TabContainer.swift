@@ -10,19 +10,22 @@ import SwiftUI
 
 struct TabContainer<Content: View>: View {
     @EnvironmentObject private var networkState: NetworkState
+    let screen: NetworkState.Screen
     let content: Content
 
-    init(content: () -> Content) {
+    init(networkScreen: NetworkState.Screen, content: () -> Content) {
+        self.screen = networkScreen
         self.content = content()
     }
 
     var body: some View {
-        ZStack {
-            self.content
+        NavigationView {
+            ZStack {
+                self.content
 
-            if networkState.networkFailed {
-                ConnectionFailedView()
-                    .offset(x: 0, y: 48) // Offset includes navigation bar
+                if networkState.didNetworkFail(for: screen) {
+                    ConnectionFailedView()
+                }
             }
         }
     }

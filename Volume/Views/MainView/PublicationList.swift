@@ -11,8 +11,8 @@ import SwiftUI
 
 struct PublicationList: View {
     @State private var cancellableQuery: AnyCancellable?
-    @EnvironmentObject private var networkState: NetworkState
     @State private var state: PublicationListState = .loading
+    @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
 
     private func fetch() {
@@ -27,7 +27,7 @@ struct PublicationList: View {
         cancellableQuery = Network.shared.apollo.fetch(query: GetAllPublicationsQuery())
             .map { data in data.publications.compactMap { $0 } }
             .sink(receiveCompletion: { completion in
-                networkState.handleNetworkFailure(completion)
+                networkState.determineState(screen: .publicationList, completion)
             }, receiveValue: { value in
                 let publications = [Publication](value.map(\.fragments.publicationFields))
                 let followedPublications = publications.filter(userData.isPublicationFollowed)
@@ -131,26 +131,24 @@ struct PublicationList: View {
     }
 
     var body: some View {
-        NavigationView {
-            ScrollView(showsIndicators: false) {
-                followedPublicationsSection
-                Spacer()
-                    .frame(height: 16)
-                morePublicationsSection
-            }
-            .disabled(isLoading)
-            .padding(.top)
-            .background(Color.volume.backgroundGray)
-            .toolbar {
-                ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
-                    BubblePeriodText("Publications")
-                        .font(.begumMedium(size: 28))
-                        .offset(y: 8)
-                }
-            }
-            .navigationBarTitleDisplayMode(.inline)
-            .onAppear(perform: fetch)
+        ScrollView(showsIndicators: false) {
+            followedPublicationsSection
+            Spacer()
+                .frame(height: 16)
+            morePublicationsSection
         }
+        .disabled(isLoading)
+        .padding(.top)
+        .background(Color.volume.backgroundGray)
+        .toolbar {
+            ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+                BubblePeriodText("Publications")
+                    .font(.begumMedium(size: 28))
+                    .offset(y: 8)
+            }
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .onAppear(perform: fetch)
     }
 }
 

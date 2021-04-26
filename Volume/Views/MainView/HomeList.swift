@@ -11,8 +11,8 @@ import SwiftUI
 
 struct HomeList: View {
     @State private var cancellableQuery: AnyCancellable?
-    @EnvironmentObject private var networkState: NetworkState
     @State private var state: HomeListState = .loading
+    @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
 
     private var isLoading: Bool {
@@ -45,7 +45,7 @@ struct HomeList: View {
                 return Publishers.Zip3(trendingQuery, followedQuery, otherQuery)
             }
             .sink { completion in
-                networkState.handleNetworkFailure(completion)
+                networkState.determineState(screen: .homeList, completion)
             } receiveValue: { (trendingArticles, followed, other) in
                 // Exclude trending articles from following articles
                 // Take up to 20 followed articles, sorted in descending chronological order
@@ -69,77 +69,75 @@ struct HomeList: View {
     }
 
     var body: some View {
-        NavigationView {
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 20) {
-                    Header("The Big Read")
-                        .padding([.top, .leading, .trailing])
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        switch state {
-                        case .loading:
-                            HStack(spacing: 24) {
-                                ForEach(0..<2) { _ in
-                                    BigReadArticleRow.Skeleton()
-                                }
+        ScrollView(showsIndicators: false) {
+            VStack(spacing: 20) {
+                Header("The Big Read")
+                    .padding([.top, .leading, .trailing])
+                ScrollView(.horizontal, showsIndicators: false) {
+                    switch state {
+                    case .loading:
+                        HStack(spacing: 24) {
+                            ForEach(0..<2) { _ in
+                                BigReadArticleRow.Skeleton()
                             }
-                        case .results(let results):
-                            LazyHStack(spacing: 24) {
-                                ForEach(results.trendingArticles) { article in
-                                    BigReadArticleRow(article: article)
-                                }
+                        }
+                    case .results(let results):
+                        LazyHStack(spacing: 24) {
+                            ForEach(results.trendingArticles) { article in
+                                BigReadArticleRow(article: article)
                             }
                         }
                     }
+                }
+                .padding([.leading, .trailing])
+
+                Header("Following")
                     .padding([.leading, .trailing])
-
-                    Header("Following")
-                        .padding([.leading, .trailing])
-                        .padding(.top, 36)
-                    switch state {
-                    case .loading:
-                        ForEach(0..<5) { _ in
-                            ArticleRow.Skeleton()
-                                .padding([.leading, .trailing])
-                        }
-                    case .results(let results):
-                        ForEach(results.followedArticles) { article in
-                            ArticleRow(article: article, navigationSource: .followingArticles)
-                                .padding([.leading, .trailing])
-                        }
+                    .padding(.top, 36)
+                switch state {
+                case .loading:
+                    ForEach(0..<5) { _ in
+                        ArticleRow.Skeleton()
+                            .padding([.leading, .trailing])
                     }
+                case .results(let results):
+                    ForEach(results.followedArticles) { article in
+                        ArticleRow(article: article, navigationSource: .followingArticles)
+                            .padding([.leading, .trailing])
+                    }
+                }
 
-                    Spacer()
+                Spacer()
 
-                    VolumeMessage(message: .upToDate)
-                        .padding(.top, 25)
-                        .padding(.bottom, -5)
+                VolumeMessage(message: .upToDate)
+                    .padding(.top, 25)
+                    .padding(.bottom, -5)
 
-                    Spacer()
+                Spacer()
 
-                    Header("Other Articles").padding()
-                    switch state {
-                    case .loading:
-                        // will be off the page, so pointless to show anything
-                        Spacer().frame(height: 0)
-                    case .results(let results):
-                        ForEach(results.otherArticles) { article in
-                            ArticleRow(article: article, navigationSource: .otherArticles)
-                                .padding([.bottom, .leading, .trailing])
-                        }
+                Header("Other Articles").padding()
+                switch state {
+                case .loading:
+                    // will be off the page, so pointless to show anything
+                    Spacer().frame(height: 0)
+                case .results(let results):
+                    ForEach(results.otherArticles) { article in
+                        ArticleRow(article: article, navigationSource: .otherArticles)
+                            .padding([.bottom, .leading, .trailing])
                     }
                 }
             }
-            .disabled(isLoading)
-            .padding(.top)
-            .background(Color.volume.backgroundGray)
-            .toolbar {
-                ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
-                    Image("volume-logo")
-                }
-            }
-            .navigationBarTitleDisplayMode(.inline)
-            .onAppear(perform: fetch)
         }
+        .disabled(isLoading)
+        .padding(.top)
+        .background(Color.volume.backgroundGray)
+        .toolbar {
+            ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+                Image("volume-logo")
+            }
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .onAppear(perform: fetch)
     }
 }
 

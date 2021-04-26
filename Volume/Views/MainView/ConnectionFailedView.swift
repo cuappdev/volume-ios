@@ -16,20 +16,20 @@ struct ConnectionFailedView: View {
             Image("no-connection")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 64, height: 64)
+                .frame(width: 58, height: 58)
                 .padding(.bottom, 20)
 
             Text("No Connection")
-                .font(.begumMedium(size: 25))
+                .font(.begumMedium(size: 23))
                 .padding(.bottom, 2)
 
             Text("Please try again later")
-                .font(.system(size: 18))
+                .font(.system(size: 17))
 
             Spacer()
-            Spacer() // second spacer adjusts content to top third of view
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
+        .offset(x: 0, y: -20)
         .background(Color.volume.backgroundGray)
     }
 }

@@ -11,8 +11,8 @@ import SwiftUI
 
 struct BookmarksList: View {
     @State private var cancellableQuery: AnyCancellable?
-    @EnvironmentObject private var networkState: NetworkState
     @State private var state: BookmarksListState = .loading
+    @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
 
     private func fetch() {
@@ -26,7 +26,7 @@ struct BookmarksList: View {
             .flatMap(Network.shared.apollo.fetch)
             .collect()
             .sink { completion in
-                networkState.handleNetworkFailure(completion)
+                networkState.determineState(screen: .bookmarksList, completion)
             } receiveValue: { value in
                 let articles = [Article](value.compactMap(\.article?.fragments.articleFields)).sorted {
                     guard let index1 = userData.savedArticleIDs.firstIndex(of: $0.id) else { return true }
@@ -50,46 +50,44 @@ struct BookmarksList: View {
 
     var body: some View {
         GeometryReader { geometry in
-            NavigationView {
-                ScrollView(showsIndicators: false) {
-                    Header("Saved Articles")
-                        .padding([.leading, .top, .trailing])
-                        .padding(.bottom, 6)
-                    if someFollowedArticles {
-                        switch state {
-                        case .loading:
-                            ForEach(0..<10) { _ in
-                                ArticleRow.Skeleton()
+            ScrollView(showsIndicators: false) {
+                Header("Saved Articles")
+                    .padding([.leading, .top, .trailing])
+                    .padding(.bottom, 6)
+                if someFollowedArticles {
+                    switch state {
+                    case .loading:
+                        ForEach(0..<10) { _ in
+                            ArticleRow.Skeleton()
+                                .padding([.bottom, .leading, .trailing])
+                        }
+                    case .results(let savedArticles):
+                        LazyVStack {
+                            ForEach(savedArticles) { article in
+                                ArticleRow(article: article, navigationSource: .bookmarkArticles)
                                     .padding([.bottom, .leading, .trailing])
                             }
-                        case .results(let savedArticles):
-                            LazyVStack {
-                                ForEach(savedArticles) { article in
-                                    ArticleRow(article: article, navigationSource: .bookmarkArticles)
-                                        .padding([.bottom, .leading, .trailing])
-                                }
-                            }
-                        }
-                    } else {
-                        VStack {
-                            Spacer(minLength: geometry.size.height / 5)
-                            VolumeMessage(message: .noBookmarks)
                         }
                     }
-                }
-                .disabled(state == .loading)
-                .padding(.top)
-                .background(Color.volume.backgroundGray)
-                .toolbar {
-                    ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
-                        BubblePeriodText("Bookmarks")
-                            .font(.begumMedium(size: 28))
-                            .offset(y: 8)
+                } else {
+                    VStack {
+                        Spacer(minLength: geometry.size.height / 5)
+                        VolumeMessage(message: .noBookmarks)
                     }
                 }
-                .navigationBarTitleDisplayMode(.inline)
-                .onAppear(perform: fetch)
             }
+            .disabled(state == .loading)
+            .padding(.top)
+            .background(Color.volume.backgroundGray)
+            .toolbar {
+                ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+                    BubblePeriodText("Bookmarks")
+                        .font(.begumMedium(size: 28))
+                        .offset(y: 8)
+                }
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .onAppear(perform: fetch)
         }
     }
 }

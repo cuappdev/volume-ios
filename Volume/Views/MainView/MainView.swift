@@ -11,8 +11,8 @@ import AppDevAnnouncements
 import SwiftUI
 
 struct MainView: View {
-    @EnvironmentObject var networkState: NetworkState
     @State private var selectedTab: Tab = .home
+    @EnvironmentObject private var networkState: NetworkState
 
     init() {
         let grayColor = UIColor(Color.volume.navigationBarGray)
@@ -25,15 +25,14 @@ struct MainView: View {
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            TabContainer {
+            TabContainer(networkScreen: .homeList) {
                 HomeList()
             }
             .tabItem {
                 Image("volume")
             }
             .tag(Tab.home)
-
-            TabContainer {
+            TabContainer(networkScreen: .publicationList) {
                 PublicationList()
             }
             .tabItem {
@@ -41,7 +40,7 @@ struct MainView: View {
             }
             .tag(Tab.publications)
 
-            TabContainer {
+            TabContainer(networkScreen: .bookmarksList) {
                 BookmarksList()
             }
             .tabItem {

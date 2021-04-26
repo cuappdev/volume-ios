@@ -111,7 +111,6 @@ struct BrowserView: View {
 
     func displayShareScreen() {
         if let articleUrl = article.articleUrl {
-            // TODO: Add URL to secrets.plist
             let downloadURL = URL(string: Secrets.downloadLink)
             let shareItems: [Any] = [articleUrl, downloadURL ?? ""]
             let shareVC = UIActivityViewController(activityItems: shareItems, applicationActivities: nil)
