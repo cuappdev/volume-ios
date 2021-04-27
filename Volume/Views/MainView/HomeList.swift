@@ -141,8 +141,7 @@ struct HomeList: View {
             fetch()
         }
     }
-    .navigationBarTitleDisplayMode(.inline)
-    .onAppear(perform: fetch)
+
 }
 
 extension HomeList {

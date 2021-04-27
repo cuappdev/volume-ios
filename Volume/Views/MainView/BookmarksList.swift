@@ -74,34 +74,35 @@ struct BookmarksList: View {
                     VStack {
                         Spacer(minLength: geometry.size.height / 5)
                         VolumeMessage(message: .noBookmarks)
-                }
-                .disabled(state == .loading)
-                .padding(.top)
-                .background(Color.volume.backgroundGray)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        BubblePeriodText("Bookmarks")
-                            .font(.begumMedium(size: 28))
-                            .offset(y: 8)
-                    }
-                    
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Image("settings")
-                            .offset(x: -5, y: 5)
-                            .onTapGesture {
-                                showSettings = true
-                            }
-                            .buttonStyle(PlainButtonStyle())
                     }
                 }
-                .navigationBarTitleDisplayMode(.inline)
-                .onAppear(perform: fetch)
-                .background(
-                        NavigationLink(destination: SettingsView(), isActive: $showSettings) {
-                            EmptyView()
-                        }
-                    )
             }
+            .disabled(state == .loading)
+            .padding(.top)
+            .background(Color.volume.backgroundGray)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    BubblePeriodText("Bookmarks")
+                        .font(.begumMedium(size: 28))
+                        .offset(y: 8)
+                }
+
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Image("settings")
+                        .offset(x: -5, y: 5)
+                        .onTapGesture {
+                            showSettings = true
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                }
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .onAppear(perform: fetch)
+            .background(
+                    NavigationLink(destination: SettingsView(), isActive: $showSettings) {
+                        EmptyView()
+                    }
+                )
         }
     }
 }

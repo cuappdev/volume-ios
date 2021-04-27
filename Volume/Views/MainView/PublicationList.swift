@@ -154,8 +154,6 @@ struct PublicationList: View {
             .onAppear {
                 fetch()
         }
-        .navigationBarTitleDisplayMode(.inline)
-        .onAppear(perform: fetch)
     }
 }
 
