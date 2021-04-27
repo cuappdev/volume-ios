@@ -12,6 +12,7 @@ import SwiftUI
 struct HomeList: View {
     @State private var cancellableQuery: AnyCancellable?
     @State private var state: MainView.TabState<Results> = .loading
+    @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
 
     private func fetch(_ done: @escaping () -> Void = { }) {
@@ -35,9 +36,7 @@ struct HomeList: View {
                 return Publishers.Zip3(trendingQuery, followedQuery, otherQuery)
             }
             .sink { completion in
-                if case let .failure(error) = completion {
-                    print(error.localizedDescription)
-                }
+                networkState.handleCompletion(screen: .homeList, completion)
             } receiveValue: { (trendingArticles, followed, other) in
                 // Exclude trending articles from following articles
                 // Take up to 20 followed articles, sorted in descending chronological order
@@ -62,88 +61,87 @@ struct HomeList: View {
     }
 
     var body: some View {
-        NavigationView {
-            RefreshableScrollView(onRefresh: { done in
-                switch state {
-                case .loading, .reloading:
-                    return
-                case .results(let results):
-                    state = .reloading(results)
-                    fetch(done)
-                }
-            }) {
-                VStack(spacing: 20) {
-                    Header("The Big Read")
-                        .padding([.top, .leading, .trailing])
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        switch state {
-                        case .loading:
-                            HStack(spacing: 24) {
-                                ForEach(0..<2) { _ in
-                                    BigReadArticleRow.Skeleton()
-                                }
+        RefreshableScrollView(onRefresh: { done in
+            switch state {
+            case .loading, .reloading:
+                return
+            case .results(let results):
+                state = .reloading(results)
+                fetch(done)
+            }
+        }) {
+            VStack(spacing: 20) {
+                Header("The Big Read")
+                    .padding([.top, .leading, .trailing])
+                ScrollView(.horizontal, showsIndicators: false) {
+                    switch state {
+                    case .loading:
+                        HStack(spacing: 24) {
+                            ForEach(0..<2) { _ in
+                                BigReadArticleRow.Skeleton()
                             }
-                        case .reloading(let results), .results(let results):
-                            HStack(spacing: 24) {
-                                ForEach(results.trendingArticles) { article in
-                                    BigReadArticleRow(article: article)
-                                }
+                        }
+                    case .reloading(let results), .results(let results):
+                        HStack(spacing: 24) {
+                            ForEach(results.trendingArticles) { article in
+                                BigReadArticleRow(article: article)
                             }
                         }
                     }
+                }
+                .padding([.leading, .trailing])
+
+                Header("Following")
                     .padding([.leading, .trailing])
-
-                    Header("Following")
-                        .padding([.leading, .trailing])
-                        .padding(.top, 36)
-                    switch state {
-                    case .loading:
-                        ForEach(0..<5) { _ in
-                            ArticleRow.Skeleton()
-                                .padding([.leading, .trailing])
-                        }
-                    case .reloading(let results), .results(let results):
-                        ForEach(results.followedArticles) { article in
-                            ArticleRow(article: article, navigationSource: .followingArticles)
-                                .padding([.leading, .trailing])
-                        }
+                    .padding(.top, 36)
+                switch state {
+                case .loading:
+                    ForEach(0..<5) { _ in
+                        ArticleRow.Skeleton()
+                            .padding([.leading, .trailing])
                     }
-
-                    Spacer()
-
-                    VolumeMessage(message: .upToDate)
-                        .padding(.top, 25)
-                        .padding(.bottom, -5)
-
-                    Spacer()
-
-                    Header("Other Articles").padding()
-                    switch state {
-                    case .loading:
-                        // will be off the page, so pointless to show anything
-                        Spacer().frame(height: 0)
-                    case .reloading(let results), .results(let results):
-                        ForEach(results.otherArticles) { article in
-                            ArticleRow(article: article, navigationSource: .otherArticles)
-                                .padding([.bottom, .leading, .trailing])
-                        }
+                case .reloading(let results), .results(let results):
+                    ForEach(results.followedArticles) { article in
+                        ArticleRow(article: article, navigationSource: .followingArticles)
+                            .padding([.leading, .trailing])
                     }
                 }
-            }
-            .disabled(state.shouldDisableScroll)
-            .padding(.top)
-            .background(Color.volume.backgroundGray)
-            .toolbar {
-                ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
-                    Image("volume-logo")
+
+                Spacer()
+
+                VolumeMessage(message: .upToDate)
+                    .padding(.top, 25)
+                    .padding(.bottom, -5)
+
+                Spacer()
+
+                Header("Other Articles").padding()
+                switch state {
+                case .loading:
+                    // will be off the page, so pointless to show anything
+                    Spacer().frame(height: 0)
+                case .reloading(let results), .results(let results):
+                    ForEach(results.otherArticles) { article in
+                        ArticleRow(article: article, navigationSource: .otherArticles)
+                            .padding([.bottom, .leading, .trailing])
+                    }
                 }
-            }
-            .navigationBarTitleDisplayMode(.inline)
-            .onAppear {
-                fetch()
             }
         }
+        .disabled(state.shouldDisableScroll)
+        .padding(.top)
+        .background(Color.volume.backgroundGray)
+        .toolbar {
+            ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+                Image("volume-logo")
+            }
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            fetch()
+        }
     }
+
 }
 
 extension HomeList {

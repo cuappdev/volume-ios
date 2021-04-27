@@ -12,6 +12,7 @@ import SwiftUI
 struct PublicationList: View {
     @State private var cancellableQuery: AnyCancellable?
     @State private var state: MainView.TabState<Results> = .loading
+    @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
 
     private func fetch(_ done: @escaping () -> Void = { }) {
@@ -26,9 +27,7 @@ struct PublicationList: View {
         cancellableQuery = Network.shared.apollo.fetch(query: GetAllPublicationsQuery())
             .map { data in data.publications.compactMap { $0 } }
             .sink(receiveCompletion: { completion in
-                if case let .failure(error) = completion {
-                    print(error.localizedDescription)
-                }
+                networkState.handleCompletion(screen: .publicationList, completion)
             }, receiveValue: { value in
                 let publications = [Publication](value.map(\.fragments.publicationFields))
                 let followedPublications = publications.filter(userData.isPublicationFollowed)
@@ -125,9 +124,8 @@ struct PublicationList: View {
     }
 
     var body: some View {
-        NavigationView {
-            RefreshableScrollView(onRefresh: { done in
-                switch state {
+        RefreshableScrollView(onRefresh: { done in
+            switch state {
                 case .loading, .reloading:
                     return
                 case .results(let results):
@@ -155,7 +153,6 @@ struct PublicationList: View {
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 fetch()
-            }
         }
     }
 }

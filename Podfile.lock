@@ -116,7 +116,7 @@ CHECKOUT OPTIONS:
     :commit: 5d459c0475
     :git: https://github.com/cuappdev/analytics-ios.git
   AppDevAnnouncements:
-    :commit: 5451b3507e35f99e3e87f52d8c4e5bfe86b435e7
+    :commit: 8e4a569087e7ee16caf4eaaf1c9ff9926783ae9a
     :git: https://github.com/cuappdev/appdev-announcements.git
 
 SPEC CHECKSUMS:

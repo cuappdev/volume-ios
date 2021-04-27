@@ -87,3 +87,24 @@ struct GraphQLPublisher<Query: GraphQLQuery>: Publisher {
         subscriber.receive(subscription: subscription)
     }
 }
+
+class NetworkState: ObservableObject {
+    @Published var networkScreenFailed: [Screen : Bool] = [:]
+
+    public enum Screen: CaseIterable {
+        case homeList, publicationList, bookmarksList
+    }
+
+    func handleCompletion(screen: Screen, _ completion: Subscribers.Completion<WrappedGraphQLError>) {
+        if case let .failure(error) = completion {
+            networkScreenFailed[screen] = true
+            print(error.localizedDescription)
+        } else {
+            networkScreenFailed[screen] = false
+        }
+    }
+
+    func networkDidFail(on screen: Screen) -> Bool {
+        networkScreenFailed[screen] ?? false
+    }
+}

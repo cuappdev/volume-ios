@@ -111,8 +111,9 @@ struct BrowserView: View {
 
     func displayShareScreen() {
         if let articleUrl = article.articleUrl {
-            // TODO: Allow users to share "DOWNLOAD VOLUME LINK" when we push to AppStore
-            let shareVC = UIActivityViewController(activityItems: [articleUrl], applicationActivities: nil)
+            let downloadUrl = URL(string: Secrets.downloadUrl)
+            let shareItems: [Any] = [articleUrl, downloadUrl ?? ""]
+            let shareVC = UIActivityViewController(activityItems: shareItems, applicationActivities: nil)
             UIApplication.shared.windows.first?.rootViewController?.present(shareVC, animated: true)
         }
     }

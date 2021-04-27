@@ -16,16 +16,13 @@ struct PublicationDetailHeader: View {
 
     let navigationSource: NavigationSource
     let publication: Publication
-    
     // Takes into account any new user taps of the following button
     private var isFollowed: Bool {
         userData.isPublicationFollowed(publication) != hasOddNumberOfTaps
     }
-    
     private var shoutouts: Int {
         max(publication.shoutouts, userData.shoutoutsCache[publication.id, default: 0])
     }
-    
     private var validSocials: [String: String] {
         ["insta": "Instagram", "facebook": "Facebook"]
     }
