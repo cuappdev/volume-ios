@@ -12,6 +12,8 @@ import SwiftUI
 struct HomeList: View {
     @State private var cancellableQuery: AnyCancellable?
     @State private var state: MainView.TabState<Results> = .loading
+    @State private var openedUrl: Bool = false
+    @State private var urlArticle: Article? = nil
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
 
@@ -56,6 +58,21 @@ struct HomeList: View {
                         followedArticles: [Article](followedArticles),
                         otherArticles: [Article](otherArticles)
                     ))
+                }
+            }
+    }
+
+    private func fetchById(id: String) {
+        cancellableQuery = Network.shared.apollo.fetch(query: GetArticleByIdQuery(id: id))
+            .sink { completion in
+                if case let .failure(error) = completion {
+                    print(error.localizedDescription)
+                }
+            } receiveValue: { (article) in
+                let fields = article.article?.fragments.articleFields
+                if let fields = fields {
+                    urlArticle = Article(from: fields)
+                    openedUrl = true
                 }
             }
     }
@@ -126,6 +143,12 @@ struct HomeList: View {
                             .padding([.bottom, .leading, .trailing])
                     }
                 }
+
+                // Invisible navigation link only opens if application is opened
+                // through deeplink with valid article
+                if let url = urlArticle {
+                    NavigationLink("", destination: BrowserView(article: url, navigationSource: .morePublications), isActive: $openedUrl)
+                }
             }
         }
         .disabled(state.shouldDisableScroll)
@@ -140,6 +163,12 @@ struct HomeList: View {
         .onAppear {
             fetch()
         }
+        .onOpenURL(perform: { url in
+            let parameters = url.parameters
+            if let id = parameters["id"] {
+                fetchById(id: id)
+            }
+        })
     }
 
 }

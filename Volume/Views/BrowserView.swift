@@ -7,6 +7,7 @@
 //
 
 import AppDevAnalytics
+import LinkPresentation
 import SDWebImageSwiftUI
 import SwiftUI
 import WebKit
@@ -110,10 +111,12 @@ struct BrowserView: View {
     }
 
     func displayShareScreen() {
-        if let articleUrl = article.articleUrl {
-            let downloadUrl = URL(string: Secrets.downloadUrl)
-            let shareItems: [Any] = [articleUrl, downloadUrl ?? ""]
-            let shareVC = UIActivityViewController(activityItems: shareItems, applicationActivities: nil)
+        let rawString = Secrets.openArticleUrl + article.id
+        let shareArticleUrl = URL(string: rawString)
+
+        if let shareArticleUrl = shareArticleUrl {
+            let linkSource = LinkItemSource(url: shareArticleUrl, article: article)
+            let shareVC = UIActivityViewController(activityItems: [linkSource], applicationActivities: nil)
             UIApplication.shared.windows.first?.rootViewController?.present(shareVC, animated: true)
         }
     }
@@ -149,3 +152,5 @@ struct BrowserView: View {
 //        BrowserView()
 //    }
 //}
+
+
