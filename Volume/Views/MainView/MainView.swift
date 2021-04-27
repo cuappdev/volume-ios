@@ -49,13 +49,13 @@ struct MainView: View {
             .tag(Tab.bookmarks)
         }
         .accentColor(Color.volume.orange)
-//        .onAppear {
-//            SwiftUIAnnounce.presentAnnouncement { presented in
-//                if presented {
-//                    AppDevAnalytics.log(VolumeEvent.announcementPresented.toEvent(.general))
-//                }
-//            }
-//        }
+        .onAppear {
+            SwiftUIAnnounce.presentAnnouncement { presented in
+                if presented {
+                    AppDevAnalytics.log(VolumeEvent.announcementPresented.toEvent(.general))
+                }
+            }
+        }
     }
 }
 
