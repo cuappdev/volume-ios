@@ -35,15 +35,17 @@ enum VolumeEvent: String {
     }
 
     func toEvent(_ event: EventType, id: String = "error", navigationSource: NavigationSource = .unspecified) -> AnyEvent {
-        let parameters: [String: Any]
+        var parameters: [String: Any]
         switch event {
         case .article:
-            parameters = ["articleID": id, "entryPoint": navigationSource.rawValue]
+            parameters = ["articleID": id]
         case .publication:
-            parameters = ["publicationID": id, "entryPoint": navigationSource.rawValue]
+            parameters = ["publicationID": id]
         default:
             parameters = [:]
         }
+        parameters["navigationSource"] = navigationSource.rawValue
+        parameters["userID"] = UIDevice.current.identifierForVendor?.uuidString
         return AnyEvent(name: rawValue, parameters: parameters)
     }
 }
