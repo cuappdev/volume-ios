@@ -45,7 +45,7 @@ struct HomeList: View {
                 return Publishers.Zip3(trendingQuery, followedQuery, otherQuery)
             }
             .sink { completion in
-                networkState.determineState(screen: .homeList, completion)
+                networkState.handleCompletion(screen: .homeList, completion)
             } receiveValue: { (trendingArticles, followed, other) in
                 // Exclude trending articles from following articles
                 // Take up to 20 followed articles, sorted in descending chronological order

@@ -27,7 +27,7 @@ struct PublicationList: View {
         cancellableQuery = Network.shared.apollo.fetch(query: GetAllPublicationsQuery())
             .map { data in data.publications.compactMap { $0 } }
             .sink(receiveCompletion: { completion in
-                networkState.determineState(screen: .publicationList, completion)
+                networkState.handleCompletion(screen: .publicationList, completion)
             }, receiveValue: { value in
                 let publications = [Publication](value.map(\.fragments.publicationFields))
                 let followedPublications = publications.filter(userData.isPublicationFollowed)

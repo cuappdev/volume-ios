@@ -25,14 +25,14 @@ struct MainView: View {
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            TabContainer(networkScreen: .homeList) {
+            TabContainer(screen: .homeList) {
                 HomeList()
             }
             .tabItem {
                 Image("volume")
             }
             .tag(Tab.home)
-            TabContainer(networkScreen: .publicationList) {
+            TabContainer(screen: .publicationList) {
                 PublicationList()
             }
             .tabItem {
@@ -40,7 +40,7 @@ struct MainView: View {
             }
             .tag(Tab.publications)
 
-            TabContainer(networkScreen: .bookmarksList) {
+            TabContainer(screen: .bookmarksList) {
                 BookmarksList()
             }
             .tabItem {

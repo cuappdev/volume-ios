@@ -26,7 +26,7 @@ struct BookmarksList: View {
             .flatMap(Network.shared.apollo.fetch)
             .collect()
             .sink { completion in
-                networkState.determineState(screen: .bookmarksList, completion)
+                networkState.handleCompletion(screen: .bookmarksList, completion)
             } receiveValue: { value in
                 let articles = [Article](value.compactMap(\.article?.fragments.articleFields)).sorted {
                     guard let index1 = userData.savedArticleIDs.firstIndex(of: $0.id) else { return true }

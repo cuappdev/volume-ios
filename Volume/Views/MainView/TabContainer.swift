@@ -10,20 +10,20 @@ import SwiftUI
 
 struct TabContainer<Content: View>: View {
     @EnvironmentObject private var networkState: NetworkState
-    let screen: NetworkState.Screen
-    let content: Content
+    private let screen: NetworkState.Screen
+    private let content: Content
 
-    init(networkScreen: NetworkState.Screen, content: () -> Content) {
-        self.screen = networkScreen
+    init(screen: NetworkState.Screen, content: () -> Content) {
+        self.screen = screen
         self.content = content()
     }
 
     var body: some View {
         NavigationView {
             ZStack {
-                self.content
+                content
 
-                if networkState.didNetworkFail(for: screen) {
+                if networkState.networkDidFail(on: screen) {
                     ConnectionFailedView()
                 }
             }

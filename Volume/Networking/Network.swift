@@ -95,13 +95,7 @@ class NetworkState: ObservableObject {
         case homeList, publicationList, bookmarksList
     }
 
-    init() {
-        for screen in Screen.allCases {
-            networkScreenFailed[screen] = false
-        }
-    }
-
-    func determineState(screen: Screen, _ completion: Subscribers.Completion<WrappedGraphQLError>) {
+    func handleCompletion(screen: Screen, _ completion: Subscribers.Completion<WrappedGraphQLError>) {
         if case let .failure(error) = completion {
             networkScreenFailed[screen] = true
             print(error.localizedDescription)
@@ -110,7 +104,7 @@ class NetworkState: ObservableObject {
         }
     }
 
-    func didNetworkFail(for screen: Screen) -> Bool {
+    func networkDidFail(on screen: Screen) -> Bool {
         networkScreenFailed[screen] ?? false
     }
 }
