@@ -11,8 +11,8 @@ import SwiftUI
 
 struct HomeList: View {
     @State private var cancellableQuery: AnyCancellable?
-    @State private var state: MainView.TabState<Results> = .loading
     @State private var openedUrl: Bool = false
+    @State private var state: MainView.TabState<Results> = .loading
     @State private var urlArticle: Article? = nil
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
