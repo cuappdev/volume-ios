@@ -112,9 +112,7 @@ struct BrowserView: View {
 
     func displayShareScreen() {
         let rawString = Secrets.openArticleUrl + article.id
-        let shareArticleUrl = URL(string: rawString)
-
-        if let shareArticleUrl = shareArticleUrl {
+        if let shareArticleUrl = URL(string: rawString) {
             let linkSource = LinkItemSource(url: shareArticleUrl, article: article)
             let shareVC = UIActivityViewController(activityItems: [linkSource], applicationActivities: nil)
             UIApplication.shared.windows.first?.rootViewController?.present(shareVC, animated: true)
@@ -152,5 +150,3 @@ struct BrowserView: View {
 //        BrowserView()
 //    }
 //}
-
-

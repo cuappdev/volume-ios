@@ -11,9 +11,9 @@ import SwiftUI
 
 struct HomeList: View {
     @State private var cancellableQuery: AnyCancellable?
-    @State private var openedUrl: Bool = false
+    @State private var openedUrl = false
     @State private var state: MainView.TabState<Results> = .loading
-    @State private var urlArticle: Article? = nil
+    @State private var onOpenArticleUrl: Article? = nil
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
 
@@ -62,7 +62,7 @@ struct HomeList: View {
             }
     }
 
-    private func fetchById(id: String) {
+    private func fetchArticleBy(id: String) {
         cancellableQuery = Network.shared.apollo.fetch(query: GetArticleByIdQuery(id: id))
             .sink { completion in
                 if case let .failure(error) = completion {
@@ -71,7 +71,7 @@ struct HomeList: View {
             } receiveValue: { (article) in
                 let fields = article.article?.fragments.articleFields
                 if let fields = fields {
-                    urlArticle = Article(from: fields)
+                    onOpenArticleUrl = Article(from: fields)
                     openedUrl = true
                 }
             }
@@ -146,7 +146,7 @@ struct HomeList: View {
 
                 // Invisible navigation link only opens if application is opened
                 // through deeplink with valid article
-                if let url = urlArticle {
+                if let url = onOpenArticleUrl {
                     NavigationLink("", destination: BrowserView(article: url, navigationSource: .morePublications), isActive: $openedUrl)
                 }
             }
@@ -163,12 +163,12 @@ struct HomeList: View {
         .onAppear {
             fetch()
         }
-        .onOpenURL(perform: { url in
+        .onOpenURL { url in
             let parameters = url.parameters
             if let id = parameters["id"] {
-                fetchById(id: id)
+                fetchArticleBy(id: id)
             }
-        })
+        }
     }
 
 }

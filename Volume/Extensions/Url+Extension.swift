@@ -9,15 +9,16 @@ import Foundation
 
 extension URL {
     var parameters: [String: String] {
-        if  let components = URLComponents(url: self, resolvingAgainstBaseURL: false),
-            let queryItems = components.queryItems {
-            var parameters = [String: String]()
-            for item in queryItems {
-                parameters[item.name] = item.value ?? ""
-            }
-            return parameters
-        } else {
+        guard let components = URLComponents(url: self, resolvingAgainstBaseURL: false),
+        let queryItems = components.queryItems else {
             return [:]
         }
+
+        var parameters = [String: String]()
+        for item in queryItems {
+            parameters[item.name] = item.value ?? ""
+        }
+        
+        return parameters
     }
 }
