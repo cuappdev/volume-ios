@@ -25,7 +25,8 @@ class LinkItemSource: NSObject, UIActivityItemSource {
         metadata
     }
 
-    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any
+    {
         "Placeholder"
     }
 
@@ -37,13 +38,13 @@ class LinkItemSource: NSObject, UIActivityItemSource {
 
                 \(title)
 
-                \(url.absoluteString)
+                \(url)
                 """
         }
         return """
             Check out this article on Volume!
 
-            \(url.absoluteString)
+            \(url)
             """
     }
 
