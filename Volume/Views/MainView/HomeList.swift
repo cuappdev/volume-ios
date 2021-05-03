@@ -11,7 +11,9 @@ import SwiftUI
 
 struct HomeList: View {
     @State private var cancellableQuery: AnyCancellable?
+    @State private var openedUrl = false
     @State private var state: MainView.TabState<Results> = .loading
+    @State private var onOpenArticleUrl: Article? = nil
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
 
@@ -56,6 +58,21 @@ struct HomeList: View {
                         followedArticles: [Article](followedArticles),
                         otherArticles: [Article](otherArticles)
                     ))
+                }
+            }
+    }
+
+    private func fetchArticleBy(id: String) {
+        cancellableQuery = Network.shared.apollo.fetch(query: GetArticleByIdQuery(id: id))
+            .sink { completion in
+                if case let .failure(error) = completion {
+                    print(error.localizedDescription)
+                }
+            } receiveValue: { (article) in
+                let fields = article.article?.fragments.articleFields
+                if let fields = fields {
+                    onOpenArticleUrl = Article(from: fields)
+                    openedUrl = true
                 }
             }
     }
@@ -126,6 +143,12 @@ struct HomeList: View {
                             .padding([.bottom, .leading, .trailing])
                     }
                 }
+
+                // Invisible navigation link only opens if application is opened
+                // through deeplink with valid article
+                if let url = onOpenArticleUrl {
+                    NavigationLink("", destination: BrowserView(article: url, navigationSource: .morePublications), isActive: $openedUrl)
+                }
             }
         }
         .disabled(state.shouldDisableScroll)
@@ -139,6 +162,12 @@ struct HomeList: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             fetch()
+        }
+        .onOpenURL { url in
+            let parameters = url.parameters
+            if let id = parameters["id"] {
+                fetchArticleBy(id: id)
+            }
         }
     }
 
