@@ -62,7 +62,7 @@ struct PublicationDetailHeader: View {
                     hasOddNumberOfTaps.toggle()
                 }) {
                     Text(isFollowed ? "Followed" : "＋ Follow")
-                        .font(.helveticaBold(size: 12))
+                        .font(.latoBold(size: 12))
                         .frame(width: 85, height: 30)
                         .background(isFollowed ? Color.volume.orange : Color.volume.buttonGray)
                         .foregroundColor(isFollowed ? Color.volume.buttonGray : Color.volume.orange)
@@ -71,11 +71,11 @@ struct PublicationDetailHeader: View {
                 .buttonStyle(PlainButtonStyle())
             }
             Text("\(publication.numArticles) articles  •  \(shoutouts) shout-outs")
-                .font(.helveticaRegular(size: 12))
+                .font(.latoRegular(size: 12))
                 .foregroundColor(Color(white: 151 / 255))
                 .padding([.bottom, .top], 8)
             Text(publication.bio)
-                .font(.helveticaRegular(size: 14))
+                .font(.latoRegular(size: 14))
                 .fixedSize(horizontal: false, vertical: true)
             externalLinks
         }
@@ -100,7 +100,7 @@ struct MediaText: View {
     
     var body: some View {
         Link(title, destination: url)
-            .font(.helveticaRegular(size: 12))
+            .font(.latoRegular(size: 12))
             .foregroundColor(Color.volume.orange)
             .padding(.trailing, 10)
             .lineLimit(1)

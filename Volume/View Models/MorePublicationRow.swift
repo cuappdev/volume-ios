@@ -36,7 +36,7 @@ struct MorePublicationRow: View {
                     .font(.begumMedium(size: 18))
                     .foregroundColor(.black)
                 Text(publication.bio)
-                    .font(.helveticaRegular(size: 12))
+                    .font(.latoRegular(size: 12))
                     .foregroundColor(Color(white: 151 / 255))
                     .truncationMode(.tail)
                     .lineSpacing(4)
@@ -49,7 +49,7 @@ struct MorePublicationRow: View {
                             .foregroundColor(Color(white: 225 / 255))
                         Text("\"\(recent)\"")
                             .lineLimit(1)
-                            .font(.helveticaRegular(size: 12))
+                            .font(.latoRegular(size: 12))
                             .foregroundColor(.black)
                     }
                     .padding(.top, 2)

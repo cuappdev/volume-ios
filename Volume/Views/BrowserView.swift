@@ -52,7 +52,7 @@ struct BrowserView: View {
                     .frame(width: 7)
 
                 Text("See more")
-                    .font(.helveticaRegular(size: 12))
+                    .font(.latoRegular(size: 12))
                     .foregroundColor(Color.black)
             }
 
@@ -102,7 +102,7 @@ struct BrowserView: View {
                     .frame(width: 6)
 
                 Text(String(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0])))
-                    .font(.helveticaRegular(size: 12))
+                    .font(.latoRegular(size: 12))
             }
         }
         .padding([.leading, .trailing], 16)
@@ -137,7 +137,7 @@ struct BrowserView: View {
                     Text(article.publication.name)
                         .font(.begumBold(size: 12))
                     Text("Reading in Volume")
-                        .font(.helveticaRegular(size: 10))
+                        .font(.latoRegular(size: 10))
                         .foregroundColor(Color.volume.lightGray)
                 }
             }

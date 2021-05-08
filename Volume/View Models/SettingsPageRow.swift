@@ -20,7 +20,7 @@ struct SettingsPageRow: View {
                 .frame(width: 24, height: 24)
                 .padding()
             Text(page.info)
-                .font(.helveticaRegular(size: 16))
+                .font(.latoRegular(size: 16))
                 .foregroundColor(.black)
             Spacer()
             Image("back-arrow")

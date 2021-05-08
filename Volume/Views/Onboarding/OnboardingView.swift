@@ -95,7 +95,7 @@ struct OnboardingView: View {
                     .disabled(!didFollowPublication)
                 }
             }
-            .font(.helveticaBold(size: 16))
+            .font(.latoBold(size: 16))
             .padding([.leading, .trailing], 32)
             .padding([.top, .bottom], 8)
             .background(Color.volume.buttonGray)
