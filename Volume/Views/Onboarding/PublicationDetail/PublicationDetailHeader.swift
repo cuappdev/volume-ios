@@ -61,12 +61,9 @@ struct PublicationDetailHeader: View {
                 Button(action: {
                     hasOddNumberOfTaps.toggle()
                 }) {
-                    Text(isFollowed ? "Followed" : "＋ Follow")
-                        .font(.latoBold(size: 12))
+                    Image(isFollowed ? "pub-followed" : "pub-not-followed")
+                        .resizable()
                         .frame(width: 85, height: 30)
-                        .background(isFollowed ? Color.volume.orange : Color.volume.buttonGray)
-                        .foregroundColor(isFollowed ? Color.volume.buttonGray : Color.volume.orange)
-                        .cornerRadius(5)
                 }
                 .buttonStyle(PlainButtonStyle())
             }
