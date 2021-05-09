@@ -33,10 +33,6 @@ extension Font {
         .custom("Lato-Regular", size: size)
     }
     
-    static func latoMedium(size: CGFloat) -> Font {
-        .custom("Lato-Medium", size: size)
-    }
-    
     static func latoBold(size: CGFloat) -> Font {
         .custom("Lato-Bold", size: size)
     }
