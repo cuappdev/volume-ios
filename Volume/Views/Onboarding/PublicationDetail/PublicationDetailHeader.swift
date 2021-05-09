@@ -60,12 +60,18 @@ struct PublicationDetailHeader: View {
 
                 Button(action: {
                     hasOddNumberOfTaps.toggle()
-                }) {
-                    Image(isFollowed ? "pub-followed" : "pub-not-followed")
-                        .resizable()
-                        .frame(width: 85, height: 30)
-                }
-                .buttonStyle(PlainButtonStyle())
+                }, label: {
+                    Text(isFollowed ? "Following" : "+  Follow")
+                        .font(.latoBold(size: 12))
+                        .padding([.top, .bottom], 8)
+                        .padding([.leading, .trailing], 18)
+                })
+                .foregroundColor(isFollowed ? Color.volume.buttonGray: Color.volume.orange)
+                .background(
+                    isFollowed ?
+                        AnyView(RoundedRectangle(cornerRadius: 10).fill(Color.volume.orange)) :
+                        AnyView(RoundedRectangle(cornerRadius: 10).stroke(Color.volume.orange, lineWidth: 1.5))
+                )
             }
             Text("\(publication.numArticles) articles  •  \(shoutouts) shout-outs")
                 .font(.latoRegular(size: 12))
