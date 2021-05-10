@@ -41,6 +41,8 @@
 	</dict>
 	<key>UIAppFonts</key>
 	<array>
+		<string>Lato-Bold.ttf</string>
+		<string>Lato-Regular.ttf</string>
 		<string>Begum-Regular.ttf</string>
 		<string>Begum-Medium.ttf</string>
 		<string>Begum-Bold.ttf</string>

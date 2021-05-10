@@ -41,7 +41,7 @@ struct VolumeMessage: View {
             Text(message.title)
                 .font(.begumMedium(size: 12))
             Text(message.subtitle)
-                .font(.helveticaRegular(size: 10))
+                .font(.latoRegular(size: 10))
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
         }

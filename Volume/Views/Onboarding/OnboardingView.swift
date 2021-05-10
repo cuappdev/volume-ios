@@ -78,30 +78,39 @@ struct OnboardingView: View {
             Group {
                 switch page {
                 case .welcome:
-                    Button("Next") {
+                    Button(action: {
                         withAnimation(.spring()) {
                             page = .follow
                         }
-                    }
+                    }, label: {
+                        Text("Next")
+                            .padding([.top, .bottom], 10)
+                            .padding([.leading, .trailing], 24)
+                    })
                     .foregroundColor(Color.volume.orange)
                 case .follow:
-                    Button("Start reading") {
+                    Button(action: {
                         AppDevAnalytics.log(VolumeEvent.completeOnboarding.toEvent(.general))
                         withAnimation(.spring()) {
                             isFirstLaunch = false
                         }
-                    }
+                    }, label: {
+                        Text("Start reading")
+                            .padding([.top, .bottom], 10)
+                            .padding([.leading, .trailing], 24)
+                    })
                     .foregroundColor(didFollowPublication ? Color.volume.orange : Color(white: 151 / 255))
                     .disabled(!didFollowPublication)
                 }
             }
-            .font(.helveticaBold(size: 16))
+            .overlay(
+                RoundedRectangle(cornerRadius:10)
+                    .stroke(didFollowPublication || page == .welcome ? Color.volume.orange : Color(white: 151 / 255), lineWidth: 2)
+            )
+            .font(.latoBold(size: 16))
             .padding([.leading, .trailing], 32)
-            .padding([.top, .bottom], 8)
-            .background(Color.volume.buttonGray)
-            .cornerRadius(5)
-            .shadow(color: Color.black.opacity(0.1), radius: page == .welcome || didFollowPublication ? 5 : 0)
-            .padding(.bottom, 20)
+            .padding(.top, 8)
+            .padding(.bottom, 28)
         }
     }
 
@@ -113,7 +122,7 @@ struct OnboardingView: View {
                 contentView
             }
         }
-        .background(Color.volume.backgroundGray)
+        .background(Color.volume.backgroundGray.ignoresSafeArea())
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 AppDevAnalytics.log(VolumeEvent.startOnboarding.toEvent(.general))

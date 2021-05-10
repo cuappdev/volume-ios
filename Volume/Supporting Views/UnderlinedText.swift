@@ -59,7 +59,7 @@ struct UnderlinedText_Previews: PreviewProvider {
     struct PreviewWrapper: View {
         var body: some View {
             UnderlinedText("THE BIG READ AND OTHER THINGS")
-                .font(.helveticaBold(size: 15))
+                .font(.latoBold(size: 15))
         }
     }
 }

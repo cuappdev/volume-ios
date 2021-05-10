@@ -24,7 +24,7 @@ struct ArticleInfo: View {
                 }
 
                 Text(article.title)
-                    .font(.helveticaBold(size: 16))
+                    .font(.latoBold(size: 16))
                     .lineLimit(3)
                     .padding(.top, 0.5)
                     .blur(radius: article.isNsfw ? 3 : 0)
@@ -33,7 +33,7 @@ struct ArticleInfo: View {
                 HStack {
                     // swiftlint:disable:next line_length
                     Text("\(article.date.fullString) • \(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0])) shout-outs")
-                        .font(.helveticaRegular(size: 10))
+                        .font(.latoRegular(size: 10))
                         .foregroundColor(Color.volume.lightGray)
                     if userData.isArticleSaved(article) {
                         Image(systemName: "bookmark.fill")
@@ -71,7 +71,7 @@ extension ArticleInfo {
                         SkeletonView()
                             .frame(width: 33, height: 10)
                         Text(" • ")
-                            .font(.helveticaRegular(size: 10))
+                            .font(.latoRegular(size: 10))
                             .foregroundColor(Color.volume.veryLightGray)
                         SkeletonView()
                             .frame(width: 70, height: 10)

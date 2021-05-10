@@ -83,10 +83,10 @@ struct PublicationList: View {
                 VStack(spacing: 10) {
                     Text("You're not following any publications")
                         .lineLimit(2)
-                        .font(.helveticaBold(size: 16))
+                        .font(.latoBold(size: 16))
                     Text("Follow some below and we'll show them up here")
                         .lineLimit(2)
-                        .font(.helveticaRegular(size: 12))
+                        .font(.latoRegular(size: 12))
                         .foregroundColor(Color(white: 151 / 255))
                 }
                 .padding()
