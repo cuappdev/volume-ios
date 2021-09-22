@@ -15,26 +15,40 @@ To access the project, clone the project, and run `pod install` in the project d
 
 ### 2. Configuration
 
-1. To build the project you need a `Supporting/Keys.plist` file in the project.
+1. To build the project you need a `Supporting/Secrets.plist` file in the project.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>graphql-endpoint-production</key>
-  <string>your graphql prod endpoint</string>
-  <key>your garphql debug endpoint</key>
-  <string>http://volume-backend.cornellappdev.com/graphql</string>
+  <key>appdev-website</key>
+	<string>https://www.cornellappdev.com/</string>
+	<key>feedback-form</key>
+	<string>YOUR_FEEDBACK_FORM_URL</string>
+	<key>graphql-endpoint-production</key>
+	<string>YOUR_GRAPHQL_PROD_ENDPOINT</string>
+	<key>graphql-endpoint-debug</key>
+	<string>YOUR_GRAPHQL_DEBUG_ENDPOINT</string>
+	<key>openarticle-url</key>
+	<string>YOUR_OPENARTICLE_URL</string>
+	<key>announcements-scheme</key>
+	<string>YOUR_ANNOUNCEMENTS_SCHEME</string>
+	<key>announcements-host</key>
+	<string>YOUR_ANNOUNCEMENTS_ENDPOINT_HOST</string>
+	<key>announcements-common-path</key>
+	<string>/YOUR_ANNOUNCEMENTS_ENDPOINT_COMMON_PATH</string>
+	<key>announcements-path</key>
+	<string>/YOUR_ANNOUNCEMENTS_ENDPOINT_PATH/</string>
 </dict>
 </plist>
 ```
 
-AppDev members can access the `Supporting/Keys.plist` file via a pinned message in the `#volume-ios` channel.
+AppDev members can access the `Supporting/Secrets.plist` file via a pinned message in the `#volume-ios` channel.
 
-2.  Volume uses GraphQL instead of a RESTful API, so you need a `schema.json`. To get a `schema.json`, run the following command in the project directory: `apollo schema:download --endpoint={Backend_URL} schema.json`.  This should add a new `schema.json` file in the main project directory.  Move it to the `Networking` directory and make sure it's in the `Networking` group within your Xcode project.
+2.  Volume uses GraphQL instead of a RESTful API, so you need a `schema.json`. To get a `schema.json`, run the following command in the project directory: `apollo schema:download --endpoint={Backend_URL} schema.json`. This should add a new `schema.json` file in the main project directory. Move it to the `Networking` directory and make sure it's in the `Networking` group within your Xcode project.
 
-3. AppDev uses Firebase for event logging which requires a `GoogleService-Info.plist` file in the project.
+3.  AppDev uses Firebase for event logging which requires a `GoogleService-Info.plist` file in the project.
 
 AppDev members can access the `GoogleService-Info.plist` file via a pinned message in the `#volume-ios` channel.
 Place the file in the `Volume/` directory.
