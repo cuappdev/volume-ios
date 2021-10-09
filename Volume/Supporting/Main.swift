@@ -12,9 +12,11 @@ import SwiftUI
 
 @main
 struct Main: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+    
     init() {
         configureFirebase()
-
+        registerForPushNotifications()
         let grayColor = UIColor(Color.volume.navigationBarGray)
         UINavigationBar.appearance().backgroundColor = grayColor
         UINavigationBar.appearance().shadowImage = UIImage()
@@ -23,7 +25,7 @@ struct Main: App {
         UITabBar.appearance().unselectedItemTintColor = UIColor(Color.volume.lightGray)
     }
 
-    func configureFirebase() {
+    private func configureFirebase() {
         FirebaseApp.configure()
         AnnouncementNetworking.setupConfig(
             scheme: Secrets.announcementsScheme,
@@ -31,6 +33,19 @@ struct Main: App {
             commonPath: Secrets.announcementsCommonPath,
             announcementPath: Secrets.announcementsPath
         )
+    }
+    
+    private func registerForPushNotifications() {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            if settings.authorizationStatus == .notDetermined {
+                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+                    print("Push notification permissions granted: \(granted)")
+                }
+            }
+        }
+        DispatchQueue.main.async {
+            UIApplication.shared.registerForRemoteNotifications()
+        }
     }
 
     var body: some Scene {
