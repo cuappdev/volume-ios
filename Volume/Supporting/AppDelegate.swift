@@ -15,7 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print("UIApplicationDelegate didRegisterForRemoteNotifications with deviceToken: \(deviceToken.map { String(format: "%02.2hhx", $0) }.joined())")
+        let deviceTokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+        print("UIApplicationDelegate didRegisterForRemoteNotifications with deviceToken: \(deviceTokenString)")
         // send device token to backend
     }
     
