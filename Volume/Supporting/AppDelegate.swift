@@ -15,12 +15,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print("UIApplicationDelegate didRegisterForRemoteNotifications with deviceToken: \(deviceToken)")
+        print("UIApplicationDelegate didRegisterForRemoteNotifications with deviceToken: \(deviceToken.map { String(format: "%02.2hhx", $0) }.joined())")
         // send device token to backend
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        // print to console
         print("UIApplicationDelegate didRegisterForRemoteNotifications with error: \(error.localizedDescription)")
     }
 }
