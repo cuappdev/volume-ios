@@ -39,7 +39,6 @@ struct Main: App {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             if settings.authorizationStatus == .notDetermined {
                 UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
-                    print("Push notification permissions granted: \(granted)")
                     if granted {
                         DispatchQueue.main.async {
                             UIApplication.shared.registerForRemoteNotifications()
