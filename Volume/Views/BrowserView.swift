@@ -7,6 +7,7 @@
 //
 
 import AppDevAnalytics
+import Combine
 import LinkPresentation
 import SDWebImageSwiftUI
 import SwiftUI
@@ -17,6 +18,7 @@ struct BrowserView: View {
 
     let article: Article
     let navigationSource: NavigationSource
+    @State var cancellableMutation: AnyCancellable?
 
     var isShoutoutsButtonEnabled: Bool {
         userData.canIncrementShoutouts(article)
@@ -30,7 +32,12 @@ struct BrowserView: View {
         // swiftlint:disable:next line_length
         let currentPublicationShoutouts = max(userData.shoutoutsCache[article.publication.id, default: 0], article.publication.shoutouts)
         userData.shoutoutsCache[article.publication.id, default: 0] = currentPublicationShoutouts + 1
-        Network.shared.apollo.perform(mutation: IncrementShoutoutsMutation(id: article.id))
+        cancellableMutation = Network.shared.publisher(for: IncrementShoutoutsMutation(id: article.id))
+            .sink(receiveCompletion: { completion in
+                if case let .failure(error) = completion {
+                    print(error.localizedDescription)
+                }
+            }, receiveValue: { _ in })
     }
 
     private var toolbar: some View {

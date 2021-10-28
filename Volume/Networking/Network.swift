@@ -12,10 +12,10 @@ import Foundation
 
 // MARK: Network
 
-/// Provides an API to create Publishers of GraphQL responses via ApolloClient
+/// Provides an API to create Publishers that execute GraphQL requests and return responses via ApolloClient
 class Network {
     static let shared = Network()
-    let apollo = ApolloClient(url: Secrets.endpoint)
+    private let apollo = ApolloClient(url: Secrets.endpoint)
     
     /// Create a Publisher using a GraphQLQuery
     func publisher<Query: GraphQLQuery>(for query: Query) -> OperationPublisher<Query.Data> {
