@@ -21,7 +21,7 @@ struct PublicationDetail: View {
     let publication: Publication
 
     private func fetch() {
-        cancellableQuery = Network.shared.apollo.publisher(for: GetArticlesByPublicationIdQuery(id: publication.id))
+        cancellableQuery = Network.shared.publisher(for: GetArticlesByPublicationIdQuery(id: publication.id))
             .map(\.articles)
             .sink(receiveCompletion: { completion in
                 if case let .failure(error) = completion {

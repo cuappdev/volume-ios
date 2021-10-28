@@ -24,7 +24,7 @@ struct BookmarksList: View {
 
         cancellableQuery = userData.savedArticleIDs.publisher
             .map(GetArticleByIdQuery.init)
-            .flatMap(Network.shared.apollo.publisher)
+            .flatMap(Network.shared.publisher)
             .collect()
             .sink { completion in
                 networkState.handleCompletion(screen: .bookmarksList, completion)

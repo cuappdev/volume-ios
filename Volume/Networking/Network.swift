@@ -12,22 +12,20 @@ import Foundation
 
 // MARK: Network
 
+/// Provides an API to create Publishers of GraphQL responses via ApolloClient
 class Network {
     static let shared = Network()
     let apollo = ApolloClient(url: Secrets.endpoint)
-}
-
-/// Provides an API to create Publishers of GraphQL responses via Apollo
-extension ApolloClient {
+    
     /// Create a Publisher using a GraphQLQuery
-    func publisher<Query: GraphQLQuery>(for query: Query) -> GraphQLOperationPublisher<Query.Data> {
-        GraphQLOperationPublisher<Query.Data>(client: self, operation: QueryOperation(query: query).toAny())
+    func publisher<Query: GraphQLQuery>(for query: Query) -> OperationPublisher<Query.Data> {
+        OperationPublisher<Query.Data>(client: apollo, operation: QueryOperation(query: query).asAny)
     }
     
     /// Create a Publisher using a GraphQLMutation
-    /// - For mutations whose response can be discarded, use ApolloClient.perform(mutation:)
-    func publisher<Mutation: GraphQLMutation>(for mutation: Mutation) -> GraphQLOperationPublisher<Mutation.Data> {
-        GraphQLOperationPublisher<Mutation.Data>(client: self, operation: MutationOperation(mutation: mutation).toAny())
+    /// - For mutations whose response can be discarded, use apollo.perform(mutation:)
+    func publisher<Mutation: GraphQLMutation>(for mutation: Mutation) -> OperationPublisher<Mutation.Data> {
+        OperationPublisher<Mutation.Data>(client: apollo, operation: MutationOperation(mutation: mutation).asAny)
     }
 }
 
@@ -39,14 +37,16 @@ enum WrappedGraphQLError: Error {
 
 // MARK: Operation
 
-// The following 4 declarations (Operation, QueryOperation, MutationOperation, AnyOperation) take advantage of "type erasure" to allow the same Combine Publisher/Subscription functions to be applied on values of type GraphQLQuery and GraphQLMutation, without duplicating function signatures.
+// The following 4 declarations (Operation, QueryOperation, MutationOperation, AnyOperation) take advantage of "type erasure" to allow the same Combine Publisher/Subscription functions to be applied on values of type GraphQLQuery and GraphQLMutation, without duplicating implementation.
 private protocol Operation {
     associatedtype Data
     typealias Handler = (Result<GraphQLResult<Data>, Error>) -> Void
     
     func execute(client: ApolloClient, resultHandler: @escaping Handler)
-    
-    func toAny() -> AnyOperation<Data>
+}
+
+extension Operation {
+    var asAny: AnyOperation<Data> { AnyOperation(execute: execute) }
 }
 
 private struct QueryOperation<Q: GraphQLQuery>: Operation {
@@ -56,10 +56,6 @@ private struct QueryOperation<Q: GraphQLQuery>: Operation {
     
     func execute(client: ApolloClient, resultHandler: @escaping (Result<GraphQLResult<Q.Data>, Error>) -> Void) {
         client.fetch(query: query, resultHandler: resultHandler)
-    }
-    
-    func toAny() -> AnyOperation<Data> {
-        return AnyOperation(execute: self.execute)
     }
 }
 
@@ -71,10 +67,6 @@ private struct MutationOperation<M: GraphQLMutation>: Operation {
     func execute(client: ApolloClient, resultHandler: @escaping (Result<GraphQLResult<M.Data>, Error>) -> Void) {
         client.perform(mutation: mutation, resultHandler: resultHandler)
     }
-    
-    func toAny() -> AnyOperation<Data> {
-        return AnyOperation(execute: self.execute)
-    }
 }
 
 struct AnyOperation<Data> {
@@ -83,9 +75,9 @@ struct AnyOperation<Data> {
     let execute: (ApolloClient, @escaping Handler) -> Void
 }
 
-// MARK: GraphQLOperationPublisher
+// MARK: OperationPublisher
 
-struct GraphQLOperationPublisher<Data>: Publisher {
+struct OperationPublisher<Data>: Publisher {
     typealias Output = Data
     typealias Failure = WrappedGraphQLError
 
@@ -99,14 +91,14 @@ struct GraphQLOperationPublisher<Data>: Publisher {
 
     func receive<S>(subscriber: S)
         where S: Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
-        let subscription = GraphQLOperationSubscription(client: client, operation: operation, subscriber: subscriber)
+        let subscription = OperationSubscription(client: client, operation: operation, subscriber: subscriber)
         subscriber.receive(subscription: subscription)
     }
 }
 
-// MARK: GraphQLOperationSubscription
+// MARK: OperationSubscription
 
-private class GraphQLOperationSubscription<Data, S: Subscriber>: Subscription
+private class OperationSubscription<Data, S: Subscriber>: Subscription
     where S.Input == Data, S.Failure == WrappedGraphQLError {
 
     private let client: ApolloClient

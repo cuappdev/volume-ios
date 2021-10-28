@@ -24,7 +24,7 @@ struct PublicationList: View {
             state = .results((followedPublications, morePublications))
         }
 
-        cancellableQuery = Network.shared.apollo.publisher(for: GetAllPublicationsQuery())
+        cancellableQuery = Network.shared.publisher(for: GetAllPublicationsQuery())
             .map { data in data.publications.compactMap { $0 } }
             .sink(receiveCompletion: { completion in
                 networkState.handleCompletion(screen: .publicationList, completion)
