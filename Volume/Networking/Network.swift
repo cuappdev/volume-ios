@@ -45,6 +45,8 @@ private protocol Operation {
     typealias Handler = (Result<GraphQLResult<Data>, Error>) -> Void
     
     func execute(client: ApolloClient, resultHandler: @escaping Handler)
+    
+    func toAny() -> AnyOperation<Data>
 }
 
 private struct QueryOperation<Q: GraphQLQuery>: Operation {
