@@ -181,9 +181,9 @@ extension HomeList {
     )
     typealias ResultsPublisher =
         Publishers.Zip3<
-            Publishers.Map<GraphQLPublisher<GetTrendingArticlesQuery.Data>,[ArticleFields]>,
-            Publishers.Collect<Publishers.Map<GraphQLPublisher<GetArticlesByPublicationIDsQuery.Data>, [ArticleFields]>>,
-            Publishers.Map<GraphQLPublisher<GetArticlesByPublicationIDsQuery.Data>, [ArticleFields]>
+            Publishers.Map<GraphQLOperationPublisher<GetTrendingArticlesQuery.Data>,[ArticleFields]>,
+            Publishers.Collect<Publishers.Map<GraphQLOperationPublisher<GetArticlesByPublicationIDsQuery.Data>, [ArticleFields]>>,
+            Publishers.Map<GraphQLOperationPublisher<GetArticlesByPublicationIDsQuery.Data>, [ArticleFields]>
         >
 }
 

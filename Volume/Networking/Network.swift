@@ -17,17 +17,17 @@ class Network {
     let apollo = ApolloClient(url: Secrets.endpoint)
 }
 
+/// Provides an API to create Publishers of GraphQL responses via Apollo
 extension ApolloClient {
-    func publisher<Query: GraphQLQuery>(for query: Query) -> GraphQLPublisher<Query.Data> {
-        let operation = QueryOperation(query: query)
-        let anyOperation = AnyOperation(execute: operation.execute)
-        return GraphQLPublisher<Query.Data>(client: self, operation: anyOperation)
+    /// Create a Publisher using a GraphQLQuery
+    func publisher<Query: GraphQLQuery>(for query: Query) -> GraphQLOperationPublisher<Query.Data> {
+        GraphQLOperationPublisher<Query.Data>(client: self, operation: QueryOperation(query: query).toAny())
     }
     
-    func publisher<Mutation: GraphQLMutation>(for mutation: Mutation) -> GraphQLPublisher<Mutation.Data> {
-        let operation = MutationOperation(mutation: mutation)
-        let anyOperation = AnyOperation(execute: operation.execute)
-        return GraphQLPublisher<Mutation.Data>(client: self, operation: anyOperation)
+    /// Create a Publisher using a GraphQLMutation
+    /// - For mutations whose response can be discarded, use ApolloClient.perform(mutation:)
+    func publisher<Mutation: GraphQLMutation>(for mutation: Mutation) -> GraphQLOperationPublisher<Mutation.Data> {
+        GraphQLOperationPublisher<Mutation.Data>(client: self, operation: MutationOperation(mutation: mutation).toAny())
     }
 }
 
@@ -39,6 +39,7 @@ enum WrappedGraphQLError: Error {
 
 // MARK: Operation
 
+// The following 4 declarations (Operation, QueryOperation, MutationOperation, AnyOperation) take advantage of "type erasure" to allow the same Combine Publisher/Subscription functions to be applied on values of type GraphQLQuery and GraphQLMutation, without duplicating function signatures.
 private protocol Operation {
     associatedtype Data
     typealias Handler = (Result<GraphQLResult<Data>, Error>) -> Void
@@ -54,15 +55,23 @@ private struct QueryOperation<Q: GraphQLQuery>: Operation {
     func execute(client: ApolloClient, resultHandler: @escaping (Result<GraphQLResult<Q.Data>, Error>) -> Void) {
         client.fetch(query: query, resultHandler: resultHandler)
     }
+    
+    func toAny() -> AnyOperation<Data> {
+        return AnyOperation(execute: self.execute)
+    }
 }
 
-struct MutationOperation<M: GraphQLMutation>: Operation {
+private struct MutationOperation<M: GraphQLMutation>: Operation {
     typealias Data = M.Data
     
     let mutation: M
     
     func execute(client: ApolloClient, resultHandler: @escaping (Result<GraphQLResult<M.Data>, Error>) -> Void) {
         client.perform(mutation: mutation, resultHandler: resultHandler)
+    }
+    
+    func toAny() -> AnyOperation<Data> {
+        return AnyOperation(execute: self.execute)
     }
 }
 
@@ -72,31 +81,52 @@ struct AnyOperation<Data> {
     let execute: (ApolloClient, @escaping Handler) -> Void
 }
 
-// MARK: GraphQLSubscription
+// MARK: GraphQLOperationPublisher
 
-class GraphQLSubscription<Data, S: Subscriber>: Subscription
+struct GraphQLOperationPublisher<Data>: Publisher {
+    typealias Output = Data
+    typealias Failure = WrappedGraphQLError
+
+    private let client: ApolloClient
+    private let operation: AnyOperation<Data>
+
+    init(client: ApolloClient, operation: AnyOperation<Data>) {
+        self.client = client
+        self.operation = operation
+    }
+
+    func receive<S>(subscriber: S)
+        where S: Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
+        let subscription = GraphQLOperationSubscription(client: client, operation: operation, subscriber: subscriber)
+        subscriber.receive(subscription: subscription)
+    }
+}
+
+// MARK: GraphQLOperationSubscription
+
+private class GraphQLOperationSubscription<Data, S: Subscriber>: Subscription
     where S.Input == Data, S.Failure == WrappedGraphQLError {
 
     private let client: ApolloClient
     private let operation: AnyOperation<Data>
-    private var cancellableQuery: Apollo.Cancellable?
+    private var cancellableOperation: Apollo.Cancellable?
     private var subscriber: S?
 
     init(client: ApolloClient, operation: AnyOperation<Data>, subscriber: S) {
         self.client = client
         self.operation = operation
         self.subscriber = subscriber
-        fetchQuery()
+        executeOperation()
     }
 
     func request(_ demand: Subscribers.Demand) { }
 
     func cancel() {
         subscriber = nil
-        cancellableQuery?.cancel()
+        cancellableOperation?.cancel()
     }
 
-    private func fetchQuery() {
+    private func executeOperation() {
         guard let subscriber = subscriber else { return }
         operation.execute(client, { result in
             switch result {
@@ -113,27 +143,6 @@ class GraphQLSubscription<Data, S: Subscriber>: Subscription
                 subscriber.receive(completion: .failure(.some(error)))
             }
         })
-    }
-}
-
-// MARK: GraphQLPublisher
-
-struct GraphQLPublisher<Data>: Publisher {
-    typealias Output = Data
-    typealias Failure = WrappedGraphQLError
-
-    private let client: ApolloClient
-    private let operation: AnyOperation<Data>
-
-    init(client: ApolloClient, operation: AnyOperation<Data>) {
-        self.client = client
-        self.operation = operation
-    }
-
-    func receive<S>(subscriber: S)
-        where S: Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
-        let subscription = GraphQLSubscription(client: client, operation: operation, subscriber: subscriber)
-        subscriber.receive(subscription: subscription)
     }
 }
 
