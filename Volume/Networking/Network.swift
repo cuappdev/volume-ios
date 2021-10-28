@@ -10,14 +10,24 @@ import Apollo
 import Combine
 import Foundation
 
+// MARK: Network
+
 class Network {
     static let shared = Network()
     let apollo = ApolloClient(url: Secrets.endpoint)
 }
 
 extension ApolloClient {
-    func fetch<Query: GraphQLQuery>(query: Query) -> GraphQLPublisher<Query> {
-        GraphQLPublisher(client: self, query: query)
+    func publisher<Query: GraphQLQuery>(for query: Query) -> GraphQLPublisher<Query.Data> {
+        let operation = QueryOperation(query: query)
+        let anyOperation = AnyOperation(execute: operation.execute)
+        return GraphQLPublisher<Query.Data>(client: self, operation: anyOperation)
+    }
+    
+    func publisher<Mutation: GraphQLMutation>(for mutation: Mutation) -> GraphQLPublisher<Mutation.Data> {
+        let operation = MutationOperation(mutation: mutation)
+        let anyOperation = AnyOperation(execute: operation.execute)
+        return GraphQLPublisher<Mutation.Data>(client: self, operation: anyOperation)
     }
 }
 
@@ -27,17 +37,54 @@ enum WrappedGraphQLError: Error {
     case noData
 }
 
-class GraphQLSubscription<Query: GraphQLQuery, S: Subscriber>: Subscription
-    where S.Input == Query.Data, S.Failure == WrappedGraphQLError {
+// MARK: Operation
+
+private protocol Operation {
+    associatedtype Data
+    typealias Handler = (Result<GraphQLResult<Data>, Error>) -> Void
+    
+    func execute(client: ApolloClient, resultHandler: @escaping Handler)
+}
+
+private struct QueryOperation<Q: GraphQLQuery>: Operation {
+    typealias Data = Q.Data
+    
+    let query: Q
+    
+    func execute(client: ApolloClient, resultHandler: @escaping (Result<GraphQLResult<Q.Data>, Error>) -> Void) {
+        client.fetch(query: query, resultHandler: resultHandler)
+    }
+}
+
+struct MutationOperation<M: GraphQLMutation>: Operation {
+    typealias Data = M.Data
+    
+    let mutation: M
+    
+    func execute(client: ApolloClient, resultHandler: @escaping (Result<GraphQLResult<M.Data>, Error>) -> Void) {
+        client.perform(mutation: mutation, resultHandler: resultHandler)
+    }
+}
+
+struct AnyOperation<Data> {
+    typealias Handler = (Result<GraphQLResult<Data>, Error>) -> Void
+    
+    let execute: (ApolloClient, @escaping Handler) -> Void
+}
+
+// MARK: GraphQLSubscription
+
+class GraphQLSubscription<Data, S: Subscriber>: Subscription
+    where S.Input == Data, S.Failure == WrappedGraphQLError {
 
     private let client: ApolloClient
-    private let query: Query
+    private let operation: AnyOperation<Data>
     private var cancellableQuery: Apollo.Cancellable?
     private var subscriber: S?
 
-    init(client: ApolloClient, query: Query, subscriber: S) {
+    init(client: ApolloClient, operation: AnyOperation<Data>, subscriber: S) {
         self.client = client
-        self.query = query
+        self.operation = operation
         self.subscriber = subscriber
         fetchQuery()
     }
@@ -51,7 +98,7 @@ class GraphQLSubscription<Query: GraphQLQuery, S: Subscriber>: Subscription
 
     private func fetchQuery() {
         guard let subscriber = subscriber else { return }
-        cancellableQuery = client.fetch(query: query) { result in
+        operation.execute(client, { result in
             switch result {
             case .success(let result):
                 if let errors = result.errors {
@@ -65,28 +112,32 @@ class GraphQLSubscription<Query: GraphQLQuery, S: Subscriber>: Subscription
             case .failure(let error):
                 subscriber.receive(completion: .failure(.some(error)))
             }
-        }
+        })
     }
 }
 
-struct GraphQLPublisher<Query: GraphQLQuery>: Publisher {
-    typealias Output = Query.Data
+// MARK: GraphQLPublisher
+
+struct GraphQLPublisher<Data>: Publisher {
+    typealias Output = Data
     typealias Failure = WrappedGraphQLError
 
     private let client: ApolloClient
-    private let query: Query
+    private let operation: AnyOperation<Data>
 
-    init(client: ApolloClient, query: Query) {
+    init(client: ApolloClient, operation: AnyOperation<Data>) {
         self.client = client
-        self.query = query
+        self.operation = operation
     }
 
     func receive<S>(subscriber: S)
         where S: Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
-        let subscription = GraphQLSubscription(client: client, query: query, subscriber: subscriber)
+        let subscription = GraphQLSubscription(client: client, operation: operation, subscriber: subscriber)
         subscriber.receive(subscription: subscription)
     }
 }
+
+// MARK: NetworkState
 
 class NetworkState: ObservableObject {
     @Published var networkScreenFailed: [Screen : Bool] = [:]
