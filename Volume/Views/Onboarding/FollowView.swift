@@ -17,7 +17,7 @@ extension OnboardingView {
         @State private var state: FollowViewState = .loading
 
         private func fetch() {
-            cancellableQuery = Network.shared.apollo.fetch(query: GetAllPublicationsQuery())
+            cancellableQuery = Network.shared.publisher(for: GetAllPublicationsQuery())
                 .map { data in data.publications.compactMap { $0.fragments.publicationFields } }
                 .sink(receiveCompletion: { completion in
                     if case let .failure(error) = completion {

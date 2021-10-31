@@ -20,19 +20,19 @@ struct HomeList: View {
     private func fetch(_ done: @escaping () -> Void = { }) {
         guard state.isLoading else { return }
 
-        cancellableQuery = Network.shared.apollo.fetch(query: GetAllPublicationIDsQuery())
+        cancellableQuery = Network.shared.publisher(for: GetAllPublicationIDsQuery())
             .map { $0.publications.map(\.id) }
             .flatMap { publicationIDs -> ResultsPublisher in
-                let trendingQuery = Network.shared.apollo.fetch(query: GetTrendingArticlesQuery(limit: 7))
+                let trendingQuery = Network.shared.publisher(for: GetTrendingArticlesQuery(limit: 7))
                     .map { $0.articles.map(\.fragments.articleFields) }
 
-                let followedQuery = Network.shared.apollo.fetch(query: GetArticlesByPublicationIDsQuery(ids: userData.followedPublicationIDs))
+                let followedQuery = Network.shared.publisher(for: GetArticlesByPublicationIDsQuery(ids: userData.followedPublicationIDs))
                     .map { $0.articles.map(\.fragments.articleFields) }
                     .collect()
 
                 let morePublicationIDs = publicationIDs.filter { !userData.followedPublicationIDs.contains($0) }
 
-                let otherQuery = Network.shared.apollo.fetch(query: GetArticlesByPublicationIDsQuery(ids: morePublicationIDs))
+                let otherQuery = Network.shared.publisher(for: GetArticlesByPublicationIDsQuery(ids: morePublicationIDs))
                     .map { $0.articles.map(\.fragments.articleFields) }
                 
                 return Publishers.Zip3(trendingQuery, followedQuery, otherQuery)
@@ -63,7 +63,7 @@ struct HomeList: View {
     }
 
     private func fetchArticleBy(id: String) {
-        cancellableQuery = Network.shared.apollo.fetch(query: GetArticleByIdQuery(id: id))
+        cancellableQuery = Network.shared.publisher(for: GetArticleByIdQuery(id: id))
             .sink { completion in
                 if case let .failure(error) = completion {
                     print(error.localizedDescription)
@@ -181,9 +181,9 @@ extension HomeList {
     )
     typealias ResultsPublisher =
         Publishers.Zip3<
-            Publishers.Map<GraphQLPublisher<GetTrendingArticlesQuery>,[ArticleFields]>,
-            Publishers.Collect<Publishers.Map<GraphQLPublisher<GetArticlesByPublicationIDsQuery>, [ArticleFields]>>,
-            Publishers.Map<GraphQLPublisher<GetArticlesByPublicationIDsQuery>, [ArticleFields]>
+            Publishers.Map<OperationPublisher<GetTrendingArticlesQuery.Data>,[ArticleFields]>,
+            Publishers.Collect<Publishers.Map<OperationPublisher<GetArticlesByPublicationIDsQuery.Data>, [ArticleFields]>>,
+            Publishers.Map<OperationPublisher<GetArticlesByPublicationIDsQuery.Data>, [ArticleFields]>
         >
 }
 
