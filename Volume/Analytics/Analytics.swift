@@ -29,9 +29,13 @@ enum VolumeEvent: String {
     case shoutoutArticle = "shoutout_article"
     case bookmarkArticle = "bookmark_article"
     case unbookmarkArticle = "unbookmark_article"
+    /// Notification-specific events
+    case clickNotification = "click_notification"
+    case enableNotification = "enable_notification"
+    case notificationIntervalClose = "notification_interval_close"
     
     enum EventType {
-        case article, general, publication
+        case article, general, publication, notification, notificationInterval
     }
 
     func toEvent(_ event: EventType, id: String = "error", navigationSource: NavigationSource = .unspecified) -> AnyEvent {
@@ -41,6 +45,8 @@ enum VolumeEvent: String {
             parameters = ["articleID": id]
         case .publication:
             parameters = ["publicationID": id]
+        case .notificationInterval:
+            parameters = ["duration": id]
         default:
             parameters = [:]
         }
@@ -57,12 +63,13 @@ enum NavigationSource: String {
     case otherArticles = "other_articles"
     case publicationDetail = "publication_detail"
     case trendingArticles = "trending_articles"
+    case pushNotification = "push_notification"
     
     // Publication Entry Points
     case articleDetail = "article_detail"
     case followingPublications = "following_publications"
     case morePublications = "more_publications"
     case onboarding = "onboarding"
-    
+
     case unspecified
 }
