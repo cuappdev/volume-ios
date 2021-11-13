@@ -80,6 +80,7 @@ class UserData: ObservableObject {
                         print("An error occurred in creating user: \(error)")
                     }
                 } receiveValue: { uuid in
+                    // cache this UUID to use later when mutating user-specific info
                     print("User created on backend with UUID: \(uuid)")
                     UserDefaults.standard.setValue(uuid, forKey: self.userUUIDKey)
                 }
