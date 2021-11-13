@@ -10,10 +10,14 @@ import Combine
 import Foundation
 
 class UserData: ObservableObject {
+    static let shared = UserData()
+    
     private let articlesKey = "savedArticleIds"
     private let publicationsKey = "savedPublicationIds"
     private let articleShoutoutsKey = "articleShoutoutsCounter"
-    private let isFirstLauncyKey = "isFirstLaunch"
+    private let isFirstLaunchKey = "isFirstLaunch"
+    private let deviceTokenKey = "deviceToken"
+    private let userUUIDKey = "userUUID"
 
     /// This cache maps `Article` and `Publication`  ids to shout outs. Its purpose is to allow the UI to
     /// display incremented shoutouts without refetching the model from the server. Users of the cache should
@@ -45,8 +49,10 @@ class UserData: ObservableObject {
             objectWillChange.send()
         }
     }
+    
+    private var cancellableQuery: AnyCancellable?
 
-    init() {
+    private init() {
         if let ids = UserDefaults.standard.object(forKey: articlesKey) as? [String] {
             savedArticleIDs = ids
         }
@@ -57,6 +63,26 @@ class UserData: ObservableObject {
 
         if let shoutoutsCounter = UserDefaults.standard.object(forKey: articleShoutoutsKey) as? [String: Int] {
             articleShoutoutsCounter = shoutoutsCounter
+        }
+    }
+    
+    func set(deviceToken: String) {
+        UserDefaults.standard.setValue(deviceToken, forKey: deviceTokenKey)
+    }
+    
+    func createUser() {
+        if let deviceToken = UserDefaults.standard.string(forKey: deviceTokenKey) {
+            print("Creating user with deviceToken \(deviceToken) and following \(followedPublicationIDs)...")
+            cancellableQuery = Network.shared.publisher(for: CreateUserMutation(deviceToken: deviceToken, followedPublicationIDs: followedPublicationIDs))
+                .map { $0.user.uuid }
+                .sink { completion in
+                    if case let .failure(error) = completion {
+                        print("An error occurred in creating user: \(error)")
+                    }
+                } receiveValue: { uuid in
+                    print("User created on backend with UUID: \(uuid)")
+                    UserDefaults.standard.setValue(uuid, forKey: self.userUUIDKey)
+                }
         }
     }
 

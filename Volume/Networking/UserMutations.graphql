@@ -1,0 +1,5 @@
+mutation CreateUser($deviceToken: String!, $followedPublicationIDs: [String!]!) {
+    user:createUser(deviceType: "IOS", deviceToken: $deviceToken, followedPublications: $followedPublicationIDs) {
+        uuid
+    }
+}
