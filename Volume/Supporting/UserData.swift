@@ -50,7 +50,7 @@ class UserData: ObservableObject {
         }
     }
     
-    private var cancellableQuery: AnyCancellable?
+    private var cancellables: [Mutation : AnyCancellable?] = [:]
 
     private init() {
         if let ids = UserDefaults.standard.object(forKey: articlesKey) as? [String] {
@@ -73,7 +73,7 @@ class UserData: ObservableObject {
     func createUser() {
         if let deviceToken = UserDefaults.standard.string(forKey: deviceTokenKey) {
             print("Creating user with deviceToken \(deviceToken) and following \(followedPublicationIDs)...")
-            cancellableQuery = Network.shared.publisher(for: CreateUserMutation(deviceToken: deviceToken, followedPublicationIDs: followedPublicationIDs))
+            cancellables[.createUser] = Network.shared.publisher(for: CreateUserMutation(deviceToken: deviceToken, followedPublicationIDs: followedPublicationIDs))
                 .map { $0.user.uuid }
                 .sink { completion in
                     if case let .failure(error) = completion {
@@ -129,5 +129,11 @@ class UserData: ObservableObject {
         } else {
             followedPublicationIDs.removeAll(where: { $0 == publication.id })
         }
+    }
+}
+
+extension UserData {
+    enum Mutation {
+        case createUser, followPublication, unfollowPublication
     }
 }
