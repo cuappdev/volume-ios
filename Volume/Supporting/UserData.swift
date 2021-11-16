@@ -72,7 +72,6 @@ class UserData: ObservableObject {
     
     func createUser() {
         if let deviceToken = UserDefaults.standard.string(forKey: deviceTokenKey) {
-            print("Creating user with deviceToken \(deviceToken) and following \(followedPublicationIDs)...")
             cancellables[.createUser] = Network.shared.publisher(for: CreateUserMutation(deviceToken: deviceToken, followedPublicationIDs: followedPublicationIDs))
                 .map { $0.user.uuid }
                 .sink { completion in
@@ -81,7 +80,6 @@ class UserData: ObservableObject {
                     }
                 } receiveValue: { uuid in
                     // cache this UUID to use later when mutating user-specific info
-                    print("User created on backend with UUID: \(uuid)")
                     UserDefaults.standard.setValue(uuid, forKey: self.userUUIDKey)
                 }
         }
@@ -133,7 +131,7 @@ class UserData: ObservableObject {
 }
 
 extension UserData {
-    enum Mutation {
-        case createUser, followPublication, unfollowPublication
+    private enum Mutation: Hashable {
+        case createUser, follow(Publication), unfollow(Publication)
     }
 }

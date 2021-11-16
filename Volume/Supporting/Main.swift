@@ -41,8 +41,10 @@ struct Main: App {
                 UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { _, _ in }
             }
         }
-        DispatchQueue.main.async {
-            UIApplication.shared.registerForRemoteNotifications()
+        if !UIApplication.shared.isRegisteredForRemoteNotifications {
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
+            }
         }
     }
 
