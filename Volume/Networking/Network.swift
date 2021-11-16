@@ -145,14 +145,14 @@ private class OperationSubscription<Data, S: Subscriber>: Subscription
 class NetworkState: ObservableObject {
     @Published var networkScreenFailed: [Screen : Bool] = [:]
 
-    public enum Screen: CaseIterable {
+    public enum Screen: String, CaseIterable {
         case homeList, publicationList, bookmarksList
     }
 
     func handleCompletion(screen: Screen, _ completion: Subscribers.Completion<WrappedGraphQLError>) {
         if case let .failure(error) = completion {
             networkScreenFailed[screen] = true
-            print(error.localizedDescription)
+            print("Error on \(screen.rawValue): \(error)")
         } else {
             networkScreenFailed[screen] = false
         }
