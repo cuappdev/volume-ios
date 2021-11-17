@@ -121,7 +121,14 @@ class UserData: ObservableObject {
 
     func set(publication: Publication, isFollowed: Bool) {
         guard let uuid = UserDefaults.standard.string(forKey: userUUIDKey) else {
-            print("Error: failed to set follow status because user UUID not set")
+            // User has not finished onboarding
+            if isFollowed {
+                if !followedPublicationIDs.contains(publication.id) {
+                    followedPublicationIDs.insert(publication.id, at: 0)
+                }
+            } else {
+                followedPublicationIDs.removeAll(where: { $0 == publication.id })
+            }
             return
         }
         
