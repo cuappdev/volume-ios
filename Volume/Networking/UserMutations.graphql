@@ -3,3 +3,19 @@ mutation CreateUser($deviceToken: String!, $followedPublicationIDs: [String!]!) 
         uuid
     }
 }
+
+mutation FollowPublication($publicationID:String!, $uuid:String!) {
+    user: followPublication(pubID:$publicationID, uuid:$uuid) {
+        followedPublications {
+            id
+        }
+    }
+}
+
+mutation UnfollowPublication($publicationID:String!, $uuid:String!) {
+    user: unfollowPublication(pubID:$publicationID, uuid:$uuid) {
+        followedPublications {
+            id
+        }
+    }
+}

@@ -120,12 +120,31 @@ class UserData: ObservableObject {
     }
 
     func set(publication: Publication, isFollowed: Bool) {
+        guard let uuid = UserDefaults.standard.string(forKey: userUUIDKey) else {
+            print("Error: failed to set follow status because user UUID not set")
+            return
+        }
+        
         if isFollowed {
-            if !followedPublicationIDs.contains(publication.id) {
-                followedPublicationIDs.insert(publication.id, at: 0)
-            }
+            cancellables[.follow(publication)] = Network.shared.publisher(for: FollowPublicationMutation(publicationID: publication.id, uuid: uuid))
+                .sink { completion in
+                    if case let .failure(error) = completion {
+                        print(error)
+                    }
+                } receiveValue: { value in
+                    if !self.followedPublicationIDs.contains(publication.id) {
+                        self.followedPublicationIDs.insert(publication.id, at: 0)
+                    }
+                }
         } else {
-            followedPublicationIDs.removeAll(where: { $0 == publication.id })
+            cancellables[.unfollow(publication)] = Network.shared.publisher(for: UnfollowPublicationMutation(publicationID: publication.id, uuid: uuid))
+                .sink { completion in
+                    if case let .failure(error) = completion {
+                        print(error)
+                    }
+                } receiveValue: { _ in
+                    self.followedPublicationIDs.removeAll(where: { $0 == publication.id })
+                }
         }
     }
 }
