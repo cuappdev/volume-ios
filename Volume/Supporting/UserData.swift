@@ -126,7 +126,12 @@ class UserData: ObservableObject {
         }
         
         if isFollowed {
-            cancellables[.follow(publication)] = Network.shared.publisher(for: FollowPublicationMutation(publicationID: publication.id, uuid: uuid))
+            // Cancel opposing mutation
+            if let unfollowCancellable = cancellables[.unfollow(publication)] {
+                unfollowCancellable?.cancel()
+            }
+            let mutation = FollowPublicationMutation(publicationID: publication.id, uuid: uuid)
+            cancellables[.follow(publication)] = Network.shared.publisher(for: mutation)
                 .sink { completion in
                     if case let .failure(error) = completion {
                         print(error)
@@ -137,6 +142,10 @@ class UserData: ObservableObject {
                     }
                 }
         } else {
+            // Cancel opposing mutation to
+            if let followCancellable = cancellables[.follow(publication)] {
+                followCancellable?.cancel()
+            }
             cancellables[.unfollow(publication)] = Network.shared.publisher(for: UnfollowPublicationMutation(publicationID: publication.id, uuid: uuid))
                 .sink { completion in
                     if case let .failure(error) = completion {
