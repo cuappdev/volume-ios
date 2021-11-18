@@ -27,6 +27,7 @@
 		06DBC684257DE35F00B6A453 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DBC683257DE35F00B6A453 /* UserData.swift */; };
 		06EC2D24259CED0500FE0A71 /* PublicationDetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EC2D23259CED0500FE0A71 /* PublicationDetailHeader.swift */; };
 		3334F4A02705269800CF0987 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3334F49F2705269800CF0987 /* AppDelegate.swift */; };
+		50AA43BC2738781E0010CEA3 /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 50AA43BB2738781D0010CEA3 /* schema.json */; };
 		54E326C736B9BE60F5002B5D /* Pods_Volume.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDD49BC6A6691BB636B1EBD1 /* Pods_Volume.framework */; };
 		7E23DFD2254A05EF0001C3A3 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E23DFD1254A05EF0001C3A3 /* Color+Extension.swift */; };
 		7E369E1325EED86E00FC0419 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E369E1225EED86E00FC0419 /* API.swift */; };
@@ -64,7 +65,6 @@
 		95AC9DCF2637C120000B4BEE /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95AC9DCE2637C120000B4BEE /* Main.swift */; };
 		95E4DA492638816500584E5C /* LinkItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E4DA482638816500584E5C /* LinkItemSource.swift */; };
 		95F1DC8A2608F4DD000B3D91 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 95F1DC892608F4DD000B3D91 /* GoogleService-Info.plist */; };
-		95F1DC8D2608F4F9000B3D91 /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 95F1DC8C2608F4F9000B3D91 /* schema.json */; };
 		990081EF25E5C31600BF8362 /* Events.md in Resources */ = {isa = PBXBuildFile; fileRef = 990081EE25E5C31600BF8362 /* Events.md */; };
 		995C9A0025E5770D00F6FBA5 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995C99FF25E5770D00F6FBA5 /* Analytics.swift */; };
 /* End PBXBuildFile section */
@@ -95,6 +95,7 @@
 		06DBC683257DE35F00B6A453 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		06EC2D23259CED0500FE0A71 /* PublicationDetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicationDetailHeader.swift; sourceTree = "<group>"; };
 		3334F49F2705269800CF0987 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		50AA43BB2738781D0010CEA3 /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		33AE4CEC27403F670001BA5B /* UserMutations.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = UserMutations.graphql; sourceTree = "<group>"; };
 		73CCD70394C4621A0C4211D4 /* Pods-Volume.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Volume.release.xcconfig"; path = "Target Support Files/Pods-Volume/Pods-Volume.release.xcconfig"; sourceTree = "<group>"; };
 		7E23DFD1254A05EF0001C3A3 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
@@ -136,7 +137,6 @@
 		95AC9DCE2637C120000B4BEE /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		95E4DA482638816500584E5C /* LinkItemSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkItemSource.swift; sourceTree = "<group>"; };
 		95F1DC892608F4DD000B3D91 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		95F1DC8C2608F4F9000B3D91 /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		990081EE25E5C31600BF8362 /* Events.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Events.md; sourceTree = "<group>"; };
 		995C99FF25E5770D00F6FBA5 /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		ACDB01FFF9D60A537732BD25 /* Pods-Volume.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Volume.debug.xcconfig"; path = "Target Support Files/Pods-Volume/Pods-Volume.debug.xcconfig"; sourceTree = "<group>"; };
@@ -185,7 +185,7 @@
 			children = (
 				7E369E1225EED86E00FC0419 /* API.swift */,
 				063EED24257BF8A7002136EE /* Network.swift */,
-				95F1DC8C2608F4F9000B3D91 /* schema.json */,
+				50AA43BB2738781D0010CEA3 /* schema.json */,
 				063EED49257BFDA9002136EE /* PublicationsQueries.graphql */,
 				06B80CFB257D9E9700F3BF9B /* ArticlesQueries.graphql */,
 				0685AAA3259EC2AF00DD55C4 /* ArticlesMutations.graphql */,
@@ -442,6 +442,11 @@
 				7ED7C343252D117B0078B1BD /* LaunchScreen.storyboard in Resources */,
 				7E369E1725EED97500FC0419 /* Secrets.plist in Resources */,
 				7ED7C340252D117B0078B1BD /* Preview Assets.xcassets in Resources */,
+				50AA43BC2738781E0010CEA3 /* schema.json in Resources */,
+				063EED4A257BFDA9002136EE /* PublicationsQueries.graphql in Resources */,
+				06B80CFC257D9E9700F3BF9B /* ArticlesQueries.graphql in Resources */,
+				95F1DC8A2608F4DD000B3D91 /* GoogleService-Info.plist in Resources */,
+				0685AAA4259EC2AF00DD55C4 /* ArticlesMutations.graphql in Resources */,
 				95F1DC8A2608F4DD000B3D91 /* GoogleService-Info.plist in Resources */,
 				95F1DC8D2608F4F9000B3D91 /* schema.json in Resources */,
 				7ED7C33D252D117B0078B1BD /* Assets.xcassets in Resources */,
@@ -473,7 +478,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "SCRIPT_PATH=\"${PODS_ROOT}/Apollo/scripts\"\ncd \"${SRCROOT}/${TARGET_NAME}\"\n\"${SCRIPT_PATH}\"/run-bundled-codegen.sh codegen:generate --target=swift --includes=./**/*.graphql --localSchemaFile=\"Networking/schema.json\" Networking/API.swift\n";
+			shellScript = "SCRIPT_PATH=\"${PODS_ROOT}/Apollo/scripts\"\ncd \"${SRCROOT}/${TARGET_NAME}\"\n\n\"${SCRIPT_PATH}\"/run-bundled-codegen.sh codegen:generate --target=swift --includes=./**/*.graphql --localSchemaFile=\"Networking/schema.json\" Networking/API.swift\n";
 		};
 		8223A897A0C18BC0DC38FA77 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -720,6 +725,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.3;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cornellappdev.volume-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

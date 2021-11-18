@@ -25,7 +25,7 @@ struct BrowserView: View {
     }
 
     private func incrementShoutouts() {
-        AppDevAnalytics.log(VolumeEvent.shoutoutArticle.toEvent(.article, id: article.id, navigationSource: navigationSource))
+        AppDevAnalytics.log(VolumeEvent.shoutoutArticle.toEvent(.article, value: article.id, navigationSource: navigationSource))
         userData.incrementShoutoutsCounter(article)
         let currentArticleShoutouts = max(userData.shoutoutsCache[article.id, default: 0], article.shoutouts)
         userData.shoutoutsCache[article.id, default: 0] = currentArticleShoutouts + 1
@@ -70,8 +70,8 @@ struct BrowserView: View {
                     userData.toggleArticleSaved(article)
                     AppDevAnalytics.log(
                         userData.isArticleSaved(article) ?
-                            VolumeEvent.bookmarkArticle.toEvent(.article, id: article.id, navigationSource: navigationSource) :
-                            VolumeEvent.unbookmarkArticle.toEvent(.article, id: article.id, navigationSource: navigationSource)
+                            VolumeEvent.bookmarkArticle.toEvent(.article, value: article.id, navigationSource: navigationSource) :
+                            VolumeEvent.unbookmarkArticle.toEvent(.article, value: article.id, navigationSource: navigationSource)
                     )
                 } label: {
                     Image(systemName: userData.isArticleSaved(article) ? "bookmark.fill" : "bookmark")
@@ -83,7 +83,7 @@ struct BrowserView: View {
                     .frame(width: 16)
 
                 Button {
-                    AppDevAnalytics.log(VolumeEvent.shareArticle.toEvent(.article, id: article.id, navigationSource: navigationSource))
+                    AppDevAnalytics.log(VolumeEvent.shareArticle.toEvent(.article, value: article.id, navigationSource: navigationSource))
                     displayShareScreen()
                 } label: {
                     Image(systemName: "square.and.arrow.up.on.square")
@@ -131,10 +131,10 @@ struct BrowserView: View {
             if let articleUrl = article.articleUrl {
                 WebView(url: articleUrl)
                     .onAppear {
-                        AppDevAnalytics.log(VolumeEvent.openArticle.toEvent(.article, id: article.id, navigationSource: navigationSource))
+                        AppDevAnalytics.log(VolumeEvent.openArticle.toEvent(.article, value: article.id, navigationSource: navigationSource))
                     }
                     .onDisappear {
-                        AppDevAnalytics.log(VolumeEvent.closeArticle.toEvent(.article, id: article.id, navigationSource: navigationSource))
+                        AppDevAnalytics.log(VolumeEvent.closeArticle.toEvent(.article, value: article.id, navigationSource: navigationSource))
                     }
             }
             toolbar

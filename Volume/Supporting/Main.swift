@@ -6,6 +6,7 @@
 //  Copyright © 2021 Cornell AppDev. All rights reserved.
 //
 
+import AppDevAnalytics
 import AppDevAnnouncements
 import Firebase
 import SwiftUI
@@ -38,7 +39,11 @@ struct Main: App {
     private func registerForPushNotifications() {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             if settings.authorizationStatus == .notDetermined {
-                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { _, _ in }
+                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in 
+                    if granted {
+                        AppDevAnalytics.log(VolumeEvent.enableNotification.toEvent(.notification, value: "", navigationSource: .unspecified))
+                    }
+                }
             }
         }
         if !UIApplication.shared.isRegisteredForRemoteNotifications {
