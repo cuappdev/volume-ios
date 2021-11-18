@@ -39,18 +39,16 @@ struct Main: App {
     private func registerForPushNotifications() {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             if settings.authorizationStatus == .notDetermined {
-                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in 
                     if granted {
                         AppDevAnalytics.log(VolumeEvent.enableNotification.toEvent(.notification, value: "", navigationSource: .unspecified))
-                        DispatchQueue.main.async {
-                            UIApplication.shared.registerForRemoteNotifications()
-                        }
                     }
                 }
-            } else if settings.authorizationStatus == .authorized {
-                DispatchQueue.main.async {
-                    UIApplication.shared.registerForRemoteNotifications()
-                }
+            }
+        }
+        if !UIApplication.shared.isRegisteredForRemoteNotifications {
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
             }
         }
     }
@@ -58,7 +56,7 @@ struct Main: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(UserData())
+                .environmentObject(UserData.shared)
                 .environmentObject(NetworkState())
         }
     }

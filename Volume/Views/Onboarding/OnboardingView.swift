@@ -91,6 +91,7 @@ struct OnboardingView: View {
                 case .follow:
                     Button(action: {
                         AppDevAnalytics.log(VolumeEvent.completeOnboarding.toEvent(.general))
+                        userData.createUser()
                         withAnimation(.spring()) {
                             isFirstLaunch = false
                         }
