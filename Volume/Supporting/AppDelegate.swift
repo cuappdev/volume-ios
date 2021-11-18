@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         if let _ = launchOptions?[.remoteNotification] {
             // app not running in background, user taps notification
-            AppDevAnalytics.log(VolumeEvent.clickNotification.toEvent(.notification, id: "", navigationSource: .pushNotification))
+            AppDevAnalytics.log(VolumeEvent.clickNotification.toEvent(.notification, value: "", navigationSource: .pushNotification))
             UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: notificationIntervalKey)
         }
         return true
@@ -26,8 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let deviceTokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
         print("UIApplicationDelegate didRegisterForRemoteNotifications with deviceToken: \(deviceTokenString)")
-        print("this is the device token \(deviceToken.reduce("") { $0 + String(format: "%02.2hhx", $1) })")
-        // send device token to backend
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -36,24 +34,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         // app running in background, user taps notification
-        AppDevAnalytics.log(VolumeEvent.clickNotification.toEvent(.notification, id: "", navigationSource: .pushNotification))
+        AppDevAnalytics.log(VolumeEvent.clickNotification.toEvent(.notification, value: "", navigationSource: .pushNotification))
         UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: notificationIntervalKey)
         completionHandler()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        let openDate = Date(timeIntervalSince1970: UserDefaults.standard.double(forKey: notificationIntervalKey))
-        let elapsedTime = Calendar.current.dateComponents([.second], from: openDate, to: Date())
-        if let duration = elapsedTime.second {
-            AppDevAnalytics.log(VolumeEvent.notificationIntervalClose.toEvent(.notificationInterval, id: String(duration), navigationSource: .unspecified))
-        }
+        logTimeActive()
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
-        let openDate = Date(timeIntervalSince1970: UserDefaults.standard.double(forKey: notificationIntervalKey))
+        logTimeActive()
+    }
+    
+    private func logTimeActive() {
+        guard let openDateDouble = UserDefaults.standard.object(forKey: notificationIntervalKey) as? Double else {
+            return
+        }
+        let openDate = Date(timeIntervalSince1970: openDateDouble)
         let elapsedTime = Calendar.current.dateComponents([.second], from: openDate, to: Date())
         if let duration = elapsedTime.second {
-            AppDevAnalytics.log(VolumeEvent.notificationIntervalClose.toEvent(.notificationInterval, id: String(duration), navigationSource: .unspecified))
+            AppDevAnalytics.log(VolumeEvent.notificationIntervalClose.toEvent(.notificationInterval, value: String(duration), navigationSource: .unspecified))
         }
     }
 

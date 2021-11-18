@@ -38,15 +38,15 @@ enum VolumeEvent: String {
         case article, general, publication, notification, notificationInterval
     }
 
-    func toEvent(_ event: EventType, id: String = "error", navigationSource: NavigationSource = .unspecified) -> AnyEvent {
+    func toEvent(_ event: EventType, value: String = "", navigationSource: NavigationSource = .unspecified) -> AnyEvent {
         var parameters: [String: Any]
         switch event {
         case .article:
-            parameters = ["articleID": id]
+            parameters = ["articleID": value]
         case .publication:
-            parameters = ["publicationID": id]
+            parameters = ["publicationID": value]
         case .notificationInterval:
-            parameters = ["duration": id]
+            parameters = ["duration": value]
         default:
             parameters = [:]
         }

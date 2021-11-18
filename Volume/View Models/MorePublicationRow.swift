@@ -63,8 +63,8 @@ struct MorePublicationRow: View {
                     userData.togglePublicationFollowed(publication)
                     AppDevAnalytics.log(
                         userData.isPublicationFollowed(publication) ?
-                            VolumeEvent.followPublication.toEvent(.publication, id: publication.id, navigationSource: navigationSource) :
-                            VolumeEvent.unfollowPublication.toEvent(.publication, id: publication.id, navigationSource: navigationSource)
+                            VolumeEvent.followPublication.toEvent(.publication, value: publication.id, navigationSource: navigationSource) :
+                            VolumeEvent.unfollowPublication.toEvent(.publication, value: publication.id, navigationSource: navigationSource)
                     )
                 }
             }) {

@@ -6,10 +6,10 @@
 //  Copyright © 2021 Cornell AppDev. All rights reserved.
 //
 
+import AppDevAnalytics
 import AppDevAnnouncements
 import Firebase
 import SwiftUI
-import AppDevAnalytics
 
 @main
 struct Main: App {
@@ -41,14 +41,13 @@ struct Main: App {
             if settings.authorizationStatus == .notDetermined {
                 UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
                     if granted {
-                        AppDevAnalytics.log(VolumeEvent.enableNotification.toEvent(.notification, id: "", navigationSource: .unspecified))
+                        AppDevAnalytics.log(VolumeEvent.enableNotification.toEvent(.notification, value: "", navigationSource: .unspecified))
                         DispatchQueue.main.async {
                             UIApplication.shared.registerForRemoteNotifications()
                         }
                     }
                 }
             } else if settings.authorizationStatus == .authorized {
-                AppDevAnalytics.log(VolumeEvent.enableNotification.toEvent(.notification, id: "", navigationSource: .unspecified))
                 DispatchQueue.main.async {
                     UIApplication.shared.registerForRemoteNotifications()
                 }
