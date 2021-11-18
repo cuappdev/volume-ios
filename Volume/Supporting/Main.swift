@@ -17,7 +17,7 @@ struct Main: App {
     
     init() {
         configureFirebase()
-        registerForPushNotifications()
+        configureNotifications()
         let grayColor = UIColor(Color.volume.navigationBarGray)
         UINavigationBar.appearance().backgroundColor = grayColor
         UINavigationBar.appearance().shadowImage = UIImage()
@@ -36,21 +36,9 @@ struct Main: App {
         )
     }
     
-    private func registerForPushNotifications() {
-        UNUserNotificationCenter.current().getNotificationSettings { settings in
-            if settings.authorizationStatus == .notDetermined {
-                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in 
-                    if granted {
-                        AppDevAnalytics.log(VolumeEvent.enableNotification.toEvent(.notification, value: "", navigationSource: .unspecified))
-                    }
-                }
-            }
-        }
-        if !UIApplication.shared.isRegisteredForRemoteNotifications {
-            DispatchQueue.main.async {
-                UIApplication.shared.registerForRemoteNotifications()
-            }
-        }
+    private func configureNotifications() {
+        Notifications.shared.requestAuthorization()
+        Notifications.shared.registerForRemoteNotifications()
     }
 
     var body: some Scene {

@@ -10,15 +10,16 @@ import AppDevAnalytics
 import SwiftUI
 import UIKit
 
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private let notificationIntervalKey = "notificationIntervalKey"
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        if let _ = launchOptions?[.remoteNotification] {
-            // app not running in background, user taps notification
-            AppDevAnalytics.log(VolumeEvent.clickNotification.toEvent(.notification, value: "", navigationSource: .pushNotification))
-            UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: notificationIntervalKey)
+        if let userInfo = launchOptions?[.remoteNotification] as? [AnyHashable: Any] {
+            // App was launched from tapping notification
+            print("launched via remote notification")
+            Notifications.shared.handlePushNotification(userInfo: userInfo)
+            logNotificationStartTime()
         }
         return true
     }
@@ -33,22 +34,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         print("UIApplicationDelegate didRegisterForRemoteNotifications with error: \(error.localizedDescription)")
     }
 
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        // app running in background, user taps notification
-        AppDevAnalytics.log(VolumeEvent.clickNotification.toEvent(.notification, value: "", navigationSource: .pushNotification))
-        UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: notificationIntervalKey)
-        completionHandler()
-    }
-
     func applicationWillTerminate(_ application: UIApplication) {
-        logTimeActive()
+        logTimeActiveAfterNotification()
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
-        logTimeActive()
+        logTimeActiveAfterNotification()
     }
     
-    private func logTimeActive() {
+    // MARK: Analytics
+    
+    private func logNotificationStartTime() {
+        AppDevAnalytics.log(VolumeEvent.clickNotification.toEvent(.notification, value: "", navigationSource: .pushNotification))
+        UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: notificationIntervalKey)
+    }
+    
+    private func logTimeActiveAfterNotification() {
         guard let openDateDouble = UserDefaults.standard.object(forKey: notificationIntervalKey) as? Double else {
             return
         }
@@ -58,5 +59,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             AppDevAnalytics.log(VolumeEvent.notificationIntervalClose.toEvent(.notificationInterval, value: String(duration), navigationSource: .unspecified))
         }
     }
-
 }
