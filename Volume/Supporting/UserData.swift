@@ -120,12 +120,47 @@ class UserData: ObservableObject {
     }
 
     func set(publication: Publication, isFollowed: Bool) {
-        if isFollowed {
-            if !followedPublicationIDs.contains(publication.id) {
-                followedPublicationIDs.insert(publication.id, at: 0)
+        guard let uuid = UserDefaults.standard.string(forKey: userUUIDKey) else {
+            // User has not finished onboarding
+            if isFollowed {
+                if !followedPublicationIDs.contains(publication.id) {
+                    followedPublicationIDs.insert(publication.id, at: 0)
+                }
+            } else {
+                followedPublicationIDs.removeAll(where: { $0 == publication.id })
             }
+            return
+        }
+        
+        if isFollowed {
+            // Cancel opposing mutation
+            if let unfollowCancellable = cancellables[.unfollow(publication)] {
+                unfollowCancellable?.cancel()
+            }
+            let mutation = FollowPublicationMutation(publicationID: publication.id, uuid: uuid)
+            cancellables[.follow(publication)] = Network.shared.publisher(for: mutation)
+                .sink { completion in
+                    if case let .failure(error) = completion {
+                        print(error)
+                    }
+                } receiveValue: { value in
+                    if !self.followedPublicationIDs.contains(publication.id) {
+                        self.followedPublicationIDs.insert(publication.id, at: 0)
+                    }
+                }
         } else {
-            followedPublicationIDs.removeAll(where: { $0 == publication.id })
+            // Cancel opposing mutation to
+            if let followCancellable = cancellables[.follow(publication)] {
+                followCancellable?.cancel()
+            }
+            cancellables[.unfollow(publication)] = Network.shared.publisher(for: UnfollowPublicationMutation(publicationID: publication.id, uuid: uuid))
+                .sink { completion in
+                    if case let .failure(error) = completion {
+                        print(error)
+                    }
+                } receiveValue: { _ in
+                    self.followedPublicationIDs.removeAll(where: { $0 == publication.id })
+                }
         }
     }
 }
