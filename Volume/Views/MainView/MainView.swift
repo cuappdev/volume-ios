@@ -56,6 +56,13 @@ struct MainView: View {
                 }
             }
         }
+        .onOpenURL { url in
+            let path = url.path
+            print("path: \(path)")
+            if path == "article" {
+                selectedTab = .home
+            }
+        }
     }
 }
 

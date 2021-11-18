@@ -10,17 +10,22 @@ import Combine
 import SwiftUI
 
 struct HomeList: View {
-    @State private var cancellableQuery: AnyCancellable?
+    @State private var cancellableListQuery: AnyCancellable?
+    @State private var cancellableArticleQuery: AnyCancellable?
     @State private var openedUrl = false
     @State private var state: MainView.TabState<Results> = .loading
-    @State private var onOpenArticleUrl: Article? = nil
+    @State private var onOpenArticleUrl: Article?
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
 
+    init() {
+        Notifications.shared.articleDelegate = self
+    }
+    
     private func fetch(_ done: @escaping () -> Void = { }) {
         guard state.isLoading else { return }
 
-        cancellableQuery = Network.shared.publisher(for: GetAllPublicationIDsQuery())
+        cancellableListQuery = Network.shared.publisher(for: GetAllPublicationIDsQuery())
             .map { $0.publications.map(\.id) }
             .flatMap { publicationIDs -> ResultsPublisher in
                 let trendingQuery = Network.shared.publisher(for: GetTrendingArticlesQuery(limit: 7))
@@ -63,14 +68,17 @@ struct HomeList: View {
     }
 
     private func fetchArticleBy(id: String) {
-        cancellableQuery = Network.shared.publisher(for: GetArticleByIdQuery(id: id))
+        print("fetching article...")
+        cancellableArticleQuery = Network.shared.publisher(for: GetArticleByIdQuery(id: id))
             .sink { completion in
                 if case let .failure(error) = completion {
                     print(error.localizedDescription)
                 }
-            } receiveValue: { (article) in
+            } receiveValue: { article in
+                print("fetched article: \(article)")
                 let fields = article.article?.fragments.articleFields
                 if let fields = fields {
+                    print("fields: \(fields)")
                     onOpenArticleUrl = Article(from: fields)
                     openedUrl = true
                 }
@@ -166,6 +174,7 @@ struct HomeList: View {
         .onOpenURL { url in
             let parameters = url.parameters
             if let id = parameters["id"] {
+                print("opening URL \(url)")
                 fetchArticleBy(id: id)
             }
         }
@@ -185,6 +194,17 @@ extension HomeList {
             Publishers.Collect<Publishers.Map<OperationPublisher<GetArticlesByPublicationIDsQuery.Data>, [ArticleFields]>>,
             Publishers.Map<OperationPublisher<GetArticlesByPublicationIDsQuery.Data>, [ArticleFields]>
         >
+}
+
+extension HomeList: NotificationsArticleDelegate {
+    func openArticle(id: String) {
+        print("fetching article with id \(id)")
+//        fetchArticleBy(id: id)
+        let url = URL(string: "volume://?id=\(id)")!
+        UIApplication.shared.open(url) { success in
+            print("url opened successfully")
+        }
+    }
 }
 
 struct HomeList_Previews: PreviewProvider {

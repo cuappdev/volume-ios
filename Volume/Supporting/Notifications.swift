@@ -10,9 +10,15 @@ import AppDevAnalytics
 import Foundation
 import UserNotifications
 
+protocol NotificationsArticleDelegate {
+    func openArticle(id: String)
+}
+
 class Notifications: NSObject {
     static let shared = Notifications()
+    
     let center = UNUserNotificationCenter.current()
+    var articleDelegate: NotificationsArticleDelegate?
     
     private override init() {
         super.init()
@@ -52,24 +58,16 @@ class Notifications: NSObject {
                     print("Error: missing articleID in new article notification payload")
                     return
                 }
-                openArticle(id: articleID)
-            case NotificationType.weeklyDebrief.rawValue:
-                launchWeeklyDebriefFromNotification()
+                print("parsed articleID: \(articleID)")
+                articleDelegate?.openArticle(id: articleID)
             default:
+                // later: add case for weekly debrief
+                print("Error: unknown notificationType: \(notificationType)")
                 break
             }
             return
         }
         print("Error: data or notificationType not found in push notification payload")
-    }
-    
-    private func openArticle(id: String) {
-        // TODO: fetch article + open in BrowserView
-    }
-    
-    private func launchWeeklyDebriefFromNotification() {
-        // Placeholder for WD implementation
-        print("Weekly Debrief notification received.")
     }
 }
 
@@ -91,6 +89,6 @@ extension Notifications: UNUserNotificationCenterDelegate {
 extension Notifications {
     private enum NotificationType: String {
         case newArticle = "new_article"
-        case weeklyDebrief = "weekly_debrief"
+        // later: add weekly debrief type
     }
 }
