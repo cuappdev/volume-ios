@@ -57,9 +57,7 @@ struct MainView: View {
             }
         }
         .onOpenURL { url in
-            let path = url.path
-            print("path: \(path)")
-            if path == "article" {
+            if url.isDeeplink && url.host == ValidURLHost.article.toString() {
                 selectedTab = .home
             }
         }

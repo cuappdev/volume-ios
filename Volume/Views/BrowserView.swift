@@ -14,6 +14,7 @@ import SwiftUI
 import WebKit
 
 struct BrowserView: View {
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject private var userData: UserData
 
     let article: Article
@@ -138,7 +139,8 @@ struct BrowserView: View {
                     }
             }
             toolbar
-        }.toolbar {
+        }
+        .toolbar {
             ToolbarItem(placement: .principal) {
                 VStack(spacing: 0) {
                     Text(article.publication.name)
@@ -148,6 +150,15 @@ struct BrowserView: View {
                         .foregroundColor(Color.volume.lightGray)
                 }
             }
+        }
+        .onOpenURL { url in
+            // TODO:
+            /* potential solution:
+             1. move fetchArticleBy(id:) into this method
+             2. pass article ID as binding var into this view instead of Article object
+             3. on open url, change article ID and re-call fetchArticleBy(id:)
+             */
+            presentationMode.wrappedValue.dismiss()
         }
     }
 }

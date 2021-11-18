@@ -8,6 +8,18 @@
 
 import Foundation
 
+enum ValidURLHost {
+    case article
+    
+    func toString() -> String? {
+        switch self {
+        case .article:
+            let url = URL(string: Secrets.openArticleUrl)
+            return url?.host
+        }
+    }
+}
+
 extension URL {
     var parameters: [String: String] {
         guard let components = URLComponents(url: self, resolvingAgainstBaseURL: false),
@@ -21,5 +33,16 @@ extension URL {
         }
 
         return parameters
+    }
+    
+    var isDeeplink: Bool {
+        guard let host = self.host
+        else { return false }
+        switch host {
+        case ValidURLHost.article.toString():
+            return true
+        default:
+            return false
+        }
     }
 }

@@ -17,10 +17,6 @@ struct HomeList: View {
     @State private var onOpenArticleUrl: Article?
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
-
-    init() {
-        Notifications.shared.articleDelegate = self
-    }
     
     private func fetch(_ done: @escaping () -> Void = { }) {
         guard state.isLoading else { return }
@@ -172,14 +168,14 @@ struct HomeList: View {
             fetch()
         }
         .onOpenURL { url in
-            let parameters = url.parameters
-            if let id = parameters["id"] {
-                print("opening URL \(url)")
-                fetchArticleBy(id: id)
+            if url.isDeeplink {
+                let parameters = url.parameters
+                if let id = parameters["id"] {
+                    fetchArticleBy(id: id)
+                }
             }
         }
     }
-
 }
 
 extension HomeList {
@@ -194,17 +190,6 @@ extension HomeList {
             Publishers.Collect<Publishers.Map<OperationPublisher<GetArticlesByPublicationIDsQuery.Data>, [ArticleFields]>>,
             Publishers.Map<OperationPublisher<GetArticlesByPublicationIDsQuery.Data>, [ArticleFields]>
         >
-}
-
-extension HomeList: NotificationsArticleDelegate {
-    func openArticle(id: String) {
-        print("fetching article with id \(id)")
-//        fetchArticleBy(id: id)
-        let url = URL(string: "volume://?id=\(id)")!
-        UIApplication.shared.open(url) { success in
-            print("url opened successfully")
-        }
-    }
 }
 
 struct HomeList_Previews: PreviewProvider {

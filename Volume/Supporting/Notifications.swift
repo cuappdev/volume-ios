@@ -10,15 +10,9 @@ import AppDevAnalytics
 import Foundation
 import UserNotifications
 
-protocol NotificationsArticleDelegate {
-    func openArticle(id: String)
-}
-
 class Notifications: NSObject {
     static let shared = Notifications()
-    
     let center = UNUserNotificationCenter.current()
-    var articleDelegate: NotificationsArticleDelegate?
     
     private override init() {
         super.init()
@@ -49,7 +43,6 @@ class Notifications: NSObject {
     }
     
     func handlePushNotification(userInfo: [AnyHashable: Any]) {
-        print("handling push notification with userInfo: \(userInfo)")
         if let data = userInfo["data"] as? [String: Any],
             let notificationType = data["notificationType"] as? String {
             switch notificationType {
@@ -58,8 +51,7 @@ class Notifications: NSObject {
                     print("Error: missing articleID in new article notification payload")
                     return
                 }
-                print("parsed articleID: \(articleID)")
-                articleDelegate?.openArticle(id: articleID)
+                openArticle(id: articleID)
             default:
                 // later: add case for weekly debrief
                 print("Error: unknown notificationType: \(notificationType)")
@@ -68,6 +60,13 @@ class Notifications: NSObject {
             return
         }
         print("Error: data or notificationType not found in push notification payload")
+    }
+    
+    private func openArticle(id: String) {
+        guard let url = URL(string: Secrets.openArticleUrl + id) else {
+            return
+        }
+        UIApplication.shared.open(url)
     }
 }
 
