@@ -12,9 +12,9 @@ import SwiftUI
 struct HomeList: View {
     @State private var cancellableListQuery: AnyCancellable?
     @State private var cancellableArticleQuery: AnyCancellable?
-    @State private var openedUrl = false
     @State private var state: MainView.TabState<Results> = .loading
-    @State private var onOpenArticleUrl: Article?
+    @State private var openedUrl = false
+    @State private var onOpenArticleUrl: String?
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
     
@@ -59,24 +59,6 @@ struct HomeList: View {
                         followedArticles: [Article](followedArticles),
                         otherArticles: [Article](otherArticles)
                     ))
-                }
-            }
-    }
-
-    private func fetchArticleBy(id: String) {
-        print("fetching article...")
-        cancellableArticleQuery = Network.shared.publisher(for: GetArticleByIdQuery(id: id))
-            .sink { completion in
-                if case let .failure(error) = completion {
-                    print(error.localizedDescription)
-                }
-            } receiveValue: { article in
-                print("fetched article: \(article)")
-                let fields = article.article?.fragments.articleFields
-                if let fields = fields {
-                    print("fields: \(fields)")
-                    onOpenArticleUrl = Article(from: fields)
-                    openedUrl = true
                 }
             }
     }
@@ -150,8 +132,8 @@ struct HomeList: View {
 
                 // Invisible navigation link only opens if application is opened
                 // through deeplink with valid article
-                if let url = onOpenArticleUrl {
-                    NavigationLink("", destination: BrowserView(article: url, navigationSource: .morePublications), isActive: $openedUrl)
+                if let articleID = onOpenArticleUrl {
+                    NavigationLink("", destination: BrowserView(initType: .fetchRequired(articleID), navigationSource: .morePublications), isActive: $openedUrl)
                 }
             }
         }
@@ -171,7 +153,7 @@ struct HomeList: View {
             if url.isDeeplink {
                 let parameters = url.parameters
                 if let id = parameters["id"] {
-                    fetchArticleBy(id: id)
+                    onOpenArticleUrl = id
                 }
             }
         }

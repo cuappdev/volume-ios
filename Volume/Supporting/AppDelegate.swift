@@ -17,7 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         if let userInfo = launchOptions?[.remoteNotification] as? [AnyHashable: Any] {
             // App was launched from tapping notification
-            print("launched via remote notification")
             Notifications.shared.handlePushNotification(userInfo: userInfo)
             logNotificationStartTime()
         }

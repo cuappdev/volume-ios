@@ -73,7 +73,6 @@ class Notifications: NSObject {
 extension Notifications: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         // App is running in the background, user taps notification
-        print("didReceive")
         handlePushNotification(userInfo: response.notification.request.content.userInfo)
         completionHandler()
     }

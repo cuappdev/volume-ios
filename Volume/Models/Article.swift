@@ -9,6 +9,8 @@
 import Foundation
 import SwiftUI
 
+typealias ArticleID = String
+
 struct Article: Hashable, Identifiable {
     let articleUrl: URL?
     let date: Date
