@@ -133,6 +133,7 @@ struct HomeList: View {
                 // Invisible navigation link only opens if application is opened
                 // through deeplink with valid article
                 if let articleID = onOpenArticleUrl {
+                    let _ = print("openArticleUrl change detected")
                     NavigationLink("", destination: BrowserView(initType: .fetchRequired(articleID), navigationSource: .morePublications), isActive: $openedUrl)
                 }
             }
@@ -154,6 +155,7 @@ struct HomeList: View {
                 let parameters = url.parameters
                 if let id = parameters["id"] {
                     onOpenArticleUrl = id
+                    openedUrl = true
                 }
             }
         }
