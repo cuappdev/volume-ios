@@ -63,7 +63,7 @@ class Notifications: NSObject {
     }
     
     private func openArticle(id: String) {
-        guard let url = URL(string: Secrets.openArticleUrl + id) else {
+        guard let url = URL(string: "\(Secrets.openArticleUrl)\(id)") else {
             return
         }
         UIApplication.shared.open(url)
@@ -75,12 +75,6 @@ extension Notifications: UNUserNotificationCenterDelegate {
         // App is running in the background, user taps notification
         handlePushNotification(userInfo: response.notification.request.content.userInfo)
         completionHandler()
-    }
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        // App is running in the foreground
-        
-//        completionHandler()
     }
 }
 

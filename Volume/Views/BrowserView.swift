@@ -151,8 +151,7 @@ struct BrowserView: View {
         }
         .onOpenURL { url in
             if url.isDeeplink {
-                let parameters = url.parameters
-                if let id = parameters["id"] {
+                if let id = url.parameters["id"] {
                     fetchArticleBy(id: id)
                 }
             }
@@ -185,8 +184,7 @@ struct BrowserView: View {
                     print(error.localizedDescription)
                 }
             } receiveValue: { article in
-                let fields = article.article?.fragments.articleFields
-                if let fields = fields {
+                if let fields = article.article?.fragments.articleFields {
                     state = .results(Article(from: fields))
                 }
             }

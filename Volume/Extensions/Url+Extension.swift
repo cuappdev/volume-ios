@@ -8,14 +8,13 @@
 
 import Foundation
 
-enum ValidURLHost {
+enum ValidURLHost: CaseIterable {
     case article
     
     func toString() -> String? {
         switch self {
         case .article:
-            let url = URL(string: Secrets.openArticleUrl)
-            return url?.host
+            return URL(string: Secrets.openArticleUrl)?.host
         }
     }
 }
@@ -38,11 +37,11 @@ extension URL {
     var isDeeplink: Bool {
         guard let host = self.host
         else { return false }
-        switch host {
-        case ValidURLHost.article.toString():
-            return true
-        default:
-            return false
+        for validHost in ValidURLHost.allCases {
+            if host == validHost.toString() {
+                return true
+            }
         }
+        return false
     }
 }
