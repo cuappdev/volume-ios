@@ -27,6 +27,7 @@
 		06DBC684257DE35F00B6A453 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DBC683257DE35F00B6A453 /* UserData.swift */; };
 		06EC2D24259CED0500FE0A71 /* PublicationDetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EC2D23259CED0500FE0A71 /* PublicationDetailHeader.swift */; };
 		3334F4A02705269800CF0987 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3334F49F2705269800CF0987 /* AppDelegate.swift */; };
+		33538BF22745DD27009DD191 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33538BF12745DD27009DD191 /* Notifications.swift */; };
 		50AA43BC2738781E0010CEA3 /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 50AA43BB2738781D0010CEA3 /* schema.json */; };
 		54E326C736B9BE60F5002B5D /* Pods_Volume.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDD49BC6A6691BB636B1EBD1 /* Pods_Volume.framework */; };
 		7E23DFD2254A05EF0001C3A3 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E23DFD1254A05EF0001C3A3 /* Color+Extension.swift */; };
@@ -95,8 +96,9 @@
 		06DBC683257DE35F00B6A453 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		06EC2D23259CED0500FE0A71 /* PublicationDetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicationDetailHeader.swift; sourceTree = "<group>"; };
 		3334F49F2705269800CF0987 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		50AA43BB2738781D0010CEA3 /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
+		33538BF12745DD27009DD191 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		33AE4CEC27403F670001BA5B /* UserMutations.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = UserMutations.graphql; sourceTree = "<group>"; };
+		50AA43BB2738781D0010CEA3 /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		73CCD70394C4621A0C4211D4 /* Pods-Volume.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Volume.release.xcconfig"; path = "Target Support Files/Pods-Volume/Pods-Volume.release.xcconfig"; sourceTree = "<group>"; };
 		7E23DFD1254A05EF0001C3A3 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		7E369DF525EEA41300FC0419 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 				7ED7C344252D117B0078B1BD /* Info.plist */,
 				7E369E1625EED97500FC0419 /* Secrets.plist */,
 				3334F49F2705269800CF0987 /* AppDelegate.swift */,
+				33538BF12745DD27009DD191 /* Notifications.swift */,
 			);
 			path = Supporting;
 			sourceTree = "<group>";
@@ -443,12 +446,8 @@
 				7E369E1725EED97500FC0419 /* Secrets.plist in Resources */,
 				7ED7C340252D117B0078B1BD /* Preview Assets.xcassets in Resources */,
 				50AA43BC2738781E0010CEA3 /* schema.json in Resources */,
-				063EED4A257BFDA9002136EE /* PublicationsQueries.graphql in Resources */,
-				06B80CFC257D9E9700F3BF9B /* ArticlesQueries.graphql in Resources */,
 				95F1DC8A2608F4DD000B3D91 /* GoogleService-Info.plist in Resources */,
-				0685AAA4259EC2AF00DD55C4 /* ArticlesMutations.graphql in Resources */,
 				95F1DC8A2608F4DD000B3D91 /* GoogleService-Info.plist in Resources */,
-				95F1DC8D2608F4F9000B3D91 /* schema.json in Resources */,
 				7ED7C33D252D117B0078B1BD /* Assets.xcassets in Resources */,
 				7E91E13626462E7D0059F041 /* Lato-Bold.ttf in Resources */,
 				990081EF25E5C31600BF8362 /* Events.md in Resources */,
@@ -527,6 +526,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				06B80D13257DC18600F3BF9B /* WebImage+Extension.swift in Sources */,
+				33538BF22745DD27009DD191 /* Notifications.swift in Sources */,
 				7EC15D9F257767ED0053BA0B /* Publication.swift in Sources */,
 				95AC9DCF2637C120000B4BEE /* Main.swift in Sources */,
 				7E9E478C2629494D007E8E6C /* SettingsPage.swift in Sources */,

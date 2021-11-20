@@ -21,7 +21,7 @@ struct ArticleRow: View {
     }
 
     var body: some View {
-        NavigationLink(destination: BrowserView(article: article, navigationSource: navigationSource)) {
+        NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: navigationSource)) {
             HStack(spacing: 20) {
                 ArticleInfo(article: article, showsPublicationName: showsPublicationName)
 

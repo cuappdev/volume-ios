@@ -8,6 +8,17 @@
 
 import Foundation
 
+enum ValidURLHost: CaseIterable {
+    case article
+    
+    var host: String? {
+        switch self {
+        case .article:
+            return URL(string: Secrets.openArticleUrl)?.host
+        }
+    }
+}
+
 extension URL {
     var parameters: [String: String] {
         guard let components = URLComponents(url: self, resolvingAgainstBaseURL: false),
@@ -21,5 +32,10 @@ extension URL {
         }
 
         return parameters
+    }
+    
+    var isDeeplink: Bool {
+        guard let host = self.host else { return false }
+        return ValidURLHost.allCases.contains { $0.host == host }
     }
 }

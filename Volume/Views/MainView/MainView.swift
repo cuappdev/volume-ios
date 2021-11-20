@@ -56,6 +56,11 @@ struct MainView: View {
                 }
             }
         }
+        .onOpenURL { url in
+            if url.isDeeplink && url.host == ValidURLHost.article.host {
+                selectedTab = .home
+            }
+        }
     }
 }
 

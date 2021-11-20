@@ -10,17 +10,18 @@ import Combine
 import SwiftUI
 
 struct HomeList: View {
-    @State private var cancellableQuery: AnyCancellable?
-    @State private var openedUrl = false
+    @State private var cancellableListQuery: AnyCancellable?
+    @State private var cancellableArticleQuery: AnyCancellable?
     @State private var state: MainView.TabState<Results> = .loading
-    @State private var onOpenArticleUrl: Article? = nil
+    @State private var openedUrl = false
+    @State private var onOpenArticleUrl: String?
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
 
     private func fetch(_ done: @escaping () -> Void = { }) {
         guard state.isLoading else { return }
 
-        cancellableQuery = Network.shared.publisher(for: GetAllPublicationIDsQuery())
+        cancellableListQuery = Network.shared.publisher(for: GetAllPublicationIDsQuery())
             .map { $0.publications.map(\.id) }
             .flatMap { publicationIDs -> ResultsPublisher in
                 let trendingQuery = Network.shared.publisher(for: GetTrendingArticlesQuery(limit: 7))
@@ -31,6 +32,7 @@ struct HomeList: View {
                     .collect()
 
                 let morePublicationIDs = publicationIDs.filter { !userData.followedPublicationIDs.contains($0) }
+                let _ = print("morePublicationIDs: \(morePublicationIDs)")
 
                 let otherQuery = Network.shared.publisher(for: GetArticlesByPublicationIDsQuery(ids: morePublicationIDs))
                     .map { $0.articles.map(\.fragments.articleFields) }
@@ -52,27 +54,16 @@ struct HomeList: View {
                 }).sorted(by: { $0.date > $1.date }).prefix(45)
                 
                 done()
+                
+                print("trendingArticles: \([Article](trendingArticles))")
+                print("followedArticles: \([Article](followedArticles))")
+                print("other: \([Article](otherArticles))")
                 withAnimation(.linear(duration: 0.1)) {
                     state = .results((
                         trendingArticles: [Article](trendingArticles),
                         followedArticles: [Article](followedArticles),
                         otherArticles: [Article](otherArticles)
                     ))
-                }
-            }
-    }
-
-    private func fetchArticleBy(id: String) {
-        cancellableQuery = Network.shared.publisher(for: GetArticleByIdQuery(id: id))
-            .sink { completion in
-                if case let .failure(error) = completion {
-                    print(error.localizedDescription)
-                }
-            } receiveValue: { (article) in
-                let fields = article.article?.fragments.articleFields
-                if let fields = fields {
-                    onOpenArticleUrl = Article(from: fields)
-                    openedUrl = true
                 }
             }
     }
@@ -146,8 +137,8 @@ struct HomeList: View {
 
                 // Invisible navigation link only opens if application is opened
                 // through deeplink with valid article
-                if let url = onOpenArticleUrl {
-                    NavigationLink("", destination: BrowserView(article: url, navigationSource: .morePublications), isActive: $openedUrl)
+                if let articleID = onOpenArticleUrl {
+                    NavigationLink("", destination: BrowserView(initType: .fetchRequired(articleID), navigationSource: .morePublications), isActive: $openedUrl)
                 }
             }
         }
@@ -164,13 +155,14 @@ struct HomeList: View {
             fetch()
         }
         .onOpenURL { url in
-            let parameters = url.parameters
-            if let id = parameters["id"] {
-                fetchArticleBy(id: id)
+            if url.isDeeplink {
+                if let id = url.parameters["id"] {
+                    onOpenArticleUrl = id
+                    openedUrl = true
+                }
             }
         }
     }
-
 }
 
 extension HomeList {
