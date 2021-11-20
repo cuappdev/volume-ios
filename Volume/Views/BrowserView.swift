@@ -15,7 +15,7 @@ import WebKit
 
 struct BrowserView: View {
     @EnvironmentObject private var userData: UserData
-    
+
     let initType: BrowserViewInitType
     let navigationSource: NavigationSource
     @State private var cancellableShoutoutMutation: AnyCancellable?
@@ -189,7 +189,7 @@ struct BrowserView: View {
                 }
             }
     }
-    
+
     func displayShareScreen(for article: Article) {
         let rawString = Secrets.openArticleUrl + article.id
         if let shareArticleUrl = URL(string: rawString) {
@@ -205,7 +205,7 @@ extension BrowserView {
         case loading, results(Results)
     }
     
-    public enum BrowserViewInitType {
+    enum BrowserViewInitType {
         case readyForDisplay(Article), fetchRequired(ArticleID)
     }
 }

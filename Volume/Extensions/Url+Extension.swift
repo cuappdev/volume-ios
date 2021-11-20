@@ -11,7 +11,7 @@ import Foundation
 enum ValidURLHost: CaseIterable {
     case article
     
-    func toString() -> String? {
+    var host: String? {
         switch self {
         case .article:
             return URL(string: Secrets.openArticleUrl)?.host
@@ -35,13 +35,7 @@ extension URL {
     }
     
     var isDeeplink: Bool {
-        guard let host = self.host
-        else { return false }
-        for validHost in ValidURLHost.allCases {
-            if host == validHost.toString() {
-                return true
-            }
-        }
-        return false
+        guard let host = self.host else { return false }
+        return ValidURLHost.allCases.contains { $0.host == host }
     }
 }

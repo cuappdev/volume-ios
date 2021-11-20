@@ -17,7 +17,7 @@ struct HomeList: View {
     @State private var onOpenArticleUrl: String?
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
-    
+
     private func fetch(_ done: @escaping () -> Void = { }) {
         guard state.isLoading else { return }
 
@@ -32,6 +32,7 @@ struct HomeList: View {
                     .collect()
 
                 let morePublicationIDs = publicationIDs.filter { !userData.followedPublicationIDs.contains($0) }
+                let _ = print("morePublicationIDs: \(morePublicationIDs)")
 
                 let otherQuery = Network.shared.publisher(for: GetArticlesByPublicationIDsQuery(ids: morePublicationIDs))
                     .map { $0.articles.map(\.fragments.articleFields) }
@@ -53,6 +54,10 @@ struct HomeList: View {
                 }).sorted(by: { $0.date > $1.date }).prefix(45)
                 
                 done()
+                
+                print("trendingArticles: \([Article](trendingArticles))")
+                print("followedArticles: \([Article](followedArticles))")
+                print("other: \([Article](otherArticles))")
                 withAnimation(.linear(duration: 0.1)) {
                     state = .results((
                         trendingArticles: [Article](trendingArticles),

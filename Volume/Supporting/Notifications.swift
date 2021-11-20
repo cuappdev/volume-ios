@@ -12,7 +12,7 @@ import UserNotifications
 
 class Notifications: NSObject {
     static let shared = Notifications()
-    let center = UNUserNotificationCenter.current()
+    private let center = UNUserNotificationCenter.current()
     
     private override init() {
         super.init()
@@ -43,29 +43,28 @@ class Notifications: NSObject {
     }
     
     func handlePushNotification(userInfo: [AnyHashable: Any]) {
-        if let data = userInfo["data"] as? [String: Any],
-            let notificationType = data["notificationType"] as? String {
-            switch notificationType {
-            case NotificationType.newArticle.rawValue:
-                guard let articleID = data["articleID"] as? String else {
-                    print("Error: missing articleID in new article notification payload")
-                    return
-                }
-                openArticle(id: articleID)
-            default:
-                // later: add case for weekly debrief
-                print("Error: unknown notificationType: \(notificationType)")
-                break
-            }
+        guard let data = userInfo["data"] as? [String: Any],
+              let notificationType = data["notificationType"] as? String
+        else {
+            print("Error: data or notificationType not found in push notification payload")
             return
         }
-        print("Error: data or notificationType not found in push notification payload")
+        switch notificationType {
+        case NotificationType.newArticle.rawValue:
+            guard let articleID = data["articleID"] as? String else {
+                print("Error: missing articleID in new article notification payload")
+                break
+            }
+            openArticle(id: articleID)
+        default:
+            // later: add case for weekly debrief
+            print("Error: unknown notificationType: \(notificationType)")
+            break
+        }
     }
     
     private func openArticle(id: String) {
-        guard let url = URL(string: "\(Secrets.openArticleUrl)\(id)") else {
-            return
-        }
+        guard let url = URL(string: "\(Secrets.openArticleUrl)\(id)") else { return }
         UIApplication.shared.open(url)
     }
 }
