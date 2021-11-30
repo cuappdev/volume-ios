@@ -9,10 +9,12 @@
 import AppDevAnalytics
 import Foundation
 import UserNotifications
+import SwiftUI
 
-class Notifications: NSObject {
+class Notifications: NSObject, ObservableObject {
     static let shared = Notifications()
     private let center = UNUserNotificationCenter.current()
+    @Published var openedWeeklyDebrief: Bool = false
     
     private override init() {
         super.init()
@@ -59,7 +61,6 @@ class Notifications: NSObject {
         case NotificationType.weeklyDebrief.rawValue:
             openWeeklyDebrief()
         default:
-            // later: add case for weekly debrief
             print("Error: unknown notificationType: \(notificationType)")
             break
         }
@@ -71,8 +72,7 @@ class Notifications: NSObject {
     }
     
     private func openWeeklyDebrief() {
-        // TODO: implement opening weekly debrief popup from here
-        // maybe just show HomeList where WD query happens
+        openedWeeklyDebrief = true
     }
 }
 

@@ -46,6 +46,7 @@ struct Main: App {
             ContentView()
                 .environmentObject(UserData.shared)
                 .environmentObject(NetworkState())
+                .environmentObject(Notifications.shared)
         }
     }
 }
