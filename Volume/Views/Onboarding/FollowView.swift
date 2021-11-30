@@ -112,11 +112,6 @@ extension OnboardingView.FollowView {
         static var defaultValue: CGFloat = .zero
         static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {}
     }
-    
-    private struct MaxOffsetPreferenceKey: PreferenceKey {
-        static var defaultValue: CGFloat = .zero
-        static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {}
-    }
 }
 
 //struct FollowView_Previews: PreviewProvider {

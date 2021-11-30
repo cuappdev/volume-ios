@@ -17,7 +17,6 @@
 		06379C74256725C000FC185A /* Begum-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06379C73256725C000FC185A /* Begum-Regular.ttf */; };
 		06379C792567297400FC185A /* Begum-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06379C782567297400FC185A /* Begum-Bold.ttf */; };
 		063EED25257BF8A7002136EE /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063EED24257BF8A7002136EE /* Network.swift */; };
-		06491F7325787E870045F27D /* TrackableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06491F7225787E870045F27D /* TrackableScrollView.swift */; };
 		06662888257F204E006FEBCF /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06662887257F204E006FEBCF /* Secrets.swift */; };
 		0685AA9E259EA84900DD55C4 /* BrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0685AA9D259EA84900DD55C4 /* BrowserView.swift */; };
 		0685AAA1259EBA3800DD55C4 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0685AAA0259EBA3800DD55C4 /* WebView.swift */; };
@@ -84,7 +83,6 @@
 		063EED22257BF870002136EE /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		063EED24257BF8A7002136EE /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		063EED49257BFDA9002136EE /* PublicationsQueries.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = PublicationsQueries.graphql; sourceTree = "<group>"; };
-		06491F7225787E870045F27D /* TrackableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackableScrollView.swift; sourceTree = "<group>"; };
 		06662887257F204E006FEBCF /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		0685AA9D259EA84900DD55C4 /* BrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserView.swift; sourceTree = "<group>"; };
 		0685AAA0259EBA3800DD55C4 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
@@ -309,7 +307,6 @@
 				060B738A256340580035E252 /* BubblePeriodText.swift */,
 				7E416C312561D7870010D70B /* Header.swift */,
 				06B23227258EDDA9006D9A53 /* SkeletonView.swift */,
-				06491F7225787E870045F27D /* TrackableScrollView.swift */,
 				061233A02553127C0025F7E0 /* UnderlinedText.swift */,
 				7EE96DC72562505B000B246F /* VolumeMessage.swift */,
 				0685AAA0259EBA3800DD55C4 /* WebView.swift */,
@@ -570,7 +567,6 @@
 				7EA73D22254C9C21009E8F9F /* ArticleRow.swift in Sources */,
 				95AC9DC72637BFF8000B4BEE /* Url+Extension.swift in Sources */,
 				060B738B256340580035E252 /* BubblePeriodText.swift in Sources */,
-				06491F7325787E870045F27D /* TrackableScrollView.swift in Sources */,
 				7E49582D2612BD740015BE45 /* RefreshableScrollView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
