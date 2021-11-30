@@ -6,16 +6,40 @@
 //  Copyright © 2021 Cornell AppDev. All rights reserved.
 //
 
+<<<<<<< HEAD
 import Foundation
 
 struct WeeklyDebrief: Codable {
+    let creationDate: Date
+    let expirationDate: Date
+    let numShoutouts: Int
+    let numReadArticles: Int
+    let numBookmarkedArticles: Int
+    let readArticleIDs: [ArticleID]
+    let randomArticleIDs: [ArticleID]
+=======
+import Apollo
+import Foundation
+
+struct WeeklyDebrief {
+    /* createdAt
+     expirationDate
+     numShoutouts
+     readArticles {
+       ...articleFields
+     }
+     randomArticles {
+       ...articleFields
+     }
+     */
     var creationDate: Date
     var expirationDate: Date
     var numShoutouts: Int
     var numReadArticles: Int
     var numBookmarkedArticles: Int
-    var readArticleIDs: [ArticleID]
-    var randomArticleIDs: [ArticleID]
+    var readArticles: [Article]
+    var randomArticles: [Article]
+>>>>>>> 3b26d1b (Update schema, add query and models)
     
     init(from weeklyDebrief: WeeklyDebriefFields) {
         /*
@@ -28,7 +52,14 @@ struct WeeklyDebrief: Codable {
         numShoutouts = Int(weeklyDebrief.numShoutouts)
         numReadArticles = Int(weeklyDebrief.numReadArticles)
         numBookmarkedArticles = Int(weeklyDebrief.numBookmarkedArticles)
+<<<<<<< HEAD
         readArticleIDs = weeklyDebrief.readArticles.map(\.fragments.articleFields.id)
         randomArticleIDs = weeklyDebrief.randomArticles.map(\.fragments.articleFields.id)
     }
+=======
+        readArticles = [Article](weeklyDebrief.readArticles.map(\.fragments.articleFields))
+        randomArticles = [Article](weeklyDebrief.randomArticles.map(\.fragments.articleFields))
+    }
+    
+>>>>>>> 3b26d1b (Update schema, add query and models)
 }
