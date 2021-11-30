@@ -56,6 +56,8 @@ class Notifications: NSObject {
                 break
             }
             openArticle(id: articleID)
+        case NotificationType.weeklyDebrief.rawValue:
+            openWeeklyDebrief()
         default:
             // later: add case for weekly debrief
             print("Error: unknown notificationType: \(notificationType)")
@@ -66,6 +68,11 @@ class Notifications: NSObject {
     private func openArticle(id: String) {
         guard let url = URL(string: "\(Secrets.openArticleUrl)\(id)") else { return }
         UIApplication.shared.open(url)
+    }
+    
+    private func openWeeklyDebrief() {
+        // TODO: implement opening weekly debrief popup from here
+        // maybe just show HomeList where WD query happens
     }
 }
 
@@ -80,6 +87,6 @@ extension Notifications: UNUserNotificationCenterDelegate {
 extension Notifications {
     private enum NotificationType: String {
         case newArticle = "new_article"
-        // later: add weekly debrief type
+        case weeklyDebrief = "weekly_debrief"
     }
 }

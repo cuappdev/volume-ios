@@ -18,6 +18,7 @@ class UserData: ObservableObject {
     private let isFirstLaunchKey = "isFirstLaunch"
     private let deviceTokenKey = "deviceToken"
     private let userUUIDKey = "userUUID"
+    private let weeklyDebriefKey = "weeklyDebrief"
 
     /// This cache maps `Article` and `Publication`  ids to shout outs. Its purpose is to allow the UI to
     /// display incremented shoutouts without refetching the model from the server. Users of the cache should
@@ -56,6 +57,24 @@ class UserData: ObservableObject {
         }
         set {
             UserDefaults.standard.setValue(newValue, forKey: userUUIDKey)
+        }
+    }
+    
+    var weeklyDebrief: WeeklyDebrief? {
+        get {
+            if let data = UserDefaults.standard.object(forKey: weeklyDebriefKey) as? Data,
+               let savedWeeklyDebrief = try? JSONDecoder().decode(WeeklyDebrief.self, from: data) {
+                return savedWeeklyDebrief
+            } else {
+                return nil
+            }
+        }
+        set {
+            if let encoded = try? JSONEncoder().encode(newValue) {
+                UserDefaults.standard.set(encoded, forKey: weeklyDebriefKey)
+            } else {
+                print("Error: failed to encode WeeklyDebrief object and UserData.weeklyDebrief property not set.")
+            }
         }
     }
     
