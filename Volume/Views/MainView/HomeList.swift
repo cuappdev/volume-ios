@@ -55,9 +55,6 @@ struct HomeList: View {
                 
                 done()
                 
-                print("trendingArticles: \([Article](trendingArticles))")
-                print("followedArticles: \([Article](followedArticles))")
-                print("other: \([Article](otherArticles))")
                 withAnimation(.linear(duration: 0.1)) {
                     state = .results((
                         trendingArticles: [Article](trendingArticles),
@@ -79,62 +76,83 @@ struct HomeList: View {
             }
         }) {
             VStack(spacing: 20) {
-                Header("The Big Read")
-                    .padding([.top, .leading, .trailing])
-                ScrollView(.horizontal, showsIndicators: false) {
+                Group { // Trending Articles
+                    Header("The Big Read")
+                        .padding([.top, .leading, .trailing])
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        switch state {
+                        case .loading:
+                            HStack(spacing: 24) {
+                                ForEach(0..<2) { _ in
+                                    BigReadArticleRow.Skeleton()
+                                }
+                            }
+                        case .reloading(let results), .results(let results):
+                            HStack(spacing: 24) {
+                                ForEach(results.trendingArticles) { article in
+                                    BigReadArticleRow(article: article)
+                                }
+                            }
+                        }
+                    }
+                    .padding([.leading, .trailing])
+                }
+                Button { // Weekly Debrief Button
+                    print("button pressed")
+                } label: {
+                    ZStack(alignment: .leading) {
+                        Image("weekly-debrief-curves")
+                            .renderingMode(.original)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                        HStack(alignment: .top) {
+                            Text("Your\nWeekly\nDebrief")
+                                .font(.begumRegular(size: 18))
+                                .foregroundColor(.volume.orange)
+                                .padding([.leading])
+                            Spacer()
+                            Image("right-arrow")
+                                .padding([.trailing])
+                        }
+                    }
+                }
+                .frame(height: 92)
+                .padding([.horizontal])
+                .shadow(color: .volume.shadowBlack, radius: 5, x: 0, y: 0)
+                Group { // Followed Articles
+                    Header("Following")
+                        .padding([.leading, .trailing])
                     switch state {
                     case .loading:
-                        HStack(spacing: 24) {
-                            ForEach(0..<2) { _ in
-                                BigReadArticleRow.Skeleton()
-                            }
+                        ForEach(0..<5) { _ in
+                            ArticleRow.Skeleton()
+                                .padding([.leading, .trailing])
                         }
                     case .reloading(let results), .results(let results):
-                        HStack(spacing: 24) {
-                            ForEach(results.trendingArticles) { article in
-                                BigReadArticleRow(article: article)
-                            }
+                        ForEach(results.followedArticles) { article in
+                            ArticleRow(article: article, navigationSource: .followingArticles)
+                                .padding([.leading, .trailing])
+                        }
+                    }
+                    Spacer()
+                    VolumeMessage(message: .upToDate)
+                        .padding(.top, 25)
+                        .padding(.bottom, -5)
+                }
+                Spacer()
+                Group {
+                    Header("Other Articles").padding()
+                    switch state {
+                    case .loading:
+                        // will be off the page, so pointless to show anything
+                        Spacer().frame(height: 0)
+                    case .reloading(let results), .results(let results):
+                        ForEach(results.otherArticles) { article in
+                            ArticleRow(article: article, navigationSource: .otherArticles)
+                                .padding([.bottom, .leading, .trailing])
                         }
                     }
                 }
-                .padding([.leading, .trailing])
-
-                Header("Following")
-                    .padding([.leading, .trailing])
-                    .padding(.top, 36)
-                switch state {
-                case .loading:
-                    ForEach(0..<5) { _ in
-                        ArticleRow.Skeleton()
-                            .padding([.leading, .trailing])
-                    }
-                case .reloading(let results), .results(let results):
-                    ForEach(results.followedArticles) { article in
-                        ArticleRow(article: article, navigationSource: .followingArticles)
-                            .padding([.leading, .trailing])
-                    }
-                }
-
-                Spacer()
-
-                VolumeMessage(message: .upToDate)
-                    .padding(.top, 25)
-                    .padding(.bottom, -5)
-
-                Spacer()
-
-                Header("Other Articles").padding()
-                switch state {
-                case .loading:
-                    // will be off the page, so pointless to show anything
-                    Spacer().frame(height: 0)
-                case .reloading(let results), .results(let results):
-                    ForEach(results.otherArticles) { article in
-                        ArticleRow(article: article, navigationSource: .otherArticles)
-                            .padding([.bottom, .leading, .trailing])
-                    }
-                }
-
                 // Invisible navigation link only opens if application is opened
                 // through deeplink with valid article
                 if let articleID = onOpenArticleUrl {
