@@ -17,9 +17,10 @@ struct HomeList: View {
     @State private var onOpenArticleUrl: String?
     @State private var openedWeeklyDebrief = false
     @EnvironmentObject private var networkState: NetworkState
+    @EnvironmentObject private var notifications: Notifications
     @EnvironmentObject private var userData: UserData
 
-    private func fetch(_ done: @escaping () -> Void = { }) {
+    private func fetchContent(_ done: @escaping () -> Void = { }) {
         guard state.isLoading else { return }
 
         cancellableListQuery = Network.shared.publisher(for: GetAllPublicationIDsQuery())
@@ -65,11 +66,31 @@ struct HomeList: View {
             }
         
         if let expirationDate = userData.weeklyDebrief?.expirationDate {
-            if expirationDate > Date() {
-                // query new WD & show WD popup together
+            if expirationDate < Date() {
+                // cached WD expired, query new one
+                fetchWeeklyDebrief()
+            }
+        } else {
+            // no existing WD, query new one
+            fetchWeeklyDebrief()
+        }
+    }
+    
+    private func fetchWeeklyDebrief() {
+        guard let uuid = userData.uuid else {
+            print("Error: received nil UUID from UserData")
+            return
+        }
+        cancellableWeeklyDebriefQuery = Network.shared.publisher(for: GetWeeklyDebriefQuery(uuid: uuid))
+            .map(\.user.weeklyDebrief.fragments.weeklyDebriefFields)
+            .sink { completion in
+                if case let .failure(error) = completion {
+                    print(error)
+                }
+            } receiveValue: { weeklyDebriefFields in
+                userData.weeklyDebrief = WeeklyDebrief(from: weeklyDebriefFields)
                 openedWeeklyDebrief = true
             }
-        }
     }
 
     var body: some View {
@@ -79,7 +100,7 @@ struct HomeList: View {
                 return
             case .results(let results):
                 state = .reloading(results)
-                fetch(done)
+                fetchContent(done)
             }
         }) {
             VStack(spacing: 20) {
@@ -108,8 +129,8 @@ struct HomeList: View {
                     switch state {
                     case .loading:
                         SkeletonView()
-                    case .reloading(let _), .results(let _):
-                        Button { // Weekly Debrief Button
+                    case .reloading, .results:
+                        Button {
                             openedWeeklyDebrief = true
                         } label: {
                             ZStack(alignment: .leading) {
@@ -133,7 +154,7 @@ struct HomeList: View {
                 .frame(height: 92)
                 .padding([.horizontal])
                 .shadow(color: .volume.shadowBlack, radius: 5, x: 0, y: 0)
-                Group { // Followed Articles
+                Group { // Articles from Followed Publications
                     Header("Following")
                         .padding([.leading, .trailing])
                     switch state {
@@ -154,7 +175,7 @@ struct HomeList: View {
                         .padding(.bottom, -5)
                 }
                 Spacer()
-                Group {
+                Group { // Articles from Non-followed Publications
                     Header("Other Articles").padding()
                     switch state {
                     case .loading:
@@ -184,7 +205,8 @@ struct HomeList: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            fetch()
+            fetchContent()
+            
         }
         .onOpenURL { url in
             if url.isDeeplink {
@@ -194,10 +216,13 @@ struct HomeList: View {
                 }
             }
         }
+        .onChange(of: notifications.openedWeeklyDebrief) { newValue in
+            openedWeeklyDebrief = newValue
+        }
         .sheet(isPresented: $openedWeeklyDebrief) {
             openedWeeklyDebrief = false
         } content: {
-            Text("Weekly Debrief")
+            Text("Weekly Debrief") // placeholder for popup View
         }
     }
 }
