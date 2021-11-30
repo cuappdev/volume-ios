@@ -9,13 +9,13 @@
 import Foundation
 
 struct WeeklyDebrief: Codable {
-    var creationDate: Date
-    var expirationDate: Date
-    var numShoutouts: Int
-    var numReadArticles: Int
-    var numBookmarkedArticles: Int
-    var readArticleIDs: [ArticleID]
-    var randomArticleIDs: [ArticleID]
+    let creationDate: Date
+    let expirationDate: Date
+    let numShoutouts: Int
+    let numReadArticles: Int
+    let numBookmarkedArticles: Int
+    let readArticleIDs: [ArticleID]
+    let randomArticleIDs: [ArticleID]
     
     init(from weeklyDebrief: WeeklyDebriefFields) {
         /*
@@ -32,3 +32,4 @@ struct WeeklyDebrief: Codable {
         randomArticleIDs = weeklyDebrief.randomArticles.map(\.fragments.articleFields.id)
     }
 }
+
