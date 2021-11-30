@@ -32,7 +32,6 @@ struct HomeList: View {
                     .collect()
 
                 let morePublicationIDs = publicationIDs.filter { !userData.followedPublicationIDs.contains($0) }
-                let _ = print("morePublicationIDs: \(morePublicationIDs)")
 
                 let otherQuery = Network.shared.publisher(for: GetArticlesByPublicationIDsQuery(ids: morePublicationIDs))
                     .map { $0.articles.map(\.fragments.articleFields) }
@@ -97,22 +96,29 @@ struct HomeList: View {
                     }
                     .padding([.leading, .trailing])
                 }
-                Button { // Weekly Debrief Button
-                    print("button pressed")
-                } label: {
-                    ZStack(alignment: .leading) {
-                        Image("weekly-debrief-curves")
-                            .renderingMode(.original)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                        HStack(alignment: .top) {
-                            Text("Your\nWeekly\nDebrief")
-                                .font(.begumRegular(size: 18))
-                                .foregroundColor(.volume.orange)
-                                .padding([.leading])
-                            Spacer()
-                            Image("right-arrow")
-                                .padding([.trailing])
+                Group { // Weekly Debrief Button
+                    switch state {
+                    case .loading:
+                        SkeletonView()
+                    case .reloading(let results), .results(let results):
+                        Button { // Weekly Debrief Button
+                            print("button pressed")
+                        } label: {
+                            ZStack(alignment: .leading) {
+                                Image("weekly-debrief-curves")
+                                    .renderingMode(.original)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                HStack(alignment: .top) {
+                                    Text("Your\nWeekly\nDebrief")
+                                        .font(.begumRegular(size: 18))
+                                        .foregroundColor(.volume.orange)
+                                        .padding([.leading])
+                                    Spacer()
+                                    Image("right-arrow")
+                                        .padding([.trailing])
+                                }
+                            }
                         }
                     }
                 }
