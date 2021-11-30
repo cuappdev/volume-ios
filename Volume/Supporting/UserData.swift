@@ -52,7 +52,7 @@ class UserData: ObservableObject {
     
     private(set) var uuid: String? {
         get {
-            return UserDefaults.standard.object(forKey: userUUIDKey) as? String
+            UserDefaults.standard.object(forKey: userUUIDKey) as? String
         }
         set {
             UserDefaults.standard.setValue(newValue, forKey: userUUIDKey)
@@ -129,7 +129,7 @@ class UserData: ObservableObject {
     }
 
     func set(publication: Publication, isFollowed: Bool) {
-        guard let uuid = self.uuid else {
+        guard let uuid = uuid else {
             // User has not finished onboarding
             if isFollowed {
                 if !followedPublicationIDs.contains(publication.id) {

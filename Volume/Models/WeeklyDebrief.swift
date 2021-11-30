@@ -10,13 +10,13 @@ import Apollo
 import Foundation
 
 struct WeeklyDebrief {
-    var creationDate: Date
-    var expirationDate: Date
-    var numShoutouts: Int
-    var numReadArticles: Int
-    var numBookmarkedArticles: Int
-    var readArticles: [Article]
-    var randomArticles: [Article]
+    let creationDate: Date
+    let expirationDate: Date
+    let numShoutouts: Int
+    let numReadArticles: Int
+    let numBookmarkedArticles: Int
+    let readArticles: [Article]
+    let randomArticles: [Article]
     
     init(from weeklyDebrief: WeeklyDebriefFields) {
         /*
