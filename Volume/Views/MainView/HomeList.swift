@@ -11,10 +11,11 @@ import SwiftUI
 
 struct HomeList: View {
     @State private var cancellableListQuery: AnyCancellable?
-    @State private var cancellableArticleQuery: AnyCancellable?
+    @State private var cancellableWeeklyDebriefQuery: AnyCancellable?
     @State private var state: MainView.TabState<Results> = .loading
     @State private var openedUrl = false
     @State private var onOpenArticleUrl: String?
+    @State private var openedWeeklyDebrief = false
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
 
@@ -62,6 +63,13 @@ struct HomeList: View {
                     ))
                 }
             }
+        
+        if let expirationDate = userData.weeklyDebrief?.expirationDate {
+            if expirationDate > Date() {
+                // query new WD & show WD popup together
+                openedWeeklyDebrief = true
+            }
+        }
     }
 
     var body: some View {
@@ -100,9 +108,9 @@ struct HomeList: View {
                     switch state {
                     case .loading:
                         SkeletonView()
-                    case .reloading(let results), .results(let results):
+                    case .reloading(let _), .results(let _):
                         Button { // Weekly Debrief Button
-                            print("button pressed")
+                            openedWeeklyDebrief = true
                         } label: {
                             ZStack(alignment: .leading) {
                                 Image("weekly-debrief-curves")
@@ -185,6 +193,11 @@ struct HomeList: View {
                     openedUrl = true
                 }
             }
+        }
+        .sheet(isPresented: $openedWeeklyDebrief) {
+            openedWeeklyDebrief = false
+        } content: {
+            Text("Weekly Debrief")
         }
     }
 }

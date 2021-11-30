@@ -6,17 +6,16 @@
 //  Copyright © 2021 Cornell AppDev. All rights reserved.
 //
 
-import Apollo
 import Foundation
 
-struct WeeklyDebrief {
+struct WeeklyDebrief: Codable {
     let creationDate: Date
     let expirationDate: Date
     let numShoutouts: Int
     let numReadArticles: Int
     let numBookmarkedArticles: Int
-    let readArticles: [Article]
-    let randomArticles: [Article]
+    let readArticleIDs: [ArticleID]
+    let randomArticleIDs: [ArticleID]
     
     init(from weeklyDebrief: WeeklyDebriefFields) {
         /*
@@ -29,8 +28,7 @@ struct WeeklyDebrief {
         numShoutouts = Int(weeklyDebrief.numShoutouts)
         numReadArticles = Int(weeklyDebrief.numReadArticles)
         numBookmarkedArticles = Int(weeklyDebrief.numBookmarkedArticles)
-        readArticles = [Article](weeklyDebrief.readArticles.map(\.fragments.articleFields))
-        randomArticles = [Article](weeklyDebrief.randomArticles.map(\.fragments.articleFields))
+        readArticleIDs = weeklyDebrief.readArticles.map(\.fragments.articleFields.id)
+        randomArticleIDs = weeklyDebrief.randomArticles.map(\.fragments.articleFields.id)
     }
-    
 }
