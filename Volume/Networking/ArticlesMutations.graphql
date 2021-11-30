@@ -1,5 +1,5 @@
-mutation IncrementShoutouts($id: String!) {
-  incrementShoutouts(id: $id) {
+mutation IncrementShoutouts($id: String!, $uuid: String!) {
+  incrementShoutouts(id: $id, uuid: $uuid) {
     id
   }
 }

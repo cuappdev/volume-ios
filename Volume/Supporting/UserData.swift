@@ -50,6 +50,15 @@ class UserData: ObservableObject {
         }
     }
     
+    private(set) var uuid: String? {
+        get {
+            return UserDefaults.standard.object(forKey: userUUIDKey) as? String
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: userUUIDKey)
+        }
+    }
+    
     private var cancellables: [Mutation : AnyCancellable?] = [:]
 
     private init() {
@@ -80,7 +89,7 @@ class UserData: ObservableObject {
                     }
                 } receiveValue: { uuid in
                     // cache this UUID to use later when mutating user-specific info
-                    UserDefaults.standard.setValue(uuid, forKey: self.userUUIDKey)
+                    self.uuid = uuid
                 }
         }
     }
@@ -120,7 +129,7 @@ class UserData: ObservableObject {
     }
 
     func set(publication: Publication, isFollowed: Bool) {
-        guard let uuid = UserDefaults.standard.string(forKey: userUUIDKey) else {
+        guard let uuid = self.uuid else {
             // User has not finished onboarding
             if isFollowed {
                 if !followedPublicationIDs.contains(publication.id) {

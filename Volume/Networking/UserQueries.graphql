@@ -1,0 +1,21 @@
+fragment weeklyDebriefFields on WeeklyDebrief {
+    createdAt
+    expirationDate
+    numReadArticles
+    numShoutouts
+    numBookmarkedArticles
+    readArticles {
+        ...articleFields
+    }
+    randomArticles {
+        ...articleFields
+    }
+}
+
+query GetWeeklyDebrief($uuid:String!) {
+    user: getUser(uuid:$uuid) {
+        weeklyDebrief: weeklyDebrief {
+            ...weeklyDebriefFields
+        }
+    }
+}
