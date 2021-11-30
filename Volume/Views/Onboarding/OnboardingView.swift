@@ -62,6 +62,7 @@ struct OnboardingView: View {
             Divider()
                 .background(Color.volume.buttonGray)
                 .frame(width: 100)
+                .padding(.bottom, 30)
 
             switch page {
             case .welcome:

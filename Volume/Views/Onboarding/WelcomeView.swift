@@ -55,7 +55,8 @@ extension OnboardingView.WelcomeView {
                 )
                 .frame(width: 222)
             }
-            .padding([.leading, .trailing, .top], 48)
+            .padding([.leading, .trailing], 48)
+            .padding(.top, 35)
         }
     }
 }

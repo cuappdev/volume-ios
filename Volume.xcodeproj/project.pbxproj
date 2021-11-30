@@ -161,10 +161,10 @@
 		060FFDD82577EC800052F3EA /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				060FFDDA2577EC800052F3EA /* FollowView.swift */,
 				060FFDDB2577EC800052F3EA /* OnboardingView.swift */,
 				060FFDD92577EC800052F3EA /* WelcomeView.swift */,
 				06EC2D21259CECF800FE0A71 /* PublicationDetail */,
-				060FFDDA2577EC800052F3EA /* FollowView.swift */,
 			);
 			name = Onboarding;
 			path = Volume/Views/Onboarding;

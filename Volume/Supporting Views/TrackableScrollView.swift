@@ -11,6 +11,7 @@ struct TrackableScrollView<Content: View>: UIViewControllerRepresentable {
     /// Lets the parent control the storage of `contentOffset`. Updates the parent's
     /// value on scroll and lets it update the actual offset.
     @Binding var contentOffset: CGPoint
+    @Binding var contentHeight: CGFloat
     /// Notifies the parent when the max offset changes. Does not allow it to update this
     /// value directly.
     let maxOffsetDidChange: ((CGPoint) -> Void)?
@@ -19,16 +20,18 @@ struct TrackableScrollView<Content: View>: UIViewControllerRepresentable {
 
     init(
         contentOffset: Binding<CGPoint>,
+        contentHeight: Binding<CGFloat>,
         maxOffsetDidChange: ((CGPoint) -> Void)? = nil,
         @ViewBuilder content: @escaping () -> Content
     ) {
         _contentOffset = contentOffset
+        _contentHeight = contentHeight
         self.maxOffsetDidChange = maxOffsetDidChange
         self.content = content
     }
 
     func makeCoordinator() -> Coordinator<Content> {
-        Coordinator(contentOffset: $contentOffset)
+        Coordinator(contentOffset: $contentOffset, contentHeight: $contentHeight)
     }
 
     func makeUIViewController(context: Context) -> UIViewController {
@@ -39,7 +42,7 @@ struct TrackableScrollView<Content: View>: UIViewControllerRepresentable {
         scrollView.delegate = context.coordinator
         viewController.view.addSubview(scrollView)
         pinEdges(of: scrollView, to: viewController.view)
-
+        scrollView.contentSize.height = contentHeight
         DispatchQueue.main.async {
             maxOffsetDidChange?(
                 CGPoint(
@@ -70,6 +73,8 @@ struct TrackableScrollView<Content: View>: UIViewControllerRepresentable {
         }
 
         oldHost.rootView = content()
+        
+        scrollView.contentSize.height = contentHeight
 
         DispatchQueue.main.async {
             maxOffsetDidChange?(
@@ -87,14 +92,17 @@ struct TrackableScrollView<Content: View>: UIViewControllerRepresentable {
 
     class Coordinator<Content: View>: NSObject, UIScrollViewDelegate {
         @Binding var contentOffset: CGPoint
+        @Binding var contentHeight: CGFloat
         let viewController = UIViewController()
 
-        init(contentOffset: Binding<CGPoint>) {
+        init(contentOffset: Binding<CGPoint>, contentHeight: Binding<CGFloat>) {
             _contentOffset = contentOffset
+            _contentHeight = contentHeight
         }
 
         func scrollViewDidScroll(_ scrollView: UIScrollView) {
             contentOffset = scrollView.contentOffset
+            contentHeight = scrollView.contentSize.height
         }
     }
 
