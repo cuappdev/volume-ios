@@ -10,16 +10,6 @@ import Apollo
 import Foundation
 
 struct WeeklyDebrief {
-    /* createdAt
-     expirationDate
-     numShoutouts
-     readArticles {
-       ...articleFields
-     }
-     randomArticles {
-       ...articleFields
-     }
-     */
     var creationDate: Date
     var expirationDate: Date
     var numShoutouts: Int
