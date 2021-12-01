@@ -51,11 +51,8 @@ class UserData: ObservableObject {
         }
     }
     
-    private(set) var uuid: String? {
-        get {
-            UserDefaults.standard.object(forKey: userUUIDKey) as? String
-        }
-        set {
+    var uuid: String? = nil {
+        willSet {
             UserDefaults.standard.setValue(newValue, forKey: userUUIDKey)
         }
     }
@@ -67,6 +64,12 @@ class UserData: ObservableObject {
             } else {
                 print("Error: failed to encode WeeklyDebrief object and UserData.weeklyDebrief property not set.")
             }
+        }
+    }
+    
+    var deviceToken: String? = nil {
+        willSet {
+            UserDefaults.standard.setValue(newValue, forKey: deviceTokenKey)
         }
     }
     
@@ -89,24 +92,13 @@ class UserData: ObservableObject {
            let debrief = try? JSONDecoder().decode(WeeklyDebrief.self, from: debriefData) {
             weeklyDebrief = debrief
         }
-    }
-    
-    func set(deviceToken: String) {
-        UserDefaults.standard.setValue(deviceToken, forKey: deviceTokenKey)
-    }
-    
-    func createUser() {
-        if let deviceToken = UserDefaults.standard.string(forKey: deviceTokenKey) {
-            cancellables[.createUser] = Network.shared.publisher(for: CreateUserMutation(deviceToken: deviceToken, followedPublicationIDs: followedPublicationIDs))
-                .map { $0.user.uuid }
-                .sink { completion in
-                    if case let .failure(error) = completion {
-                        print("An error occurred in creating user: \(error)")
-                    }
-                } receiveValue: { uuid in
-                    // cache this UUID to use later when mutating user-specific info
-                    self.uuid = uuid
-                }
+        
+        if let deviceToken = UserDefaults.standard.object(forKey: deviceTokenKey) as? String {
+            self.deviceToken = deviceToken
+        }
+        
+        if let uuid = UserDefaults.standard.object(forKey: userUUIDKey) as? String {
+            self.uuid = uuid
         }
     }
 
@@ -135,10 +127,25 @@ class UserData: ObservableObject {
     }
 
     func set(article: Article, isSaved: Bool) {
+        guard let uuid = uuid else {
+            print("Error: received nil for UUID in set(article:isSaved)")
+            return
+        }
+        
         if isSaved {
-            if !savedArticleIDs.contains(article.id) {
-                savedArticleIDs.insert(article.id, at: 0)
+            if let bookmarkCancellable = cancellables[.bookmark(article)] {
+                bookmarkCancellable?.cancel()
             }
+            cancellables[.bookmark(article)] = Network.shared.publisher(for: BookmarkArticleMutation(uuid: uuid))
+                .sink { completion in
+                    if case let .failure(error) = completion {
+                        print(error)
+                    }
+                } receiveValue: { _ in
+                    if !self.savedArticleIDs.contains(article.id) {
+                        self.savedArticleIDs.insert(article.id, at: 0)
+                    }
+                }
         } else {
             savedArticleIDs.removeAll(where: { $0 == article.id })
         }
@@ -192,6 +199,6 @@ class UserData: ObservableObject {
 
 extension UserData {
     private enum Mutation: Hashable {
-        case createUser, follow(Publication), unfollow(Publication)
+        case follow(Publication), unfollow(Publication), bookmark(Article)
     }
 }

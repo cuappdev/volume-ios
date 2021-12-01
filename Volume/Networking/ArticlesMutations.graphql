@@ -3,3 +3,15 @@ mutation IncrementShoutouts($id: String!, $uuid: String!) {
     id
   }
 }
+
+mutation ReadArticle($id: String!, $uuid: String!) {
+  readArticle(articleID: $id, uuid: $uuid) {
+    id
+  }
+}
+
+mutation BookmarkArticle($uuid: String!) {
+  bookmarkArticle(uuid: $uuid) {
+    id
+  }
+}
