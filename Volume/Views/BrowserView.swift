@@ -18,8 +18,9 @@ struct BrowserView: View {
 
     let initType: BrowserViewInitType
     let navigationSource: NavigationSource
-    @State private var cancellableShoutoutMutation: AnyCancellable?
     @State private var cancellableArticleQuery: AnyCancellable?
+    @State private var cancellableReadMutation: AnyCancellable?
+    @State private var cancellableShoutoutMutation: AnyCancellable?
     @State private var state: BrowserViewState<Article> = .loading
     
     var isShoutoutsButtonEnabled: Bool {
@@ -116,6 +117,7 @@ struct BrowserView: View {
                     WebView(url: articleUrl)
                         .onAppear {
                             AppDevAnalytics.log(VolumeEvent.openArticle.toEvent(.article, value: article.id, navigationSource: navigationSource))
+                            markArticleRead(id: article.id)
                         }
                         .onDisappear {
                             AppDevAnalytics.log(VolumeEvent.closeArticle.toEvent(.article, value: article.id, navigationSource: navigationSource))
@@ -188,8 +190,19 @@ struct BrowserView: View {
             } receiveValue: { article in
                 if let fields = article.article?.fragments.articleFields {
                     state = .results(Article(from: fields))
+                    markArticleRead(id: id)
                 }
             }
+    }
+    
+    private func markArticleRead(id: String) {
+        guard let uuid = userData.uuid else { return }
+        cancellableReadMutation = Network.shared.publisher(for: ReadArticleMutation(id: id, uuid: uuid))
+            .sink { completion in
+                if case let .failure(error) = completion {
+                    print(error)
+                }
+            } receiveValue: { _ in }
     }
 
     func displayShareScreen(for article: Article) {
