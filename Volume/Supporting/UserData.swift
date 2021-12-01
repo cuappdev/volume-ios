@@ -60,16 +60,8 @@ class UserData: ObservableObject {
         }
     }
     
-    var weeklyDebrief: WeeklyDebrief? {
-        get {
-            if let data = UserDefaults.standard.object(forKey: weeklyDebriefKey) as? Data,
-               let savedWeeklyDebrief = try? JSONDecoder().decode(WeeklyDebrief.self, from: data) {
-                return savedWeeklyDebrief
-            } else {
-                return nil
-            }
-        }
-        set {
+    var weeklyDebrief: WeeklyDebrief? = nil {
+        willSet {
             if let encoded = try? JSONEncoder().encode(newValue) {
                 UserDefaults.standard.set(encoded, forKey: weeklyDebriefKey)
             } else {
@@ -91,6 +83,11 @@ class UserData: ObservableObject {
 
         if let shoutoutsCounter = UserDefaults.standard.object(forKey: articleShoutoutsKey) as? [String: Int] {
             articleShoutoutsCounter = shoutoutsCounter
+        }
+        
+        if let debriefData = UserDefaults.standard.object(forKey: weeklyDebriefKey) as? Data,
+           let debrief = try? JSONDecoder().decode(WeeklyDebrief.self, from: debriefData) {
+            weeklyDebrief = debrief
         }
     }
     

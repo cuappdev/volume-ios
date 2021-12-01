@@ -206,7 +206,6 @@ struct HomeList: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             fetchContent()
-            
         }
         .onOpenURL { url in
             if url.isDeeplink {
