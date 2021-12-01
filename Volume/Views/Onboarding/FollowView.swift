@@ -24,11 +24,10 @@ extension OnboardingView {
                         print(error.localizedDescription)
                     }
                 }, receiveValue: { value in
-                    let publications = [Publication](value)
-                    state = .results(publications)
+                    state = .results([Publication](value))
                 })
         }
-        
+
         var body: some View {
             ScrollView {
                 LazyVStack(spacing: 24) {
