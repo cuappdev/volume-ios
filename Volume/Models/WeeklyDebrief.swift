@@ -32,4 +32,3 @@ struct WeeklyDebrief: Codable {
         randomArticleIDs = weeklyDebrief.randomArticles.map(\.fragments.articleFields.id)
     }
 }
-
