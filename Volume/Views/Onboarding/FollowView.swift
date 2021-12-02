@@ -47,21 +47,6 @@ extension OnboardingView {
                 }
                 .background(Color.volume.backgroundGray)
             }
-            .overlay(
-                VStack {
-                    fadeView(fadesDown: false)
-                        .opacity(contentOffset.y > 0 ? 1 : 0)
-                    Spacer()
-                    fadeView(fadesDown: true)
-                        .opacity(
-                            contentOffset.y < maxContentOffset.y - 1
-                                || maxContentOffset.y == 0
-                                ? 1 : 0
-                        )
-                }
-                .transition(.opacity)
-                .animation(.linear(duration: 0.2))
-            )
             .padding(.top, 48)
             .disabled(state == .loading)
             .transition(.move(edge: .trailing))

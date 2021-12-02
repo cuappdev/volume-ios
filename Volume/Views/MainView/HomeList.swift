@@ -222,7 +222,9 @@ struct HomeList: View {
         .sheet(isPresented: $openedWeeklyDebrief) {
             openedWeeklyDebrief = false
         } content: {
-            Text("Weekly Debrief") // placeholder for popup View
+//            if let weeklyDebrief = userData.weeklyDebrief {
+            WeeklyDebriefView(openedWeeklyDebrief: $openedWeeklyDebrief)
+//            }
         }
     }
 }
