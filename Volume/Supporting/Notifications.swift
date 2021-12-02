@@ -43,15 +43,14 @@ class Notifications: NSObject {
     }
     
     func handlePushNotification(userInfo: [AnyHashable: Any]) {
-        guard let data = userInfo["data"] as? [String: Any],
-              let notificationType = data["notificationType"] as? String
+        guard let notificationType = userInfo["notificationType"] as? String
         else {
             print("Error: data or notificationType not found in push notification payload")
             return
         }
         switch notificationType {
         case NotificationType.newArticle.rawValue:
-            guard let articleID = data["articleID"] as? String else {
+            guard let articleID = userInfo["articleID"] as? String else {
                 print("Error: missing articleID in new article notification payload")
                 break
             }
