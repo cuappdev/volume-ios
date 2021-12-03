@@ -10,20 +10,22 @@ import SwiftUI
 
 struct Header: View {
     private let text: String
+    private let alignment: Alignment
 
-    init(_ text: String) {
+    init(_ text: String, _ alignment: Alignment = .leading) {
         self.text = text
+        self.alignment = alignment
     }
 
     var body: some View {
         UnderlinedText(text)
             .font(.begumMedium(size: 20))
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .frame(maxWidth: .infinity, alignment: alignment)
     }
 }
 
 struct Header_Previews: PreviewProvider {
     static var previews: some View {
-        Header("Header")
+        Header("Header", .leading)
     }
 }

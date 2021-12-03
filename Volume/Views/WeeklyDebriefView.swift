@@ -9,14 +9,17 @@
 import SwiftUI
 
 struct WeeklyDebriefView: View {
+    @EnvironmentObject private var userData: UserData
     let weeklyDebrief: WeeklyDebrief
+    let article: Article
     @Binding var openedWeeklyDebrief: Bool
 
-    init(openedWeeklyDebrief: Binding<Bool>, weeklyDebrief: WeeklyDebrief) {
+    init(openedWeeklyDebrief: Binding<Bool>, weeklyDebrief: WeeklyDebrief, article: Article) {
         UIPageControl.appearance().currentPageIndicatorTintColor = .gray
         UIPageControl.appearance().pageIndicatorTintColor = .lightGray
         _openedWeeklyDebrief = openedWeeklyDebrief
         self.weeklyDebrief = weeklyDebrief
+        self.article = article
     }
     var body: some View {
         VStack {
@@ -67,31 +70,37 @@ struct WeeklyDebriefView: View {
                     Spacer()
 
                 }
-                DebriefArticleView(header: "Share What You Read")
-                DebriefArticleView(header: "Share What You Read")
-                VStack(spacing: 200) {
-                    Header("See You Next Week!")
-                        .padding([.leading, .trailing], 75)
-                        .frame(alignment: .center)
+
+                // TODO - create a DebriefArticleView for each article
+//                DebriefArticleView(header: "Share What You Read", article: article)
+//                DebriefArticleView(header: "Share What You Read", article: article)
+                VStack {
+                    Header("See You Next Week!", .center)
+                        .padding(.top, 24)
                     VStack {
-                        Image("volume-logo")
-                            .resizable()
-                            .frame(width: 245, height: 75)
-                        Text("Stay updated with Cornell student publications, all in one place")
-                            .font(.begumRegular(size: 16))
+                        VStack {
+                            Image("volume-logo")
+                                .resizable()
+                                .frame(width: 245, height: 75)
+                            Text("Stay updated with Cornell student publications, all in one place")
+                                .font(.begumRegular(size: 16))
+                        }
+                        .padding(.top, 200)
+                        Button {
+                            openedWeeklyDebrief = false
+                        } label: {
+                            Text("Continue to Volume")
+                                .foregroundColor(Color.volume.orange)
+                                .font(.helveticaBold(size: 16))
+                        }
+                        .frame(width: 184, height: 45, alignment: .center)
+                        .overlay(RoundedRectangle(cornerRadius: 26)
+                        .stroke(Color.volume.orange, lineWidth: 2))
+                        .padding(.top, 200)
+                        Spacer()
                     }
-                    Button {
-                        openedWeeklyDebrief = false
-                    } label: {
-                        Text("Continue to Volume")
-                            .foregroundColor(Color.volume.orange)
-                    }
-                    .frame(width: 184, height: 45, alignment: .center)
-                    .overlay(RoundedRectangle(cornerRadius: 26)
-                                .stroke(Color.volume.orange, lineWidth: 2))
                 }
                 .padding([.leading, .trailing], 50)
-                .padding(.bottom, 50)
             }
             .tabViewStyle(PageTabViewStyle())
         }

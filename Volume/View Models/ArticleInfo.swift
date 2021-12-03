@@ -13,18 +13,19 @@ struct ArticleInfo: View {
 
     let article: Article
     let showsPublicationName: Bool
+    let expandedSize: Bool
 
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 0) {
                 if showsPublicationName {
                     Text(article.publication.name)
-                        .font(.begumMedium(size: 12))
-                        .padding(.bottom, 1.5)
+                        .font(expandedSize ? .begumMedium(size: 16) : .begumMedium(size: 12))
+                        .padding(.bottom, expandedSize ? 3.5 : 1.5)
                 }
 
                 Text(article.title)
-                    .font(.latoBold(size: 16))
+                    .font(expandedSize ? .latoBold(size: 24) : .latoBold(size: 16))
                     .lineLimit(3)
                     .padding(.top, 0.5)
                     .blur(radius: article.isNsfw ? 3 : 0)
@@ -33,13 +34,13 @@ struct ArticleInfo: View {
                 HStack {
                     // swiftlint:disable:next line_length
                     Text("\(article.date.fullString) • \(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0])) shout-outs")
-                        .font(.latoRegular(size: 10))
+                        .font(expandedSize ? .latoRegular(size: 14) : .latoRegular(size: 10))
                         .foregroundColor(Color.volume.lightGray)
                     if userData.isArticleSaved(article) {
                         Image(systemName: "bookmark.fill")
                             .resizable()
                             .foregroundColor(Color.volume.orange)
-                            .frame(width: 8, height: 11)
+                            .frame(width: expandedSize ? 9 : 8, height: expandedSize ? 12 : 11)
                     }
                 }
             }

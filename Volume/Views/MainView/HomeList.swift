@@ -132,6 +132,7 @@ struct HomeList: View {
                     case .reloading, .results:
                         Button {
                             openedWeeklyDebrief = true
+                            let _ = print("opening ")
                         } label: {
                             ZStack(alignment: .leading) {
                                 Image("weekly-debrief-curves")
@@ -222,8 +223,9 @@ struct HomeList: View {
             openedWeeklyDebrief = false
         } content: {
             let _ = print("this is the weekly debrief: \(userData.weeklyDebrief)")
-            if let weeklyDebrief = userData.weeklyDebrief {
-                WeeklyDebriefView(openedWeeklyDebrief: $openedWeeklyDebrief, weeklyDebrief: weeklyDebrief)
+            let _ = print("the article is \(dummyArticle)")
+            if let weeklyDebrief = userData.weeklyDebrief, let article = dummyArticle {
+                WeeklyDebriefView(openedWeeklyDebrief: $openedWeeklyDebrief, weeklyDebrief: weeklyDebrief, article: article)
             }
         }
     }
