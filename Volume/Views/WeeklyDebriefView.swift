@@ -11,15 +11,13 @@ import SwiftUI
 struct WeeklyDebriefView: View {
     @EnvironmentObject private var userData: UserData
     let weeklyDebrief: WeeklyDebrief
-    let article: Article
     @Binding var openedWeeklyDebrief: Bool
 
-    init(openedWeeklyDebrief: Binding<Bool>, weeklyDebrief: WeeklyDebrief, article: Article) {
+    init(openedWeeklyDebrief: Binding<Bool>, weeklyDebrief: WeeklyDebrief) {
         UIPageControl.appearance().currentPageIndicatorTintColor = .gray
         UIPageControl.appearance().pageIndicatorTintColor = .lightGray
         _openedWeeklyDebrief = openedWeeklyDebrief
         self.weeklyDebrief = weeklyDebrief
-        self.article = article
     }
     var body: some View {
         VStack {

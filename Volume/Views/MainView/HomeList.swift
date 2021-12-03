@@ -222,10 +222,8 @@ struct HomeList: View {
         .sheet(isPresented: $openedWeeklyDebrief) {
             openedWeeklyDebrief = false
         } content: {
-            let _ = print("this is the weekly debrief: \(userData.weeklyDebrief)")
-            let _ = print("the article is \(dummyArticle)")
-            if let weeklyDebrief = userData.weeklyDebrief, let article = dummyArticle {
-                WeeklyDebriefView(openedWeeklyDebrief: $openedWeeklyDebrief, weeklyDebrief: weeklyDebrief, article: article)
+            if let weeklyDebrief = userData.weeklyDebrief {
+                WeeklyDebriefView(openedWeeklyDebrief: $openedWeeklyDebrief, weeklyDebrief: weeklyDebrief)
             }
         }
     }

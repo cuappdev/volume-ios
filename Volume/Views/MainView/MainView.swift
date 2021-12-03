@@ -27,7 +27,7 @@ struct MainView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             TabContainer(screen: .homeList) {
-                HomeList(dummyArticle: nil)
+                HomeList()
             }
             .tabItem {
                 Image("volume")
