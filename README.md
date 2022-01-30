@@ -11,7 +11,7 @@ Volume is one of the latest applications by [Cornell AppDev](http://cornellappde
 
 We use [CocoaPods](http://cocoapods.org) for our dependency manager. This should be installed before continuing.
 
-To access the project, clone the project, and run `pod install` in the project directory.
+To access the project, clone the project, and run `pod install --repo-update` in the project directory.
 
 ### 2. Configuration
 
@@ -51,7 +51,7 @@ AppDev members can access the `Supporting/Secrets.plist` file via a pinned messa
 3.  AppDev uses Firebase for event logging which requires a `GoogleService-Info.plist` file in the project.
 
 AppDev members can access the `GoogleService-Info.plist` file via a pinned message in the `#volume-ios` channel.
-Place the file in the `Volume/` directory.
+Place the file in the `Volume/Supporting/` directory.
 
 4.  Finally, you need to generate `API.swift`. The Apollo iOS pod offers a build run script to do this. Go to the Volume target Build Phases and click the plus to add a new Run Script Phase. Name it something like "Generate Apollo GraphQL API", and paste in the following script. When you build, Xcode will autogenerate `API.swift` if one of the query or mutation `.graphql` files has changed.
 
