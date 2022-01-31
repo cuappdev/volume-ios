@@ -15,7 +15,7 @@ struct HomeList: View {
     @State private var state: MainView.TabState<Results> = .loading
     @State private var openedUrl = false
     @State private var onOpenArticleUrl: String?
-    @State private var openedWeeklyDebrief = false
+    @State private var isWeeklyDebriefOpen = false
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var notifications: Notifications
     @EnvironmentObject private var userData: UserData
@@ -89,8 +89,104 @@ struct HomeList: View {
                 }
             } receiveValue: { weeklyDebrief in
                 userData.weeklyDebrief = WeeklyDebrief(from: weeklyDebrief)
-                openedWeeklyDebrief = true
+                isWeeklyDebriefOpen = true
             }
+    }
+    
+    private var trendingArticlesSection: some View {
+        Group {
+            Header("The Big Read")
+                .padding([.top, .leading, .trailing])
+            ScrollView(.horizontal, showsIndicators: false) {
+                switch state {
+                case .loading:
+                    HStack(spacing: 24) {
+                        ForEach(0..<2) { _ in
+                            BigReadArticleRow.Skeleton()
+                        }
+                    }
+                case .reloading(let results), .results(let results):
+                    HStack(spacing: 24) {
+                        ForEach(results.trendingArticles) { article in
+                            BigReadArticleRow(article: article)
+                        }
+                    }
+                }
+            }
+            .padding([.leading, .trailing])
+        }
+    }
+    
+    private var weeklyDebriefButton: some View {
+        Group {
+            switch state {
+            case .loading:
+                SkeletonView()
+            case .reloading, .results:
+                Button {
+                    isWeeklyDebriefOpen = true
+                    let _ = print("opening ")
+                } label: {
+                    ZStack(alignment: .leading) {
+                        Image("weekly-debrief-curves")
+                            .renderingMode(.original)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                        HStack(alignment: .top) {
+                            Text("Your\nWeekly\nDebrief")
+                                .font(.begumRegular(size: 18))
+                                .foregroundColor(.volume.orange)
+                                .padding([.leading])
+                            Spacer()
+                            Image("right-arrow")
+                                .padding([.trailing])
+                        }
+                    }
+                }
+            }
+        }
+        .frame(height: 92)
+        .padding([.horizontal])
+        .shadow(color: .volume.shadowBlack, radius: 5, x: 0, y: 0)
+    }
+    
+    var followedArticlesSection: some View {
+        Group {
+            Header("Following")
+                .padding([.leading, .trailing])
+            switch state {
+            case .loading:
+                ForEach(0..<5) { _ in
+                    ArticleRow.Skeleton()
+                        .padding([.leading, .trailing])
+                }
+            case .reloading(let results), .results(let results):
+                ForEach(results.followedArticles) { article in
+                    ArticleRow(article: article, navigationSource: .followingArticles)
+                        .padding([.leading, .trailing])
+                }
+            }
+            Spacer()
+            VolumeMessage(message: .upToDate)
+                .padding(.top, 25)
+                .padding(.bottom, -5)
+        }
+    }
+    
+    var otherArticlesSection: some View {
+        Group {
+            Header("Other Articles").padding()
+            switch state {
+            case .loading:
+                // will be off the page, so pointless to show anything
+                Spacer().frame(height: 0)
+            case .reloading(let results), .results(let results):
+                ForEach(results.otherArticles) { article in
+                    ArticleRow(article: article, navigationSource: .otherArticles)
+                        .padding([.bottom, .leading, .trailing])
+                }
+            }
+        }
     }
 
     var body: some View {
@@ -104,91 +200,11 @@ struct HomeList: View {
             }
         }) {
             VStack(spacing: 20) {
-                Group { // Trending Articles
-                    Header("The Big Read")
-                        .padding([.top, .leading, .trailing])
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        switch state {
-                        case .loading:
-                            HStack(spacing: 24) {
-                                ForEach(0..<2) { _ in
-                                    BigReadArticleRow.Skeleton()
-                                }
-                            }
-                        case .reloading(let results), .results(let results):
-                            HStack(spacing: 24) {
-                                ForEach(results.trendingArticles) { article in
-                                    BigReadArticleRow(article: article)
-                                }
-                            }
-                        }
-                    }
-                    .padding([.leading, .trailing])
-                }
-                Group { // Weekly Debrief Button
-                    switch state {
-                    case .loading:
-                        SkeletonView()
-                    case .reloading, .results:
-                        Button {
-                            openedWeeklyDebrief = true
-                            let _ = print("opening ")
-                        } label: {
-                            ZStack(alignment: .leading) {
-                                Image("weekly-debrief-curves")
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                HStack(alignment: .top) {
-                                    Text("Your\nWeekly\nDebrief")
-                                        .font(.begumRegular(size: 18))
-                                        .foregroundColor(.volume.orange)
-                                        .padding([.leading])
-                                    Spacer()
-                                    Image("right-arrow")
-                                        .padding([.trailing])
-                                }
-                            }
-                        }
-                    }
-                }
-                .frame(height: 92)
-                .padding([.horizontal])
-                .shadow(color: .volume.shadowBlack, radius: 5, x: 0, y: 0)
-                Group { // Articles from Followed Publications
-                    Header("Following")
-                        .padding([.leading, .trailing])
-                    switch state {
-                    case .loading:
-                        ForEach(0..<5) { _ in
-                            ArticleRow.Skeleton()
-                                .padding([.leading, .trailing])
-                        }
-                    case .reloading(let results), .results(let results):
-                        ForEach(results.followedArticles) { article in
-                            ArticleRow(article: article, navigationSource: .followingArticles)
-                                .padding([.leading, .trailing])
-                        }
-                    }
-                    Spacer()
-                    VolumeMessage(message: .upToDate)
-                        .padding(.top, 25)
-                        .padding(.bottom, -5)
-                }
+                trendingArticlesSection
+                weeklyDebriefButton
+                followedArticlesSection
                 Spacer()
-                Group { // Articles from Non-followed Publications
-                    Header("Other Articles").padding()
-                    switch state {
-                    case .loading:
-                        // will be off the page, so pointless to show anything
-                        Spacer().frame(height: 0)
-                    case .reloading(let results), .results(let results):
-                        ForEach(results.otherArticles) { article in
-                            ArticleRow(article: article, navigationSource: .otherArticles)
-                                .padding([.bottom, .leading, .trailing])
-                        }
-                    }
-                }
+                otherArticlesSection
                 // Invisible navigation link only opens if application is opened
                 // through deeplink with valid article
                 if let articleID = onOpenArticleUrl {
@@ -216,14 +232,14 @@ struct HomeList: View {
                 }
             }
         }
-        .onChange(of: notifications.openedWeeklyDebrief) { newValue in
-            openedWeeklyDebrief = newValue
+        .onChange(of: notifications.isWeeklyDebriefOpen) { isOpen in
+            isWeeklyDebriefOpen = isOpen
         }
-        .sheet(isPresented: $openedWeeklyDebrief) {
-            openedWeeklyDebrief = false
+        .sheet(isPresented: $isWeeklyDebriefOpen) {
+            isWeeklyDebriefOpen = false
         } content: {
             if let weeklyDebrief = userData.weeklyDebrief {
-                WeeklyDebriefView(openedWeeklyDebrief: $openedWeeklyDebrief, weeklyDebrief: weeklyDebrief)
+                WeeklyDebriefView(openedWeeklyDebrief: $isWeeklyDebriefOpen, weeklyDebrief: weeklyDebrief)
             }
         }
     }

@@ -10,15 +10,14 @@ import SwiftUI
 
 struct WeeklyDebriefView: View {
     @EnvironmentObject private var userData: UserData
-    let weeklyDebrief: WeeklyDebrief
-    @Binding var openedWeeklyDebrief: Bool
+    private let weeklyDebrief: WeeklyDebrief
+    @Binding private var isOpen: Bool
 
     init(openedWeeklyDebrief: Binding<Bool>, weeklyDebrief: WeeklyDebrief) {
-        UIPageControl.appearance().currentPageIndicatorTintColor = .gray
-        UIPageControl.appearance().pageIndicatorTintColor = .lightGray
-        _openedWeeklyDebrief = openedWeeklyDebrief
+        _isOpen = openedWeeklyDebrief
         self.weeklyDebrief = weeklyDebrief
     }
+    
     var body: some View {
         VStack {
             Capsule()
@@ -43,9 +42,9 @@ struct WeeklyDebriefView: View {
                                 .font(.begumRegular(size: 16))
                             Spacer()
                         }
-                        StatisticViewRow(image: "volume", leftText: "read", number: 10, rightText: "articles")
-                        StatisticViewRow(image: "shout-out", leftText: "gave", number: 45, rightText: "shout-outs")
-                        StatisticViewRow(image: "bookmark", leftText: "bookmarked", number: 10, rightText: "articles")
+                        StatisticView(image: "volume", leftText: "read", number: 10, rightText: "articles")
+                        StatisticView(image: "shout-out", leftText: "gave", number: 45, rightText: "shout-outs")
+                        StatisticView(image: "bookmark", leftText: "bookmarked", number: 10, rightText: "articles")
                         HStack {
                             Text("You were among the top ")
                                 .font(.begumRegular(size: 16)) +
@@ -64,9 +63,7 @@ struct WeeklyDebriefView: View {
                         }
                     })
                         .padding([.leading, .trailing], 48)
-
                     Spacer()
-
                 }
 
                 // TODO - create a DebriefArticleView for each article
@@ -85,7 +82,7 @@ struct WeeklyDebriefView: View {
                         }
                         .padding(.top, 200)
                         Button {
-                            openedWeeklyDebrief = false
+                            isOpen = false
                         } label: {
                             Text("Continue to Volume")
                                 .foregroundColor(Color.volume.orange)
@@ -101,6 +98,14 @@ struct WeeklyDebriefView: View {
                 .padding([.leading, .trailing], 50)
             }
             .tabViewStyle(PageTabViewStyle())
+        }
+        .onAppear() {
+            UIPageControl.appearance().currentPageIndicatorTintColor = .gray
+            UIPageControl.appearance().pageIndicatorTintColor = .lightGray
+        }
+        .onDisappear() {
+            UIPageControl.appearance().currentPageIndicatorTintColor = nil
+            UIPageControl.appearance().pageIndicatorTintColor = nil
         }
     }
 }

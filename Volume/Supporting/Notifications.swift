@@ -14,7 +14,7 @@ import SwiftUI
 class Notifications: NSObject, ObservableObject {
     static let shared = Notifications()
     private let center = UNUserNotificationCenter.current()
-    @Published var openedWeeklyDebrief: Bool = false
+    @Published var isWeeklyDebriefOpen: Bool = false
     
     private override init() {
         super.init()
@@ -72,7 +72,7 @@ class Notifications: NSObject, ObservableObject {
     }
     
     private func openWeeklyDebrief() {
-        openedWeeklyDebrief = true
+        isWeeklyDebriefOpen = true
     }
 }
 

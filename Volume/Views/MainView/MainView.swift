@@ -62,8 +62,8 @@ struct MainView: View {
                 selectedTab = .home
             }
         }
-        .onChange(of: notifications.openedWeeklyDebrief) { newValue in
-            if newValue {
+        .onChange(of: notifications.isWeeklyDebriefOpen) { isOpen in
+            if isOpen {
                 selectedTab = .home
             }
         }

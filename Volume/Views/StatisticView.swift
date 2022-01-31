@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct StatisticViewRow: View {
+struct StatisticView: View {
     let image: String
     let leftText: String
     let number: Int
@@ -39,6 +39,6 @@ struct StatisticViewRow: View {
 
 struct SStatisticViewRow_Previews: PreviewProvider {
     static var previews: some View {
-        StatisticViewRow(image: "volume", leftText: "read", number: 45, rightText: "articles")
+        StatisticView(image: "volume", leftText: "read", number: 45, rightText: "articles")
     }
 }
