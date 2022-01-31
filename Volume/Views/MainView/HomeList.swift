@@ -82,13 +82,13 @@ struct HomeList: View {
             return
         }
         cancellableWeeklyDebriefQuery = Network.shared.publisher(for: GetWeeklyDebriefQuery(uuid: uuid))
-            .map(\.user.weeklyDebrief.fragments.weeklyDebriefFields)
+            .map(\.user.weeklyDebrief)
             .sink { completion in
                 if case let .failure(error) = completion {
                     print(error)
                 }
-            } receiveValue: { weeklyDebriefFields in
-                userData.weeklyDebrief = WeeklyDebrief(from: weeklyDebriefFields)
+            } receiveValue: { weeklyDebrief in
+                userData.weeklyDebrief = WeeklyDebrief(from: weeklyDebrief)
                 openedWeeklyDebrief = true
             }
     }

@@ -1,5 +1,5 @@
 fragment weeklyDebriefFields on WeeklyDebrief {
-    createdAt
+    creationDate
     expirationDate
     numReadArticles
     numShoutouts
@@ -15,7 +15,17 @@ fragment weeklyDebriefFields on WeeklyDebrief {
 query GetWeeklyDebrief($uuid:String!) {
     user: getUser(uuid:$uuid) {
         weeklyDebrief: weeklyDebrief {
-            ...weeklyDebriefFields
+            creationDate
+            expirationDate
+            numReadArticles
+            numShoutouts
+            numBookmarkedArticles
+            readArticles {
+                ...articleFields
+            }
+            randomArticles {
+                ...articleFields
+            }
         }
     }
 }
