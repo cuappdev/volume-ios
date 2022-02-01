@@ -12,10 +12,10 @@ import SwiftUI
 extension OnboardingView {
     struct FollowView: View {
         @State private var contentOffset: CGPoint = .zero
-        @State private var maxContentOffset: CGPoint = .zero
         @State private var cancellableQuery: AnyCancellable?
         @State private var state: FollowViewState = .loading
-
+        private let scrollViewCoordinateSpace = "scrollViewCoordinateSpace"
+        
         private func fetch() {
             cancellableQuery = Network.shared.publisher(for: GetAllPublicationsQuery())
                 .map { data in data.publications.compactMap { $0.fragments.publicationFields } }
@@ -29,10 +29,7 @@ extension OnboardingView {
         }
 
         var body: some View {
-            TrackableScrollView(
-                contentOffset: $contentOffset,
-                maxOffsetDidChange: { self.maxContentOffset = $0 }
-            ) {
+            ScrollView {
                 LazyVStack(spacing: 24) {
                     switch state {
                     case .loading:
@@ -45,9 +42,29 @@ extension OnboardingView {
                         }
                     }
                 }
-                .background(Color.volume.backgroundGray)
+                .padding(.bottom, 48)
+                .background(
+                    GeometryReader { proxy in
+                        let offset = -proxy.frame(in: .named(scrollViewCoordinateSpace)).origin.y
+                        Color.volume.backgroundGray
+                            .preference(key: OffsetPreferenceKey.self, value: offset)
+                    }
+                )
             }
-            .padding(.top, 48)
+            .coordinateSpace(name: scrollViewCoordinateSpace)
+            .onPreferenceChange(OffsetPreferenceKey.self) {
+                contentOffset.y = $0
+            }
+            .overlay(
+                VStack {
+                    fadeView(fadesDown: false)
+                        .opacity(contentOffset.y > 0 ? 1 : 0)
+                        .transition(.opacity)
+                        .animation(.linear(duration: 0.2))
+                    Spacer()
+                    fadeView(fadesDown: true)
+                }
+            )
             .disabled(state == .loading)
             .transition(.move(edge: .trailing))
             .onAppear {
@@ -74,7 +91,7 @@ extension OnboardingView.FollowView {
                 startPoint: fadesDown ? .top : .bottom,
                 endPoint: fadesDown ? .bottom : .top
             )
-            .frame(height: 50)
+                .frame(height: 50)
             if !fadesDown {
                 Spacer()
             }
@@ -86,6 +103,13 @@ extension OnboardingView.FollowView {
     private enum FollowViewState: Equatable {
         case loading
         case results([Publication])
+    }
+}
+
+extension OnboardingView.FollowView {
+    private struct OffsetPreferenceKey: PreferenceKey {
+        static var defaultValue: CGFloat = .zero
+        static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {}
     }
 }
 
