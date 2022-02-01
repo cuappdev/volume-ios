@@ -25,6 +25,7 @@ struct ArticleInfo: View {
                 }
 
                 Text(article.title)
+                    .multilineTextAlignment(.leading)
                     .font(largeFont ? .latoBold(size: 24) : .latoBold(size: 16))
                     .lineLimit(3)
                     .padding(.top, 0.5)

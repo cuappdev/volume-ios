@@ -8,13 +8,13 @@
 
 import AppDevAnalytics
 import Foundation
-import UserNotifications
 import SwiftUI
+import UserNotifications
 
 class Notifications: NSObject, ObservableObject {
     static let shared = Notifications()
     private let center = UNUserNotificationCenter.current()
-    @Published var isWeeklyDebriefOpen: Bool = false
+    @Published var isWeeklyDebriefOpen = false
     
     private override init() {
         super.init()
@@ -59,7 +59,7 @@ class Notifications: NSObject, ObservableObject {
             }
             openArticle(id: articleID)
         case NotificationType.weeklyDebrief.rawValue:
-            openWeeklyDebrief()
+            isWeeklyDebriefOpen = true
         default:
             print("Error: unknown notificationType: \(notificationType)")
             break
@@ -69,10 +69,6 @@ class Notifications: NSObject, ObservableObject {
     private func openArticle(id: String) {
         guard let url = URL(string: "\(Secrets.openArticleUrl)\(id)") else { return }
         UIApplication.shared.open(url)
-    }
-    
-    private func openWeeklyDebrief() {
-        isWeeklyDebriefOpen = true
     }
 }
 
