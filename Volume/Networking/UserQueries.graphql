@@ -1,0 +1,17 @@
+query GetWeeklyDebrief($uuid:String!) {
+    user: getUser(uuid:$uuid) {
+        weeklyDebrief: weeklyDebrief {
+            creationDate
+            expirationDate
+            numReadArticles
+            numShoutouts
+            numBookmarkedArticles
+            readArticles {
+                ...articleFields
+            }
+            randomArticles {
+                ...articleFields
+            }
+        }
+    }
+}

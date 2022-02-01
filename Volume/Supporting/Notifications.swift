@@ -8,11 +8,13 @@
 
 import AppDevAnalytics
 import Foundation
+import SwiftUI
 import UserNotifications
 
-class Notifications: NSObject {
+class Notifications: NSObject, ObservableObject {
     static let shared = Notifications()
     private let center = UNUserNotificationCenter.current()
+    @Published var isWeeklyDebriefOpen = false
     
     private override init() {
         super.init()
@@ -55,8 +57,9 @@ class Notifications: NSObject {
                 break
             }
             openArticle(id: articleID)
+        case NotificationType.weeklyDebrief.rawValue:
+            isWeeklyDebriefOpen = true
         default:
-            // later: add case for weekly debrief
             print("Error: unknown notificationType: \(notificationType)")
             break
         }
@@ -79,6 +82,6 @@ extension Notifications: UNUserNotificationCenterDelegate {
 extension Notifications {
     private enum NotificationType: String {
         case newArticle = "new_article"
-        // later: add weekly debrief type
+        case weeklyDebrief = "weekly_debrief"
     }
 }

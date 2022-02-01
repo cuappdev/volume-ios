@@ -70,7 +70,8 @@ struct MorePublicationRow: View {
             }) {
                 Image(userData.isPublicationFollowed(publication) ? "followed" : "follow")
             }
-        }.padding([.leading, .trailing])
+        }
+        .padding([.leading, .trailing])
     }
 }
 

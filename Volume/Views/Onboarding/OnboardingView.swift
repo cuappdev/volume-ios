@@ -7,11 +7,13 @@
 //
 
 import AppDevAnalytics
+import Combine
 import SwiftUI
 
 struct OnboardingView: View {
     @State private var isShowingSplash = true
     @State private var page: Page = .welcome
+    @State private var cancellableCreateUserMutation: AnyCancellable?
     @Namespace private var namespace
     @AppStorage("isFirstLaunch") private var isFirstLaunch = true
     @EnvironmentObject private var userData: UserData
@@ -92,10 +94,7 @@ struct OnboardingView: View {
                 case .follow:
                     Button(action: {
                         AppDevAnalytics.log(VolumeEvent.completeOnboarding.toEvent(.general))
-                        userData.createUser()
-                        withAnimation(.spring()) {
-                            isFirstLaunch = false
-                        }
+                        createUser()
                     }, label: {
                         Text("Start reading")
                             .padding([.top, .bottom], 10)
@@ -133,6 +132,29 @@ struct OnboardingView: View {
                 }
             }
         }
+    }
+    
+    // MARK: Actions
+    
+    private func createUser() {
+        guard let deviceToken = userData.deviceToken else {
+            print("Error: received nil for deviceToken from UserData")
+            return
+        }
+        
+        cancellableCreateUserMutation = Network.shared.publisher(for: CreateUserMutation(deviceToken: deviceToken, followedPublicationIDs: userData.followedPublicationIDs))
+            .map { $0.user.uuid }
+            .sink { completion in
+                if case let .failure(error) = completion {
+                    print("An error occurred while creating user: \(error)")
+                }
+            } receiveValue: { uuid in
+                userData.uuid = uuid
+                withAnimation(.spring()) {
+                    isFirstLaunch = false
+                }
+            }
+        
     }
 }
 

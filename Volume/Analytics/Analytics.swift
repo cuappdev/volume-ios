@@ -64,6 +64,7 @@ enum NavigationSource: String {
     case publicationDetail = "publication_detail"
     case trendingArticles = "trending_articles"
     case pushNotification = "push_notification"
+    case weeklyDebrief = "weekly_debrief"
     
     // Publication Entry Points
     case articleDetail = "article_detail"

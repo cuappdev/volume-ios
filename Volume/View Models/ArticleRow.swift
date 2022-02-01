@@ -23,7 +23,7 @@ struct ArticleRow: View {
     var body: some View {
         NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: navigationSource)) {
             HStack(spacing: 20) {
-                ArticleInfo(article: article, showsPublicationName: showsPublicationName)
+                ArticleInfo(article: article, showsPublicationName: showsPublicationName, largeFont: false)
 
                 if let url = article.imageUrl {
                     WebImage(url: url)

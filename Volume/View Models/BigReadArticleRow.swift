@@ -30,7 +30,7 @@ struct BigReadArticleRow: View {
                         .frame(width: 120, height: 120)
                         .padding(30)
                 }
-                ArticleInfo(article: article, showsPublicationName: true)
+                ArticleInfo(article: article, showsPublicationName: true, largeFont: false)
             }
             .frame(width: 180, height: 300)
         }

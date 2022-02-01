@@ -18,8 +18,9 @@ struct BrowserView: View {
 
     let initType: BrowserViewInitType
     let navigationSource: NavigationSource
-    @State private var cancellableShoutoutMutation: AnyCancellable?
     @State private var cancellableArticleQuery: AnyCancellable?
+    @State private var cancellableReadMutation: AnyCancellable?
+    @State private var cancellableShoutoutMutation: AnyCancellable?
     @State private var state: BrowserViewState<Article> = .loading
     
     var isShoutoutsButtonEnabled: Bool {
@@ -116,6 +117,7 @@ struct BrowserView: View {
                     WebView(url: articleUrl)
                         .onAppear {
                             AppDevAnalytics.log(VolumeEvent.openArticle.toEvent(.article, value: article.id, navigationSource: navigationSource))
+                            markArticleRead(id: article.id)
                         }
                         .onDisappear {
                             AppDevAnalytics.log(VolumeEvent.closeArticle.toEvent(.article, value: article.id, navigationSource: navigationSource))
@@ -161,6 +163,8 @@ struct BrowserView: View {
     // MARK: Actions
     
     private func incrementShoutouts(for article: Article) {
+        guard let uuid = userData.uuid else { return }
+        
         AppDevAnalytics.log(VolumeEvent.shoutoutArticle.toEvent(.article, value: article.id, navigationSource: navigationSource))
         userData.incrementShoutoutsCounter(article)
         let currentArticleShoutouts = max(userData.shoutoutsCache[article.id, default: 0], article.shoutouts)
@@ -168,7 +172,7 @@ struct BrowserView: View {
         // swiftlint:disable:next line_length
         let currentPublicationShoutouts = max(userData.shoutoutsCache[article.publication.id, default: 0], article.publication.shoutouts)
         userData.shoutoutsCache[article.publication.id, default: 0] = currentPublicationShoutouts + 1
-        cancellableShoutoutMutation = Network.shared.publisher(for: IncrementShoutoutsMutation(id: article.id))
+        cancellableShoutoutMutation = Network.shared.publisher(for: IncrementShoutoutsMutation(id: article.id, uuid: uuid))
             .sink(receiveCompletion: { completion in
                 if case let .failure(error) = completion {
                     print(error.localizedDescription)
@@ -186,8 +190,19 @@ struct BrowserView: View {
             } receiveValue: { article in
                 if let fields = article.article?.fragments.articleFields {
                     state = .results(Article(from: fields))
+                    markArticleRead(id: id)
                 }
             }
+    }
+    
+    private func markArticleRead(id: String) {
+        guard let uuid = userData.uuid else { return }
+        cancellableReadMutation = Network.shared.publisher(for: ReadArticleMutation(id: id, uuid: uuid))
+            .sink { completion in
+                if case let .failure(error) = completion {
+                    print(error)
+                }
+            } receiveValue: { _ in }
     }
 
     func displayShareScreen(for article: Article) {

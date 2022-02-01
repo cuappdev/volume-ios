@@ -12,6 +12,7 @@ import SwiftUI
 
 struct MainView: View {
     @State private var selectedTab: Tab = .home
+    @EnvironmentObject private var notifications: Notifications
     @EnvironmentObject private var networkState: NetworkState
 
     init() {
@@ -58,6 +59,11 @@ struct MainView: View {
         }
         .onOpenURL { url in
             if url.isDeeplink && url.host == ValidURLHost.article.host {
+                selectedTab = .home
+            }
+        }
+        .onChange(of: notifications.isWeeklyDebriefOpen) { isOpen in
+            if isOpen {
                 selectedTab = .home
             }
         }
