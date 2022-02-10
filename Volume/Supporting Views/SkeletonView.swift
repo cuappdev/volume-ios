@@ -9,11 +9,9 @@
 import SwiftUI
 
 struct SkeletonView: View {
-    
-    private static let minOpacity: Double = 0.25
-    private let maxOpacity: Double = 1.0
-    private let duration: Double = 0.9
-    @State private var opacity = minOpacity
+    private let maxOpacity = 1.0
+    private let duration = 0.9
+    @State private var opacity = 0.25
     
     var body: some View {
         Rectangle()
