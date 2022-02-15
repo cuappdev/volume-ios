@@ -136,10 +136,10 @@ struct HomeList: View {
                             Text("Your\nWeekly\nDebrief")
                                 .font(.begumRegular(size: 18))
                                 .foregroundColor(.volume.orange)
-                                .padding([.leading])
+                                .padding(.leading)
                             Spacer()
                             Image("right-arrow")
-                                .padding([.trailing])
+                                .padding(.trailing)
                         }
                     }
                 }
