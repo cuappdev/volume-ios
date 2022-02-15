@@ -137,6 +137,7 @@ struct HomeList: View {
                                 .font(.begumRegular(size: 18))
                                 .foregroundColor(.volume.orange)
                                 .padding(.leading)
+                                .multilineTextAlignment(.leading)
                             Spacer()
                             Image("right-arrow")
                                 .padding(.trailing)
