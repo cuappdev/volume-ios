@@ -136,6 +136,7 @@ struct BrowserView: View {
                     case .results(let article):
                         Text(article.publication.name)
                             .font(.begumBold(size: 12))
+                            .fixedSize()
                     }
                     Text("Reading in Volume")
                         .font(.latoRegular(size: 10))
