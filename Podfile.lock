@@ -74,6 +74,8 @@ PODS:
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
   - SDWebImage/Core (5.11.1)
+  - SDWebImageSVGCoder (1.6.1):
+    - SDWebImage/Core (~> 5.6)
   - SDWebImageSwiftUI (2.0.2):
     - SDWebImage (~> 5.10)
   - SwiftUIRefresh (0.0.3):
@@ -83,6 +85,7 @@ DEPENDENCIES:
   - Apollo
   - AppDevAnalytics (from `https://github.com/cuappdev/analytics-ios.git`, commit `5d459c0475`)
   - AppDevAnnouncements (from `https://github.com/cuappdev/appdev-announcements.git`)
+  - SDWebImageSVGCoder
   - SDWebImageSwiftUI
   - SwiftUIRefresh
 
@@ -101,6 +104,7 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - SDWebImage
+    - SDWebImageSVGCoder
     - SDWebImageSwiftUI
     - SwiftUIRefresh
 
@@ -135,9 +139,10 @@ SPEC CHECKSUMS:
   nanopb: 59221d7f958fb711001e6a449489542d92ae113e
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
+  SDWebImageSVGCoder: 6fc109f9c2a82ab44510fff410b88b1a6c271ee8
   SDWebImageSwiftUI: 8a3923c95108312b03a599ec1498754af55a6819
   SwiftUIRefresh: ca6ae2718d25aad5dd68bbf5d2ae36ef6ade98bf
 
-PODFILE CHECKSUM: e49691507a0045de8b32e1e78401024da3cae7b6
+PODFILE CHECKSUM: e4a4d1e46ade3c4fdd42cda7055692b0f7bc4a65
 
 COCOAPODS: 1.11.2
