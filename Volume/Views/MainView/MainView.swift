@@ -36,6 +36,18 @@ struct MainView: View {
                 }
             }
             .tag(Tab.home)
+            
+            TabContainer(screen: .magazinesList) {
+                MagazinesList()
+            }
+            .tabItem {
+                VStack {
+                    Image("magazine")
+                    Text("Magazines")
+                }
+            }
+            .tag(Tab.magazines)
+            
             TabContainer(screen: .publicationList) {
                 PublicationList()
             }
@@ -66,7 +78,8 @@ struct MainView: View {
                 }
             }
         }
-        .onOpenURL { url in // TODO: handle deeplink to magazines after API is finalized
+        .onOpenURL { url in
+            // TODO: handle deeplink to magazines after API is finalized
             if url.isDeeplink && url.host == ValidURLHost.article.host {
                 selectedTab = .home
             }
