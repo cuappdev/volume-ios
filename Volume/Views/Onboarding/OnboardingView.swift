@@ -146,7 +146,7 @@ struct OnboardingView: View {
             .map { $0.user.uuid }
             .sink { completion in
                 if case let .failure(error) = completion {
-                    print("An error occurred while creating user: \(error)")
+                    print("Error: failed to create user: \(error.localizedDescription)")
                 }
             } receiveValue: { uuid in
                 userData.uuid = uuid

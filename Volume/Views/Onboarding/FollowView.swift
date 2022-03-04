@@ -21,7 +21,7 @@ extension OnboardingView {
                 .map { data in data.publications.compactMap { $0.fragments.publicationFields } }
                 .sink(receiveCompletion: { completion in
                     if case let .failure(error) = completion {
-                        print(error.localizedDescription)
+                        print("Error: GetAllPublicationsQuery failed on FollowView: \(error.localizedDescription)")
                     }
                 }, receiveValue: { value in
                     state = .results([Publication](value))

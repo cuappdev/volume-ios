@@ -29,7 +29,7 @@ class Notifications: NSObject, ObservableObject {
                         let event = VolumeEvent.enableNotification.toEvent(.notification, value: "", navigationSource: .unspecified)
                         AppDevAnalytics.log(event)
                     } else if let error = error {
-                        print("Error requesting push notification permissions: \(error)")
+                        print("Error: failed to obtain push notification permissions: \(error.localizedDescription)")
                     }
                 }
             }

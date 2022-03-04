@@ -25,7 +25,7 @@ struct PublicationDetail: View {
             .map(\.articles)
             .sink(receiveCompletion: { completion in
                 if case let .failure(error) = completion {
-                    print(error.localizedDescription)
+                    print("Error: GetArticlesByPublicationIdQuery failed on PublicationDetail: \(error.localizedDescription)")
                 }
             }, receiveValue: { value in
                 withAnimation(.linear(duration: 0.1)) {
