@@ -14,14 +14,27 @@ import SwiftUI
 struct PublicationDetail: View {
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @GestureState private var dragOffset = CGSize.zero
-    @State private var cancellableQuery: AnyCancellable?
+    @State private var cancellableIDQuery: AnyCancellable?
+    @State private var cancellableArticlesQuery: AnyCancellable?
     @State private var state: PublicationDetailState = .loading
 
     let navigationSource: NavigationSource
     let publication: Publication
 
     private func fetch() {
-        cancellableQuery = Network.shared.publisher(for: GetArticlesByPublicationIdQuery(id: publication.id))
+        cancellableIDQuery = Network.shared.publisher(for: GetPublicationBySlugQuery(slug: publication.slug))
+            .map { $0.publication.map{ $0.fragments.publicationFields.id }! }
+            .sink {
+                if case let .failure(error) = $0 {
+                    print("GetPublicationBySlugQuery failed: \(error)")
+                }
+            } receiveValue: {
+                fetchArticles(by: $0)
+            }
+    }
+
+    private func fetchArticles(by publicationID: String) {
+        cancellableArticlesQuery = Network.shared.publisher(for: GetArticlesByPublicationIdQuery(id: publicationID))
             .map(\.articles)
             .sink(receiveCompletion: { completion in
                 if case let .failure(error) = completion {
@@ -29,7 +42,7 @@ struct PublicationDetail: View {
                 }
             }, receiveValue: { value in
                 withAnimation(.linear(duration: 0.1)) {
-                    state = .results([Article](value.map(\.fragments.articleFields)))
+                    state = .results([Article](value.map(\.fragments.articleFields)).sorted(by: { $0.date > $1.date }))
                 }
             })
     }

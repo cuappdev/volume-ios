@@ -10,8 +10,15 @@ query GetAllPublicationIDs {
     }
 }
 
+query GetPublicationBySlug($slug: String!) {
+  publication: getPublicationBySlug(slug: $slug) {
+    ...publicationFields
+  }
+}
+
 fragment publicationFields on Publication {
   id
+  slug
   bio
   name
   shoutouts
