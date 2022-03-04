@@ -23,7 +23,7 @@ struct PublicationDetail: View {
 
     private func fetch() {
         cancellableIDQuery = Network.shared.publisher(for: GetPublicationBySlugQuery(slug: publication.slug))
-            .map { $0.publication.map{ $0.fragments.publicationFields.id }! }
+            .map { $0.publication.map({ $0.fragments.publicationFields.id })! }
             .sink {
                 if case let .failure(error) = $0 {
                     print("GetPublicationBySlugQuery failed: \(error)")
