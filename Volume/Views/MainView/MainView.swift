@@ -30,14 +30,20 @@ struct MainView: View {
                 HomeList()
             }
             .tabItem {
-                Image("volume")
+                VStack {
+                    Image("feed")
+                    Text("For You")
+                }
             }
             .tag(Tab.home)
             TabContainer(screen: .publicationList) {
                 PublicationList()
             }
             .tabItem {
-                Image("publications")
+                VStack {
+                    Image("pen")
+                    Text("Publications")
+                }
             }
             .tag(Tab.publications)
 
@@ -45,7 +51,10 @@ struct MainView: View {
                 BookmarksList()
             }
             .tabItem {
-                Image("bookmark")
+                VStack {
+                    Image("bookmark")
+                    Text("Bookmarks")
+                }
             }
             .tag(Tab.bookmarks)
         }
@@ -57,7 +66,7 @@ struct MainView: View {
                 }
             }
         }
-        .onOpenURL { url in
+        .onOpenURL { url in // TODO: handle deeplink to magazines after API is finalized
             if url.isDeeplink && url.host == ValidURLHost.article.host {
                 selectedTab = .home
             }
@@ -73,7 +82,7 @@ struct MainView: View {
 extension MainView {
     /// An enum to keep track of which tab the user is currently on
     private enum Tab {
-        case bookmarks, home, publications
+        case home, magazines, publications, bookmarks
     }
     
     enum TabState<Results> {

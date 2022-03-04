@@ -13,12 +13,12 @@ extension OnboardingView {
         var body: some View {
             Group {
                 FeatureRow(
-                    image: "publications",
+                    image: "pen",
                     textBold: "Stay updated ",
                     textRegular: "with Cornell student publications, all in one place"
                 )
                 FeatureRow(
-                    image: "volume",
+                    image: "feed",
                     textBold: "Read articles ",
                     textRegular: "trending in the Cornell commnity and from publications you follow"
                 )
