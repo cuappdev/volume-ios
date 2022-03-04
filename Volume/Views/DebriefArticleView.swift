@@ -56,7 +56,6 @@ struct DebriefArticleView: View {
         Button {
             incrementShoutouts(for: article)
         } label: {
-            let _ = print("the shoutouts is \(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]))")
             Image("shout-out")
                 .resizable()
                 .foregroundColor(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]) > 0 ? Color.white : Color.volume.orange)

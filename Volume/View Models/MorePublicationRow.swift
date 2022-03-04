@@ -55,6 +55,7 @@ struct MorePublicationRow: View {
                     .padding(.top, 2)
                 }
             }
+            .multilineTextAlignment(.leading)
 
             Spacer()
 
