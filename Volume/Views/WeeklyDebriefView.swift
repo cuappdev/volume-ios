@@ -42,7 +42,7 @@ struct WeeklyDebriefView: View {
                                 .font(.begumRegular(size: 16))
                             Spacer()
                         }
-                        StatisticView(image: "volume", leftText: "read", number: 10, rightText: "articles")
+                        StatisticView(image: "feed", leftText: "read", number: 10, rightText: "articles")
                         StatisticView(image: "shout-out", leftText: "gave", number: 45, rightText: "shout-outs")
                         StatisticView(image: "bookmark", leftText: "bookmarked", number: 10, rightText: "articles")
                         HStack {
