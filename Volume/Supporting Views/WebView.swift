@@ -28,21 +28,20 @@ struct WebView: UIViewRepresentable {
 }
 
 class LoadingWebView: WKWebView {
-    var loadingIndicator: UIActivityIndicatorView!
+    let loadingIndicator = UIActivityIndicatorView()
 
     init() {
         super.init(frame: .zero, configuration: WKWebViewConfiguration())
-        self.navigationDelegate = self
+        navigationDelegate = self
 
-        loadingIndicator = UIActivityIndicatorView()
         loadingIndicator.hidesWhenStopped = true
         loadingIndicator.style = .medium
         loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(loadingIndicator)
+        addSubview(loadingIndicator)
 
         NSLayoutConstraint.activate([
-            loadingIndicator.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            loadingIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor)
+            loadingIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
+            loadingIndicator.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
     }
 
