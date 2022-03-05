@@ -63,11 +63,15 @@ struct MagazinesList: View {
         } content: {
             Text("Read some 'zines!")
         }
+        .disabled(state.shouldDisableScroll)
+        .padding(.top)
+        .background(Color.volume.backgroundGray)
         .toolbar {
             ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
                 Image("volume-logo")
             }
         }
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             fetchContent()
         }
