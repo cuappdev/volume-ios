@@ -253,7 +253,7 @@ extension HomeList {
     )
     typealias ResultsPublisher =
         Publishers.Zip3<
-            Publishers.Map<OperationPublisher<GetTrendingArticlesQuery.Data>,[ArticleFields]>,
+            Publishers.Map<OperationPublisher<GetTrendingArticlesQuery.Data>, [ArticleFields]>,
             Publishers.Collect<Publishers.Map<OperationPublisher<GetArticlesByPublicationIDsQuery.Data>, [ArticleFields]>>,
             Publishers.Map<OperationPublisher<GetArticlesByPublicationIDsQuery.Data>, [ArticleFields]>
         >
