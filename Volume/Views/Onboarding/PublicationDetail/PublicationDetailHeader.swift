@@ -90,7 +90,6 @@ struct PublicationDetailHeader: View {
                     userData.isPublicationFollowed(publication) ?
                         VolumeEvent.followPublication.toEvent(.publication, value: publication.id, navigationSource: navigationSource) :
                         VolumeEvent.unfollowPublication.toEvent(.publication, value: publication.id, navigationSource: navigationSource)
-
                 )
             }
         }
