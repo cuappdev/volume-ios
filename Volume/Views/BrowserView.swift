@@ -176,7 +176,7 @@ struct BrowserView: View {
         cancellableShoutoutMutation = Network.shared.publisher(for: IncrementShoutoutsMutation(id: article.id, uuid: uuid))
             .sink(receiveCompletion: { completion in
                 if case let .failure(error) = completion {
-                    print(error.localizedDescription)
+                    print("Error: IncrementShoutoutsMutation failed on BrowserView: \(error.localizedDescription)")
                 }
             }, receiveValue: { _ in })
     }
@@ -186,7 +186,7 @@ struct BrowserView: View {
         cancellableArticleQuery = Network.shared.publisher(for: GetArticleByIdQuery(id: id))
             .sink { completion in
                 if case let .failure(error) = completion {
-                    print(error.localizedDescription)
+                    print("Error: GetArticleByIdQuery failed on BrowserView: \(error.localizedDescription)")
                 }
             } receiveValue: { article in
                 if let fields = article.article?.fragments.articleFields {
@@ -201,7 +201,7 @@ struct BrowserView: View {
         cancellableReadMutation = Network.shared.publisher(for: ReadArticleMutation(id: id, uuid: uuid))
             .sink { completion in
                 if case let .failure(error) = completion {
-                    print(error)
+                    print("Error: ReadArticleMutation failed on BrowserView: \(error.localizedDescription)")
                 }
             } receiveValue: { _ in }
     }

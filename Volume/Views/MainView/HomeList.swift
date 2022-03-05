@@ -85,7 +85,7 @@ struct HomeList: View {
             .map(\.user.weeklyDebrief)
             .sink { completion in
                 if case let .failure(error) = completion {
-                    print(error)
+                    print("Error: GetWeeklyDebriefQuery failed on HomeList: \(error.localizedDescription)")
                 }
             } receiveValue: { weeklyDebrief in
                 userData.weeklyDebrief = WeeklyDebrief(from: weeklyDebrief)
@@ -125,7 +125,6 @@ struct HomeList: View {
             case .reloading, .results:
                 Button {
                     isWeeklyDebriefOpen = true
-                    let _ = print("opening ")
                 } label: {
                     ZStack(alignment: .leading) {
                         Image("weekly-debrief-curves")
