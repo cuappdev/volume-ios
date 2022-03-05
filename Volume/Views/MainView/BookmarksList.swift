@@ -88,7 +88,7 @@ struct BookmarksList: View {
                 }
 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Image("settings")
+                    Image.volume.settings
                         .offset(x: -5, y: 5)
                         .onTapGesture {
                             showSettings = true

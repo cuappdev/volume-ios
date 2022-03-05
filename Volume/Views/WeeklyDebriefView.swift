@@ -26,7 +26,7 @@ struct WeeklyDebriefView: View {
                 .padding(10)
             TabView {
                 VStack {
-                    Image("volume-logo")
+                    Image.volume.logo
                         .resizable()
                         .frame(width: 245, height: 75)
                         .padding(.top, 24)
@@ -74,7 +74,7 @@ struct WeeklyDebriefView: View {
                         .padding(.top, 24)
                     VStack {
                         VStack {
-                            Image("volume-logo")
+                            Image.volume.logo
                                 .resizable()
                                 .frame(width: 245, height: 75)
                             Text("Stay updated with Cornell student publications, all in one place")
