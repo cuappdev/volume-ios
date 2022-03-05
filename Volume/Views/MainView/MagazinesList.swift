@@ -27,18 +27,17 @@ struct MagazinesList: View {
         Group {
             Header("Featured")
                 .padding([.top, .leading, .trailing])
+            
             ScrollView(.horizontal, showsIndicators: false) {
-                switch state {
-                case .loading:
-                    HStack(spacing: 24) {
+                HStack(spacing: 24) {
+                    switch state {
+                    case .loading:
                         ForEach(0..<2) { _ in
                             // TODO: replace w/ trending magazine skeleton
                             SkeletonView()
                                 .frame(width: 152, height: 368)
                         }
-                    }
-                case .reloading(let results), .results(let results):
-                    HStack(spacing: 24) {
+                    case .reloading(let results), .results(let results):
                         ForEach(results.trendingMagazines) { magazine in
                             // TODO: replace w/ trending magazine cell
                             SkeletonView()
@@ -68,7 +67,7 @@ struct MagazinesList: View {
         .background(Color.volume.backgroundGray)
         .toolbar {
             ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
-                Image("volume-logo")
+                Image.volume.logo
             }
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -85,10 +84,10 @@ extension MagazinesList {
     )
     
     // TODO: implement when query objects have been designed
-//    typealias ResultsPublisher = Publishers.Zip<
-//        Publishers.Map<OperationPublisher<GetTrendingMagazinesQuery.Data>, MagazineFields>,
-//        Publishers.Map<OperationPublisher<GetAllMagazinesQuery.Data>, MagazineFields>
-//    >
+    //    typealias ResultsPublisher = Publishers.Zip<
+    //        Publishers.Map<OperationPublisher<GetTrendingMagazinesQuery.Data>, MagazineFields>,
+    //        Publishers.Map<OperationPublisher<GetAllMagazinesQuery.Data>, MagazineFields>
+    //    >
 }
 
 struct MagazinesList_Previews: PreviewProvider {

@@ -18,7 +18,7 @@ struct BubblePeriodText: View {
     var body: some View {
         HStack(alignment: .bottom) {
             Text(text)
-            Image("period")
+            Image.volume.period
                 .offset(x: -5, y: -5)
         }
     }

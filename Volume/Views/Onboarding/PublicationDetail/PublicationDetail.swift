@@ -64,7 +64,7 @@ struct PublicationDetail: View {
                     Button(action: {
                         self.presentationMode.wrappedValue.dismiss()
                     }) {
-                        Image("back-arrow")
+                        Image.volume.backArrow
                             .padding(.top, 55)
                             .padding(.leading, 20)
                     }

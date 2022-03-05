@@ -31,7 +31,7 @@ struct MainView: View {
             }
             .tabItem {
                 VStack {
-                    Image("feed")
+                    Image.volume.feed
                     Text("For You")
                 }
             }
@@ -42,7 +42,7 @@ struct MainView: View {
             }
             .tabItem {
                 VStack {
-                    Image("magazine")
+                    Image.volume.magazine
                     Text("Magazines")
                 }
             }
@@ -53,7 +53,7 @@ struct MainView: View {
             }
             .tabItem {
                 VStack {
-                    Image("pen")
+                    Image.volume.pen
                     Text("Publications")
                 }
             }
@@ -64,7 +64,7 @@ struct MainView: View {
             }
             .tabItem {
                 VStack {
-                    Image("bookmark")
+                    Image.volume.bookmark
                     Text("Bookmarks")
                 }
             }
