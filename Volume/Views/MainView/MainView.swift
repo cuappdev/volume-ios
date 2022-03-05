@@ -14,7 +14,7 @@ struct MainView: View {
     @State private var selectedTab: Tab = .home
     @EnvironmentObject private var notifications: Notifications
     @EnvironmentObject private var networkState: NetworkState
-
+    
     init() {
         let grayColor = UIColor(Color.volume.navigationBarGray)
         UINavigationBar.appearance().backgroundColor = grayColor
@@ -23,17 +23,15 @@ struct MainView: View {
         UITabBar.appearance().clipsToBounds = true
         UITabBar.appearance().unselectedItemTintColor = UIColor(Color.volume.lightGray)
     }
-
+    
     var body: some View {
         TabView(selection: $selectedTab) {
             TabContainer(screen: .homeList) {
                 HomeList()
             }
             .tabItem {
-                VStack {
-                    Image.volume.feed
-                    Text("For You")
-                }
+                Image.volume.feed
+                Text("For You")
             }
             .tag(Tab.home)
             
@@ -41,10 +39,8 @@ struct MainView: View {
                 MagazinesList()
             }
             .tabItem {
-                VStack {
-                    Image.volume.magazine
-                    Text("Magazines")
-                }
+                Image.volume.magazine
+                Text("Magazines")
             }
             .tag(Tab.magazines)
             
@@ -52,21 +48,17 @@ struct MainView: View {
                 PublicationList()
             }
             .tabItem {
-                VStack {
-                    Image.volume.pen
-                    Text("Publications")
-                }
+                Image.volume.pen
+                Text("Publications")
             }
             .tag(Tab.publications)
-
+            
             TabContainer(screen: .bookmarksList) {
                 BookmarksList()
             }
             .tabItem {
-                VStack {
-                    Image.volume.bookmark
-                    Text("Bookmarks")
-                }
+                Image.volume.bookmark
+                Text("Bookmarks")
             }
             .tag(Tab.bookmarks)
         }
