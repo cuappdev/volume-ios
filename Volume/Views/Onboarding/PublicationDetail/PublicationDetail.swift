@@ -26,7 +26,7 @@ struct PublicationDetail: View {
             .map { $0.publication.map({ $0.fragments.publicationFields.id })! }
             .sink {
                 if case let .failure(error) = $0 {
-                    print("GetPublicationBySlugQuery failed: \(error)")
+                    print("Error: GetPublicationBySlugQuery failed on PublicationDetail: \(error.localizedDescription)")
                 }
             } receiveValue: {
                 fetchArticles(by: $0)
