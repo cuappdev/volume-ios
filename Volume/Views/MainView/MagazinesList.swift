@@ -63,12 +63,9 @@ struct MagazinesList: View {
         } content: {
             Text("Read some 'zines!")
         }
-<<<<<<< HEAD
         .disabled(state.shouldDisableScroll)
         .padding(.top)
         .background(Color.volume.backgroundGray)
-=======
->>>>>>> 10d8c01 (Prepare magazines page for network requests)
         .toolbar {
             ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
                 Image("volume-logo")
