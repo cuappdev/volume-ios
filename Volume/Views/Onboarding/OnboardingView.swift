@@ -123,7 +123,7 @@ struct OnboardingView: View {
                 contentView
             }
         }
-        .background(Color.volume.backgroundGray.ignoresSafeArea())
+        .background(Color.white.ignoresSafeArea())
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 AppDevAnalytics.log(VolumeEvent.startOnboarding.toEvent(.general))

@@ -214,7 +214,7 @@ struct HomeList: View {
         }
         .disabled(state.shouldDisableScroll)
         .padding(.top)
-        .background(Color.volume.backgroundGray)
+        .background(Color.white)
         .toolbar {
             ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
                 Image("volume-logo")

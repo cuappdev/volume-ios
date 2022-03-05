@@ -79,7 +79,7 @@ struct BookmarksList: View {
             }
             .disabled(state == .loading)
             .padding(.top)
-            .background(Color.volume.backgroundGray)
+            .background(Color.white)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     BubblePeriodText("Bookmarks")
@@ -99,10 +99,10 @@ struct BookmarksList: View {
             .navigationBarTitleDisplayMode(.inline)
             .onAppear(perform: fetch)
             .background(
-                    NavigationLink(destination: SettingsView(), isActive: $showSettings) {
-                        EmptyView()
-                    }
-                )
+                NavigationLink(destination: SettingsView(), isActive: $showSettings) {
+                    EmptyView()
+                }
+            )
         }
     }
 }

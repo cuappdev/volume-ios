@@ -112,16 +112,14 @@ struct PublicationDetail: View {
         Section {
             ScrollView {
                 backgroundImage
-
                 PublicationDetailHeader(navigationSource: navigationSource, publication: publication)
                     .padding(.bottom)
-
                 Divider()
                     .background(Color.volume.buttonGray)
                     .frame(width: 100)
-
                 Header("Articles")
                     .padding()
+                
                 switch state {
                 case .loading:
                     VStack {
@@ -143,7 +141,7 @@ struct PublicationDetail: View {
             .navigationBarHidden(true)
             .disabled(isLoading)
         }
-        .background(Color.volume.backgroundGray)
+        .background(Color.white)
         .gesture(
             DragGesture().updating($dragOffset, body: { value, _, _ in
                 if value.startLocation.x < 20 && value.translation.width > 100 {

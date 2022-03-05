@@ -52,7 +52,7 @@ struct AboutUsView: View {
         }
         .navigationBarTitle("About Us", displayMode: .inline)
         .padding(20)
-        .background(Color.volume.backgroundGray)
+        .background(Color.white)
     }
 }
 
