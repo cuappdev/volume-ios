@@ -26,7 +26,7 @@ struct WeeklyDebriefView: View {
                 .padding(10)
             TabView {
                 VStack {
-                    Image("volume-logo")
+                    Image.volume.logo
                         .resizable()
                         .frame(width: 245, height: 75)
                         .padding(.top, 24)
@@ -42,7 +42,7 @@ struct WeeklyDebriefView: View {
                                 .font(.begumRegular(size: 16))
                             Spacer()
                         }
-                        StatisticView(image: "volume", leftText: "read", number: 10, rightText: "articles")
+                        StatisticView(image: "feed", leftText: "read", number: 10, rightText: "articles")
                         StatisticView(image: "shout-out", leftText: "gave", number: 45, rightText: "shout-outs")
                         StatisticView(image: "bookmark", leftText: "bookmarked", number: 10, rightText: "articles")
                         HStack {
@@ -74,7 +74,7 @@ struct WeeklyDebriefView: View {
                         .padding(.top, 24)
                     VStack {
                         VStack {
-                            Image("volume-logo")
+                            Image.volume.logo
                                 .resizable()
                                 .frame(width: 245, height: 75)
                             Text("Stay updated with Cornell student publications, all in one place")

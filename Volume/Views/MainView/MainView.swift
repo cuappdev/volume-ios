@@ -14,7 +14,7 @@ struct MainView: View {
     @State private var selectedTab: Tab = .home
     @EnvironmentObject private var notifications: Notifications
     @EnvironmentObject private var networkState: NetworkState
-
+    
     init() {
         let grayColor = UIColor(Color.volume.navigationBarGray)
         UINavigationBar.appearance().backgroundColor = grayColor
@@ -23,29 +23,42 @@ struct MainView: View {
         UITabBar.appearance().clipsToBounds = true
         UITabBar.appearance().unselectedItemTintColor = UIColor(Color.volume.lightGray)
     }
-
+    
     var body: some View {
         TabView(selection: $selectedTab) {
             TabContainer(screen: .homeList) {
                 HomeList()
             }
             .tabItem {
-                Image("volume")
+                Image.volume.feed
+                Text("For You")
             }
             .tag(Tab.home)
+            
+            TabContainer(screen: .magazinesList) {
+                MagazinesList()
+            }
+            .tabItem {
+                Image.volume.magazine
+                Text("Magazines")
+            }
+            .tag(Tab.magazines)
+            
             TabContainer(screen: .publicationList) {
                 PublicationList()
             }
             .tabItem {
-                Image("publications")
+                Image.volume.pen
+                Text("Publications")
             }
             .tag(Tab.publications)
-
+            
             TabContainer(screen: .bookmarksList) {
                 BookmarksList()
             }
             .tabItem {
-                Image("bookmark")
+                Image.volume.bookmark
+                Text("Bookmarks")
             }
             .tag(Tab.bookmarks)
         }
@@ -58,6 +71,7 @@ struct MainView: View {
             }
         }
         .onOpenURL { url in
+            // TODO: handle deeplink to magazines after API is finalized
             if url.isDeeplink && url.host == ValidURLHost.article.host {
                 selectedTab = .home
             }
@@ -73,7 +87,7 @@ struct MainView: View {
 extension MainView {
     /// An enum to keep track of which tab the user is currently on
     private enum Tab {
-        case bookmarks, home, publications
+        case home, magazines, publications, bookmarks
     }
     
     enum TabState<Results> {

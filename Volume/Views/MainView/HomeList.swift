@@ -127,7 +127,7 @@ struct HomeList: View {
                     isWeeklyDebriefOpen = true
                 } label: {
                     ZStack(alignment: .leading) {
-                        Image("weekly-debrief-curves")
+                        Image.volume.weeklyDebriefCurves
                             .renderingMode(.original)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
@@ -138,7 +138,7 @@ struct HomeList: View {
                                 .padding(.leading)
                                 .multilineTextAlignment(.leading)
                             Spacer()
-                            Image("right-arrow")
+                            Image.volume.rightArrow
                                 .padding(.trailing)
                         }
                     }
@@ -217,7 +217,7 @@ struct HomeList: View {
         .background(Color.volume.backgroundGray)
         .toolbar {
             ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
-                Image("volume-logo")
+                Image.volume.logo
             }
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -253,7 +253,7 @@ extension HomeList {
     )
     typealias ResultsPublisher =
         Publishers.Zip3<
-            Publishers.Map<OperationPublisher<GetTrendingArticlesQuery.Data>,[ArticleFields]>,
+            Publishers.Map<OperationPublisher<GetTrendingArticlesQuery.Data>, [ArticleFields]>,
             Publishers.Collect<Publishers.Map<OperationPublisher<GetArticlesByPublicationIDsQuery.Data>, [ArticleFields]>>,
             Publishers.Map<OperationPublisher<GetArticlesByPublicationIDsQuery.Data>, [ArticleFields]>
         >
