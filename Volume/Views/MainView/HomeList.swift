@@ -241,6 +241,9 @@ struct HomeList: View {
         } content: {
             if let weeklyDebrief = userData.weeklyDebrief {
                 WeeklyDebriefView(openedWeeklyDebrief: $isWeeklyDebriefOpen, weeklyDebrief: weeklyDebrief)
+            } else {
+                #warning("Displaying a Dummy View Here!")
+                WeeklyDebriefView(openedWeeklyDebrief: $isWeeklyDebriefOpen, dummyID: "618f63022fef10d6b75ec9a5")
             }
         }
     }
