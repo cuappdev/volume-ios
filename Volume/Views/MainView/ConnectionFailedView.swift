@@ -30,6 +30,6 @@ struct ConnectionFailedView: View {
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
         .offset(x: 0, y: -20)
-        .background(Color.volume.backgroundGray)
+        .background(Color.white)
     }
 }
