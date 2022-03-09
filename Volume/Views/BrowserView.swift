@@ -22,6 +22,7 @@ struct BrowserView: View {
     @State private var cancellableReadMutation: AnyCancellable?
     @State private var cancellableShoutoutMutation: AnyCancellable?
     @State private var state: BrowserViewState<Article> = .loading
+    @State private var showToolbars = true
     
     var isShoutoutsButtonEnabled: Bool {
         switch state {
@@ -114,7 +115,7 @@ struct BrowserView: View {
                 SkeletonView()
             case .results(let article):
                 if let articleUrl = article.articleUrl {
-                    WebView(url: articleUrl)
+                    WebView(url: articleUrl, showToolbars: $showToolbars)
                         .onAppear {
                             AppDevAnalytics.log(VolumeEvent.openArticle.toEvent(.article, value: article.id, navigationSource: navigationSource))
                             markArticleRead(id: article.id)
@@ -124,7 +125,9 @@ struct BrowserView: View {
                         }
                 }
             }
-            toolbar
+            if showToolbars {
+                toolbar
+            }
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
