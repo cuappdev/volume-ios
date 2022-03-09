@@ -12,58 +12,73 @@ import SwiftUI
 
 struct MainView: View {
     @State private var selectedTab: Tab = .home
+    @State private var tabBarHeight: CGFloat = 75
     @EnvironmentObject private var notifications: Notifications
     @EnvironmentObject private var networkState: NetworkState
 
-    var body: some View {
-        ZStack {
-            TabView(selection: $selectedTab) {
-                TabContainer(screen: .homeList) {
-                    HomeList()
-                }
-                .tag(Tab.home)
-                
-                TabContainer(screen: .publicationList) {
-                    PublicationList()
-                }
-                .tag(Tab.publications)
-
-                TabContainer(screen: .bookmarksList) {
-                    BookmarksList()
-                }
-                .tag(Tab.bookmarks)
+    private var tabViewContainer: some View {
+        TabView(selection: $selectedTab) {
+            TabContainer(screen: .homeList) {
+                HomeList()
             }
+            .tag(Tab.home)
+            .background(TabBarReader{ tabBar in
+                print(tabBar.bounds.height)
+                tabBarHeight = tabBar.bounds.height
+            })
             
-            GeometryReader { geometry in
-                VStack(spacing: 0) {
+            TabContainer(screen: .publicationList) {
+                PublicationList()
+            }
+            .tag(Tab.publications)
+
+            TabContainer(screen: .bookmarksList) {
+                BookmarksList()
+            }
+            .tag(Tab.bookmarks)
+        }
+    }
+    
+    private var floatingTabBar: some View {
+        GeometryReader { geometry in
+            VStack(spacing: 0) {
+                Spacer()
+                
+                let iconSize = tabBarHeight * 0.35
+                HStack(alignment: .top) {
                     Spacer()
                     
-                    HStack(alignment: .top) {
-                        Spacer()
-                        
-                        TabItem(icon: Image("volume"), name: "For You")
-                            .foregroundColor(selectedTab == .home ? .volume.orange : .volume.lightGray)
-                            .onTapGesture { selectedTab = .home }
-                        
-                        Spacer()
-                        
-                        TabItem(icon: Image("publications"), name: "Publications")
-                            .foregroundColor(selectedTab == .publications ? .volume.orange : .volume.lightGray)
-                            .onTapGesture { selectedTab = .publications }
-                        
-                        Spacer()
-                        
-                        TabItem(icon: Image("bookmark"), name: "Bookmarks")
-                            .foregroundColor(selectedTab == .bookmarks ? .volume.orange : .volume.lightGray)
-                            .onTapGesture { selectedTab = .bookmarks }
-                        
-                        Spacer()
-                    }
-                    .frame(width: geometry.size.width, height: 75 + geometry.safeAreaInsets.bottom * 0.4)
-                    .background(Color.white)
+                    TabItem(icon: Image("volume"), size: iconSize, name: "For You")
+                        .foregroundColor(selectedTab == .home ? .volume.orange : .volume.lightGray)
+                        .onTapGesture { selectedTab = .home }
+                    
+                    Spacer()
+                    
+                    TabItem(icon: Image("publications"), size: iconSize, name: "Publications")
+                        .foregroundColor(selectedTab == .publications ? .volume.orange : .volume.lightGray)
+                        .onTapGesture { selectedTab = .publications }
+                    
+                    Spacer()
+                    
+                    TabItem(icon: Image("bookmark"), size: iconSize, name: "Bookmarks")
+                        .foregroundColor(selectedTab == .bookmarks ? .volume.orange : .volume.lightGray)
+                        .onTapGesture { selectedTab = .bookmarks }
+                    
+                    Spacer()
                 }
-                .edgesIgnoringSafeArea(.bottom)
+                .padding(.top, iconSize * 0.3)
+                .padding(.bottom, geometry.safeAreaInsets.bottom * 0.5)
+                .frame(width: geometry.size.width, height: tabBarHeight)
+                .background(Color.white)
             }
+            .edgesIgnoringSafeArea(.bottom)
+        }
+    }
+    
+    var body: some View {
+        ZStack {
+            tabViewContainer
+            floatingTabBar
         }
         .onAppear {
             SwiftUIAnnounce.presentAnnouncement { presented in
@@ -119,18 +134,24 @@ extension MainView {
 extension MainView {
     private struct TabItem: View {
         let icon: Image
+        let size: CGFloat
         let name: String
         
         var body: some View {
-            VStack(alignment: .center) {
+            VStack(alignment: .center, spacing: 0) {
+                Spacer()
+                
                 icon
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 30, height: 30)
-                    .padding(.top, 13)
+                    .frame(width: size, height: size)
+                
+                Spacer(minLength: 4)
+                
                 Text(name)
-                    .font(.footnote)
+                    .font(.helveticaRegular(size: 10))
                     .multilineTextAlignment(.center)
+                
                 Spacer()
             }
             .frame(width: 75)
