@@ -35,6 +35,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Error: UIApplicationDelegate didFailToRegisterForRemoteNotificationsWithError: \(error.localizedDescription)")
+        #if DEBUG
+        UserData.shared.deviceToken = "debugSimulatorDeviceToken"
+        #endif
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
