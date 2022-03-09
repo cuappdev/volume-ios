@@ -14,6 +14,7 @@ import SwiftUI
 import WebKit
 
 struct BrowserView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject private var userData: UserData
 
     let initType: BrowserViewInitType
@@ -24,7 +25,7 @@ struct BrowserView: View {
     @State private var state: BrowserViewState<Article> = .loading
     @State private var showToolbars = true
     
-    var isShoutoutsButtonEnabled: Bool {
+    private var isShoutoutsButtonEnabled: Bool {
         switch state {
         case .loading:
             return false
@@ -33,7 +34,82 @@ struct BrowserView: View {
         }
     }
     
+    private var navigationTitle: String {
+        switch state {
+        case .loading:
+            return "Loading article..."
+        case .results(let article):
+            return article.publication.name
+        }
+    }
+    
+    private var isArticleLoaded: Bool {
+        switch state {
+        case .loading:
+            return true
+        case .results(_):
+            return false
+        }
+    }
+    
     // MARK: UI Components
+    
+    private var navbar: some View {
+            ZStack {
+                Rectangle()
+                    .foregroundColor(.white)
+                    .shadow(color: .black.opacity(0.25), radius: 3, y: 3)
+                
+                if showToolbars {
+                    HStack {
+                        Button {
+                            presentationMode.wrappedValue.dismiss()
+                        } label: {
+                            Image("arrow-left")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: 24)
+                                .foregroundColor(Color.black)
+                        }
+                        
+                        Spacer()
+                        
+                        if case let .results(article) = state, let url = article.articleUrl {
+                            Link(destination: url) {
+                                Image("compass")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(height: 24)
+                                    .foregroundColor(Color.black)
+                            }
+                        } else {
+                            Image("compass")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: 24)
+                                .foregroundColor(Color.volume.lightGray)
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                    
+                    VStack(spacing: 0) {
+                        Text(navigationTitle)
+                            .font(.begumBold(size: 12))
+                            .fixedSize()
+                        Text("Reading in Volume")
+                            .font(.latoRegular(size: 10))
+                            .foregroundColor(Color.volume.lightGray)
+                    }
+                } else {
+                    Text(navigationTitle)
+                        .font(.begumBold(size: 10))
+                        .fixedSize()
+                }
+            }
+            .background(Color.white)
+            .frame(height: showToolbars ? 40 : 20)
+        
+    }
     
     private var toolbar: some View {
         HStack(spacing: 0) {
@@ -109,44 +185,38 @@ struct BrowserView: View {
     }
     
     var body: some View {
-        VStack(spacing: 0) {
-            switch state {
-            case .loading:
-                SkeletonView()
-            case .results(let article):
-                if let articleUrl = article.articleUrl {
-                    WebView(url: articleUrl, showToolbars: $showToolbars)
-                        .onAppear {
-                            AppDevAnalytics.log(VolumeEvent.openArticle.toEvent(.article, value: article.id, navigationSource: navigationSource))
-                            markArticleRead(id: article.id)
-                        }
-                        .onDisappear {
-                            AppDevAnalytics.log(VolumeEvent.closeArticle.toEvent(.article, value: article.id, navigationSource: navigationSource))
-                        }
-                }
-            }
-            if showToolbars {
-                toolbar
-            }
-        }
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                VStack(spacing: 0) {
-                    switch state {
-                    case .loading:
-                        Text("Loading article...")
-                            .font(.begumBold(size: 12))
-                    case .results(let article):
-                        Text(article.publication.name)
-                            .font(.begumBold(size: 12))
-                            .fixedSize()
+        ZStack {
+            VStack(spacing: 0) {
+                Spacer()
+                    .frame(height: showToolbars ? 40 : 20)
+                
+                switch state {
+                case .loading:
+                    SkeletonView()
+                case .results(let article):
+                    if let articleUrl = article.articleUrl {
+                        WebView(url: articleUrl, showToolbars: $showToolbars)
+                            .onAppear {
+                                AppDevAnalytics.log(VolumeEvent.openArticle.toEvent(.article, value: article.id, navigationSource: navigationSource))
+                                markArticleRead(id: article.id)
+                            }
+                            .onDisappear {
+                                AppDevAnalytics.log(VolumeEvent.closeArticle.toEvent(.article, value: article.id, navigationSource: navigationSource))
+                            }
                     }
-                    Text("Reading in Volume")
-                        .font(.latoRegular(size: 10))
-                        .foregroundColor(Color.volume.lightGray)
+                }
+                if showToolbars {
+                    toolbar
                 }
             }
+            VStack(spacing: 0) {
+                navbar
+                
+                Spacer()
+            }
         }
+        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
         .onAppear {
             switch initType {
             case .fetchRequired(let id):

@@ -42,7 +42,6 @@ extension WebView {
                 // show toolbar when near top of page or scrolling up
                 parent.showToolbars = (lastContentOffset > scrollView.contentOffset.y) || scrollView.contentOffset.y <= 10
             }
-            print("lastContentOffset = \(lastContentOffset)")
             lastContentOffset = scrollView.contentOffset.y
         }
     }
