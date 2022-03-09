@@ -67,8 +67,13 @@ struct WeeklyDebriefView: View {
                 }
 
                 // TODO - create a DebriefArticleView for each article
-//                DebriefArticleView(header: "Share What You Read", article: article)
-//                DebriefArticleView(header: "Share What You Read", article: article)
+//                NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: .weeklyDebrief)) {
+//                    DebriefArticleView(header: <#T##String#>, article: <#T##Article#>)
+//                }
+//                NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: .weeklyDebrief)) {
+//                    DebriefArticleView(header: <#T##String#>, article: <#T##Article#>)
+//                }
+                
                 VStack {
                     Header("See You Next Week!", .center)
                         .padding(.top, 24)

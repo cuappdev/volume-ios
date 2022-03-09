@@ -14,26 +14,24 @@ struct BigReadArticleRow: View {
     let article: Article
 
     var body: some View {
-        NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: .trendingArticles)) {
-            VStack(spacing: 16) {
-                if let url = article.imageUrl {
-                    WebImage(url: url)
-                        .resizable()
-                        .grayBackground()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 180, height: 180)
-                        .clipped()
-                } else {
-                    WebImage(url: article.publication.profileImageUrl)
-                        .resizable()
-                        .grayBackground()
-                        .frame(width: 120, height: 120)
-                        .padding(30)
-                }
-                ArticleInfo(article: article, showsPublicationName: true, largeFont: false)
+        VStack(spacing: 16) {
+            if let url = article.imageUrl {
+                WebImage(url: url)
+                    .resizable()
+                    .grayBackground()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 180, height: 180)
+                    .clipped()
+            } else {
+                WebImage(url: article.publication.profileImageUrl)
+                    .resizable()
+                    .grayBackground()
+                    .frame(width: 120, height: 120)
+                    .padding(30)
             }
-            .frame(width: 180, height: 300)
+            ArticleInfo(article: article, showsPublicationName: true, largeFont: false)
         }
+        .frame(width: 180, height: 300)
         .accentColor(Color.black)
     }
 }

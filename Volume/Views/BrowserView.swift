@@ -108,7 +108,6 @@ struct BrowserView: View {
             }
             .background(Color.white)
             .frame(height: showToolbars ? 40 : 20)
-        
     }
     
     private var toolbar: some View {

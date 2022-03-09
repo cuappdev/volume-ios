@@ -16,51 +16,54 @@ struct MainView: View {
     @EnvironmentObject private var networkState: NetworkState
 
     var body: some View {
-        GeometryReader { geometry in
-            VStack(spacing: 0) {
-                switch selectedTab {
-                case .home:
-                    TabContainer(screen: .homeList) {
-                        HomeList()
-                    }
-                    .tag(Tab.home)
-                case .publications:
-                    TabContainer(screen: .publicationList) {
-                        PublicationList()
-                    }
-                    .tag(Tab.publications)
-                case .bookmarks:
-                    TabContainer(screen: .bookmarksList) {
-                        BookmarksList()
-                    }
-                    .tag(Tab.bookmarks)
+        ZStack {
+            TabView(selection: $selectedTab) {
+                TabContainer(screen: .homeList) {
+                    HomeList()
                 }
+                .tag(Tab.home)
                 
-                HStack(alignment: .top) {
-                    Spacer()
-                    
-                    TabItem(icon: Image("volume"), name: "For You")
-                        .foregroundColor(selectedTab == .home ? .volume.orange : .volume.lightGray)
-                        .onTapGesture { selectedTab = .home }
-                    
-                    Spacer()
-                    
-                    TabItem(icon: Image("publications"), name: "Publications")
-                        .foregroundColor(selectedTab == .publications ? .volume.orange : .volume.lightGray)
-                        .onTapGesture { selectedTab = .publications }
-                    
-                    Spacer()
-                    
-                    TabItem(icon: Image("bookmark"), name: "Bookmarks")
-                        .foregroundColor(selectedTab == .bookmarks ? .volume.orange : .volume.lightGray)
-                        .onTapGesture { selectedTab = .bookmarks }
-                    
-                    Spacer()
+                TabContainer(screen: .publicationList) {
+                    PublicationList()
                 }
-                .frame(width: geometry.size.width, height: 75 + geometry.safeAreaInsets.bottom * 0.4)
-                .background(Color.white)
+                .tag(Tab.publications)
+
+                TabContainer(screen: .bookmarksList) {
+                    BookmarksList()
+                }
+                .tag(Tab.bookmarks)
             }
-            .edgesIgnoringSafeArea(.bottom)
+            
+            GeometryReader { geometry in
+                VStack(spacing: 0) {
+                    Spacer()
+                    
+                    HStack(alignment: .top) {
+                        Spacer()
+                        
+                        TabItem(icon: Image("volume"), name: "For You")
+                            .foregroundColor(selectedTab == .home ? .volume.orange : .volume.lightGray)
+                            .onTapGesture { selectedTab = .home }
+                        
+                        Spacer()
+                        
+                        TabItem(icon: Image("publications"), name: "Publications")
+                            .foregroundColor(selectedTab == .publications ? .volume.orange : .volume.lightGray)
+                            .onTapGesture { selectedTab = .publications }
+                        
+                        Spacer()
+                        
+                        TabItem(icon: Image("bookmark"), name: "Bookmarks")
+                            .foregroundColor(selectedTab == .bookmarks ? .volume.orange : .volume.lightGray)
+                            .onTapGesture { selectedTab = .bookmarks }
+                        
+                        Spacer()
+                    }
+                    .frame(width: geometry.size.width, height: 75 + geometry.safeAreaInsets.bottom * 0.4)
+                    .background(Color.white)
+                }
+                .edgesIgnoringSafeArea(.bottom)
+            }
         }
         .onAppear {
             SwiftUIAnnounce.presentAnnouncement { presented in

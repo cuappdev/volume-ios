@@ -74,26 +74,24 @@ struct DebriefArticleView: View {
             Header(header, .center)
                 .padding(.top, 24)
             
-            NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: .weeklyDebrief)) {
-                VStack(spacing: 16) {
-                    if let url = article.imageUrl {
-                        WebImage(url: url)
-                            .resizable()
-                            .grayBackground()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 275, height: 275)
-                            .clipped()
-                    } else {
-                        WebImage(url: article.publication.profileImageUrl)
-                            .resizable()
-                            .grayBackground()
-                            .frame(width: 275, height: 275)
-                            .padding(30)
-                    }
-                    ArticleInfo(article: article, showsPublicationName: true, largeFont: true)
+            VStack(spacing: 16) {
+                if let url = article.imageUrl {
+                    WebImage(url: url)
+                        .resizable()
+                        .grayBackground()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 275, height: 275)
+                        .clipped()
+                } else {
+                    WebImage(url: article.publication.profileImageUrl)
+                        .resizable()
+                        .grayBackground()
+                        .frame(width: 275, height: 275)
+                        .padding(30)
                 }
-                .frame(width: 275, height: 435)
+                ArticleInfo(article: article, showsPublicationName: true, largeFont: true)
             }
+            .frame(width: 275, height: 435)
             .accentColor(Color.black)
             
             HStack(spacing: 56) {

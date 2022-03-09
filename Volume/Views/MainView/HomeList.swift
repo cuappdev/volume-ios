@@ -108,7 +108,9 @@ struct HomeList: View {
                 case .reloading(let results), .results(let results):
                     HStack(spacing: 24) {
                         ForEach(results.trendingArticles) { article in
-                            BigReadArticleRow(article: article)
+                            NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: .trendingArticles)) {
+                                BigReadArticleRow(article: article)
+                            }
                         }
                     }
                 }
@@ -162,8 +164,10 @@ struct HomeList: View {
                 }
             case .reloading(let results), .results(let results):
                 ForEach(results.followedArticles) { article in
-                    ArticleRow(article: article, navigationSource: .followingArticles)
-                        .padding([.leading, .trailing])
+                    NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: .followingArticles)) {
+                        ArticleRow(article: article, navigationSource: .followingArticles)
+                            .padding([.leading, .trailing])
+                    }
                 }
             }
             Spacer()
@@ -182,8 +186,10 @@ struct HomeList: View {
                 Spacer().frame(height: 0)
             case .reloading(let results), .results(let results):
                 ForEach(results.otherArticles) { article in
-                    ArticleRow(article: article, navigationSource: .otherArticles)
-                        .padding([.bottom, .leading, .trailing])
+                    NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: .otherArticles)) {
+                        ArticleRow(article: article, navigationSource: .otherArticles)
+                            .padding([.leading, .trailing])
+                    }
                 }
             }
         }
@@ -259,8 +265,8 @@ extension HomeList {
         >
 }
 
-struct HomeList_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeList()
-    }
-}
+//struct HomeList_Previews: PreviewProvider {
+//    static var previews: some View {
+//        HomeList()
+//    }
+//}
