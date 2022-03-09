@@ -23,7 +23,6 @@ struct MainView: View {
             }
             .tag(Tab.home)
             .background(TabBarReader{ tabBar in
-                print(tabBar.bounds.height)
                 tabBarHeight = tabBar.bounds.height
             })
             

@@ -92,7 +92,7 @@ struct BrowserView: View {
                     }
                     .padding(.horizontal, 16)
                     
-                    VStack(spacing: 0) {
+                    VStack {
                         Text(navigationTitle)
                             .font(.begumBold(size: 12))
                             .fixedSize()
