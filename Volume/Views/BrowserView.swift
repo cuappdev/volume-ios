@@ -58,7 +58,7 @@ struct BrowserView: View {
             ZStack {
                 Rectangle()
                     .foregroundColor(.white)
-                    .shadow(color: .black.opacity(0.25), radius: 3, y: 3)
+                    .shadow(color: .black.opacity(0.2), radius: 2, y: 3)
                 
                 if showToolbars {
                     HStack {
