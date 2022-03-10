@@ -12,6 +12,11 @@ struct Magazine: Identifiable {
     // TODO: populate this class once API is specified
     let id: String
     let title: String
+    let date: Date
+    let coverUrl: URL?
+    let publication: Publication
+    let shoutouts: Int
+    let magazineUrl: URL?
 }
 
 //extension Array where Element == Magazine {

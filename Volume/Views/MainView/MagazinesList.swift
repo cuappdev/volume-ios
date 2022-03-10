@@ -10,6 +10,10 @@ import SwiftUI
 
 struct MagazinesList: View {
     @State private var state: MainView.TabState<Results> = .loading
+
+    // TODO: Remove test data when backend setup
+    let magHeight: CGFloat = 220
+    let magWidth: CGFloat  = 150
     
     private func fetchContent(_ done: @escaping () -> Void = { }) {
         // simulate network request delay
@@ -35,13 +39,42 @@ struct MagazinesList: View {
                         ForEach(0..<2) { _ in
                             // TODO: replace w/ trending magazine skeleton
                             SkeletonView()
-                                .frame(width: 152, height: 368)
+                                .frame(width: magWidth, height: magHeight)
                         }
                     case .reloading(let results), .results(let results):
-                        ForEach(results.trendingMagazines) { magazine in
-                            // TODO: replace w/ trending magazine cell
+                        // TODO: Replace with results.trendingMagazines when backend is setup
+                        ForEach(0..<10) { _ in
+                            NavigationLink(destination: MagazineDetail()) {
+                                FeaturedMagazineCell()
+                            }
+                        }
+                    }
+                }
+            }
+            .padding([.leading, .trailing])
+        }
+    }
+
+    private var moreMagazinesSection: some View {
+        Group {
+            Header("More magazines")
+                .padding([.top, .leading, .trailing])
+
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 24) {
+                    switch state {
+                    case .loading:
+                        ForEach(0..<3) { _ in
+                            // TODO: replace w/ trending magazine skeleton
                             SkeletonView()
-                                .frame(width: 152, height: 368)
+                                .frame(width: magWidth, height: magHeight)
+                        }
+                    case .reloading(let results), .results(let results):
+                        // TODO: Replace with results.trendingMagazines when backend is setup
+                        ForEach(0..<10) { _ in
+                            NavigationLink(destination: MagazineDetail()) {
+                                FeaturedMagazineCell()
+                            }
                         }
                     }
                 }
@@ -60,7 +93,11 @@ struct MagazinesList: View {
                 fetchContent(done)
             }
         } content: {
-            Text("Read some 'zines!")
+            VStack {
+                featureMagazinesSection
+                Spacer().frame(height: 16)
+                moreMagazinesSection
+            }
         }
         .disabled(state.shouldDisableScroll)
         .padding(.top)
