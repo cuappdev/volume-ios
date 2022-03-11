@@ -30,7 +30,7 @@ struct MagazineCell: View {
         var name: String
     }
 
-    let magazine = dummyMagazine(id: "", title: "Artifacts For All", date: Date.distantPast, coverUrl:  URL(string: "https://www.cs.cornell.edu/ken/Photo%20of%20Me.jpg"), publication: dummyPublication(name: "Cornell"), shoutouts: 100, magazineUrl: nil)
+    let magazine = dummyMagazine(id: "", title: "Artifacts For All", date: Date.distantPast, coverUrl:  URL(string: "https://picsum.photos/150/220"), publication: dummyPublication(name: "Cornell"), shoutouts: 100, magazineUrl: nil)
 
 
     var body: some View {
