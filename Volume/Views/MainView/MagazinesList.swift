@@ -10,10 +10,6 @@ import SwiftUI
 
 struct MagazinesList: View {
     @State private var state: MainView.TabState<Results> = .loading
-
-    // TODO: Remove test data when backend setup
-    let magHeight: CGFloat = 220
-    let magWidth: CGFloat  = 150
     
     private func fetchContent(_ done: @escaping () -> Void = { }) {
         // simulate network request delay
@@ -62,10 +58,8 @@ struct MagazinesList: View {
                 HStack(spacing: 24) {
                     switch state {
                     case .loading:
-                        ForEach(0..<3) { _ in
-                            // TODO: replace w/ trending magazine skeleton
-                            SkeletonView()
-                                .frame(width: magWidth, height: magHeight)
+                        ForEach(0..<10) { _ in
+                            MagazineCell.Skeleton()
                         }
                     case .reloading(let results), .results(let results):
                         // TODO: Replace with results.trendingMagazines when backend is setup
