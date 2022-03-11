@@ -76,8 +76,7 @@
 		A2532AF127B5A34500A88B82 /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = A2532AF027B5A34500A88B82 /* schema.json */; };
 		A2532AF327B5A37200A88B82 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2532AF227B5A37200A88B82 /* API.swift */; };
 		A2A4CB1C27D5276D00774C70 /* Magazine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A4CB1B27D5276D00774C70 /* Magazine.swift */; };
-		A2A4CB2027D5294900774C70 /* MoreMagazineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A4CB1F27D5294900774C70 /* MoreMagazineCell.swift */; };
-		A2A5CC1027D567EA0000F377 /* FeaturedMagazineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A5CC0F27D567EA0000F377 /* FeaturedMagazineCell.swift */; };
+		A2A5CC1027D567EA0000F377 /* MagazineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A5CC0F27D567EA0000F377 /* MagazineCell.swift */; };
 		A2B4DF3227D9AAB000440184 /* MagazineDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B4DF3127D9AAB000440184 /* MagazineDetail.swift */; };
 /* End PBXBuildFile section */
 
@@ -160,8 +159,7 @@
 		A2532AF027B5A34500A88B82 /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		A2532AF227B5A37200A88B82 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		A2A4CB1B27D5276D00774C70 /* Magazine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Magazine.swift; sourceTree = "<group>"; };
-		A2A4CB1F27D5294900774C70 /* MoreMagazineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreMagazineCell.swift; sourceTree = "<group>"; };
-		A2A5CC0F27D567EA0000F377 /* FeaturedMagazineCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedMagazineCell.swift; sourceTree = "<group>"; };
+		A2A5CC0F27D567EA0000F377 /* MagazineCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineCell.swift; sourceTree = "<group>"; };
 		A2B4DF3127D9AAB000440184 /* MagazineDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineDetail.swift; sourceTree = "<group>"; };
 		ACDB01FFF9D60A537732BD25 /* Pods-Volume.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Volume.debug.xcconfig"; path = "Target Support Files/Pods-Volume/Pods-Volume.debug.xcconfig"; sourceTree = "<group>"; };
 		DDD49BC6A6691BB636B1EBD1 /* Pods_Volume.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Volume.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -325,14 +323,13 @@
 		7E51586425589D52003A0F4A /* View Models */ = {
 			isa = PBXGroup;
 			children = (
-				A2A5CC0F27D567EA0000F377 /* FeaturedMagazineCell.swift */,
 				7EA73D30254CA7E1009E8F9F /* ArticleInfo.swift */,
 				7EA73D21254C9C21009E8F9F /* ArticleRow.swift */,
 				7EA73D24254C9C5B009E8F9F /* BigReadArticleRow.swift */,
+				A2A5CC0F27D567EA0000F377 /* MagazineCell.swift */,
 				7E8658B4254B7FF2002DEE68 /* FollowingPublicationRow.swift */,
 				7E8658AA254B71D7002DEE68 /* MorePublicationRow.swift */,
 				7E9E4718262808AC007E8E6C /* SettingsPageRow.swift */,
-				A2A4CB1F27D5294900774C70 /* MoreMagazineCell.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -575,7 +572,6 @@
 				7E416C362561E0650010D70B /* BookmarksList.swift in Sources */,
 				95A79FB82622296800CADF88 /* ConnectionFailedView.swift in Sources */,
 				0685AA9E259EA84900DD55C4 /* BrowserView.swift in Sources */,
-				A2A4CB2027D5294900774C70 /* MoreMagazineCell.swift in Sources */,
 				7E23DFD2254A05EF0001C3A3 /* Color+Extension.swift in Sources */,
 				7E416C2F2561D47C0010D70B /* Date+Extension.swift in Sources */,
 				7EA73D1F254C9BC8009E8F9F /* HomeList.swift in Sources */,
@@ -608,7 +604,7 @@
 				95A79FB42622255D00CADF88 /* TabContainer.swift in Sources */,
 				7EA0BB502624DF7C00A1652E /* AboutUsView.swift in Sources */,
 				060FFDDE2577EC800052F3EA /* OnboardingView.swift in Sources */,
-				A2A5CC1027D567EA0000F377 /* FeaturedMagazineCell.swift in Sources */,
+				A2A5CC1027D567EA0000F377 /* MagazineCell.swift in Sources */,
 				50C360542759482A006CDB2E /* DebriefArticleView.swift in Sources */,
 				A2532AF327B5A37200A88B82 /* API.swift in Sources */,
 				063EED25257BF8A7002136EE /* Network.swift in Sources */,

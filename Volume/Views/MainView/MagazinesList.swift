@@ -45,7 +45,7 @@ struct MagazinesList: View {
                         // TODO: Replace with results.trendingMagazines when backend is setup
                         ForEach(0..<10) { _ in
                             NavigationLink(destination: MagazineDetail()) {
-                                FeaturedMagazineCell()
+                                MagazineCell()
                             }
                         }
                     }
@@ -73,7 +73,7 @@ struct MagazinesList: View {
                         // TODO: Replace with results.trendingMagazines when backend is setup
                         ForEach(0..<10) { _ in
                             NavigationLink(destination: MagazineDetail()) {
-                                FeaturedMagazineCell()
+                                MagazineCell()
                             }
                         }
                     }

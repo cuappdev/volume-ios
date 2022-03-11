@@ -9,8 +9,8 @@
 import SDWebImageSwiftUI
 import SwiftUI
 
-/// `FeaturedMagazineRow` displays the images and name of a publication a user is currently following
-struct FeaturedMagazineCell: View {
+/// `MagazineCell` displays the images and name of a publication a user is currently following
+struct MagazineCell: View {
 
     // TODO: Restore when backend setup
     // let magazine: Magazine
@@ -62,7 +62,7 @@ struct FeaturedMagazineCell: View {
     }
 }
 
-extension FeaturedMagazineCell {
+extension MagazineCell {
     struct Skeleton: View {
         var body: some View {
             VStack(spacing: 5) {
