@@ -65,17 +65,30 @@ struct MagazineCell: View {
 extension MagazineCell {
     struct Skeleton: View {
         var body: some View {
-            VStack(spacing: 5) {
+            VStack(alignment: .leading) {
                 SkeletonView()
-                    .clipShape(Circle())
-                    .shadow(color: Color(white: 0, opacity: 0.1), radius: 5)
-                    .frame(width: 75, height: 75)
-                    .padding(.top, 4)
-                SkeletonView()
-                    .frame(width: 65, height: 14)
+                    .frame(width: 150, height: 220)
                 Spacer()
+                    .frame(height: 12)
+                SkeletonView()
+                    .frame(width: 126, height: 14)
+                Spacer()
+                    .frame(height: 2)
+                SkeletonView()
+                    .frame(width: 150, height: 20)
+                Spacer()
+                    .frame(height: 1)
+                HStack(spacing: 0) {
+                    SkeletonView()
+                        .frame(width: 33, height: 10)
+                    Text(" • ")
+                        .font(.latoRegular(size: 10))
+                        .foregroundColor(Color.volume.veryLightGray)
+                    SkeletonView()
+                        .frame(width: 70, height: 10)
+                }
             }
-            .frame(width: 90, height: 135)
+            .frame(width: 152, height: 279)
         }
     }
 }
