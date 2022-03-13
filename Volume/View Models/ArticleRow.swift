@@ -21,22 +21,21 @@ struct ArticleRow: View {
     }
 
     var body: some View {
-        NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: navigationSource)) {
-            HStack(spacing: 20) {
-                ArticleInfo(article: article, showsPublicationName: showsPublicationName, largeFont: false)
+        let imageSize: CGFloat = showsPublicationName ? 100 : 80
+        HStack(spacing: 20) {
+            ArticleInfo(article: article, showsPublicationName: showsPublicationName, largeFont: false)
 
-                if let url = article.imageUrl {
-                    WebImage(url: url)
-                        .resizable()
-                        .grayBackground()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: showsPublicationName ? 100 : 80, height: showsPublicationName ? 100 : 80)
-                        .clipped()
-                }
+            if let url = article.imageUrl {
+                WebImage(url: url)
+                    .resizable()
+                    .grayBackground()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: imageSize, height: imageSize)
+                    .clipped()
             }
-            .frame(maxWidth: .infinity, idealHeight: showsPublicationName ? 100 : 80, alignment: .leading)
         }
-        .accentColor(Color.black)
+        .frame(maxWidth: .infinity, idealHeight: imageSize, alignment: .leading)
+        .accentColor(.black)
     }
 }
 

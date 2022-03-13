@@ -36,11 +36,11 @@ struct ArticleInfo: View {
                     // swiftlint:disable:next line_length
                     Text("\(article.date.fullString) • \(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0])) shout-outs")
                         .font(largeFont ? .latoRegular(size: 14) : .latoRegular(size: 10))
-                        .foregroundColor(Color.volume.lightGray)
+                        .foregroundColor(.volume.lightGray)
                     if userData.isArticleSaved(article) {
                         Image(systemName: "bookmark.fill")
                             .resizable()
-                            .foregroundColor(Color.volume.orange)
+                            .foregroundColor(.volume.orange)
                             .frame(width: largeFont ? 9 : 8, height: largeFont ? 12 : 11)
                     }
                 }
@@ -74,7 +74,7 @@ extension ArticleInfo {
                             .frame(width: 33, height: 10)
                         Text(" • ")
                             .font(.latoRegular(size: 10))
-                            .foregroundColor(Color.volume.veryLightGray)
+                            .foregroundColor(.volume.veryLightGray)
                         SkeletonView()
                             .frame(width: 70, height: 10)
                     }

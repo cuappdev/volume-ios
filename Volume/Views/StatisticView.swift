@@ -19,7 +19,7 @@ struct StatisticView: View {
             Image(image)
                 .resizable()
                 .scaledToFit()
-                .foregroundColor(Color.volume.orange)
+                .foregroundColor(.volume.orange)
                 .frame(height: 24)
                 .padding(.trailing, 24)
             HStack(spacing: 8, content: {
@@ -27,7 +27,7 @@ struct StatisticView: View {
                     .font(.begumMedium(size: 16))
                 Text("\(number)")
                     .font(.begumMedium(size: 36))
-                    .foregroundColor(Color.volume.orange)
+                    .foregroundColor(.volume.orange)
                 Text(rightText)
                     .font(.begumMedium(size: 16))
             })
@@ -36,8 +36,7 @@ struct StatisticView: View {
     }
 }
 
-
-struct SStatisticViewRow_Previews: PreviewProvider {
+struct StatisticViewRow_Previews: PreviewProvider {
     static var previews: some View {
         StatisticView(image: "volume", leftText: "read", number: 45, rightText: "articles")
     }
