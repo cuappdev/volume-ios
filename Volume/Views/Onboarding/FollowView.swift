@@ -84,8 +84,8 @@ extension OnboardingView.FollowView {
             LinearGradient(
                 gradient: Gradient(
                     colors: [
-                        Color.white.opacity(0),
-                        Color.white
+                        .white.opacity(0),
+                        .white
                     ]
                 ),
                 startPoint: fadesDown ? .top : .bottom,

@@ -90,7 +90,7 @@ struct OnboardingView: View {
                             .padding([.top, .bottom], 10)
                             .padding([.leading, .trailing], 24)
                     })
-                    .foregroundColor(Color.volume.orange)
+                    .foregroundColor(.volume.orange)
                 case .follow:
                     Button(action: {
                         AppDevAnalytics.log(VolumeEvent.completeOnboarding.toEvent(.general))
@@ -100,13 +100,13 @@ struct OnboardingView: View {
                             .padding([.top, .bottom], 10)
                             .padding([.leading, .trailing], 24)
                     })
-                    .foregroundColor(didFollowPublication ? Color.volume.orange : Color(white: 151 / 255))
+                        .foregroundColor(didFollowPublication ? .volume.orange : .volume.lightGray)
                     .disabled(!didFollowPublication)
                 }
             }
             .overlay(
                 RoundedRectangle(cornerRadius:10)
-                    .stroke(didFollowPublication || page == .welcome ? Color.volume.orange : Color(white: 151 / 255), lineWidth: 2)
+                    .stroke(didFollowPublication || page == .welcome ? Color.volume.orange : .volume.lightGray, lineWidth: 2)
             )
             .font(.latoBold(size: 16))
             .padding([.leading, .trailing], 32)

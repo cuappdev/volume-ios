@@ -16,7 +16,7 @@ struct SettingsPageRow: View {
             Image(page.imageName)
                 .resizable()
                 .renderingMode(.template)
-                .foregroundColor(Color.volume.lightGray)
+                .foregroundColor(.volume.lightGray)
                 .frame(width: 24, height: 24)
                 .padding()
             Text(page.info)

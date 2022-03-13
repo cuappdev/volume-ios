@@ -50,7 +50,7 @@ struct WeeklyDebriefView: View {
                                 .font(.begumRegular(size: 16)) +
                             Text("10% ")
                                 .font(.begumMedium(size: 36))
-                                .foregroundColor(Color.volume.orange) +
+                                .foregroundColor(.volume.orange) +
                             Text("active readers last week!")
                                 .font(.begumRegular(size: 16))
                             Spacer()
@@ -90,7 +90,7 @@ struct WeeklyDebriefView: View {
                             isOpen = false
                         } label: {
                             Text("Continue to Volume")
-                                .foregroundColor(Color.volume.orange)
+                                .foregroundColor(.volume.orange)
                                 .font(.helveticaBold(size: 16))
                         }
                         .frame(width: 184, height: 45, alignment: .center)

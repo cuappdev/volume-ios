@@ -91,13 +91,13 @@ struct PublicationDetail: View {
                             .clipShape(Circle())
                             .frame(width: 60, height: 60)
                             .overlay(Circle().stroke(Color.white, lineWidth: 3))
-                            .shadow(color: Color.volume.shadowBlack, radius: 5, x: 0, y: 0)
+                            .shadow(color: .volume.shadowBlack, radius: 5, x: 0, y: 0)
                             .padding(.leading, 16)
                     } else {
                         Circle()
                             .frame(width: 60, height: 60)
                             .overlay(Circle().stroke(Color.white, lineWidth: 3))
-                            .shadow(color: Color.volume.shadowBlack, radius: 5, x: 0, y: 0)
+                            .shadow(color: .volume.shadowBlack, radius: 5, x: 0, y: 0)
                             .padding(.leading, 16)
                     }
                 }

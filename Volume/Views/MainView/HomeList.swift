@@ -115,7 +115,7 @@ struct HomeList: View {
                     }
                 }
             }
-            .padding([.leading, .trailing])
+            .padding(.horizontal)
         }
     }
     
@@ -148,25 +148,25 @@ struct HomeList: View {
             }
         }
         .frame(height: 92)
-        .padding([.horizontal])
+        .padding(.horizontal)
         .shadow(color: .volume.shadowBlack, radius: 5, x: 0, y: 0)
     }
     
     var followedArticlesSection: some View {
         Group {
             Header("Following")
-                .padding([.leading, .trailing])
+                .padding(.horizontal)
             switch state {
             case .loading:
                 ForEach(0..<5) { _ in
                     ArticleRow.Skeleton()
-                        .padding([.leading, .trailing])
+                        .padding(.horizontal)
                 }
             case .reloading(let results), .results(let results):
                 ForEach(results.followedArticles) { article in
                     NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: .followingArticles)) {
                         ArticleRow(article: article, navigationSource: .followingArticles)
-                            .padding([.leading, .trailing])
+                            .padding(.horizontal)
                     }
                 }
             }
@@ -188,7 +188,7 @@ struct HomeList: View {
                 ForEach(results.otherArticles) { article in
                     NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: .otherArticles)) {
                         ArticleRow(article: article, navigationSource: .otherArticles)
-                            .padding([.leading, .trailing])
+                            .padding(.horizontal)
                     }
                 }
             }

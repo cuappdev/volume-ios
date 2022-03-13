@@ -69,7 +69,7 @@ struct BrowserView: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(height: 24)
-                                .foregroundColor(Color.black)
+                                .foregroundColor(.black)
                         }
                         
                         Spacer()
@@ -80,14 +80,14 @@ struct BrowserView: View {
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(height: 24)
-                                    .foregroundColor(Color.black)
+                                    .foregroundColor(.black)
                             }
                         } else {
                             Image("compass")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(height: 24)
-                                .foregroundColor(Color.volume.lightGray)
+                                .foregroundColor(.volume.lightGray)
                         }
                     }
                     .padding(.horizontal, 16)
@@ -98,7 +98,7 @@ struct BrowserView: View {
                             .fixedSize()
                         Text("Reading in Volume")
                             .font(.latoRegular(size: 10))
-                            .foregroundColor(Color.volume.lightGray)
+                            .foregroundColor(.volume.lightGray)
                     }
                 } else {
                     Text(navigationTitle)
@@ -126,14 +126,14 @@ struct BrowserView: View {
                             .frame(width: 32, height: 32)
                     } else {
                         Circle()
-                            .fill(Color.gray)
+                            .fill(.gray)
                             .frame(width: 32, height: 32)
                     }
                     Spacer()
                         .frame(width: 7)
                     Text("See more")
                         .font(.latoRegular(size: 12))
-                        .foregroundColor(Color.black)
+                        .foregroundColor(.black)
                 }
                 Spacer()
                 Group {
@@ -147,20 +147,24 @@ struct BrowserView: View {
                     } label: {
                         Image(systemName: userData.isArticleSaved(article) ? "bookmark.fill" : "bookmark")
                             .font(Font.system(size: 18, weight: .semibold))
-                            .foregroundColor(Color.volume.orange)
+                            .foregroundColor(.volume.orange)
                     }
+                    
                     Spacer()
                         .frame(width: 16)
+                    
                     Button {
                         AppDevAnalytics.log(VolumeEvent.shareArticle.toEvent(.article, value: article.id, navigationSource: navigationSource))
                         displayShareScreen(for: article)
                     } label: {
                         Image(systemName: "square.and.arrow.up.on.square")
                             .font(Font.system(size: 16, weight: .semibold))
-                            .foregroundColor(Color.volume.orange)
+                            .foregroundColor(.volume.orange)
                     }
+                    
                     Spacer()
                         .frame(width: 16)
+                    
                     Button {
                         incrementShoutouts(for: article)
                     } label: {
@@ -168,11 +172,13 @@ struct BrowserView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(height: 24)
-                            .foregroundColor(isShoutoutsButtonEnabled ? Color.volume.orange : Color.gray)
+                            .foregroundColor(isShoutoutsButtonEnabled ? .volume.orange : .gray)
                     }
                     .disabled(!isShoutoutsButtonEnabled)
+                    
                     Spacer()
                         .frame(width: 6)
+                    
                     Text(String(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0])))
                         .font(.latoRegular(size: 12))
                 }

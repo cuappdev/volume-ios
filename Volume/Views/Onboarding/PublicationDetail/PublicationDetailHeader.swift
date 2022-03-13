@@ -66,7 +66,7 @@ struct PublicationDetailHeader: View {
                         .padding([.top, .bottom], 8)
                         .padding([.leading, .trailing], 18)
                 })
-                .foregroundColor(isFollowed ? Color.volume.buttonGray: Color.volume.orange)
+                .foregroundColor(isFollowed ? .volume.buttonGray: .volume.orange)
                 .background(
                     isFollowed ?
                         AnyView(RoundedRectangle(cornerRadius: 10).fill(Color.volume.orange)) :
@@ -103,7 +103,7 @@ struct MediaText: View {
     var body: some View {
         Link(title, destination: url)
             .font(.latoRegular(size: 12))
-            .foregroundColor(Color.volume.orange)
+            .foregroundColor(.volume.orange)
             .padding(.trailing, 10)
             .lineLimit(1)
     }

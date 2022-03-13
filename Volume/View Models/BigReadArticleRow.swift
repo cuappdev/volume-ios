@@ -32,7 +32,7 @@ struct BigReadArticleRow: View {
             ArticleInfo(article: article, showsPublicationName: true, largeFont: false)
         }
         .frame(width: 180, height: 300)
-        .accentColor(Color.black)
+        .accentColor(.black)
     }
 }
 

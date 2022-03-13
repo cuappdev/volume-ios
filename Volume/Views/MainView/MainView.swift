@@ -22,7 +22,7 @@ struct MainView: View {
                 HomeList()
             }
             .tag(Tab.home)
-            .background(TabBarReader{ tabBar in
+            .background(TabBarReader { tabBar in
                 tabBarHeight = tabBar.bounds.height
             })
             

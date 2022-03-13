@@ -26,8 +26,8 @@ extension TabBarReader {
 
         override func viewWillAppear(_ animated: Bool) {
             super.viewWillAppear(animated)
-            if let tabBarController = self.tabBarController {
-                self.completion(tabBarController.tabBar)
+            if let tabBarController = tabBarController {
+                completion(tabBarController.tabBar)
             }
         }
     }

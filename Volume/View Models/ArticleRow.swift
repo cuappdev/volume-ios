@@ -21,6 +21,7 @@ struct ArticleRow: View {
     }
 
     var body: some View {
+        let imageSize: CGFloat = showsPublicationName ? 100 : 80
         HStack(spacing: 20) {
             ArticleInfo(article: article, showsPublicationName: showsPublicationName, largeFont: false)
 
@@ -29,12 +30,12 @@ struct ArticleRow: View {
                     .resizable()
                     .grayBackground()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: showsPublicationName ? 100 : 80, height: showsPublicationName ? 100 : 80)
+                    .frame(width: imageSize, height: imageSize)
                     .clipped()
             }
         }
-        .frame(maxWidth: .infinity, idealHeight: showsPublicationName ? 100 : 80, alignment: .leading)
-        .accentColor(Color.black)
+        .frame(maxWidth: .infinity, idealHeight: imageSize, alignment: .leading)
+        .accentColor(.black)
     }
 }
 
