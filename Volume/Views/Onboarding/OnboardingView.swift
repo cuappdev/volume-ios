@@ -57,7 +57,7 @@ struct OnboardingView: View {
                         .lineSpacing(4)
                 }
             }
-            .font(.begumRegular(size: 16))
+            .font(.newYorkRegular(size: 16))
             .frame(height: 80)
             .padding([.leading, .trailing], 50)
 
@@ -108,7 +108,7 @@ struct OnboardingView: View {
                 RoundedRectangle(cornerRadius:10)
                     .stroke(didFollowPublication || page == .welcome ? Color.volume.orange : .volume.lightGray, lineWidth: 2)
             )
-            .font(.latoBold(size: 16))
+            .font(.helveticaNeueMedium(size: 16))
             .padding([.leading, .trailing], 32)
             .padding(.top, 8)
             .padding(.bottom, 28)

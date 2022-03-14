@@ -9,18 +9,6 @@
 import SwiftUI
 
 extension Font {
-    static func begumRegular(size: CGFloat) -> Font {
-        .custom("Begum-Regular", size: size)
-    }
-
-    static func begumMedium(size: CGFloat) -> Font {
-        .custom("Begum-Medium", size: size)
-    }
-
-    static func begumBold(size: CGFloat) -> Font {
-        .custom("Begum-Bold", size: size)
-    }
-
     static func helveticaRegular(size: CGFloat) -> Font {
         .custom("Helvetica-Regular", size: size)
     }
@@ -29,11 +17,22 @@ extension Font {
         .custom("Helvetica-Bold", size: size)
     }
     
-    static func latoRegular(size: CGFloat) -> Font {
-        .custom("Lato-Regular", size: size)
+    static func helveticaNeueMedium(size: CGFloat) -> Font {
+        .custom("HelveticaNeue-Medium", size: size)
     }
     
-    static func latoBold(size: CGFloat) -> Font {
-        .custom("Lato-Bold", size: size)
+    static func newYorkRegular(size: CGFloat) -> Font {
+        let descriptor = UIFont.systemFont(ofSize: 24, weight: .regular).fontDescriptor
+        return Font(UIFont(descriptor: descriptor.withDesign(.serif) ?? descriptor, size: size))
+    }
+    
+    static func newYorkMedium(size: CGFloat) -> Font {
+        let descriptor = UIFont.systemFont(ofSize: 24, weight: .medium).fontDescriptor
+        return Font(UIFont(descriptor: descriptor.withDesign(.serif) ?? descriptor, size: size))
+    }
+    
+    static func newYorkBold(size: CGFloat) -> Font {
+        let descriptor = UIFont.systemFont(ofSize: 24, weight: .bold).fontDescriptor
+        return Font(UIFont(descriptor: descriptor.withDesign(.serif) ?? descriptor, size: size))
     }
 }

@@ -16,7 +16,7 @@ struct SettingsView: View {
     ]
     
     init() {
-        UINavigationBar.appearance().titleTextAttributes = [.font : UIFont(name: "Begum-Medium", size: 20)!]
+        UINavigationBar.appearance().titleTextAttributes = [.font : UIFont.newYorkMedium(size: 20)]
     }
     
     static func getView(for view: NestedSettingsView) -> some View {

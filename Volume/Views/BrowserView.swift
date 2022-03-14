@@ -94,15 +94,15 @@ struct BrowserView: View {
                     
                     VStack {
                         Text(navigationTitle)
-                            .font(.begumBold(size: 12))
+                            .font(.newYorkBold(size: 12))
                             .fixedSize()
                         Text("Reading in Volume")
-                            .font(.latoRegular(size: 10))
+                            .font(.helveticaRegular(size: 10))
                             .foregroundColor(.volume.lightGray)
                     }
                 } else {
                     Text(navigationTitle)
-                        .font(.begumBold(size: 10))
+                        .font(.newYorkBold(size: 10))
                         .fixedSize()
                 }
             }
@@ -132,7 +132,7 @@ struct BrowserView: View {
                     Spacer()
                         .frame(width: 7)
                     Text("See more")
-                        .font(.latoRegular(size: 12))
+                        .font(.helveticaRegular(size: 12))
                         .foregroundColor(.black)
                 }
                 Spacer()
@@ -180,7 +180,7 @@ struct BrowserView: View {
                         .frame(width: 6)
                     
                     Text(String(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0])))
-                        .font(.latoRegular(size: 12))
+                        .font(.helveticaRegular(size: 12))
                 }
             }
         }

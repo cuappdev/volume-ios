@@ -19,7 +19,7 @@ struct Header: View {
 
     var body: some View {
         UnderlinedText(text)
-            .font(.begumMedium(size: 20))
+            .font(.newYorkMedium(size: 20))
             .frame(maxWidth: .infinity, alignment: alignment)
     }
 }

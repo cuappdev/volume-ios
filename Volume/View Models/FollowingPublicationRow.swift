@@ -32,7 +32,7 @@ struct FollowingPublicationRow: View {
                     .padding(.top, 4)
             }
             Text(publication.name)
-                .font(.begumMedium(size: 12))
+                .font(.newYorkMedium(size: 12))
                 .foregroundColor(.black)
                 .lineLimit(2)
                 .multilineTextAlignment(.center)

@@ -39,9 +39,9 @@ struct VolumeMessage: View {
             Image("volume")
                 .foregroundColor(.volume.orange)
             Text(message.title)
-                .font(.begumMedium(size: 12))
+                .font(.newYorkMedium(size: 12))
             Text(message.subtitle)
-                .font(.latoRegular(size: 10))
+                .font(.helveticaRegular(size: 10))
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
         }

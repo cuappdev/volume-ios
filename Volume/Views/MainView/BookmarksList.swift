@@ -83,7 +83,7 @@ struct BookmarksList: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     BubblePeriodText("Bookmarks")
-                        .font(.begumMedium(size: 28))
+                        .font(.newYorkMedium(size: 28))
                         .offset(y: 8)
                 }
 

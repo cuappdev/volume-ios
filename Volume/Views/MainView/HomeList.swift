@@ -135,7 +135,7 @@ struct HomeList: View {
                             .aspectRatio(contentMode: .fill)
                         HStack(alignment: .top) {
                             Text("Your\nWeekly\nDebrief")
-                                .font(.begumRegular(size: 18))
+                                .font(.newYorkRegular(size: 18))
                                 .foregroundColor(.volume.orange)
                                 .padding(.leading)
                                 .multilineTextAlignment(.leading)
