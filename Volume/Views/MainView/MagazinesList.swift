@@ -93,7 +93,6 @@ struct MagazinesList: View {
         }
         .disabled(state.shouldDisableScroll)
         .padding(.top)
-        .background(Color.volume.backgroundGray)
         .toolbar {
             ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
                 Image.volume.logo
