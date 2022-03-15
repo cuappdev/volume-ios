@@ -26,7 +26,7 @@ struct MagazinesList: View {
     private var featureMagazinesSection: some View {
         Group {
             Header("Featured")
-                .padding([.top, .leading, .trailing])
+                .padding([.top, .horizontal])
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 24) {
@@ -45,14 +45,14 @@ struct MagazinesList: View {
                     }
                 }
             }
-            .padding([.leading, .trailing])
+            .padding(.horizontal)
         }
     }
 
     private var moreMagazinesSection: some View {
         Group {
             Header("More magazines")
-                .padding([.top, .leading, .trailing])
+                .padding([.top, .horizontal])
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 24) {
@@ -71,7 +71,7 @@ struct MagazinesList: View {
                     }
                 }
             }
-            .padding([.leading, .trailing])
+            .padding(.horizontal)
         }
     }
     
