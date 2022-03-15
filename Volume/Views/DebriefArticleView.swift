@@ -30,7 +30,7 @@ struct DebriefArticleView: View {
                 .resizable()
                 .scaledToFit()
                 .frame(height: 21)
-                .accentColor(userData.isArticleSaved(article) ? Color.white : Color.volume.orange)
+                .accentColor(userData.isArticleSaved(article) ? .white : .volume.orange)
                 .background(userData.isArticleSaved(article) ? Color.volume.orange : Color.white)
         }
         .frame(width: 44, height: 44)
@@ -45,7 +45,7 @@ struct DebriefArticleView: View {
             displayShareScreen(for: article)
         } label: {
             Image(systemName: "square.and.arrow.up")
-                .foregroundColor(Color.volume.orange)
+                .foregroundColor(.volume.orange)
         }
         .frame(width: 44, height: 44)
         .overlay(Circle().stroke(Color.volume.orange, lineWidth: 4))
@@ -58,7 +58,7 @@ struct DebriefArticleView: View {
         } label: {
             Image.volume.shoutout
                 .resizable()
-                .foregroundColor(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]) > 0 ? Color.white : Color.volume.orange)
+                .foregroundColor(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]) > 0 ? .white : .volume.orange)
                 .background(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]) > 0 ? Color.volume.orange : Color.white)
                 .scaledToFit()
                 .frame(height: 21)
@@ -74,27 +74,25 @@ struct DebriefArticleView: View {
             Header(header, .center)
                 .padding(.top, 24)
             
-            NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: .weeklyDebrief)) {
-                VStack(spacing: 16) {
-                    if let url = article.imageUrl {
-                        WebImage(url: url)
-                            .resizable()
-                            .grayBackground()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 275, height: 275)
-                            .clipped()
-                    } else {
-                        WebImage(url: article.publication.profileImageUrl)
-                            .resizable()
-                            .grayBackground()
-                            .frame(width: 275, height: 275)
-                            .padding(30)
-                    }
-                    ArticleInfo(article: article, showsPublicationName: true, largeFont: true)
+            VStack(spacing: 16) {
+                if let url = article.imageUrl {
+                    WebImage(url: url)
+                        .resizable()
+                        .grayBackground()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 275, height: 275)
+                        .clipped()
+                } else {
+                    WebImage(url: article.publication.profileImageUrl)
+                        .resizable()
+                        .grayBackground()
+                        .frame(width: 275, height: 275)
+                        .padding(30)
                 }
-                .frame(width: 275, height: 435)
+                ArticleInfo(article: article, showsPublicationName: true, largeFont: true)
             }
-            .accentColor(Color.black)
+            .frame(width: 275, height: 435)
+            .accentColor(.black)
             
             HStack(spacing: 56) {
                 saveButton

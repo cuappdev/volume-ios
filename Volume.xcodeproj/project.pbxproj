@@ -32,6 +32,7 @@
 		33538BEE2745C477009DD191 /* WeeklyDebrief.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33538BED2745C477009DD191 /* WeeklyDebrief.swift */; };
 		33538BF02745C579009DD191 /* UserQueries.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 33538BEF2745C579009DD191 /* UserQueries.graphql */; };
 		33538BF22745DD27009DD191 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33538BF12745DD27009DD191 /* Notifications.swift */; };
+		33913A0C27D89E0A00C5718D /* TabBarReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33913A0B27D89E0A00C5718D /* TabBarReader.swift */; };
 		502E3EA32757D3C6005DA441 /* WeeklyDebriefView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502E3EA22757D3C6005DA441 /* WeeklyDebriefView.swift */; };
 		502E3EA52757F774005DA441 /* StatisticView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502E3EA42757F774005DA441 /* StatisticView.swift */; };
 		50C360542759482A006CDB2E /* DebriefArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C360532759482A006CDB2E /* DebriefArticleView.swift */; };
@@ -111,6 +112,7 @@
 		33538BED2745C477009DD191 /* WeeklyDebrief.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyDebrief.swift; sourceTree = "<group>"; };
 		33538BEF2745C579009DD191 /* UserQueries.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = UserQueries.graphql; sourceTree = "<group>"; };
 		33538BF12745DD27009DD191 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		33913A0B27D89E0A00C5718D /* TabBarReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarReader.swift; sourceTree = "<group>"; };
 		33AE4CEC27403F670001BA5B /* UserMutations.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = UserMutations.graphql; sourceTree = "<group>"; };
 		502E3EA22757D3C6005DA441 /* WeeklyDebriefView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyDebriefView.swift; sourceTree = "<group>"; };
 		502E3EA42757F774005DA441 /* StatisticView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticView.swift; sourceTree = "<group>"; };
@@ -344,6 +346,7 @@
 				7EE96DC72562505B000B246F /* VolumeMessage.swift */,
 				0685AAA0259EBA3800DD55C4 /* WebView.swift */,
 				7E49582C2612BD740015BE45 /* RefreshableScrollView.swift */,
+				33913A0B27D89E0A00C5718D /* TabBarReader.swift */,
 			);
 			path = "Supporting Views";
 			sourceTree = "<group>";
@@ -602,6 +605,7 @@
 				06EC2D24259CED0500FE0A71 /* PublicationDetailHeader.swift in Sources */,
 				331159CD27D26773003B0F06 /* MagazinesList.swift in Sources */,
 				95A79FB42622255D00CADF88 /* TabContainer.swift in Sources */,
+				33913A0C27D89E0A00C5718D /* TabBarReader.swift in Sources */,
 				7EA0BB502624DF7C00A1652E /* AboutUsView.swift in Sources */,
 				060FFDDE2577EC800052F3EA /* OnboardingView.swift in Sources */,
 				A2A5CC1027D567EA0000F377 /* MagazineCell.swift in Sources */,

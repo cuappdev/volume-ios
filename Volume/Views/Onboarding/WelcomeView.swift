@@ -45,7 +45,7 @@ extension OnboardingView.WelcomeView {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 36, height: 36)
-                    .foregroundColor(Color.volume.orange)
+                    .foregroundColor(.volume.orange)
                 (
                     Text(textBold)
                         .font(.begumBold(size: 16))

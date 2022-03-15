@@ -108,12 +108,14 @@ struct HomeList: View {
                 case .reloading(let results), .results(let results):
                     HStack(spacing: 24) {
                         ForEach(results.trendingArticles) { article in
-                            BigReadArticleRow(article: article)
+                            NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: .trendingArticles)) {
+                                BigReadArticleRow(article: article)
+                            }
                         }
                     }
                 }
             }
-            .padding([.leading, .trailing])
+            .padding(.horizontal)
         }
     }
     
@@ -146,24 +148,26 @@ struct HomeList: View {
             }
         }
         .frame(height: 92)
-        .padding([.horizontal])
+        .padding(.horizontal)
         .shadow(color: .volume.shadowBlack, radius: 5, x: 0, y: 0)
     }
     
     var followedArticlesSection: some View {
         Group {
             Header("Following")
-                .padding([.leading, .trailing])
+                .padding(.horizontal)
             switch state {
             case .loading:
                 ForEach(0..<5) { _ in
                     ArticleRow.Skeleton()
-                        .padding([.leading, .trailing])
+                        .padding(.horizontal)
                 }
             case .reloading(let results), .results(let results):
                 ForEach(results.followedArticles) { article in
-                    ArticleRow(article: article, navigationSource: .followingArticles)
-                        .padding([.leading, .trailing])
+                    NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: .followingArticles)) {
+                        ArticleRow(article: article, navigationSource: .followingArticles)
+                            .padding(.horizontal)
+                    }
                 }
             }
             Spacer()
@@ -182,8 +186,10 @@ struct HomeList: View {
                 Spacer().frame(height: 0)
             case .reloading(let results), .results(let results):
                 ForEach(results.otherArticles) { article in
-                    ArticleRow(article: article, navigationSource: .otherArticles)
-                        .padding([.bottom, .leading, .trailing])
+                    NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: .otherArticles)) {
+                        ArticleRow(article: article, navigationSource: .otherArticles)
+                            .padding(.horizontal)
+                    }
                 }
             }
         }
@@ -214,7 +220,7 @@ struct HomeList: View {
         }
         .disabled(state.shouldDisableScroll)
         .padding(.top)
-        .background(Color.volume.backgroundGray)
+        .background(Color.white)
         .toolbar {
             ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
                 Image.volume.logo
@@ -259,8 +265,8 @@ extension HomeList {
         >
 }
 
-struct HomeList_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeList()
-    }
-}
+//struct HomeList_Previews: PreviewProvider {
+//    static var previews: some View {
+//        HomeList()
+//    }
+//}

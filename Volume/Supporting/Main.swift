@@ -18,12 +18,10 @@ struct Main: App {
     init() {
         configureFirebase()
         configureNotifications()
-        let grayColor = UIColor(Color.volume.navigationBarGray)
-        UINavigationBar.appearance().backgroundColor = grayColor
-        UINavigationBar.appearance().shadowImage = UIImage()
-        UITabBar.appearance().backgroundColor = grayColor
+        UINavigationBar.appearance().backgroundColor = .white
+        UINavigationBar.appearance().tintColor = UIColor(Color.volume.orange)
+        UITabBar.appearance().barTintColor = .white
         UITabBar.appearance().clipsToBounds = true
-        UITabBar.appearance().unselectedItemTintColor = UIColor(Color.volume.lightGray)
     }
 
     private func configureFirebase() {

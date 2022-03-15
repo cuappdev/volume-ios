@@ -33,7 +33,7 @@ struct SettingsView: View {
             }
         }
         .navigationBarTitle(Text("Settings"), displayMode: .inline)
-        .background(Color.volume.backgroundGray)
+        .background(Color.white)
     }
 }
 

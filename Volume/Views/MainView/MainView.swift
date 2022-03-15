@@ -12,57 +12,81 @@ import SwiftUI
 
 struct MainView: View {
     @State private var selectedTab: Tab = .home
+    @State private var tabBarHeight: CGFloat = 75
     @EnvironmentObject private var notifications: Notifications
     @EnvironmentObject private var networkState: NetworkState
-    
-    init() {
-        let grayColor = UIColor(Color.volume.navigationBarGray)
-        UINavigationBar.appearance().backgroundColor = grayColor
-        UINavigationBar.appearance().shadowImage = UIImage()
-        UITabBar.appearance().backgroundColor = grayColor
-        UITabBar.appearance().clipsToBounds = true
-        UITabBar.appearance().unselectedItemTintColor = UIColor(Color.volume.lightGray)
-    }
-    
-    var body: some View {
+
+    private var tabViewContainer: some View {
         TabView(selection: $selectedTab) {
             TabContainer(screen: .homeList) {
                 HomeList()
             }
-            .tabItem {
-                Image.volume.feed
-                Text("For You")
-            }
             .tag(Tab.home)
-            
+
             TabContainer(screen: .magazinesList) {
                 MagazinesList()
             }
-            .tabItem {
-                Image.volume.magazine
-                Text("Magazines")
-            }
             .tag(Tab.magazines)
-            
+
             TabContainer(screen: .publicationList) {
                 PublicationList()
-            }
-            .tabItem {
-                Image.volume.pen
-                Text("Publications")
             }
             .tag(Tab.publications)
             
             TabContainer(screen: .bookmarksList) {
                 BookmarksList()
             }
-            .tabItem {
-                Image.volume.bookmark
-                Text("Bookmarks")
-            }
             .tag(Tab.bookmarks)
         }
-        .accentColor(Color.volume.orange)
+    }
+    
+    private var floatingTabBar: some View {
+        GeometryReader { geometry in
+            VStack(spacing: 0) {
+                Spacer()
+                
+                let iconSize = tabBarHeight * 0.35
+                HStack(alignment: .top) {
+                    Spacer()
+                    
+                    TabItem(icon: .volume.feed, size: iconSize, name: "For You")
+                        .foregroundColor(selectedTab == .home ? .volume.orange : .volume.lightGray)
+                        .onTapGesture { selectedTab = .home }
+                    
+                    Spacer()
+
+                    TabItem(icon: .volume.magazine, size: iconSize, name: "Magazines")
+                        .foregroundColor(selectedTab == .magazines ? .volume.orange : .volume.lightGray)
+                        .onTapGesture { selectedTab = .magazines }
+
+                    Spacer()
+                    
+                    TabItem(icon: .volume.pen, size: iconSize, name: "Publications")
+                        .foregroundColor(selectedTab == .publications ? .volume.orange : .volume.lightGray)
+                        .onTapGesture { selectedTab = .publications }
+                    
+                    Spacer()
+                    
+                    TabItem(icon: .volume.bookmark, size: iconSize, name: "Bookmarks")
+                        .foregroundColor(selectedTab == .bookmarks ? .volume.orange : .volume.lightGray)
+                        .onTapGesture { selectedTab = .bookmarks }
+                    
+                    Spacer()
+                }
+                .padding(.top, iconSize * 0.3)
+                .padding(.bottom, geometry.safeAreaInsets.bottom * 0.5)
+                .frame(width: geometry.size.width, height: tabBarHeight)
+                .background(Color.white)
+            }
+            .edgesIgnoringSafeArea(.bottom)
+        }
+    }
+    
+    var body: some View {
+        ZStack {
+            tabViewContainer
+            floatingTabBar
+        }
         .onAppear {
             SwiftUIAnnounce.presentAnnouncement { presented in
                 if presented {
@@ -111,6 +135,34 @@ extension MainView {
             default:
                 return false
             }
+        }
+    }
+}
+
+extension MainView {
+    private struct TabItem: View {
+        let icon: Image
+        let size: CGFloat
+        let name: String
+        
+        var body: some View {
+            VStack(alignment: .center, spacing: 0) {
+                Spacer()
+                
+                icon
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: size, height: size)
+                
+                Spacer(minLength: 4)
+                
+                Text(name)
+                    .font(.helveticaRegular(size: 10))
+                    .multilineTextAlignment(.center)
+                
+                Spacer()
+            }
+            .frame(width: 75)
         }
     }
 }

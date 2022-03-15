@@ -46,7 +46,7 @@ extension OnboardingView {
                 .background(
                     GeometryReader { proxy in
                         let offset = -proxy.frame(in: .named(scrollViewCoordinateSpace)).origin.y
-                        Color.volume.backgroundGray
+                        Color.white
                             .preference(key: OffsetPreferenceKey.self, value: offset)
                     }
                 )
@@ -84,8 +84,8 @@ extension OnboardingView.FollowView {
             LinearGradient(
                 gradient: Gradient(
                     colors: [
-                        Color.volume.backgroundGray.opacity(0),
-                        Color.volume.backgroundGray
+                        .white.opacity(0),
+                        .white
                     ]
                 ),
                 startPoint: fadesDown ? .top : .bottom,
