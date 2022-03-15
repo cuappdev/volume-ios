@@ -24,12 +24,12 @@ struct StatisticView: View {
                 .padding(.trailing, 24)
             HStack(spacing: 8, content: {
                 Text(leftText)
-                    .font(.begumMedium(size: 16))
+                    .font(.newYorkMedium(size: 16))
                 Text("\(number)")
-                    .font(.begumMedium(size: 36))
+                    .font(.newYorkMedium(size: 36))
                     .foregroundColor(.volume.orange)
                 Text(rightText)
-                    .font(.begumMedium(size: 16))
+                    .font(.newYorkMedium(size: 16))
             })
             Spacer()
         }

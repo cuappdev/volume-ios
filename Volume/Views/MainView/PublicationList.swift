@@ -83,10 +83,10 @@ struct PublicationList: View {
                 VStack(spacing: 10) {
                     Text("You're not following any publications")
                         .lineLimit(2)
-                        .font(.latoBold(size: 16))
+                        .font(.helveticaNeueMedium(size: 16))
                     Text("Follow some below and we'll show them up here")
                         .lineLimit(2)
-                        .font(.latoRegular(size: 12))
+                        .font(.helveticaRegular(size: 12))
                         .foregroundColor(Color(white: 151 / 255))
                 }
                 .padding()
@@ -146,7 +146,7 @@ struct PublicationList: View {
             .toolbar {
                 ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
                     BubblePeriodText("Publications")
-                        .font(.begumMedium(size: 28))
+                        .font(.newYorkMedium(size: 28))
                         .offset(y: 8)
                 }
             }

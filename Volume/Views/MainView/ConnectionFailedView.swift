@@ -20,7 +20,7 @@ struct ConnectionFailedView: View {
                 .padding(.bottom, 20)
 
             Text("No Connection")
-                .font(.begumMedium(size: 23))
+                .font(.newYorkMedium(size: 23))
                 .padding(.bottom, 2)
 
             Text("Please try again later")

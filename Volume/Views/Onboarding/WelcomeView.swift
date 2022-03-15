@@ -48,10 +48,10 @@ extension OnboardingView.WelcomeView {
                     .foregroundColor(.volume.orange)
                 (
                     Text(textBold)
-                        .font(.begumBold(size: 16))
+                        .font(.newYorkBold(size: 16))
                     +
                     Text(textRegular)
-                        .font(.begumRegular(size: 16))
+                        .font(.newYorkRegular(size: 16))
                 )
                 .frame(width: 222)
             }

@@ -8,14 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		060B738B256340580035E252 /* BubblePeriodText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060B738A256340580035E252 /* BubblePeriodText.swift */; };
-		060B739A256373AF0035E252 /* Begum-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 060B7399256373AE0035E252 /* Begum-Medium.ttf */; };
 		060FFDDC2577EC800052F3EA /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060FFDD92577EC800052F3EA /* WelcomeView.swift */; };
 		060FFDDD2577EC800052F3EA /* FollowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060FFDDA2577EC800052F3EA /* FollowView.swift */; };
 		060FFDDE2577EC800052F3EA /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060FFDDB2577EC800052F3EA /* OnboardingView.swift */; };
 		061233A12553127C0025F7E0 /* UnderlinedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061233A02553127C0025F7E0 /* UnderlinedText.swift */; };
 		061DB39725571D760038BEF5 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061DB39625571D760038BEF5 /* Font+Extension.swift */; };
-		06379C74256725C000FC185A /* Begum-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06379C73256725C000FC185A /* Begum-Regular.ttf */; };
-		06379C792567297400FC185A /* Begum-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06379C782567297400FC185A /* Begum-Bold.ttf */; };
 		063EED25257BF8A7002136EE /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063EED24257BF8A7002136EE /* Network.swift */; };
 		06662888257F204E006FEBCF /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06662887257F204E006FEBCF /* Secrets.swift */; };
 		0685AA9E259EA84900DD55C4 /* BrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0685AA9D259EA84900DD55C4 /* BrowserView.swift */; };
@@ -29,6 +26,7 @@
 		33538BEE2745C477009DD191 /* WeeklyDebrief.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33538BED2745C477009DD191 /* WeeklyDebrief.swift */; };
 		33538BF02745C579009DD191 /* UserQueries.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 33538BEF2745C579009DD191 /* UserQueries.graphql */; };
 		33538BF22745DD27009DD191 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33538BF12745DD27009DD191 /* Notifications.swift */; };
+		335E692627DFDC2700FBDE3A /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335E692527DFDC2700FBDE3A /* UIFont+Extension.swift */; };
 		33913A0C27D89E0A00C5718D /* TabBarReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33913A0B27D89E0A00C5718D /* TabBarReader.swift */; };
 		502E3EA32757D3C6005DA441 /* WeeklyDebriefView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502E3EA22757D3C6005DA441 /* WeeklyDebriefView.swift */; };
 		502E3EA52757F774005DA441 /* StatisticView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502E3EA42757F774005DA441 /* StatisticView.swift */; };
@@ -40,8 +38,6 @@
 		7E416C322561D7870010D70B /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E416C312561D7870010D70B /* Header.swift */; };
 		7E416C362561E0650010D70B /* BookmarksList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E416C352561E0650010D70B /* BookmarksList.swift */; };
 		7E49582D2612BD740015BE45 /* RefreshableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E49582C2612BD740015BE45 /* RefreshableScrollView.swift */; };
-		7E91E13126462E7D0059F041 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7E91E12726462E7D0059F041 /* Lato-Regular.ttf */; };
-		7E91E13626462E7D0059F041 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7E91E12C26462E7D0059F041 /* Lato-Bold.ttf */; };
 		7E9E4719262808AC007E8E6C /* SettingsPageRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9E4718262808AC007E8E6C /* SettingsPageRow.swift */; };
 		7E9E473226294423007E8E6C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9E473126294423007E8E6C /* Constants.swift */; };
 		7E9E478C2629494D007E8E6C /* SettingsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9E478B2629494D007E8E6C /* SettingsPage.swift */; };
@@ -77,15 +73,12 @@
 
 /* Begin PBXFileReference section */
 		060B738A256340580035E252 /* BubblePeriodText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubblePeriodText.swift; sourceTree = "<group>"; };
-		060B7399256373AE0035E252 /* Begum-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Begum-Medium.ttf"; sourceTree = "<group>"; };
 		060FFDD92577EC800052F3EA /* WelcomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		060FFDDA2577EC800052F3EA /* FollowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowView.swift; sourceTree = "<group>"; };
 		060FFDDB2577EC800052F3EA /* OnboardingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		061233A02553127C0025F7E0 /* UnderlinedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlinedText.swift; sourceTree = "<group>"; };
 		061BA9E0259E355C00B93AEB /* Secrets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		061DB39625571D760038BEF5 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
-		06379C73256725C000FC185A /* Begum-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Begum-Regular.ttf"; sourceTree = "<group>"; };
-		06379C782567297400FC185A /* Begum-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Begum-Bold.ttf"; sourceTree = "<group>"; };
 		063EED22257BF870002136EE /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		063EED24257BF8A7002136EE /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		063EED49257BFDA9002136EE /* PublicationsQueries.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = PublicationsQueries.graphql; sourceTree = "<group>"; };
@@ -103,6 +96,7 @@
 		33538BED2745C477009DD191 /* WeeklyDebrief.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyDebrief.swift; sourceTree = "<group>"; };
 		33538BEF2745C579009DD191 /* UserQueries.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = UserQueries.graphql; sourceTree = "<group>"; };
 		33538BF12745DD27009DD191 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		335E692527DFDC2700FBDE3A /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		33913A0B27D89E0A00C5718D /* TabBarReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarReader.swift; sourceTree = "<group>"; };
 		33AE4CEC27403F670001BA5B /* UserMutations.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = UserMutations.graphql; sourceTree = "<group>"; };
 		502E3EA22757D3C6005DA441 /* WeeklyDebriefView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyDebriefView.swift; sourceTree = "<group>"; };
@@ -121,8 +115,6 @@
 		7E8658AA254B71D7002DEE68 /* MorePublicationRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorePublicationRow.swift; sourceTree = "<group>"; };
 		7E8658AD254B71FF002DEE68 /* Publication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Publication.swift; sourceTree = "<group>"; };
 		7E8658B4254B7FF2002DEE68 /* FollowingPublicationRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingPublicationRow.swift; sourceTree = "<group>"; };
-		7E91E12726462E7D0059F041 /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Regular.ttf"; sourceTree = "<group>"; };
-		7E91E12C26462E7D0059F041 /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Bold.ttf"; sourceTree = "<group>"; };
 		7E9E4718262808AC007E8E6C /* SettingsPageRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPageRow.swift; sourceTree = "<group>"; };
 		7E9E473126294423007E8E6C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		7E9E478B2629494D007E8E6C /* SettingsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPage.swift; sourceTree = "<group>"; };
@@ -183,11 +175,6 @@
 		06379C76256725C900FC185A /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				7E91E12C26462E7D0059F041 /* Lato-Bold.ttf */,
-				7E91E12726462E7D0059F041 /* Lato-Regular.ttf */,
-				06379C73256725C000FC185A /* Begum-Regular.ttf */,
-				060B7399256373AE0035E252 /* Begum-Medium.ttf */,
-				06379C782567297400FC185A /* Begum-Bold.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -264,6 +251,7 @@
 				7E416C2E2561D47C0010D70B /* Date+Extension.swift */,
 				95AC9DC62637BFF8000B4BEE /* Url+Extension.swift */,
 				061DB39625571D760038BEF5 /* Font+Extension.swift */,
+				335E692527DFDC2700FBDE3A /* UIFont+Extension.swift */,
 				06B80D12257DC18600F3BF9B /* WebImage+Extension.swift */,
 			);
 			path = Extensions;
@@ -465,12 +453,7 @@
 				95F1DC8A2608F4DD000B3D91 /* GoogleService-Info.plist in Resources */,
 				95F1DC8A2608F4DD000B3D91 /* GoogleService-Info.plist in Resources */,
 				7ED7C33D252D117B0078B1BD /* Assets.xcassets in Resources */,
-				7E91E13626462E7D0059F041 /* Lato-Bold.ttf in Resources */,
 				990081EF25E5C31600BF8362 /* Events.md in Resources */,
-				06379C74256725C000FC185A /* Begum-Regular.ttf in Resources */,
-				7E91E13126462E7D0059F041 /* Lato-Regular.ttf in Resources */,
-				060B739A256373AF0035E252 /* Begum-Medium.ttf in Resources */,
-				06379C792567297400FC185A /* Begum-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -551,6 +534,7 @@
 				7EC15DA2257767ED0053BA0B /* PublicationDetail.swift in Sources */,
 				95E4DA492638816500584E5C /* LinkItemSource.swift in Sources */,
 				7EC15DA3257767ED0053BA0B /* PublicationList.swift in Sources */,
+				335E692627DFDC2700FBDE3A /* UIFont+Extension.swift in Sources */,
 				7EA0BB4C2624D1D100A1652E /* SettingsView.swift in Sources */,
 				0685AAA1259EBA3800DD55C4 /* WebView.swift in Sources */,
 				7E416C362561E0650010D70B /* BookmarksList.swift in Sources */,
