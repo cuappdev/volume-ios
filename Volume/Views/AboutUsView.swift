@@ -29,7 +29,7 @@ struct AboutUsView: View {
                     .font(.helveticaRegular(size: 16))
                     .lineSpacing(2)
                     .fixedSize(horizontal: false, vertical: true)
-                    .padding([.bottom, .top])
+                    .padding(.vertical)
 
                 ForEach(subteams, id: \.self) { subteam in
                     HStack {
