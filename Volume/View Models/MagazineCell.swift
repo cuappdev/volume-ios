@@ -27,15 +27,24 @@ struct MagazineCell: View {
                 .frame(width: 150, height: 220)
                 .clipped()
                 .shadow(color: Color.black.opacity(0.2), radius: 8, x: 4, y: 4)
-                .padding(.bottom, 12)
+
+            Spacer()
+                .frame(height: 12)
+
             Text(magazine.publication.name)
                 .font(.begumRegular(size: 12))
                 .foregroundColor(.black)
-                .padding(.bottom, 2)
+
+            Spacer()
+                .frame(height: 2)
+
             Text(magazine.title)
                 .font(.helveticaBold(size: 14))
                 .foregroundColor(.black)
-                .padding(.bottom, 1)
+
+            Spacer()
+                .frame(height: 1)
+
             Text("\(magazine.date.fullString) • \(magazine.shoutouts) shout-outs")
                 .font(.latoRegular(size: 10))
                 .foregroundColor(.volume.lightGray)
@@ -50,13 +59,22 @@ extension MagazineCell {
             VStack(alignment: .leading) {
                 SkeletonView()
                     .frame(width: 150, height: 220)
-                    .padding(.bottom, 12)
+
+                Spacer()
+                    .frame(height: 12)
+
                 SkeletonView()
                     .frame(width: 126, height: 14)
-                    .padding(.bottom, 2)
+
+                Spacer()
+                    .frame(height: 2)
+
                 SkeletonView()
                     .frame(width: 150, height: 20)
-                    .padding(.bottom, 1)
+
+                Spacer()
+                    .frame(height: 1)
+
                 HStack(spacing: 0) {
                     SkeletonView()
                         .frame(width: 33, height: 10)
@@ -67,7 +85,7 @@ extension MagazineCell {
                         .frame(width: 70, height: 10)
                 }
             }
-            .frame(width: 152, height: 279)
+            .frame(width: 152, height: 278)
         }
     }
 }

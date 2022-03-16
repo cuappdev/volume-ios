@@ -6,21 +6,28 @@
 //  Copyright © 2022 Cornell AppDev. All rights reserved.
 //
 
+import Combine
 import SwiftUI
 
 struct MagazinesList: View {
+    @State private var cancellableQuery: AnyCancellable?
     @State private var state: MainView.TabState<Results> = .loading
-    
+    @EnvironmentObject private var networkState: NetworkState
+
     private func fetchContent(_ done: @escaping () -> Void = { }) {
-        // simulate network request delay
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            // TODO: add actual network request
-            done()
-            state = .results((
-                trendingMagazines: [Magazine](),
-                otherMagazines: [String : [Magazine]]()
-            ))
-        }
+        // Simulate network request delay with Publication network request
+        // TODO: Replace with Magazines request
+        cancellableQuery = Network.shared.publisher(for: GetAllPublicationsQuery())
+            .map { data in data.publications.compactMap { $0 } }
+            .sink { completion in
+                networkState.handleCompletion(screen: .magazinesList, completion)
+            } receiveValue: {
+                state = .results((
+                    trendingMagazines: [Magazine](),
+                    otherMagazines: [String : [Magazine]]()
+                ))
+                done()
+            }
     }
     
     private var featureMagazinesSection: some View {
@@ -33,7 +40,7 @@ struct MagazinesList: View {
                     switch state {
                     case .loading:
                         ForEach(0..<10) { _ in
-                            MagazineCell.Skeleton()
+                             MagazineCell.Skeleton()
                         }
                     case .reloading(let results), .results(let results):
                         // TODO: Replace with results.trendingMagazines when backend is setup
@@ -59,7 +66,7 @@ struct MagazinesList: View {
                     switch state {
                     case .loading:
                         ForEach(0..<10) { _ in
-                            MagazineCell.Skeleton()
+                             MagazineCell.Skeleton()
                         }
                     case .reloading(let results), .results(let results):
                         // TODO: Replace with results.trendingMagazines when backend is setup
@@ -76,31 +83,33 @@ struct MagazinesList: View {
     }
     
     var body: some View {
-        RefreshableScrollView { done in
+        RefreshableScrollView(onRefresh: { done in
             switch state {
-            case .loading, .reloading:
-                return
-            case .results(let results):
-                state = .reloading(results)
-                fetchContent(done)
+                case .loading, .reloading:
+                    return
+                case .results(let results):
+                    state = .reloading(results)
+                    fetchContent(done)
+                }
+            }) {
+                VStack {
+                    featureMagazinesSection
+                    Spacer().frame(height: 16)
+                    moreMagazinesSection
+               }
             }
-        } content: {
-            VStack {
-                featureMagazinesSection
-                Spacer().frame(height: 16)
-                moreMagazinesSection
+            .disabled(state.shouldDisableScroll)
+            .padding(.top)
+            .toolbar {
+                ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+                    BubblePeriodText("Magazines")
+                        .font(.begumMedium(size: 28))
+                        .offset(y: 8)
+                }
             }
-        }
-        .disabled(state.shouldDisableScroll)
-        .padding(.top)
-        .toolbar {
-            ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
-                Image.volume.logo
-            }
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .onAppear {
-            fetchContent()
+            .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                fetchContent()
         }
     }
 }
