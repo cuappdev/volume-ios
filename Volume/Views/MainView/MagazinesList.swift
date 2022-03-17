@@ -105,7 +105,7 @@ struct MagazinesList: View {
             .toolbar {
                 ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
                     BubblePeriodText("Magazines")
-                        .font(.begumMedium(size: 28))
+                        .font(.newYorkMedium(size: 28))
                         .offset(y: 8)
                 }
             }

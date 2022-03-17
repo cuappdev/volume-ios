@@ -32,7 +32,7 @@ struct MagazineCell: View {
                 .frame(height: 12)
 
             Text(magazine.publication.name)
-                .font(.begumRegular(size: 12))
+                .font(.newYorkRegular(size: 12))
                 .foregroundColor(.black)
 
             Spacer()
@@ -46,7 +46,7 @@ struct MagazineCell: View {
                 .frame(height: 1)
 
             Text("\(magazine.date.fullString) • \(magazine.shoutouts) shout-outs")
-                .font(.latoRegular(size: 10))
+                .font(.helveticaRegular(size: 10))
                 .foregroundColor(.volume.lightGray)
         }
         .frame(width: 152, height: 278)
@@ -79,7 +79,7 @@ extension MagazineCell {
                     SkeletonView()
                         .frame(width: 33, height: 10)
                     Text(" • ")
-                        .font(.latoRegular(size: 10))
+                        .font(.helveticaRegular(size: 10))
                         .foregroundColor(.volume.veryLightGray)
                     SkeletonView()
                         .frame(width: 70, height: 10)
