@@ -27,7 +27,7 @@ struct OnboardingView: View {
     private var splashView: some View {
         Group {
             Spacer()
-            Image("volume-logo")
+            Image.volume.logo
                 .resizable()
                 .scaledToFit()
                 .frame(maxWidth: .infinity)
@@ -39,7 +39,7 @@ struct OnboardingView: View {
 
     private var contentView: some View {
         Group {
-            Image("volume-logo")
+            Image.volume.logo
                 .resizable()
                 .scaledToFit()
                 .frame(maxWidth: .infinity)

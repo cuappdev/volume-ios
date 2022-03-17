@@ -22,7 +22,7 @@ struct UnderlinedText: View {
                 .fixedSize()
                 .background(SizeGetter(size: $textSize))
 
-            Image("underline")
+            Image.volume.underline
                 .resizable()
                 .scaledToFit()
                 .frame(width: textSize.width + 4, height:

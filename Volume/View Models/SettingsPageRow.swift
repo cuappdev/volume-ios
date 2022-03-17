@@ -23,7 +23,7 @@ struct SettingsPageRow: View {
                 .font(.helveticaRegular(size: 16))
                 .foregroundColor(.black)
             Spacer()
-            Image("back-arrow")
+            Image.volume.backArrow
                 .rotationEffect(Angle(degrees: 180))
                 .padding()
         }

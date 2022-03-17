@@ -56,7 +56,7 @@ struct DebriefArticleView: View {
         Button {
             incrementShoutouts(for: article)
         } label: {
-            Image("shout-out")
+            Image.volume.shoutout
                 .resizable()
                 .foregroundColor(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]) > 0 ? .white : .volume.orange)
                 .background(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]) > 0 ? Color.volume.orange : Color.white)

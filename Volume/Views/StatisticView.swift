@@ -38,6 +38,6 @@ struct StatisticView: View {
 
 struct StatisticViewRow_Previews: PreviewProvider {
     static var previews: some View {
-        StatisticView(image: "volume", leftText: "read", number: 45, rightText: "articles")
+        StatisticView(image: "feed", leftText: "read", number: 45, rightText: "articles")
     }
 }

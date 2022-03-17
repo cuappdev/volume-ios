@@ -13,7 +13,7 @@ struct ConnectionFailedView: View {
         VStack(spacing: 0) {
             Spacer()
 
-            Image("no-connection")
+            Image.volume.noConnection
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 58, height: 58)

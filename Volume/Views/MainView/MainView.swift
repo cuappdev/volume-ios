@@ -22,15 +22,17 @@ struct MainView: View {
                 HomeList()
             }
             .tag(Tab.home)
-            .background(TabBarReader { tabBar in
-                tabBarHeight = tabBar.bounds.height
-            })
-            
+
+            TabContainer(screen: .magazinesList) {
+                MagazinesList()
+            }
+            .tag(Tab.magazines)
+
             TabContainer(screen: .publicationList) {
                 PublicationList()
             }
             .tag(Tab.publications)
-
+            
             TabContainer(screen: .bookmarksList) {
                 BookmarksList()
             }
@@ -47,19 +49,25 @@ struct MainView: View {
                 HStack(alignment: .top) {
                     Spacer()
                     
-                    TabItem(icon: Image("volume"), size: iconSize, name: "For You")
+                    TabItem(icon: .volume.feed, size: iconSize, name: "For You")
                         .foregroundColor(selectedTab == .home ? .volume.orange : .volume.lightGray)
                         .onTapGesture { selectedTab = .home }
                     
                     Spacer()
+
+                    TabItem(icon: .volume.magazine, size: iconSize, name: "Magazines")
+                        .foregroundColor(selectedTab == .magazines ? .volume.orange : .volume.lightGray)
+                        .onTapGesture { selectedTab = .magazines }
+
+                    Spacer()
                     
-                    TabItem(icon: Image("publications"), size: iconSize, name: "Publications")
+                    TabItem(icon: .volume.pen, size: iconSize, name: "Publications")
                         .foregroundColor(selectedTab == .publications ? .volume.orange : .volume.lightGray)
                         .onTapGesture { selectedTab = .publications }
                     
                     Spacer()
                     
-                    TabItem(icon: Image("bookmark"), size: iconSize, name: "Bookmarks")
+                    TabItem(icon: .volume.bookmark, size: iconSize, name: "Bookmarks")
                         .foregroundColor(selectedTab == .bookmarks ? .volume.orange : .volume.lightGray)
                         .onTapGesture { selectedTab = .bookmarks }
                     
@@ -87,6 +95,7 @@ struct MainView: View {
             }
         }
         .onOpenURL { url in
+            // TODO: handle deeplink to magazines after API is finalized
             if url.isDeeplink && url.host == ValidURLHost.article.host {
                 selectedTab = .home
             }
@@ -102,7 +111,7 @@ struct MainView: View {
 extension MainView {
     /// An enum to keep track of which tab the user is currently on
     private enum Tab {
-        case home, publications, bookmarks
+        case home, magazines, publications, bookmarks
     }
     
     enum TabState<Results> {
