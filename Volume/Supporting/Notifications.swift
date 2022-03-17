@@ -7,18 +7,20 @@
 //
 
 import AppDevAnalytics
-import Foundation
+import FirebaseMessaging
 import SwiftUI
 import UserNotifications
 
 class Notifications: NSObject, ObservableObject {
     static let shared = Notifications()
     private let center = UNUserNotificationCenter.current()
+    private let firebaseMessaging = Messaging.messaging()
     @Published var isWeeklyDebriefOpen = false
     
     private override init() {
         super.init()
         center.delegate = self
+        firebaseMessaging.delegate = self
     }
     
     func requestAuthorization() {
@@ -83,5 +85,13 @@ extension Notifications {
     private enum NotificationType: String {
         case newArticle = "new_article"
         case weeklyDebrief = "weekly_debrief"
+    }
+}
+
+extension Notifications: MessagingDelegate {
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        let tokenDict = ["token": fcmToken ?? ""]
+        print("Firebase Messaging registration token: \(fcmToken ?? "")")
+        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil,userInfo: tokenDict)
     }
 }
