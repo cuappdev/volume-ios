@@ -22,11 +22,12 @@ struct MagazinesList: View {
             .sink { completion in
                 networkState.handleCompletion(screen: .magazinesList, completion)
             } receiveValue: {
-                state = .results((
-                    trendingMagazines: [Magazine](),
-                    otherMagazines: [String : [Magazine]]()
-                ))
                 done()
+                withAnimation(.linear(duration: 0.1)) {
+                    state = .results((
+                    trendingMagazines: [],
+                    otherMagazines: [:]))
+                }
             }
     }
     
@@ -94,7 +95,8 @@ struct MagazinesList: View {
             }) {
                 VStack {
                     featureMagazinesSection
-                    Spacer().frame(height: 16)
+                    Spacer()
+                        .frame(height: 16)
                     moreMagazinesSection
                }
             }
