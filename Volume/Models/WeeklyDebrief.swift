@@ -9,6 +9,7 @@
 import Foundation
 
 struct WeeklyDebrief: Codable {
+    
     let creationDate: Date
     let expirationDate: Date
     let numShoutouts: Int
@@ -25,5 +26,27 @@ struct WeeklyDebrief: Codable {
         numBookmarkedArticles = Int(weeklyDebrief.numBookmarkedArticles)
         readArticleIDs = weeklyDebrief.readArticles.map(\.fragments.articleFields.id)
         randomArticleIDs = weeklyDebrief.randomArticles.map(\.fragments.articleFields.id)
+    }
+    
+    init(creationDate: Date, expirationDate: Date, numShoutouts: Int, numReadArticles: Int, numBookmarkedArticles: Int, readArticleIDs: [ArticleID], randomArticleIDs: [ArticleID]) {
+        self.creationDate = creationDate
+        self.expirationDate = expirationDate
+        self.numShoutouts = numShoutouts
+        self.numReadArticles = numReadArticles
+        self.numBookmarkedArticles = numBookmarkedArticles
+        self.readArticleIDs = readArticleIDs
+        self.randomArticleIDs = randomArticleIDs
+    }
+    
+    static func dummyDebrief() -> WeeklyDebrief {
+        WeeklyDebrief(
+            creationDate: Date(),
+            expirationDate: Date(),
+            numShoutouts: 11,
+            numReadArticles: 22,
+            numBookmarkedArticles: 33,
+            readArticleIDs: ["618f63022fef10d6b75ec9a5", "618f63022fef10d6b75ec9a6"],
+            randomArticleIDs: ["618f63022fef10d6b75ec9ae", "618f63022fef10d6b75ec9b5"]
+        )
     }
 }

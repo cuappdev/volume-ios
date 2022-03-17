@@ -20,10 +20,11 @@ struct WeeklyDebriefView: View {
     @Binding private var isOpen: Bool
     
     let initType: WeeklyDebriefViewInitType
+    
     @State private var cancellableArticleQuery: AnyCancellable?
     @State private var cancellableReadMutation: AnyCancellable?
     @State private var cancellableShoutoutMutation: AnyCancellable?
-    @State private var state: WeeklyDebriefViewState<Article> = .loading
+    @State private var state: WeeklyDebriefViewState<WeeklyDebriefDisplayInfo> = .loading
     
 
     init(openedWeeklyDebrief: Binding<Bool>, weeklyDebrief: WeeklyDebrief) {
@@ -31,24 +32,24 @@ struct WeeklyDebriefView: View {
         self.weeklyDebrief = weeklyDebrief
         
         #warning("This is a dummy article")
-        self.initType = .fetchRequired("618f63022fef10d6b75ec9a8")
+        self.initType = .fetchRequired
+        
+        
         
     }
     
     init(openedWeeklyDebrief: Binding<Bool>, dummyID: ArticleID) {
         _isOpen = openedWeeklyDebrief
-        self.initType = .fetchRequired(dummyID)
+        self.initType = .fetchRequired
         self.weeklyDebrief = nil
-        
-        print("TEeessttt")
     }
     
     var body: some View {
         VStack {
             switch state {
             case .loading:
-                showTempSkeleton()
-            case .results(let article):
+                BigReadArticleRow.Skeleton()
+            case .results(let debriefDisplayInfo):
                 Capsule()
                     .fill(Color.secondary)
                     .frame(width: 64, height: 3)
@@ -61,7 +62,8 @@ struct WeeklyDebriefView: View {
                             .padding(.top, 24)
                         
                         // TODO: Make these dates actually relevant to the week we are in!
-                        Text("Your weekly debrief, 5/3 - 5/9")
+//                        Text("Your weekly debrief, 5/3 - 5/9")
+                        Text(getWeekString())
                             .padding([.top, .bottom], 32)
                             .font(.begumMedium(size: 16))
                         Divider()
@@ -73,9 +75,9 @@ struct WeeklyDebriefView: View {
                                     .font(.begumRegular(size: 16))
                                 Spacer()
                             }
-                            StatisticView(image: "volume", leftText: "read", number: 10, rightText: "articles")
-                            StatisticView(image: "shout-out", leftText: "gave", number: 45, rightText: "shout-outs")
-                            StatisticView(image: "bookmark", leftText: "bookmarked", number: 10, rightText: "articles")
+                            StatisticView(image: "volume", leftText: "read", number: debriefDisplayInfo.numReadArticles, rightText: "articles")
+                            StatisticView(image: "shout-out", leftText: "gave", number: debriefDisplayInfo.numShoutouts, rightText: "shout-outs")
+                            StatisticView(image: "bookmark", leftText: "bookmarked", number: debriefDisplayInfo.numBookmarkedArticles, rightText: "articles")
                             HStack {
                                 Text("You were among the top ")
                                     .font(.begumRegular(size: 16)) +
@@ -98,9 +100,14 @@ struct WeeklyDebriefView: View {
                     }
 
                     // TODO - create a DebriefArticleView for each article
-                    DebriefArticleView(header: "Share What You Read", article: article)
-                    DebriefArticleView(header: "Share What You Read", article: article)
-    //                possiblyShowTheView(header: "Share What You Read")
+//                    DebriefArticleView(header: "Share What You Read", article: )
+//                    DebriefArticleView(header: "Share What You Read", article: )
+//    //                possiblyShowTheView(header: "Share What You Read")
+                    DebriefArticleView(header: "Share What You Read", article: debriefDisplayInfo.readArticles.randomElement()!)
+                    DebriefArticleView(header: "Share What You Read", article: debriefDisplayInfo.readArticles.randomElement()!)
+                    
+                    DebriefArticleView(header: "Top Articles of the Week", article: debriefDisplayInfo.randomArticles.randomElement()!)
+                    DebriefArticleView(header: "Top Articles of the Week", article: debriefDisplayInfo.randomArticles.randomElement()!)
                     
                     VStack {
                         Header("See You Next Week!", .center)
@@ -136,6 +143,11 @@ struct WeeklyDebriefView: View {
         .onAppear {
             UIPageControl.appearance().currentPageIndicatorTintColor = .gray
             UIPageControl.appearance().pageIndicatorTintColor = .lightGray
+            
+            if let uuid = userData.uuid {
+                fetchWeeklyDebrief(for: uuid)
+            }
+            
         }
         .onDisappear {
             UIPageControl.appearance().currentPageIndicatorTintColor = nil
@@ -146,44 +158,119 @@ struct WeeklyDebriefView: View {
     
     // MARK: - Copying from BrowserView
     
-    private func showTempSkeleton() -> BigReadArticleRow.Skeleton {
-        
-        switch initType {
-        case .readyForDisplay(let article):
-            break
-        case .fetchRequired(let articleID):
-            fetchArticleBy(id: articleID)
-        }
-        
-        print("Showing skeellleetonnn")
-        
-        return BigReadArticleRow.Skeleton()
-    }
+//    private func fetchArticleBy(id: String) {
+//        state = .loading
+//        cancellableArticleQuery = Network.shared.publisher(for: GetArticleByIdQuery(id: id))
+//            .sink { completion in
+//                if case let .failure(error) = completion {
+//                    print(error.localizedDescription)
+//                }
+//            }
+//            receiveValue: { article in
+//                article.
+//                if let fields = article.article?.fragments.articleFields {
+//                    state = .results(Article(from: fields))
+//                }
+//            }
+//    }
     
-    private func fetchArticleBy(id: String) {
+    private func fetchWeeklyDebrief(for uuid: String) {
         state = .loading
-        cancellableArticleQuery = Network.shared.publisher(for: GetArticleByIdQuery(id: id))
+        cancellableArticleQuery = Network.shared.publisher(for: GetWeeklyDebriefQuery(uuid: uuid))
             .sink { completion in
                 if case let .failure(error) = completion {
-                    print(error.localizedDescription)
+                    // Create a FAKE weedly debrief
+                    
+                    print("No actual debrief available, creating dummy one")
+                    
+                    fetchInfoFor(debrief: WeeklyDebrief.dummyDebrief())
+                    
+//                    print(error.localizedDescription)
                 }
             }
-            receiveValue: { article in
-                if let fields = article.article?.fragments.articleFields {
-                    state = .results(Article(from: fields))
-                    print("Got article \(fields.id)")
-                }
+            receiveValue: { debriefData in
+                let debrief = WeeklyDebrief(from: debriefData.user.weeklyDebrief)
+                fetchInfoFor(debrief: debrief)
             }
-        Network.shared
     }
+    
+    private func fetchInfoFor(debrief: WeeklyDebrief) {
+        
+        var debriefDisplayInfo = WeeklyDebriefDisplayInfo(
+            creationDate: debrief.creationDate,
+            expirationDate: debrief.expirationDate,
+            numShoutouts: debrief.numShoutouts,
+            numReadArticles: debrief.numReadArticles,
+            numBookmarkedArticles: debrief.numBookmarkedArticles,
+            readArticles: [],
+            randomArticles: [])
+        
+        func recursiveGetStuff(recievedArticles: Int = 0, ids: [ArticleID], readNotRandom: Bool, completion: @escaping () -> ()) {
+            if recievedArticles == ids.count {
+                completion()
+                return
+            }
+            
+            cancellableArticleQuery = Network.shared.publisher(for: GetArticleByIdQuery(id: ids[recievedArticles]))
+                .sink { completion in
+                    if case let .failure(error) = completion {
+                        print(error.localizedDescription)
+                    }
+                }
+                receiveValue: { articleFields in
+                    let article = Article(from: articleFields.article!.fragments.articleFields)
+                    
+                    if readNotRandom {
+                        debriefDisplayInfo.readArticles.append(article)
+                    } else {
+                        debriefDisplayInfo.randomArticles.append(article)
+                    }
+                    
+                    recursiveGetStuff(recievedArticles: recievedArticles + 1, ids: ids, readNotRandom: readNotRandom, completion: completion)
+                }
+        }
+        
+        recursiveGetStuff(ids: debrief.readArticleIDs, readNotRandom: true) {
+            recursiveGetStuff(ids: debrief.randomArticleIDs, readNotRandom: false) {
+                print("Collected stuff")
+                print(debriefDisplayInfo.readArticles)
+                print(debriefDisplayInfo.randomArticles)
+                state = .results(debriefDisplayInfo)
+            }
+        }
+        
+    }
+    
+    /**
+     * Creates a date string for the past week
+     */
+    private func getWeekString() -> String {
+        let today = Date()
+        let calendar = Calendar.current
+        
+        // we want to find the dates that describe the week before
+        
+        return "Your weekly debrief, 5/3 - 5/9"
+    }
+    
 }
 
 extension WeeklyDebriefView {
-    private enum WeeklyDebriefViewState<Results> {
-        case loading, results(Results)
+    private enum WeeklyDebriefViewState<Result> {
+        case loading, results(Result)
     }
     
     enum WeeklyDebriefViewInitType {
-        case readyForDisplay(Article), fetchRequired(ArticleID)
+        case readyForDisplay(WeeklyDebrief), fetchRequired
+    }
+    
+    struct WeeklyDebriefDisplayInfo {
+        var creationDate: Date
+        var expirationDate: Date
+        var numShoutouts: Int
+        var numReadArticles: Int
+        var numBookmarkedArticles: Int
+        var readArticles: [Article]
+        var randomArticles: [Article]
     }
 }
