@@ -65,7 +65,7 @@ struct BrowserView: View {
                         Button {
                             presentationMode.wrappedValue.dismiss()
                         } label: {
-                            Image("arrow-left")
+                            Image.volume.leftArrow
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(height: 24)
@@ -76,14 +76,14 @@ struct BrowserView: View {
                         
                         if case let .results(article) = state, let url = article.articleUrl {
                             Link(destination: url) {
-                                Image("compass")
+                                Image.volume.compass
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(height: 24)
                                     .foregroundColor(.black)
                             }
                         } else {
-                            Image("compass")
+                            Image.volume.compass
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(height: 24)

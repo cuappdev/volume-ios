@@ -16,6 +16,7 @@ extension Image {
         // socials not included b/c names are specified by backend strings
         let backArrow = Image("back-arrow")
         let bookmark = Image("bookmark")
+        let compass = Image("compass")
         let feed = Image("feed")
         let flag = Image("flag")
         let follow = Image("follow")
@@ -26,6 +27,7 @@ extension Image {
         let pen = Image("pen")
         let period = Image("period")
         let rightArrow = Image("right-arrow")
+        let leftArrow = Image("left-arrow")
         let settings = Image("settings")
         let share = Image("share")
         let shared = Image("shared")
