@@ -73,7 +73,7 @@ struct BookmarksList: View {
                 } else {
                     VStack {
                         Spacer(minLength: geometry.size.height / 5)
-                        VolumeMessage(message: .noBookmarks, largeFont: true)
+                        VolumeMessage(message: .noBookmarks, largeFont: true, fullWidth: true)
                     }
                 }
             }
