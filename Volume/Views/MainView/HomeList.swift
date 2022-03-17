@@ -75,6 +75,15 @@ struct HomeList: View {
             fetchWeeklyDebrief()
         }
     }
+
+    private var someFollowedArticles: Bool {
+        switch state {
+        case .loading:
+            return userData.followedPublicationIDs.count > 0
+        case .reloading(let results), .results(let results):
+            return results.followedArticles.count > 0
+        }
+    }
     
     private func fetchWeeklyDebrief() {
         guard let uuid = userData.uuid else {
@@ -170,10 +179,18 @@ struct HomeList: View {
                     }
                 }
             }
+
             Spacer()
-            VolumeMessage(message: .upToDate)
-                .padding(.top, 25)
-                .padding(.bottom, -5)
+
+            if someFollowedArticles {
+                VolumeMessage(message: .upToDate, largeFont: false)
+                    .padding(.top, 25)
+                    .padding(.bottom, -5)
+            } else {
+                VolumeMessage(message: .noFollowing, largeFont: false)
+                    .padding(.top, 25)
+                    .padding(.bottom, -5)
+            }
         }
     }
     

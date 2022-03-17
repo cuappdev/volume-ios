@@ -11,10 +11,11 @@ import SwiftUI
 enum Message {
     case noBookmarks
     case upToDate
+    case noFollowing
 
     var title: String {
         switch self {
-        case .noBookmarks:
+        case .noBookmarks, .noFollowing:
             return "Nothing to see here!"
         case .upToDate:
             return "You're up to date!"
@@ -25,6 +26,8 @@ enum Message {
         switch self {
         case .noBookmarks:
             return "You have no saved articles"
+        case .noFollowing:
+            return "Follow some student publications that you are interested in"
         case .upToDate:
             return "You've seen all new articles from the publications you're following."
         }
@@ -33,15 +36,16 @@ enum Message {
 
 struct VolumeMessage: View {
     @State var message: Message
+    @State var largeFont : Bool
 
     var body: some View {
         VStack(spacing: 10) {
-            Image("volume-logo")
+            Image.volume.feed
                 .foregroundColor(.volume.orange)
             Text(message.title)
-                .font(.newYorkMedium(size: 12))
+                .font(.newYorkMedium(size: largeFont ? 24 : 18))
             Text(message.subtitle)
-                .font(.helveticaRegular(size: 10))
+                .font(.helveticaRegular(size: 12))
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
         }
@@ -51,6 +55,6 @@ struct VolumeMessage: View {
 
 struct VolumeMessage_Previews: PreviewProvider {
     static var previews: some View {
-        VolumeMessage(message: .upToDate)
+        VolumeMessage(message: .upToDate, largeFont: false)
     }
 }
