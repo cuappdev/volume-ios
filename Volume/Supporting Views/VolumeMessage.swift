@@ -49,7 +49,7 @@ struct VolumeMessage: View {
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
         }
-        .frame(width: 205, height: 100)
+        .frame(width: largeFont ? nil : 205, height: 100)
     }
 }
 
