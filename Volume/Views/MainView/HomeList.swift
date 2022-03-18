@@ -182,15 +182,9 @@ struct HomeList: View {
 
             Spacer()
 
-            if someFollowedArticles {
-                VolumeMessage(message: .upToDate, largeFont: false, fullWidth: false)
-                    .padding(.top, 25)
-                    .padding(.bottom, -5)
-            } else {
-                VolumeMessage(message: .noFollowingHome, largeFont: false, fullWidth: false)
-                    .padding(.top, 25)
-                    .padding(.bottom, -5)
-            }
+            VolumeMessage(message: someFollowedArticles ? .upToDate : .noFollowingHome, largeFont: false, fullWidth: false)
+                .padding(.top, 25)
+                .padding(.bottom, -5)
         }
     }
     
