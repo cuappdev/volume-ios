@@ -137,6 +137,7 @@ struct OnboardingView: View {
     // MARK: Actions
     
     private func createUser() {
+        // TODO: change to use firebase
         guard let deviceToken = userData.deviceToken else {
             print("Error: received nil for deviceToken from UserData")
             return

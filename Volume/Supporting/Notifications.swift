@@ -14,7 +14,7 @@ import UserNotifications
 class Notifications: NSObject, ObservableObject {
     static let shared = Notifications()
     private let center = UNUserNotificationCenter.current()
-    private let firebaseMessaging = Messaging.messaging()
+    let firebaseMessaging = Messaging.messaging()
     @Published var isWeeklyDebriefOpen = false
     
     private override init() {
@@ -47,6 +47,7 @@ class Notifications: NSObject, ObservableObject {
     }
     
     func handlePushNotification(userInfo: [AnyHashable: Any]) {
+        print("userInfo: \(userInfo)")
         guard let notificationType = userInfo["notificationType"] as? String
         else {
             print("Error: data or notificationType not found in push notification payload")
