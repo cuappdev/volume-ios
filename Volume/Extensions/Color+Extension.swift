@@ -20,5 +20,7 @@ extension Color {
         let orange = Color(red: 208 / 255, green: 112 / 255, blue: 0 / 255)
         let lightOrange = Color(red: 255 / 255, green: 239 / 255, blue: 220 / 255)
         let shadowBlack = Color(white: 10 / 255, opacity: 0.10)
+        /// Color used for background of tabBar and view
+        let backgroundGray = Color(white: 245 / 255)
     }
 }

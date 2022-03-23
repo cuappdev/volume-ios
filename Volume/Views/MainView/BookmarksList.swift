@@ -79,7 +79,7 @@ struct BookmarksList: View {
             }
             .disabled(state == .loading)
             .padding(.top)
-            .background(Color.white)
+            .background(Color.volume.backgroundGray)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     BubblePeriodText("Bookmarks")

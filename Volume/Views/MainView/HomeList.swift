@@ -20,6 +20,21 @@ struct HomeList: View {
     @EnvironmentObject private var notifications: Notifications
     @EnvironmentObject private var userData: UserData
 
+    init() {
+        let coloredAppearance = UINavigationBarAppearance()
+        coloredAppearance.configureWithTransparentBackground()
+        coloredAppearance.backgroundColor = UIColor(Color.volume.backgroundGray)
+        coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+
+        UINavigationBar.appearance().standardAppearance = coloredAppearance
+        UINavigationBar.appearance().compactAppearance = coloredAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
+        UINavigationBar.appearance().compactAppearance = coloredAppearance
+
+        UINavigationBar.appearance().tintColor = .white
+    }
+
     private func fetchContent(_ done: @escaping () -> Void = { }) {
         guard state.isLoading else { return }
 
@@ -220,7 +235,7 @@ struct HomeList: View {
         }
         .disabled(state.shouldDisableScroll)
         .padding(.top)
-        .background(Color.white)
+        .background(Color.volume.backgroundGray)
         .toolbar {
             ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
                 Image.volume.logo
