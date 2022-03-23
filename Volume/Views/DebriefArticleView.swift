@@ -16,6 +16,18 @@ struct DebriefArticleView: View {
     @EnvironmentObject private var userData: UserData
     let header: String
     let article: Article
+    
+    @Binding private var debriefIsOpen: Bool
+    @Binding private var openedURL: Bool
+    @Binding private var articleToShow: String?
+    
+    init(header: String, article: Article, debriefViewIsOpen: Binding<Bool>, didOpenURL: Binding<Bool>, showArticle: Binding<String?>) {
+        self.header = header
+        self.article = article
+        _debriefIsOpen = debriefViewIsOpen
+        _openedURL = didOpenURL
+        _articleToShow = showArticle
+    }
 
     var saveButton: some View {
         Button {
@@ -92,6 +104,10 @@ struct DebriefArticleView: View {
                             .padding(30)
                     }
                     ArticleInfo(article: article, showsPublicationName: true, largeFont: true)
+                }.onTapGesture {
+                    debriefIsOpen = false
+                    openedURL = true
+                    articleToShow = article.id
                 }
                 .frame(width: 275, height: 435)
             }

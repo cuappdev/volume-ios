@@ -240,9 +240,10 @@ struct HomeList: View {
             isWeeklyDebriefOpen = false
         } content: {
             if let weeklyDebrief = userData.weeklyDebrief {
-                WeeklyDebriefView(openedWeeklyDebrief: $isWeeklyDebriefOpen, weeklyDebrief: weeklyDebrief)
-            } else {
-                WeeklyDebriefView(openedWeeklyDebrief: $isWeeklyDebriefOpen, dummyID: "618f63022fef10d6b75ec9a5")
+                WeeklyDebriefView(openedWeeklyDebrief: $isWeeklyDebriefOpen,
+                                  urlIsOpen: $openedUrl,
+                                  articleURL: $onOpenArticleUrl,
+                                  weeklyDebrief: weeklyDebrief)
             }
         }
     }
