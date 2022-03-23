@@ -32,6 +32,11 @@ struct BrowserView: View {
         }
     }
     
+    init(initType: BrowserViewInitType, navigationSource: NavigationSource) {
+        self.initType = initType
+        self.navigationSource = navigationSource
+    }
+    
     // MARK: UI Components
     
     private var toolbar: some View {
