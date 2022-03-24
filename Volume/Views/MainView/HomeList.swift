@@ -75,6 +75,15 @@ struct HomeList: View {
             fetchWeeklyDebrief()
         }
     }
+
+    private var isFollowingPublications: Bool {
+        switch state {
+        case .loading:
+            return userData.followedPublicationIDs.count > 0
+        case .reloading(let results), .results(let results):
+            return results.followedArticles.count > 0
+        }
+    }
     
     private func fetchWeeklyDebrief() {
         guard let uuid = userData.uuid else {
@@ -170,8 +179,10 @@ struct HomeList: View {
                     }
                 }
             }
+
             Spacer()
-            VolumeMessage(message: .upToDate)
+
+            VolumeMessage(message: isFollowingPublications ? .upToDate : .noFollowingHome, largeFont: false, fullWidth: false)
                 .padding(.top, 25)
                 .padding(.bottom, -5)
         }
