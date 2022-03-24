@@ -105,7 +105,7 @@ struct HomeList: View {
     private var trendingArticlesSection: some View {
         Group {
             Header("The Big Read")
-                .padding([.top, .leading, .trailing])
+                .padding([.top, .horizontal])
             ScrollView(.horizontal, showsIndicators: false) {
                 switch state {
                 case .loading:

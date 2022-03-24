@@ -22,6 +22,7 @@ struct ArticleInfo: View {
                     Text(article.publication.name)
                         .font(largeFont ? .newYorkMedium(size: 16) : .newYorkMedium(size: 12))
                         .padding(.bottom, largeFont ? 3.5 : 1.5)
+                        .multilineTextAlignment(.leading)
                 }
 
                 Text(article.title)
