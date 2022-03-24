@@ -76,7 +76,7 @@ struct HomeList: View {
         }
     }
 
-    private var someFollowedArticles: Bool {
+    private var isFollowingPublications: Bool {
         switch state {
         case .loading:
             return userData.followedPublicationIDs.count > 0
@@ -182,7 +182,7 @@ struct HomeList: View {
 
             Spacer()
 
-            VolumeMessage(message: someFollowedArticles ? .upToDate : .noFollowingHome, largeFont: false, fullWidth: false)
+            VolumeMessage(message: isFollowingPublications ? .upToDate : .noFollowingHome, largeFont: false, fullWidth: false)
                 .padding(.top, 25)
                 .padding(.bottom, -5)
         }
