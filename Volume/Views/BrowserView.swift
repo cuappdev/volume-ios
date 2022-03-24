@@ -95,11 +95,12 @@ struct BrowserView: View {
                     VStack {
                         Text(navigationTitle)
                             .font(.newYorkBold(size: 12))
-                            .fixedSize()
+                            .truncationMode(.middle)
                         Text("Reading in Volume")
                             .font(.helveticaRegular(size: 10))
                             .foregroundColor(.volume.lightGray)
                     }
+                    .padding(.horizontal, 48)
                 } else {
                     Text(navigationTitle)
                         .font(.newYorkBold(size: 10))
