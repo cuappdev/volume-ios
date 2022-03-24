@@ -16,11 +16,14 @@ extension Image {
         // socials not included b/c names are specified by backend strings
         let backArrow = Image("back-arrow")
         let bookmark = Image("bookmark")
+        let compass = Image("compass")
         let feed = Image("feed")
         let flag = Image("flag")
         let follow = Image("follow")
         let followed = Image("followed")
         let info = Image("info")
+        let leftArrow = Image("left-arrow")
+        let logo = Image("volume-logo")
         let magazine = Image("magazine")
         let noConnection = Image("no-connection")
         let pen = Image("pen")
@@ -31,7 +34,6 @@ extension Image {
         let shared = Image("shared")
         let shoutout = Image("shout-out")
         let underline = Image("underline")
-        let logo = Image("volume-logo")
         let weeklyDebriefCurves = Image("weekly-debrief-curves")
     }
 }
