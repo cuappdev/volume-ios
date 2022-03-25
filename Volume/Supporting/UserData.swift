@@ -16,7 +16,7 @@ class UserData: ObservableObject {
     private let publicationsKey = "savedPublicationIds"
     private let articleShoutoutsKey = "articleShoutoutsCounter"
     private let isFirstLaunchKey = "isFirstLaunch"
-    private let deviceTokenKey = "deviceToken"
+    private let fcmTokenKey = "fcmToken"
     private let userUUIDKey = "userUUID"
     private let weeklyDebriefKey = "weeklyDebrief"
 
@@ -67,9 +67,9 @@ class UserData: ObservableObject {
         }
     }
     
-    var deviceToken: String? = nil {
+    var fcmToken: String? = nil {
         willSet {
-            UserDefaults.standard.setValue(newValue, forKey: deviceTokenKey)
+            UserDefaults.standard.setValue(newValue, forKey: fcmTokenKey)
         }
     }
     
@@ -93,8 +93,8 @@ class UserData: ObservableObject {
             weeklyDebrief = debrief
         }
         
-        if let deviceToken = UserDefaults.standard.object(forKey: deviceTokenKey) as? String {
-            self.deviceToken = deviceToken
+        if let fcmToken = UserDefaults.standard.object(forKey: fcmTokenKey) as? String {
+            self.fcmToken = fcmToken
         }
         
         if let uuid = UserDefaults.standard.object(forKey: userUUIDKey) as? String {

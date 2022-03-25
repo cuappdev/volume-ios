@@ -47,7 +47,9 @@ class Notifications: NSObject, ObservableObject {
     }
     
     func handlePushNotification(userInfo: [AnyHashable: Any]) {
-        print("userInfo: \(userInfo)")
+        #if DEBUG
+        print("Notification payload userInfo: \(userInfo)")
+        #endif
         guard let notificationType = userInfo["notificationType"] as? String
         else {
             print("Error: data or notificationType not found in push notification payload")
@@ -91,8 +93,15 @@ extension Notifications {
 
 extension Notifications: MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        if let fcmToken = fcmToken {
+            print("Firebase Messaging registration token: \(fcmToken)")
+            UserData.shared.fcmToken = fcmToken
+        } else {
+            print("Error: Firebase Messaging failed to register")
+            UserData.shared.fcmToken = "debugSimulatorFCMToken"
+        }
+        
         let tokenDict = ["token": fcmToken ?? ""]
-        print("Firebase Messaging registration token: \(fcmToken ?? "")")
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil,userInfo: tokenDict)
     }
 }

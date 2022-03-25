@@ -32,14 +32,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Messaging.messaging().apnsToken = deviceToken
         let deviceTokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
         print("UIApplicationDelegate didRegisterForRemoteNotifications with deviceToken: \(deviceTokenString)")
-        UserData.shared.deviceToken = deviceTokenString
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Error: UIApplicationDelegate didFailToRegisterForRemoteNotificationsWithError: \(error.localizedDescription)")
-        #if DEBUG
-        UserData.shared.deviceToken = "debugSimulatorDeviceToken"
-        #endif
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -68,13 +64,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 }
-
-//extension AppDelegate: UNUserNotificationCenterDelegate {
-//    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-//        <#code#>
-//    }
-//
-//    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-//        <#code#>
-//    }
-//}
