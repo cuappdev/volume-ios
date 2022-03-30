@@ -137,12 +137,13 @@ struct OnboardingView: View {
     // MARK: Actions
     
     private func createUser() {
-        guard let deviceToken = userData.deviceToken else {
-            print("Error: received nil for deviceToken from UserData")
+        guard let fcmToken = userData.fcmToken else {
+            print("Error: received nil for fcmToken from UserData")
             return
         }
         
-        cancellableCreateUserMutation = Network.shared.publisher(for: CreateUserMutation(deviceToken: deviceToken, followedPublicationIDs: userData.followedPublicationIDs))
+        // TODO: change parameter name after new API is live
+        cancellableCreateUserMutation = Network.shared.publisher(for: CreateUserMutation(deviceToken: fcmToken, followedPublicationIDs: userData.followedPublicationIDs))
             .map { $0.user.uuid }
             .sink { completion in
                 if case let .failure(error) = completion {

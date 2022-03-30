@@ -26,6 +26,7 @@ struct Main: App {
 
     private func configureFirebase() {
         FirebaseApp.configure()
+        FirebaseConfiguration.shared.setLoggerLevel(.min)
         AnnouncementNetworking.setupConfig(
             scheme: Secrets.announcementsScheme,
             host: Secrets.announcementsHost,

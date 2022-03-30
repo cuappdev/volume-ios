@@ -12,5 +12,6 @@ target 'Volume' do
   pod 'SDWebImageSVGCoder'
   pod 'SwiftUIRefresh'
   pod 'AppDevAnalytics', :git => 'https://github.com/cuappdev/analytics-ios.git', :commit => '5d459c0475'
+  pod 'Firebase/Messaging'
 
 end
