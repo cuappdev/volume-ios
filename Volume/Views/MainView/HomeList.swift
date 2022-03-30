@@ -19,6 +19,17 @@ struct HomeList: View {
     @EnvironmentObject private var notifications: Notifications
     @EnvironmentObject private var userData: UserData
 
+    init() {
+        let coloredAppearance = UINavigationBarAppearance()
+        coloredAppearance.configureWithTransparentBackground()
+        coloredAppearance.backgroundColor = UIColor(Color.volume.backgroundGray)
+
+        UINavigationBar.appearance().standardAppearance = coloredAppearance
+        UINavigationBar.appearance().compactAppearance = coloredAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
+        UINavigationBar.appearance().compactAppearance = coloredAppearance
+    }
+
     private func fetchContent(_ done: @escaping () -> Void = { }) {
         guard sectionStates.trendingArticles.isLoading || sectionStates.weeklyDebrief.isLoading || sectionStates.followedArticles.isLoading || sectionStates.otherArticles.isLoading else { return }
         
@@ -290,7 +301,7 @@ struct HomeList: View {
         }
         .disabled(sectionStates.trendingArticles.shouldDisableScroll)
         .padding(.top)
-        .background(Color.white)
+        .background(Color.volume.backgroundGray)
         .toolbar {
             ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
                 Image.volume.logo

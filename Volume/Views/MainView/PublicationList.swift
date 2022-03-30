@@ -132,7 +132,7 @@ struct PublicationList: View {
             }
             .disabled(state.shouldDisableScroll)
             .padding(.top)
-            .background(Color.white)
+            .background(Color.volume.backgroundGray)
             .toolbar {
                 ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
                     BubblePeriodText("Publications")
