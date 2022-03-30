@@ -36,6 +36,30 @@ struct StatisticView: View {
     }
 }
 
+extension StatisticView {
+    struct Skeleton: View {
+        var body: some View {
+            HStack {
+                SkeletonView()
+                    .scaledToFit()
+                    .foregroundColor(Color.volume.orange)
+                    .frame(height: 24)
+                    .padding(.trailing, 24)
+                HStack(spacing: 8, content: {
+                    SkeletonView()
+                        .font(.begumMedium(size: 16))
+                    SkeletonView()
+                        .font(.begumMedium(size: 36))
+                        .foregroundColor(Color.volume.orange)
+                    SkeletonView()
+                        .font(.begumMedium(size: 16))
+                })
+                Spacer()
+            }
+        }
+    }
+}
+
 
 struct SStatisticViewRow_Previews: PreviewProvider {
     static var previews: some View {
