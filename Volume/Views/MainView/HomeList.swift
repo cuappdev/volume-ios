@@ -38,7 +38,7 @@ struct HomeList: View {
     
     private func fetchTrendingArticles(_ done: @escaping () -> Void = { }) {
         sectionQueries.trendingArticles = Network.shared.publisher(for: GetTrendingArticlesQuery(limit: 7))
-            .map{ $0.articles.map(\.fragments.articleFields )}
+            .map { $0.articles.map(\.fragments.articleFields) }
             .sink { completion in
                 networkState.handleCompletion(screen: .homeList, completion)
             } receiveValue: { articleFields in
@@ -51,7 +51,7 @@ struct HomeList: View {
                 // Filter trending articles if feed articles request returned first
                 if case let .results(followedArticles) = sectionStates.followedArticles {
                     let followedArticlesWithoutTrending = followedArticles.filter { article in
-                        !trendingArticles.contains(where: { $0.id == article.id })
+                        !trendingArticles.contains { $0.id == article.id }
                     }
                     withAnimation(.linear(duration: 0.1)) {
                         sectionStates.followedArticles = .results(followedArticlesWithoutTrending)
@@ -60,7 +60,7 @@ struct HomeList: View {
                 
                 if case let .results(otherArticles) = sectionStates.otherArticles {
                     let otherArticlesWithoutTrending = otherArticles.filter { article in
-                        !trendingArticles.contains(where: { $0.id == article.id })
+                        !trendingArticles.contains { $0.id == article.id }
                     }
                     withAnimation(.linear(duration: 0.1)) {
                         sectionStates.otherArticles = .results(otherArticlesWithoutTrending)
@@ -88,23 +88,21 @@ struct HomeList: View {
             }
             .sink { completion in
                 networkState.handleCompletion(screen: .homeList, completion)
-            } receiveValue: { (followed, other) in
+            } receiveValue: { followed, other in
                 // Exclude trending articles from following articles
                 // Take up to 20 followed articles, sorted in descending chronological order
                 let followedArticles = Array(followed.joined().filter { article in
                     if case let .results(trendingArticles) = sectionStates.trendingArticles {
-                        return !trendingArticles.contains(where: {
-                            $0.id == article.id
-                        })
+                        return !trendingArticles.contains { $0.id == article.id }
                     } else { return false }
                 }).sorted(by: { $0.date > $1.date }).prefix(20)
                 
                 // Exclude followed and trending articles from other articles
                 let otherArticles = Array(other.filter { article in
                     if case let .results(trendingArticles) = sectionStates.trendingArticles {
-                        return !trendingArticles.contains(where: { $0.id == article.id })
+                        return !trendingArticles.contains { $0.id == article.id }
                     } else {
-                        return !followedArticles.contains(where: { $0.id == article.id })
+                        return !followedArticles.contains { $0.id == article.id }
                     }
                 }).sorted(by: { $0.date > $1.date }).prefix(45)
                 

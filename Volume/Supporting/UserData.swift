@@ -98,7 +98,9 @@ class UserData: ObservableObject {
         }
         
         if let uuid = UserDefaults.standard.object(forKey: userUUIDKey) as? String {
+            #if DEBUG
             print("Initializing UserData with UUID: \(uuid)")
+            #endif
             self.uuid = uuid
         }
     }
