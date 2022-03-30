@@ -10,9 +10,8 @@ import Combine
 import SwiftUI
 
 struct HomeList: View {
-    @State private var cancellableListQuery: AnyCancellable?
-    @State private var cancellableWeeklyDebriefQuery: AnyCancellable?
-    @State private var state: MainView.TabState<Results> = .loading
+    @State private var sectionStates: SectionStates = (.loading, .loading, .loading, .loading)
+    @State private var sectionQueries: SectionQueries = (nil, nil, nil)
     @State private var openedUrl = false
     @State private var onOpenArticleUrl: String?
     @State private var isWeeklyDebriefOpen = false
@@ -21,14 +20,61 @@ struct HomeList: View {
     @EnvironmentObject private var userData: UserData
 
     private func fetchContent(_ done: @escaping () -> Void = { }) {
-        guard state.isLoading else { return }
-
-        cancellableListQuery = Network.shared.publisher(for: GetAllPublicationIDsQuery())
+        guard sectionStates.trendingArticles.isLoading || sectionStates.weeklyDebrief.isLoading || sectionStates.followedArticles.isLoading || sectionStates.otherArticles.isLoading else { return }
+        
+        fetchTrendingArticles(done)
+        fetchFeedArticles()
+        
+        if let expirationDate = userData.weeklyDebrief?.expirationDate {
+            if expirationDate < Date() {
+                // Cached WD expired, query new one
+                fetchWeeklyDebrief()
+            }
+        } else {
+            // No existing WD, query new one
+            fetchWeeklyDebrief()
+        }
+    }
+    
+    private func fetchTrendingArticles(_ done: @escaping () -> Void = { }) {
+        sectionQueries.trendingArticles = Network.shared.publisher(for: GetTrendingArticlesQuery(limit: 7))
+            .map { $0.articles.map(\.fragments.articleFields) }
+            .sink { completion in
+                networkState.handleCompletion(screen: .homeList, completion)
+            } receiveValue: { articleFields in
+                let trendingArticles = [Article](articleFields)
+                
+                withAnimation(.linear(duration: 0.1)) {
+                    sectionStates.trendingArticles = .results(trendingArticles)
+                }
+                
+                // Filter trending articles if feed articles request returned first
+                if case let .results(followedArticles) = sectionStates.followedArticles {
+                    let followedArticlesWithoutTrending = followedArticles.filter { article in
+                        !trendingArticles.contains { $0.id == article.id }
+                    }
+                    withAnimation(.linear(duration: 0.1)) {
+                        sectionStates.followedArticles = .results(followedArticlesWithoutTrending)
+                    }
+                }
+                
+                if case let .results(otherArticles) = sectionStates.otherArticles {
+                    let otherArticlesWithoutTrending = otherArticles.filter { article in
+                        !trendingArticles.contains { $0.id == article.id }
+                    }
+                    withAnimation(.linear(duration: 0.1)) {
+                        sectionStates.otherArticles = .results(otherArticlesWithoutTrending)
+                    }
+                }
+                
+                done()
+            }
+    }
+    
+    private func fetchFeedArticles() {
+        sectionQueries.feedArticles = Network.shared.publisher(for: GetAllPublicationIDsQuery())
             .map { $0.publications.map(\.id) }
             .flatMap { publicationIDs -> ResultsPublisher in
-                let trendingQuery = Network.shared.publisher(for: GetTrendingArticlesQuery(limit: 7))
-                    .map { $0.articles.map(\.fragments.articleFields) }
-
                 let followedQuery = Network.shared.publisher(for: GetArticlesByPublicationIDsQuery(ids: userData.followedPublicationIDs))
                     .map { $0.articles.map(\.fragments.articleFields) }
                     .collect()
@@ -38,42 +84,33 @@ struct HomeList: View {
                 let otherQuery = Network.shared.publisher(for: GetArticlesByPublicationIDsQuery(ids: morePublicationIDs))
                     .map { $0.articles.map(\.fragments.articleFields) }
                 
-                return Publishers.Zip3(trendingQuery, followedQuery, otherQuery)
+                return Publishers.Zip(followedQuery, otherQuery)
             }
             .sink { completion in
                 networkState.handleCompletion(screen: .homeList, completion)
-            } receiveValue: { (trendingArticles, followed, other) in
+            } receiveValue: { followed, other in
                 // Exclude trending articles from following articles
                 // Take up to 20 followed articles, sorted in descending chronological order
                 let followedArticles = Array(followed.joined().filter { article in
-                    !trendingArticles.contains(where: { $0.id == article.id })
+                    if case let .results(trendingArticles) = sectionStates.trendingArticles {
+                        return !trendingArticles.contains { $0.id == article.id }
+                    } else { return false }
                 }).sorted(by: { $0.date > $1.date }).prefix(20)
+                
                 // Exclude followed and trending articles from other articles
                 let otherArticles = Array(other.filter { article in
-                    !(followedArticles.contains(where: { $0.id == article.id })
-                        || trendingArticles.contains(where: { $0.id == article.id }))
+                    if case let .results(trendingArticles) = sectionStates.trendingArticles {
+                        return !trendingArticles.contains { $0.id == article.id }
+                    } else {
+                        return !followedArticles.contains { $0.id == article.id }
+                    }
                 }).sorted(by: { $0.date > $1.date }).prefix(45)
                 
-                done()
-                
                 withAnimation(.linear(duration: 0.1)) {
-                    state = .results((
-                        trendingArticles: [Article](trendingArticles),
-                        followedArticles: [Article](followedArticles),
-                        otherArticles: [Article](otherArticles)
-                    ))
+                    sectionStates.followedArticles = .results([Article](followedArticles))
+                    sectionStates.otherArticles = .results([Article](otherArticles))
                 }
             }
-        
-        if let expirationDate = userData.weeklyDebrief?.expirationDate {
-            if expirationDate < Date() {
-                // cached WD expired, query new one
-                fetchWeeklyDebrief()
-            }
-        } else {
-            // no existing WD, query new one
-            fetchWeeklyDebrief()
-        }
     }
 
     private var isFollowingPublications: Bool {
@@ -90,15 +127,23 @@ struct HomeList: View {
             print("Error: received nil UUID from UserData")
             return
         }
-        cancellableWeeklyDebriefQuery = Network.shared.publisher(for: GetWeeklyDebriefQuery(uuid: uuid))
-            .map(\.user.weeklyDebrief)
+        
+        sectionQueries.weeklyDebrief = Network.shared.publisher(for: GetWeeklyDebriefQuery(uuid: uuid))
+            .map(\.user?.weeklyDebrief)
             .sink { completion in
                 if case let .failure(error) = completion {
                     print("Error: GetWeeklyDebriefQuery failed on HomeList: \(error.localizedDescription)")
                 }
             } receiveValue: { weeklyDebrief in
-                userData.weeklyDebrief = WeeklyDebrief(from: weeklyDebrief)
-                isWeeklyDebriefOpen = true
+                if let weeklyDebrief = weeklyDebrief {
+                    let weeklyDebriefObject = WeeklyDebrief(from: weeklyDebrief)
+                    userData.weeklyDebrief = weeklyDebriefObject
+                    sectionStates.weeklyDebrief = .results(weeklyDebriefObject)
+                    isWeeklyDebriefOpen = true
+                } else {
+                    print("Error: GetWeeklyDebrief failed on HomeList: field \"weeklyDebrief\" is nil.")
+                    sectionStates.weeklyDebrief = .results(nil)
+                }
             }
     }
     
@@ -107,16 +152,16 @@ struct HomeList: View {
             Header("The Big Read")
                 .padding([.top, .leading, .trailing])
             ScrollView(.horizontal, showsIndicators: false) {
-                switch state {
+                switch sectionStates.trendingArticles {
                 case .loading:
                     HStack(spacing: 24) {
                         ForEach(0..<2) { _ in
                             BigReadArticleRow.Skeleton()
                         }
                     }
-                case .reloading(let results), .results(let results):
+                case .reloading(let articles), .results(let articles):
                     HStack(spacing: 24) {
-                        ForEach(results.trendingArticles) { article in
+                        ForEach(articles) { article in
                             NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: .trendingArticles)) {
                                 BigReadArticleRow(article: article)
                             }
@@ -130,7 +175,7 @@ struct HomeList: View {
     
     private var weeklyDebriefButton: some View {
         Group {
-            switch state {
+            switch sectionStates.weeklyDebrief {
             case .loading:
                 SkeletonView()
             case .reloading, .results:
@@ -165,14 +210,15 @@ struct HomeList: View {
         Group {
             Header("Following")
                 .padding(.horizontal)
-            switch state {
+            switch sectionStates.followedArticles {
             case .loading:
-                ForEach(0..<5) { _ in
+                let skeletonCount = userData.followedPublicationIDs.isEmpty ? 0 : 5
+                ForEach(0..<skeletonCount) { _ in
                     ArticleRow.Skeleton()
                         .padding(.horizontal)
                 }
-            case .reloading(let results), .results(let results):
-                ForEach(results.followedArticles) { article in
+            case .reloading(let articles), .results(let articles):
+                ForEach(articles) { article in
                     NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: .followingArticles)) {
                         ArticleRow(article: article, navigationSource: .followingArticles)
                             .padding(.horizontal)
@@ -191,12 +237,14 @@ struct HomeList: View {
     var otherArticlesSection: some View {
         Group {
             Header("Other Articles").padding()
-            switch state {
+            switch sectionStates.otherArticles {
             case .loading:
-                // will be off the page, so pointless to show anything
-                Spacer().frame(height: 0)
-            case .reloading(let results), .results(let results):
-                ForEach(results.otherArticles) { article in
+                ForEach(0..<5) { _ in
+                    ArticleRow.Skeleton()
+                        .padding(.horizontal)
+                }
+            case .reloading(let articles), .results(let articles):
+                ForEach(articles) { article in
                     NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: .otherArticles)) {
                         ArticleRow(article: article, navigationSource: .otherArticles)
                             .padding(.horizontal)
@@ -208,17 +256,28 @@ struct HomeList: View {
 
     var body: some View {
         RefreshableScrollView(onRefresh: { done in
-            switch state {
-            case .loading, .reloading:
-                return
-            case .results(let results):
-                state = .reloading(results)
+            // TODO: add weekly debrief to this switch when the request stops breaking
+            switch (sectionStates.trendingArticles, sectionStates.followedArticles, sectionStates.otherArticles) {
+            case (.results(let trendingArticles), .results(let followedArticles), .results(let otherArticles)):
+                // Allow refresh when all results are done fetching.
+                sectionStates.trendingArticles = .reloading(trendingArticles)
+//                sectionStates.weeklyDebrief = .reloading(weeklyDebrief)
+                sectionStates.followedArticles = .reloading(followedArticles)
+                sectionStates.otherArticles = .reloading(otherArticles)
                 fetchContent(done)
+                return
+            default:
+                // Do nothing if at least one section isn't done fetching.
+                done()
+                return
             }
         }) {
             VStack(spacing: 20) {
                 trendingArticlesSection
-                weeklyDebriefButton
+                if let _ = userData.weeklyDebrief {
+                    // Reserve space for weekly debrief if user has had one before
+                    weeklyDebriefButton
+                }
                 followedArticlesSection
                 Spacer()
                 otherArticlesSection
@@ -229,7 +288,7 @@ struct HomeList: View {
                 }
             }
         }
-        .disabled(state.shouldDisableScroll)
+        .disabled(sectionStates.trendingArticles.shouldDisableScroll)
         .padding(.top)
         .background(Color.white)
         .toolbar {
@@ -263,17 +322,25 @@ struct HomeList: View {
 }
 
 extension HomeList {
-    typealias Results = (
-        trendingArticles: [Article],
-        followedArticles: [Article],
-        otherArticles: [Article]
-    )
     typealias ResultsPublisher =
-        Publishers.Zip3<
-            Publishers.Map<OperationPublisher<GetTrendingArticlesQuery.Data>, [ArticleFields]>,
+        Publishers.Zip<
             Publishers.Collect<Publishers.Map<OperationPublisher<GetArticlesByPublicationIDsQuery.Data>, [ArticleFields]>>,
             Publishers.Map<OperationPublisher<GetArticlesByPublicationIDsQuery.Data>, [ArticleFields]>
         >
+    
+    typealias SectionStates = (
+        trendingArticles: MainView.TabState<[Article]>,
+        weeklyDebrief: MainView.TabState<WeeklyDebrief?>,
+        followedArticles: MainView.TabState<[Article]>,
+        otherArticles: MainView.TabState<[Article]>
+    )
+    
+    typealias SectionQueries = (
+        trendingArticles: AnyCancellable?,
+        weeklyDebrief: AnyCancellable?,
+        // Same query receives followed articles & other articles
+        feedArticles: AnyCancellable?
+    )
 }
 
 //struct HomeList_Previews: PreviewProvider {
