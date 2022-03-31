@@ -272,13 +272,8 @@ struct HomeList: View {
                 sectionStates.trendingArticles = .reloading(articles)
             }
             
-            if case let .results(articles) = sectionStates.followedArticles {
-                sectionStates.followedArticles = .reloading(articles)
-            }
-            
-            if case let .results(articles) = sectionStates.otherArticles {
-                sectionStates.otherArticles = .reloading(articles)
-            }
+            sectionStates.followedArticles = .loading
+            sectionStates.otherArticles = .loading
             
             fetchContent(done)
         }) {
