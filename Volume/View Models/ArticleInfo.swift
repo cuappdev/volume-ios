@@ -20,27 +20,27 @@ struct ArticleInfo: View {
             VStack(alignment: .leading, spacing: 0) {
                 if showsPublicationName {
                     Text(article.publication.name)
-                        .font(largeFont ? .begumMedium(size: 16) : .begumMedium(size: 12))
+                        .font(largeFont ? .newYorkMedium(size: 16) : .newYorkMedium(size: 12))
                         .padding(.bottom, largeFont ? 3.5 : 1.5)
                 }
 
                 Text(article.title)
-                    .multilineTextAlignment(.leading)
-                    .font(largeFont ? .latoBold(size: 24) : .latoBold(size: 16))
+                    .font(largeFont ? .helveticaNeueMedium(size: 24) : .helveticaNeueMedium(size: 16))
                     .lineLimit(3)
                     .padding(.top, 0.5)
                     .blur(radius: article.isNsfw ? 3 : 0)
+                    .multilineTextAlignment(.leading)
                 
                 Spacer()
                 HStack {
                     // swiftlint:disable:next line_length
                     Text("\(article.date.fullString) • \(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0])) shout-outs")
-                        .font(largeFont ? .latoRegular(size: 14) : .latoRegular(size: 10))
-                        .foregroundColor(Color.volume.lightGray)
+                        .font(largeFont ? .helveticaRegular(size: 14) : .helveticaRegular(size: 10))
+                        .foregroundColor(.volume.lightGray)
                     if userData.isArticleSaved(article) {
                         Image(systemName: "bookmark.fill")
                             .resizable()
-                            .foregroundColor(Color.volume.orange)
+                            .foregroundColor(.volume.orange)
                             .frame(width: largeFont ? 9 : 8, height: largeFont ? 12 : 11)
                     }
                 }
@@ -73,8 +73,8 @@ extension ArticleInfo {
                         SkeletonView()
                             .frame(width: 33, height: 10)
                         Text(" • ")
-                            .font(.latoRegular(size: 10))
-                            .foregroundColor(Color.volume.veryLightGray)
+                            .font(.helveticaRegular(size: 10))
+                            .foregroundColor(.volume.veryLightGray)
                         SkeletonView()
                             .frame(width: 70, height: 10)
                     }

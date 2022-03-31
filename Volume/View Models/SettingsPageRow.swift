@@ -16,14 +16,14 @@ struct SettingsPageRow: View {
             Image(page.imageName)
                 .resizable()
                 .renderingMode(.template)
-                .foregroundColor(Color.volume.lightGray)
+                .foregroundColor(.volume.lightGray)
                 .frame(width: 24, height: 24)
                 .padding()
             Text(page.info)
-                .font(.latoRegular(size: 16))
+                .font(.helveticaRegular(size: 16))
                 .foregroundColor(.black)
             Spacer()
-            Image("back-arrow")
+            Image.volume.backArrow
                 .rotationEffect(Angle(degrees: 180))
                 .padding()
         }

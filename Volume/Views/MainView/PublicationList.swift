@@ -80,17 +80,7 @@ struct PublicationList: View {
                     }
                 }
             } else {
-                VStack(spacing: 10) {
-                    Text("You're not following any publications")
-                        .lineLimit(2)
-                        .font(.latoBold(size: 16))
-                    Text("Follow some below and we'll show them up here")
-                        .lineLimit(2)
-                        .font(.latoRegular(size: 12))
-                        .foregroundColor(Color(white: 151 / 255))
-                }
-                .padding()
-                .frame(height: 135)
+                VolumeMessage(message: .noFollowingPublications, largeFont: false, fullWidth: true)
             }
         }
     }
@@ -146,7 +136,7 @@ struct PublicationList: View {
             .toolbar {
                 ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
                     BubblePeriodText("Publications")
-                        .font(.begumMedium(size: 28))
+                        .font(.newYorkMedium(size: 28))
                         .offset(y: 8)
                 }
             }

@@ -13,14 +13,14 @@ struct ConnectionFailedView: View {
         VStack(spacing: 0) {
             Spacer()
 
-            Image("no-connection")
+            Image.volume.noConnection
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 58, height: 58)
                 .padding(.bottom, 20)
 
             Text("No Connection")
-                .font(.begumMedium(size: 23))
+                .font(.newYorkMedium(size: 23))
                 .padding(.bottom, 2)
 
             Text("Please try again later")
@@ -30,6 +30,6 @@ struct ConnectionFailedView: View {
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
         .offset(x: 0, y: -20)
-        .background(Color.volume.backgroundGray)
+        .background(Color.white)
     }
 }

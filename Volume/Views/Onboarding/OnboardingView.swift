@@ -27,7 +27,7 @@ struct OnboardingView: View {
     private var splashView: some View {
         Group {
             Spacer()
-            Image("volume-logo")
+            Image.volume.logo
                 .resizable()
                 .scaledToFit()
                 .frame(maxWidth: .infinity)
@@ -39,7 +39,7 @@ struct OnboardingView: View {
 
     private var contentView: some View {
         Group {
-            Image("volume-logo")
+            Image.volume.logo
                 .resizable()
                 .scaledToFit()
                 .frame(maxWidth: .infinity)
@@ -57,7 +57,7 @@ struct OnboardingView: View {
                         .lineSpacing(4)
                 }
             }
-            .font(.begumRegular(size: 16))
+            .font(.newYorkRegular(size: 16))
             .frame(height: 80)
             .padding([.leading, .trailing], 50)
 
@@ -90,7 +90,7 @@ struct OnboardingView: View {
                             .padding([.top, .bottom], 10)
                             .padding([.leading, .trailing], 24)
                     })
-                    .foregroundColor(Color.volume.orange)
+                    .foregroundColor(.volume.orange)
                 case .follow:
                     Button(action: {
                         AppDevAnalytics.log(VolumeEvent.completeOnboarding.toEvent(.general))
@@ -100,15 +100,15 @@ struct OnboardingView: View {
                             .padding([.top, .bottom], 10)
                             .padding([.leading, .trailing], 24)
                     })
-                    .foregroundColor(didFollowPublication ? Color.volume.orange : Color(white: 151 / 255))
+                        .foregroundColor(didFollowPublication ? .volume.orange : .volume.lightGray)
                     .disabled(!didFollowPublication)
                 }
             }
             .overlay(
                 RoundedRectangle(cornerRadius:10)
-                    .stroke(didFollowPublication || page == .welcome ? Color.volume.orange : Color(white: 151 / 255), lineWidth: 2)
+                    .stroke(didFollowPublication || page == .welcome ? Color.volume.orange : .volume.lightGray, lineWidth: 2)
             )
-            .font(.latoBold(size: 16))
+            .font(.helveticaNeueMedium(size: 16))
             .padding([.leading, .trailing], 32)
             .padding(.top, 8)
             .padding(.bottom, 28)
@@ -123,7 +123,7 @@ struct OnboardingView: View {
                 contentView
             }
         }
-        .background(Color.volume.backgroundGray.ignoresSafeArea())
+        .background(Color.white.ignoresSafeArea())
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 AppDevAnalytics.log(VolumeEvent.startOnboarding.toEvent(.general))
@@ -137,16 +137,17 @@ struct OnboardingView: View {
     // MARK: Actions
     
     private func createUser() {
-        guard let deviceToken = userData.deviceToken else {
-            print("Error: received nil for deviceToken from UserData")
+        guard let fcmToken = userData.fcmToken else {
+            print("Error: received nil for fcmToken from UserData")
             return
         }
         
-        cancellableCreateUserMutation = Network.shared.publisher(for: CreateUserMutation(deviceToken: deviceToken, followedPublicationIDs: userData.followedPublicationIDs))
+        // TODO: change parameter name after new API is live
+        cancellableCreateUserMutation = Network.shared.publisher(for: CreateUserMutation(deviceToken: fcmToken, followedPublicationIDs: userData.followedPublicationIDs))
             .map { $0.user.uuid }
             .sink { completion in
                 if case let .failure(error) = completion {
-                    print("An error occurred while creating user: \(error)")
+                    print("Error: failed to create user: \(error.localizedDescription)")
                 }
             } receiveValue: { uuid in
                 userData.uuid = uuid

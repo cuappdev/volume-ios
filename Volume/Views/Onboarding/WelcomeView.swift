@@ -13,12 +13,12 @@ extension OnboardingView {
         var body: some View {
             Group {
                 FeatureRow(
-                    image: "publications",
+                    image: "pen",
                     textBold: "Stay updated ",
                     textRegular: "with Cornell student publications, all in one place"
                 )
                 FeatureRow(
-                    image: "volume",
+                    image: "feed",
                     textBold: "Read articles ",
                     textRegular: "trending in the Cornell commnity and from publications you follow"
                 )
@@ -45,13 +45,13 @@ extension OnboardingView.WelcomeView {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 36, height: 36)
-                    .foregroundColor(Color.volume.orange)
+                    .foregroundColor(.volume.orange)
                 (
                     Text(textBold)
-                        .font(.begumBold(size: 16))
+                        .font(.newYorkBold(size: 16))
                     +
                     Text(textRegular)
-                        .font(.begumRegular(size: 16))
+                        .font(.newYorkRegular(size: 16))
                 )
                 .frame(width: 222)
             }

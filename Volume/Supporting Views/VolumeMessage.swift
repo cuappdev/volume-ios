@@ -11,11 +11,15 @@ import SwiftUI
 enum Message {
     case noBookmarks
     case upToDate
+    case noFollowingHome
+    case noFollowingPublications
 
     var title: String {
         switch self {
-        case .noBookmarks:
+        case .noBookmarks, .noFollowingHome:
             return "Nothing to see here!"
+        case .noFollowingPublications:
+            return "No Followed Publications"
         case .upToDate:
             return "You're up to date!"
         }
@@ -25,6 +29,10 @@ enum Message {
         switch self {
         case .noBookmarks:
             return "You have no saved articles"
+        case .noFollowingHome:
+            return "Follow some student publications that you are interested in"
+        case .noFollowingPublications:
+            return "Follow some below and we'll show them up here"
         case .upToDate:
             return "You've seen all new articles from the publications you're following."
         }
@@ -33,24 +41,26 @@ enum Message {
 
 struct VolumeMessage: View {
     @State var message: Message
+    @State var largeFont : Bool
+    @State var fullWidth : Bool
 
     var body: some View {
         VStack(spacing: 10) {
-            Image("volume")
-                .foregroundColor(Color.volume.orange)
+            Image.volume.feed
+                .foregroundColor(.volume.orange)
             Text(message.title)
-                .font(.begumMedium(size: 12))
+                .font(.newYorkMedium(size: largeFont ? 24 : 18))
             Text(message.subtitle)
-                .font(.latoRegular(size: 10))
+                .font(.helveticaRegular(size: 12))
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
         }
-        .frame(width: 205, height: 100)
+        .frame(width: fullWidth ? nil : 205, height: 100)
     }
 }
 
 struct VolumeMessage_Previews: PreviewProvider {
     static var previews: some View {
-        VolumeMessage(message: .upToDate)
+        VolumeMessage(message: .upToDate, largeFont: false, fullWidth: false)
     }
 }

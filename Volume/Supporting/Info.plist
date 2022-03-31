@@ -39,14 +39,6 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Lato-Bold.ttf</string>
-		<string>Lato-Regular.ttf</string>
-		<string>Begum-Regular.ttf</string>
-		<string>Begum-Medium.ttf</string>
-		<string>Begum-Bold.ttf</string>
-	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -85,6 +77,8 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
 </dict>

@@ -73,7 +73,7 @@ struct BookmarksList: View {
                 } else {
                     VStack {
                         Spacer(minLength: geometry.size.height / 5)
-                        VolumeMessage(message: .noBookmarks)
+                        VolumeMessage(message: .noBookmarks, largeFont: true, fullWidth: true)
                     }
                 }
             }
@@ -83,12 +83,12 @@ struct BookmarksList: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     BubblePeriodText("Bookmarks")
-                        .font(.begumMedium(size: 28))
+                        .font(.newYorkMedium(size: 28))
                         .offset(y: 8)
                 }
 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Image("settings")
+                    Image.volume.settings
                         .offset(x: -5, y: 5)
                         .onTapGesture {
                             showSettings = true
@@ -99,10 +99,10 @@ struct BookmarksList: View {
             .navigationBarTitleDisplayMode(.inline)
             .onAppear(perform: fetch)
             .background(
-                    NavigationLink(destination: SettingsView(), isActive: $showSettings) {
-                        EmptyView()
-                    }
-                )
+                NavigationLink(destination: SettingsView(), isActive: $showSettings) {
+                    EmptyView()
+                }
+            )
         }
     }
 }

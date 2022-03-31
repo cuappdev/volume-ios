@@ -7,6 +7,7 @@
 //
 
 import AppDevAnalytics
+import FirebaseMessaging
 import SDWebImageSVGCoder
 import SwiftUI
 import UIKit
@@ -28,13 +29,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().apnsToken = deviceToken
         let deviceTokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
         print("UIApplicationDelegate didRegisterForRemoteNotifications with deviceToken: \(deviceTokenString)")
-        UserData.shared.deviceToken = deviceTokenString
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("UIApplicationDelegate didRegisterForRemoteNotifications with error: \(error.localizedDescription)")
+        print("Error: UIApplicationDelegate didFailToRegisterForRemoteNotificationsWithError: \(error.localizedDescription)")
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

@@ -21,7 +21,7 @@ extension OnboardingView {
                 .map { data in data.publications.compactMap { $0.fragments.publicationFields } }
                 .sink(receiveCompletion: { completion in
                     if case let .failure(error) = completion {
-                        print(error.localizedDescription)
+                        print("Error: GetAllPublicationsQuery failed on FollowView: \(error.localizedDescription)")
                     }
                 }, receiveValue: { value in
                     state = .results([Publication](value))
@@ -46,7 +46,7 @@ extension OnboardingView {
                 .background(
                     GeometryReader { proxy in
                         let offset = -proxy.frame(in: .named(scrollViewCoordinateSpace)).origin.y
-                        Color.volume.backgroundGray
+                        Color.white
                             .preference(key: OffsetPreferenceKey.self, value: offset)
                     }
                 )
@@ -84,8 +84,8 @@ extension OnboardingView.FollowView {
             LinearGradient(
                 gradient: Gradient(
                     colors: [
-                        Color.volume.backgroundGray.opacity(0),
-                        Color.volume.backgroundGray
+                        .white.opacity(0),
+                        .white
                     ]
                 ),
                 startPoint: fadesDown ? .top : .bottom,

@@ -22,7 +22,7 @@ struct UnderlinedText: View {
                 .fixedSize()
                 .background(SizeGetter(size: $textSize))
 
-            Image("underline")
+            Image.volume.underline
                 .resizable()
                 .scaledToFit()
                 .frame(width: textSize.width + 4, height:
@@ -59,7 +59,7 @@ struct UnderlinedText_Previews: PreviewProvider {
     struct PreviewWrapper: View {
         var body: some View {
             UnderlinedText("THE BIG READ AND OTHER THINGS")
-                .font(.latoBold(size: 15))
+                .font(.helveticaNeueMedium(size: 15))
         }
     }
 }

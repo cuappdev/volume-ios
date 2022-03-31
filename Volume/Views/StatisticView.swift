@@ -19,17 +19,17 @@ struct StatisticView: View {
             Image(image)
                 .resizable()
                 .scaledToFit()
-                .foregroundColor(Color.volume.orange)
+                .foregroundColor(.volume.orange)
                 .frame(height: 24)
                 .padding(.trailing, 24)
             HStack(spacing: 8, content: {
                 Text(leftText)
-                    .font(.begumMedium(size: 16))
+                    .font(.newYorkMedium(size: 16))
                 Text("\(number)")
-                    .font(.begumMedium(size: 36))
-                    .foregroundColor(Color.volume.orange)
+                    .font(.newYorkMedium(size: 36))
+                    .foregroundColor(.volume.orange)
                 Text(rightText)
-                    .font(.begumMedium(size: 16))
+                    .font(.newYorkMedium(size: 16))
             })
             Spacer()
         }
@@ -47,12 +47,12 @@ extension StatisticView {
                     .padding(.trailing, 24)
                 HStack(spacing: 8, content: {
                     SkeletonView()
-                        .font(.begumMedium(size: 16))
+                        .font(.newYorkMedium(size: 16))
                     SkeletonView()
-                        .font(.begumMedium(size: 36))
+                        .font(.newYorkMedium(size: 36))
                         .foregroundColor(Color.volume.orange)
                     SkeletonView()
-                        .font(.begumMedium(size: 16))
+                        .font(.newYorkMedium(size: 16))
                 })
                 Spacer()
             }
@@ -63,6 +63,6 @@ extension StatisticView {
 
 struct SStatisticViewRow_Previews: PreviewProvider {
     static var previews: some View {
-        StatisticView(image: "volume", leftText: "read", number: 45, rightText: "articles")
+        StatisticView(image: "feed", leftText: "read", number: 45, rightText: "articles")
     }
 }

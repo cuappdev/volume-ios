@@ -18,7 +18,7 @@ struct AboutUsView: View {
             VStack(alignment: .leading) {
                 Header("Our Mission")
                 Text(Constants.missionStatement)
-                    .font(.latoRegular(size: 16))
+                    .font(.helveticaRegular(size: 16))
                     .lineSpacing(2)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding([.bottom, .top])
@@ -26,10 +26,10 @@ struct AboutUsView: View {
                 Header("The Team")
                     .padding(.top)
                 Text(Constants.teamInfo)
-                    .font(.latoRegular(size: 16))
+                    .font(.helveticaRegular(size: 16))
                     .lineSpacing(2)
                     .fixedSize(horizontal: false, vertical: true)
-                    .padding([.bottom, .top])
+                    .padding(.vertical)
 
                 ForEach(subteams, id: \.self) { subteam in
                     HStack {
@@ -39,10 +39,10 @@ struct AboutUsView: View {
                         }
                         VStack(alignment: .leading, spacing: 3) {
                             Text(subteam)
-                                .font(.latoBold(size: 16))
+                                .font(.helveticaNeueMedium(size: 16))
                                 .fixedSize(horizontal: false, vertical: true)
                             Text(Constants.subteams[subteam]!.joined(separator: ", "))
-                                .font(.latoRegular(size: 16))
+                                .font(.helveticaRegular(size: 16))
                                 .fixedSize(horizontal: false, vertical: true)
                         }
                     }
@@ -52,7 +52,7 @@ struct AboutUsView: View {
         }
         .navigationBarTitle("About Us", displayMode: .inline)
         .padding(20)
-        .background(Color.volume.backgroundGray)
+        .background(Color.white)
     }
 }
 

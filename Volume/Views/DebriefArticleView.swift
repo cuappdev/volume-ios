@@ -42,7 +42,7 @@ struct DebriefArticleView: View {
                 .resizable()
                 .scaledToFit()
                 .frame(height: 21)
-                .accentColor(userData.isArticleSaved(article) ? Color.white : Color.volume.orange)
+                .accentColor(userData.isArticleSaved(article) ? .white : .volume.orange)
                 .background(userData.isArticleSaved(article) ? Color.volume.orange : Color.white)
         }
         .frame(width: 44, height: 44)
@@ -57,7 +57,7 @@ struct DebriefArticleView: View {
             displayShareScreen(for: article)
         } label: {
             Image(systemName: "square.and.arrow.up")
-                .foregroundColor(Color.volume.orange)
+                .foregroundColor(.volume.orange)
         }
         .frame(width: 44, height: 44)
         .overlay(Circle().stroke(Color.volume.orange, lineWidth: 4))
@@ -68,10 +68,9 @@ struct DebriefArticleView: View {
         Button {
             incrementShoutouts(for: article)
         } label: {
-            let _ = print("the shoutouts is \(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]))")
-            Image("shout-out")
+            Image.volume.shoutout
                 .resizable()
-                .foregroundColor(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]) > 0 ? Color.white : Color.volume.orange)
+                .foregroundColor(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]) > 0 ? .white : .volume.orange)
                 .background(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]) > 0 ? Color.volume.orange : Color.white)
                 .scaledToFit()
                 .frame(height: 21)
@@ -109,9 +108,10 @@ struct DebriefArticleView: View {
                     openedURL = true
                     articleToShow = article.id
                 }
-                .frame(width: 275, height: 435)
+                ArticleInfo(article: article, showsPublicationName: true, largeFont: true)
             }
-            .accentColor(Color.black)
+            .frame(width: 275, height: 435)
+            .accentColor(.black)
             
             HStack(spacing: 56) {
                 saveButton
@@ -146,7 +146,7 @@ struct DebriefArticleView: View {
         cancellableShoutoutMutation = Network.shared.publisher(for: IncrementShoutoutsMutation(id: article.id, uuid: uuid))
             .sink(receiveCompletion: { completion in
                 if case let .failure(error) = completion {
-                    print(error)
+                    print("Error: IncrementShoutoutsMutation failed on DebriefArticleView: \(error.localizedDescription)")
                 }
             }, receiveValue: { _ in })
     }

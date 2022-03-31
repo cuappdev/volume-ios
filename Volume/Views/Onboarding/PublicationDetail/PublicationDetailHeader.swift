@@ -53,7 +53,7 @@ struct PublicationDetailHeader: View {
         VStack(alignment: .leading) {
             HStack(alignment: .top) {
                 Text(publication.name)
-                    .font(.begumMedium(size: 18))
+                    .font(.newYorkMedium(size: 18))
                     .fixedSize(horizontal: false, vertical: true)
 
                 Spacer()
@@ -62,11 +62,11 @@ struct PublicationDetailHeader: View {
                     hasOddNumberOfTaps.toggle()
                 }, label: {
                     Text(isFollowed ? "Following" : "+  Follow")
-                        .font(.latoBold(size: 12))
+                        .font(.helveticaNeueMedium(size: 12))
                         .padding([.top, .bottom], 8)
                         .padding([.leading, .trailing], 18)
                 })
-                .foregroundColor(isFollowed ? Color.volume.buttonGray: Color.volume.orange)
+                .foregroundColor(isFollowed ? .volume.buttonGray: .volume.orange)
                 .background(
                     isFollowed ?
                         AnyView(RoundedRectangle(cornerRadius: 10).fill(Color.volume.orange)) :
@@ -74,11 +74,11 @@ struct PublicationDetailHeader: View {
                 )
             }
             Text("\(publication.numArticles) articles  •  \(shoutouts) shout-outs")
-                .font(.latoRegular(size: 12))
+                .font(.helveticaRegular(size: 12))
                 .foregroundColor(Color(white: 151 / 255))
                 .padding([.bottom, .top], 8)
             Text(publication.bio)
-                .font(.latoRegular(size: 14))
+                .font(.helveticaRegular(size: 14))
                 .fixedSize(horizontal: false, vertical: true)
             externalLinks
         }
@@ -90,7 +90,6 @@ struct PublicationDetailHeader: View {
                     userData.isPublicationFollowed(publication) ?
                         VolumeEvent.followPublication.toEvent(.publication, value: publication.id, navigationSource: navigationSource) :
                         VolumeEvent.unfollowPublication.toEvent(.publication, value: publication.id, navigationSource: navigationSource)
-
                 )
             }
         }
@@ -103,8 +102,8 @@ struct MediaText: View {
     
     var body: some View {
         Link(title, destination: url)
-            .font(.latoRegular(size: 12))
-            .foregroundColor(Color.volume.orange)
+            .font(.helveticaRegular(size: 12))
+            .foregroundColor(.volume.orange)
             .padding(.trailing, 10)
             .lineLimit(1)
     }

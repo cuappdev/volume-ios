@@ -16,7 +16,7 @@ class UserData: ObservableObject {
     private let publicationsKey = "savedPublicationIds"
     private let articleShoutoutsKey = "articleShoutoutsCounter"
     private let isFirstLaunchKey = "isFirstLaunch"
-    private let deviceTokenKey = "deviceToken"
+    private let fcmTokenKey = "fcmToken"
     private let userUUIDKey = "userUUID"
     private let weeklyDebriefKey = "weeklyDebrief"
 
@@ -62,14 +62,14 @@ class UserData: ObservableObject {
             if let encoded = try? JSONEncoder().encode(newValue) {
                 UserDefaults.standard.set(encoded, forKey: weeklyDebriefKey)
             } else {
-                print("Error: failed to encode WeeklyDebrief object and UserData.weeklyDebrief property not set.")
+                print("Error: failed to encode WeeklyDebrief object")
             }
         }
     }
     
-    var deviceToken: String? = nil {
+    var fcmToken: String? = nil {
         willSet {
-            UserDefaults.standard.setValue(newValue, forKey: deviceTokenKey)
+            UserDefaults.standard.setValue(newValue, forKey: fcmTokenKey)
         }
     }
     
@@ -93,11 +93,14 @@ class UserData: ObservableObject {
             weeklyDebrief = debrief
         }
         
-        if let deviceToken = UserDefaults.standard.object(forKey: deviceTokenKey) as? String {
-            self.deviceToken = deviceToken
+        if let fcmToken = UserDefaults.standard.object(forKey: fcmTokenKey) as? String {
+            self.fcmToken = fcmToken
         }
         
         if let uuid = UserDefaults.standard.object(forKey: userUUIDKey) as? String {
+            #if DEBUG
+            print("Initializing UserData with UUID: \(uuid)")
+            #endif
             self.uuid = uuid
         }
     }
@@ -139,7 +142,7 @@ class UserData: ObservableObject {
             cancellables[.bookmark(article)] = Network.shared.publisher(for: BookmarkArticleMutation(uuid: uuid))
                 .sink { completion in
                     if case let .failure(error) = completion {
-                        print(error)
+                        print("Error: BookmarkArticleMutation failed on UserData: \(error.localizedDescription)")
                     }
                 } receiveValue: { _ in
                     if !self.savedArticleIDs.contains(article.id) {
@@ -173,7 +176,7 @@ class UserData: ObservableObject {
             cancellables[.follow(publication)] = Network.shared.publisher(for: mutation)
                 .sink { completion in
                     if case let .failure(error) = completion {
-                        print(error)
+                        print("Error: FollowPublicationMutation failed on UserData: \(error.localizedDescription)")
                     }
                 } receiveValue: { value in
                     if !self.followedPublicationIDs.contains(publication.id) {
@@ -188,7 +191,7 @@ class UserData: ObservableObject {
             cancellables[.unfollow(publication)] = Network.shared.publisher(for: UnfollowPublicationMutation(publicationID: publication.id, uuid: uuid))
                 .sink { completion in
                     if case let .failure(error) = completion {
-                        print(error)
+                        print("Error: UnfollowPublicationMutation failed on UserData: \(error.localizedDescription)")
                     }
                 } receiveValue: { _ in
                     self.followedPublicationIDs.removeAll(where: { $0 == publication.id })
