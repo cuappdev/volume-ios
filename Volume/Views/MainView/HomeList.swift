@@ -125,11 +125,11 @@ struct HomeList: View {
     }
 
     private var isFollowingPublications: Bool {
-        switch state {
+        switch sectionStates.followedArticles {
         case .loading:
             return userData.followedPublicationIDs.count > 0
-        case .reloading(let results), .results(let results):
-            return results.followedArticles.count > 0
+        case .reloading(let articles), .results(let articles):
+            return articles.count > 0
         }
     }
     
