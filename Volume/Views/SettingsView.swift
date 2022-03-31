@@ -30,7 +30,7 @@ struct SettingsView: View {
     
     var body: some View {
         ScrollView(showsIndicators: false) {
-            ForEach(0..<SettingsView.pages.count) { index in
+            ForEach(0..<SettingsView.pages.count, id: \.self) { index in
                 SettingsPageRow(page: SettingsView.pages[index])
             }
         }
