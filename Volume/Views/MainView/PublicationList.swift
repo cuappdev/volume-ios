@@ -63,7 +63,7 @@ struct PublicationList: View {
                     switch state {
                     case .loading:
                         HStack(spacing: 12) {
-                            ForEach(0..<userData.followedPublicationIDs.count) { _ in
+                            ForEach(0..<userData.followedPublicationIDs.count, id: \.self) { _ in
                                 FollowingPublicationRow.Skeleton()
                             }
                         }

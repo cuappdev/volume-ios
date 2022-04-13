@@ -123,15 +123,6 @@ struct HomeList: View {
                 }
             }
     }
-
-    private var isFollowingPublications: Bool {
-        switch state {
-        case .loading:
-            return userData.followedPublicationIDs.count > 0
-        case .reloading(let results), .results(let results):
-            return results.followedArticles.count > 0
-        }
-    }
     
     private func fetchWeeklyDebrief() {
         guard let uuid = userData.uuid else {
@@ -224,9 +215,18 @@ struct HomeList: View {
             switch sectionStates.followedArticles {
             case .loading:
                 let skeletonCount = userData.followedPublicationIDs.isEmpty ? 0 : 5
-                ForEach(0..<skeletonCount) { _ in
+                
+                ForEach(0..<skeletonCount, id: \.self) { _ in
                     ArticleRow.Skeleton()
                         .padding(.horizontal)
+                }
+                
+                if userData.followedPublicationIDs.isEmpty {
+                    Spacer()
+                    
+                    VolumeMessage(message: .noFollowingHome, largeFont: false, fullWidth: false)
+                        .padding(.top, 25)
+                        .padding(.bottom, -5)
                 }
             case .reloading(let articles), .results(let articles):
                 ForEach(articles) { article in
@@ -235,13 +235,13 @@ struct HomeList: View {
                             .padding(.horizontal)
                     }
                 }
+                
+                Spacer()
+                
+                VolumeMessage(message: articles.count > 0 ? .upToDate : .noFollowingHome, largeFont: false, fullWidth: false)
+                    .padding(.top, 25)
+                    .padding(.bottom, -5)
             }
-
-            Spacer()
-
-            VolumeMessage(message: isFollowingPublications ? .upToDate : .noFollowingHome, largeFont: false, fullWidth: false)
-                .padding(.top, 25)
-                .padding(.bottom, -5)
         }
     }
     
@@ -268,20 +268,14 @@ struct HomeList: View {
     var body: some View {
         RefreshableScrollView(onRefresh: { done in
             // TODO: add weekly debrief to this switch when the request stops breaking
-            switch (sectionStates.trendingArticles, sectionStates.followedArticles, sectionStates.otherArticles) {
-            case (.results(let trendingArticles), .results(let followedArticles), .results(let otherArticles)):
-                // Allow refresh when all results are done fetching.
-                sectionStates.trendingArticles = .reloading(trendingArticles)
-//                sectionStates.weeklyDebrief = .reloading(weeklyDebrief)
-                sectionStates.followedArticles = .reloading(followedArticles)
-                sectionStates.otherArticles = .reloading(otherArticles)
-                fetchContent(done)
-                return
-            default:
-                // Do nothing if at least one section isn't done fetching.
-                done()
-                return
+            if case let .results(articles) = sectionStates.trendingArticles {
+                sectionStates.trendingArticles = .reloading(articles)
             }
+            
+            sectionStates.followedArticles = .loading
+            sectionStates.otherArticles = .loading
+            
+            fetchContent(done)
         }) {
             VStack(spacing: 20) {
                 trendingArticlesSection
@@ -290,7 +284,9 @@ struct HomeList: View {
                     weeklyDebriefButton
                 }
                 followedArticlesSection
+                
                 Spacer()
+                
                 otherArticlesSection
                 // Invisible navigation link only opens if application is opened
                 // through deeplink with valid article
