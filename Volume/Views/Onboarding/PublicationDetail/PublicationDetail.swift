@@ -131,8 +131,10 @@ struct PublicationDetail: View {
                 case .results(let articles):
                     LazyVStack {
                         ForEach(articles) { article in
-                            ArticleRow(article: article, navigationSource: navigationSource, showsPublicationName: false)
-                                .padding([.bottom, .leading, .trailing])
+                            NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: navigationSource)) {
+                                ArticleRow(article: article, navigationSource: navigationSource, showsPublicationName: false)
+                                    .padding([.bottom, .leading, .trailing])
+                            }
                         }
                     }
                 }

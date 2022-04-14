@@ -173,7 +173,7 @@ extension OnboardingView {
 
         var body: some View {
             HStack(spacing: 12) {
-                ForEach(0..<numberOfPages) { i in
+                ForEach(0..<numberOfPages, id: \.self) { i in
                     Circle()
                         .fill(i == currentPage ? selectedColor : unselectedColor)
                         .frame(width: 6, height: 6)
