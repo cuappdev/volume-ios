@@ -9,31 +9,30 @@
 import Foundation
 
 struct WeeklyDebrief: Codable {
-    
     let creationDate: Date
     let expirationDate: Date
-    let numShoutouts: Int
-    let numReadArticles: Int
     let numBookmarkedArticles: Int
+    let numReadArticles: Int
+    let numShoutouts: Int
     let readArticleIDs: [ArticleID]
     let randomArticleIDs: [ArticleID]
     
     init(from weeklyDebrief: GetWeeklyDebriefQuery.Data.User.WeeklyDebrief) {
         creationDate = Date.from(iso8601: weeklyDebrief.creationDate)
         expirationDate = Date.from(iso8601: weeklyDebrief.expirationDate)
-        numShoutouts = Int(weeklyDebrief.numShoutouts)
-        numReadArticles = Int(weeklyDebrief.numReadArticles)
         numBookmarkedArticles = Int(weeklyDebrief.numBookmarkedArticles)
+        numReadArticles = Int(weeklyDebrief.numReadArticles)
+        numShoutouts = Int(weeklyDebrief.numShoutouts)
         readArticleIDs = weeklyDebrief.readArticles.map(\.fragments.articleFields.id)
         randomArticleIDs = weeklyDebrief.randomArticles.map(\.fragments.articleFields.id)
     }
     
-    init(creationDate: Date, expirationDate: Date, numShoutouts: Int, numReadArticles: Int, numBookmarkedArticles: Int, readArticleIDs: [ArticleID], randomArticleIDs: [ArticleID]) {
+    init(creationDate: Date, expirationDate: Date, numBookmarkedArticles: Int, numReadArticles: Int, numShoutouts: Int, readArticleIDs: [ArticleID], randomArticleIDs: [ArticleID]) {
         self.creationDate = creationDate
         self.expirationDate = expirationDate
-        self.numShoutouts = numShoutouts
-        self.numReadArticles = numReadArticles
         self.numBookmarkedArticles = numBookmarkedArticles
+        self.numReadArticles = numReadArticles
+        self.numShoutouts = numShoutouts
         self.readArticleIDs = readArticleIDs
         self.randomArticleIDs = randomArticleIDs
     }
@@ -42,9 +41,9 @@ struct WeeklyDebrief: Codable {
         WeeklyDebrief(
             creationDate: Date(),
             expirationDate: Date(),
-            numShoutouts: 11,
-            numReadArticles: 22,
             numBookmarkedArticles: 33,
+            numReadArticles: 22,
+            numShoutouts: 11,
             readArticleIDs: ["618f63022fef10d6b75ec9a5", "618f63022fef10d6b75ec9a6"],
             randomArticleIDs: ["618f63022fef10d6b75ec9ae", "618f63022fef10d6b75ec9b5"]
         )

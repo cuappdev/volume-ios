@@ -17,16 +17,16 @@ struct DebriefArticleView: View {
     let header: String
     let article: Article
     
-    @Binding private var debriefIsOpen: Bool
-    @Binding private var openedURL: Bool
-    @Binding private var articleToShow: String?
+    @Binding private var isDebriefOpen: Bool
+    @Binding private var isURLOpen: Bool
+    @Binding private var articleID: String?
     
-    init(header: String, article: Article, debriefViewIsOpen: Binding<Bool>, didOpenURL: Binding<Bool>, showArticle: Binding<String?>) {
+    init(header: String, article: Article, isDebriefOpen: Binding<Bool>, isURLOpen: Binding<Bool>, articleID: Binding<String?>) {
         self.header = header
         self.article = article
-        _debriefIsOpen = debriefViewIsOpen
-        _openedURL = didOpenURL
-        _articleToShow = showArticle
+        _isDebriefOpen = isDebriefOpen
+        _isURLOpen = isURLOpen
+        _articleID = articleID
     }
 
     var saveButton: some View {
@@ -103,10 +103,11 @@ struct DebriefArticleView: View {
                             .padding(30)
                     }
                     ArticleInfo(article: article, showsPublicationName: true, largeFont: true)
-                }.onTapGesture {
-                    debriefIsOpen = false
-                    openedURL = true
-                    articleToShow = article.id
+                }
+                .onTapGesture {
+                    isDebriefOpen = false
+                    isURLOpen = true
+                    articleID = article.id
                 }
                 ArticleInfo(article: article, showsPublicationName: true, largeFont: true)
             }

@@ -27,4 +27,13 @@ extension Date {
         dateFormatter.formatOptions = [.withFullDate, .withTime, .withDashSeparatorInDate, .withColonSeparatorInTime]
         return dateFormatter.date(from: date) ?? Date()
     }
+    
+    /**
+     * This `Date` in the format M/D. For example, August 18th is 8/18
+     */
+    var simpleString: String {
+        let formatter = DateFormatter()
+        formatter.setLocalizedDateFormatFromTemplate("M/dd")
+        return formatter.string(from: self)
+    }
 }

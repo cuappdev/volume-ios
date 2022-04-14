@@ -42,7 +42,7 @@ extension StatisticView {
             HStack {
                 SkeletonView()
                     .scaledToFit()
-                    .foregroundColor(Color.volume.orange)
+                    .foregroundColor(.volume.orange)
                     .frame(height: 24)
                     .padding(.trailing, 24)
                 HStack(spacing: 8, content: {
@@ -50,7 +50,7 @@ extension StatisticView {
                         .font(.newYorkMedium(size: 16))
                     SkeletonView()
                         .font(.newYorkMedium(size: 36))
-                        .foregroundColor(Color.volume.orange)
+                        .foregroundColor(.volume.orange)
                     SkeletonView()
                         .font(.newYorkMedium(size: 16))
                 })
