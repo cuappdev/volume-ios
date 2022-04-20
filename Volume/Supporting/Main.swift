@@ -19,7 +19,7 @@ struct Main: App {
         configureFirebase()
         configureNotifications()
         UINavigationBar.appearance().backgroundColor = .white
-        UINavigationBar.appearance().tintColor = UIColor(Color.black)
+        UINavigationBar.appearance().tintColor = .black
         UITabBar.appearance().barTintColor = .white
         UITabBar.appearance().clipsToBounds = true
     }

@@ -61,7 +61,7 @@ struct PublicationDetail: View {
             GeometryReader { geometry in
                 let scrollOffset = geometry.frame(in: .global).minY
                 let headerOffset = scrollOffset > 0 ? -scrollOffset : 0
-                let headerHeight = scrollOffset > 0 ? geometry.size.height + scrollOffset : geometry.size.height
+                let headerHeight = geometry.size.height + max(scrollOffset, 0)
                 
                 if let url = publication.backgroundImageUrl {
                     WebImage(url: url)
@@ -70,12 +70,12 @@ struct PublicationDetail: View {
                         .scaledToFill()
                         .frame(width: geometry.size.width, height: headerHeight)
                         .clipped()
-                        .offset(x: 0, y: headerOffset)
+                        .offset(y: headerOffset)
                 } else {
                     Rectangle() // TODO: Custom image
                         .frame(width: geometry.size.width, height: headerHeight)
                         .foregroundColor(.blue)
-                        .offset(x: 0, y: headerOffset)
+                        .offset(y: headerOffset)
                 }
             }
             .frame(height: 140)
@@ -89,7 +89,7 @@ struct PublicationDetail: View {
                             .foregroundColor(.white)
                             .padding(.top, 55)
                             .padding(.leading, 20)
-                            .shadow(color: .black, radius: 4, x: 0, y: 0)
+                            .shadow(color: .black, radius: 4)
                     }
 
                     Spacer()
@@ -101,13 +101,13 @@ struct PublicationDetail: View {
                             .clipShape(Circle())
                             .frame(width: 60, height: 60)
                             .overlay(Circle().stroke(Color.white, lineWidth: 3))
-                            .shadow(color: .volume.shadowBlack, radius: 5, x: 0, y: 0)
+                            .shadow(color: .volume.shadowBlack, radius: 5)
                             .padding(.leading, 16)
                     } else {
                         Circle()
                             .frame(width: 60, height: 60)
                             .overlay(Circle().stroke(Color.white, lineWidth: 3))
-                            .shadow(color: .volume.shadowBlack, radius: 5, x: 0, y: 0)
+                            .shadow(color: .volume.shadowBlack, radius: 5)
                             .padding(.leading, 16)
                     }
                 }
