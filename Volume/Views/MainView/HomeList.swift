@@ -123,6 +123,15 @@ struct HomeList: View {
                 }
             }
     }
+  
+    private var isFollowingPublications: Bool {
+        switch sectionStates.followedArticles {
+        case .loading:
+            return userData.followedPublicationIDs.count > 0
+        case .reloading(let results), .results(let results):
+            return results.count > 0
+        }
+    }
     
     private func fetchWeeklyDebrief() {
         guard let uuid = userData.uuid else {
@@ -322,7 +331,10 @@ struct HomeList: View {
             isWeeklyDebriefOpen = false
         } content: {
             if let weeklyDebrief = userData.weeklyDebrief {
-                WeeklyDebriefView(openedWeeklyDebrief: $isWeeklyDebriefOpen, weeklyDebrief: weeklyDebrief)
+                WeeklyDebriefView(openedWeeklyDebrief: $isWeeklyDebriefOpen,
+                                  urlIsOpen: $openedUrl,
+                                  articleURL: $onOpenArticleUrl,
+                                  weeklyDebrief: weeklyDebrief)
             }
         }
     }

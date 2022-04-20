@@ -11,7 +11,7 @@ import AppDevAnnouncements
 import SwiftUI
 
 struct MainView: View {
-    @State private var selectedTab: Tab = .home
+    @State private var selectedTab: Screen = .home
     @State private var tabBarHeight: CGFloat = 75
     @EnvironmentObject private var notifications: Notifications
     @EnvironmentObject private var networkState: NetworkState
@@ -21,22 +21,22 @@ struct MainView: View {
             TabContainer(screen: .homeList) {
                 HomeList()
             }
-            .tag(Tab.home)
+            .tag(Screen.home)
 
             TabContainer(screen: .magazinesList) {
                 MagazinesList()
             }
-            .tag(Tab.magazines)
+            .tag(Screen.magazines)
 
             TabContainer(screen: .publicationList) {
                 PublicationList()
             }
-            .tag(Tab.publications)
+            .tag(Screen.publications)
             
             TabContainer(screen: .bookmarksList) {
                 BookmarksList()
             }
-            .tag(Tab.bookmarks)
+            .tag(Screen.bookmarks)
         }
     }
     
@@ -110,8 +110,8 @@ struct MainView: View {
 
 extension MainView {
     /// An enum to keep track of which tab the user is currently on
-    private enum Tab {
-        case home, magazines, publications, bookmarks
+    private enum Screen {
+        case home, magazines, publications, bookmarks, weeklyDebriefPopup
     }
     
     enum TabState<Results> {

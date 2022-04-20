@@ -16,6 +16,25 @@ struct DebriefArticleView: View {
     @EnvironmentObject private var userData: UserData
     let header: String
     let article: Article
+    
+    @Binding private var isDebriefOpen: Bool
+    @Binding private var isURLOpen: Bool
+    @Binding private var articleID: String?
+    
+    let buttonSize: CGFloat = 44
+    let buttonLabelHeight: CGFloat = 21
+    let buttonSpacing: CGFloat = 56
+    let bodySpacing: CGFloat = 30
+    let bodyFrameSize: CGFloat = 275
+    let bodyFrameHeight: CGFloat = 435
+    
+    init(header: String, article: Article, isDebriefOpen: Binding<Bool>, isURLOpen: Binding<Bool>, articleID: Binding<String?>) {
+        self.header = header
+        self.article = article
+        _isDebriefOpen = isDebriefOpen
+        _isURLOpen = isURLOpen
+        _articleID = articleID
+    }
 
     var saveButton: some View {
         Button {
@@ -29,11 +48,11 @@ struct DebriefArticleView: View {
             Image(systemName: "bookmark")
                 .resizable()
                 .scaledToFit()
-                .frame(height: 21)
+                .frame(height: buttonLabelHeight)
                 .accentColor(userData.isArticleSaved(article) ? .white : .volume.orange)
                 .background(userData.isArticleSaved(article) ? Color.volume.orange : Color.white)
         }
-        .frame(width: 44, height: 44)
+        .frame(width: buttonSize, height: buttonSize)
         .background(userData.isArticleSaved(article) ? Color.volume.orange : Color.white)
         .overlay(Circle().stroke(Color.volume.orange, lineWidth: 4))
         .clipShape(Circle())
@@ -47,7 +66,7 @@ struct DebriefArticleView: View {
             Image(systemName: "square.and.arrow.up")
                 .foregroundColor(.volume.orange)
         }
-        .frame(width: 44, height: 44)
+        .frame(width: buttonSize, height: buttonSize)
         .overlay(Circle().stroke(Color.volume.orange, lineWidth: 4))
         .clipShape(Circle())
     }
@@ -61,46 +80,54 @@ struct DebriefArticleView: View {
                 .foregroundColor(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]) > 0 ? .white : .volume.orange)
                 .background(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]) > 0 ? Color.volume.orange : Color.white)
                 .scaledToFit()
-                .frame(height: 21)
+                .frame(height: buttonLabelHeight)
         }
-        .frame(width: 44, height: 44)
+        .frame(width: buttonSize, height: buttonSize)
         .background(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]) > 0 ? Color.volume.orange : Color.white)
         .overlay(Circle().stroke(Color.volume.orange, lineWidth: 4))
         .clipShape(Circle())
     }
     
     var body: some View {
-        VStack(spacing: 30) {
+        VStack(spacing: bodySpacing) {
             Header(header, .center)
                 .padding(.top, 24)
             
-            VStack(spacing: 16) {
-                if let url = article.imageUrl {
-                    WebImage(url: url)
-                        .resizable()
-                        .grayBackground()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 275, height: 275)
-                        .clipped()
-                } else {
-                    WebImage(url: article.publication.profileImageUrl)
-                        .resizable()
-                        .grayBackground()
-                        .frame(width: 275, height: 275)
-                        .padding(30)
+            NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: .weeklyDebrief)) {
+                VStack(spacing: 16) {
+                    if let url = article.imageUrl {
+                        WebImage(url: url)
+                            .resizable()
+                            .grayBackground()
+                            .frame(width: bodyFrameSize, height: bodyFrameSize)
+                            .clipped()
+                            .scaledToFill()
+                    } else {
+                        WebImage(url: article.publication.profileImageUrl)
+                            .resizable()
+                            .grayBackground()
+                            .frame(width: bodyFrameSize, height: bodyFrameSize)
+                            .padding(bodySpacing)
+                    }
+                    ArticleInfo(article: article, showsPublicationName: true, largeFont: true)
+                }
+                .onTapGesture {
+                    isDebriefOpen = false
+                    isURLOpen = true
+                    articleID = article.id
                 }
                 ArticleInfo(article: article, showsPublicationName: true, largeFont: true)
             }
-            .frame(width: 275, height: 435)
+            .frame(width: bodyFrameSize, height: bodyFrameHeight)
             .accentColor(.black)
             
-            HStack(spacing: 56) {
+            HStack(spacing: buttonSpacing) {
                 saveButton
                 shareButton
                 shoutoutButton
             }
-            .padding([.leading, .trailing], 65)
-            .padding(.top, 30)
+            .padding(.horizontal, 65)
+            .padding(.top, bodySpacing)
             Spacer()
         }
     }
