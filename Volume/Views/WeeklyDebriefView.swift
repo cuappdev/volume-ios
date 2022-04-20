@@ -31,7 +31,6 @@ struct WeeklyDebriefView: View {
     @State private var cancellableShoutoutMutation: AnyCancellable?
     @State private var state: MainView.TabState<WeeklyDebriefDisplayInfo> = .loading
     
-
     init(openedWeeklyDebrief: Binding<Bool>, urlIsOpen: Binding<Bool>, articleURL: Binding<String?>, weeklyDebrief: WeeklyDebrief) {
         _isOpen = openedWeeklyDebrief
         self.weeklyDebrief = weeklyDebrief
@@ -66,9 +65,9 @@ struct WeeklyDebriefView: View {
                                 .font(.newYorkRegular(size: 16))
                             Spacer()
                         }
-                        StatisticView(image: "volume", leftText: "read", number: debriefDisplayInfo.numReadArticles, rightText: "articles")
-                        StatisticView(image: "shout-out", leftText: "gave", number: debriefDisplayInfo.numShoutouts, rightText: "shout-outs")
-                        StatisticView(image: "bookmark", leftText: "bookmarked", number: debriefDisplayInfo.numBookmarkedArticles, rightText: "articles")
+                        StatisticView(image: .volume.feed, leftText: "read", number: debriefDisplayInfo.numReadArticles, rightText: "articles")
+                        StatisticView(image: .volume.shoutout, leftText: "gave", number: debriefDisplayInfo.numShoutouts, rightText: "shout-outs")
+                        StatisticView(image: .volume.bookmark, leftText: "bookmarked", number: debriefDisplayInfo.numBookmarkedArticles, rightText: "articles")
                         HStack {
                             Text("You were among the top ")
                                 .font(.newYorkRegular(size: 16)) +
@@ -161,7 +160,7 @@ struct WeeklyDebriefView: View {
         cancellableArticleQuery = Network.shared.publisher(for: GetArticleByIdQuery(id: ids[recievedArticles]))
             .sink { completion in
                 if case let .failure(error) = completion {
-                    print(error.localizedDescription)
+                    print("Error: article retrieval failed for \(ids[recievedArticles]): ", error.localizedDescription)
                 }
             }
             receiveValue: { articleFields in
@@ -206,7 +205,7 @@ struct WeeklyDebriefView: View {
         let firstDay = weeklyDebrief.creationDate.simpleString
         let lastDay = weeklyDebrief.expirationDate.simpleString
         
-        message.append(contentsOf: ", " + firstDay + " - " + lastDay)
+        message.append(contentsOf: ", \(firstDay) - \(lastDay)")
         
         return message
     }
