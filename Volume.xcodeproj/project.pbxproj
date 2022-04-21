@@ -200,18 +200,18 @@
 		063EED21257BF853002136EE /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
-				95AC9DCE2637C120000B4BEE /* Main.swift */,
-				06662887257F204E006FEBCF /* Secrets.swift */,
-				95E4DA482638816500584E5C /* LinkItemSource.swift */,
-				06DBC683257DE35F00B6A453 /* UserData.swift */,
+				3334F49F2705269800CF0987 /* AppDelegate.swift */,
 				7E9E473126294423007E8E6C /* Constants.swift */,
-				95F1DC892608F4DD000B3D91 /* GoogleService-Info.plist */,
+				95E4DA482638816500584E5C /* LinkItemSource.swift */,
+				95AC9DCE2637C120000B4BEE /* Main.swift */,
+				33538BF12745DD27009DD191 /* Notifications.swift */,
+				06662887257F204E006FEBCF /* Secrets.swift */,
+				06DBC683257DE35F00B6A453 /* UserData.swift */,
 				7ED7C341252D117B0078B1BD /* LaunchScreen.storyboard */,
 				063EED22257BF870002136EE /* Podfile */,
+				95F1DC892608F4DD000B3D91 /* GoogleService-Info.plist */,
 				7ED7C344252D117B0078B1BD /* Info.plist */,
 				7E369E1625EED97500FC0419 /* Secrets.plist */,
-				3334F49F2705269800CF0987 /* AppDelegate.swift */,
-				33538BF12745DD27009DD191 /* Notifications.swift */,
 			);
 			path = Supporting;
 			sourceTree = "<group>";
