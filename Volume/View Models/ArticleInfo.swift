@@ -13,36 +13,37 @@ struct ArticleInfo: View {
 
     let article: Article
     let showsPublicationName: Bool
-    let largeFont: Bool
+    let isDebrief: Bool
 
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 0) {
                 if showsPublicationName {
                     Text(article.publication.name)
-                        .font(largeFont ? .newYorkMedium(size: 16) : .newYorkMedium(size: 12))
-                        .padding(.bottom, largeFont ? 3.5 : 1.5)
+                        .font(isDebrief ? .newYorkMedium(size: 18) : .newYorkMedium(size: 12))
+                        .padding(.bottom, isDebrief ? 3.5 : 1.5)
                         .multilineTextAlignment(.leading)
                 }
 
                 Text(article.title)
-                    .font(largeFont ? .helveticaNeueMedium(size: 24) : .helveticaNeueMedium(size: 16))
+                    .font(isDebrief ? .helveticaNeueMedium(size: 24) : .helveticaNeueMedium(size: 16))
                     .lineLimit(3)
                     .padding(.top, 0.5)
                     .blur(radius: article.isNsfw ? 3 : 0)
                     .multilineTextAlignment(.leading)
-                
+
                 Spacer()
-                HStack {
+
+                HStack(alignment: .firstTextBaseline) {
                     // swiftlint:disable:next line_length
                     Text("\(article.date.fullString) • \(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0])) shout-outs")
-                        .font(largeFont ? .helveticaRegular(size: 14) : .helveticaRegular(size: 10))
+                        .font(isDebrief ? .helveticaRegular(size: 14) : .helveticaRegular(size: 10))
                         .foregroundColor(.volume.lightGray)
                     if userData.isArticleSaved(article) {
                         Image(systemName: "bookmark.fill")
                             .resizable()
                             .foregroundColor(.volume.orange)
-                            .frame(width: largeFont ? 9 : 8, height: largeFont ? 12 : 11)
+                            .frame(width: isDebrief ? 9 : 8, height: isDebrief ? 12 : 11)
                     }
                 }
             }

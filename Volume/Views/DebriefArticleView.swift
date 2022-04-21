@@ -109,14 +109,13 @@ struct DebriefArticleView: View {
                             .frame(width: bodyFrameSize, height: bodyFrameSize)
                             .padding(bodySpacing)
                     }
-                    ArticleInfo(article: article, showsPublicationName: true, largeFont: true)
+                    ArticleInfo(article: article, showsPublicationName: true, isDebrief: true)
                 }
                 .onTapGesture {
                     isDebriefOpen = false
                     isURLOpen = true
                     articleID = article.id
                 }
-                ArticleInfo(article: article, showsPublicationName: true, largeFont: true)
             }
             .frame(width: bodyFrameSize, height: bodyFrameHeight)
             .accentColor(.black)
