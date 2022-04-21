@@ -186,8 +186,8 @@
 			isa = PBXGroup;
 			children = (
 				A2532AF227B5A37200A88B82 /* API.swift */,
-				A2532AF027B5A34500A88B82 /* schema.json */,
 				063EED24257BF8A7002136EE /* Network.swift */,
+				A2532AF027B5A34500A88B82 /* schema.json */,
 				063EED49257BFDA9002136EE /* PublicationsQueries.graphql */,
 				06B80CFB257D9E9700F3BF9B /* ArticlesQueries.graphql */,
 				0685AAA3259EC2AF00DD55C4 /* ArticlesMutations.graphql */,
