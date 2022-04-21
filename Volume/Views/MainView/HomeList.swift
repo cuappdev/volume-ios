@@ -10,11 +10,11 @@ import Combine
 import SwiftUI
 
 struct HomeList: View {
-    @State private var sectionStates: SectionStates = (.loading, .loading, .loading, .loading)
-    @State private var sectionQueries: SectionQueries = (nil, nil, nil)
+    @State private var isWeeklyDebriefOpen = false
     @State private var openedUrl = false
     @State private var onOpenArticleUrl: String?
-    @State private var isWeeklyDebriefOpen = false
+    @State private var sectionStates: SectionStates = (.loading, .loading, .loading, .loading)
+    @State private var sectionQueries: SectionQueries = (nil, nil, nil)
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var notifications: Notifications
     @EnvironmentObject private var userData: UserData

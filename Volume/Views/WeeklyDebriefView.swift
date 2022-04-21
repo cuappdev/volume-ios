@@ -20,6 +20,7 @@ struct WeeklyDebriefView: View {
     @Binding var openedURL: Bool
     @Binding var onOpenArticleUrl: String?
     @State private var cancellableArticleQueries = [ArticleID : AnyCancellable]()
+    @State private var currentPage: Int = 0
     @State private var articleStates = [ArticleID : MainView.TabState<Article>]()
     
     let weeklyDebrief: WeeklyDebrief
@@ -113,15 +114,18 @@ struct WeeklyDebriefView: View {
     }
     
     var body: some View {
-        TabView {
+        TabView(selection: $currentPage) {
             debriefSummary
+                .tag(0)
             
-            ForEach(weeklyDebrief.readArticleIDs, id: \.self) { id in
-                makeDebriefArticleView(articleID: id, header: "Share What You Read")
+            ForEach(weeklyDebrief.readArticleIDs.indices, id: \.self) { idx in
+                makeDebriefArticleView(articleID: weeklyDebrief.readArticleIDs[idx], header: "Share What You Read")
+                    .tag(1 + idx)
             }
             
-            ForEach(weeklyDebrief.randomArticleIDs, id: \.self) { id in
-                makeDebriefArticleView(articleID: id, header: "Top Articles of the Week")
+            ForEach(weeklyDebrief.randomArticleIDs.indices, id: \.self) { idx in
+                makeDebriefArticleView(articleID: weeklyDebrief.randomArticleIDs[idx], header: "Top Articles of the Week")
+                    .tag(1 + weeklyDebrief.readArticleIDs.count + idx)
             }
             
             debriefConclusion
