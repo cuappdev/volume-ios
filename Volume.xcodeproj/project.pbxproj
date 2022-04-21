@@ -184,13 +184,6 @@
 			path = Volume/Views/Onboarding;
 			sourceTree = SOURCE_ROOT;
 		};
-		06379C76256725C900FC185A /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Fonts;
-			sourceTree = "<group>";
-		};
 		063EED20257BF82E002136EE /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -370,7 +363,6 @@
 				7ED7C33C252D117B0078B1BD /* Assets.xcassets */,
 				7E23DFD4254A05F80001C3A3 /* Extensions */,
 				063EED21257BF853002136EE /* Supporting */,
-				06379C76256725C900FC185A /* Fonts */,
 				7ED7C33E252D117B0078B1BD /* Preview Content */,
 			);
 			path = Volume;
