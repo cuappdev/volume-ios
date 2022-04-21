@@ -278,11 +278,16 @@ struct BrowserView: View {
     private func markArticleRead(id: String) {
         guard let uuid = userData.uuid else { return }
         cancellableReadMutation = Network.shared.publisher(for: ReadArticleMutation(id: id, uuid: uuid))
+            .map { $0.readArticle?.id }
             .sink { completion in
                 if case let .failure(error) = completion {
                     print("Error: ReadArticleMutation failed on BrowserView: \(error.localizedDescription)")
                 }
-            } receiveValue: { _ in }
+            } receiveValue: { id in
+                #if DEBUG
+                print("Marked article read with ID: \(id ?? "nil")")
+                #endif
+            }
     }
 
     func displayShareScreen(for article: Article) {

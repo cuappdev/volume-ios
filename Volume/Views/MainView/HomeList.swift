@@ -36,10 +36,13 @@ struct HomeList: View {
         fetchTrendingArticles(done)
         fetchFeedArticles()
         
-        if let expirationDate = userData.weeklyDebrief?.expirationDate {
-            if expirationDate < Date() {
+        if let weeklyDebrief = userData.weeklyDebrief {
+            if weeklyDebrief.expirationDate < Date() {
                 // Cached WD expired, query new one
                 fetchWeeklyDebrief()
+            } else {
+                // Cached WD still fresh, stop loading state
+                sectionStates.weeklyDebrief = .results(weeklyDebrief)
             }
         } else {
             // No existing WD, query new one
