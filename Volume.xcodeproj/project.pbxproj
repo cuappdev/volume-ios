@@ -306,8 +306,8 @@
 				7EA73D30254CA7E1009E8F9F /* ArticleInfo.swift */,
 				7EA73D21254C9C21009E8F9F /* ArticleRow.swift */,
 				7EA73D24254C9C5B009E8F9F /* BigReadArticleRow.swift */,
-				A2A5CC0F27D567EA0000F377 /* MagazineCell.swift */,
 				7E8658B4254B7FF2002DEE68 /* FollowingPublicationRow.swift */,
+				A2A5CC0F27D567EA0000F377 /* MagazineCell.swift */,
 				7E8658AA254B71D7002DEE68 /* MorePublicationRow.swift */,
 				7E9E4718262808AC007E8E6C /* SettingsPageRow.swift */,
 			);
