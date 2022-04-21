@@ -254,11 +254,11 @@
 			children = (
 				7E23DFD1254A05EF0001C3A3 /* Color+Extension.swift */,
 				7E416C2E2561D47C0010D70B /* Date+Extension.swift */,
-				95AC9DC62637BFF8000B4BEE /* Url+Extension.swift */,
 				061DB39625571D760038BEF5 /* Font+Extension.swift */,
-				335E692527DFDC2700FBDE3A /* UIFont+Extension.swift */,
-				06B80D12257DC18600F3BF9B /* WebImage+Extension.swift */,
 				331159D627D41C89003B0F06 /* Image+Extensions.swift */,
+				335E692527DFDC2700FBDE3A /* UIFont+Extension.swift */,
+				95AC9DC62637BFF8000B4BEE /* Url+Extension.swift */,
+				06B80D12257DC18600F3BF9B /* WebImage+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
