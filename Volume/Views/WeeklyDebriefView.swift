@@ -129,6 +129,7 @@ struct WeeklyDebriefView: View {
             }
             
             debriefConclusion
+                .tag(1 + weeklyDebrief.readArticleIDs.count + weeklyDebrief.randomArticleIDs.count)
         }
         .tabViewStyle(PageTabViewStyle())
         .onAppear {
