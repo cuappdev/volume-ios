@@ -16,30 +16,15 @@ import WebKit
 
 struct WeeklyDebriefView: View {
     @EnvironmentObject private var userData: UserData
-    
-    let weeklyDebrief: WeeklyDebrief
-    
-    @Binding private var isOpen: Bool
-    
-    @Binding private var openedURL: Bool
-    @Binding private var onOpenArticleUrl: String?
-    
-    let initType: WeeklyDebriefViewInitType
-    
+    @Binding var isOpen: Bool
+    @Binding var openedURL: Bool
+    @Binding var onOpenArticleUrl: String?
     @State private var cancellableArticleQuery: AnyCancellable?
     @State private var cancellableReadMutation: AnyCancellable?
     @State private var cancellableShoutoutMutation: AnyCancellable?
     @State private var state: MainView.TabState<WeeklyDebriefDisplayInfo> = .loading
     
-    init(openedWeeklyDebrief: Binding<Bool>, urlIsOpen: Binding<Bool>, articleURL: Binding<String?>, weeklyDebrief: WeeklyDebrief) {
-        _isOpen = openedWeeklyDebrief
-        self.weeklyDebrief = weeklyDebrief
-        
-        self.initType = .fetchRequired
-        
-        _openedURL = urlIsOpen
-        _onOpenArticleUrl = articleURL
-    }
+    let weeklyDebrief: WeeklyDebrief
     
     func makeView(debriefDisplayInfo: WeeklyDebriefDisplayInfo) -> some View {
         VStack {
@@ -47,6 +32,7 @@ struct WeeklyDebriefView: View {
                 .fill(Color.secondary)
                 .frame(width: 64, height: 3)
                 .padding(10)
+            
             TabView {
                 VStack {
                     Image.volume.logo
@@ -56,18 +42,23 @@ struct WeeklyDebriefView: View {
                     Text(getWeekString())
                         .padding(.vertical, 32)
                         .font(.newYorkMedium(size: 16))
+                    
                     Divider()
                         .frame(width: 100)
                         .padding(.bottom, 48)
+                    
                     VStack(spacing: 24) {
                         HStack {
                             Text("In the past week, you...")
                                 .font(.newYorkRegular(size: 16))
+                            
                             Spacer()
                         }
+                        
                         StatisticView(image: .volume.feed, leftText: "read", number: debriefDisplayInfo.numReadArticles, rightText: "articles")
                         StatisticView(image: .volume.shoutout, leftText: "gave", number: debriefDisplayInfo.numShoutouts, rightText: "shout-outs")
                         StatisticView(image: .volume.bookmark, leftText: "bookmarked", number: debriefDisplayInfo.numBookmarkedArticles, rightText: "articles")
+                        
                         HStack {
                             Text("You were among the top ")
                                 .font(.newYorkRegular(size: 16)) +
@@ -76,18 +67,23 @@ struct WeeklyDebriefView: View {
                                 .foregroundColor(.volume.orange) +
                             Text("active readers last week!")
                                 .font(.newYorkRegular(size: 16))
+                            
                             Spacer()
                         }
+                        
                         HStack {
                             Text("Keep up the volume! 📣")
                                 .font(.newYorkRegular(size: 16))
                                 .frame(alignment: .leading)
+                            
                             Spacer()
                         }
                     }
                     .padding(.horizontal, 48)
+                    
                     Spacer()
                 }
+                
                 ForEach(debriefDisplayInfo.readArticles) { article in
                     DebriefArticleView(header: "Share What You Read",
                                        article: article,
@@ -95,6 +91,7 @@ struct WeeklyDebriefView: View {
                                        isURLOpen: $openedURL,
                                        articleID: $onOpenArticleUrl)
                 }
+                
                 ForEach(debriefDisplayInfo.randomArticles) { article in
                     DebriefArticleView(header: "Top Articles of the Week",
                                        article: article,
@@ -102,9 +99,11 @@ struct WeeklyDebriefView: View {
                                        isURLOpen: $openedURL,
                                        articleID: $onOpenArticleUrl)
                 }
+                
                 VStack {
                     Header("See You Next Week!", .center)
                         .padding(.top, 24)
+                    
                     VStack {
                         Image.volume.logo
                             .resizable()
@@ -113,6 +112,7 @@ struct WeeklyDebriefView: View {
                             .font(.newYorkRegular(size: 16))
                     }
                     .padding(.top, 200)
+                    
                     Button {
                         isOpen = false
                     } label: {
@@ -179,7 +179,6 @@ struct WeeklyDebriefView: View {
     }
     
     private func fetchInfoFor(debrief: WeeklyDebrief) {
-        
         let startingDisplayInfo = WeeklyDebriefDisplayInfo(
             creationDate: debrief.creationDate,
             expirationDate: debrief.expirationDate,
@@ -200,26 +199,11 @@ struct WeeklyDebriefView: View {
      * Creates a date string for the past week
      */
     private func getWeekString() -> String {
-        var message = "Your weekly debrief"
-        
-        let firstDay = weeklyDebrief.creationDate.simpleString
-        let lastDay = weeklyDebrief.expirationDate.simpleString
-        
-        message.append(contentsOf: ", \(firstDay) - \(lastDay)")
-        
-        return message
+        return "Your weekly debrief, \(weeklyDebrief.creationDate.simpleString) - \(weeklyDebrief.expirationDate.simpleString)"
     }
 }
 
 extension WeeklyDebriefView {
-    private enum WeeklyDebriefViewState<Result> {
-        case loading, results(Result)
-    }
-    
-    enum WeeklyDebriefViewInitType {
-        case readyForDisplay(WeeklyDebrief), fetchRequired
-    }
-    
     struct WeeklyDebriefDisplayInfo {
         var creationDate: Date
         var expirationDate: Date
