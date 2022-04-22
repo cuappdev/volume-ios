@@ -20,13 +20,13 @@ struct ArticleInfo: View {
             VStack(alignment: .leading, spacing: 0) {
                 if showsPublicationName {
                     Text(article.publication.name)
-                        .font(isDebrief ? .newYorkMedium(size: 18) : .newYorkMedium(size: 12))
+                        .font(.newYorkMedium(size: isDebrief ? 18 : 12))
                         .padding(.bottom, isDebrief ? 3.5 : 1.5)
                         .multilineTextAlignment(.leading)
                 }
 
                 Text(article.title)
-                    .font(isDebrief ? .helveticaNeueMedium(size: 24) : .helveticaNeueMedium(size: 16))
+                    .font(.helveticaNeueMedium(size: isDebrief ? 24 : 16))
                     .lineLimit(3)
                     .padding(.top, 0.5)
                     .blur(radius: article.isNsfw ? 3 : 0)
@@ -37,10 +37,10 @@ struct ArticleInfo: View {
                 HStack(alignment: .firstTextBaseline) {
                     // swiftlint:disable:next line_length
                     Text("\(article.date.fullString) • \(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0])) shout-outs")
-                        .font(isDebrief ? .helveticaRegular(size: 14) : .helveticaRegular(size: 10))
+                        .font(.helveticaRegular(size: isDebrief ? 14 : 10) )
                         .foregroundColor(.volume.lightGray)
                     if userData.isArticleSaved(article) {
-                        Image(systemName: "bookmark.fill")
+                        Image.volume.bookmark
                             .resizable()
                             .foregroundColor(.volume.orange)
                             .frame(width: isDebrief ? 9 : 8, height: isDebrief ? 12 : 11)
