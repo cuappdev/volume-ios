@@ -170,25 +170,30 @@ extension DebriefArticleView {
                     .frame(width: 217, height: 42)
                     .padding(.top, 24)
                     .padding(.bottom, 30)
+                    .cornerRadius(5)
 
                 VStack(spacing: 16) {
                     // Image
                     SkeletonView()
                         .frame(width: bodyFrameSize, height: bodyFrameSize)
+                        .cornerRadius(5)
 
                     // ArticleInfo
                     ArticleInfo
                         .Skeleton(showsPublicationName: true, isDebrief: true)
                 }
                 .frame(width: bodyFrameSize, height: bodyFrameHeight)
+                .cornerRadius(5)
 
                 Spacer()
 
                 // Buttons
                 HStack(spacing: buttonSpacing) {
-                    SkeletonView().frame(width: buttonSize, height: buttonSize)
-                    SkeletonView().frame(width: buttonSize, height: buttonSize)
-                    SkeletonView().frame(width: buttonSize, height: buttonSize)
+                    ForEach((1...3), id: \.self) {_ in
+                        SkeletonView()
+                            .frame(width: buttonSize, height: buttonSize)
+                            .cornerRadius(buttonSize / 2)
+                    }
                 }
                 .padding(.horizontal, 65)
                 .padding(.bottom, 100)
