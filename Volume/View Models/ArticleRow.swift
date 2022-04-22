@@ -23,7 +23,7 @@ struct ArticleRow: View {
     var body: some View {
         let imageSize: CGFloat = showsPublicationName ? 100 : 80
         HStack(spacing: 20) {
-            ArticleInfo(article: article, showsPublicationName: showsPublicationName, largeFont: false)
+            ArticleInfo(article: article, showsPublicationName: showsPublicationName, isDebrief: false)
 
             if let url = article.imageUrl {
                 WebImage(url: url)
