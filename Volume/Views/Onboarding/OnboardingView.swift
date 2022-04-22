@@ -138,7 +138,9 @@ struct OnboardingView: View {
     
     private func createUser() {
         guard let fcmToken = userData.fcmToken else {
+            #if DEBUG
             print("Error: received nil for fcmToken from UserData")
+            #endif
             return
         }
         
@@ -151,6 +153,9 @@ struct OnboardingView: View {
                 }
             } receiveValue: { uuid in
                 userData.uuid = uuid
+                #if DEBUG
+                print("User successfully created with UUID: \(uuid)")
+                #endif
                 withAnimation(.spring()) {
                     isFirstLaunch = false
                 }

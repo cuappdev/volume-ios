@@ -152,7 +152,7 @@ class NetworkState: ObservableObject {
     func handleCompletion(screen: Screen, _ completion: Subscribers.Completion<WrappedGraphQLError>) {
         if case let .failure(error) = completion {
             networkScreenFailed[screen] = true
-            print("Error on \(screen.rawValue): \(error)")
+            print("Error on \(screen.rawValue): \(error.localizedDescription)")
         } else {
             networkScreenFailed[screen] = false
         }
