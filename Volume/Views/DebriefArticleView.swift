@@ -11,6 +11,13 @@ import Combine
 import SDWebImageSwiftUI
 import SwiftUI
 
+let buttonSize: CGFloat = 44
+let buttonLabelHeight: CGFloat = 21
+let buttonSpacing: CGFloat = 56
+let bodySpacing: CGFloat = 30
+let bodyFrameSize: CGFloat = 275
+let bodyFrameHeight: CGFloat = 435
+
 struct DebriefArticleView: View {
     @State private var cancellableShoutoutMutation: AnyCancellable?
     @EnvironmentObject private var userData: UserData
@@ -20,13 +27,6 @@ struct DebriefArticleView: View {
     @Binding private var isDebriefOpen: Bool
     @Binding private var isURLOpen: Bool
     @Binding private var articleID: String?
-    
-    let buttonSize: CGFloat = 44
-    let buttonLabelHeight: CGFloat = 21
-    let buttonSpacing: CGFloat = 56
-    let bodySpacing: CGFloat = 30
-    let bodyFrameSize: CGFloat = 275
-    let bodyFrameHeight: CGFloat = 435
     
     init(header: String, article: Article, isDebriefOpen: Binding<Bool>, isURLOpen: Binding<Bool>, articleID: Binding<String?>) {
         self.header = header
@@ -89,9 +89,10 @@ struct DebriefArticleView: View {
     }
     
     var body: some View {
-        VStack(spacing: bodySpacing) {
+        VStack(spacing: 0) {
             Header(header, .center)
                 .padding(.top, 24)
+                .padding(.bottom, 30)
             
             NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: .weeklyDebrief)) {
                 VStack(spacing: 16) {
@@ -119,6 +120,8 @@ struct DebriefArticleView: View {
             }
             .frame(width: bodyFrameSize, height: bodyFrameHeight)
             .accentColor(.black)
+
+            Spacer()
             
             HStack(spacing: buttonSpacing) {
                 saveButton
@@ -126,8 +129,7 @@ struct DebriefArticleView: View {
                 shoutoutButton
             }
             .padding(.horizontal, 65)
-            .padding(.top, bodySpacing)
-            Spacer()
+            .padding(.bottom, 100)
         }
     }
 
@@ -156,6 +158,42 @@ struct DebriefArticleView: View {
                     print("Error: IncrementShoutoutsMutation failed on DebriefArticleView: \(error.localizedDescription)")
                 }
             }, receiveValue: { _ in })
+    }
+}
+
+extension DebriefArticleView {
+    struct Skeleton: View {
+        var body: some View {
+            VStack(spacing: 0) {
+                // Header
+                SkeletonView()
+                    .frame(width: 217, height: 42)
+                    .padding(.top, 24)
+                    .padding(.bottom, 30)
+
+                VStack(spacing: 16) {
+                    // Image
+                    SkeletonView()
+                        .frame(width: bodyFrameSize, height: bodyFrameSize)
+
+                    // ArticleInfo
+                    ArticleInfo
+                        .Skeleton(showsPublicationName: true, isDebrief: true)
+                }
+                .frame(width: bodyFrameSize, height: bodyFrameHeight)
+
+                Spacer()
+
+                // Buttons
+                HStack(spacing: buttonSpacing) {
+                    SkeletonView().frame(width: buttonSize, height: buttonSize)
+                    SkeletonView().frame(width: buttonSize, height: buttonSize)
+                    SkeletonView().frame(width: buttonSize, height: buttonSize)
+                }
+                .padding(.horizontal, 65)
+                .padding(.bottom, 100)
+            }
+        }
     }
 }
 

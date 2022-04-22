@@ -55,9 +55,11 @@ struct ArticleInfo: View {
 extension ArticleInfo {
     struct Skeleton: View {
         let showsPublicationName: Bool
+        let isDebrief: Bool
 
-        init(showsPublicationName: Bool = true) {
+        init(showsPublicationName: Bool = true, isDebrief: Bool = false) {
             self.showsPublicationName = showsPublicationName
+            self.isDebrief = isDebrief
         }
 
         var body: some View {
@@ -65,20 +67,23 @@ extension ArticleInfo {
                 VStack(alignment: .leading, spacing: 0) {
                     if showsPublicationName {
                         SkeletonView()
-                            .frame(width: 70, height: 14)
-                            .padding(.bottom, 3)
+                            .frame(width: 70, height: isDebrief ? 23 : 14)
+                            .padding(.bottom, isDebrief ? 4 : 3)
                     }
+
                     SkeletonView()
-                        .frame(height: 40)
+                        .frame(height: isDebrief ? 90 : 40)
+
                     Spacer()
-                    HStack(spacing: 0) {
+
+                    HStack(alignment: .firstTextBaseline) {
                         SkeletonView()
-                            .frame(width: 33, height: 10)
+                            .frame(width: 33, height: isDebrief ? 14 : 10)
                         Text(" • ")
                             .font(.helveticaRegular(size: 10))
                             .foregroundColor(.volume.veryLightGray)
                         SkeletonView()
-                            .frame(width: 70, height: 10)
+                            .frame(width: 70, height: isDebrief ? 14 : 10)
                     }
                 }
                 Spacer()

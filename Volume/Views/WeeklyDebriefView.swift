@@ -115,7 +115,7 @@ struct WeeklyDebriefView: View {
         Group {
             switch articleStates[articleID] {
             case .loading, .none:
-                BigReadArticleRow.Skeleton() // TODO: create DebriefArticleView.Skeleton
+                DebriefArticleView.Skeleton()
             case .reloading(let article), .results(let article):
                 DebriefArticleView(header: header, article: article, isDebriefOpen: $isOpen, isURLOpen: $openedURL, articleID: $onOpenArticleUrl)
             }
