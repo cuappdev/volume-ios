@@ -10,14 +10,14 @@ import Combine
 import SwiftUI
 
 struct HomeList: View {
-    @State private var isWeeklyDebriefOpen = false
-    @State private var openedUrl = false
-    @State private var onOpenArticleUrl: String?
-    @State private var sectionStates: SectionStates = (.loading, .loading, .loading, .loading)
-    @State private var sectionQueries: SectionQueries = (nil, nil, nil)
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var notifications: Notifications
     @EnvironmentObject private var userData: UserData
+    @State private var isWeeklyDebriefOpen = false
+    @State private var onOpenArticleUrl: String?
+    @State private var openedUrl = false
+    @State private var sectionQueries: SectionQueries = (nil, nil, nil)
+    @State private var sectionStates: SectionStates = (.loading, .loading, .loading, .loading)
 
     init() {
         let coloredAppearance = UINavigationBarAppearance()
@@ -138,7 +138,9 @@ struct HomeList: View {
     
     private func fetchWeeklyDebrief() {
         guard let uuid = userData.uuid else {
+            #if DEBUG
             print("Error: received nil UUID from UserData")
+            #endif
             return
         }
         
@@ -155,7 +157,9 @@ struct HomeList: View {
                     sectionStates.weeklyDebrief = .results(weeklyDebriefObject)
                     isWeeklyDebriefOpen = true
                 } else {
+                    #if DEBUG
                     print("Error: GetWeeklyDebrief failed on HomeList: field \"weeklyDebrief\" is nil.")
+                    #endif
                     sectionStates.weeklyDebrief = .results(nil)
                 }
             }
@@ -263,7 +267,8 @@ struct HomeList: View {
     
     var otherArticlesSection: some View {
         Group {
-            Header("Other Articles").padding()
+            Header("Other Articles")
+                .padding()
             
             switch sectionStates.otherArticles {
             case .loading:
@@ -346,7 +351,8 @@ struct HomeList: View {
                     isOpen: $isWeeklyDebriefOpen,
                     openedURL: $openedUrl,
                     onOpenArticleUrl: $onOpenArticleUrl,
-                    weeklyDebrief: weeklyDebrief)
+                    weeklyDebrief: weeklyDebrief
+                )
             }
         }
     }

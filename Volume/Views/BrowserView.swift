@@ -278,7 +278,7 @@ struct BrowserView: View {
     private func markArticleRead(id: String) {
         guard let uuid = userData.uuid else { return }
         cancellableReadMutation = Network.shared.publisher(for: ReadArticleMutation(id: id, uuid: uuid))
-            .map { $0.readArticle?.id }
+            .map(\.readArticle?.id)
             .sink { completion in
                 if case let .failure(error) = completion {
                     print("Error: ReadArticleMutation failed on BrowserView: \(error.localizedDescription)")

@@ -15,13 +15,13 @@ import SwiftUI
 import WebKit
 
 struct WeeklyDebriefView: View {
-    @EnvironmentObject private var userData: UserData
     @Binding var isOpen: Bool
-    @Binding var openedURL: Bool
     @Binding var onOpenArticleUrl: String?
+    @Binding var openedURL: Bool
+    @EnvironmentObject private var userData: UserData
+    @State private var articleStates = [ArticleID : MainView.TabState<Article>]()
     @State private var cancellableArticleQueries = [ArticleID : AnyCancellable]()
     @State private var currentPage: Int = 0
-    @State private var articleStates = [ArticleID : MainView.TabState<Article>]()
     
     let weeklyDebrief: WeeklyDebrief
     
@@ -108,7 +108,11 @@ struct WeeklyDebriefView: View {
             case .loading, .none:
                 BigReadArticleRow.Skeleton() // TODO: create DebriefArticleView.Skeleton
             case .reloading(let article), .results(let article):
-                DebriefArticleView(header: header, article: article, isDebriefOpen: $isOpen, isURLOpen: $openedURL, articleID: $onOpenArticleUrl)
+                DebriefArticleView(header: header,
+                                   article: article,
+                                   isDebriefOpen: $isOpen,
+                                   isURLOpen: $openedURL,
+                                   articleID: $onOpenArticleUrl)
             }
         }
     }
@@ -143,7 +147,7 @@ struct WeeklyDebriefView: View {
         }
     }
     
-    // MARK: - Network Requests
+    // MARK: Network Requests
     
     private func fetchDebriefArticles() {
         for id in weeklyDebrief.readArticleIDs + weeklyDebrief.randomArticleIDs {
@@ -154,14 +158,16 @@ struct WeeklyDebriefView: View {
     private func fetchArticle(articleID: ArticleID) {
         articleStates[articleID] = .loading
         cancellableArticleQueries[articleID] = Network.shared.publisher(for: GetArticleByIdQuery(id: articleID))
-            .map { $0.article?.fragments.articleFields }
+            .map(\.article?.fragments.articleFields)
             .sink { completion in
                 if case let .failure(error) = completion {
                     print("Error: GetArticleByIdQuery failed on WeeklyDebriefView: \(error.localizedDescription)")
                 }
             } receiveValue: { articleFields in
                 guard let articleFields = articleFields else {
+                    #if DEBUG
                     print("Error: received nil for articleID \(articleID) on WeeklyDebriefView")
+                    #endif
                     return
                 }
                 
