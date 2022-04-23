@@ -131,7 +131,9 @@ class UserData: ObservableObject {
 
     func set(article: Article, isSaved: Bool) {
         guard let uuid = uuid else {
+            #if DEBUG
             print("Error: received nil for UUID in set(article:isSaved)")
+            #endif
             return
         }
         

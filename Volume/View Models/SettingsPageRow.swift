@@ -24,6 +24,7 @@ struct SettingsPageRow: View {
                 .foregroundColor(.black)
             Spacer()
             Image.volume.backArrow
+                .foregroundColor(.black)
                 .rotationEffect(Angle(degrees: 180))
                 .padding()
         }
