@@ -52,20 +52,26 @@ class Notifications: NSObject, ObservableObject {
         #endif
         guard let notificationType = userInfo["notificationType"] as? String
         else {
+            #if DEBUG
             print("Error: data or notificationType not found in push notification payload")
+            #endif
             return
         }
         switch notificationType {
         case NotificationType.newArticle.rawValue:
             guard let articleID = userInfo["articleID"] as? String else {
+                #if DEBUG
                 print("Error: missing articleID in new article notification payload")
+                #endif
                 break
             }
             openArticle(id: articleID)
         case NotificationType.weeklyDebrief.rawValue:
             isWeeklyDebriefOpen = true
         default:
+            #if DEBUG
             print("Error: unknown notificationType: \(notificationType)")
+            #endif
             break
         }
     }
@@ -94,10 +100,14 @@ extension Notifications {
 extension Notifications: MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         if let fcmToken = fcmToken {
+            #if DEBUG
             print("Firebase Messaging registration token: \(fcmToken)")
+            #endif
             UserData.shared.fcmToken = fcmToken
         } else {
+            #if DEBUG
             print("Error: Firebase Messaging failed to register")
+            #endif
             UserData.shared.fcmToken = "debugSimulatorFCMToken"
         }
         

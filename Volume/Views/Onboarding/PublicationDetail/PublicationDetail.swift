@@ -59,27 +59,37 @@ struct PublicationDetail: View {
     private var backgroundImage: some View {
         ZStack {
             GeometryReader { geometry in
+                let scrollOffset = geometry.frame(in: .global).minY
+                let headerOffset = scrollOffset > 0 ? -scrollOffset : 0
+                let headerHeight = geometry.size.height + max(scrollOffset, 0)
+                
                 if let url = publication.backgroundImageUrl {
                     WebImage(url: url)
                         .resizable()
                         .grayBackground()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: geometry.size.width, height: 140)
+                        .scaledToFill()
+                        .frame(width: geometry.size.width, height: headerHeight)
                         .clipped()
+                        .offset(y: headerOffset)
                 } else {
                     Rectangle() // TODO: Custom image
-                        .frame(width: geometry.size.width, height: 140)
+                        .frame(width: geometry.size.width, height: headerHeight)
                         .foregroundColor(.blue)
+                        .offset(y: headerOffset)
                 }
             }
+            .frame(height: 140)
+            
             HStack {
                 VStack(alignment: .leading) {
                     Button(action: {
                         self.presentationMode.wrappedValue.dismiss()
                     }) {
                         Image.volume.backArrow
+                            .foregroundColor(.white)
                             .padding(.top, 55)
                             .padding(.leading, 20)
+                            .shadow(color: .black, radius: 4)
                     }
 
                     Spacer()
@@ -91,13 +101,13 @@ struct PublicationDetail: View {
                             .clipShape(Circle())
                             .frame(width: 60, height: 60)
                             .overlay(Circle().stroke(Color.white, lineWidth: 3))
-                            .shadow(color: .volume.shadowBlack, radius: 5, x: 0, y: 0)
+                            .shadow(color: .volume.shadowBlack, radius: 5)
                             .padding(.leading, 16)
                     } else {
                         Circle()
                             .frame(width: 60, height: 60)
                             .overlay(Circle().stroke(Color.white, lineWidth: 3))
-                            .shadow(color: .volume.shadowBlack, radius: 5, x: 0, y: 0)
+                            .shadow(color: .volume.shadowBlack, radius: 5)
                             .padding(.leading, 16)
                     }
                 }
@@ -139,17 +149,17 @@ struct PublicationDetail: View {
                     }
                 }
             }
-            .edgesIgnoringSafeArea(.top)
-            .navigationBarHidden(true)
             .disabled(isLoading)
         }
+        .edgesIgnoringSafeArea(.top)
+        .navigationBarHidden(true)
         .background(Color.white)
         .gesture(
-            DragGesture().updating($dragOffset, body: { value, _, _ in
+            DragGesture().updating($dragOffset) { value, _, _ in
                 if value.startLocation.x < 20 && value.translation.width > 100 {
                     presentationMode.wrappedValue.dismiss()
                 }
-            })
+            }
         )
         .onAppear(perform: fetch)
     }
