@@ -11,14 +11,17 @@ import Combine
 import SDWebImageSwiftUI
 import SwiftUI
 
-let buttonSize: CGFloat = 44
-let buttonLabelHeight: CGFloat = 21
-let buttonSpacing: CGFloat = 56
-let bodySpacing: CGFloat = 30
-let bodyFrameSize: CGFloat = 275
-let bodyFrameHeight: CGFloat = 435
+
 
 struct DebriefArticleView: View {
+
+    static let buttonSize: CGFloat = 44
+    static let buttonLabelHeight: CGFloat = 21
+    static let buttonSpacing: CGFloat = 56
+    static let bodySpacing: CGFloat = 30
+    static let bodyFrameSize: CGFloat = 275
+    static let bodyFrameHeight: CGFloat = 435
+
     @State private var cancellableShoutoutMutation: AnyCancellable?
     @EnvironmentObject private var userData: UserData
     let header: String
@@ -48,11 +51,11 @@ struct DebriefArticleView: View {
             Image(systemName: "bookmark")
                 .resizable()
                 .scaledToFit()
-                .frame(height: buttonLabelHeight)
+                .frame(height: Self.buttonLabelHeight)
                 .accentColor(userData.isArticleSaved(article) ? .white : .volume.orange)
                 .background(userData.isArticleSaved(article) ? Color.volume.orange : Color.white)
         }
-        .frame(width: buttonSize, height: buttonSize)
+        .frame(width: Self.buttonSize, height: Self.buttonSize)
         .background(userData.isArticleSaved(article) ? Color.volume.orange : Color.white)
         .overlay(Circle().stroke(Color.volume.orange, lineWidth: 4))
         .clipShape(Circle())
@@ -66,7 +69,7 @@ struct DebriefArticleView: View {
             Image(systemName: "square.and.arrow.up")
                 .foregroundColor(.volume.orange)
         }
-        .frame(width: buttonSize, height: buttonSize)
+        .frame(width: Self.buttonSize, height: Self.buttonSize)
         .overlay(Circle().stroke(Color.volume.orange, lineWidth: 4))
         .clipShape(Circle())
     }
@@ -80,9 +83,9 @@ struct DebriefArticleView: View {
                 .foregroundColor(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]) > 0 ? .white : .volume.orange)
                 .background(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]) > 0 ? Color.volume.orange : Color.white)
                 .scaledToFit()
-                .frame(height: buttonLabelHeight)
+                .frame(height: Self.buttonLabelHeight)
         }
-        .frame(width: buttonSize, height: buttonSize)
+        .frame(width: Self.buttonSize, height: Self.buttonSize)
         .background(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]) > 0 ? Color.volume.orange : Color.white)
         .overlay(Circle().stroke(Color.volume.orange, lineWidth: 4))
         .clipShape(Circle())
@@ -100,15 +103,15 @@ struct DebriefArticleView: View {
                         WebImage(url: url)
                             .resizable()
                             .grayBackground()
-                            .frame(width: bodyFrameSize, height: bodyFrameSize)
+                            .frame(width: Self.bodyFrameSize, height: Self.bodyFrameSize)
                             .clipped()
                             .scaledToFill()
                     } else {
                         WebImage(url: article.publication.profileImageUrl)
                             .resizable()
                             .grayBackground()
-                            .frame(width: bodyFrameSize, height: bodyFrameSize)
-                            .padding(bodySpacing)
+                            .frame(width: Self.bodyFrameSize, height: Self.bodyFrameSize)
+                            .padding(Self.bodySpacing)
                     }
                     ArticleInfo(article: article, showsPublicationName: true, isDebrief: true)
                 }
@@ -118,12 +121,12 @@ struct DebriefArticleView: View {
                     articleID = article.id
                 }
             }
-            .frame(width: bodyFrameSize, height: bodyFrameHeight)
+            .frame(width: Self.bodyFrameSize, height: Self.bodyFrameHeight)
             .accentColor(.black)
 
             Spacer()
             
-            HStack(spacing: buttonSpacing) {
+            HStack(spacing: Self.buttonSpacing) {
                 saveButton
                 shareButton
                 shoutoutButton
