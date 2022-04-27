@@ -82,14 +82,17 @@ struct WeeklyDebriefView: View {
             Header("See You Next Week!", .center)
                 .padding(.top, 24)
             
-            VStack {
+            VStack(spacing: 16) {
                 Image.volume.logo
                     .resizable()
                     .frame(width: 245, height: 75)
                 Text("Stay updated with Cornell student publications, all in one place")
                     .font(.newYorkRegular(size: 16))
+                    .multilineTextAlignment(.center)
             }
             .padding(.top, 200)
+
+            Spacer()
             
             Button {
                 isOpen = false
@@ -98,6 +101,13 @@ struct WeeklyDebriefView: View {
                     .foregroundColor(.volume.orange)
                     .font(.helveticaBold(size: 16))
             }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 10)
+            .overlay(RoundedRectangle(cornerRadius: 26)
+                .stroke(Color.volume.orange, lineWidth: 2))
+
+            Spacer()
+                .frame(height: 100)
         }
         .padding(.horizontal, 50)
     }
