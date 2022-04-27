@@ -80,7 +80,7 @@ struct DebriefArticleView: View {
         } label: {
             Image.volume.shoutout
                 .resizable()
-                .foregroundColor(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]) > 0 ? .white : .volume.orange)
+                .foregroundColor(isShoutoutsButtonEnabled ? .volume.orange : .white)
                 .background(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]) > 0 ? Color.volume.orange : Color.white)
                 .scaledToFit()
                 .frame(height: Self.buttonLabelHeight)
@@ -89,6 +89,7 @@ struct DebriefArticleView: View {
         .background(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]) > 0 ? Color.volume.orange : Color.white)
         .overlay(Circle().stroke(Color.volume.orange, lineWidth: 4))
         .clipShape(Circle())
+        .disabled(!isShoutoutsButtonEnabled)
     }
     
     var body: some View {
@@ -144,6 +145,10 @@ struct DebriefArticleView: View {
             let shareVC = UIActivityViewController(activityItems: [linkSource], applicationActivities: nil)
             presentingVC?.present(shareVC, animated: true, completion: nil)
         }
+    }
+
+    private var isShoutoutsButtonEnabled: Bool {
+        return userData.canIncrementShoutouts(article)
     }
 
     private func incrementShoutouts(for article: Article) {
