@@ -349,8 +349,8 @@ struct HomeList: View {
             if let weeklyDebrief = userData.weeklyDebrief {
                 WeeklyDebriefView(
                     isOpen: $isWeeklyDebriefOpen,
-                    openedURL: $openedUrl,
                     onOpenArticleUrl: $onOpenArticleUrl,
+                    openedURL: $openedUrl,
                     weeklyDebrief: weeklyDebrief
                 )
             }
