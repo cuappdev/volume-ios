@@ -183,7 +183,7 @@ extension DebriefArticleView {
 
                     // ArticleInfo
                     ArticleInfo
-                        .Skeleton(showsPublicationName: true, isDebrief: true)
+                        .Skeleton(isDebrief: true)
                 }
                 .frame(width: bodyFrameSize, height: bodyFrameHeight)
                 .cornerRadius(5)
@@ -192,7 +192,7 @@ extension DebriefArticleView {
 
                 // Buttons
                 HStack(spacing: buttonSpacing) {
-                    ForEach((1...3), id: \.self) {_ in
+                    ForEach(1...3, id: \.self) {_ in
                         SkeletonView()
                             .frame(width: buttonSize, height: buttonSize)
                             .cornerRadius(buttonSize / 2)
