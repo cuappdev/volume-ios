@@ -11,10 +11,7 @@ import Combine
 import SDWebImageSwiftUI
 import SwiftUI
 
-
-
 struct DebriefArticleView: View {
-
     static let buttonSize: CGFloat = 44
     static let buttonLabelHeight: CGFloat = 21
     static let buttonSpacing: CGFloat = 56
@@ -48,7 +45,7 @@ struct DebriefArticleView: View {
                     VolumeEvent.unbookmarkArticle.toEvent(.article, value: article.id, navigationSource: .weeklyDebrief)
             )
         } label: {
-            Image(systemName: "bookmark")
+            Image.volume.bookmark
                 .resizable()
                 .scaledToFit()
                 .frame(height: Self.buttonLabelHeight)
@@ -197,7 +194,7 @@ extension DebriefArticleView {
 
                 // Buttons
                 HStack(spacing: buttonSpacing) {
-                    ForEach(1...3, id: \.self) {_ in
+                    ForEach(1...3, id: \.self) { _ in
                         SkeletonView()
                             .frame(width: buttonSize, height: buttonSize)
                             .cornerRadius(buttonSize / 2)
