@@ -105,8 +105,9 @@ struct WeeklyDebriefView: View {
             .padding(.vertical, 10)
             .overlay(RoundedRectangle(cornerRadius: 26)
                 .stroke(Color.volume.orange, lineWidth: 2))
-
-            Spacer().frame(height: 100)
+          
+            Spacer()
+                .frame(height: 100)
         }
         .padding(.horizontal, 50)
     }
