@@ -12,6 +12,13 @@ import SDWebImageSwiftUI
 import SwiftUI
 
 struct DebriefArticleView: View {
+    static let buttonSize: CGFloat = 44
+    static let buttonLabelHeight: CGFloat = 21
+    static let buttonSpacing: CGFloat = 56
+    static let bodySpacing: CGFloat = 30
+    static let bodyFrameSize: CGFloat = 275
+    static let bodyFrameHeight: CGFloat = 435
+
     @State private var cancellableShoutoutMutation: AnyCancellable?
     @EnvironmentObject private var userData: UserData
     let header: String
@@ -20,13 +27,6 @@ struct DebriefArticleView: View {
     @Binding private var isDebriefOpen: Bool
     @Binding private var isURLOpen: Bool
     @Binding private var articleID: String?
-    
-    let buttonSize: CGFloat = 44
-    let buttonLabelHeight: CGFloat = 21
-    let buttonSpacing: CGFloat = 56
-    let bodySpacing: CGFloat = 30
-    let bodyFrameSize: CGFloat = 275
-    let bodyFrameHeight: CGFloat = 435
     
     init(header: String, article: Article, isDebriefOpen: Binding<Bool>, isURLOpen: Binding<Bool>, articleID: Binding<String?>) {
         self.header = header
@@ -45,14 +45,14 @@ struct DebriefArticleView: View {
                     VolumeEvent.unbookmarkArticle.toEvent(.article, value: article.id, navigationSource: .weeklyDebrief)
             )
         } label: {
-            Image(systemName: "bookmark")
+            Image.volume.bookmark
                 .resizable()
                 .scaledToFit()
-                .frame(height: buttonLabelHeight)
+                .frame(height: Self.buttonLabelHeight)
                 .accentColor(userData.isArticleSaved(article) ? .white : .volume.orange)
                 .background(userData.isArticleSaved(article) ? Color.volume.orange : Color.white)
         }
-        .frame(width: buttonSize, height: buttonSize)
+        .frame(width: Self.buttonSize, height: Self.buttonSize)
         .background(userData.isArticleSaved(article) ? Color.volume.orange : Color.white)
         .overlay(Circle().stroke(Color.volume.orange, lineWidth: 4))
         .clipShape(Circle())
@@ -66,7 +66,7 @@ struct DebriefArticleView: View {
             Image(systemName: "square.and.arrow.up")
                 .foregroundColor(.volume.orange)
         }
-        .frame(width: buttonSize, height: buttonSize)
+        .frame(width: Self.buttonSize, height: Self.buttonSize)
         .overlay(Circle().stroke(Color.volume.orange, lineWidth: 4))
         .clipShape(Circle())
     }
@@ -77,21 +77,23 @@ struct DebriefArticleView: View {
         } label: {
             Image.volume.shoutout
                 .resizable()
-                .foregroundColor(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]) > 0 ? .white : .volume.orange)
+                .foregroundColor(isShoutoutsButtonEnabled ? .volume.orange : .white)
                 .background(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]) > 0 ? Color.volume.orange : Color.white)
                 .scaledToFit()
-                .frame(height: buttonLabelHeight)
+                .frame(height: Self.buttonLabelHeight)
         }
-        .frame(width: buttonSize, height: buttonSize)
+        .frame(width: Self.buttonSize, height: Self.buttonSize)
         .background(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]) > 0 ? Color.volume.orange : Color.white)
         .overlay(Circle().stroke(Color.volume.orange, lineWidth: 4))
         .clipShape(Circle())
+        .disabled(!isShoutoutsButtonEnabled)
     }
     
     var body: some View {
-        VStack(spacing: bodySpacing) {
+        VStack(spacing: 0) {
             Header(header, .center)
                 .padding(.top, 24)
+                .padding(.bottom, 30)
             
             NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: .weeklyDebrief)) {
                 VStack(spacing: 16) {
@@ -99,15 +101,15 @@ struct DebriefArticleView: View {
                         WebImage(url: url)
                             .resizable()
                             .grayBackground()
-                            .frame(width: bodyFrameSize, height: bodyFrameSize)
+                            .frame(width: Self.bodyFrameSize, height: Self.bodyFrameSize)
                             .clipped()
                             .scaledToFill()
                     } else {
                         WebImage(url: article.publication.profileImageUrl)
                             .resizable()
                             .grayBackground()
-                            .frame(width: bodyFrameSize, height: bodyFrameSize)
-                            .padding(bodySpacing)
+                            .frame(width: Self.bodyFrameSize, height: Self.bodyFrameSize)
+                            .padding(Self.bodySpacing)
                     }
                     ArticleInfo(article: article, showsPublicationName: true, isDebrief: true)
                 }
@@ -117,17 +119,18 @@ struct DebriefArticleView: View {
                     articleID = article.id
                 }
             }
-            .frame(width: bodyFrameSize, height: bodyFrameHeight)
+            .frame(width: Self.bodyFrameSize, height: Self.bodyFrameHeight)
             .accentColor(.black)
+
+            Spacer()
             
-            HStack(spacing: buttonSpacing) {
+            HStack(spacing: Self.buttonSpacing) {
                 saveButton
                 shareButton
                 shoutoutButton
             }
             .padding(.horizontal, 65)
-            .padding(.top, bodySpacing)
-            Spacer()
+            .padding(.bottom, 100)
         }
     }
 
@@ -139,6 +142,10 @@ struct DebriefArticleView: View {
             let shareVC = UIActivityViewController(activityItems: [linkSource], applicationActivities: nil)
             presentingVC?.present(shareVC, animated: true, completion: nil)
         }
+    }
+
+    private var isShoutoutsButtonEnabled: Bool {
+        return userData.canIncrementShoutouts(article)
     }
 
     private func incrementShoutouts(for article: Article) {
@@ -156,6 +163,47 @@ struct DebriefArticleView: View {
                     print("Error: IncrementShoutoutsMutation failed on DebriefArticleView: \(error.localizedDescription)")
                 }
             }, receiveValue: { _ in })
+    }
+}
+
+extension DebriefArticleView {
+    struct Skeleton: View {
+        var body: some View {
+            VStack(spacing: 0) {
+                // Header
+                SkeletonView()
+                    .frame(width: 217, height: 42)
+                    .padding(.top, 24)
+                    .padding(.bottom, 30)
+                    .cornerRadius(5)
+
+                VStack(spacing: 16) {
+                    // Image
+                    SkeletonView()
+                        .frame(width: bodyFrameSize, height: bodyFrameSize)
+                        .cornerRadius(5)
+
+                    // ArticleInfo
+                    ArticleInfo
+                        .Skeleton(isDebrief: true)
+                }
+                .frame(width: bodyFrameSize, height: bodyFrameHeight)
+                .cornerRadius(5)
+
+                Spacer()
+
+                // Buttons
+                HStack(spacing: buttonSpacing) {
+                    ForEach(1...3, id: \.self) { _ in
+                        SkeletonView()
+                            .frame(width: buttonSize, height: buttonSize)
+                            .cornerRadius(buttonSize / 2)
+                    }
+                }
+                .padding(.horizontal, 65)
+                .padding(.bottom, 100)
+            }
+        }
     }
 }
 

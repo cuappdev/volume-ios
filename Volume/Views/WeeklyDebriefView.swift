@@ -105,7 +105,7 @@ struct WeeklyDebriefView: View {
             .padding(.vertical, 10)
             .overlay(RoundedRectangle(cornerRadius: 26)
                 .stroke(Color.volume.orange, lineWidth: 2))
-
+          
             Spacer()
                 .frame(height: 100)
         }
@@ -116,7 +116,7 @@ struct WeeklyDebriefView: View {
         Group {
             switch articleStates[articleID] {
             case .loading, .none:
-                BigReadArticleRow.Skeleton() // TODO: create DebriefArticleView.Skeleton
+                DebriefArticleView.Skeleton()
             case .reloading(let article), .results(let article):
                 DebriefArticleView(header: header,
                                    article: article,
