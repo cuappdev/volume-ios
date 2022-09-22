@@ -6,12 +6,11 @@ target 'Volume' do
   use_frameworks!
 
   # Pods for Volume
-  pod 'AppDevAnnouncements', :git => 'https://github.com/cuappdev/appdev-announcements.git'
   pod 'Apollo'
+  pod 'AppDevAnalytics', :git => 'https://github.com/cuappdev/analytics-ios.git', :commit => '5d459c0475'
+  pod 'AppDevAnnouncements', :git => 'https://github.com/cuappdev/appdev-announcements.git'
+  pod 'Firebase/Messaging'
   pod 'SDWebImageSwiftUI'
   pod 'SDWebImageSVGCoder'
-  pod 'SwiftUIRefresh'
-  pod 'AppDevAnalytics', :git => 'https://github.com/cuappdev/analytics-ios.git', :commit => '5d459c0475'
-  pod 'Firebase/Messaging'
 
 end
