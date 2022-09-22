@@ -45,7 +45,7 @@ struct PublicationList: View {
     private var someFollowedPublications: Bool {
         switch state {
         case .loading:
-            return userData.followedPublicationIDs.count > 0
+            return userData.followedPublicationSlugs.count > 0
         case .reloading(let results), .results(let results):
             return results.followedPublications.count > 0
         }
@@ -63,7 +63,7 @@ struct PublicationList: View {
                     switch state {
                     case .loading:
                         HStack(spacing: 12) {
-                            ForEach(0..<userData.followedPublicationIDs.count, id: \.self) { _ in
+                            ForEach(0..<userData.followedPublicationSlugs.count, id: \.self) { _ in
                                 FollowingPublicationRow.Skeleton()
                             }
                         }

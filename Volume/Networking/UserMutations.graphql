@@ -1,5 +1,5 @@
-mutation CreateUser($deviceToken: String!, $followedPublicationIDs: [String!]!) {
-    user: createUser(deviceType: "IOS", deviceToken: $deviceToken, followedPublications: $followedPublicationIDs) {
+mutation CreateUser($deviceToken: String!, $followedPublicationSlugs: [String!]!) {
+    user: createUser(deviceType: "IOS", deviceToken: $deviceToken, followedPublications: $followedPublicationSlugs) {
         uuid
     }
 }

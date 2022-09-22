@@ -33,8 +33,14 @@ query GetArticlesByPublicationID($id: String!) {
   }
 }
 
-query GetArticlesByPublicationIDs($ids: [String!]!) {
-  articles: getArticlesByPublicationIDs(publicationIDs: $ids) {
+query GetArticlesByPublicationSlug($slug: String!) {
+  articles: getArticlesByPublicationSlug(slug: $slug) {
+    ...articleFields
+  }
+}
+
+query GetArticlesByPublicationSlugs($slugs: [String!]!, $limit: Float!, $offset: Float = 0) {
+  articles: getArticlesByPublicationSlugs(slugs: $slugs, limit: $limit, offset: $offset) {
     ...articleFields
   }
 }

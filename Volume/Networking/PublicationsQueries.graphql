@@ -4,9 +4,9 @@ query GetAllPublications {
   }
 }
 
-query GetAllPublicationIDs {
+query GetAllPublicationSlugs {
     publications: getAllPublications {
-        id
+        slug
     }
 }
 
@@ -17,7 +17,6 @@ query GetPublicationBySlug($slug: String!) {
 }
 
 fragment publicationFields on Publication {
-  id
   slug
   bio
   name

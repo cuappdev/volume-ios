@@ -9,10 +9,12 @@
 import Foundation
 
 struct Publication: Hashable, Identifiable {
+    var id: String {
+        slug
+    }
     let bio: String
     let name: String
     let numArticles: Int
-    let id: String
     let slug: String
     let profileImageUrl: URL?
     let backgroundImageUrl: URL?
@@ -30,7 +32,6 @@ struct Publication: Hashable, Identifiable {
         bio = publication.bio
         name = publication.name
         numArticles = Int(publication.numArticles)
-        id = publication.id
         slug = publication.slug
         profileImageUrl = URL(string: publication.profileImageUrl)
         backgroundImageUrl = URL(string: publication.backgroundImageUrl)
