@@ -20,7 +20,7 @@ class UserData: ObservableObject {
     private let userUUIDKey = "userUUID"
     private let weeklyDebriefKey = "weeklyDebrief"
 
-    /// This cache maps `Article` and `Publication`  ids to shout outs. Its purpose is to allow the UI to
+    /// This cache maps `Article` and `Publication`  slugs to shout outs. Its purpose is to allow the UI to
     /// display incremented shoutouts without refetching the model from the server. Users of the cache should
     /// display the max of the stored value if any and the model's `shoutouts`. This way, there is no need to
     /// wipe the cache.

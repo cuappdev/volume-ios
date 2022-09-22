@@ -21,7 +21,7 @@ struct PublicationDetailHeader: View {
         userData.isPublicationFollowed(publication) != hasOddNumberOfTaps
     }
     private var shoutouts: Int {
-        max(publication.shoutouts, userData.shoutoutsCache[publication.id, default: 0])
+        max(publication.shoutouts, userData.shoutoutsCache[publication.slug, default: 0])
     }
     private var validSocials: [String: String] {
         ["insta": "Instagram", "facebook": "Facebook"]
@@ -88,8 +88,8 @@ struct PublicationDetailHeader: View {
                 userData.togglePublicationFollowed(publication)
                 AppDevAnalytics.log(
                     userData.isPublicationFollowed(publication) ?
-                        VolumeEvent.followPublication.toEvent(.publication, value: publication.id, navigationSource: navigationSource) :
-                        VolumeEvent.unfollowPublication.toEvent(.publication, value: publication.id, navigationSource: navigationSource)
+                        VolumeEvent.followPublication.toEvent(.publication, value: publication.slug, navigationSource: navigationSource) :
+                        VolumeEvent.unfollowPublication.toEvent(.publication, value: publication.slug, navigationSource: navigationSource)
                 )
             }
         }
