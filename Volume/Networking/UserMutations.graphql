@@ -4,18 +4,18 @@ mutation CreateUser($deviceToken: String!, $followedPublicationSlugs: [String!]!
     }
 }
 
-mutation FollowPublication($publicationID:String!, $uuid:String!) {
-    user: followPublication(pubID:$publicationID, uuid:$uuid) {
+mutation FollowPublication($slug:String!, $uuid:String!) {
+    user: followPublication(slug:$slug, uuid:$uuid) {
         followedPublications {
-            id
+            slug
         }
     }
 }
 
-mutation UnfollowPublication($publicationID:String!, $uuid:String!) {
-    user: unfollowPublication(pubID:$publicationID, uuid:$uuid) {
+mutation UnfollowPublication($slug:String!, $uuid:String!) {
+    user: unfollowPublication(slug:$slug, uuid:$uuid) {
         followedPublications {
-            id
+            slug
         }
     }
 }

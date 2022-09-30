@@ -175,33 +175,33 @@ class UserData: ObservableObject {
                 unfollowCancellable?.cancel()
             }
 
-            // TODO: restore mutation when support for slugs is available
-//            let mutation = FollowPublicationMutation(slug: publication.slug, uuid: uuid)
-//            cancellables[.follow(publication)] = Network.shared.publisher(for: mutation)
-//                .sink { completion in
-//                    if case let .failure(error) = completion {
-//                        print("Error: FollowPublicationMutation failed on UserData: \(error.localizedDescription)")
-//                    }
-//                } receiveValue: { value in
-            if !self.followedPublicationSlugs.contains(publication.slug) {
-                self.followedPublicationSlugs.insert(publication.slug, at: 0)
-            }
-//                }
+            let followMutation = FollowPublicationMutation(slug: publication.slug, uuid: uuid)
+            cancellables[.follow(publication)] = Network.shared.publisher(for: followMutation)
+                .sink { completion in
+                    if case let .failure(error) = completion {
+                        print("Error: FollowPublicationMutation failed on UserData: \(error.localizedDescription)")
+                    }
+                } receiveValue: { value in
+                    if !self.followedPublicationSlugs.contains(publication.slug) {
+                        self.followedPublicationSlugs.insert(publication.slug, at: 0)
+                    }
+                }
 
         } else {
             // Cancel opposing mutation to
             if let followCancellable = cancellables[.follow(publication)] {
                 followCancellable?.cancel()
             }
-            // TODO: restore mutation when support for slugs is available
-//            cancellables[.unfollow(publication)] = Network.shared.publisher(for: UnfollowPublicationMutation(slug: publication.slug, uuid: uuid))
-//                .sink { completion in
-//                    if case let .failure(error) = completion {
-//                        print("Error: UnfollowPublicationMutation failed on UserData: \(error.localizedDescription)")
-//                    }
-//                } receiveValue: { _ in
+
+            let unfollowMutation = UnfollowPublicationMutation(slug: publication.slug, uuid: uuid)
+            cancellables[.unfollow(publication)] = Network.shared.publisher(for: unfollowMutation)
+                .sink { completion in
+                    if case let .failure(error) = completion {
+                        print("Error: UnfollowPublicationMutation failed on UserData: \(error.localizedDescription)")
+                    }
+                } receiveValue: { _ in
                     self.followedPublicationSlugs.removeAll(where: { $0 == publication.slug })
-//                }
+                }
         }
     }
 }

@@ -14,7 +14,6 @@ import SwiftUI
 struct PublicationDetail: View {
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @GestureState private var dragOffset = CGSize.zero
-//    @State private var cancellableIDQuery: AnyCancellable?
     @State private var cancellableArticlesQuery: AnyCancellable?
     @State private var state: PublicationDetailState = .loading
 

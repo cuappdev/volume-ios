@@ -44,8 +44,7 @@ enum VolumeEvent: String {
         case .article:
             parameters = ["articleID": value]
         case .publication:
-            // TODO: replace analytics instances of publicationID with publicationSlug
-            parameters = ["publicationID": value]
+            parameters = ["publicationSlug": value]
         case .notificationInterval:
             parameters = ["duration": value]
         default:

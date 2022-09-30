@@ -144,7 +144,6 @@ struct OnboardingView: View {
             return
         }
         
-        // TODO: change parameter name after new API is live
         cancellableCreateUserMutation = Network.shared.publisher(for: CreateUserMutation(deviceToken: fcmToken, followedPublicationSlugs: userData.followedPublicationSlugs))
             .map { $0.user.uuid }
             .sink { completion in
