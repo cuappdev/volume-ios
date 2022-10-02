@@ -10,13 +10,14 @@ import Combine
 import Foundation
 
 class UserData: ObservableObject {
+
     static let shared = UserData()
     
-    private let articlesKey = "savedArticleIds"
-    private let publicationsKey = "savedPublicationSlugs"
     private let articleShoutoutsKey = "articleShoutoutsCounter"
-    private let isFirstLaunchKey = "isFirstLaunch"
+    private let articlesKey = "savedArticleIds"
     private let fcmTokenKey = "fcmToken"
+    private let isFirstLaunchKey = "isFirstLaunch"
+    private let publicationsKey = "savedPublicationSlugs"
     private let userUUIDKey = "userUUID"
     private let weeklyDebriefKey = "weeklyDebrief"
 

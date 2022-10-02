@@ -8,6 +8,8 @@
 
 import AppDevAnalytics
 
+// TODO: Migrate to latest Firebase, these custom parameters have been deprecated and are not being tracked.
+
 /// volume-specific extensions of base Event protocol
 struct AnyEvent: Event {
     let name: String

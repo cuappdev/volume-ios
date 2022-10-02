@@ -1,6 +1,7 @@
 # Events
 
-TODO: Update this to reflect latest analytics updates for notifications
+TODO: Migrate to latest Firebase, these custom parameters have been deprecated and are not being tracked.
+
 | Name | Slug  | Description  | Parameters |
 |---|---|---|---|
 | StartOnboarding | start_onboarding | Begins onboarding process | | 
