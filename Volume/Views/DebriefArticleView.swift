@@ -155,8 +155,8 @@ struct DebriefArticleView: View {
         userData.incrementShoutoutsCounter(article)
         let currentArticleShoutouts = max(userData.shoutoutsCache[article.id, default: 0], article.shoutouts)
         userData.shoutoutsCache[article.id, default: 0] = currentArticleShoutouts + 1
-        let currentPublicationShoutouts = max(userData.shoutoutsCache[article.publication.id, default: 0], article.publication.shoutouts)
-        userData.shoutoutsCache[article.publication.id, default: 0] = currentPublicationShoutouts + 1
+        let currentPublicationShoutouts = max(userData.shoutoutsCache[article.publication.slug, default: 0], article.publication.shoutouts)
+        userData.shoutoutsCache[article.publication.slug, default: 0] = currentPublicationShoutouts + 1
         cancellableShoutoutMutation = Network.shared.publisher(for: IncrementShoutoutsMutation(id: article.id, uuid: uuid))
             .sink(receiveCompletion: { completion in
                 if case let .failure(error) = completion {

@@ -86,16 +86,17 @@ struct HomeList: View {
     }
     
     private func fetchFeedArticles() {
-        sectionQueries.feedArticles = Network.shared.publisher(for: GetAllPublicationIDsQuery())
-            .map { $0.publications.map(\.id) }
-            .flatMap { publicationIDs -> ResultsPublisher in
-                let followedQuery = Network.shared.publisher(for: GetArticlesByPublicationIDsQuery(ids: userData.followedPublicationIDs))
+        // TODO: paginate this query
+        sectionQueries.feedArticles = Network.shared.publisher(for: GetAllPublicationSlugsQuery())
+            .map { $0.publications.map(\.slug) }
+            .flatMap { publicationSlugs -> ResultsPublisher in
+                let followedQuery = Network.shared.publisher(for: GetArticlesByPublicationSlugsQuery(slugs: userData.followedPublicationSlugs, limit: 20))
                     .map { $0.articles.map(\.fragments.articleFields) }
                     .collect()
 
-                let morePublicationIDs = publicationIDs.filter { !userData.followedPublicationIDs.contains($0) }
+                let otherPublicationSlugs = publicationSlugs.filter { !userData.followedPublicationSlugs.contains($0) }
 
-                let otherQuery = Network.shared.publisher(for: GetArticlesByPublicationIDsQuery(ids: morePublicationIDs))
+                let otherQuery = Network.shared.publisher(for: GetArticlesByPublicationSlugsQuery(slugs: otherPublicationSlugs, limit: 20))
                     .map { $0.articles.map(\.fragments.articleFields) }
                 
                 return Publishers.Zip(followedQuery, otherQuery)
@@ -109,8 +110,8 @@ struct HomeList: View {
                     if case let .results(trendingArticles) = sectionStates.trendingArticles {
                         return !trendingArticles.contains { $0.id == article.id }
                     } else { return false }
-                }).sorted(by: { $0.date > $1.date }).prefix(20)
-                
+                }).sorted(by: { $0.date > $1.date })
+
                 // Exclude followed and trending articles from other articles
                 let otherArticles = Array(other.filter { article in
                     if case let .results(trendingArticles) = sectionStates.trendingArticles {
@@ -118,8 +119,8 @@ struct HomeList: View {
                     } else {
                         return !followedArticles.contains { $0.id == article.id }
                     }
-                }).sorted(by: { $0.date > $1.date }).prefix(45)
-                
+                }).sorted(by: { $0.date > $1.date })
+
                 withAnimation(.linear(duration: 0.1)) {
                     sectionStates.followedArticles = .results([Article](followedArticles))
                     sectionStates.otherArticles = .results([Article](otherArticles))
@@ -130,7 +131,7 @@ struct HomeList: View {
     private var isFollowingPublications: Bool {
         switch sectionStates.followedArticles {
         case .loading:
-            return userData.followedPublicationIDs.count > 0
+            return userData.followedPublicationSlugs.count > 0
         case .reloading(let results), .results(let results):
             return results.count > 0
         }
@@ -234,14 +235,14 @@ struct HomeList: View {
                 .padding(.horizontal)
             switch sectionStates.followedArticles {
             case .loading:
-                let skeletonCount = userData.followedPublicationIDs.isEmpty ? 0 : 5
+                let skeletonCount = userData.followedPublicationSlugs.isEmpty ? 0 : 5
                 
                 ForEach(0..<skeletonCount, id: \.self) { _ in
                     ArticleRow.Skeleton()
                         .padding(.horizontal)
                 }
                 
-                if userData.followedPublicationIDs.isEmpty {
+                if userData.followedPublicationSlugs.isEmpty {
                     Spacer()
                     
                     VolumeMessage(message: .noFollowingHome, largeFont: false, fullWidth: false)
@@ -361,8 +362,8 @@ struct HomeList: View {
 extension HomeList {
     typealias ResultsPublisher =
         Publishers.Zip<
-            Publishers.Collect<Publishers.Map<OperationPublisher<GetArticlesByPublicationIDsQuery.Data>, [ArticleFields]>>,
-            Publishers.Map<OperationPublisher<GetArticlesByPublicationIDsQuery.Data>, [ArticleFields]>
+            Publishers.Collect<Publishers.Map<OperationPublisher<GetArticlesByPublicationSlugsQuery.Data>, [ArticleFields]>>,
+            Publishers.Map<OperationPublisher<GetArticlesByPublicationSlugsQuery.Data>, [ArticleFields]>
         >
     
     typealias SectionStates = (

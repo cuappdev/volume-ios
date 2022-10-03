@@ -9,17 +9,20 @@
 import Foundation
 
 struct Publication: Hashable, Identifiable {
+
+    let backgroundImageUrl: URL?
     let bio: String
+    var id: String {
+        slug
+    }
     let name: String
     let numArticles: Int
-    let id: String
-    let slug: String
     let profileImageUrl: URL?
-    let backgroundImageUrl: URL?
     let recent: String?
     let shoutouts: Int
-    let websiteUrl: URL?
+    let slug: String
     let socials: [Social]
+    let websiteUrl: URL?
     
     struct Social: Equatable, Hashable {
         let name: String
@@ -27,22 +30,21 @@ struct Publication: Hashable, Identifiable {
     }
     
     init(from publication: PublicationFields) {
+        backgroundImageUrl = URL(string: publication.backgroundImageUrl)
         bio = publication.bio
         name = publication.name
         numArticles = Int(publication.numArticles)
-        id = publication.id
-        slug = publication.slug
         profileImageUrl = URL(string: publication.profileImageUrl)
-        backgroundImageUrl = URL(string: publication.backgroundImageUrl)
         recent = publication.mostRecentArticle?.title
         shoutouts = Int(publication.shoutouts)
-        websiteUrl = URL(string: publication.websiteUrl)
+        slug = publication.slug
         socials = publication.socials.compactMap {
             if let url = URL(string: $0.url) {
                 return Social(name: $0.social, url: url)
             }
             return nil
         }
+        websiteUrl = URL(string: publication.websiteUrl)
     }
 }
 

@@ -27,14 +27,14 @@ query GetArticlesAfterDate($since: String!, $limit: Float!) {
   }
 }
 
-query GetArticlesByPublicationID($id: String!) {
-  articles: getArticlesByPublicationID(publicationID: $id) {
+query GetArticlesByPublicationSlug($slug: String!) {
+  articles: getArticlesByPublicationSlug(slug: $slug) {
     ...articleFields
   }
 }
 
-query GetArticlesByPublicationIDs($ids: [String!]!) {
-  articles: getArticlesByPublicationIDs(publicationIDs: $ids) {
+query GetArticlesByPublicationSlugs($slugs: [String!]!, $limit: Float!, $offset: Float = 0) {
+  articles: getArticlesByPublicationSlugs(slugs: $slugs, limit: $limit, offset: $offset) {
     ...articleFields
   }
 }

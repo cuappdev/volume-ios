@@ -1,13 +1,15 @@
 # Events
 
+TODO: Migrate to latest Firebase, these custom parameters have been deprecated and are not being tracked.
+
 | Name | Slug  | Description  | Parameters |
 |---|---|---|---|
 | StartOnboarding | start_onboarding | Begins onboarding process | | 
 | CompleteOnboarding | complete_onboarding | Completes onboarding process | |
-| OpenPublication | open_publication | Opens a publication page | publicationID, publicationEntrypoint |
-| ClosePublication | close_publication | Closes a publication page | publicationID |
-| FollowPublication | follow_publication | Follows a publication | publicationID, publicationEntrypoint |
-| UnfollowPublication | unfollow_publication | Unfollows a publication | publicationID |
+| OpenPublication | open_publication | Opens a publication page | publicationSlug, publicationEntrypoint |
+| ClosePublication | close_publication | Closes a publication page | publicationSlug |
+| FollowPublication | follow_publication | Follows a publication | publicationSlug, publicationEntrypoint |
+| UnfollowPublication | unfollow_publication | Unfollows a publication | publicationSlug |
 | OpenArticle | open_article | Opens an article | articleID, articleEntrypoint |
 | CloseArticle | close_article | Closes an article through "<Back" button | articleID |
 | ShareArticle | share_article | Shares an article | articleID |
@@ -18,7 +20,7 @@
 # Parameters
 | Name | Slug | Description | Values |
 |---|---|---|---|
-| publicationID | publication | Publication UUID | |
+| publicationSlug | publication | Publication unique shortened name | |
 | articleID | article | Article UUID | |
 | userID | userID | The user's device ID as a UUID; for data analytics | |
 | articleEntrypoint | navigationSource | Location within app that user engages with Article from | publication_detail, trending_articles, following_articles, other_articles, bookmark_articles |

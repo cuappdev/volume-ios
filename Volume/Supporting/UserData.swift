@@ -10,17 +10,18 @@ import Combine
 import Foundation
 
 class UserData: ObservableObject {
+
     static let shared = UserData()
     
-    private let articlesKey = "savedArticleIds"
-    private let publicationsKey = "savedPublicationIds"
     private let articleShoutoutsKey = "articleShoutoutsCounter"
-    private let isFirstLaunchKey = "isFirstLaunch"
+    private let articlesKey = "savedArticleIds"
     private let fcmTokenKey = "fcmToken"
+    private let isFirstLaunchKey = "isFirstLaunch"
+    private let publicationsKey = "savedPublicationSlugs"
     private let userUUIDKey = "userUUID"
     private let weeklyDebriefKey = "weeklyDebrief"
 
-    /// This cache maps `Article` and `Publication`  ids to shout outs. Its purpose is to allow the UI to
+    /// This cache maps `Article` and `Publication`  slugs to shout outs. Its purpose is to allow the UI to
     /// display incremented shoutouts without refetching the model from the server. Users of the cache should
     /// display the max of the stored value if any and the model's `shoutouts`. This way, there is no need to
     /// wipe the cache.
@@ -37,7 +38,7 @@ class UserData: ObservableObject {
         }
     }
 
-    @Published private(set) var followedPublicationIDs: [String] = [] {
+    @Published private(set) var followedPublicationSlugs: [String] = [] {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: publicationsKey)
             objectWillChange.send()
@@ -80,8 +81,8 @@ class UserData: ObservableObject {
             savedArticleIDs = ids
         }
 
-        if let ids = UserDefaults.standard.object(forKey: publicationsKey) as? [String] {
-            followedPublicationIDs = ids
+        if let slugs = UserDefaults.standard.object(forKey: publicationsKey) as? [String] {
+            followedPublicationSlugs = slugs
         }
 
         if let shoutoutsCounter = UserDefaults.standard.object(forKey: articleShoutoutsKey) as? [String: Int] {
@@ -110,7 +111,7 @@ class UserData: ObservableObject {
     }
 
     func isPublicationFollowed(_ publication: Publication) -> Bool {
-        followedPublicationIDs.contains(publication.id)
+        followedPublicationSlugs.contains(publication.slug)
     }
 
     func toggleArticleSaved(_ article: Article) {
@@ -160,11 +161,11 @@ class UserData: ObservableObject {
         guard let uuid = uuid else {
             // User has not finished onboarding
             if isFollowed {
-                if !followedPublicationIDs.contains(publication.id) {
-                    followedPublicationIDs.insert(publication.id, at: 0)
+                if !followedPublicationSlugs.contains(publication.slug) {
+                    followedPublicationSlugs.insert(publication.slug, at: 0)
                 }
             } else {
-                followedPublicationIDs.removeAll(where: { $0 == publication.id })
+                followedPublicationSlugs.removeAll(where: { $0 == publication.slug })
             }
             return
         }
@@ -174,29 +175,33 @@ class UserData: ObservableObject {
             if let unfollowCancellable = cancellables[.unfollow(publication)] {
                 unfollowCancellable?.cancel()
             }
-            let mutation = FollowPublicationMutation(publicationID: publication.id, uuid: uuid)
-            cancellables[.follow(publication)] = Network.shared.publisher(for: mutation)
+
+            let followMutation = FollowPublicationMutation(slug: publication.slug, uuid: uuid)
+            cancellables[.follow(publication)] = Network.shared.publisher(for: followMutation)
                 .sink { completion in
                     if case let .failure(error) = completion {
                         print("Error: FollowPublicationMutation failed on UserData: \(error.localizedDescription)")
                     }
                 } receiveValue: { value in
-                    if !self.followedPublicationIDs.contains(publication.id) {
-                        self.followedPublicationIDs.insert(publication.id, at: 0)
+                    if !self.followedPublicationSlugs.contains(publication.slug) {
+                        self.followedPublicationSlugs.insert(publication.slug, at: 0)
                     }
                 }
+
         } else {
             // Cancel opposing mutation to
             if let followCancellable = cancellables[.follow(publication)] {
                 followCancellable?.cancel()
             }
-            cancellables[.unfollow(publication)] = Network.shared.publisher(for: UnfollowPublicationMutation(publicationID: publication.id, uuid: uuid))
+
+            let unfollowMutation = UnfollowPublicationMutation(slug: publication.slug, uuid: uuid)
+            cancellables[.unfollow(publication)] = Network.shared.publisher(for: unfollowMutation)
                 .sink { completion in
                     if case let .failure(error) = completion {
                         print("Error: UnfollowPublicationMutation failed on UserData: \(error.localizedDescription)")
                     }
                 } receiveValue: { _ in
-                    self.followedPublicationIDs.removeAll(where: { $0 == publication.id })
+                    self.followedPublicationSlugs.removeAll(where: { $0 == publication.slug })
                 }
         }
     }

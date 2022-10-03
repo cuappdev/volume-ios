@@ -21,7 +21,7 @@ struct OnboardingView: View {
     private let volumeLogoID = "volume-logo"
 
     private var didFollowPublication: Bool {
-        userData.followedPublicationIDs.count > 0
+        userData.followedPublicationSlugs.count > 0
     }
 
     private var splashView: some View {
@@ -144,8 +144,7 @@ struct OnboardingView: View {
             return
         }
         
-        // TODO: change parameter name after new API is live
-        cancellableCreateUserMutation = Network.shared.publisher(for: CreateUserMutation(deviceToken: fcmToken, followedPublicationIDs: userData.followedPublicationIDs))
+        cancellableCreateUserMutation = Network.shared.publisher(for: CreateUserMutation(deviceToken: fcmToken, followedPublicationSlugs: userData.followedPublicationSlugs))
             .map { $0.user.uuid }
             .sink { completion in
                 if case let .failure(error) = completion {

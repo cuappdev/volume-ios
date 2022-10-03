@@ -14,31 +14,19 @@ import SwiftUI
 struct PublicationDetail: View {
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @GestureState private var dragOffset = CGSize.zero
-    @State private var cancellableIDQuery: AnyCancellable?
     @State private var cancellableArticlesQuery: AnyCancellable?
     @State private var state: PublicationDetailState = .loading
 
     let navigationSource: NavigationSource
     let publication: Publication
 
-    private func fetch() {
-        cancellableIDQuery = Network.shared.publisher(for: GetPublicationBySlugQuery(slug: publication.slug))
-            .map { $0.publication.map({ $0.fragments.publicationFields.id })! }
-            .sink {
-                if case let .failure(error) = $0 {
-                    print("Error: GetPublicationBySlugQuery failed on PublicationDetail: \(error.localizedDescription)")
-                }
-            } receiveValue: {
-                fetchArticles(by: $0)
-            }
-    }
-
-    private func fetchArticles(by publicationID: String) {
-        cancellableArticlesQuery = Network.shared.publisher(for: GetArticlesByPublicationIdQuery(id: publicationID))
+    private func fetchContent() {
+        // TODO: implement pagination, default limit is 25
+        cancellableArticlesQuery = Network.shared.publisher(for: GetArticlesByPublicationSlugQuery(slug: publication.slug))
             .map(\.articles)
             .sink(receiveCompletion: { completion in
                 if case let .failure(error) = completion {
-                    print("Error: GetArticlesByPublicationIdQuery failed on PublicationDetail: \(error.localizedDescription)")
+                    print("Error: GetArticlesByPublicationSlugQuery failed on PublicationDetail: \(error.localizedDescription)")
                 }
             }, receiveValue: { value in
                 withAnimation(.linear(duration: 0.1)) {
@@ -161,7 +149,7 @@ struct PublicationDetail: View {
                 }
             }
         )
-        .onAppear(perform: fetch)
+        .onAppear(perform: fetchContent)
     }
 }
 
