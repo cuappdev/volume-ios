@@ -65,8 +65,10 @@ struct BookmarksList: View {
                     case .results(let savedArticles):
                         LazyVStack {
                             ForEach(savedArticles) { article in
-                                ArticleRow(article: article, navigationSource: .bookmarkArticles)
-                                    .padding([.bottom, .leading, .trailing])
+                                NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: .bookmarkArticles)) {
+                                    ArticleRow(article: article, navigationSource: .bookmarkArticles)
+                                        .padding([.bottom, .leading, .trailing])
+                                }
                             }
                         }
                     }
