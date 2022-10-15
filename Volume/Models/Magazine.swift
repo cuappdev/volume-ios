@@ -7,16 +7,56 @@
 //
 
 import Foundation
+import SwiftUI
 
-struct Magazine: Identifiable {
-    // TODO: populate this class once API is specified
-    let id: String
-    let title: String
+struct Magazine: Identifiable, Hashable {
     let date: Date
-    let coverUrl: URL?
-    let publication: Publication
-    let shoutouts: Int
+    let id: String
+    let isFeatured: Bool
+    let isFiltered: Bool
+    let isNsfw: Bool
     let magazineUrl: URL?
+    let pdfUrl: URL?
+    //let publication: Publication
+    let publicationSlug: String
+    let semester: String
+    let shoutouts: Int
+    let title: String
+    let trendiness: Int
+    
+    struct DummyMagazine {
+        let date: String
+        let id: String
+        let isFeatured: Bool
+        let isFiltered: Bool
+        let nsfw: Bool
+        let magazineUrl: String
+        let pdfUrl: String
+        //let publication: Publication
+        let publicationSlug: String
+        let semester: String
+        let shoutouts: Int
+        let title: String
+        let trendiness: Int
+    }
+    
+    init(from magazine : DummyMagazine) {
+        date = Date.from(iso8601: magazine.date)
+        id = magazine.id
+        isFeatured = magazine.isFeatured
+        isFiltered = magazine.isFiltered
+        isNsfw = magazine.nsfw
+        magazineUrl = URL(string: magazine.magazineUrl)
+        pdfUrl = URL(string: magazine.pdfUrl)
+        //TODO: test publication after backend update
+        //publication = Publication(from: magazine.publication.fragments.publicationFields)
+        publicationSlug = magazine.publicationSlug
+        semester = magazine.semester
+        shoutouts = Int(magazine.shoutouts)
+        title = magazine.title
+        trendiness = Int(magazine.trendiness)
+    }
+    
 }
 
 //extension Array where Element == Magazine {
