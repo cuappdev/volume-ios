@@ -9,13 +9,14 @@
 import SwiftUI
 
 struct MagazineDetail: View {
+    let title: String
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text(title)
     }
 }
 
-struct MagazineDetail_Previews: PreviewProvider {
-    static var previews: some View {
-        MagazineDetail()
-    }
-}
+//struct MagazineDetail_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MagazineDetail()
+//    }
+//}

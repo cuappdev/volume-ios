@@ -14,8 +14,8 @@ fragment magazineFields on Magazine {
 
 # MARK: - Mag Page
 
-query GetFeaturedMagazines {
-  magazines: getFeaturedMagazines {
+query GetFeaturedMagazines($limit: Float!) {
+  magazines: getFeaturedMagazines(limit: $limit) {
     ...magazineFields
   }
 }

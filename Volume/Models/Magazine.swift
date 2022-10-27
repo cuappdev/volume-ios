@@ -34,8 +34,8 @@ struct Magazine: Identifiable, Hashable {
     
 }
 
-//extension Array where Element == Magazine {
-//    init(_ magazines: [MagazineFields]) {
-//        self.init(magazines.map(Magazine.init))
-//    }
-//}
+extension Array where Element == Magazine {
+    init(_ magazines: [MagazineFields]) {
+        self.init(magazines.map(Magazine.init))
+    }
+}
