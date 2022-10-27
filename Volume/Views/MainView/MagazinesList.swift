@@ -31,6 +31,8 @@ struct MagazinesList: View {
             }
     }
     
+    
+    
     private var featureMagazinesSection: some View {
         Group {
             Header("Featured")
@@ -123,11 +125,10 @@ extension MagazinesList {
         otherMagazines: [String : [Magazine]]
     )
     
-    // TODO: implement when query objects have been designed
-    //    typealias ResultsPublisher = Publishers.Zip<
-    //        Publishers.Map<OperationPublisher<GetTrendingMagazinesQuery.Data>, MagazineFields>,
-    //        Publishers.Map<OperationPublisher<GetAllMagazinesQuery.Data>, MagazineFields>
-    //    >
+    typealias ResultsPublisher = Publishers.Zip<
+        Publishers.Map<OperationPublisher<GetFeaturedMagazinesQuery.Data>, MagazineFields>,
+        Publishers.Map<OperationPublisher<GetMagazinesBySemesterQuery.Data>, MagazineFields>
+        >
 }
 
 struct MagazinesList_Previews: PreviewProvider {

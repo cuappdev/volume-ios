@@ -74,6 +74,7 @@
 		A2A4CB1C27D5276D00774C70 /* Magazine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A4CB1B27D5276D00774C70 /* Magazine.swift */; };
 		A2A5CC1027D567EA0000F377 /* MagazineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A5CC0F27D567EA0000F377 /* MagazineCell.swift */; };
 		A2B4DF3227D9AAB000440184 /* MagazineDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B4DF3127D9AAB000440184 /* MagazineDetail.swift */; };
+		BC2C4C192909E74D0083C6AA /* MagazineQueries.graphql in Resources */ = {isa = PBXBuildFile; fileRef = BC2C4C182909E74D0083C6AA /* MagazineQueries.graphql */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -154,6 +155,7 @@
 		A2A4CB1B27D5276D00774C70 /* Magazine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Magazine.swift; sourceTree = "<group>"; };
 		A2A5CC0F27D567EA0000F377 /* MagazineCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineCell.swift; sourceTree = "<group>"; };
 		A2B4DF3127D9AAB000440184 /* MagazineDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineDetail.swift; sourceTree = "<group>"; };
+		BC2C4C182909E74D0083C6AA /* MagazineQueries.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MagazineQueries.graphql; sourceTree = "<group>"; };
 		DA62FF4EAFC9DE4F9A2FFE3B /* Pods_Volume.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Volume.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -193,6 +195,7 @@
 				0685AAA3259EC2AF00DD55C4 /* ArticlesMutations.graphql */,
 				33AE4CEC27403F670001BA5B /* UserMutations.graphql */,
 				33538BEF2745C579009DD191 /* UserQueries.graphql */,
+				BC2C4C182909E74D0083C6AA /* MagazineQueries.graphql */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -458,6 +461,7 @@
 				7E369E1725EED97500FC0419 /* Secrets.plist in Resources */,
 				7ED7C340252D117B0078B1BD /* Preview Assets.xcassets in Resources */,
 				95F1DC8A2608F4DD000B3D91 /* GoogleService-Info.plist in Resources */,
+				BC2C4C192909E74D0083C6AA /* MagazineQueries.graphql in Resources */,
 				95F1DC8A2608F4DD000B3D91 /* GoogleService-Info.plist in Resources */,
 				7ED7C33D252D117B0078B1BD /* Assets.xcassets in Resources */,
 				990081EF25E5C31600BF8362 /* Events.md in Resources */,
