@@ -105,7 +105,6 @@ class UserData: ObservableObject {
             #endif
             self.uuid = uuid
         }
-        
     }
 
     func isArticleSaved(_ article: Article) -> Bool {
