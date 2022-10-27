@@ -20,7 +20,7 @@ struct MagazinesList: View {
         cancellableQuery = Network.shared.publisher(for: GetAllPublicationsQuery())
             .map { data in data.publications.compactMap { $0 } }
             .sink { completion in
-                networkState.handleCompletion(screen: .magazinesList, completion)
+                networkState.handleCompletion(screen: .magazines, completion)
             } receiveValue: {
                 done()
                 withAnimation(.linear(duration: 0.1)) {
@@ -100,7 +100,7 @@ struct MagazinesList: View {
                     moreMagazinesSection
                }
             }
-            .disabled(state.shouldDisableScroll)
+            .disabled(!state.isLoading)
             .padding(.top)
             .background(Color.volume.backgroundGray)
             .toolbar {

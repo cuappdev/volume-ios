@@ -27,7 +27,7 @@ struct BookmarksList: View {
             .flatMap(Network.shared.publisher)
             .collect()
             .sink { completion in
-                networkState.handleCompletion(screen: .bookmarksList, completion)
+                networkState.handleCompletion(screen: .bookmarks, completion)
             } receiveValue: { value in
                 let articles = [Article](value.compactMap(\.article?.fragments.articleFields)).sorted {
                     guard let index1 = userData.savedArticleIDs.firstIndex(of: $0.id) else { return true }

@@ -27,7 +27,7 @@ struct PublicationList: View {
         cancellableQuery = Network.shared.publisher(for: GetAllPublicationsQuery())
             .map { data in data.publications.compactMap { $0 } }
             .sink(receiveCompletion: { completion in
-                networkState.handleCompletion(screen: .publicationList, completion)
+                networkState.handleCompletion(screen: .publications, completion)
             }, receiveValue: { value in
                 let publications = [Publication](value.map(\.fragments.publicationFields))
                 let followedPublications = publications.filter(userData.isPublicationFollowed)
@@ -130,7 +130,7 @@ struct PublicationList: View {
                     morePublicationsSection
                 }
             }
-            .disabled(state.shouldDisableScroll)
+            .disabled(state.isLoading)
             .padding(.top)
             .background(Color.volume.backgroundGray)
             .toolbar {
@@ -152,10 +152,4 @@ extension PublicationList {
         followedPublications: [Publication],
         morePublications: [Publication]
     )
-}
-
-struct PublicationList_Previews: PreviewProvider {
-    static var previews: some View {
-        PublicationList()
-    }
 }

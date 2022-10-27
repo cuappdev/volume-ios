@@ -54,14 +54,14 @@ struct HomeList: View {
         sectionQueries.trendingArticles = Network.shared.publisher(for: GetTrendingArticlesQuery(limit: 7))
             .map { $0.articles.map(\.fragments.articleFields) }
             .sink { completion in
-                networkState.handleCompletion(screen: .homeList, completion)
+                networkState.handleCompletion(screen: .home, completion)
             } receiveValue: { articleFields in
                 let trendingArticles = [Article](articleFields)
                 
                 withAnimation(.linear(duration: 0.1)) {
                     sectionStates.trendingArticles = .results(trendingArticles)
                 }
-                
+                // HAN TODO: investigate this behavior w/ pagination
                 // Filter trending articles if feed articles request returned first
                 if case let .results(followedArticles) = sectionStates.followedArticles {
                     let followedArticlesWithoutTrending = followedArticles.filter { article in
@@ -86,7 +86,7 @@ struct HomeList: View {
     }
     
     private func fetchFeedArticles() {
-        // TODO: paginate this query
+        // HAN TODO: paginate this query
         sectionQueries.feedArticles = Network.shared.publisher(for: GetAllPublicationSlugsQuery())
             .map { $0.publications.map(\.slug) }
             .flatMap { publicationSlugs -> ResultsPublisher in
@@ -102,7 +102,7 @@ struct HomeList: View {
                 return Publishers.Zip(followedQuery, otherQuery)
             }
             .sink { completion in
-                networkState.handleCompletion(screen: .homeList, completion)
+                networkState.handleCompletion(screen: .home, completion)
             } receiveValue: { followed, other in
                 // Exclude trending articles from following articles
                 // Take up to 20 followed articles, sorted in descending chronological order
@@ -321,7 +321,7 @@ struct HomeList: View {
                 }
             }
         }
-        .disabled(sectionStates.trendingArticles.shouldDisableScroll)
+        .disabled(sectionStates.trendingArticles.isLoading)
         .padding(.top)
         .background(Color.volume.backgroundGray)
         .toolbar {
@@ -380,9 +380,3 @@ extension HomeList {
         feedArticles: AnyCancellable?
     )
 }
-
-//struct HomeList_Previews: PreviewProvider {
-//    static var previews: some View {
-//        HomeList()
-//    }
-//}
