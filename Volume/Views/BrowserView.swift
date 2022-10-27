@@ -19,6 +19,7 @@ struct BrowserView: View {
 
     let initType: BrowserViewInitType
     let navigationSource: NavigationSource
+    @State private var bookmarkRequestInProgress = false
     @State private var cancellableArticleQuery: AnyCancellable?
     @State private var cancellableReadMutation: AnyCancellable?
     @State private var cancellableShoutoutMutation: AnyCancellable?
@@ -138,18 +139,20 @@ struct BrowserView: View {
                 }
                 Spacer()
                 Group {
-                    Button {
-                        userData.toggleArticleSaved(article)
+                    Button(action: {
+                        bookmarkRequestInProgress = true
+                        userData.toggleArticleSaved(article, $bookmarkRequestInProgress)
                         AppDevAnalytics.log(
                             userData.isArticleSaved(article) ?
                             VolumeEvent.bookmarkArticle.toEvent(.article, value: article.id, navigationSource: navigationSource) :
                                 VolumeEvent.unbookmarkArticle.toEvent(.article, value: article.id, navigationSource: navigationSource)
                         )
-                    } label: {
+                    }, label: {
                         Image(systemName: userData.isArticleSaved(article) ? "bookmark.fill" : "bookmark")
                             .font(Font.system(size: 18, weight: .semibold))
                             .foregroundColor(.volume.orange)
-                    }
+                    })
+                    .disabled(bookmarkRequestInProgress)
                     
                     Spacer()
                         .frame(width: 16)

@@ -8,6 +8,7 @@
 
 import Combine
 import Foundation
+import SwiftUI
 
 class UserData: ObservableObject {
 
@@ -20,7 +21,7 @@ class UserData: ObservableObject {
     private let publicationsKey = "savedPublicationSlugs"
     private let userUUIDKey = "userUUID"
     private let weeklyDebriefKey = "weeklyDebrief"
-
+    
     /// This cache maps `Article` and `Publication`  slugs to shout outs. Its purpose is to allow the UI to
     /// display incremented shoutouts without refetching the model from the server. Users of the cache should
     /// display the max of the stored value if any and the model's `shoutouts`. This way, there is no need to
@@ -104,6 +105,7 @@ class UserData: ObservableObject {
             #endif
             self.uuid = uuid
         }
+        
     }
 
     func isArticleSaved(_ article: Article) -> Bool {
@@ -114,12 +116,12 @@ class UserData: ObservableObject {
         followedPublicationSlugs.contains(publication.slug)
     }
 
-    func toggleArticleSaved(_ article: Article) {
-        set(article: article, isSaved: !isArticleSaved(article))
+    func toggleArticleSaved(_ article: Article, _ bookmarkRequestInProgress: Binding<Bool>) {
+        set(article: article, isSaved: !isArticleSaved(article), bookmarkRequestInProgress: bookmarkRequestInProgress)
     }
 
-    func togglePublicationFollowed(_ publication: Publication) {
-        set(publication: publication, isFollowed: !isPublicationFollowed(publication))
+    func togglePublicationFollowed(_ publication: Publication, _ followRequestInProgress: Binding<Bool>) {
+        set(publication: publication, isFollowed: !isPublicationFollowed(publication), followRequestInProgress: followRequestInProgress)
     }
 
     func canIncrementShoutouts(_ article: Article) -> Bool {
@@ -130,34 +132,40 @@ class UserData: ObservableObject {
         articleShoutoutsCounter[article.id, default: 0] += 1
     }
 
-    func set(article: Article, isSaved: Bool) {
+    func set(article: Article, isSaved: Bool, bookmarkRequestInProgress: Binding<Bool>) {
+        @Binding var requestInProgress: Bool
+        _requestInProgress = bookmarkRequestInProgress
+        
         guard let uuid = uuid else {
             #if DEBUG
             print("Error: received nil for UUID in set(article:isSaved)")
             #endif
+            requestInProgress = false
             return
         }
         
         if isSaved {
-            if let bookmarkCancellable = cancellables[.bookmark(article)] {
-                bookmarkCancellable?.cancel()
-            }
             cancellables[.bookmark(article)] = Network.shared.publisher(for: BookmarkArticleMutation(uuid: uuid))
                 .sink { completion in
                     if case let .failure(error) = completion {
                         print("Error: BookmarkArticleMutation failed on UserData: \(error.localizedDescription)")
                     }
+                    requestInProgress = false
                 } receiveValue: { _ in
                     if !self.savedArticleIDs.contains(article.id) {
                         self.savedArticleIDs.insert(article.id, at: 0)
                     }
                 }
         } else {
+            requestInProgress = false
             savedArticleIDs.removeAll(where: { $0 == article.id })
         }
     }
 
-    func set(publication: Publication, isFollowed: Bool) {
+    func set(publication: Publication, isFollowed: Bool, followRequestInProgress: Binding<Bool>) {
+        @Binding var requestInProgress: Bool
+        _requestInProgress = followRequestInProgress
+        
         guard let uuid = uuid else {
             // User has not finished onboarding
             if isFollowed {
@@ -167,21 +175,18 @@ class UserData: ObservableObject {
             } else {
                 followedPublicationSlugs.removeAll(where: { $0 == publication.slug })
             }
+            requestInProgress = false
             return
         }
         
         if isFollowed {
-            // Cancel opposing mutation
-            if let unfollowCancellable = cancellables[.unfollow(publication)] {
-                unfollowCancellable?.cancel()
-            }
-
             let followMutation = FollowPublicationMutation(slug: publication.slug, uuid: uuid)
             cancellables[.follow(publication)] = Network.shared.publisher(for: followMutation)
                 .sink { completion in
                     if case let .failure(error) = completion {
                         print("Error: FollowPublicationMutation failed on UserData: \(error.localizedDescription)")
                     }
+                    requestInProgress = false
                 } receiveValue: { value in
                     if !self.followedPublicationSlugs.contains(publication.slug) {
                         self.followedPublicationSlugs.insert(publication.slug, at: 0)
@@ -189,17 +194,13 @@ class UserData: ObservableObject {
                 }
 
         } else {
-            // Cancel opposing mutation to
-            if let followCancellable = cancellables[.follow(publication)] {
-                followCancellable?.cancel()
-            }
-
             let unfollowMutation = UnfollowPublicationMutation(slug: publication.slug, uuid: uuid)
             cancellables[.unfollow(publication)] = Network.shared.publisher(for: unfollowMutation)
                 .sink { completion in
                     if case let .failure(error) = completion {
                         print("Error: UnfollowPublicationMutation failed on UserData: \(error.localizedDescription)")
                     }
+                    requestInProgress = false
                 } receiveValue: { _ in
                     self.followedPublicationSlugs.removeAll(where: { $0 == publication.slug })
                 }
