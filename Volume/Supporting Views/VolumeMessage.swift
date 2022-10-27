@@ -45,22 +45,23 @@ struct VolumeMessage: View {
     @State var fullWidth : Bool
 
     var body: some View {
-        VStack(spacing: 10) {
-            Image.volume.feed
-                .foregroundColor(.volume.orange)
-            Text(message.title)
-                .font(.newYorkMedium(size: largeFont ? 24 : 18))
-            Text(message.subtitle)
-                .font(.helveticaRegular(size: 12))
-                .multilineTextAlignment(.center)
-                .lineLimit(2)
-        }
-        .frame(width: fullWidth ? nil : 205, height: 100)
-    }
-}
+        HStack {
+            Spacer()
 
-struct VolumeMessage_Previews: PreviewProvider {
-    static var previews: some View {
-        VolumeMessage(message: .upToDate, largeFont: false, fullWidth: false)
+            VStack(spacing: 10) {
+                Image.volume.feed
+                    .foregroundColor(.volume.orange)
+                Text(message.title)
+                    .font(.newYorkMedium(size: largeFont ? 24 : 18))
+                Text(message.subtitle)
+                    .font(.helveticaRegular(size: 12))
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .lineLimit(2)
+            }
+            .frame(width: fullWidth ? nil : 205, height: 100)
+
+            Spacer()
+        }
     }
 }
