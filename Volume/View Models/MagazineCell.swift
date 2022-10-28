@@ -12,15 +12,12 @@ import SwiftUI
 /// `MagazineCell` displays the images and name of a publication a user is currently following
 struct MagazineCell: View {
 
-    // TODO: Restore when backend setup
-    // let magazine: Magazine
+    let magazine: Magazine
     // let largeFont: Bool
-
-    let magazine = dummyMagazine(id: "", title: "Artifacts For All", date: Date.distantPast, coverUrl:  URL(string: "https://picsum.photos/150/220"), publication: DummyPublication(name: "Cornell"), shoutouts: 100, magazineUrl: nil)
 
     var body: some View {
         VStack(alignment: .leading) {
-            WebImage(url: magazine.coverUrl)
+            WebImage(url: magazine.magazineUrl)
                 .resizable()
                 .grayBackground()
                 .aspectRatio(contentMode: .fill)
@@ -87,23 +84,6 @@ extension MagazineCell {
             }
             .frame(width: 152, height: 278)
         }
-    }
-}
-
-// TODO: Remove test values when backend setup// TODO: Remove test values when backend setup
-extension MagazineCell {
-    struct DummyPublication {
-        var name: String
-    }
-
-    struct dummyMagazine {
-        var id: String
-        var title: String
-        var date: Date
-        var coverUrl: URL?
-        var publication: DummyPublication
-        var shoutouts: Int
-        var magazineUrl: URL?
     }
 }
 

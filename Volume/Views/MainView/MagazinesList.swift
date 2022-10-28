@@ -15,45 +15,47 @@ struct MagazinesList: View {
     @State private var openedUrl = false
     @State private var sectionQueries: SectionQueries = (nil, nil)
     @State private var sectionStates: SectionStates = (.loading, .loading)
-
+    
+    private struct Constants {
+        static let currentSemester = "fa22"
+        static let featuredMagazinesLimit : Double = 7
+        static let animationDuration = 0.1
+        
+    }
 
     private func fetchContent(_ done: @escaping () -> Void = { }) {
-        guard sectionStates.featuredMagazines.isLoading || sectionStates.otherMagazines.isLoading else { return }
+        guard sectionStates.featuredMagazines.isLoading || sectionStates.magazinesBySemester.isLoading else { return }
         
         fetchFeaturedMagazines(done)
-        fetchOtherMagazines()
+        fetchMagazinesBySemester()
     }
     
     private func fetchFeaturedMagazines(_ done: @escaping () -> Void = { }) {
-        sectionQueries.featuredMagazines = Network.shared.publisher(for: GetFeaturedMagazinesQuery(limit: 7))
-            .map {
-                // not sure if force-unwrapping here is safe
-                $0.magazines!.map(\.fragments.magazineFields)
+        sectionQueries.featuredMagazines = Network.shared.publisher(for: GetFeaturedMagazinesQuery(limit: Constants.featuredMagazinesLimit))
+            .compactMap {
+                $0.magazines?.map(\.fragments.magazineFields)
             }
             .sink { completion in
                 networkState.handleCompletion(screen: .magazinesList, completion)
             } receiveValue: { magazineFields in
                 let featuredMagazines = [Magazine](magazineFields)
-                
-                withAnimation(.linear(duration: 0.1)) {
+                withAnimation(.linear(duration: Constants.animationDuration)) {
                     sectionStates.featuredMagazines = .results(featuredMagazines)
                 }
                 done()
             }
     }
     
-    private var currentSemester = "fa22"
-    
-    private func fetchOtherMagazines() {
-        sectionQueries.otherMagazines = Network.shared.publisher(for: GetMagazinesBySemesterQuery(semester: currentSemester))
+    private func fetchMagazinesBySemester() {
+        sectionQueries.magazinesBySemester = Network.shared.publisher(for: GetMagazinesBySemesterQuery(semester: Constants.currentSemester))
             .map { $0.magazines.map(\.fragments.magazineFields) }
             .sink { completion in
                 networkState.handleCompletion(screen: .magazinesList, completion)
             } receiveValue: { magazineFields in
-                let otherMagazines = [Magazine](magazineFields)
+                let magazinesBySemester = [Magazine](magazineFields)
                 
                 withAnimation(.linear(duration: 0.1)) {
-                    sectionStates.otherMagazines = .results(otherMagazines)
+                    sectionStates.magazinesBySemester = .results(magazinesBySemester)
                 }
             }
     }
@@ -71,10 +73,9 @@ struct MagazinesList: View {
                              MagazineCell.Skeleton()
                         }
                     case .reloading(let results), .results(let results):
-                        // TODO: Replace with results.trendingMagazines when backend is setup
                         ForEach(results) { magazine in
-                            NavigationLink(destination: MagazineDetail(title: magazine.title)) {
-                                MagazineCell()
+                            NavigationLink(destination: MagazineReaderView(magazine: magazine)) {
+                                MagazineCell(magazine: magazine)
                             }
                         }
                     }
@@ -84,23 +85,22 @@ struct MagazinesList: View {
         }
     }
 
-    private var otherMagazinesSection: some View {
+    private var magazinesBySemesterSection: some View {
         Group {
             Header("More magazines")
                 .padding([.top, .horizontal])
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 24) {
-                    switch sectionStates.otherMagazines {
+                    switch sectionStates.magazinesBySemester {
                     case .loading:
                         ForEach(0..<10) { _ in
                              MagazineCell.Skeleton()
                         }
                     case .reloading(let results), .results(let results):
-                        // TODO: Replace with results.trendingMagazines when backend is setup
                         ForEach(results) { magazine in
-                            NavigationLink(destination: MagazineDetail(title: magazine.title)) {
-                                MagazineCell()
+                            NavigationLink(destination: MagazineReaderView(magazine: magazine)) {
+                                MagazineCell(magazine: magazine)
                             }
                         }
                     }
@@ -116,7 +116,7 @@ struct MagazinesList: View {
                 sectionStates.featuredMagazines = .reloading(magazines)
             }
             
-            sectionStates.otherMagazines = .loading
+            sectionStates.magazinesBySemester = .loading
             
             fetchContent(done)
             }) {
@@ -124,7 +124,7 @@ struct MagazinesList: View {
                     featureMagazinesSection
                     Spacer()
                         .frame(height: 16)
-                    otherMagazinesSection
+                    magazinesBySemesterSection
                }
             }
             .disabled(sectionStates.featuredMagazines.shouldDisableScroll)
@@ -152,17 +152,11 @@ extension MagazinesList {
     
     typealias SectionStates = (
         featuredMagazines: MainView.TabState<[Magazine]>,
-        otherMagazines: MainView.TabState<[Magazine]>
+        magazinesBySemester: MainView.TabState<[Magazine]>
     )
     
     typealias SectionQueries = (
         featuredMagazines: AnyCancellable?,
-        otherMagazines: AnyCancellable?
+        magazinesBySemester: AnyCancellable?
     )
 }
-
-//struct MagazinesList_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MagazinesList()
-//    }
-//}

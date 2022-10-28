@@ -10,9 +10,9 @@ import Foundation
 import SwiftUI
 
 struct Magazine: Identifiable, Hashable {
-    let date: Date
     let id: String
-    let isNsfw: Bool
+    let date: Date
+    let isNSFW: Bool
     let magazineUrl: URL?
     let pdfUrl: URL?
     let publication: Publication
@@ -23,7 +23,7 @@ struct Magazine: Identifiable, Hashable {
     init(from magazine : MagazineFields) {
         date = Date.from(iso8601: magazine.date)
         id = magazine.id
-        isNsfw = magazine.nsfw
+        isNSFW = magazine.nsfw
         magazineUrl = URL(string: magazine.magazineUrl)
         pdfUrl = URL(string: magazine.pdfUrl)
         publication = Publication(from: magazine.publication.fragments.publicationFields)

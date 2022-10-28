@@ -8,15 +8,9 @@
 
 import SwiftUI
 
-struct MagazineDetail: View {
-    let title: String
+struct MagazineReaderView: View {
+    let magazine: Magazine
     var body: some View {
-        Text(title)
+        Text(magazine.title)
     }
 }
-
-//struct MagazineDetail_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MagazineDetail()
-//    }
-//}
