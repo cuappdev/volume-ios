@@ -22,17 +22,20 @@ extension HomeView {
 
         @Published var trendingArticles: MainView.TabState<[Article]> = .loading
         @Published var followedArticles: MainView.TabState<[Article]> = .loading
-        @Published var hasMorePages = true
+        @Published var unfollowedArticles: MainView.TabState<[Article]> = .loading
+        @Published var hasMoreFollowedArticlePages = true
+        @Published var hasMoreUnfollowedArticlePages = true
 
         private var publicationSlugs: MainView.TabState<[String]> = .loading
         private var queryBag = Set<AnyCancellable>()
 
-        private var followedArticlesOffset: Double {
-            switch followedArticles {
+        /// Returns empty list if still loading
+        private var loadedPublicationSlugs: [String] {
+            switch publicationSlugs {
             case .loading:
-                return 0
-            case .results(let articles), .reloading(let articles):
-                return Double(articles.count)
+                return []
+            case .results(let slugs), .reloading(let slugs):
+                return slugs
             }
         }
 
@@ -58,30 +61,28 @@ extension HomeView {
             }
         }
 
-        func refreshContent(with completion: @escaping () -> Void) {
-            guard case let .results(staleArticles) = trendingArticles else {
-                completion()
-                return
-            }
+        func refreshContent() {
+            trendingArticles = .loading
+            followedArticles = .loading
+            unfollowedArticles = .loading
 
-            trendingArticles = .reloading(staleArticles)
-            fetchTrendingArticles(with: completion)
+            fetchTrendingArticles()
+            fetchPage()
         }
 
-        func fetchTrendingArticles(with completion: @escaping () -> Void = { }) {
+        func fetchTrendingArticles() {
             Network.shared.publisher(for: GetTrendingArticlesQuery(limit: 7))
                 .map { $0.articles.map(\.fragments.articleFields) }
                 .sink { [weak self] completion in
                     self?.networkState?.handleCompletion(screen: .home, completion)
                 } receiveValue: { articleFieldsList in
                     self.trendingArticles = .results([Article](articleFieldsList))
-                    completion()
                 }
                 .store(in: &queryBag)
         }
 
         func fetchPage() {
-            if followedArticlesOffset == 0 {
+            if offset(for: followedArticles) == 0 {
                 // Get first page
                 Network.shared.publisher(for: GetAllPublicationSlugsQuery())
                     .map { $0.publications.map(\.slug) }
@@ -98,8 +99,9 @@ extension HomeView {
                     }
                     .store(in: &queryBag)
             } else {
+                let slugs = hasMoreFollowedArticlePages ? followedPublicationSlugs : loadedPublicationSlugs
                 Network.shared
-                    .publisher(for: GetArticlesByPublicationSlugsQuery(slugs: followedPublicationSlugs, limit: Constants.pageSize, offset: followedArticlesOffset))
+                    .publisher(for: GetArticlesByPublicationSlugsQuery(slugs: slugs, limit: Constants.pageSize, offset: offset(for: hasMoreFollowedArticlePages ? followedArticles : unfollowedArticles)))
                     .map { $0.articles.map(\.fragments.articleFields) }
                     .sink { [weak self] completion in
                         self?.networkState?.handleCompletion(screen: .home, completion)
@@ -112,20 +114,39 @@ extension HomeView {
 
         // MARK: Helpers
 
+        private func offset(for articles: MainView.TabState<[Article]>) -> Double {
+            switch articles {
+            case .loading, .reloading:
+                return 0
+            case .results(let articles):
+                return Double(articles.count)
+            }
+        }
+
         private func updateArticles(with articleFields: [ArticleFields]) {
             let newArticles = [Article](articleFields)
 
-            switch followedArticles {
-            case .loading:
-                followedArticles = .results(newArticles)
+            switch hasMoreFollowedArticlePages ? followedArticles : unfollowedArticles {
+            case .loading, .reloading:
+                if hasMoreFollowedArticlePages {
+                    followedArticles = .results(newArticles)
+                } else {
+                    unfollowedArticles = .results(newArticles)
+                }
             case .results(let articles):
-                followedArticles = .results(articles + newArticles)
-            case .reloading(let articles):
-                followedArticles = .reloading(articles + newArticles)
+                if hasMoreFollowedArticlePages {
+                    followedArticles = .results(articles + newArticles)
+                } else {
+                    unfollowedArticles = .results(articles + newArticles)
+                }
             }
 
             if newArticles.count < Int(Constants.pageSize) {
-                hasMorePages = false
+                if hasMoreFollowedArticlePages {
+                    hasMoreFollowedArticlePages = false
+                } else {
+                    hasMoreUnfollowedArticlePages = false
+                }
             }
         }
     }
