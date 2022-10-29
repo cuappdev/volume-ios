@@ -100,7 +100,7 @@ struct MagazinesList: View {
                     moreMagazinesSection
                }
             }
-            .disabled(!state.isLoading)
+            .disabled(state.isLoading)
             .padding(.top)
             .background(Color.volume.backgroundGray)
             .toolbar {

@@ -24,15 +24,15 @@ struct HomeView: View {
     }
 
     var body: some View {
-        // TODO: refresh viewModel.refreshContent
         List {
             Group {
                 trendingArticlesSection
                 followedArticlesSection
+                unfollowedArticlesSection
             }
             .listSectionSeparator(.hidden)
             .listRowSeparator(.hidden)
-            .listRowInsets(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
+            .listRowInsets(EdgeInsets(top: 0, leading: Constants.listHorizontalPadding, bottom: 0, trailing: Constants.listHorizontalPadding))
             .listRowBackground(Color.clear)
         }
         .toolbar {
@@ -43,6 +43,9 @@ struct HomeView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .listStyle(.plain)
+        .refreshable {
+            viewModel.refreshContent()
+        }
         .modifier(ListBackgroundModifier())
         .background(Constants.backgroundColor)
         .disabled(viewModel.disableScrolling)
@@ -80,31 +83,39 @@ struct HomeView: View {
             }
         } header: {
             Header("The Big Read")
-                .padding(.top, 8)
+                .padding(.vertical, Constants.rowVerticalPadding)
                 .foregroundColor(.black)
         }
         .background(headerGradient)
     }
 
     private var followedArticlesSection: some View {
+        articleSection(followed: true)
+    }
+
+    private var unfollowedArticlesSection: some View {
+        articleSection(followed: false)
+    }
+
+    private func articleSection(followed: Bool) -> some View {
         Section {
-            switch viewModel.followedArticles {
+            switch followed ? viewModel.followedArticles : viewModel.unfollowedArticles {
             case .loading:
-                if userData.followedPublicationSlugs.isEmpty {
+                if followed && userData.followedPublicationSlugs.isEmpty {
                     VolumeMessage(message: .noFollowingHome, largeFont: false, fullWidth: false)
                         .padding(.top, Constants.volumeMessageTopPadding)
                         .padding(.bottom, Constants.volumeMessageBottomPadding)
                 } else {
                     ForEach(0..<5, id: \.self) { _ in
                         ArticleRow.Skeleton()
-                            .padding(.vertical, 8)
+                            .padding(.vertical, Constants.rowVerticalPadding)
                     }
                 }
             case .reloading(let articles), .results(let articles):
                 ForEach(articles) { article in
                     ZStack {
                         ArticleRow(article: article, navigationSource: .followingArticles)
-                            .padding(.vertical, 8)// TODO: constant
+                            .padding(.vertical, Constants.rowVerticalPadding)
                             .background {
                                 NavigationLink("") {
                                     BrowserView(initType: .readyForDisplay(article), navigationSource: .followingArticles)
@@ -114,21 +125,24 @@ struct HomeView: View {
                     }
                 }
 
-                if viewModel.hasMorePages {
+                if followed ? viewModel.hasMoreFollowedArticlePages : viewModel.hasMoreUnfollowedArticlePages {
                     ArticleRow.Skeleton()
-                        .padding(.vertical, 8)
+                        .padding(.vertical, Constants.rowVerticalPadding)
                         .onAppear {
                             viewModel.fetchPage()
                         }
-                } else {
+                } else if followed {
                     VolumeMessage(message: articles.count > 0 ? .upToDate : .noFollowingHome, largeFont: false, fullWidth: false)
                         .padding(.top, Constants.volumeMessageTopPadding)
                         .padding(.bottom, Constants.volumeMessageBottomPadding)
+                        .onAppear {
+                            viewModel.fetchPage()
+                        }
                 }
             }
         } header: {
-            Header("Following")
-                .padding(.top, 8)
+            Header(followed ? "Following" : "Other Articles")
+                .padding(.vertical, Constants.rowVerticalPadding)
                 .foregroundColor(.black)
         }
         .background(headerGradient)
@@ -146,11 +160,11 @@ struct HomeView: View {
 
 extension HomeView {
     private struct Constants {
-        static let verticalSpacing: CGFloat = 20
+        static let listHorizontalPadding: CGFloat = 16
+        static let rowVerticalPadding: CGFloat = 6
         static let trendingArticleHorizontalSpacing: CGFloat = 24
         static let volumeMessageTopPadding: CGFloat = 25
         static let volumeMessageBottomPadding: CGFloat = 0
-        static let scrollCoordinateSpaceName = "HomeScrollViewCoodinateSpace"
 
         static var backgroundColor: Color {
             // Prevent inconsistency w/ List background in lower iOS versions
