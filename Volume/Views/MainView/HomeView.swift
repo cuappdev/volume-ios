@@ -11,7 +11,7 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
-    @StateObject private var viewModel = ViewModel()
+    @StateObject var viewModel = ViewModel()
 
     init() {
         let navBarAppearance = UINavigationBarAppearance()
@@ -27,8 +27,10 @@ struct HomeView: View {
         List {
             Group {
                 trendingArticlesSection
+                weeklyDebriefButton
                 followedArticlesSection
                 unfollowedArticlesSection
+                deepNavigationLink
             }
             .listSectionSeparator(.hidden)
             .listRowSeparator(.hidden)
@@ -44,15 +46,34 @@ struct HomeView: View {
         .navigationBarTitleDisplayMode(.inline)
         .listStyle(.plain)
         .refreshable {
-            viewModel.refreshContent()
+            viewModel.fetchContent()
         }
         .modifier(ListBackgroundModifier())
         .background(Constants.backgroundColor)
         .disabled(viewModel.disableScrolling)
         .onAppear {
-            viewModel.setup(networkState: networkState, userData: userData)
-            viewModel.fetchTrendingArticles()
-            viewModel.fetchPage()
+            viewModel.setupEnvironment(networkState: networkState, userData: userData)
+            viewModel.fetchContent()
+        }
+        .onOpenURL { url in
+            viewModel.handleURL(url)
+        }
+        .sheet(isPresented: $viewModel.isWeeklyDebriefOpen) {
+            viewModel.isWeeklyDebriefOpen = false
+        } content: {
+            weeklyDebriefView
+        }
+    }
+
+    // MARK: Deeplink
+
+    private var deepNavigationLink: some View {
+        // Invisible navigation link only opens if application is opened
+        // through deeplink with valid article
+        Group {
+            if let articleID = viewModel.deeplinkID {
+                NavigationLink("", destination: BrowserView(initType: .fetchRequired(articleID), navigationSource: .morePublications), isActive: $viewModel.openArticleFromDeeplink)
+            }
         }
     }
 
@@ -62,20 +83,19 @@ struct HomeView: View {
         Section {
             ScrollView(.horizontal, showsIndicators: false) {
                 switch viewModel.trendingArticles {
-                case .loading:
+                case .loading, .reloading:
                     HStack(spacing: Constants.trendingArticleHorizontalSpacing) {
                         ForEach(0..<2) { _ in
                             BigReadArticleRow.Skeleton()
                         }
                     }
-                case .reloading(let articles), .results(let articles):
+                case .results(let articles):
                     HStack(spacing: Constants.trendingArticleHorizontalSpacing) {
                         ForEach(articles) { article in
-                            ZStack {
+                            NavigationLink {
+                                BrowserView(initType: .readyForDisplay(article), navigationSource: .trendingArticles)
+                            } label: {
                                 BigReadArticleRow(article: article)
-                                NavigationLink("") {
-                                    BrowserView(initType: .readyForDisplay(article), navigationSource: .trendingArticles)
-                                }.opacity(0)
                             }
                         }
                     }
@@ -89,6 +109,33 @@ struct HomeView: View {
         .background(headerGradient)
     }
 
+    private var weeklyDebriefButton: some View {
+        Group {
+            switch viewModel.weeklyDebrief {
+            case .loading, .reloading:
+                SkeletonView()
+            case .results(let weeklyDebrief):
+                if let _ = weeklyDebrief {
+                    WeeklyDebriefButton(buttonPressed: $viewModel.isWeeklyDebriefOpen)
+                }
+            }
+        }
+        .padding(.top, Constants.weeklyDebriefTopPadding)
+        .padding(.bottom, Constants.rowVerticalPadding)
+    }
+
+    private var weeklyDebriefView: some View {
+        Group {
+            if let weeklyDebrief = userData.weeklyDebrief {
+                WeeklyDebriefView(
+                    isOpen: $viewModel.isWeeklyDebriefOpen,
+                    onOpenArticleUrl: $viewModel.deeplinkID,
+                    openedURL: $viewModel.openArticleFromDeeplink,
+                    weeklyDebrief: weeklyDebrief)
+            }
+        }
+    }
+
     private var followedArticlesSection: some View {
         articleSection(followed: true)
     }
@@ -100,7 +147,7 @@ struct HomeView: View {
     private func articleSection(followed: Bool) -> some View {
         Section {
             switch followed ? viewModel.followedArticles : viewModel.unfollowedArticles {
-            case .loading:
+            case .loading, .reloading:
                 if followed && userData.followedPublicationSlugs.isEmpty {
                     VolumeMessage(message: .noFollowingHome, largeFont: false, fullWidth: false)
                         .padding(.top, Constants.volumeMessageTopPadding)
@@ -111,37 +158,35 @@ struct HomeView: View {
                             .padding(.vertical, Constants.rowVerticalPadding)
                     }
                 }
-            case .reloading(let articles), .results(let articles):
+            case .results(let articles):
                 ForEach(articles) { article in
-                    ZStack {
-                        ArticleRow(article: article, navigationSource: .followingArticles)
-                            .padding(.vertical, Constants.rowVerticalPadding)
-                            .background {
-                                NavigationLink("") {
-                                    BrowserView(initType: .readyForDisplay(article), navigationSource: .followingArticles)
-                                }
-                                .opacity(0)
+                    ArticleRow(article: article, navigationSource: .followingArticles)
+                        .padding(.vertical, Constants.rowVerticalPadding)
+                        .background {
+                            NavigationLink("") {
+                                BrowserView(initType: .readyForDisplay(article), navigationSource: .followingArticles)
                             }
-                    }
+                            .opacity(0)
+                        }
                 }
 
                 if followed ? viewModel.hasMoreFollowedArticlePages : viewModel.hasMoreUnfollowedArticlePages {
                     ArticleRow.Skeleton()
                         .padding(.vertical, Constants.rowVerticalPadding)
                         .onAppear {
-                            viewModel.fetchPage()
+                            viewModel.fetchPage(followed: followed)
                         }
                 } else if followed {
                     VolumeMessage(message: articles.count > 0 ? .upToDate : .noFollowingHome, largeFont: false, fullWidth: false)
                         .padding(.top, Constants.volumeMessageTopPadding)
                         .padding(.bottom, Constants.volumeMessageBottomPadding)
                         .onAppear {
-                            viewModel.fetchPage()
+                            viewModel.fetchPage(followed: false)
                         }
                 }
             }
         } header: {
-            Header(followed ? "Following" : "Other Articles")
+            Header(followed ? Constants.followedArticlesSectionTitle : Constants.unfollowedArticlesSectionTitle)
                 .padding(.vertical, Constants.rowVerticalPadding)
                 .foregroundColor(.black)
         }
@@ -162,9 +207,12 @@ extension HomeView {
     private struct Constants {
         static let listHorizontalPadding: CGFloat = 16
         static let rowVerticalPadding: CGFloat = 6
+        static let weeklyDebriefTopPadding: CGFloat = 24
         static let trendingArticleHorizontalSpacing: CGFloat = 24
         static let volumeMessageTopPadding: CGFloat = 25
         static let volumeMessageBottomPadding: CGFloat = 0
+        static let followedArticlesSectionTitle: String = "Following"
+        static let unfollowedArticlesSectionTitle: String = "Other Articles"
 
         static var backgroundColor: Color {
             // Prevent inconsistency w/ List background in lower iOS versions
