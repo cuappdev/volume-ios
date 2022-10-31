@@ -68,8 +68,8 @@ struct HomeView: View {
     // MARK: Deeplink
 
     private var deepNavigationLink: some View {
-        // Invisible navigation link only opens if application is opened
-        // through deeplink with valid article
+        // Invisible navigation link
+        // Only opens if application is opened through deeplink w/ valid article
         Group {
             if let articleID = viewModel.deeplinkID {
                 NavigationLink("", destination: BrowserView(initType: .fetchRequired(articleID), navigationSource: .morePublications), isActive: $viewModel.openArticleFromDeeplink)
@@ -163,10 +163,11 @@ struct HomeView: View {
                     ArticleRow(article: article, navigationSource: .followingArticles)
                         .padding(.vertical, Constants.rowVerticalPadding)
                         .background {
+                            // Done to prevent display of right arrow-
                             NavigationLink("") {
                                 BrowserView(initType: .readyForDisplay(article), navigationSource: .followingArticles)
                             }
-                            .opacity(0)
+                            .hidden()
                         }
                 }
 
