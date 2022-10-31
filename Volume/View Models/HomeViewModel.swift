@@ -123,6 +123,7 @@ extension HomeView {
         }
 
         func fetchTrendingArticles() {
+            // TODO: filter trending articles from feed?
             Network.shared.publisher(for: GetTrendingArticlesQuery(limit: 7))
                 .map { $0.articles.map(\.fragments.articleFields) }
                 .sink { [weak self] completion in
