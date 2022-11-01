@@ -10,13 +10,6 @@ import SwiftUI
 
 struct SkeletonView: View {
     @State private var animate = false
-    @State private var onScreen = false
-
-    private struct Constants {
-        static let minOpacity = 0.25
-        static let maxOpacity = 1.0
-        static let duration = 1.0
-    }
 
     private var animation: Animation {
         Animation
@@ -30,16 +23,17 @@ struct SkeletonView: View {
             .opacity(animate ? Constants.minOpacity : Constants.maxOpacity)
             .transition(.opacity)
             .onAppear {
-                // Hack that solves SwiftUI view bouncing issue
-                onScreen = true
-                if onScreen {
-                    withAnimation(animation) {
-                        animate.toggle()
-                    }
+                withAnimation(animation) {
+                    animate.toggle()
                 }
             }
-            .onDisappear {
-                onScreen = false
-            }
+    }
+}
+
+extension SkeletonView {
+    private struct Constants {
+        static let minOpacity = 0.25
+        static let maxOpacity = 1.0
+        static let duration = 1.0
     }
 }

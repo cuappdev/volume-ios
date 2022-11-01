@@ -36,13 +36,13 @@ struct WeeklyDebriefButton: View {
             }
         }
         .frame(height: Constants.height)
-        .shadow(color: .volume.shadowBlack, radius: Constants.shadowRadius, x: 0, y: 0)
+        .shadow(color: .volume.shadowBlack, radius: Constants.shadowRadius)
     }
 }
 
 extension WeeklyDebriefButton {
     private struct Constants {
-        static let titleText: String = "Your\nWeekly\nDebrief"
+        static let titleText = "Your\nWeekly\nDebrief"
         static let titleTextFontSize: CGFloat = 18
         static let height: CGFloat = 92
         static let shadowRadius: CGFloat = 5

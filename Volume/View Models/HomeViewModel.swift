@@ -12,18 +12,20 @@ import SwiftUI
 extension HomeView {
     @MainActor class ViewModel: ObservableObject {
         typealias ArticlesResultPublisher = Publishers.Map<OperationPublisher<GetArticlesByPublicationSlugsQuery.Data>, [ArticleFields]>
+        typealias DataState<T> = MainView.TabState<T>
 
         private struct Constants {
             static let pageSize: Double = 10
+            static let trendingArticleLimit: Double = 7
         }
 
         var networkState: NetworkState?
         var userData: UserData?
 
-        @Published var trendingArticles: MainView.TabState<[Article]> = .loading
-        @Published var weeklyDebrief: MainView.TabState<WeeklyDebrief?> = .loading
-        @Published var followedArticles: MainView.TabState<[Article]> = .loading
-        @Published var unfollowedArticles: MainView.TabState<[Article]> = .loading
+        @Published var trendingArticles: DataState<[Article]> = .loading
+        @Published var weeklyDebrief: DataState<WeeklyDebrief?> = .loading
+        @Published var followedArticles: DataState<[Article]> = .loading
+        @Published var unfollowedArticles: DataState<[Article]> = .loading
         @Published var hasMoreFollowedArticlePages = true
         @Published var hasMoreUnfollowedArticlePages = true
         @Published var isWeeklyDebriefOpen: Bool = false
@@ -94,7 +96,7 @@ extension HomeView {
                     } receiveValue: { [weak self] weeklyDebriefFields in
                         guard let weeklyDebriefFields else {
                             #if DEBUG
-                            print("Error: GetWeeklyDebrief failed on HomeList: field \"weeklyDebrief\" is nil.")
+                            print("Error: GetWeeklyDebrief failed on HomeView: field \"weeklyDebrief\" is nil.")
                             #endif
                             self?.weeklyDebrief = .results(nil)
                             return
@@ -124,7 +126,7 @@ extension HomeView {
 
         func fetchTrendingArticles() {
             // TODO: filter trending articles from feed?
-            Network.shared.publisher(for: GetTrendingArticlesQuery(limit: 7))
+            Network.shared.publisher(for: GetTrendingArticlesQuery(limit: Constants.trendingArticleLimit))
                 .map { $0.articles.map(\.fragments.articleFields) }
                 .sink { [weak self] completion in
                     self?.networkState?.handleCompletion(screen: .home, completion)
@@ -167,11 +169,9 @@ extension HomeView {
         // MARK: Deeplink
 
         func handleURL(_ url: URL) {
-            if url.isDeeplink {
-                if let id = url.parameters["id"] {
-                    deeplinkID = id
-                    openArticleFromDeeplink = true
-                }
+            if url.isDeeplink, let id = url.parameters["id"] {
+                deeplinkID = id
+                openArticleFromDeeplink = true
             }
         }
 
