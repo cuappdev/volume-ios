@@ -131,7 +131,8 @@ struct HomeView: View {
                     isOpen: $viewModel.isWeeklyDebriefOpen,
                     onOpenArticleUrl: $viewModel.deeplinkID,
                     openedURL: $viewModel.openArticleFromDeeplink,
-                    weeklyDebrief: weeklyDebrief)
+                    weeklyDebrief: weeklyDebrief
+                )
             }
         }
     }
@@ -153,7 +154,7 @@ struct HomeView: View {
                         .padding(.top, Constants.volumeMessageTopPadding)
                         .padding(.bottom, Constants.volumeMessageBottomPadding)
                 } else {
-                    ForEach(0..<5, id: \.self) { _ in
+                    ForEach(0..<5) { _ in
                         ArticleRow.Skeleton()
                             .padding(.vertical, Constants.rowVerticalPadding)
                     }
