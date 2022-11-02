@@ -60,7 +60,7 @@ struct MorePublicationRow: View {
 
             Spacer()
 
-            Button(action: {
+            Button {
                 withAnimation {
                     followRequestInProgress = true
                     userData.togglePublicationFollowed(publication, $followRequestInProgress)
@@ -70,9 +70,9 @@ struct MorePublicationRow: View {
                             VolumeEvent.unfollowPublication.toEvent(.publication, value: publication.slug, navigationSource: navigationSource)
                     )
                 }
-            }, label: {
+            } label: {
                 Image(userData.isPublicationFollowed(publication) ? "followed" : "follow")
-            })
+            }
             .disabled(followRequestInProgress)
         }
         .padding([.leading, .trailing])
