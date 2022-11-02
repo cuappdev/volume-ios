@@ -1,0 +1,58 @@
+fragment magazineFields on Magazine {
+  id
+  magazineURL
+  date
+  semester
+  pdfURL
+  publication {
+    ...publicationFields
+  }
+  shoutouts
+  title
+  nsfw
+}
+
+# MARK: - Mag Page
+
+query GetFeaturedMagazines($limit: Float!) {
+  magazines: getFeaturedMagazines(limit: $limit) {
+    ...magazineFields
+  }
+}
+
+query GetMagazinesBySemester($semester: String!) {
+  magazines: getMagazinesBySemester(semester: $semester) {
+    ...magazineFields
+  }
+}
+
+
+# MARK: - Pub Page
+
+query GetMagazinesByPublicationSlug($slug: String!) {
+  magazines: getMagazinesByPublicationSlug(slug: $slug) {
+    ...magazineFields
+  }
+}
+
+query GetMagazinesByPublicationSlugs($slugs: [String!]!) {
+  magazines: getMagazinesByPublicationSlugs(slugs: $slugs) {
+    ...magazineFields
+  }
+}
+
+# MARK: - BookmarksList
+
+query GetMagazineByID($id: String!) {
+  magazine: getMagazineByID(id: $id) {
+    ...magazineFields
+  }
+}
+
+query GetMagazinesByIDs($ids: [String!]!) {
+  magazine: getMagazinesByIDs(ids: $ids) {
+    ...magazineFields
+  }
+}
+
+
