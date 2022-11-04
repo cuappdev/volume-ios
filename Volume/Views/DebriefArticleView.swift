@@ -18,7 +18,8 @@ struct DebriefArticleView: View {
     static let bodySpacing: CGFloat = 30
     static let bodyFrameSize: CGFloat = 275
     static let bodyFrameHeight: CGFloat = 435
-
+    
+    @State private var bookmarkRequestInProgress = false
     @State private var cancellableShoutoutMutation: AnyCancellable?
     @EnvironmentObject private var userData: UserData
     let header: String
@@ -37,21 +38,23 @@ struct DebriefArticleView: View {
     }
 
     var saveButton: some View {
-        Button {
-            userData.toggleArticleSaved(article)
+        Button(action: {
+            bookmarkRequestInProgress = true 
+            userData.toggleArticleSaved(article, $bookmarkRequestInProgress)
             AppDevAnalytics.log(
                 userData.isArticleSaved(article) ?
                 VolumeEvent.bookmarkArticle.toEvent(.article, value: article.id, navigationSource: .weeklyDebrief) :
                     VolumeEvent.unbookmarkArticle.toEvent(.article, value: article.id, navigationSource: .weeklyDebrief)
             )
-        } label: {
+        }, label: {
             Image.volume.bookmark
                 .resizable()
                 .scaledToFit()
                 .frame(height: Self.buttonLabelHeight)
                 .accentColor(userData.isArticleSaved(article) ? .white : .volume.orange)
                 .background(userData.isArticleSaved(article) ? Color.volume.orange : Color.white)
-        }
+        })
+        .disabled(bookmarkRequestInProgress)
         .frame(width: Self.buttonSize, height: Self.buttonSize)
         .background(userData.isArticleSaved(article) ? Color.volume.orange : Color.white)
         .overlay(Circle().stroke(Color.volume.orange, lineWidth: 4))

@@ -11,14 +11,14 @@ import SwiftUI
 
 struct PublicationDetailHeader: View {
     @EnvironmentObject private var userData: UserData
-    @State private var hasOddNumberOfTaps = false
+    @State private var followRequestInProgress = false
     private let iconGray = Color(white: 196 / 255)
 
     let navigationSource: NavigationSource
     let publication: Publication
     // Takes into account any new user taps of the following button
     private var isFollowed: Bool {
-        userData.isPublicationFollowed(publication) != hasOddNumberOfTaps
+        userData.isPublicationFollowed(publication) 
     }
     private var shoutouts: Int {
         max(publication.shoutouts, userData.shoutoutsCache[publication.slug, default: 0])
@@ -59,13 +59,20 @@ struct PublicationDetailHeader: View {
                 Spacer()
 
                 Button(action: {
-                    hasOddNumberOfTaps.toggle()
+                    followRequestInProgress = true
+                    userData.togglePublicationFollowed(publication, $followRequestInProgress)
+                    AppDevAnalytics.log(
+                        userData.isPublicationFollowed(publication) ?
+                            VolumeEvent.followPublication.toEvent(.publication, value: publication.slug, navigationSource: navigationSource) :
+                            VolumeEvent.unfollowPublication.toEvent(.publication, value: publication.slug, navigationSource: navigationSource)
+                    )
                 }, label: {
                     Text(isFollowed ? "Following" : "+  Follow")
                         .font(.helveticaNeueMedium(size: 12))
                         .padding([.top, .bottom], 8)
                         .padding([.leading, .trailing], 18)
                 })
+                .disabled(followRequestInProgress)
                 .foregroundColor(isFollowed ? .volume.buttonGray: .volume.orange)
                 .background(
                     isFollowed ?
@@ -83,16 +90,6 @@ struct PublicationDetailHeader: View {
             externalLinks
         }
         .padding([.leading, .trailing])
-        .onDisappear {
-            if hasOddNumberOfTaps {
-                userData.togglePublicationFollowed(publication)
-                AppDevAnalytics.log(
-                    userData.isPublicationFollowed(publication) ?
-                        VolumeEvent.followPublication.toEvent(.publication, value: publication.slug, navigationSource: navigationSource) :
-                        VolumeEvent.unfollowPublication.toEvent(.publication, value: publication.slug, navigationSource: navigationSource)
-                )
-            }
-        }
     }
 }
 
