@@ -60,9 +60,3 @@ extension OnboardingView.WelcomeView {
         }
     }
 }
-
-//struct WelcomeView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        OnboardingView.WelcomeView()
-//    }
-//}

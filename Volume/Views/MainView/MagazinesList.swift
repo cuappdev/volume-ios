@@ -36,7 +36,7 @@ struct MagazinesList: View {
                 $0.magazines?.map(\.fragments.magazineFields)
             }
             .sink { completion in
-                networkState.handleCompletion(screen: .magazinesList, completion)
+                networkState.handleCompletion(screen: .magazines, completion)
             } receiveValue: { magazineFields in
                 let featuredMagazines = [Magazine](magazineFields)
                 withAnimation(.linear(duration: Constants.animationDuration)) {
@@ -50,7 +50,7 @@ struct MagazinesList: View {
         sectionQueries.magazinesBySemester = Network.shared.publisher(for: GetMagazinesBySemesterQuery(semester: Constants.currentSemester))
             .map { $0.magazines.map(\.fragments.magazineFields) }
             .sink { completion in
-                networkState.handleCompletion(screen: .magazinesList, completion)
+                networkState.handleCompletion(screen: .magazines, completion)
             } receiveValue: { magazineFields in
                 let magazinesBySemester = [Magazine](magazineFields)
                 
@@ -127,7 +127,7 @@ struct MagazinesList: View {
                     magazinesBySemesterSection
                }
             }
-            .disabled(sectionStates.featuredMagazines.shouldDisableScroll)
+            .disabled(sectionStates.featuredMagazines.isLoading)
             .padding(.top)
             .background(Color.volume.backgroundGray)
             .toolbar {

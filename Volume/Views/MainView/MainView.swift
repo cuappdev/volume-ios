@@ -14,26 +14,25 @@ struct MainView: View {
     @State private var selectedTab: Screen = .home
     @State private var tabBarHeight: CGFloat = 75
     @EnvironmentObject private var notifications: Notifications
-    @EnvironmentObject private var networkState: NetworkState
 
     private var tabViewContainer: some View {
         TabView(selection: $selectedTab) {
-            TabContainer(screen: .homeList) {
-                HomeList()
+            TabContainer(screen: .home) {
+                HomeView()
             }
             .tag(Screen.home)
 
-            TabContainer(screen: .magazinesList) {
+            TabContainer(screen: .magazines) {
                 MagazinesList()
             }
             .tag(Screen.magazines)
 
-            TabContainer(screen: .publicationList) {
+            TabContainer(screen: .publications) {
                 PublicationList()
             }
             .tag(Screen.publications)
             
-            TabContainer(screen: .bookmarksList) {
+            TabContainer(screen: .bookmarks) {
                 BookmarksList()
             }
             .tag(Screen.bookmarks)
@@ -127,15 +126,6 @@ extension MainView {
                 return true
             }
         }
-        
-        var shouldDisableScroll: Bool {
-            switch self {
-            case .loading:
-                return true
-            default:
-                return false
-            }
-        }
     }
 }
 
@@ -164,11 +154,5 @@ extension MainView {
             }
             .frame(width: 75)
         }
-    }
-}
-
-struct MainView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainView()
     }
 }

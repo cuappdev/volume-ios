@@ -48,25 +48,3 @@ extension BigReadArticleRow {
         }
     }
 }
-
-//struct BigReadArticleRow_Previews: PreviewProvider {
-//    static var previews: some View {
-//        BigReadArticleRow(
-//            article: Article(
-//                articleURL: nil,
-//                date: Date(),
-//                id: "a",
-//                imageURL: nil,
-//                publication: Publication(
-//                    description: "CU",
-//                    name: "CUNooz",
-//                    id: "sdfsdf",
-//                    imageURL: nil,
-//                    recent: "Sandpaper Tastes Like What?!"
-//                ),
-//                shoutOuts: 14,
-//                title: "Children Discover the Meaning of Christmas"
-//            )
-//        )
-//    }
-//}
