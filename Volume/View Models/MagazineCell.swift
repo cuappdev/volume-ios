@@ -18,11 +18,10 @@ struct MagazineCell: View {
     var body: some View {
         VStack(alignment: .leading) {
             // TODO: figure out how to obtain cover image from PDF
-            SkeletonView()
-//            WebImage(url: magazine.magazineUrl)
-//                .resizable()
-//                .grayBackground()
-//                .aspectRatio(contentMode: .fill)
+            WebImage(url: URL(string: "https://picsum.photos/200")!)
+                .resizable()
+                .grayBackground()
+                .aspectRatio(contentMode: .fill)
                 .frame(width: 150, height: 220)
                 .clipped()
                 .shadow(color: Color.black.opacity(0.2), radius: 8, x: 4, y: 4)
@@ -88,17 +87,3 @@ extension MagazineCell {
         }
     }
 }
-
-//struct FollowingPublicationRow_Previews: PreviewProvider {
-//    static var previews: some View {
-//        FollowingPublicationRow(
-//            publication: Publication(
-//                description: "CU",
-//                name: "CUNooz",
-//                id: "sdfsdf",
-//                imageURL: nil,
-//                recent: "Sandpaper Tastes Like What?!"
-//            )
-//        )
-//    }
-//}
