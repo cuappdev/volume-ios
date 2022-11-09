@@ -26,4 +26,9 @@ struct WeeklyDebrief: Codable {
         readArticleIDs = weeklyDebrief.readArticles.map(\.fragments.articleFields.id)
         randomArticleIDs = weeklyDebrief.randomArticles.map(\.fragments.articleFields.id)
     }
+
+    var isExpired: Bool {
+        let comparisonResult = Calendar.current.compare(self.expirationDate, to: Date.now, toGranularity: .day)
+        return comparisonResult == .orderedAscending || comparisonResult == .orderedSame
+    }
 }
