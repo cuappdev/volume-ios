@@ -17,10 +17,12 @@ struct MagazineCell: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            WebImage(url: magazine.magazineUrl)
-                .resizable()
-                .grayBackground()
-                .aspectRatio(contentMode: .fill)
+            // TODO: figure out how to obtain cover image from PDF
+            SkeletonView()
+//            WebImage(url: magazine.magazineUrl)
+//                .resizable()
+//                .grayBackground()
+//                .aspectRatio(contentMode: .fill)
                 .frame(width: 150, height: 220)
                 .clipped()
                 .shadow(color: Color.black.opacity(0.2), radius: 8, x: 4, y: 4)
