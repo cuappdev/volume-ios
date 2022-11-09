@@ -17,7 +17,8 @@ struct MagazineCell: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            WebImage(url: magazine.magazineUrl)
+            // TODO: figure out how to obtain cover image from PDF
+            WebImage(url: URL(string: "https://picsum.photos/200")!)
                 .resizable()
                 .grayBackground()
                 .aspectRatio(contentMode: .fill)
@@ -86,17 +87,3 @@ extension MagazineCell {
         }
     }
 }
-
-//struct FollowingPublicationRow_Previews: PreviewProvider {
-//    static var previews: some View {
-//        FollowingPublicationRow(
-//            publication: Publication(
-//                description: "CU",
-//                name: "CUNooz",
-//                id: "sdfsdf",
-//                imageURL: nil,
-//                recent: "Sandpaper Tastes Like What?!"
-//            )
-//        )
-//    }
-//}

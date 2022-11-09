@@ -10,6 +10,7 @@ import SwiftUI
 
 struct SkeletonView: View {
     @State private var animate = false
+    @State private var onScreen = true
 
     private var animation: Animation {
         Animation
@@ -23,9 +24,14 @@ struct SkeletonView: View {
             .opacity(animate ? Constants.minOpacity : Constants.maxOpacity)
             .transition(.opacity)
             .onAppear {
-                withAnimation(animation) {
-                    animate.toggle()
+                if onScreen {
+                    withAnimation(animation) {
+                        animate.toggle()
+                    }
                 }
+            }
+            .onDisappear {
+                onScreen = false
             }
     }
 }

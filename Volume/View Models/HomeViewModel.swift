@@ -105,13 +105,13 @@ extension HomeView {
                         let weeklyDebrief = WeeklyDebrief(from: weeklyDebriefFields)
                         self?.userData?.weeklyDebrief = weeklyDebrief
                         self?.weeklyDebrief = .results(weeklyDebrief)
-                        self?.isWeeklyDebriefOpen = true
+                        self?.isWeeklyDebriefOpen = !weeklyDebrief.isExpired
                     }
                     .store(in: &queryBag)
             }
 
             if let cachedWeeklyDebrief = userData?.weeklyDebrief {
-                if cachedWeeklyDebrief.expirationDate < Date() {
+                if cachedWeeklyDebrief.isExpired {
                     // Cached WD expired, query new one
                     fetch()
                 } else {
