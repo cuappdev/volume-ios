@@ -24,33 +24,13 @@ struct HomeView: View {
     }
 
     var body: some View {
-        List {
-            Group {
-                trendingArticlesSection
-                weeklyDebriefButton
-                followedArticlesSection
-                unfollowedArticlesSection
-                deepNavigationLink
-            }
-            .listSectionSeparator(.hidden)
-            .listRowSeparator(.hidden)
-            .listRowInsets(EdgeInsets(top: 0, leading: Constants.listHorizontalPadding, bottom: 0, trailing: Constants.listHorizontalPadding))
-            .listRowBackground(Color.clear)
-        }
+        listContent
         .toolbar {
             ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
                 Image.volume.logo
                     .foregroundColor(.red)
             }
         }
-        .navigationBarTitleDisplayMode(.inline)
-        .listStyle(.plain)
-        .refreshable {
-            viewModel.fetchContent()
-        }
-        .modifier(ListBackgroundModifier())
-        .background(Constants.backgroundColor)
-        .disabled(viewModel.disableScrolling)
         .onAppear {
             viewModel.setupEnvironment(networkState: networkState, userData: userData)
             viewModel.fetchContent()
@@ -65,16 +45,27 @@ struct HomeView: View {
         }
     }
 
-    // MARK: Deeplink
-
-    private var deepNavigationLink: some View {
-        // Invisible navigation link
-        // Only opens if application is opened through deeplink w/ valid article
-        Group {
-            if let articleID = viewModel.deeplinkID {
-                NavigationLink("", destination: BrowserView(initType: .fetchRequired(articleID), navigationSource: .morePublications), isActive: $viewModel.openArticleFromDeeplink)
+    private var listContent: some View {
+        List {
+            Group {
+                trendingArticlesSection
+                weeklyDebriefButton
+                followedArticlesSection
+                unfollowedArticlesSection
             }
+            .listSectionSeparator(.hidden)
+            .listRowSeparator(.hidden)
+            .listRowInsets(EdgeInsets(top: 0, leading: Constants.listHorizontalPadding, bottom: 0, trailing: Constants.listHorizontalPadding))
+            .listRowBackground(Color.clear)
         }
+        .navigationBarTitleDisplayMode(.inline)
+        .listStyle(.plain)
+        .refreshable {
+            viewModel.fetchContent()
+        }
+        .modifier(ListBackgroundModifier())
+        .background(background)
+        .disabled(viewModel.disableScrolling)
     }
 
     // MARK: Sections
@@ -107,34 +98,6 @@ struct HomeView: View {
                 .foregroundColor(.black)
         }
         .background(headerGradient)
-    }
-
-    private var weeklyDebriefButton: some View {
-        Group {
-            switch viewModel.weeklyDebrief {
-            case .loading, .reloading:
-                SkeletonView()
-            case .results(let weeklyDebrief):
-                if let _ = weeklyDebrief {
-                    WeeklyDebriefButton(buttonPressed: $viewModel.isWeeklyDebriefOpen)
-                }
-            }
-        }
-        .padding(.top, Constants.weeklyDebriefTopPadding)
-        .padding(.bottom, Constants.rowVerticalPadding)
-    }
-
-    private var weeklyDebriefView: some View {
-        Group {
-            if let weeklyDebrief = userData.weeklyDebrief {
-                WeeklyDebriefView(
-                    isOpen: $viewModel.isWeeklyDebriefOpen,
-                    onOpenArticleUrl: $viewModel.deeplinkID,
-                    openedURL: $viewModel.openArticleFromDeeplink,
-                    weeklyDebrief: weeklyDebrief
-                )
-            }
-        }
     }
 
     private var followedArticlesSection: some View {
@@ -195,6 +158,36 @@ struct HomeView: View {
         .background(headerGradient)
     }
 
+    // MARK: Weekly Debrief
+
+    private var weeklyDebriefButton: some View {
+        Group {
+            switch viewModel.weeklyDebrief {
+            case .loading, .reloading:
+                SkeletonView()
+            case .results(let weeklyDebrief):
+                if let _ = weeklyDebrief {
+                    WeeklyDebriefButton(buttonPressed: $viewModel.isWeeklyDebriefOpen)
+                }
+            }
+        }
+        .padding(.top, Constants.weeklyDebriefTopPadding)
+        .padding(.bottom, Constants.rowVerticalPadding)
+    }
+
+    private var weeklyDebriefView: some View {
+        Group {
+            if let weeklyDebrief = userData.weeklyDebrief {
+                WeeklyDebriefView(
+                    isOpen: $viewModel.isWeeklyDebriefOpen,
+                    onOpenArticleUrl: $viewModel.deeplinkID,
+                    openedURL: $viewModel.openArticleFromDeeplink,
+                    weeklyDebrief: weeklyDebrief
+                )
+            }
+        }
+    }
+
     // MARK: Supporting Views
 
     private var headerGradient: some View {
@@ -202,6 +195,31 @@ struct HomeView: View {
             colors: [Constants.backgroundColor, Constants.backgroundColor.opacity(0)],
             startPoint: .top, endPoint: .bottom
         )
+    }
+
+    private var background: some View {
+        ZStack {
+            deepNavigationLink
+            Constants.backgroundColor
+        }
+    }
+
+    private var deepNavigationLink: some View {
+        // Invisible navigation link
+        // Only opens if application is opened through deeplink w/ valid article
+        Group {
+            if let articleID = viewModel.deeplinkID {
+//                if #available(iOS 16.0) {
+//                    NavigationLink(
+//                } else {
+//
+//                }
+                NavigationLink(Constants.browserViewNavigationTitleKey, isActive: $viewModel.openArticleFromDeeplink) {
+                    BrowserView(initType: .fetchRequired(articleID), navigationSource: .morePublications)
+                }
+                .hidden()
+            }
+        }
     }
 }
 
@@ -215,6 +233,7 @@ extension HomeView {
         static let volumeMessageBottomPadding: CGFloat = 0
         static let followedArticlesSectionTitle: String = "Following"
         static let unfollowedArticlesSectionTitle: String = "Other Articles"
+        static let browserViewNavigationTitleKey: String = "BrowserView"
 
         static var backgroundColor: Color {
             // Prevent inconsistency w/ List background in lower iOS versions
