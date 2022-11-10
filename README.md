@@ -7,17 +7,22 @@ Volume is one of the latest applications by [Cornell AppDev](http://cornellappde
 
 ## Development
 
-### 1. Installation
+### Installation
 
 We use [CocoaPods](http://cocoapods.org) for our dependency manager. This should be installed before continuing.
 
 To access the project, clone the project, and run `pod install --repo-update` in the project directory.
 
-### 2. Configuration
+### Configuration
 
-1. To build the project you need a `Supporting/Secrets.plist` file in the project.
+#### 1. Secrets
 
-```xml
+To build the project you need a `Supporting/Secrets.plist` file in the project.
+
+<details>
+  <summary>Secrets.plist Template</summary>
+  
+  ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -43,17 +48,28 @@ To access the project, clone the project, and run `pod install --repo-update` in
 </dict>
 </plist>
 ```
+</details>
 
 AppDev members can access the `Supporting/Secrets.plist` file via a pinned message in the `#volume-ios` channel.
 
-2.  Volume uses GraphQL instead of a RESTful API, so you need a `schema.json`. To get a `schema.json`, run the following command in the project directory: `apollo schema:download --endpoint={Backend_URL} schema.json`. This should add a new `schema.json` file in the main project directory. Move it to the `Networking` directory and make sure it's in the `Networking` group within your Xcode project.
+#### 2. Firebase
 
-3.  AppDev uses Firebase for event logging which requires a `GoogleService-Info.plist` file in the project.
+AppDev uses Firebase for event logging which requires a `GoogleService-Info.plist` file, obtained from a Firebase project.
 
 AppDev members can access the `GoogleService-Info.plist` file via a pinned message in the `#volume-ios` channel.
 Place the file in the `Volume/Supporting/` directory.
 
-4.  Finally, you need to generate `API.swift`. The Apollo iOS pod offers a build run script to do this. Go to the Volume target Build Phases and click the plus to add a new Run Script Phase. Name it something like "Generate Apollo GraphQL API", and paste in the following script. When you build, Xcode will autogenerate `API.swift` if one of the query or mutation `.graphql` files has changed.
+#### 3. Apollo
+
+Volume uses GraphQL instead of a RESTful API. To aid with iOS compatibility, we use [Apollo](apollographql.com) to generate Swift objects that correspond to the `schema.json` specification provided by the backend. Follow [this article](https://www.apollographql.com/docs/devtools/cli/) to install the Apollo CLI. Once installed, run this command from the project's home directory (`volume-ios`). 
+
+```bash
+apollo schema:download --endpoint="https://YOUR-BACKEND-URL.com/graphql" Volume/Networking/schema.json
+```
+
+Double check that a `schema.json` file has been added to the `Networking` directory in your Xcode project. 
+
+Then, in Xcode, in the Volume target under Build Phases, make sure there is a phase called "Generate Apollo GraphQL API" before "Compile Sources." If not, create one with this script: 
 
 ```bash
 SCRIPT_PATH="${PODS_ROOT}/Apollo/scripts"
@@ -62,7 +78,7 @@ cd "${SRCROOT}/${TARGET_NAME}"
 "${SCRIPT_PATH}"/run-bundled-codegen.sh codegen:generate --target=swift --includes=./**/*.graphql --localSchemaFile="Networking/schema.json" Networking/API.swift
 ```
 
-Finally, open `Volume.xcworkspace` and enjoy Volume!
+This will auto-generate an `API.swift` file with Swift objects that correspond to the given `schema.json` and `.graphql` files. 
 
 ## Analytics
 
