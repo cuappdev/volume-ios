@@ -161,15 +161,15 @@ struct HomeView: View {
                 }
             case .results(let articles):
                 ForEach(articles) { article in
-                    ArticleRow(article: article, navigationSource: .followingArticles)
-                        .padding(.vertical, Constants.rowVerticalPadding)
-                        .background {
-                            // Done to prevent display of right arrow-
-                            NavigationLink("") {
-                                BrowserView(initType: .readyForDisplay(article), navigationSource: .followingArticles)
-                            }
-                            .hidden()
-                        }
+                    ZStack {
+                        ArticleRow(article: article, navigationSource: .followingArticles)
+                            .padding(.vertical, Constants.rowVerticalPadding)
+                        NavigationLink {
+                            BrowserView(initType: .readyForDisplay(article), navigationSource: .followingArticles)
+                        } label: {
+                            EmptyView()
+                        }.opacity(0)
+                    }
                 }
 
                 if followed ? viewModel.hasMoreFollowedArticlePages : viewModel.hasMoreUnfollowedArticlePages {
