@@ -1,0 +1,5 @@
+query SearchArticles($query: String!) {
+  article: searchArticles(query: $query) {
+    ...articleFields
+  }
+}
