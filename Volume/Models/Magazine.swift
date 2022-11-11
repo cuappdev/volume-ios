@@ -13,7 +13,7 @@ struct Magazine: Identifiable, Hashable {
     let id: String
     let date: Date
     let isNSFW: Bool
-    let magazineUrl: URL?
+    //let magazineUrl: URL?
     let pdfUrl: URL?
     let publication: Publication
     let semester: String
@@ -24,7 +24,7 @@ struct Magazine: Identifiable, Hashable {
         date = Date.from(iso8601: magazine.date)
         id = magazine.id
         isNSFW = magazine.nsfw
-        magazineUrl = URL(string: magazine.magazineUrl)
+        //magazineUrl = URL(string: magazine.magazineUrl)
         pdfUrl = URL(string: magazine.pdfUrl)
         publication = Publication(from: magazine.publication.fragments.publicationFields)
         semester = magazine.semester

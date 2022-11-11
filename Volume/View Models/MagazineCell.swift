@@ -17,7 +17,7 @@ struct MagazineCell: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            WebImage(url: magazine.magazineUrl)
+            WebImage(url: magazine.pdfUrl)
                 .resizable()
                 .grayBackground()
                 .aspectRatio(contentMode: .fill)
