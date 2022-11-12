@@ -8,22 +8,22 @@
 
 import SDWebImageSwiftUI
 import SwiftUI
+import PDFKit
 
 /// `MagazineCell` displays the images and name of a publication a user is currently following
 struct MagazineCell: View {
 
     let magazine: Magazine
-    // let largeFont: Bool
 
     var body: some View {
         VStack(alignment: .leading) {
-            WebImage(url: magazine.pdfUrl)
-                .resizable()
-                .grayBackground()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 150, height: 220)
-                .clipped()
-                .shadow(color: Color.black.opacity(0.2), radius: 8, x: 4, y: 4)
+            if let url = magazine.pdfUrl {
+                PDFKitView(pdfDoc: PDFDocument(url: url)!)
+                    .frame(width: 150, height: 220)
+                    .scaledToFill()
+                    .shadow(color: Color.black.opacity(0.2), radius: 8, x: 4, y: 4)
+                    .disabled(true)
+            }
 
             Spacer()
                 .frame(height: 12)
@@ -86,17 +86,3 @@ extension MagazineCell {
         }
     }
 }
-
-//struct FollowingPublicationRow_Previews: PreviewProvider {
-//    static var previews: some View {
-//        FollowingPublicationRow(
-//            publication: Publication(
-//                description: "CU",
-//                name: "CUNooz",
-//                id: "sdfsdf",
-//                imageURL: nil,
-//                recent: "Sandpaper Tastes Like What?!"
-//            )
-//        )
-//    }
-//}
