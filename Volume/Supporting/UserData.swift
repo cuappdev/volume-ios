@@ -163,6 +163,14 @@ class UserData: ObservableObject {
     func incrementShoutoutsCounter(_ article: Article) {
         articleShoutoutsCounter[article.id, default: 0] += 1
     }
+    
+    func canIncrementMagazineShoutouts(_ magazine: Magazine) -> Bool {
+        magazineShoutoutsCounter[magazine.id, default: 0] < 5
+    }
+
+    func incrementMagazineShoutoutsCounter(_ magazine: Magazine) {
+        magazineShoutoutsCounter[magazine.id, default: 0] += 1
+    }
 
     func set(article: Article, isSaved: Bool, bookmarkRequestInProgress: Binding<Bool>) {
         @Binding var requestInProgress: Bool

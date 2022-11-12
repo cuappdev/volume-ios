@@ -23,10 +23,9 @@ struct MagazineReaderView: View {
     @State private var cancellableShoutoutMutation: AnyCancellable?
     @State private var showToolbars = true
     
-    //    TODO: Implement shoutout for magazines
-    //    private var isShoutoutsButtonEnabled: Bool {
-    //        return userData.canIncrementShoutouts(magazine)
-    //    }
+    private var isShoutoutsButtonEnabled: Bool {
+        return userData.canIncrementMagazineShoutouts(magazine)
+    }
     
     private var navbar: some View {
             ZStack {
@@ -110,11 +109,11 @@ struct MagazineReaderView: View {
                     Button(action: {
                         //                    TODO: Uncomment after implementing bookmarking for magazines
                         //                        bookmarkRequestInProgress = true
-                        //                        userData.toggleArticleSaved(magazine, $bookmarkRequestInProgress)
+                        //                        userData.toggleMagazineSaved(magazine, $bookmarkRequestInProgress)
                         //                        AppDevAnalytics.log(
-                        //                            userData.isArticleSaved(magazine) ?
-                        //                            VolumeEvent.bookmarkArticle.toEvent(.article, value: magazine.id, navigationSource: navigationSource) :
-                        //                                VolumeEvent.unbookmarkArticle.toEvent(.article, value: magazine.id, navigationSource: navigationSource)
+                        //                            userData.isMagazineSaved(magazine) ?
+                        //                            VolumeEvent.bookmarkMagazine.toEvent(.magazine, value: magazine.id, navigationSource: navigationSource) :
+                        //                                VolumeEvent.unbookmarkMagazine.toEvent(.magazine, value: magazine.id, navigationSource: navigationSource)
                         //                        )
                     }, label: {
                         Image(systemName: userData.isMagazineSaved(magazine) ? "bookmark.fill" : "bookmark")
@@ -139,17 +138,16 @@ struct MagazineReaderView: View {
                         .frame(width: 16)
                     
                     Button {
-                        //                    TODO: Uncomment after implementing shoutouts for magazines
-                        //                        incrementShoutouts(for: article)
+                        incrementShoutouts(for: magazine)
                     } label: {
                         Image.volume.shoutout
                             .resizable()
                             .scaledToFit()
                             .frame(height: 24)
                             .foregroundColor(.volume.orange)
-                        //                            .foregroundColor(isShoutoutsButtonEnabled ? .volume.orange : .gray)
+                            .foregroundColor(isShoutoutsButtonEnabled ? .volume.orange : .gray)
                     }
-                    //                    .disabled(!isShoutoutsButtonEnabled)
+                    .disabled(!isShoutoutsButtonEnabled)
                     
                     Spacer()
                         .frame(width: 6)
@@ -191,31 +189,31 @@ struct MagazineReaderView: View {
             }
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
-            //        .onAppear {
-            //            switch initType {
-            //            case .fetchRequired(let id):
-            //                fetchArticleBy(id: id)
-            //            case .readyForDisplay(let article):
-            //                state = .results(article)
-            //            }
-            //        }
-            //        .onOpenURL { url in
-            //            if url.isDeeplink {
-            //                if let id = url.parameters["id"] {
-            //                    fetchArticleBy(id: id)
-            //                }
-            //            }
-            //        }
-            //        Text(magazine.title)
-            //        if let url = magazine.pdfUrl {
-            //            PDFKitView(pdfDoc: PDFDocument(url: url)!)
-            //        }
-            //        if showToolbars {
-            //            toolbar
-            //        }
-            //        navbar
         }
+    
+    // MARK: Actions
+    private func incrementShoutouts(for magazine: Magazine) {
+        guard let uuid = userData.uuid else { return }
+//    TODO: Uncomment after implementing analytics for magazines
+//        AppDevAnalytics.log(VolumeEvent.shoutoutMagzine.toEvent(.magazine, value: magazine.id, navigationSource: navigationSource))
+        userData.incrementMagazineShoutoutsCounter(magazine)
+        let currentMagazineShoutouts = max(userData.shoutoutsCache[magazine.id, default: 0], magazine.shoutouts)
+        userData.shoutoutsCache[magazine.id, default: 0] = currentMagazineShoutouts + 1
+        let currentPublicationShoutouts = max(userData.shoutoutsCache[magazine.publication.slug, default: 0], magazine.publication.shoutouts)
+        userData.shoutoutsCache[magazine.publication.slug, default: 0] = currentPublicationShoutouts + 1
+        
+        // !! IMPORTANT: not sure if this request is only for articles, may cause bug
+        // where shouting out a magazine increments the shoutout count for the article
+        // with the same id !!
+        cancellableShoutoutMutation = Network.shared.publisher(for: IncrementShoutoutsMutation(id: magazine.id, uuid: uuid))
+            .sink(receiveCompletion: { completion in
+                if case let .failure(error) = completion {
+                    print("Error: IncrementShoutoutsMutation failed on MagazineReaderView: \(error.localizedDescription)")
+                }
+            }, receiveValue: { _ in })
     }
+    
+}
     
     extension MagazineReaderView {
         private enum MagazineReaderViewState<Results> {
