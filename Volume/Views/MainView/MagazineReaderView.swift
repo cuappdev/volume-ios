@@ -11,40 +11,35 @@ import PDFKit
 
 struct MagazineReaderView: View {
     private let magazine: Magazine
-    private let pdfView = PDFView()
     
     init(magazine: Magazine) {
         self.magazine = magazine
-        self.pdfView.autoScales = true
-        if let url = magazine.pdfUrl {
-            self.pdfView.document = PDFDocument(url: url)
-        }
     }
     
     var body: some View {
         Text(magazine.title)
         if let url = magazine.pdfUrl {
-            PDFKitView(url: url)
+            PDFKitView(pdfDoc: PDFDocument(url: url)!)
         }
     }
 }
 
 struct PDFKitView: UIViewRepresentable {
     
-    let pdfUrl : URL
+    let pdfDoc : PDFDocument
     
-    init(url: URL) {
-        self.pdfUrl = url
+    init(pdfDoc: PDFDocument) {
+        self.pdfDoc = pdfDoc
     }
     
     func makeUIView(context: Context) -> PDFView {
         let pdfView = PDFView()
-        pdfView.document = PDFDocument(url: pdfUrl)
+        pdfView.document = pdfDoc
         pdfView.autoScales = true
         return pdfView
     }
     
     func updateUIView(_ pdfView: PDFView, context: Context) {
-        pdfView.document = PDFDocument(url: pdfUrl)
+        pdfView.document = pdfDoc
     }
 }
