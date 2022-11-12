@@ -24,28 +24,27 @@ struct MagazineReaderView: View {
     var body: some View {
         Text(magazine.title)
         if let url = magazine.pdfUrl {
-            PDFKitView(showing: url)
+            PDFKitView(url: url)
         }
     }
 }
-
 
 struct PDFKitView: UIViewRepresentable {
     
     let pdfUrl : URL
     
-    init(showing url: URL) {
+    init(url: URL) {
         self.pdfUrl = url
     }
     
     func makeUIView(context: Context) -> PDFView {
         let pdfView = PDFView()
-        pdfView.document = PDFDocument(url: self.pdfUrl)
+        pdfView.document = PDFDocument(url: pdfUrl)
         pdfView.autoScales = true
         return pdfView
     }
     
     func updateUIView(_ pdfView: PDFView, context: Context) {
-        pdfView.document = PDFDocument(url: self.pdfUrl)
+        pdfView.document = PDFDocument(url: pdfUrl)
     }
 }

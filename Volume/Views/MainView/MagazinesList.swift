@@ -123,7 +123,7 @@ struct MagazinesList: View {
                 VStack {
                     featureMagazinesSection
                     Spacer()
-                        .frame(height: 16)
+                        .frame(height: 18)
                     magazinesBySemesterSection
                }
             }
