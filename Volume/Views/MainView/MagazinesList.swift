@@ -74,7 +74,7 @@ struct MagazinesList: View {
                         }
                     case .reloading(let results), .results(let results):
                         ForEach(results) { magazine in
-                            NavigationLink(destination: MagazineReaderView(magazine: magazine)) {
+                            NavigationLink(destination: MagazineReaderView(magazine: magazine, navigationSource: .featuredMagazines)) {
                                 MagazineCell(magazine: magazine)
                             }
                         }
@@ -99,7 +99,7 @@ struct MagazinesList: View {
                         }
                     case .reloading(let results), .results(let results):
                         ForEach(results) { magazine in
-                            NavigationLink(destination: MagazineReaderView(magazine: magazine)) {
+                            NavigationLink(destination: MagazineReaderView(magazine: magazine, navigationSource: .moreMagazines)) {
                                 MagazineCell(magazine: magazine)
                             }
                         }

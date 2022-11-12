@@ -18,6 +18,8 @@ class UserData: ObservableObject {
     private let articlesKey = "savedArticleIds"
     private let fcmTokenKey = "fcmToken"
     private let isFirstLaunchKey = "isFirstLaunch"
+    private let magazineShoutoutsKey = "magazineShoutoutsCounter"
+    private let magazinesKey = "savedMagazineIds"
     private let publicationsKey = "savedPublicationSlugs"
     private let userUUIDKey = "userUUID"
     private let weeklyDebriefKey = "weeklyDebrief"
@@ -53,6 +55,20 @@ class UserData: ObservableObject {
         }
     }
     
+    @Published private(set) var savedMagazineIDs: [String] = [] {
+        willSet {
+            UserDefaults.standard.setValue(newValue, forKey: magazinesKey)
+            objectWillChange.send()
+        }
+    }
+
+    @Published private var magazineShoutoutsCounter: [String: Int] = [:] {
+        willSet {
+            UserDefaults.standard.setValue(newValue, forKey: magazineShoutoutsKey)
+            objectWillChange.send()
+        }
+    }
+    
     var uuid: String? = nil {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: userUUIDKey)
@@ -81,6 +97,10 @@ class UserData: ObservableObject {
         if let ids = UserDefaults.standard.object(forKey: articlesKey) as? [String] {
             savedArticleIDs = ids
         }
+        
+        if let ids = UserDefaults.standard.object(forKey: magazinesKey) as? [String] {
+            savedMagazineIDs = ids
+        }
 
         if let slugs = UserDefaults.standard.object(forKey: publicationsKey) as? [String] {
             followedPublicationSlugs = slugs
@@ -88,6 +108,10 @@ class UserData: ObservableObject {
 
         if let shoutoutsCounter = UserDefaults.standard.object(forKey: articleShoutoutsKey) as? [String: Int] {
             articleShoutoutsCounter = shoutoutsCounter
+        }
+        
+        if let shoutoutsCounter = UserDefaults.standard.object(forKey: magazineShoutoutsKey) as? [String: Int] {
+            magazineShoutoutsCounter = shoutoutsCounter
         }
         
         if let debriefData = UserDefaults.standard.object(forKey: weeklyDebriefKey) as? Data,
@@ -110,6 +134,10 @@ class UserData: ObservableObject {
     func isArticleSaved(_ article: Article) -> Bool {
         savedArticleIDs.contains(article.id)
     }
+    
+    func isMagazineSaved(_ magazine: Magazine) -> Bool {
+        savedMagazineIDs.contains(magazine.id)
+    }
 
     func isPublicationFollowed(_ publication: Publication) -> Bool {
         followedPublicationSlugs.contains(publication.slug)
@@ -118,6 +146,11 @@ class UserData: ObservableObject {
     func toggleArticleSaved(_ article: Article, _ bookmarkRequestInProgress: Binding<Bool>) {
         set(article: article, isSaved: !isArticleSaved(article), bookmarkRequestInProgress: bookmarkRequestInProgress)
     }
+
+//    TODO: Uncomment after implementing bookmarking for magazines
+//    func toggleMagazineSaved(_ magazine: Magazine, _ bookmarkRequestInProgress: Binding<Bool>) {
+//        set(magazine: magazine, isSaved: !isMagazineSaved(magazine), bookmarkRequestInProgress: bookmarkRequestInProgress)
+//    }
 
     func togglePublicationFollowed(_ publication: Publication, _ followRequestInProgress: Binding<Bool>) {
         set(publication: publication, isFollowed: !isPublicationFollowed(publication), followRequestInProgress: followRequestInProgress)
@@ -144,7 +177,7 @@ class UserData: ObservableObject {
         }
         
         if isSaved {
-            cancellables[.bookmark(article)] = Network.shared.publisher(for: BookmarkArticleMutation(uuid: uuid))
+            cancellables[.bookmarkArticle(article)] = Network.shared.publisher(for: BookmarkArticleMutation(uuid: uuid))
                 .sink { completion in
                     if case let .failure(error) = completion {
                         print("Error: BookmarkArticleMutation failed on UserData: \(error.localizedDescription)")
@@ -160,6 +193,37 @@ class UserData: ObservableObject {
             savedArticleIDs.removeAll(where: { $0 == article.id })
         }
     }
+
+//    TODO: Uncomment after BookmarkMagazineMutation is implemented
+//    func set(magazine: Magazine, isSaved: Bool, bookmarkRequestInProgress: Binding<Bool>) {
+//        @Binding var requestInProgress: Bool
+//        _requestInProgress = bookmarkRequestInProgress
+//
+//        guard let uuid = uuid else {
+//            #if DEBUG
+//            print("Error: received nil for UUID in set(article:isSaved)")
+//            #endif
+//            requestInProgress = false
+//            return
+//        }
+//
+//        if isSaved {
+//            cancellables[.bookmarkMagazine(magazine)] = Network.shared.publisher(for: BookmarkMagazineMutation(uuid: uuid))
+//                .sink { completion in
+//                    if case let .failure(error) = completion {
+//                        print("Error: BookmarkMagazineMutation failed on UserData: \(error.localizedDescription)")
+//                    }
+//                    requestInProgress = false
+//                } receiveValue: { _ in
+//                    if !self.savedMagazineIDs.contains(magazine.id) {
+//                        self.savedMagazineIDs.insert(magazine.id, at: 0)
+//                    }
+//                }
+//        } else {
+//            requestInProgress = false
+//            savedMagazineIDs.removeAll(where: { $0 == magazine.id })
+//        }
+//    }
 
     func set(publication: Publication, isFollowed: Bool, followRequestInProgress: Binding<Bool>) {
         @Binding var requestInProgress: Bool
@@ -209,6 +273,6 @@ class UserData: ObservableObject {
 
 extension UserData {
     private enum Mutation: Hashable {
-        case follow(Publication), unfollow(Publication), bookmark(Article)
+        case follow(Publication), unfollow(Publication), bookmarkArticle(Article), bookmarkMagazine(Magazine)
     }
 }

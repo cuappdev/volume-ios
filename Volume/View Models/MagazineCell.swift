@@ -18,7 +18,7 @@ struct MagazineCell: View {
     var body: some View {
         VStack(alignment: .leading) {
             if let url = magazine.pdfUrl {
-                PDFKitView(pdfDoc: PDFDocument(url: url)!)
+                SimplePDFView(pdfDoc: PDFDocument(url: url)!)
                     .frame(width: 150, height: 220)
                     .scaledToFill()
                     .shadow(color: Color.black.opacity(0.2), radius: 8, x: 4, y: 4)
