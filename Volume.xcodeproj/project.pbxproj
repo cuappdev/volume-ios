@@ -32,6 +32,7 @@
 		33538BF02745C579009DD191 /* UserQueries.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 33538BEF2745C579009DD191 /* UserQueries.graphql */; };
 		33538BF22745DD27009DD191 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33538BF12745DD27009DD191 /* Notifications.swift */; };
 		335E692627DFDC2700FBDE3A /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335E692527DFDC2700FBDE3A /* UIFont+Extension.swift */; };
+		3360B9D52925E72500A923A6 /* PublicationDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3360B9D42925E72500A923A6 /* PublicationDetailViewModel.swift */; };
 		33913A0C27D89E0A00C5718D /* TabBarReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33913A0B27D89E0A00C5718D /* TabBarReader.swift */; };
 		33E851A6290AE6ED004453D2 /* ListBackgroundModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E851A5290AE6ED004453D2 /* ListBackgroundModifier.swift */; };
 		502E3EA32757D3C6005DA441 /* WeeklyDebriefView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502E3EA22757D3C6005DA441 /* WeeklyDebriefView.swift */; };
@@ -112,6 +113,7 @@
 		33538BEF2745C579009DD191 /* UserQueries.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = UserQueries.graphql; sourceTree = "<group>"; };
 		33538BF12745DD27009DD191 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		335E692527DFDC2700FBDE3A /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
+		3360B9D42925E72500A923A6 /* PublicationDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicationDetailViewModel.swift; sourceTree = "<group>"; };
 		33913A0B27D89E0A00C5718D /* TabBarReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarReader.swift; sourceTree = "<group>"; };
 		33AE4CEC27403F670001BA5B /* UserMutations.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = UserMutations.graphql; sourceTree = "<group>"; };
 		33E851A5290AE6ED004453D2 /* ListBackgroundModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListBackgroundModifier.swift; sourceTree = "<group>"; };
@@ -184,7 +186,7 @@
 				060FFDDA2577EC800052F3EA /* FollowView.swift */,
 				060FFDDB2577EC800052F3EA /* OnboardingView.swift */,
 				060FFDD92577EC800052F3EA /* WelcomeView.swift */,
-				06EC2D21259CECF800FE0A71 /* PublicationDetail */,
+				3360B9D62926129100A923A6 /* PublicationDetail */,
 			);
 			name = Onboarding;
 			path = Volume/Views/Onboarding;
@@ -228,19 +230,19 @@
 		0647BF8C2577F60400D44BC7 /* MainView */ = {
 			isa = PBXGroup;
 			children = (
+				7E416C352561E0650010D70B /* BookmarksList.swift */,
+				95A79FB72622296800CADF88 /* ConnectionFailedView.swift */,
 				06A8E2522575429200C28C68 /* MainView.swift */,
-				95A79FB32622255D00CADF88 /* TabContainer.swift */,
 				333EB8AA2909EE5400EA9950 /* HomeView.swift */,
 				331159CC27D26773003B0F06 /* MagazinesList.swift */,
 				A2B4DF3127D9AAB000440184 /* MagazineDetail.swift */,
 				7E8658A7254B719A002DEE68 /* PublicationList.swift */,
-				7E416C352561E0650010D70B /* BookmarksList.swift */,
-				95A79FB72622296800CADF88 /* ConnectionFailedView.swift */,
+				95A79FB32622255D00CADF88 /* TabContainer.swift */,
 			);
 			path = MainView;
 			sourceTree = "<group>";
 		};
-		06EC2D21259CECF800FE0A71 /* PublicationDetail */ = {
+		3360B9D62926129100A923A6 /* PublicationDetail */ = {
 			isa = PBXGroup;
 			children = (
 				7E8658A4254B7173002DEE68 /* PublicationDetail.swift */,
@@ -319,6 +321,7 @@
 				7E8658B4254B7FF2002DEE68 /* FollowingPublicationRow.swift */,
 				A2A5CC0F27D567EA0000F377 /* MagazineCell.swift */,
 				7E8658AA254B71D7002DEE68 /* MorePublicationRow.swift */,
+				3360B9D42925E72500A923A6 /* PublicationDetailViewModel.swift */,
 				7E9E4718262808AC007E8E6C /* SettingsPageRow.swift */,
 				333EB8A82909ECBA00EA9950 /* HomeViewModel.swift */,
 			);
@@ -330,12 +333,12 @@
 			children = (
 				060B738A256340580035E252 /* BubblePeriodText.swift */,
 				7E416C312561D7870010D70B /* Header.swift */,
+				7E49582C2612BD740015BE45 /* RefreshableScrollView.swift */,
 				06B23227258EDDA9006D9A53 /* SkeletonView.swift */,
+				33913A0B27D89E0A00C5718D /* TabBarReader.swift */,
 				061233A02553127C0025F7E0 /* UnderlinedText.swift */,
 				7EE96DC72562505B000B246F /* VolumeMessage.swift */,
 				0685AAA0259EBA3800DD55C4 /* WebView.swift */,
-				7E49582C2612BD740015BE45 /* RefreshableScrollView.swift */,
-				33913A0B27D89E0A00C5718D /* TabBarReader.swift */,
 				3349BF6E290DC1E900B0FD3A /* WeeklyDebriefButton.swift */,
 			);
 			path = "Supporting Views";
@@ -562,6 +565,7 @@
 				0685AAA1259EBA3800DD55C4 /* WebView.swift in Sources */,
 				7E416C362561E0650010D70B /* BookmarksList.swift in Sources */,
 				333EB8A92909ECBA00EA9950 /* HomeViewModel.swift in Sources */,
+				3360B9D52925E72500A923A6 /* PublicationDetailViewModel.swift in Sources */,
 				95A79FB82622296800CADF88 /* ConnectionFailedView.swift in Sources */,
 				0685AA9E259EA84900DD55C4 /* BrowserView.swift in Sources */,
 				7E23DFD2254A05EF0001C3A3 /* Color+Extension.swift in Sources */,

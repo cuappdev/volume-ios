@@ -119,7 +119,14 @@ struct BrowserView: View {
                 SkeletonView()
                     .frame(height: 0)
             case .results(let article):
-                NavigationLink(destination: PublicationDetail(navigationSource: navigationSource, publication: article.publication)) {
+                NavigationLink {
+                    PublicationDetail(
+                        viewModel: PublicationDetail.ViewModel(
+                            publication: article.publication,
+                            navigationSource: .articleDetail
+                        )
+                    )
+                } label: {
                     if let imageUrl = article.publication.profileImageUrl {
                         WebImage(url: imageUrl)
                             .grayBackground()
@@ -137,7 +144,9 @@ struct BrowserView: View {
                         .font(.helveticaRegular(size: 12))
                         .foregroundColor(.black)
                 }
+
                 Spacer()
+
                 Group {
                     Button(action: {
                         bookmarkRequestInProgress = true

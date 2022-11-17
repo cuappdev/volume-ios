@@ -71,7 +71,14 @@ struct PublicationList: View {
                     case .reloading(let results), .results(let results):
                         HStack(spacing: 12) {
                             ForEach(results.followedPublications) { publication in
-                                NavigationLink(destination: PublicationDetail(navigationSource: .followingPublications, publication: publication)) {
+                                NavigationLink {
+                                    PublicationDetail(
+                                        viewModel: PublicationDetail.ViewModel(
+                                            publication: publication,
+                                            navigationSource: .followingPublications
+                                        )
+                                    )
+                                } label: {
                                     FollowingPublicationRow(publication: publication)
                                 }
                             }
@@ -103,9 +110,19 @@ struct PublicationList: View {
             case .reloading(let results), .results(let results):
                 VStack {
                     ForEach(results.morePublications) { publication in
-                        NavigationLink(destination: PublicationDetail(navigationSource: .morePublications, publication: publication)) {
-                            MorePublicationRow(publication: publication, navigationSource: .morePublications)
-                                .padding(.bottom, 15)
+                        NavigationLink {
+                            PublicationDetail(
+                                viewModel: PublicationDetail.ViewModel(
+                                    publication: publication,
+                                    navigationSource: .morePublications
+                                )
+                            )
+                        } label: {
+                            MorePublicationRow(
+                                publication: publication,
+                                navigationSource: .morePublications
+                            )
+                            .padding(.bottom, 15)
                         }
                     }
                 }

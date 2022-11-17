@@ -27,8 +27,8 @@ query GetArticlesAfterDate($since: String!, $limit: Float!) {
   }
 }
 
-query GetArticlesByPublicationSlug($slug: String!) {
-  articles: getArticlesByPublicationSlug(slug: $slug) {
+query GetArticlesByPublicationSlug($slug: String!, $limit: Float!, $offset: Float = 0) {
+  articles: getArticlesByPublicationSlug(slug: $slug, limit: $limit, offset: $offset) {
     ...articleFields
   }
 }
