@@ -121,10 +121,8 @@ struct BrowserView: View {
             case .results(let article):
                 NavigationLink {
                     PublicationDetail(
-                        viewModel: PublicationDetail.ViewModel(
-                            publication: article.publication,
-                            navigationSource: .articleDetail
-                        )
+                        publication: article.publication,
+                        navigationSource: .articleDetail
                     )
                 } label: {
                     if let imageUrl = article.publication.profileImageUrl {

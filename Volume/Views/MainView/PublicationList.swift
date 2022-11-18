@@ -73,10 +73,8 @@ struct PublicationList: View {
                             ForEach(results.followedPublications) { publication in
                                 NavigationLink {
                                     PublicationDetail(
-                                        viewModel: PublicationDetail.ViewModel(
-                                            publication: publication,
-                                            navigationSource: .followingPublications
-                                        )
+                                        publication: publication,
+                                        navigationSource: .followingPublications
                                     )
                                 } label: {
                                     FollowingPublicationRow(publication: publication)
@@ -112,10 +110,8 @@ struct PublicationList: View {
                     ForEach(results.morePublications) { publication in
                         NavigationLink {
                             PublicationDetail(
-                                viewModel: PublicationDetail.ViewModel(
-                                    publication: publication,
-                                    navigationSource: .morePublications
-                                )
+                                publication: publication,
+                                navigationSource: .morePublications
                             )
                         } label: {
                             MorePublicationRow(

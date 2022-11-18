@@ -13,32 +13,32 @@ import SwiftUI
 /// `PublicationDetail` displays detailed information about a publication
 struct PublicationDetail: View {
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
-    @EnvironmentObject private var networkState: NetworkState
     @GestureState private var dragOffset = CGSize.zero
-    @StateObject var viewModel: ViewModel
+    @Namespace var namespace
+
+    let publication: Publication
+    let navigationSource: NavigationSource
 
     var body: some View {
-        ScrollView {
-            coverImageHeader
-            articlesSection
-        }
-        .disabled(viewModel.disableScrolling)
-        .navigationBarHidden(true)
-        .edgesIgnoringSafeArea(.top)
-        .background(Color.white)
-        .gesture(
-            DragGesture().updating($dragOffset) { value, _, _ in
-                if value.startLocation.x < Constants.dragGestureMinX && value.translation.width > Constants.dragGestureMaxX {
-                    presentationMode.wrappedValue.dismiss()
-                }
+        // HAN TODO: detect scroll to bottom & enable contentview scrolling
+        GeometryReader { proxy in
+            ScrollView(showsIndicators: false) {
+                coverImageHeader
+                contentSection
+                    .frame(height: proxy.size.height)
             }
-        )
-        .onAppear {
-            viewModel.setup(networkState: networkState)
-            viewModel.fetchContent()
+            .navigationBarHidden(true)
+            .edgesIgnoringSafeArea(.top)
+            .background(Color.white)
+            .gesture(
+                DragGesture().updating($dragOffset) { value, _, _ in
+                    if value.startLocation.x < Constants.dragGestureMinX && value.translation.width > Constants.dragGestureMaxX {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
+            )
         }
     }
-
 
     // MARK: Header
 
@@ -62,7 +62,7 @@ struct PublicationDetail: View {
             let headerHeight = geometry.size.height + max(scrollOffset, 0)
 
             Group {
-                if let url = viewModel.publication.backgroundImageUrl {
+                if let url = publication.backgroundImageUrl {
                     WebImage(url: url)
                         .resizable()
                         .grayBackground()
@@ -95,7 +95,7 @@ struct PublicationDetail: View {
                 Spacer()
 
                 Group {
-                    if let imageUrl = viewModel.publication.profileImageUrl {
+                    if let imageUrl = publication.profileImageUrl {
                         WebImage(url: imageUrl)
                             .grayBackground()
                             .resizable()
@@ -116,56 +116,26 @@ struct PublicationDetail: View {
 
     private var publicationDescription: some View {
         PublicationDetailHeader(
-            navigationSource: viewModel.navigationSource,
-            publication: viewModel.publication
+            navigationSource: navigationSource,
+            publication: publication
         )
         .padding(.bottom)
     }
 
-    // MARK: Articles
+    // MARK: Publication Content
 
-    private var articlesSection: some View {
-        LazyVStack(alignment: .center) {
-            switch viewModel.articles {
-            case .none:
-                ForEach(0..<5) { _ in
-                    articleRowSkeleton
-                }
-            case .some(let articles):
-                Header(Constants.articlesTabTitle)
-                    .foregroundColor(.black)
-                    .padding()
-
-                ForEach(articles) { article in
-                    ZStack {
-                        ArticleRow(article: article, navigationSource: .publicationDetail, showsPublicationName: false)
-                            .padding([.horizontal, .bottom])
-                            .onAppear {
-                                viewModel.fetchPageIfLast(article: article)
-                            }
-
-                        NavigationLink {
-                            BrowserView(initType: .readyForDisplay(article), navigationSource: .publicationDetail)
-                        } label: {
-                            EmptyView()
-                        }.opacity(0)
-                    }
-                }
-            }
-        }
+    private var contentSection: some View {
+        PublicationContentView(
+            viewModel: PublicationContentView.ViewModel(publication: publication)
+        )
     }
 
     // MARK: Helpers
 
     private var divider: some View {
         Divider()
-            .background(Color.volume.buttonGray)
+            .background(Color.volume.veryLightGray)
             .frame(width: Constants.dividerWidth)
-    }
-
-    private var articleRowSkeleton: some View {
-        ArticleRow.Skeleton(showsPublicationName: false)
-            .padding([.bottom, .leading, .trailing])
     }
 }
 
@@ -182,6 +152,5 @@ extension PublicationDetail {
         static let dividerWidth: CGFloat = 100
         static let dragGestureMinX: CGFloat = 20
         static let dragGestureMaxX: CGFloat = 100
-        static let articlesTabTitle = "Articles"
     }
 }

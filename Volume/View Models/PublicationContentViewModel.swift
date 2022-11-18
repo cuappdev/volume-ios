@@ -1,45 +1,35 @@
 //
-//  PublicationDetailViewModel.swift
+//  PublicationContentViewModel.swift
 //  Volume
 //
-//  Created by Hanzheng Li on 11/16/22.
+//  Created by Hanzheng Li on 11/18/22.
 //  Copyright © 2022 Cornell AppDev. All rights reserved.
 //
 
 import Combine
 import SwiftUI
 
-extension PublicationDetail {
+extension PublicationContentView {
     @MainActor class ViewModel: ObservableObject {
-
-        private struct Constants {
-            static let animationDuration: CGFloat = 0.1
-            static let pageSize: Double = 10
-        }
-
         let publication: Publication
-        let navigationSource: NavigationSource
         var networkState: NetworkState?
 
         @Published var articles: [Article]? = nil
+        @Published var magazines: [Magazine]? = nil
         @Published var hasMorePages: Bool = true
         @Published var queryBag = Set<AnyCancellable>()
+        @Published var selectedTab: PublicationContentType = .articles
+        @Published var disableScrolling: Bool = false
 
-        init(publication: Publication, navigationSource: NavigationSource) {
+        nonisolated init(publication: Publication) {
             self.publication = publication
-            self.navigationSource = navigationSource
         }
 
-        func setup(networkState: NetworkState) {
+        func setupEnvironmentVariables(networkState: NetworkState) {
             self.networkState = networkState
         }
 
-        var disableScrolling: Bool {
-            articles == nil
-        }
-
         func fetchContent() {
-            // TODO: implement pagination, default limit is 25
             fetchPage()
         }
 
@@ -75,5 +65,15 @@ extension PublicationDetail {
                 }
                 .store(in: &queryBag)
         }
+
+        private struct Constants {
+            static let animationDuration: CGFloat = 0.1
+            static let pageSize: Double = 10
+            static let articleRowHeight: CGFloat = 80
+        }
+    }
+
+    enum PublicationContentType {
+        case articles, magazines
     }
 }
