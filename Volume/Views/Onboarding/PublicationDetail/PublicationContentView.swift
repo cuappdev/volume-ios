@@ -45,57 +45,33 @@ struct PublicationContentView: View {
             Group {
                 switch viewModel.selectedTab {
                 case .articles:
-                    articleTab
+                    articleContent
                 case .magazines:
-                    magazineTab
+                    magazineContent
                 }
             }
         }
     }
 
     private var tabBar: some View {
-        HStack(spacing: 0) {
-            if viewModel.showArticleTab {
-                tabBarItem(title: Constants.articleTabTitle, tab: .articles)
-                    .frame(width: Constants.articleTabWidth)
-            }
-
-            if viewModel.showMagazineTab {
-                tabBarItem(title: Constants.magazineTabTitle, tab: .magazines)
-                    .frame(width: Constants.magazineTabWidth)
-            }
-            Spacer()
-        }
-        .padding(.horizontal)
+        SlidingTabBarView(
+            selectedTab: $viewModel.selectedTab,
+            items: [
+                viewModel.showArticleTab ? SlidingTabBarView.Item(
+                    title: "Articles",
+                    tab: .articles,
+                    width: Constants.articleTabWidth
+                ) : nil,
+                viewModel.showMagazineTab ? SlidingTabBarView.Item(
+                    title: "Magazines",
+                    tab: .magazines,
+                    width: Constants.magazineTabWidth
+                ) : nil
+            ].compactMap { $0 }
+        )
     }
 
-    private func tabBarItem(title: String, tab: PublicationContentType) -> some View {
-        VStack(alignment: .center, spacing: Constants.tabBarItemSpacing) {
-            Text(title)
-                .font(Constants.tabTitleFont)
-                .foregroundColor(viewModel.selectedTab == tab ? Color.volume.orange : .black)
-                .padding(.top)
-
-            if viewModel.selectedTab == tab {
-                Color.volume.orange
-                    .frame(height: Constants.tabUnderlineHeight)
-                    .matchedGeometryEffect(
-                        id: "underline",
-                        in: namespace,
-                        properties: .frame
-                    )
-            } else {
-                Color.volume.veryLightGray
-                    .frame(height: Constants.tabUnderlineHeight)
-            }
-        }
-        .animation(.spring(), value: viewModel.selectedTab)
-        .onTapGesture {
-            viewModel.selectedTab = tab
-        }
-    }
-
-    private var articleTab: some View {
+    private var articleContent: some View {
         Group {
             switch viewModel.articles {
             case .none:
@@ -129,7 +105,7 @@ struct PublicationContentView: View {
         }
     }
 
-    private var magazineTab: some View {
+    private var magazineContent: some View {
         Group {
             switch viewModel.magazines {
             case .none:
@@ -192,11 +168,8 @@ extension PublicationContentView {
     private struct Constants {
         static let articleTabTitle = "Articles"
         static let magazineTabTitle = "Magazines"
-        static let tabUnderlineHeight: CGFloat = 2
-        static let tabTitleFont: Font = .newYorkMedium(size: 18)
         static let articleTabWidth: CGFloat = 80
         static let magazineTabWidth: CGFloat = 106
-        static let tabBarItemSpacing: CGFloat = 8
         static let loadingIndicatorTopPadding: CGFloat = 180
     }
 }

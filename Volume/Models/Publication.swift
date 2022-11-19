@@ -48,6 +48,12 @@ struct Publication: Hashable, Identifiable {
     }
 }
 
+extension Publication {
+    enum ContentType {
+        case articles, magazines
+    }
+}
+
 extension Array where Element == Publication {
     init(_ articles: [PublicationFields]) {
         self.init(articles.map(Publication.init))

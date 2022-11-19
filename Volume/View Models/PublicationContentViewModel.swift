@@ -12,13 +12,13 @@ import SwiftUI
 extension PublicationContentView {
     @MainActor class ViewModel: ObservableObject {
         let publication: Publication
-        var networkState: NetworkState?
+        private var networkState: NetworkState?
 
         @Published var articles: [Article]? = nil
         @Published var magazines: [Magazine]? = nil
         @Published var hasMorePages: Bool = true
-        @Published var queryBag = Set<AnyCancellable>()
-        @Published var selectedTab: PublicationContentType = .articles
+        @Published var selectedTab: Publication.ContentType = .articles
+        @Published private var queryBag = Set<AnyCancellable>()
 
         var showArticleTab: Bool {
             publication.numArticles > 0
@@ -109,9 +109,5 @@ extension PublicationContentView {
             static let pageSize: Double = 10
             static let articleRowHeight: CGFloat = 80
         }
-    }
-
-    enum PublicationContentType {
-        case articles, magazines
     }
 }
