@@ -57,6 +57,7 @@ extension MagazineCell {
             VStack(alignment: .leading) {
                 SkeletonView()
                     .frame(width: 150, height: 220)
+                    .shadow(color: Color.black.opacity(0.2), radius: 8, x: 4, y: 4)
 
                 Spacer()
                     .frame(height: 12)

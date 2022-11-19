@@ -19,7 +19,17 @@ extension PublicationContentView {
         @Published var hasMorePages: Bool = true
         @Published var queryBag = Set<AnyCancellable>()
         @Published var selectedTab: PublicationContentType = .articles
-        @Published var disableScrolling: Bool = false
+
+        var showArticleTab: Bool {
+            publication.numArticles > 0
+        }
+
+        var showMagazineTab: Bool {
+            guard let magazines else {
+                return false
+            }
+            return magazines.count > 0
+        }
 
         nonisolated init(publication: Publication) {
             self.publication = publication
@@ -30,7 +40,33 @@ extension PublicationContentView {
         }
 
         func fetchContent() {
-            fetchPage()
+            // TODO: replace this logic when backend implements Publication.numMagazines
+            fetchMagazines()
+            if showArticleTab {
+                fetchPage()
+            }
+        }
+
+        func fetchMagazines() {
+            Network.shared.publisher(
+                for: GetMagazinesByPublicationSlugQuery(slug: publication.slug)
+            )
+            .map { $0.magazines.map(\.fragments.magazineFields) }
+            .sink { [weak self] completion in
+                self?.networkState?.handleCompletion(
+                    screen: .publicationDetail,
+                    completion
+                )
+            } receiveValue: { [weak self] magazineFields in
+                guard let self else {
+                    print("Error: found unretained self in fetchMagazines")
+                    return
+                }
+                let magazines = [Magazine](magazineFields)
+                self.magazines = magazines
+                self.selectedTab = self.showArticleTab ? .articles : .magazines
+            }
+            .store(in: &queryBag)
         }
 
         func fetchPageIfLast(article: Article) {
@@ -47,24 +83,26 @@ extension PublicationContentView {
                     offset: Double(articles?.count ?? 0)
                 )
             )
-                .map { $0.articles.map(\.fragments.articleFields) }
-                .sink { [weak self] completion in
-                    self?.networkState?.handleCompletion(screen: .publications, completion)
-                } receiveValue: { [weak self] articleFields in
-                    let newArticles = [Article](articleFields.sorted { $0.date > $1.date })
+            .map { $0.articles.map(\.fragments.articleFields) }
+            .sink { [weak self] completion in
+                self?.networkState?.handleCompletion(screen: .publications, completion)
+            } receiveValue: { [weak self] articleFields in
+                let newArticles = [Article](articleFields.sorted { $0.date > $1.date })
 
-                    if newArticles.count < Int(Constants.pageSize) {
-                        self?.hasMorePages = false
-                    }
+                if newArticles.count < Int(Constants.pageSize) {
+                    self?.hasMorePages = false
+                }
 
-                    withAnimation(.linear(duration: Constants.animationDuration)) {
-                        if let self {
-                            self.articles = (self.articles ?? []) + newArticles
-                        }
+                withAnimation(.linear(duration: Constants.animationDuration)) {
+                    if let self {
+                        self.articles = (self.articles ?? []) + newArticles
                     }
                 }
-                .store(in: &queryBag)
+            }
+            .store(in: &queryBag)
         }
+
+        // MARK: Helpers
 
         private struct Constants {
             static let animationDuration: CGFloat = 0.1

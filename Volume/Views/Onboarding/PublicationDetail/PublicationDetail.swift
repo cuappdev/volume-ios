@@ -20,12 +20,10 @@ struct PublicationDetail: View {
     let navigationSource: NavigationSource
 
     var body: some View {
-        // HAN TODO: detect scroll to bottom & enable contentview scrolling
         GeometryReader { proxy in
-            ScrollView(showsIndicators: false) {
+            ScrollView {
                 coverImageHeader
                 contentSection
-                    .frame(height: proxy.size.height)
             }
             .navigationBarHidden(true)
             .edgesIgnoringSafeArea(.top)
@@ -126,7 +124,9 @@ struct PublicationDetail: View {
 
     private var contentSection: some View {
         PublicationContentView(
-            viewModel: PublicationContentView.ViewModel(publication: publication)
+            viewModel: PublicationContentView.ViewModel(
+                publication: publication
+            )
         )
     }
 
@@ -141,7 +141,7 @@ struct PublicationDetail: View {
 
 extension PublicationDetail {
     private struct Constants {
-        static let horizontalPadding: CGFloat = 16
+        static let horizontalPadding: CGFloat = 18
         static let backButtonTopPadding: CGFloat = 55
         static let backButtonLeadingPadding: CGFloat = 20
         static let shadowRadius: CGFloat = 4

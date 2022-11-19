@@ -15,16 +15,13 @@ struct PublicationContentView: View {
     @StateObject var viewModel: ViewModel
 
     var body: some View {
-        VStack(alignment: .leading) {
-            tabBar
-            TabView(selection: $viewModel.selectedTab) {
-                articleTab
-                    .tag(PublicationContentType.articles)
-                magazineTab
-                    .tag(PublicationContentType.magazines)
+        Group {
+            switch viewModel.magazines {
+            case .none:
+                loadingView
+            case .some(_):
+                contentView
             }
-            .tabViewStyle(.page(indexDisplayMode: .never))
-            .background(Color.clear)
         }
         .onAppear {
             viewModel.setupEnvironmentVariables(networkState: networkState)
@@ -32,27 +29,56 @@ struct PublicationContentView: View {
         }
     }
 
+    private var loadingView: some View {
+        VStack(alignment: .center) {
+            Spacer()
+                .frame(height: Constants.loadingIndicatorTopPadding)
+
+            ProgressView()
+        }
+    }
+
+    private var contentView: some View {
+        LazyVStack {
+            tabBar
+
+            Group {
+                switch viewModel.selectedTab {
+                case .articles:
+                    articleTab
+                case .magazines:
+                    magazineTab
+                }
+            }
+        }
+    }
+
     private var tabBar: some View {
         HStack(spacing: 0) {
-            tabBarItem(title: Constants.articleTabTitle, tab: .articles)
-                .frame(width: 80)
-            tabBarItem(title: Constants.magazineTabTitle, tab: .magazines)
-                .frame(width: 106)
+            if viewModel.showArticleTab {
+                tabBarItem(title: Constants.articleTabTitle, tab: .articles)
+                    .frame(width: Constants.articleTabWidth)
+            }
+
+            if viewModel.showMagazineTab {
+                tabBarItem(title: Constants.magazineTabTitle, tab: .magazines)
+                    .frame(width: Constants.magazineTabWidth)
+            }
             Spacer()
         }
         .padding(.horizontal)
     }
 
     private func tabBarItem(title: String, tab: PublicationContentType) -> some View {
-        VStack(alignment: .center, spacing: 8) {
+        VStack(alignment: .center, spacing: Constants.tabBarItemSpacing) {
             Text(title)
-                .font(.newYorkMedium(size: 18))
+                .font(Constants.tabTitleFont)
                 .foregroundColor(viewModel.selectedTab == tab ? Color.volume.orange : .black)
                 .padding(.top)
 
             if viewModel.selectedTab == tab {
                 Color.volume.orange
-                    .frame(height: 2)
+                    .frame(height: Constants.tabUnderlineHeight)
                     .matchedGeometryEffect(
                         id: "underline",
                         in: namespace,
@@ -60,7 +86,7 @@ struct PublicationContentView: View {
                     )
             } else {
                 Color.volume.veryLightGray
-                    .frame(height: 2)
+                    .frame(height: Constants.tabUnderlineHeight)
             }
         }
         .animation(.spring(), value: viewModel.selectedTab)
@@ -70,45 +96,64 @@ struct PublicationContentView: View {
     }
 
     private var articleTab: some View {
-        // HAN TODO: detect scroll in middle, top, add gradient when middle
-        ScrollView(viewModel.disableScrolling ? [] : .vertical) {
-            LazyVStack {
-                switch viewModel.articles {
-                case .none:
-                    ForEach(0..<5) { _ in
-                        articleRowSkeleton
-                    }
-                case .some(let articles):
-                    ForEach(articles, id: \.id) { article in
-                        NavigationLink {
-                            BrowserView(
-                                initType: .readyForDisplay(article),
-                                navigationSource: .publicationDetail
-                            )
-                        } label: {
-                            ArticleRow(
-                                article: article,
-                                navigationSource: .publicationDetail,
-                                showsPublicationName: false
-                            )
-                            .padding([.horizontal, .bottom])
-                            .onAppear {
-                                viewModel.fetchPageIfLast(article: article)
-                            }
+        Group {
+            switch viewModel.articles {
+            case .none:
+                ForEach(0..<5) { _ in
+                    articleRowSkeleton
+                }
+            case .some(let articles):
+                ForEach(articles, id: \.id) { article in
+                    NavigationLink {
+                        BrowserView(
+                            initType: .readyForDisplay(article),
+                            navigationSource: .publicationDetail
+                        )
+                    } label: {
+                        ArticleRow(
+                            article: article,
+                            navigationSource: .publicationDetail,
+                            showsPublicationName: false
+                        )
+                        .padding([.horizontal, .top])
+                        .onAppear {
+                            viewModel.fetchPageIfLast(article: article)
                         }
                     }
+                }
 
-                    if viewModel.hasMorePages {
-                        articleRowSkeleton
-                    }
+                if viewModel.hasMorePages {
+                    articleRowSkeleton
                 }
             }
-            .padding(.top)
         }
     }
 
     private var magazineTab: some View {
-        Text("magazines!")
+        Group {
+            switch viewModel.magazines {
+            case .none:
+                ForEach(0..<2) { _ in
+                    HStack {
+                        MagazineCell.Skeleton()
+
+                        Spacer()
+
+                        MagazineCell.Skeleton()
+                    }
+                    .padding()
+                }
+            case .some(let magazines):
+                ForEach(0..<magazines.count / 2, id: \.self) { row in
+                    HStack {
+                        magazineCellRow(
+                            first: magazines[row * 2],
+                            second: (row * 2 + 1) < magazines.count ? magazines[row * 2 + 1] : nil
+                        )
+                    }
+                }
+            }
+        }
     }
 
     // MARK: Helpers
@@ -117,13 +162,41 @@ struct PublicationContentView: View {
         ArticleRow.Skeleton(showsPublicationName: false)
             .padding([.horizontal, .bottom])
     }
+
+    private func magazineCellRow(first: Magazine, second: Magazine?) -> some View {
+        HStack {
+            magazineCellLink(magazine: first)
+
+            Spacer()
+
+            if let second {
+                magazineCellLink(magazine: second)
+            } else {
+                Spacer()
+            }
+        }
+        .padding()
+    }
+
+    private func magazineCellLink(magazine: Magazine) -> some View {
+        NavigationLink {
+            MagazineReaderView(magazine: magazine)
+        } label: {
+            MagazineCell(magazine: magazine)
+        }
+    }
 }
 
 extension PublicationContentView {
 
     private struct Constants {
-        // HAN TODO: add to constnats
         static let articleTabTitle = "Articles"
         static let magazineTabTitle = "Magazines"
+        static let tabUnderlineHeight: CGFloat = 2
+        static let tabTitleFont: Font = .newYorkMedium(size: 18)
+        static let articleTabWidth: CGFloat = 80
+        static let magazineTabWidth: CGFloat = 106
+        static let tabBarItemSpacing: CGFloat = 8
+        static let loadingIndicatorTopPadding: CGFloat = 180
     }
 }
