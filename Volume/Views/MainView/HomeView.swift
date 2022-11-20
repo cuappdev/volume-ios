@@ -24,33 +24,13 @@ struct HomeView: View {
     }
 
     var body: some View {
-        List {
-            Group {
-                trendingArticlesSection
-                weeklyDebriefButton
-                followedArticlesSection
-                unfollowedArticlesSection
-                deepNavigationLink
-            }
-            .listSectionSeparator(.hidden)
-            .listRowSeparator(.hidden)
-            .listRowInsets(EdgeInsets(top: 0, leading: Constants.listHorizontalPadding, bottom: 0, trailing: Constants.listHorizontalPadding))
-            .listRowBackground(Color.clear)
-        }
+        listContent
         .toolbar {
             ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
                 Image.volume.logo
                     .foregroundColor(.red)
             }
         }
-        .navigationBarTitleDisplayMode(.inline)
-        .listStyle(.plain)
-        .refreshable {
-            viewModel.fetchContent()
-        }
-        .modifier(ListBackgroundModifier())
-        .background(Constants.backgroundColor)
-        .disabled(viewModel.disableScrolling)
         .onAppear {
             viewModel.setupEnvironment(networkState: networkState, userData: userData)
             viewModel.fetchContent()
@@ -65,16 +45,27 @@ struct HomeView: View {
         }
     }
 
-    // MARK: Deeplink
-
-    private var deepNavigationLink: some View {
-        // Invisible navigation link
-        // Only opens if application is opened through deeplink w/ valid article
-        Group {
-            if let articleID = viewModel.deeplinkID {
-                NavigationLink("", destination: BrowserView(initType: .fetchRequired(articleID), navigationSource: .morePublications), isActive: $viewModel.openArticleFromDeeplink)
+    private var listContent: some View {
+        List {
+            Group {
+                trendingArticlesSection
+                weeklyDebriefButton
+                followedArticlesSection
+                unfollowedArticlesSection
             }
+            .listSectionSeparator(.hidden)
+            .listRowSeparator(.hidden)
+            .listRowInsets(EdgeInsets(top: 0, leading: Constants.listHorizontalPadding, bottom: 0, trailing: Constants.listHorizontalPadding))
+            .listRowBackground(Color.clear)
         }
+        .navigationBarTitleDisplayMode(.inline)
+        .listStyle(.plain)
+        .refreshable {
+            viewModel.fetchContent()
+        }
+        .modifier(ListBackgroundModifier())
+        .background(background)
+        .disabled(viewModel.disableScrolling)
     }
 
     // MARK: Sections
@@ -109,6 +100,66 @@ struct HomeView: View {
         .background(headerGradient)
     }
 
+    private var followedArticlesSection: some View {
+        articleSection(followed: true)
+    }
+
+    private var unfollowedArticlesSection: some View {
+        articleSection(followed: false)
+    }
+
+    private func articleSection(followed: Bool) -> some View {
+        Section {
+            switch followed ? viewModel.followedArticles : viewModel.unfollowedArticles {
+            case .loading, .reloading:
+                if followed && userData.followedPublicationSlugs.isEmpty {
+                    VolumeMessage(message: .noFollowingHome, largeFont: false, fullWidth: false)
+                        .padding(.top, Constants.volumeMessageTopPadding)
+                        .padding(.bottom, Constants.volumeMessageBottomPadding)
+                } else {
+                    ForEach(0..<5) { _ in
+                        ArticleRow.Skeleton()
+                            .padding(.vertical, Constants.rowVerticalPadding)
+                    }
+                }
+            case .results(let articles):
+                ForEach(articles) { article in
+                    ZStack {
+                        ArticleRow(article: article, navigationSource: .followingArticles)
+                            .padding(.vertical, Constants.rowVerticalPadding)
+                        NavigationLink {
+                            BrowserView(initType: .readyForDisplay(article), navigationSource: .followingArticles)
+                        } label: {
+                            EmptyView()
+                        }.opacity(0)
+                    }
+                }
+
+                if followed ? viewModel.hasMoreFollowedArticlePages : viewModel.hasMoreUnfollowedArticlePages {
+                    ArticleRow.Skeleton()
+                        .padding(.vertical, Constants.rowVerticalPadding)
+                        .onAppear {
+                            viewModel.fetchPage(followed: followed)
+                        }
+                } else if followed {
+                    VolumeMessage(message: articles.count > 0 ? .upToDate : .noFollowingHome, largeFont: false, fullWidth: false)
+                        .padding(.top, Constants.volumeMessageTopPadding)
+                        .padding(.bottom, Constants.volumeMessageBottomPadding)
+                        .onAppear {
+                            viewModel.fetchPage(followed: false)
+                        }
+                }
+            }
+        } header: {
+            Header(followed ? Constants.followedArticlesSectionTitle : Constants.unfollowedArticlesSectionTitle)
+                .padding(.vertical, Constants.rowVerticalPadding)
+                .foregroundColor(.black)
+        }
+        .background(headerGradient)
+    }
+
+    // MARK: Weekly Debrief
+
     private var weeklyDebriefButton: some View {
         Group {
             switch viewModel.weeklyDebrief {
@@ -137,64 +188,6 @@ struct HomeView: View {
         }
     }
 
-    private var followedArticlesSection: some View {
-        articleSection(followed: true)
-    }
-
-    private var unfollowedArticlesSection: some View {
-        articleSection(followed: false)
-    }
-
-    private func articleSection(followed: Bool) -> some View {
-        Section {
-            switch followed ? viewModel.followedArticles : viewModel.unfollowedArticles {
-            case .loading, .reloading:
-                if followed && userData.followedPublicationSlugs.isEmpty {
-                    VolumeMessage(message: .noFollowingHome, largeFont: false, fullWidth: false)
-                        .padding(.top, Constants.volumeMessageTopPadding)
-                        .padding(.bottom, Constants.volumeMessageBottomPadding)
-                } else {
-                    ForEach(0..<5) { _ in
-                        ArticleRow.Skeleton()
-                            .padding(.vertical, Constants.rowVerticalPadding)
-                    }
-                }
-            case .results(let articles):
-                ForEach(articles) { article in
-                    ArticleRow(article: article, navigationSource: .followingArticles)
-                        .padding(.vertical, Constants.rowVerticalPadding)
-                        .background {
-                            // Done to prevent display of right arrow-
-                            NavigationLink("") {
-                                BrowserView(initType: .readyForDisplay(article), navigationSource: .followingArticles)
-                            }
-                            .hidden()
-                        }
-                }
-
-                if followed ? viewModel.hasMoreFollowedArticlePages : viewModel.hasMoreUnfollowedArticlePages {
-                    ArticleRow.Skeleton()
-                        .padding(.vertical, Constants.rowVerticalPadding)
-                        .onAppear {
-                            viewModel.fetchPage(followed: followed)
-                        }
-                } else if followed {
-                    VolumeMessage(message: articles.count > 0 ? .upToDate : .noFollowingHome, largeFont: false, fullWidth: false)
-                        .padding(.top, Constants.volumeMessageTopPadding)
-                        .padding(.bottom, Constants.volumeMessageBottomPadding)
-                        .onAppear {
-                            viewModel.fetchPage(followed: false)
-                        }
-                }
-            }
-        } header: {
-            Header(followed ? Constants.followedArticlesSectionTitle : Constants.unfollowedArticlesSectionTitle)
-                .padding(.vertical, Constants.rowVerticalPadding)
-                .foregroundColor(.black)
-        }
-        .background(headerGradient)
-    }
-
     // MARK: Supporting Views
 
     private var headerGradient: some View {
@@ -202,6 +195,26 @@ struct HomeView: View {
             colors: [Constants.backgroundColor, Constants.backgroundColor.opacity(0)],
             startPoint: .top, endPoint: .bottom
         )
+    }
+
+    private var background: some View {
+        ZStack {
+            deepNavigationLink
+            Constants.backgroundColor
+        }
+    }
+
+    private var deepNavigationLink: some View {
+        // Invisible navigation link
+        // Only opens if application is opened through deeplink w/ valid article
+        Group {
+            if let articleID = viewModel.deeplinkID {
+                NavigationLink(Constants.browserViewNavigationTitleKey, isActive: $viewModel.openArticleFromDeeplink) {
+                    BrowserView(initType: .fetchRequired(articleID), navigationSource: .morePublications)
+                }
+                .hidden()
+            }
+        }
     }
 }
 
@@ -215,6 +228,7 @@ extension HomeView {
         static let volumeMessageBottomPadding: CGFloat = 0
         static let followedArticlesSectionTitle: String = "Following"
         static let unfollowedArticlesSectionTitle: String = "Other Articles"
+        static let browserViewNavigationTitleKey: String = "BrowserView"
 
         static var backgroundColor: Color {
             // Prevent inconsistency w/ List background in lower iOS versions
