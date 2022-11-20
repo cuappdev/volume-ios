@@ -47,21 +47,11 @@ struct MagazineReaderView: View {
                         
                         Spacer()
                         
-                        if let url = magazine.pdfUrl {
-                            Link(destination: url) {
-                                Image.volume.compass
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(height: 24)
-                                    .foregroundColor(.black)
-                            }
-                        } else {
-                            Image.volume.compass
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(height: 24)
-                                .foregroundColor(.volume.lightGray)
-                        }
+                        Image.volume.compass
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: 24)
+                            .foregroundColor(.volume.lightGray)
                     }
                     .padding(.horizontal, 16)
                     
@@ -107,27 +97,19 @@ struct MagazineReaderView: View {
                 Spacer()
                 Group {
                     Button(action: {
-                        //                    TODO: Uncomment after implementing bookmarking for magazines
-                        //                        bookmarkRequestInProgress = true
-                        //                        userData.toggleMagazineSaved(magazine, $bookmarkRequestInProgress)
-                        //                        AppDevAnalytics.log(
-                        //                            userData.isMagazineSaved(magazine) ?
-                        //                            VolumeEvent.bookmarkMagazine.toEvent(.magazine, value: magazine.id, navigationSource: navigationSource) :
-                        //                                VolumeEvent.unbookmarkMagazine.toEvent(.magazine, value: magazine.id, navigationSource: navigationSource)
-                        //                        )
+                        bookmarkRequestInProgress = true
+                        userData.toggleMagazineSaved(magazine, $bookmarkRequestInProgress)
                     }, label: {
                         Image(systemName: userData.isMagazineSaved(magazine) ? "bookmark.fill" : "bookmark")
                             .font(Font.system(size: 18, weight: .semibold))
                             .foregroundColor(.volume.orange)
                     })
-                    //                    .disabled(bookmarkRequestInProgress)
+                    .disabled(bookmarkRequestInProgress)
                     
                     Spacer()
                         .frame(width: 16)
                     
                     Button {
-                        //                    TODO: Uncomment after implementing shareMagazine for analytics
-                        //                        AppDevAnalytics.log(VolumeEvent.shareMagazine.toEvent(.magazine, value: magazine.id, navigationSource: navigationSource))
                     } label: {
                         Image(systemName: "square.and.arrow.up.on.square")
                             .font(Font.system(size: 16, weight: .semibold))
@@ -152,7 +134,7 @@ struct MagazineReaderView: View {
                     Spacer()
                         .frame(width: 6)
                     
-                    Text(String(max(magazine.shoutouts, userData.shoutoutsCache[magazine.id, default: 0])))
+                    Text(String(max(magazine.shoutouts, userData.magazineShoutoutsCache[magazine.id, default: 0])))
                         .font(.helveticaRegular(size: 12))
                 }
             }
@@ -168,14 +150,6 @@ struct MagazineReaderView: View {
                         .frame(height: showToolbars ? 40 : 20)
                     if let magazineUrl = magazine.pdfUrl {
                         PDFKitView(pdfDoc: PDFDocument(url: magazineUrl)!, showToolbars: $showToolbars)
-                        //                    TODO: Uncomment after updating analytics to include magazines
-                        //                            .onAppear {
-                        //                                AppDevAnalytics.log(VolumeEvent.openMagazine.toEvent(.magazine, value: magazine.id, navigationSource: navigationSource))
-                        //                                markMagazineRead(id: magazine.id)
-                        //                            }
-                        //                            .onDisappear {
-                        //                                AppDevAnalytics.log(VolumeEvent.closeMagazine.toEvent(.magazine, value: magazine.id, navigationSource: navigationSource))
-                        //                            }
                     }
                     if showToolbars {
                         toolbar
@@ -194,21 +168,16 @@ struct MagazineReaderView: View {
     // MARK: Actions
     private func incrementShoutouts(for magazine: Magazine) {
         guard let uuid = userData.uuid else { return }
-//    TODO: Uncomment after implementing analytics for magazines
-//        AppDevAnalytics.log(VolumeEvent.shoutoutMagzine.toEvent(.magazine, value: magazine.id, navigationSource: navigationSource))
         userData.incrementMagazineShoutoutsCounter(magazine)
-        let currentMagazineShoutouts = max(userData.shoutoutsCache[magazine.id, default: 0], magazine.shoutouts)
-        userData.shoutoutsCache[magazine.id, default: 0] = currentMagazineShoutouts + 1
+        let currentMagazineShoutouts = max(userData.magazineShoutoutsCache[magazine.id, default: 0], magazine.shoutouts)
+        userData.magazineShoutoutsCache[magazine.id, default: 0] = currentMagazineShoutouts + 1
         let currentPublicationShoutouts = max(userData.shoutoutsCache[magazine.publication.slug, default: 0], magazine.publication.shoutouts)
         userData.shoutoutsCache[magazine.publication.slug, default: 0] = currentPublicationShoutouts + 1
         
-        // !! IMPORTANT: not sure if this request is only for articles, may cause bug
-        // where shouting out a magazine increments the shoutout count for the article
-        // with the same id !!
-        cancellableShoutoutMutation = Network.shared.publisher(for: IncrementShoutoutsMutation(id: magazine.id, uuid: uuid))
+        cancellableShoutoutMutation = Network.shared.publisher(for: IncrementMagazineShoutoutsMutation(id: magazine.id, uuid: uuid))
             .sink(receiveCompletion: { completion in
                 if case let .failure(error) = completion {
-                    print("Error: IncrementShoutoutsMutation failed on MagazineReaderView: \(error.localizedDescription)")
+                    print("Error: IncrementMagazineShoutoutsMutation failed on MagazineReaderView: \(error.localizedDescription)")
                 }
             }, receiveValue: { _ in })
     }
