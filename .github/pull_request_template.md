@@ -39,10 +39,19 @@
 
 <details>
 
-  <summary>Screen Shot Name</summary>
+  <summary>NAME OF FEATURE/FIX</summary>
 
-
-  <!-- Insert file link here. Newlines above and below your link are necessary for this to work. -->
-  
+  <table>
+  <tr>
+     <td>Before</td>
+     <td>After</td>
+  </tr>
+  <tr>
+    <td><img src="URL OF BEFORE IMAGE OR VIDEO" ></td>
+    <td><img src="URL OF AFTER IMAGE OR VIDEO" ></td>
+  </tr>
+ </table>
+ 
 
 </details>
+
