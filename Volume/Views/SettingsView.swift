@@ -35,16 +35,10 @@ struct SettingsView: View {
             }
         }
         .navigationBarTitle(Text("Settings"), displayMode: .inline)
-        .background(Color.white)
+        .background(Color.volume.backgroundGray)
     }
 }
 
 enum NestedSettingsView: String {
     case aboutUs
 }
-
-//struct SettingsView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SettingsView()
-//    }
-//}
