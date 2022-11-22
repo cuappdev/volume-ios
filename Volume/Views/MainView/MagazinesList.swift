@@ -74,8 +74,10 @@ struct MagazinesList: View {
                         }
                     case .reloading(let results), .results(let results):
                         ForEach(results) { magazine in
-                            NavigationLink(destination: MagazineReaderView(magazine: magazine, navigationSource: .featuredMagazines)) {
-                                MagazineCell(magazine: magazine)
+                            if let url = magazine.pdfUrl {
+                                NavigationLink(destination: MagazineReaderView(magazine: magazine, magazineUrl: url, navigationSource: .featuredMagazines)) {
+                                    MagazineCell(magazine: magazine, magazineUrl: url)
+                                }
                             }
                         }
                     }
@@ -99,10 +101,13 @@ struct MagazinesList: View {
                         }
                     case .reloading(let results), .results(let results):
                         ForEach(results) { magazine in
-                            NavigationLink(destination: MagazineReaderView(magazine: magazine, navigationSource: .moreMagazines)) {
-                                MagazineCell(magazine: magazine)
+                            if let url = magazine.pdfUrl {
+                                NavigationLink(destination: MagazineReaderView(magazine: magazine, magazineUrl: url, navigationSource: .moreMagazines)) {
+                                    MagazineCell(magazine: magazine, magazineUrl: url)
+                                }
                             }
                         }
+    
                     }
                 }
             }

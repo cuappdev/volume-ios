@@ -18,10 +18,10 @@ struct MagazineReaderView: View {
     @EnvironmentObject private var userData: UserData
     
     let magazine: Magazine
+    let magazineUrl: URL
     let navigationSource: NavigationSource
     @State private var bookmarkRequestInProgress = false
     @State private var cancellableShoutoutMutation: AnyCancellable?
-    @State private var showToolbars = true
     
     private var isShoutoutsButtonEnabled: Bool {
         return userData.canIncrementMagazineShoutouts(magazine)
@@ -33,50 +33,46 @@ struct MagazineReaderView: View {
                     .foregroundColor(.white)
                     .shadow(color: .black.opacity(0.2), radius: 2, y: 3)
                 
-                if showToolbars {
-                    HStack {
-                        Button {
-                            presentationMode.wrappedValue.dismiss()
-                        } label: {
-                            Image.volume.leftArrow
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(height: 24)
-                                .foregroundColor(.black)
-                        }
-                        
-                        Spacer()
-                        
-                        Image.volume.compass
+                HStack {
+                    Button {
+                        presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        Image.volume.leftArrow
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(height: 24)
-                            .foregroundColor(.volume.lightGray)
+                            .foregroundColor(.black)
                     }
-                    .padding(.horizontal, 16)
                     
-                    VStack {
-                        Text(magazine.title)
-                            .font(.newYorkBold(size: 12))
-                            .truncationMode(.tail)
-                        Text("Reading in Volume")
-                            .font(.helveticaRegular(size: 10))
-                            .foregroundColor(.volume.lightGray)
-                    }
-                    .padding(.horizontal, 48)
-                } else {
-                    Text(magazine.title)
-                        .font(.newYorkBold(size: 10))
-                        .fixedSize()
+                    Spacer()
+                    
+                    Image.volume.menu
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 16)
+                        .foregroundColor(.volume.lightGray)
                 }
+                .padding(.horizontal, 16)
+                
+                VStack {
+                    Text(magazine.title)
+                        .font(.newYorkBold(size: 12))
+                        .truncationMode(.tail)
+                    
+                    Text("Reading in Volume")
+                        .font(.helveticaRegular(size: 10))
+                        .foregroundColor(.volume.lightGray)
+                }
+                .padding(.horizontal, 48)
             }
             .background(Color.white)
-            .frame(height: showToolbars ? 40 : 20)
+            .frame(height: 40)
     }
         
         private var toolbar: some View {
             HStack(spacing: 0) {
                 NavigationLink(destination: PublicationDetail(navigationSource: navigationSource, publication: magazine.publication)) {
+                    
                     if let imageUrl = magazine.publication.profileImageUrl {
                         WebImage(url: imageUrl)
                             .grayBackground()
@@ -88,8 +84,10 @@ struct MagazineReaderView: View {
                             .fill(.gray)
                             .frame(width: 32, height: 32)
                     }
+                    
                     Spacer()
                         .frame(width: 7)
+                    
                     Text("See more")
                         .font(.helveticaRegular(size: 12))
                         .foregroundColor(.black)
@@ -110,6 +108,7 @@ struct MagazineReaderView: View {
                         .frame(width: 16)
                     
                     Button {
+                        displayShareScreen(for: magazine)
                     } label: {
                         Image(systemName: "square.and.arrow.up.on.square")
                             .font(Font.system(size: 16, weight: .semibold))
@@ -146,15 +145,19 @@ struct MagazineReaderView: View {
         var body: some View {
             ZStack {
                 VStack(spacing: 0) {
+                    
                     Spacer()
-                        .frame(height: showToolbars ? 40 : 20)
-                    if let magazineUrl = magazine.pdfUrl {
-                        PDFKitView(pdfDoc: PDFDocument(url: magazineUrl)!, showToolbars: $showToolbars)
+                        .frame(height: 40)
+                    
+                    if let pdfDoc = PDFDocument(url: magazineUrl) {
+                        PDFKitView(pdfDoc: pdfDoc)
+                    } else {
+                        PDFKitView(pdfDoc: PDFDocument())
                     }
-                    if showToolbars {
-                        toolbar
-                    }
+                    
+                    toolbar
                 }
+                
                 VStack(spacing: 0) {
                     navbar
                     
@@ -180,6 +183,15 @@ struct MagazineReaderView: View {
                     print("Error: IncrementMagazineShoutoutsMutation failed on MagazineReaderView: \(error.localizedDescription)")
                 }
             }, receiveValue: { _ in })
+    }
+    
+    func displayShareScreen(for magazine: Magazine) {
+        let rawString = Secrets.openArticleUrl + magazine.id
+        if let shareMagazineUrl = URL(string: rawString) {
+            let linkSource = LinkItemSource(url: shareMagazineUrl, magazine: magazine)
+            let shareVC = UIActivityViewController(activityItems: [linkSource], applicationActivities: nil)
+            UIApplication.shared.windows.first?.rootViewController?.present(shareVC, animated: true)
+        }
     }
     
 }

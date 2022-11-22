@@ -33,12 +33,6 @@ class UserData: ObservableObject {
             objectWillChange.send()
         }
     }
-    
-    @Published var magazineShoutoutsCache: [String: Int] = [:] {
-        willSet {
-            objectWillChange.send()
-        }
-    }
 
     @Published private(set) var savedArticleIDs: [String] = [] {
         willSet {
@@ -57,6 +51,12 @@ class UserData: ObservableObject {
     @Published private var articleShoutoutsCounter: [String: Int] = [:] {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: articleShoutoutsKey)
+            objectWillChange.send()
+        }
+    }
+    
+    @Published var magazineShoutoutsCache: [String: Int] = [:] {
+        willSet {
             objectWillChange.send()
         }
     }

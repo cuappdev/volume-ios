@@ -12,12 +12,7 @@ import PDFKit
 
 struct PDFKitView: UIViewRepresentable {
     
-    let pdfDoc : PDFDocument
-    @Binding var showToolbars: Bool
-    
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
+    let pdfDoc: PDFDocument
     
     func makeUIView(context: Context) -> PDFView {
         let pdfView = PDFView()
@@ -28,40 +23,5 @@ struct PDFKitView: UIViewRepresentable {
     
     func updateUIView(_ pdfView: PDFView, context: Context) {
         pdfView.document = pdfDoc
-    }
-}
-
-struct SimplePDFView: UIViewRepresentable {
-    
-    let pdfDoc : PDFDocument
-    
-    func makeUIView(context: Context) -> PDFView {
-        let pdfView = PDFView()
-        pdfView.document = pdfDoc
-        pdfView.autoScales = true
-        return pdfView
-    }
-    
-    func updateUIView(_ pdfView: PDFView, context: Context) {
-        pdfView.document = pdfDoc
-    }
-}
-
-extension PDFKitView {
-    class Coordinator: NSObject, UIScrollViewDelegate {
-        var parent: PDFKitView
-        private var lastContentOffset: CGFloat = 0
-        
-        init(_ parent: PDFKitView) {
-            self.parent = parent
-        }
-        
-        func scrollViewDidScroll(_ scrollView: UIScrollView) {
-            withAnimation {
-                // show toolbar when near top of page or scrolling up
-                parent.showToolbars = (lastContentOffset > scrollView.contentOffset.y) || scrollView.contentOffset.y <= 10
-            }
-            lastContentOffset = scrollView.contentOffset.y
-        }
     }
 }
