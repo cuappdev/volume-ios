@@ -95,6 +95,7 @@ struct HomeView: View {
                 }
             }
         } header: {
+            SearchBar()
             Header("The Big Read")
                 .padding(.vertical, Constants.rowVerticalPadding)
                 .foregroundColor(.black)
