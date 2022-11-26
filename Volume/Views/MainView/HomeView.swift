@@ -45,11 +45,17 @@ struct HomeView: View {
         } content: {
             weeklyDebriefView
         }
+        .fullScreenCover(isPresented: $viewModel.showSearchDropdownView,
+                         onDismiss: { viewModel.showSearchDropdownView = false }) {
+            SearchDropdownView()
+        }
+        .background(background)
     }
 
     private var listContent: some View {
         List {
             Group {
+                searchSection
                 trendingArticlesSection
                 weeklyDebriefButton
                 followedArticlesSection
@@ -71,6 +77,16 @@ struct HomeView: View {
     }
 
     // MARK: Sections
+    
+    private var searchSection: some View {
+        SearchBar()
+            .disabled(false)
+            .listRowBackground(Color.clear)
+            .listRowInsets(EdgeInsets(top: 20, leading: Constants.listHorizontalPadding, bottom: -40, trailing: Constants.listHorizontalPadding))
+            .onTapGesture {
+                viewModel.showSearchDropdownView = true
+            }
+    }
 
     private var trendingArticlesSection: some View {
         Section {
@@ -95,7 +111,6 @@ struct HomeView: View {
                 }
             }
         } header: {
-            SearchBar()
             Header("The Big Read")
                 .padding(.vertical, Constants.rowVerticalPadding)
                 .foregroundColor(.black)
