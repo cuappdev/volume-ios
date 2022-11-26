@@ -31,7 +31,6 @@ struct SearchBar: View {
                 Button("Cancel") {
                     presentationMode.wrappedValue.dismiss()
                 }
-                
             }
         } else {
             searchTextField.disabled(true)
@@ -69,7 +68,7 @@ struct SearchBar: View {
     }
     
     private func searchSubmit() {
-        print("PRESSED SEARCH")
+//        presentationMode.wrappedValue.dismiss()
     }
     
 }

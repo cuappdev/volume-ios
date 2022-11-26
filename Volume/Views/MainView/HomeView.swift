@@ -45,10 +45,10 @@ struct HomeView: View {
         } content: {
             weeklyDebriefView
         }
-        .fullScreenCover(isPresented: $viewModel.showSearchDropdownView,
-                         onDismiss: { viewModel.showSearchDropdownView = false }) {
-            SearchDropdownView()
-        }
+//        .fullScreenCover(isPresented: $viewModel.showSearchDropdownView,
+//                         onDismiss: { viewModel.showSearchDropdownView = false }) {
+//            SearchDropdownView()
+//        }
         .background(background)
     }
 
@@ -79,13 +79,15 @@ struct HomeView: View {
     // MARK: Sections
     
     private var searchSection: some View {
-        SearchBar()
-            .disabled(false)
-            .listRowBackground(Color.clear)
-            .listRowInsets(EdgeInsets(top: 20, leading: Constants.listHorizontalPadding, bottom: -40, trailing: Constants.listHorizontalPadding))
-            .onTapGesture {
-                viewModel.showSearchDropdownView = true
-            }
+        ZStack {
+            SearchBar()
+            NavigationLink {
+                SearchRootView()
+            } label: {
+                EmptyView()
+            }.opacity(0)
+        }
+        
     }
 
     private var trendingArticlesSection: some View {
