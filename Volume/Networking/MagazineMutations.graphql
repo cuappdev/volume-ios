@@ -1,0 +1,11 @@
+mutation IncrementMagazineShoutouts($id: String!, $uuid: String!) {
+  incrementMagazineShoutouts(id: $id, uuid: $uuid) {
+    id
+  }
+}
+
+mutation BookmarkMagazine($uuid: String!) {
+  bookmarkArticle(uuid: $uuid) {
+    id
+  }
+}

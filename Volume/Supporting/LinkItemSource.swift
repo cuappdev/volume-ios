@@ -12,11 +12,21 @@ import UIKit
 class LinkItemSource: NSObject, UIActivityItemSource {
     private let metadata = LPLinkMetadata()
     private let url: URL
+    private let item: String
 
     init(url: URL, article: Article) {
+        item = "article"
         metadata.originalURL = url
         metadata.url = metadata.originalURL
         metadata.title = article.title
+        self.url = url
+    }
+    
+    init(url: URL, magazine: Magazine) {
+        item = "magazine"
+        metadata.originalURL = url
+        metadata.url = metadata.originalURL
+        metadata.title = magazine.title
         self.url = url
     }
 
@@ -34,7 +44,7 @@ class LinkItemSource: NSObject, UIActivityItemSource {
     func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
         if let title = metadata.title {
             return """
-                Check out this article on Volume:
+                Check out this \(item) on Volume:
 
                 \(title)
 
@@ -42,13 +52,13 @@ class LinkItemSource: NSObject, UIActivityItemSource {
                 """
         }
         return """
-            Check out this article on Volume!
+            Check out this \(item) on Volume!
 
             \(url)
             """
     }
 
     func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivity.ActivityType?) -> String {
-        metadata.title ?? "Check out this article on Volume!"
+        metadata.title ?? "Check out this \(item) on Volume!"
     }
 }
