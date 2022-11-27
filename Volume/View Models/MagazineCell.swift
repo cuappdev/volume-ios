@@ -38,7 +38,7 @@ struct MagazineCell: View {
     var body: some View {
         VStack(alignment: .leading) {
             if let pdfDoc = PDFDocument(url: magazineUrl) {
-                PDFKitView(pdfDoc: pdfDoc)
+                PDFKitView(pdfDoc: pdfDoc, isCover: true)
                     .frame(width: Constants.pdfviewWidth, height: Constants.pdfviewHeight)
                     .scaledToFill()
                     .shadow(color: Color.black.opacity(Constants.pdfviewOpacity), radius: Constants.pdfviewRadius, x: Constants.pdfviewX, y: Constants.pdfviewY)
