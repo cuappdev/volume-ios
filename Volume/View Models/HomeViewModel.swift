@@ -36,8 +36,10 @@ extension HomeView {
         private var queryBag = Set<AnyCancellable>()
 
         func setupEnvironment(networkState: NetworkState, userData: UserData) {
-            self.networkState = networkState
-            self.userData = userData
+            if self.networkState == nil || self.userData == nil {
+                self.networkState = networkState
+                self.userData = userData
+            }
         }
 
         private var followedPublicationSlugs: [String] {
@@ -63,7 +65,9 @@ extension HomeView {
         func fetchContent() async {
             fetchTrendingArticles()
             fetchWeeklyDebrief()
-            await fetchFirstPage()
+            if followedArticles == nil {
+                await fetchFirstPage()
+            }
         }
 
         func refreshContent() async {

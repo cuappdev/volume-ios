@@ -24,6 +24,7 @@
 		06EC2D24259CED0500FE0A71 /* PublicationDetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EC2D23259CED0500FE0A71 /* PublicationDetailHeader.swift */; };
 		331159CD27D26773003B0F06 /* MagazinesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331159CC27D26773003B0F06 /* MagazinesList.swift */; };
 		331159D727D41C89003B0F06 /* Image+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331159D627D41C89003B0F06 /* Image+Extensions.swift */; };
+		3333021A29307D8B00320123 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3333021929307D8B00320123 /* MenuView.swift */; };
 		3334F4A02705269800CF0987 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3334F49F2705269800CF0987 /* AppDelegate.swift */; };
 		333EB8A92909ECBA00EA9950 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333EB8A82909ECBA00EA9950 /* HomeViewModel.swift */; };
 		333EB8AB2909EE5400EA9950 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333EB8AA2909EE5400EA9950 /* HomeView.swift */; };
@@ -104,6 +105,7 @@
 		2ED344C7F76751CD56407579 /* Pods-Volume.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Volume.debug.xcconfig"; path = "Target Support Files/Pods-Volume/Pods-Volume.debug.xcconfig"; sourceTree = "<group>"; };
 		331159CC27D26773003B0F06 /* MagazinesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazinesList.swift; sourceTree = "<group>"; };
 		331159D627D41C89003B0F06 /* Image+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extensions.swift"; sourceTree = "<group>"; };
+		3333021929307D8B00320123 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		3334F49F2705269800CF0987 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		333EB8A82909ECBA00EA9950 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		333EB8AA2909EE5400EA9950 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -337,6 +339,7 @@
 				7E49582C2612BD740015BE45 /* RefreshableScrollView.swift */,
 				33913A0B27D89E0A00C5718D /* TabBarReader.swift */,
 				3349BF6E290DC1E900B0FD3A /* WeeklyDebriefButton.swift */,
+				3333021929307D8B00320123 /* MenuView.swift */,
 			);
 			path = "Supporting Views";
 			sourceTree = "<group>";
@@ -574,6 +577,7 @@
 				06662888257F204E006FEBCF /* Secrets.swift in Sources */,
 				061DB39725571D760038BEF5 /* Font+Extension.swift in Sources */,
 				3334F4A02705269800CF0987 /* AppDelegate.swift in Sources */,
+				3333021A29307D8B00320123 /* MenuView.swift in Sources */,
 				060FFDDD2577EC800052F3EA /* FollowView.swift in Sources */,
 				3349BF6F290DC1E900B0FD3A /* WeeklyDebriefButton.swift in Sources */,
 				061233A12553127C0025F7E0 /* UnderlinedText.swift in Sources */,
@@ -747,7 +751,7 @@
 				CODE_SIGN_ENTITLEMENTS = Volume/Volume.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"Volume/Preview Content\"";
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
 				ENABLE_PREVIEWS = YES;
@@ -759,7 +763,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.5;
+				MARKETING_VERSION = 1.1.6;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cornellappdev.volume-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -777,7 +781,7 @@
 				CODE_SIGN_ENTITLEMENTS = Volume/Volume.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"Volume/Preview Content\"";
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
 				ENABLE_PREVIEWS = YES;
@@ -789,7 +793,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.5;
+				MARKETING_VERSION = 1.1.6;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cornellappdev.volume-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
