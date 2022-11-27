@@ -10,9 +10,12 @@ import SwiftUI
 
 struct SearchDropdownView: View {
     @Environment(\.presentationMode) var presentationMode
+    @Binding var searchState: SearchView.SearchState
+    @Binding var searchText: String
     var suggestedSearchQueries = ["guac", "hi", "hola", "yes", "hihi"]
     
     private struct Constants {
+        static let animationDuration: CGFloat = 0.1
         static let searchQueryTextPadding: CGFloat = 25
         static let searchQueryTextSize: CGFloat = 16
         static let suggestedSearchHeader: String = "Recent Searches"
@@ -23,13 +26,19 @@ struct SearchDropdownView: View {
             Header(Constants.suggestedSearchHeader)
             VStack(alignment: .leading, spacing: Constants.searchQueryTextPadding) {
                 ForEach(suggestedSearchQueries, id: \.self) { query in
-                    NavigationLink(destination: SearchQueryResultsView(searchQuery: query)) {
-                        Text(query)
-                            .font(.helveticaNeueMedium(size: Constants.searchQueryTextSize))
-                    }
+                    Text(query)
+                        .font(.helveticaNeueMedium(size: Constants.searchQueryTextSize))
+                        .onTapGesture {
+                            withAnimation(.linear(duration: Constants.animationDuration)) {
+                                searchText = query
+                                searchState = .results
+                            }
+                        }
                 }
             }
         }
+        
+        Spacer()
     }
     
 }

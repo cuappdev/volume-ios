@@ -31,7 +31,8 @@ extension HomeView {
         @Published var isWeeklyDebriefOpen: Bool = false
         @Published var deeplinkID: String? = nil
         @Published var openArticleFromDeeplink: Bool = false
-        @Published var showSearchDropdownView: Bool = false
+        @Published var searchState: SearchView.SearchState = .searching
+        @Published var searchText: String = ""
 
         private var publicationSlugs: [String]? = nil
         private var queryBag = Set<AnyCancellable>()

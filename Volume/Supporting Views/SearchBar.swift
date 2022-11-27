@@ -9,12 +9,14 @@
 import SwiftUI
 
 struct SearchBar: View {
-    var searchEnabled = false
-    @State private var searchText: String = ""
-    @FocusState private var isFocused: Bool
     @Environment(\.presentationMode) var presentationMode
-
+    @Environment(\.isEnabled) private var searchEnabled
+    @Binding var searchState: SearchView.SearchState
+    @Binding var searchText: String
+    @FocusState var showingCursor: Bool
+    
     private struct Constants {
+        static let animationDuration: CGFloat = 0.1
         static let searchBarDefaultText: String = "Search"
         static let searchBarDefaultTextSize: CGFloat = 16
         static let searchBarCornerRadiusSize: CGFloat = 5
@@ -22,18 +24,23 @@ struct SearchBar: View {
         static let searchBarShadowRadiusSize: CGFloat = 4
         static let searchIconFrameWidth: CGFloat = 15
         static let searchIconFrameHeight: CGFloat = 15
+        static let sectionHorizontalPadding: CGFloat = 17
     }
     
     var body: some View {
         if searchEnabled {
             HStack {
                 searchTextField
+                
+                Spacer()
+                    .frame(width: Constants.sectionHorizontalPadding)
+                
                 Button("Cancel") {
                     presentationMode.wrappedValue.dismiss()
                 }
             }
         } else {
-            searchTextField.disabled(true)
+            searchTextField
         }
     }
     
@@ -46,12 +53,16 @@ struct SearchBar: View {
             
             TextField(Constants.searchBarDefaultText, text: $searchText)
                 .font(.helveticaRegular(size: Constants.searchBarDefaultTextSize))
-                .focused($isFocused)
-                .onChange(of: isFocused, perform: { _ in
-                    
-                })
+                .focused($showingCursor)
+                .onChange(of: showingCursor) { _ in
+                    searchState = showingCursor ? .searching : searchState
+                }
+                .onChange(of: searchState) { _ in
+                    showingCursor = searchState == .searching
+                }
                 .onSubmit {
-                    searchSubmit()
+                    showingCursor = false
+                    searchState = .results
                 }
         }
         .padding(Constants.searchBarPaddingSize)
@@ -61,14 +72,9 @@ struct SearchBar: View {
         )
         .shadow(color: Color.volume.shadowBlack,
                 radius: Constants.searchBarShadowRadiusSize)
-        .onAppear() {
-            isFocused = searchEnabled
+        .onAppear {
+            showingCursor = searchState == .searching
         }
-        
-    }
-    
-    private func searchSubmit() {
-//        presentationMode.wrappedValue.dismiss()
     }
     
 }

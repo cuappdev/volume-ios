@@ -45,11 +45,6 @@ struct HomeView: View {
         } content: {
             weeklyDebriefView
         }
-//        .fullScreenCover(isPresented: $viewModel.showSearchDropdownView,
-//                         onDismiss: { viewModel.showSearchDropdownView = false }) {
-//            SearchDropdownView()
-//        }
-        .background(background)
     }
 
     private var listContent: some View {
@@ -80,9 +75,11 @@ struct HomeView: View {
     
     private var searchSection: some View {
         ZStack {
-            SearchBar()
+            SearchBar(searchState: $viewModel.searchState,
+                      searchText: $viewModel.searchText)
+                .disabled(true)
             NavigationLink {
-                SearchRootView()
+                SearchView()
             } label: {
                 EmptyView()
             }.opacity(0)

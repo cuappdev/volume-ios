@@ -150,7 +150,7 @@ class NetworkState: ObservableObject {
     @Published var networkScreenFailed: [Screen : Bool] = [:]
 
     public enum Screen: String, CaseIterable {
-        case home, magazines, publications, bookmarks
+        case home, magazines, publications, bookmarks, search
     }
 
     func handleCompletion(screen: Screen, _ completion: Subscribers.Completion<WrappedGraphQLError>) {
