@@ -73,12 +73,13 @@
 		995C9A0025E5770D00F6FBA5 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995C99FF25E5770D00F6FBA5 /* Analytics.swift */; };
 		9F35EE5AB6332722632EAF82 /* Pods_Volume.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA62FF4EAFC9DE4F9A2FFE3B /* Pods_Volume.framework */; };
 		A2532AF127B5A34500A88B82 /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = A2532AF027B5A34500A88B82 /* schema.json */; };
-		A2532AF327B5A37200A88B82 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2532AF227B5A37200A88B82 /* API.swift */; };
 		A2A4CB1C27D5276D00774C70 /* Magazine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A4CB1B27D5276D00774C70 /* Magazine.swift */; };
 		A2A5CC1027D567EA0000F377 /* MagazineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A5CC0F27D567EA0000F377 /* MagazineCell.swift */; };
 		A2B4DF3227D9AAB000440184 /* MagazineReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B4DF3127D9AAB000440184 /* MagazineReaderView.swift */; };
 		BC2C4C192909E74D0083C6AA /* MagazineQueries.graphql in Resources */ = {isa = PBXBuildFile; fileRef = BC2C4C182909E74D0083C6AA /* MagazineQueries.graphql */; };
 		BC72AEB82920519900209573 /* PDFKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC72AEB72920519900209573 /* PDFKitView.swift */; };
+		BC72AEBA29259D4500209573 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC72AEB929259D4500209573 /* API.swift */; };
+		BC72AEBC29259E8000209573 /* MagazineMutations.graphql in Resources */ = {isa = PBXBuildFile; fileRef = BC72AEBB29259E8000209573 /* MagazineMutations.graphql */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -158,12 +159,13 @@
 		990081EE25E5C31600BF8362 /* Events.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Events.md; sourceTree = "<group>"; };
 		995C99FF25E5770D00F6FBA5 /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		A2532AF027B5A34500A88B82 /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
-		A2532AF227B5A37200A88B82 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		A2A4CB1B27D5276D00774C70 /* Magazine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Magazine.swift; sourceTree = "<group>"; };
 		A2A5CC0F27D567EA0000F377 /* MagazineCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineCell.swift; sourceTree = "<group>"; };
 		A2B4DF3127D9AAB000440184 /* MagazineReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineReaderView.swift; sourceTree = "<group>"; };
 		BC2C4C182909E74D0083C6AA /* MagazineQueries.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MagazineQueries.graphql; sourceTree = "<group>"; };
 		BC72AEB72920519900209573 /* PDFKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFKitView.swift; sourceTree = "<group>"; };
+		BC72AEB929259D4500209573 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		BC72AEBB29259E8000209573 /* MagazineMutations.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = MagazineMutations.graphql; sourceTree = "<group>"; };
 		DA62FF4EAFC9DE4F9A2FFE3B /* Pods_Volume.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Volume.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -195,8 +197,8 @@
 		063EED20257BF82E002136EE /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				A2532AF227B5A37200A88B82 /* API.swift */,
 				063EED24257BF8A7002136EE /* Network.swift */,
+				BC72AEB929259D4500209573 /* API.swift */,
 				A2532AF027B5A34500A88B82 /* schema.json */,
 				063EED49257BFDA9002136EE /* PublicationsQueries.graphql */,
 				06B80CFB257D9E9700F3BF9B /* ArticlesQueries.graphql */,
@@ -204,6 +206,7 @@
 				33AE4CEC27403F670001BA5B /* UserMutations.graphql */,
 				33538BEF2745C579009DD191 /* UserQueries.graphql */,
 				BC2C4C182909E74D0083C6AA /* MagazineQueries.graphql */,
+				BC72AEBB29259E8000209573 /* MagazineMutations.graphql */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -468,6 +471,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A2532AF127B5A34500A88B82 /* schema.json in Resources */,
+				BC72AEBC29259E8000209573 /* MagazineMutations.graphql in Resources */,
 				33538BF02745C579009DD191 /* UserQueries.graphql in Resources */,
 				7ED7C343252D117B0078B1BD /* LaunchScreen.storyboard in Resources */,
 				7E369E1725EED97500FC0419 /* Secrets.plist in Resources */,
@@ -501,6 +505,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "SCRIPT_PATH=\"${PODS_ROOT}/Apollo/scripts\"\ncd \"${SRCROOT}/${TARGET_NAME}\"\n\n\"${SCRIPT_PATH}\"/run-bundled-codegen.sh codegen:generate --target=swift --includes=./**/*.graphql --localSchemaFile=\"Networking/schema.json\" Networking/API.swift\n";
+			showEnvVarsInLog = 0;
 		};
 		11A717B14891FEDF6F15C430 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -575,6 +580,7 @@
 				7E416C322561D7870010D70B /* Header.swift in Sources */,
 				06B23228258EDDA9006D9A53 /* SkeletonView.swift in Sources */,
 				33E851A6290AE6ED004453D2 /* ListBackgroundModifier.swift in Sources */,
+				BC72AEBA29259D4500209573 /* API.swift in Sources */,
 				06662888257F204E006FEBCF /* Secrets.swift in Sources */,
 				061DB39725571D760038BEF5 /* Font+Extension.swift in Sources */,
 				3334F4A02705269800CF0987 /* AppDelegate.swift in Sources */,
@@ -603,7 +609,6 @@
 				060FFDDE2577EC800052F3EA /* OnboardingView.swift in Sources */,
 				A2A5CC1027D567EA0000F377 /* MagazineCell.swift in Sources */,
 				50C360542759482A006CDB2E /* DebriefArticleView.swift in Sources */,
-				A2532AF327B5A37200A88B82 /* API.swift in Sources */,
 				063EED25257BF8A7002136EE /* Network.swift in Sources */,
 				7EA73D22254C9C21009E8F9F /* ArticleRow.swift in Sources */,
 				95AC9DC72637BFF8000B4BEE /* Url+Extension.swift in Sources */,
@@ -751,7 +756,7 @@
 				CODE_SIGN_ENTITLEMENTS = Volume/Volume.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"Volume/Preview Content\"";
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
 				ENABLE_PREVIEWS = YES;
@@ -763,7 +768,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.5;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cornellappdev.volume-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -781,7 +786,7 @@
 				CODE_SIGN_ENTITLEMENTS = Volume/Volume.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"Volume/Preview Content\"";
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
 				ENABLE_PREVIEWS = YES;
@@ -793,7 +798,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.5;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cornellappdev.volume-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";

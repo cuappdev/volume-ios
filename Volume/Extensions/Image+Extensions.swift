@@ -25,6 +25,7 @@ extension Image {
         let leftArrow = Image("left-arrow")
         let logo = Image("volume-logo")
         let magazine = Image("magazine")
+        let menu = Image("menu")
         let noConnection = Image("no-connection")
         let pen = Image("pen")
         let period = Image("period")

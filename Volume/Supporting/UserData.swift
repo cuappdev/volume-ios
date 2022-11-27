@@ -55,6 +55,12 @@ class UserData: ObservableObject {
         }
     }
     
+    @Published var magazineShoutoutsCache: [String: Int] = [:] {
+        willSet {
+            objectWillChange.send()
+        }
+    }
+    
     @Published private(set) var savedMagazineIDs: [String] = [] {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: magazinesKey)
@@ -147,10 +153,9 @@ class UserData: ObservableObject {
         set(article: article, isSaved: !isArticleSaved(article), bookmarkRequestInProgress: bookmarkRequestInProgress)
     }
 
-//    TODO: Uncomment after implementing bookmarking for magazines
-//    func toggleMagazineSaved(_ magazine: Magazine, _ bookmarkRequestInProgress: Binding<Bool>) {
-//        set(magazine: magazine, isSaved: !isMagazineSaved(magazine), bookmarkRequestInProgress: bookmarkRequestInProgress)
-//    }
+    func toggleMagazineSaved(_ magazine: Magazine, _ bookmarkRequestInProgress: Binding<Bool>) {
+        set(magazine: magazine, isSaved: !isMagazineSaved(magazine), bookmarkRequestInProgress: bookmarkRequestInProgress)
+    }
 
     func togglePublicationFollowed(_ publication: Publication, _ followRequestInProgress: Binding<Bool>) {
         set(publication: publication, isFollowed: !isPublicationFollowed(publication), followRequestInProgress: followRequestInProgress)
@@ -202,36 +207,35 @@ class UserData: ObservableObject {
         }
     }
 
-//    TODO: Uncomment after BookmarkMagazineMutation is implemented
-//    func set(magazine: Magazine, isSaved: Bool, bookmarkRequestInProgress: Binding<Bool>) {
-//        @Binding var requestInProgress: Bool
-//        _requestInProgress = bookmarkRequestInProgress
-//
-//        guard let uuid = uuid else {
-//            #if DEBUG
-//            print("Error: received nil for UUID in set(article:isSaved)")
-//            #endif
-//            requestInProgress = false
-//            return
-//        }
-//
-//        if isSaved {
-//            cancellables[.bookmarkMagazine(magazine)] = Network.shared.publisher(for: BookmarkMagazineMutation(uuid: uuid))
-//                .sink { completion in
-//                    if case let .failure(error) = completion {
-//                        print("Error: BookmarkMagazineMutation failed on UserData: \(error.localizedDescription)")
-//                    }
-//                    requestInProgress = false
-//                } receiveValue: { _ in
-//                    if !self.savedMagazineIDs.contains(magazine.id) {
-//                        self.savedMagazineIDs.insert(magazine.id, at: 0)
-//                    }
-//                }
-//        } else {
-//            requestInProgress = false
-//            savedMagazineIDs.removeAll(where: { $0 == magazine.id })
-//        }
-//    }
+    func set(magazine: Magazine, isSaved: Bool, bookmarkRequestInProgress: Binding<Bool>) {
+        @Binding var requestInProgress: Bool
+        _requestInProgress = bookmarkRequestInProgress
+
+        guard let uuid = uuid else {
+            #if DEBUG
+            print("Error: received nil for UUID in set(magazine :isSaved)")
+            #endif
+            requestInProgress = false
+            return
+        }
+
+        if isSaved {
+            cancellables[.bookmarkMagazine(magazine)] = Network.shared.publisher(for: BookmarkMagazineMutation(uuid: uuid))
+                .sink { completion in
+                    if case let .failure(error) = completion {
+                        print("Error: BookmarkMagazineMutation failed on UserData: \(error.localizedDescription)")
+                    }
+                    requestInProgress = false
+                } receiveValue: { _ in
+                    if !self.savedMagazineIDs.contains(magazine.id) {
+                        self.savedMagazineIDs.insert(magazine.id, at: 0)
+                    }
+                }
+        } else {
+            requestInProgress = false
+            savedMagazineIDs.removeAll(where: { $0 == magazine.id })
+        }
+    }
 
     func set(publication: Publication, isFollowed: Bool, followRequestInProgress: Binding<Bool>) {
         @Binding var requestInProgress: Bool

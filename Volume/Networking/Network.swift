@@ -27,6 +27,10 @@ class Network {
     func publisher<Mutation: GraphQLMutation>(for mutation: Mutation) -> OperationPublisher<Mutation.Data> {
         OperationPublisher<Mutation.Data>(client: apollo, operation: MutationOperation(mutation: mutation).asAny)
     }
+
+    func clearCache() {
+        apollo.clearCache()
+    }
 }
 
 enum WrappedGraphQLError: Error {

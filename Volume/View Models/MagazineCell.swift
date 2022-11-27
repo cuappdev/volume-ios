@@ -12,41 +12,67 @@ import PDFKit
 
 /// `MagazineCell` displays the images and name of a publication a user is currently following
 struct MagazineCell: View {
+    @EnvironmentObject private var userData: UserData
 
     let magazine: Magazine
+    let magazineUrl: URL
+    
+    private struct Constants {
+        static let pdfviewWidth: CGFloat = 150
+        static let pdfviewHeight: CGFloat = 220
+        static let pdfviewOpacity: CGFloat = 0.2
+        static let pdfviewRadius: CGFloat = 8
+        static let pdfviewX: CGFloat = 4
+        static let pdfviewY: CGFloat = 4
+        static let pdfPubPadding: CGFloat = 12
+        static let pubTitlePadding: CGFloat = 2
+        static let titleInfoPadding: CGFloat = 1
+        static let pubTextSize: CGFloat = 12
+        static let magazineTitleSize: CGFloat = 14
+        static let infoTextSize: CGFloat = 10
+        
+        static let cellWidth: CGFloat = 152
+        static let cellHeight: CGFloat = 278
+    }
 
     var body: some View {
         VStack(alignment: .leading) {
-            if let url = magazine.pdfUrl {
-                SimplePDFView(pdfDoc: PDFDocument(url: url)!)
-                    .frame(width: 150, height: 220)
+            if let pdfDoc = PDFDocument(url: magazineUrl) {
+                PDFKitView(pdfDoc: pdfDoc)
+                    .frame(width: Constants.pdfviewWidth, height: Constants.pdfviewHeight)
                     .scaledToFill()
-                    .shadow(color: Color.black.opacity(0.2), radius: 8, x: 4, y: 4)
+                    .shadow(color: Color.black.opacity(Constants.pdfviewOpacity), radius: Constants.pdfviewRadius, x: Constants.pdfviewX, y: Constants.pdfviewY)
+                    .disabled(true)
+            } else {
+                PDFKitView(pdfDoc: PDFDocument())
+                    .frame(width: Constants.pdfviewWidth, height: Constants.pdfviewHeight)
+                    .scaledToFill()
+                    .shadow(color: Color.black.opacity(Constants.pdfviewOpacity), radius: Constants.pdfviewRadius, x: Constants.pdfviewX, y: Constants.pdfviewY)
                     .disabled(true)
             }
 
             Spacer()
-                .frame(height: 12)
+                .frame(height: Constants.pdfPubPadding)
 
             Text(magazine.publication.name)
-                .font(.newYorkRegular(size: 12))
+                .font(.newYorkRegular(size: Constants.pubTextSize))
                 .foregroundColor(.black)
 
             Spacer()
-                .frame(height: 2)
+                .frame(height: Constants.pubTitlePadding)
 
             Text(magazine.title)
-                .font(.helveticaBold(size: 14))
+                .font(.helveticaBold(size: Constants.magazineTitleSize))
                 .foregroundColor(.black)
 
             Spacer()
-                .frame(height: 1)
+                .frame(height: Constants.titleInfoPadding)
 
-            Text("\(magazine.date.fullString) • \(magazine.shoutouts) shout-outs")
-                .font(.helveticaRegular(size: 10))
+            Text("\(magazine.date.fullString) • \(max(magazine.shoutouts, userData.shoutoutsCache[magazine.id, default: 0])) shout-outs")
+                .font(.helveticaRegular(size: Constants.infoTextSize))
                 .foregroundColor(.volume.lightGray)
         }
-        .frame(width: 152, height: 278)
+        .frame(width: Constants.cellWidth, height: Constants.cellHeight)
     }
 }
 
@@ -55,34 +81,34 @@ extension MagazineCell {
         var body: some View {
             VStack(alignment: .leading) {
                 SkeletonView()
-                    .frame(width: 150, height: 220)
+                    .frame(width: Constants.pdfviewWidth, height: Constants.pdfviewHeight)
 
                 Spacer()
-                    .frame(height: 12)
+                    .frame(height: Constants.pdfPubPadding)
 
                 SkeletonView()
                     .frame(width: 126, height: 14)
 
                 Spacer()
-                    .frame(height: 2)
+                    .frame(height: Constants.pubTitlePadding)
 
                 SkeletonView()
                     .frame(width: 150, height: 20)
 
                 Spacer()
-                    .frame(height: 1)
+                    .frame(height: Constants.titleInfoPadding)
 
                 HStack(spacing: 0) {
                     SkeletonView()
                         .frame(width: 33, height: 10)
                     Text(" • ")
-                        .font(.helveticaRegular(size: 10))
+                        .font(.helveticaRegular(size: Constants.infoTextSize))
                         .foregroundColor(.volume.veryLightGray)
                     SkeletonView()
                         .frame(width: 70, height: 10)
                 }
             }
-            .frame(width: 152, height: 278)
+            .frame(width: Constants.cellWidth, height: Constants.cellHeight)
         }
     }
 }

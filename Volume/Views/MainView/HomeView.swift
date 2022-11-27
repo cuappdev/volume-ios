@@ -33,7 +33,9 @@ struct HomeView: View {
         }
         .onAppear {
             viewModel.setupEnvironment(networkState: networkState, userData: userData)
-            viewModel.fetchContent()
+            Task {
+                await viewModel.fetchContent()
+            }
         }
         .onOpenURL { url in
             viewModel.handleURL(url)
@@ -61,7 +63,7 @@ struct HomeView: View {
         .navigationBarTitleDisplayMode(.inline)
         .listStyle(.plain)
         .refreshable {
-            viewModel.fetchContent()
+            await viewModel.refreshContent()
         }
         .modifier(ListBackgroundModifier())
         .background(background)
@@ -74,13 +76,13 @@ struct HomeView: View {
         Section {
             ScrollView(.horizontal, showsIndicators: false) {
                 switch viewModel.trendingArticles {
-                case .loading, .reloading:
+                case .none:
                     HStack(spacing: Constants.trendingArticleHorizontalSpacing) {
                         ForEach(0..<2) { _ in
                             BigReadArticleRow.Skeleton()
                         }
                     }
-                case .results(let articles):
+                case .some(let articles):
                     HStack(spacing: Constants.trendingArticleHorizontalSpacing) {
                         ForEach(articles) { article in
                             NavigationLink {
@@ -111,7 +113,7 @@ struct HomeView: View {
     private func articleSection(followed: Bool) -> some View {
         Section {
             switch followed ? viewModel.followedArticles : viewModel.unfollowedArticles {
-            case .loading, .reloading:
+            case .none:
                 if followed && userData.followedPublicationSlugs.isEmpty {
                     VolumeMessage(message: .noFollowingHome, largeFont: false, fullWidth: false)
                         .padding(.top, Constants.volumeMessageTopPadding)
@@ -122,7 +124,7 @@ struct HomeView: View {
                             .padding(.vertical, Constants.rowVerticalPadding)
                     }
                 }
-            case .results(let articles):
+            case .some(let articles):
                 ForEach(articles) { article in
                     ZStack {
                         ArticleRow(article: article, navigationSource: .followingArticles)
@@ -163,9 +165,9 @@ struct HomeView: View {
     private var weeklyDebriefButton: some View {
         Group {
             switch viewModel.weeklyDebrief {
-            case .loading, .reloading:
+            case .none:
                 SkeletonView()
-            case .results(let weeklyDebrief):
+            case .some(let weeklyDebrief):
                 if let _ = weeklyDebrief {
                     WeeklyDebriefButton(buttonPressed: $viewModel.isWeeklyDebriefOpen)
                 }
