@@ -13,11 +13,13 @@ import PDFKit
 struct PDFKitView: UIViewRepresentable {
     
     let pdfDoc: PDFDocument
+    var isCover = false
     
     func makeUIView(context: Context) -> PDFView {
         let pdfView = PDFView()
         pdfView.document = pdfDoc
         pdfView.autoScales = true
+        pdfView.displayDirection = isCover ? .vertical : .horizontal
         return pdfView
     }
     
