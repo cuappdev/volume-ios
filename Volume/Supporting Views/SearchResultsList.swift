@@ -23,6 +23,7 @@ struct SearchResultsList: View {
     private struct Constants {
         static let animationDuration: CGFloat = 0.1
         static let rowVerticalPadding: CGFloat = 10
+        static let skeletonSize: Int = 10
     }
     
     private func fetchContent(_ done: @escaping () -> Void = { }) {
@@ -82,7 +83,7 @@ struct SearchResultsList: View {
         VStack(spacing: Constants.rowVerticalPadding) {
             switch sectionStates.articles {
             case .loading:
-                ForEach(0..<10) { _ in
+                ForEach(0..<Constants.skeletonSize, id: \.self) { _ in
                      ArticleRow.Skeleton()
                 }
             case .reloading(let searchedArticles), .results(let searchedArticles):
