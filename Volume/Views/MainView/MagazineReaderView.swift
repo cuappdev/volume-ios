@@ -23,6 +23,28 @@ struct MagazineReaderView: View {
     @State private var bookmarkRequestInProgress = false
     @State private var cancellableShoutoutMutation: AnyCancellable?
     
+    private struct Constants {
+        static let navbarOpacity: CGFloat = 0.2
+        static let navbarRadius: CGFloat = 2
+        static let navbarY: CGFloat = 3
+        static let navbarLeftComponentHeight: CGFloat = 24
+        static let navbarRightComponentHeight: CGFloat = 16
+        static let navbarHStackPadding: CGFloat = 16
+        static let navbarTitleSize: CGFloat = 12
+        static let navbarSubtitle = "Reading in Volume"
+        static let navbarSubtitleSize: CGFloat = 10
+        static let navbarVStackPadding: CGFloat = 48
+        static let navbarHeight: CGFloat = 40
+        
+        static let toolbarPubImageW: CGFloat = 32
+        static let toolbarPubImageH: CGFloat = 32
+        static let toolbarRightComponentsPadding: CGFloat = 16
+        static let toolbarLeftBorderPadding: CGFloat = 7
+        static let toolbarRightBorderPadding: CGFloat = 6
+        static let toolbarShoutoutsFontSize: CGFloat = 12
+        
+    }
+    
     private var isShoutoutsButtonEnabled: Bool {
         return userData.canIncrementMagazineShoutouts(magazine)
     }
@@ -31,7 +53,7 @@ struct MagazineReaderView: View {
             ZStack {
                 Rectangle()
                     .foregroundColor(.white)
-                    .shadow(color: .black.opacity(0.2), radius: 2, y: 3)
+                    .shadow(color: .black.opacity(Constants.navbarOpacity), radius: Constants.navbarRadius, y: Constants.navbarY)
                 
                 HStack {
                     Button {
@@ -40,7 +62,7 @@ struct MagazineReaderView: View {
                         Image.volume.leftArrow
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(height: 24)
+                            .frame(height: Constants.navbarLeftComponentHeight)
                             .foregroundColor(.black)
                     }
                     
@@ -49,24 +71,24 @@ struct MagazineReaderView: View {
                     Image.volume.menu
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(height: 16)
+                        .frame(height: Constants.navbarRightComponentHeight)
                         .foregroundColor(.volume.lightGray)
                 }
-                .padding(.horizontal, 16)
+                .padding(.horizontal, Constants.navbarHStackPadding)
                 
                 VStack {
                     Text(magazine.title)
-                        .font(.newYorkBold(size: 12))
+                        .font(.newYorkBold(size: Constants.navbarTitleSize))
                         .truncationMode(.tail)
                     
-                    Text("Reading in Volume")
-                        .font(.helveticaRegular(size: 10))
+                    Text(Constants.navbarSubtitle)
+                        .font(.helveticaRegular(size: Constants.navbarSubtitleSize))
                         .foregroundColor(.volume.lightGray)
                 }
-                .padding(.horizontal, 48)
+                .padding(.horizontal, Constants.navbarVStackPadding)
             }
             .background(Color.white)
-            .frame(height: 40)
+            .frame(height: Constants.navbarHeight)
     }
         
         private var toolbar: some View {
@@ -78,15 +100,15 @@ struct MagazineReaderView: View {
                             .grayBackground()
                             .resizable()
                             .clipShape(Circle())
-                            .frame(width: 32, height: 32)
+                            .frame(width: Constants.toolbarPubImageW, height: Constants.toolbarPubImageH)
                     } else {
                         Circle()
                             .fill(.gray)
-                            .frame(width: 32, height: 32)
+                            .frame(width: Constants.toolbarPubImageW, height: Constants.toolbarPubImageH)
                     }
                     
                     Spacer()
-                        .frame(width: 7)
+                        .frame(width: Constants.toolbarLeftBorderPadding)
                     
                     Text("See more")
                         .font(.helveticaRegular(size: 12))
@@ -105,7 +127,7 @@ struct MagazineReaderView: View {
                     .disabled(bookmarkRequestInProgress)
                     
                     Spacer()
-                        .frame(width: 16)
+                        .frame(width: Constants.toolbarRightComponentsPadding)
                     
                     Button {
                         displayShareScreen(for: magazine)
@@ -116,7 +138,7 @@ struct MagazineReaderView: View {
                     }
                     
                     Spacer()
-                        .frame(width: 16)
+                        .frame(width: Constants.toolbarRightComponentsPadding)
                     
                     Button {
                         incrementShoutouts(for: magazine)
@@ -131,10 +153,10 @@ struct MagazineReaderView: View {
                     .disabled(!isShoutoutsButtonEnabled)
                     
                     Spacer()
-                        .frame(width: 6)
+                        .frame(width: Constants.toolbarRightBorderPadding)
                     
                     Text(String(max(magazine.shoutouts, userData.magazineShoutoutsCache[magazine.id, default: 0])))
-                        .font(.helveticaRegular(size: 12))
+                        .font(.helveticaRegular(size: Constants.toolbarShoutoutsFontSize))
                 }
             }
             .padding([.leading, .trailing], 16)
@@ -147,7 +169,7 @@ struct MagazineReaderView: View {
                 VStack(spacing: 0) {
                     
                     Spacer()
-                        .frame(height: 40)
+                        .frame(height: Constants.navbarHeight)
                     
                     if let pdfDoc = PDFDocument(url: magazineUrl) {
                         PDFKitView(pdfDoc: pdfDoc)

@@ -18,7 +18,7 @@ struct MagazinesList: View {
     
     private struct Constants {
         static let currentSemester = "fa22"
-        static let featuredMagazinesLimit : Double = 7
+        static let featuredMagazinesLimit: Double = 7
         static let animationDuration = 0.1
         
     }
