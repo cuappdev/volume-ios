@@ -15,6 +15,7 @@ struct MagazinesList: View {
     @State private var openedUrl = false
     @State private var sectionQueries: SectionQueries = (nil, nil)
     @State private var sectionStates: SectionStates = (.loading, .loading)
+    @State private var selectedSemester: String = Self.format(semesterString: Constants.currentSemester)
     
     private struct Constants {
         static let currentSemester = "fa22"
@@ -89,8 +90,20 @@ struct MagazinesList: View {
 
     private var magazinesBySemesterSection: some View {
         Group {
-            Header("More magazines")
-                .padding([.top, .horizontal])
+            HStack(alignment: .center) {
+                Header("More magazines")
+                    .padding([.top, .horizontal])
+
+                MenuView(
+                    selection: $selectedSemester,
+                    options: .constant(
+                        ["fa22", "sp22", "fa21"]
+                            .map { Self.format(semesterString: $0) }
+                    )
+                )
+                .padding(.trailing, 16)
+                .padding(.top, 8)
+            }
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 24) {
@@ -164,4 +177,22 @@ extension MagazinesList {
         featuredMagazines: AnyCancellable?,
         magazinesBySemester: AnyCancellable?
     )
+
+    private static func format(semesterString: String) -> String {
+        let prefix = semesterString.prefix(2)
+        let suffix = semesterString.suffix(2)
+
+        var result = ""
+
+        switch prefix {
+        case "fa":
+            result = "Fall"
+        case "sp":
+            result = "Spring"
+        default:
+            break
+        }
+
+        return "\(result) 20\(suffix)"
+    }
 }
