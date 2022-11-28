@@ -84,7 +84,7 @@ struct SearchBar: View {
         .padding(Constants.searchBarPaddingSize)
         .background(
             RoundedRectangle(cornerRadius: Constants.searchBarCornerRadiusSize)
-                .fill(Color.volume.gbackgroundGray)
+                .fill(Color.volume.backgroundGray)
         )
         .frame(alignment: .leading)
         .shadow(color: Color.volume.shadowBlack,

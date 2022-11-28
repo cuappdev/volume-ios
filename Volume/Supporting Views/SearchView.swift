@@ -46,7 +46,4 @@ extension SearchView {
     enum SearchState {
         case searching, results
     }
-
 }
-
-

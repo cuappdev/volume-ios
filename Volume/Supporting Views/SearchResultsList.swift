@@ -61,7 +61,6 @@ struct SearchResultsList: View {
     
     private func fetchSearchedMagazines(_ done: @escaping () -> Void = { }) {
         //TODO: Add magazine search once implemented by backend
-        
     }
     
     var body: some View {
