@@ -65,7 +65,7 @@
 		922FE2FB2931529000E14911 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922FE2FA2931529000E14911 /* SearchBar.swift */; };
 		922FE2FD29316B0D00E14911 /* SearchDropdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922FE2FC29316B0D00E14911 /* SearchDropdownView.swift */; };
 		922FE3032931C78B00E14911 /* SearchResultsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922FE3022931C78B00E14911 /* SearchResultsList.swift */; };
-		922FE3052931CDED00E14911 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922FE3042931CDED00E14911 /* ViewModifiers.swift */; };
+		922FE3052931CDED00E14911 /* HiddenNavigationBarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922FE3042931CDED00E14911 /* HiddenNavigationBarModifier.swift */; };
 		922FE3072931D07100E14911 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922FE3062931D07100E14911 /* SearchView.swift */; };
 		922FE3092931E67A00E14911 /* SearchQueries.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 922FE3082931E67A00E14911 /* SearchQueries.graphql */; };
 		922FE30B29341A5400E14911 /* SearchTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922FE30A29341A5400E14911 /* SearchTabBar.swift */; };
@@ -159,7 +159,7 @@
 		922FE2FA2931529000E14911 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		922FE2FC29316B0D00E14911 /* SearchDropdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDropdownView.swift; sourceTree = "<group>"; };
 		922FE3022931C78B00E14911 /* SearchResultsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsList.swift; sourceTree = "<group>"; };
-		922FE3042931CDED00E14911 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
+		922FE3042931CDED00E14911 /* HiddenNavigationBarModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiddenNavigationBarModifier.swift; sourceTree = "<group>"; };
 		922FE3062931D07100E14911 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		922FE3082931E67A00E14911 /* SearchQueries.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SearchQueries.graphql; sourceTree = "<group>"; };
 		922FE30A29341A5400E14911 /* SearchTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTabBar.swift; sourceTree = "<group>"; };
@@ -236,7 +236,6 @@
 				33538BF12745DD27009DD191 /* Notifications.swift */,
 				06662887257F204E006FEBCF /* Secrets.swift */,
 				06DBC683257DE35F00B6A453 /* UserData.swift */,
-				922FE3042931CDED00E14911 /* ViewModifiers.swift */,
 				7ED7C341252D117B0078B1BD /* LaunchScreen.storyboard */,
 				063EED22257BF870002136EE /* Podfile */,
 				95F1DC892608F4DD000B3D91 /* GoogleService-Info.plist */,
@@ -290,6 +289,7 @@
 				95AC9DC62637BFF8000B4BEE /* Url+Extension.swift */,
 				06B80D12257DC18600F3BF9B /* WebImage+Extension.swift */,
 				33E851A5290AE6ED004453D2 /* ListBackgroundModifier.swift */,
+				922FE3042931CDED00E14911 /* HiddenNavigationBarModifier.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -622,7 +622,7 @@
 				7EE96DC82562505B000B246F /* VolumeMessage.swift in Sources */,
 				060FFDDC2577EC800052F3EA /* WelcomeView.swift in Sources */,
 				995C9A0025E5770D00F6FBA5 /* Analytics.swift in Sources */,
-				922FE3052931CDED00E14911 /* ViewModifiers.swift in Sources */,
+				922FE3052931CDED00E14911 /* HiddenNavigationBarModifier.swift in Sources */,
 				7EA73D25254C9C5B009E8F9F /* BigReadArticleRow.swift in Sources */,
 				06A8E2532575429200C28C68 /* MainView.swift in Sources */,
 				331159D727D41C89003B0F06 /* Image+Extensions.swift in Sources */,

@@ -24,33 +24,37 @@ struct HomeView: View {
     }
 
     var body: some View {
-        listContent
-        .toolbar {
-            ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
-                Image.volume.logo
-                    .foregroundColor(.red)
+        ZStack {
+            background.edgesIgnoringSafeArea(.all)
+            VStack(spacing: 0) {
+                searchBar
+                listContent
             }
-        }
-        .onAppear {
-            viewModel.setupEnvironment(networkState: networkState, userData: userData)
-            Task {
-                await viewModel.fetchContent()
+            .toolbar {
+                ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+                    Image.volume.logo.foregroundColor(.red)
+                }
             }
-        }
-        .onOpenURL { url in
-            viewModel.handleURL(url)
-        }
-        .sheet(isPresented: $viewModel.isWeeklyDebriefOpen) {
-            viewModel.isWeeklyDebriefOpen = false
-        } content: {
-            weeklyDebriefView
+            .onAppear {
+                viewModel.setupEnvironment(networkState: networkState, userData: userData)
+                Task {
+                    await viewModel.fetchContent()
+                }
+            }
+            .onOpenURL { url in
+                viewModel.handleURL(url)
+            }
+            .sheet(isPresented: $viewModel.isWeeklyDebriefOpen) {
+                viewModel.isWeeklyDebriefOpen = false
+            } content: {
+                weeklyDebriefView
+            }
         }
     }
 
     private var listContent: some View {
         List {
             Group {
-                searchSection
                 trendingArticlesSection
                 weeklyDebriefButton
                 followedArticlesSection
@@ -62,7 +66,7 @@ struct HomeView: View {
             .listRowBackground(Color.clear)
         }
         .navigationBarTitleDisplayMode(.inline)
-        .listStyle(.plain)
+        .listStyle(.grouped)
         .refreshable {
             await viewModel.refreshContent()
         }
@@ -73,18 +77,15 @@ struct HomeView: View {
 
     // MARK: Sections
     
-    private var searchSection: some View {
-        ZStack {
-            SearchBar(searchState: $viewModel.searchState,
-                      searchText: $viewModel.searchText)
+    private var searchBar: some View {
+        NavigationLink {
+            SearchView()
+        } label: {
+            SearchBar(searchState: $viewModel.searchState, searchText: $viewModel.searchText)
                 .disabled(true)
-            NavigationLink {
-                SearchView()
-            } label: {
-                EmptyView()
-            }.opacity(0)
+                .padding(EdgeInsets(top: Constants.navBarVerticalPadding, leading: Constants.listHorizontalPadding, bottom: Constants.rowVerticalPadding,
+                    trailing: Constants.listHorizontalPadding))
         }
-        
     }
 
     private var trendingArticlesSection: some View {
@@ -113,6 +114,7 @@ struct HomeView: View {
             Header("The Big Read")
                 .padding(.vertical, Constants.rowVerticalPadding)
                 .foregroundColor(.black)
+                .textCase(nil)
         }
         .background(headerGradient)
     }
@@ -171,6 +173,7 @@ struct HomeView: View {
             Header(followed ? Constants.followedArticlesSectionTitle : Constants.unfollowedArticlesSectionTitle)
                 .padding(.vertical, Constants.rowVerticalPadding)
                 .foregroundColor(.black)
+                .textCase(nil)
         }
         .background(headerGradient)
     }
@@ -238,6 +241,7 @@ struct HomeView: View {
 extension HomeView {
     private struct Constants {
         static let listHorizontalPadding: CGFloat = 16
+        static let navBarVerticalPadding: CGFloat = 10
         static let rowVerticalPadding: CGFloat = 6
         static let weeklyDebriefTopPadding: CGFloat = 24
         static let trendingArticleHorizontalSpacing: CGFloat = 24

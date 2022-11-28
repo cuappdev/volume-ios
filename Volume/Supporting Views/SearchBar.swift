@@ -55,6 +55,7 @@ struct SearchBar: View {
             TextField(Constants.searchBarDefaultText, text: $searchText)
                 .font(.helveticaRegular(size: Constants.searchBarDefaultTextSize))
                 .focused($showingCursor)
+                .multilineTextAlignment(.leading)
                 .onChange(of: showingCursor) { _ in
                     searchState = showingCursor ? .searching : searchState
                 }
@@ -72,6 +73,7 @@ struct SearchBar: View {
             RoundedRectangle(cornerRadius: Constants.searchBarCornerRadiusSize)
                 .fill(Color.volume.backgroundGray)
         )
+        .frame(alignment: .leading)
         .shadow(color: Color.volume.shadowBlack,
                 radius: Constants.searchBarShadowRadiusSize)
         .onAppear {

@@ -56,6 +56,9 @@ struct SearchResultsList: View {
     
     var body: some View {
         SearchTabBar(selectedTab: $selectedTab)
+        
+        Spacer()
+            .frame(height: Constants.rowVerticalPadding)
 
         RefreshableScrollView(onRefresh: { done in
             if case let .results(articles) = sectionStates.articles {
