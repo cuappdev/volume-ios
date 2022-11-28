@@ -35,7 +35,8 @@ struct SearchView: View {
                 }
             }
             .foregroundColor(.black)
-            .padding(EdgeInsets(top: Constants.sectionVerticalPadding, leading: Constants.sectionHorizontalPadding, bottom: 0, trailing: Constants.sectionHorizontalPadding))
+            .padding(EdgeInsets(top: Constants.sectionVerticalPadding, leading: Constants.sectionHorizontalPadding,
+                    bottom: 0, trailing: Constants.sectionHorizontalPadding))
         }
         .hiddenNavigationBarStyle()
     }

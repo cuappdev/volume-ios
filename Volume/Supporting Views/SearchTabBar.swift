@@ -15,8 +15,11 @@ struct SearchTabBar: View {
         HStack(spacing: 0) {
             TabBarItem(label: "Articles", isSelected: .constant(selectedTab == .articles))
                 .onTapGesture { onItemTapped(tab: .articles) }
+            
+            #if DEBUG
             TabBarItem(label: "Magazines", isSelected: .constant(selectedTab == .magazines))
                 .onTapGesture { onItemTapped(tab: .magazines) }
+            #endif
             
             Spacer()
         }
@@ -43,7 +46,8 @@ struct TabBarItem: View {
                 .font(.newYorkMedium(size: Constants.labelSize))
                 .foregroundColor(isSelected ? .volume.orange : .black)
                 .frame(alignment: .center)
-                .padding(EdgeInsets(top: 0, leading: Constants.labelPadding, bottom: Constants.underlinePadding, trailing: Constants.labelPadding))
+                .padding(EdgeInsets(top: 0, leading: Constants.labelPadding, bottom:
+                        Constants.underlinePadding, trailing: Constants.labelPadding))
             Rectangle()
                 .fill(isSelected ? Color.volume.orange : Color.volume.transparentGray)
                 .frame(maxWidth: .infinity)
