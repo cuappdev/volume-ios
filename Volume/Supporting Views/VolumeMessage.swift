@@ -13,10 +13,11 @@ enum Message {
     case upToDate
     case noFollowingHome
     case noFollowingPublications
+    case noSearchResults
 
     var title: String {
         switch self {
-        case .noBookmarks, .noFollowingHome:
+        case .noBookmarks, .noFollowingHome, .noSearchResults:
             return "Nothing to see here!"
         case .noFollowingPublications:
             return "No Followed Publications"
@@ -35,6 +36,8 @@ enum Message {
             return "Follow some below and we'll show them up here"
         case .upToDate:
             return "You've seen all new articles from the publications you're following."
+        case .noSearchResults:
+            return "We could not find any results."
         }
     }
 }

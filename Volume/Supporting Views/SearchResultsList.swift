@@ -22,8 +22,18 @@ struct SearchResultsList: View {
     
     private struct Constants {
         static let animationDuration: CGFloat = 0.1
+        static let emptyResultsMessagePadding: CGFloat = 135
         static let rowVerticalPadding: CGFloat = 10
         static let skeletonSize: Int = 10
+    }
+    
+    private var hasArticleSearchResults: Bool {
+        switch sectionStates.articles {
+        case .loading, .reloading:
+            return true
+        case .results(let searchedArticles):
+            return searchedArticles.count > 0
+        }
     }
     
     private func fetchContent(_ done: @escaping () -> Void = { }) {
@@ -82,7 +92,17 @@ struct SearchResultsList: View {
             }
     }
     
+    @ViewBuilder
     private var articleSection: some View {
+        if hasArticleSearchResults {
+            articleList
+        } else {
+            VolumeMessage(message: .noSearchResults, largeFont: true, fullWidth: true)
+                .padding(.vertical, Constants.emptyResultsMessagePadding)
+        }
+    }
+    
+    private var articleList: some View {
         VStack(spacing: Constants.rowVerticalPadding) {
             switch sectionStates.articles {
             case .loading:
