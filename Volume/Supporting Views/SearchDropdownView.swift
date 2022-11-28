@@ -27,7 +27,9 @@ struct SearchDropdownView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Header(Constants.suggestedSearchHeader)
+            if suggestedSearchQueries.count > 0 {
+                Header(Constants.suggestedSearchHeader)
+            }
             VStack(alignment: .leading, spacing: Constants.searchQueryTextPadding) {
                 ForEach(suggestedSearchQueries, id: \.self) { query in
                     Text(query)

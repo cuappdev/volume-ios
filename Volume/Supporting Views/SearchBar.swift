@@ -63,9 +63,11 @@ struct SearchBar: View {
                     showingCursor = searchState == .searching
                 }
                 .onSubmit {
-                    userData.updateRecentSearchQueries(searchText)
-                    showingCursor = false
-                    searchState = .results
+                    if !searchText.isEmpty {
+                        userData.updateRecentSearchQueries(searchText)
+                        showingCursor = false
+                        searchState = .results
+                    }
                 }
         }
         .padding(Constants.searchBarPaddingSize)
