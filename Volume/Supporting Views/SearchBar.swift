@@ -16,6 +16,10 @@ struct SearchBar: View {
     @Binding var searchText: String
     @FocusState var showingCursor: Bool
     
+    private var hasSearchText: Bool {
+        !searchText.isEmpty
+    }
+    
     private struct Constants {
         static let animationDuration: CGFloat = 0.1
         static let searchBarDefaultText: String = "Search"
@@ -63,17 +67,24 @@ struct SearchBar: View {
                     showingCursor = searchState == .searching
                 }
                 .onSubmit {
-                    if !searchText.isEmpty {
+                    if hasSearchText {
                         userData.updateRecentSearchQueries(searchText)
                         showingCursor = false
                         searchState = .results
                     }
                 }
+            
+            if hasSearchText {
+                Image.volume.xIcon
+                    .onTapGesture {
+                        searchText = ""
+                    }
+            }
         }
         .padding(Constants.searchBarPaddingSize)
         .background(
             RoundedRectangle(cornerRadius: Constants.searchBarCornerRadiusSize)
-                .fill(Color.volume.backgroundGray)
+                .fill(Color.volume.gbackgroundGray)
         )
         .frame(alignment: .leading)
         .shadow(color: Color.volume.shadowBlack,

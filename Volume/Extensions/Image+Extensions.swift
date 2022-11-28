@@ -37,5 +37,6 @@ extension Image {
         let shoutout = Image("shout-out")
         let underline = Image("underline")
         let weeklyDebriefCurves = Image("weekly-debrief-curves")
+        let xIcon = Image("x-icon")
     }
 }
