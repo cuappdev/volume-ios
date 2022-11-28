@@ -11,6 +11,7 @@ import SwiftUI
 struct SearchBar: View {
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.isEnabled) private var searchEnabled
+    @EnvironmentObject private var userData: UserData
     @Binding var searchState: SearchView.SearchState
     @Binding var searchText: String
     @FocusState var showingCursor: Bool
@@ -61,6 +62,7 @@ struct SearchBar: View {
                     showingCursor = searchState == .searching
                 }
                 .onSubmit {
+                    userData.updateRecentSearchQueries(searchText)
                     showingCursor = false
                     searchState = .results
                 }

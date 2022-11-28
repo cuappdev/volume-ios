@@ -10,9 +10,13 @@ import SwiftUI
 
 struct SearchDropdownView: View {
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject private var userData: UserData
     @Binding var searchState: SearchView.SearchState
     @Binding var searchText: String
-    var suggestedSearchQueries = ["guac", "hi", "hola", "yes", "hihi"]
+    
+    private var suggestedSearchQueries: [String] {
+        userData.recentSearchQueries
+    }
     
     private struct Constants {
         static let animationDuration: CGFloat = 0.1
@@ -30,6 +34,7 @@ struct SearchDropdownView: View {
                         .font(.helveticaNeueMedium(size: Constants.searchQueryTextSize))
                         .onTapGesture {
                             withAnimation(.linear(duration: Constants.animationDuration)) {
+                                userData.updateRecentSearchQueries(query)
                                 searchText = query
                                 searchState = .results
                             }

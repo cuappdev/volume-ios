@@ -21,6 +21,7 @@ class UserData: ObservableObject {
     private let magazineShoutoutsKey = "magazineShoutoutsCounter"
     private let magazinesKey = "savedMagazineIds"
     private let publicationsKey = "savedPublicationSlugs"
+    private let recentSearchesKey = "recentSearchQueries"
     private let userUUIDKey = "userUUID"
     private let weeklyDebriefKey = "weeklyDebrief"
     
@@ -75,6 +76,13 @@ class UserData: ObservableObject {
         }
     }
     
+    @Published var recentSearchQueries: [String] = [] {
+        willSet {
+            UserDefaults.standard.setValue(newValue, forKey: recentSearchesKey)
+            objectWillChange.send()
+        }
+    }
+    
     var uuid: String? = nil {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: userUUIDKey)
@@ -118,6 +126,10 @@ class UserData: ObservableObject {
         
         if let shoutoutsCounter = UserDefaults.standard.object(forKey: magazineShoutoutsKey) as? [String: Int] {
             magazineShoutoutsCounter = shoutoutsCounter
+        }
+        
+        if let queries = UserDefaults.standard.object(forKey: recentSearchesKey) as? [String] {
+            recentSearchQueries = queries
         }
         
         if let debriefData = UserDefaults.standard.object(forKey: weeklyDebriefKey) as? Data,
@@ -175,6 +187,11 @@ class UserData: ObservableObject {
 
     func incrementMagazineShoutoutsCounter(_ magazine: Magazine) {
         magazineShoutoutsCounter[magazine.id, default: 0] += 1
+    }
+    
+    func updateRecentSearchQueries(_ query: String) {
+        recentSearchQueries.insert(query, at: 0)
+        if recentSearchQueries.count > 5 { recentSearchQueries.removeLast() }
     }
 
     func set(article: Article, isSaved: Bool, bookmarkRequestInProgress: Binding<Bool>) {
