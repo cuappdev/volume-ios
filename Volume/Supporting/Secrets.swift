@@ -24,6 +24,7 @@ struct Secrets {
     static let appdevWebsite = Secrets.keyDict["appdev-website"] as! String
     static let feedbackForm = Secrets.keyDict["feedback-form"] as! String
     static let openArticleUrl = Secrets.keyDict["openarticle-url"] as! String
+    static let openMagazineUrl = Secrets.keyDict["openmagazine-url"] as! String
 
     private static let keyDict: NSDictionary = {
         guard let path = Bundle.main.path(forResource: "Secrets", ofType: "plist"),

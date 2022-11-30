@@ -10,11 +10,14 @@ import Foundation
 
 enum ValidURLHost: CaseIterable {
     case article
+    case magazine
     
     var host: String? {
         switch self {
         case .article:
             return URL(string: Secrets.openArticleUrl)?.host
+        case .magazine:
+            return URL(string: Secrets.openMagazineUrl)?.host
         }
     }
 }

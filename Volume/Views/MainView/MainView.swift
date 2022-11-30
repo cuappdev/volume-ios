@@ -98,9 +98,17 @@ struct MainView: View {
             }
         }
         .onOpenURL { url in
-            // TODO: handle deeplink to magazines after API is finalized
-            if url.isDeeplink && url.host == ValidURLHost.article.host {
+            guard url.isDeeplink else {
+                return
+            }
+
+            switch url.host {
+            case ValidURLHost.article.host:
                 selectedTab = .home
+            case ValidURLHost.magazine.host:
+                selectedTab = .magazines
+            default:
+                break
             }
         }
         .onChange(of: notifications.isWeeklyDebriefOpen) { isOpen in

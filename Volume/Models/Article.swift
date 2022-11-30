@@ -11,7 +11,7 @@ import SwiftUI
 
 typealias ArticleID = String
 
-struct Article: Hashable, Identifiable {
+struct Article: ReadableContent {
     let articleUrl: URL?
     let date: Date
     let id: String

@@ -24,7 +24,7 @@
 		06EC2D24259CED0500FE0A71 /* PublicationDetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EC2D23259CED0500FE0A71 /* PublicationDetailHeader.swift */; };
 		331159CD27D26773003B0F06 /* MagazinesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331159CC27D26773003B0F06 /* MagazinesList.swift */; };
 		331159D727D41C89003B0F06 /* Image+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331159D627D41C89003B0F06 /* Image+Extensions.swift */; };
-		3333021A29307D8B00320123 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3333021929307D8B00320123 /* MenuView.swift */; };
+		3333021A29307D8B00320123 /* SemesterMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3333021929307D8B00320123 /* SemesterMenuView.swift */; };
 		3334F4A02705269800CF0987 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3334F49F2705269800CF0987 /* AppDelegate.swift */; };
 		333EB8A92909ECBA00EA9950 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333EB8A82909ECBA00EA9950 /* HomeViewModel.swift */; };
 		333EB8AB2909EE5400EA9950 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333EB8AA2909EE5400EA9950 /* HomeView.swift */; };
@@ -34,6 +34,8 @@
 		33538BF22745DD27009DD191 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33538BF12745DD27009DD191 /* Notifications.swift */; };
 		335E692627DFDC2700FBDE3A /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335E692527DFDC2700FBDE3A /* UIFont+Extension.swift */; };
 		33913A0C27D89E0A00C5718D /* TabBarReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33913A0B27D89E0A00C5718D /* TabBarReader.swift */; };
+		3392D71C2937BF4E005165F6 /* ReaderToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D71B2937BF4E005165F6 /* ReaderToolbarView.swift */; };
+		3392D71E2937C021005165F6 /* ReadableContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D71D2937C021005165F6 /* ReadableContent.swift */; };
 		33E851A6290AE6ED004453D2 /* ListBackgroundModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E851A5290AE6ED004453D2 /* ListBackgroundModifier.swift */; };
 		502E3EA32757D3C6005DA441 /* WeeklyDebriefView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502E3EA22757D3C6005DA441 /* WeeklyDebriefView.swift */; };
 		502E3EA52757F774005DA441 /* StatisticView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502E3EA42757F774005DA441 /* StatisticView.swift */; };
@@ -107,7 +109,7 @@
 		2ED344C7F76751CD56407579 /* Pods-Volume.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Volume.debug.xcconfig"; path = "Target Support Files/Pods-Volume/Pods-Volume.debug.xcconfig"; sourceTree = "<group>"; };
 		331159CC27D26773003B0F06 /* MagazinesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazinesList.swift; sourceTree = "<group>"; };
 		331159D627D41C89003B0F06 /* Image+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extensions.swift"; sourceTree = "<group>"; };
-		3333021929307D8B00320123 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		3333021929307D8B00320123 /* SemesterMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemesterMenuView.swift; sourceTree = "<group>"; };
 		3334F49F2705269800CF0987 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		333EB8A82909ECBA00EA9950 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		333EB8AA2909EE5400EA9950 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -117,6 +119,8 @@
 		33538BF12745DD27009DD191 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		335E692527DFDC2700FBDE3A /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		33913A0B27D89E0A00C5718D /* TabBarReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarReader.swift; sourceTree = "<group>"; };
+		3392D71B2937BF4E005165F6 /* ReaderToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderToolbarView.swift; sourceTree = "<group>"; };
+		3392D71D2937C021005165F6 /* ReadableContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadableContent.swift; sourceTree = "<group>"; };
 		33AE4CEC27403F670001BA5B /* UserMutations.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = UserMutations.graphql; sourceTree = "<group>"; };
 		33E851A5290AE6ED004453D2 /* ListBackgroundModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListBackgroundModifier.swift; sourceTree = "<group>"; };
 		39F9DEFA44D733F76F2031E2 /* Pods-Volume.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Volume.release.xcconfig"; path = "Target Support Files/Pods-Volume/Pods-Volume.release.xcconfig"; sourceTree = "<group>"; };
@@ -313,6 +317,7 @@
 				7E8658AD254B71FF002DEE68 /* Publication.swift */,
 				7E9E478B2629494D007E8E6C /* SettingsPage.swift */,
 				33538BED2745C477009DD191 /* WeeklyDebrief.swift */,
+				3392D71D2937C021005165F6 /* ReadableContent.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -337,15 +342,16 @@
 			children = (
 				060B738A256340580035E252 /* BubblePeriodText.swift */,
 				7E416C312561D7870010D70B /* Header.swift */,
+				BC72AEB72920519900209573 /* PDFKitView.swift */,
+				3392D71B2937BF4E005165F6 /* ReaderToolbarView.swift */,
+				7E49582C2612BD740015BE45 /* RefreshableScrollView.swift */,
+				3333021929307D8B00320123 /* SemesterMenuView.swift */,
 				06B23227258EDDA9006D9A53 /* SkeletonView.swift */,
+				33913A0B27D89E0A00C5718D /* TabBarReader.swift */,
 				061233A02553127C0025F7E0 /* UnderlinedText.swift */,
 				7EE96DC72562505B000B246F /* VolumeMessage.swift */,
 				0685AAA0259EBA3800DD55C4 /* WebView.swift */,
-				7E49582C2612BD740015BE45 /* RefreshableScrollView.swift */,
-				33913A0B27D89E0A00C5718D /* TabBarReader.swift */,
 				3349BF6E290DC1E900B0FD3A /* WeeklyDebriefButton.swift */,
-				BC72AEB72920519900209573 /* PDFKitView.swift */,
-				3333021929307D8B00320123 /* MenuView.swift */,
 			);
 			path = "Supporting Views";
 			sourceTree = "<group>";
@@ -558,6 +564,7 @@
 			files = (
 				06B80D13257DC18600F3BF9B /* WebImage+Extension.swift in Sources */,
 				33538BF22745DD27009DD191 /* Notifications.swift in Sources */,
+				3392D71C2937BF4E005165F6 /* ReaderToolbarView.swift in Sources */,
 				A2B4DF3227D9AAB000440184 /* MagazineReaderView.swift in Sources */,
 				7EC15D9F257767ED0053BA0B /* Publication.swift in Sources */,
 				95AC9DCF2637C120000B4BEE /* Main.swift in Sources */,
@@ -582,12 +589,13 @@
 				33538BEE2745C477009DD191 /* WeeklyDebrief.swift in Sources */,
 				7E416C322561D7870010D70B /* Header.swift in Sources */,
 				06B23228258EDDA9006D9A53 /* SkeletonView.swift in Sources */,
+				3392D71E2937C021005165F6 /* ReadableContent.swift in Sources */,
 				33E851A6290AE6ED004453D2 /* ListBackgroundModifier.swift in Sources */,
 				BC72AEBA29259D4500209573 /* API.swift in Sources */,
 				06662888257F204E006FEBCF /* Secrets.swift in Sources */,
 				061DB39725571D760038BEF5 /* Font+Extension.swift in Sources */,
 				3334F4A02705269800CF0987 /* AppDelegate.swift in Sources */,
-				3333021A29307D8B00320123 /* MenuView.swift in Sources */,
+				3333021A29307D8B00320123 /* SemesterMenuView.swift in Sources */,
 				060FFDDD2577EC800052F3EA /* FollowView.swift in Sources */,
 				3349BF6F290DC1E900B0FD3A /* WeeklyDebriefButton.swift in Sources */,
 				061233A12553127C0025F7E0 /* UnderlinedText.swift in Sources */,
