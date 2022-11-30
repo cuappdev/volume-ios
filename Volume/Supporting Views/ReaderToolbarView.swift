@@ -107,7 +107,7 @@ struct ReaderToolbarView<Content: ReadableContent>: View {
 
     private func publicationDetailNavigationLink(content: Content) -> some View {
         NavigationLink {
-            PublicationDetail(navigationSource: navigationSource, publication: content.publication)
+            PublicationDetail(publication: content.publication, navigationSource: navigationSource)
         } label: {
             if let imageUrl = content.publication.profileImageUrl {
                 WebImage(url: imageUrl)

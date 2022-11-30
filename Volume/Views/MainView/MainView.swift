@@ -35,7 +35,7 @@ struct MainView: View {
             .tag(Screen.publications)
             
             TabContainer(screen: .bookmarks) {
-                BookmarksList()
+                BookmarksView()
             }
             .tag(Screen.bookmarks)
         }

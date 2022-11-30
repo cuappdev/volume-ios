@@ -46,6 +46,16 @@ struct Publication: Hashable, Identifiable {
         }
         websiteUrl = URL(string: publication.websiteUrl)
     }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}
+
+extension Publication {
+    enum ContentType {
+        case articles, magazines
+    }
 }
 
 extension Array where Element == Publication {

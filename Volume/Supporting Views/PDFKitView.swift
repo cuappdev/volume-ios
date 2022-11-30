@@ -16,11 +16,14 @@ struct PDFKitView: UIViewRepresentable {
     var isCover = false
 
     func makeUIView(context: Context) -> PDFView {
-        let pdfView = PDFView()
+        let pdfView = PDFView(frame: CGRect(origin: .zero, size: CGSize(width: 150, height: 220)))
         pdfView.document = pdfDoc
         pdfView.autoScales = true
         pdfView.usePageViewController(true)
         pdfView.displayDirection = isCover ? .vertical : .horizontal
+        pdfView.displaysAsBook = true
+        pdfView.displaysPageBreaks = false
+
         return pdfView
     }
     

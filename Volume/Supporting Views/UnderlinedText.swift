@@ -50,16 +50,3 @@ struct SizeGetter: View {
         return Rectangle().fill(Color.clear)
     }
 }
-
-struct UnderlinedText_Previews: PreviewProvider {
-    static var previews: some View {
-        PreviewWrapper()
-    }
-
-    struct PreviewWrapper: View {
-        var body: some View {
-            UnderlinedText("THE BIG READ AND OTHER THINGS")
-                .font(.helveticaNeueMedium(size: 15))
-        }
-    }
-}
