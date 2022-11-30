@@ -18,7 +18,7 @@ struct MagazinesList: View {
     @State private var selectedSemester: String?
     @State private var allSemesters: [String]? = nil
     @State private var queryBag = Set<AnyCancellable>()
-    
+
     private struct Constants {
         static let featuredMagazinesLimit: Double = 7
         static let animationDuration = 0.1
@@ -256,4 +256,22 @@ extension MagazinesList {
         featuredMagazines: AnyCancellable?,
         magazinesBySemester: AnyCancellable?
     )
+
+    private static func format(semesterString: String) -> String {
+        let prefix = semesterString.prefix(2)
+        let suffix = semesterString.suffix(2)
+
+        var result = ""
+
+        switch prefix {
+        case "fa":
+            result = "Fall"
+        case "sp":
+            result = "Spring"
+        default:
+            break
+        }
+
+        return "\(result) 20\(suffix)"
+    }
 }
