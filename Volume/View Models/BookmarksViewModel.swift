@@ -37,8 +37,6 @@ extension BookmarksView {
                 return false
             }
 
-            print("YEET \(userData.savedMagazineIDs)")
-            print("YEET \(self.magazines?.map(\.id) ?? [])")
             return !userData.savedMagazineIDs.isEmpty
         }
 
@@ -75,12 +73,15 @@ extension BookmarksView {
 
         func fetchMagazines(ids: [String]) {
             Network.shared.publisher(for: GetMagazinesByIDsQuery(ids: ids))
-                .map { $0.magazine.map(\.fragments.magazineFields) } // TODO: change query response field to magazines
+                .map { $0.magazine.map(\.fragments.magazineFields) }
                 .sink { [weak self] completion in
                     self?.networkState?.handleCompletion(screen: .bookmarks, completion)
                 } receiveValue: { [weak self] magazineFields in
-                    withAnimation(.linear(duration: 0.1)) {
-                        self?.magazines = [Magazine](magazineFields)
+                    Task {
+                        let magazines = await [Magazine](magazineFields)
+                        withAnimation(.linear(duration: 0.1)) {
+                            self?.magazines = magazines
+                        }
                     }
                 }
                 .store(in: &queryBag)

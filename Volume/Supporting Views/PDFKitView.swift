@@ -15,8 +15,8 @@ struct PDFKitView: UIViewRepresentable {
     let pdfDoc: PDFDocument
     var isCover = false
 
-    func makeUIView(context: Context) -> PDFView {
-        let pdfView = PDFView(frame: CGRect(origin: .zero, size: CGSize(width: 150, height: 220)))
+    func makeUIView(context: Context) -> PDFViewUnselectable {
+        let pdfView = PDFViewUnselectable(frame: CGRect(origin: .zero, size: CGSize(width: 150, height: 220)))
         pdfView.document = pdfDoc
         pdfView.autoScales = true
         pdfView.usePageViewController(true)
@@ -26,8 +26,24 @@ struct PDFKitView: UIViewRepresentable {
 
         return pdfView
     }
-    
-    func updateUIView(_ pdfView: PDFView, context: Context) {
+
+    func updateUIView(_ pdfView: PDFViewUnselectable, context: Context) {
         pdfView.document = pdfDoc
+    }
+}
+
+class PDFViewUnselectable: PDFView {
+
+    /// prevent users from copy+pasting content from PDF documents
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        return false
+    }
+
+    override func addGestureRecognizer(_ gestureRecognizer: UIGestureRecognizer) {
+        if gestureRecognizer is UILongPressGestureRecognizer {
+            gestureRecognizer.isEnabled = false
+        }
+
+        super.addGestureRecognizer(gestureRecognizer)
     }
 }

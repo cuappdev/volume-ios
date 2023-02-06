@@ -54,7 +54,9 @@ struct MagazineReaderView: View {
         .sink { completion in
             networkState.handleCompletion(screen: .magazines, completion)
         } receiveValue: { magazineFields in
-            magazine = Magazine(from: magazineFields)
+            Task {
+                magazine = await Magazine(from: magazineFields)
+            }
         }
         .store(in: &queryBag)
     }

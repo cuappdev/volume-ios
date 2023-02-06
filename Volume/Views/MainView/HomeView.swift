@@ -141,6 +141,7 @@ struct HomeView: View {
                     ArticleRow.Skeleton()
                         .padding(.vertical, Constants.rowVerticalPadding)
                         .onAppear {
+                            // scrolled to last loaded row, fetch more rows
                             viewModel.fetchPage(followed: followed)
                         }
                 } else if followed {

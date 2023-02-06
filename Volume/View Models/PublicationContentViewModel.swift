@@ -60,13 +60,10 @@ extension PublicationContentView {
                     completion
                 )
             } receiveValue: { [weak self] magazineFields in
-                guard let self else {
-                    print("Error: found unretained self in fetchMagazines")
-                    return
+                self?.selectedTab = self?.showArticleTab ?? false ? .articles : .magazines
+                Task {
+                    self?.magazines = await [Magazine](magazineFields)
                 }
-                let magazines = [Magazine](magazineFields)
-                self.magazines = magazines
-                self.selectedTab = self.showArticleTab ? .articles : .magazines
             }
             .store(in: &queryBag)
         }

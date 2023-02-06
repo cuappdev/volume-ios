@@ -22,12 +22,12 @@ struct MainView: View {
             }
             .tag(Screen.home)
 
-            #if DEBUG
+//            #if DEBUG
             TabContainer(screen: .magazines) {
                 MagazinesList()
             }
             .tag(Screen.magazines)
-            #endif
+//            #endif
 
             TabContainer(screen: .publications) {
                 PublicationList()
@@ -54,13 +54,13 @@ struct MainView: View {
                         .foregroundColor(selectedTab == .home ? .volume.orange : .volume.lightGray)
                         .onTapGesture { selectedTab = .home }
 
-                    #if DEBUG
+//                    #if DEBUG
                     Spacer()
 
                     TabItem(icon: .volume.magazine, size: iconSize, name: "Magazines")
                         .foregroundColor(selectedTab == .magazines ? .volume.orange : .volume.lightGray)
                         .onTapGesture { selectedTab = .magazines }
-                    #endif
+//                    #endif
 
                     Spacer()
                     

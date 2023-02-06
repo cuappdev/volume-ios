@@ -42,15 +42,18 @@ struct MagazinesList: View {
             .sink { completion in
                 networkState.handleCompletion(screen: .magazines, completion)
             } receiveValue: { magazineFields in
-                let featuredMagazines = [Magazine](magazineFields)
-                withAnimation(.linear(duration: Constants.animationDuration)) {
-                    sectionStates.featuredMagazines = .results(featuredMagazines)
+                Task {
+                    let featuredMagazines = await [Magazine](magazineFields)
+                    withAnimation(.linear(duration: Constants.animationDuration)) {
+                        sectionStates.featuredMagazines = .results(featuredMagazines)
+                    }
+                    done()
                 }
-                done()
             }
     }
 
     private func fetchMagazineSemesters() {
+        // TODO: replace logic when backend implements Publication.getMagazineSemesters
         Network.shared.publisher(
             for: GetAllMagazineSemestersQuery(limit: 100)
         )
@@ -79,10 +82,11 @@ struct MagazinesList: View {
         .sink { completion in
             networkState.handleCompletion(screen: .magazines, completion)
         } receiveValue: { magazineFields in
-            let magazinesBySemester = [Magazine](magazineFields)
-            
-            withAnimation(.linear(duration: 0.1)) {
-                sectionStates.magazinesBySemester = .results(magazinesBySemester)
+            Task {
+                let magazinesBySemester = await [Magazine](magazineFields)
+                withAnimation(.linear(duration: 0.1)) {
+                    sectionStates.magazinesBySemester = .results(magazinesBySemester)
+                }
             }
         }
     }
