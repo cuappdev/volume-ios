@@ -41,4 +41,9 @@ extension URL {
         guard let host = self.host else { return false }
         return ValidURLHost.allCases.contains { $0.host == host }
     }
+
+    var contentType: ValidURLHost? {
+        guard let host = self.host else { return nil }
+        return ValidURLHost.allCases.first { $0.host == host }
+    }
 }

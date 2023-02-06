@@ -14,7 +14,7 @@ struct Magazine: ReadableContent {
     let id: String
     let date: Date
     let isNSFW: Bool
-    var pdfUrl: URL?
+    let pdfUrl: URL?
     let publication: Publication
     let semester: String
     let shoutouts: Int

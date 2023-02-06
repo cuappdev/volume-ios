@@ -218,7 +218,7 @@ struct MagazinesList: View {
         }
         .onOpenURL { url in
             if url.isDeeplink,
-                url.host == ValidURLHost.magazine.host,
+               url.contentType == .magazine,
                let id = url.parameters["id"] {
                 deeplinkId = id
                 openMagazineFromDeeplink = true

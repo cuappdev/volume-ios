@@ -183,7 +183,9 @@ extension HomeView {
         // MARK: Deeplink
 
         func handleURL(_ url: URL) {
-            if url.isDeeplink, let id = url.parameters["id"] {
+            if url.isDeeplink,
+               url.contentType == .article,
+               let id = url.parameters["id"] {
                 deeplinkID = id
                 openArticleFromDeeplink = true
             }

@@ -22,12 +22,10 @@ struct MainView: View {
             }
             .tag(Screen.home)
 
-//            #if DEBUG
             TabContainer(screen: .magazines) {
                 MagazinesList()
             }
             .tag(Screen.magazines)
-//            #endif
 
             TabContainer(screen: .publications) {
                 PublicationList()
@@ -54,13 +52,11 @@ struct MainView: View {
                         .foregroundColor(selectedTab == .home ? .volume.orange : .volume.lightGray)
                         .onTapGesture { selectedTab = .home }
 
-//                    #if DEBUG
                     Spacer()
 
                     TabItem(icon: .volume.magazine, size: iconSize, name: "Magazines")
                         .foregroundColor(selectedTab == .magazines ? .volume.orange : .volume.lightGray)
                         .onTapGesture { selectedTab = .magazines }
-//                    #endif
 
                     Spacer()
                     
@@ -102,11 +98,17 @@ struct MainView: View {
                 return
             }
 
-            switch url.host {
-            case ValidURLHost.article.host:
-                selectedTab = .home
-            case ValidURLHost.magazine.host:
-                selectedTab = .magazines
+            switch url.contentType {
+            case .article:
+                if selectedTab != .home {
+                    selectedTab = .home
+                    UIApplication.shared.open(url)
+                }
+            case .magazine:
+                if selectedTab != .magazines {
+                    selectedTab = .magazines
+                    UIApplication.shared.open(url)
+                }
             default:
                 break
             }
