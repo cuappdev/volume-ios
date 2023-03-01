@@ -28,34 +28,42 @@ struct ReaderToolbarView<Content: ReadableContent>: View {
         }
 
         if let article = content as? Article {
-            AppDevAnalytics.log(VolumeEvent.shoutoutArticle.toEvent(.article, value: article.id, navigationSource: navigationSource))
-
-            userData.incrementShoutoutsCounter(article)
-            userData.shoutoutsCache[article.id, default: 0] = numShoutouts(for: content) + 1
-            let currentPublicationShoutouts = max(userData.shoutoutsCache[article.publication.slug, default: 0], article.publication.shoutouts)
-            userData.shoutoutsCache[article.publication.slug, default: 0] = currentPublicationShoutouts + 1
-
-            Network.shared.publisher(for: IncrementShoutoutsMutation(id: article.id, uuid: uuid))
-                .sink { completion in
-                    if case let .failure(error) = completion {
-                        print("Error: IncrementShoutoutsMutation failed on BrowserView: \(error.localizedDescription)")
-                    }
-                } receiveValue: { _ in }
-                .store(in: &queryBag)
+            incrementShoutouts(for: article, uuid: uuid)
         } else if let magazine = content as? Magazine {
-            userData.incrementMagazineShoutoutsCounter(magazine)
-            userData.magazineShoutoutsCache[magazine.id, default: 0] = numShoutouts(for: content) + 1
-            let currentPublicationShoutouts = max(userData.shoutoutsCache[magazine.publication.slug, default: 0], magazine.publication.shoutouts)
-            userData.shoutoutsCache[magazine.publication.slug, default: 0] = currentPublicationShoutouts + 1
-
-            Network.shared.publisher(for: IncrementMagazineShoutoutsMutation(id: magazine.id, uuid: uuid))
-                .sink { completion in
-                    if case let .failure(error) = completion {
-                        print("Error: IncrementMagazineShoutoutsMutation failed on MagazineReaderView: \(error.localizedDescription)")
-                    }
-                } receiveValue: { _ in }
-                .store(in: &queryBag)
+            incrementShoutouts(for: magazine, uuid: uuid)
         }
+    }
+
+    private func incrementShoutouts(for article: Article, uuid: String) {
+        AppDevAnalytics.log(VolumeEvent.shoutoutArticle.toEvent(.article, value: article.id, navigationSource: navigationSource))
+
+        userData.incrementShoutoutsCounter(article)
+        userData.shoutoutsCache[article.id, default: 0] = numShoutouts(for: article as! Content) + 1
+        let currentPublicationShoutouts = max(userData.shoutoutsCache[article.publication.slug, default: 0], article.publication.shoutouts)
+        userData.shoutoutsCache[article.publication.slug, default: 0] = currentPublicationShoutouts + 1
+
+        Network.shared.publisher(for: IncrementShoutoutsMutation(id: article.id, uuid: uuid))
+            .sink { completion in
+                if case let .failure(error) = completion {
+                    print("Error: IncrementShoutoutsMutation failed on BrowserView: \(error.localizedDescription)")
+                }
+            } receiveValue: { _ in }
+            .store(in: &queryBag)
+    }
+
+    private func incrementShoutouts(for magazine: Magazine, uuid: String) {
+        userData.incrementMagazineShoutoutsCounter(magazine)
+        userData.magazineShoutoutsCache[magazine.id, default: 0] = numShoutouts(for: magazine as! Content) + 1
+        let currentPublicationShoutouts = max(userData.shoutoutsCache[magazine.publication.slug, default: 0], magazine.publication.shoutouts)
+        userData.shoutoutsCache[magazine.publication.slug, default: 0] = currentPublicationShoutouts + 1
+
+        Network.shared.publisher(for: IncrementMagazineShoutoutsMutation(id: magazine.id, uuid: uuid))
+            .sink { completion in
+                if case let .failure(error) = completion {
+                    print("Error: IncrementMagazineShoutoutsMutation failed on MagazineReaderView: \(error.localizedDescription)")
+                }
+            } receiveValue: { _ in }
+            .store(in: &queryBag)
     }
 
     private func toggleSaved(for content: Content) {

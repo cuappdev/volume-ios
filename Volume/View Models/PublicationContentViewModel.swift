@@ -10,6 +10,7 @@ import Combine
 import SwiftUI
 
 extension PublicationContentView {
+
     @MainActor class ViewModel: ObservableObject {
         let publication: Publication
         let navigationSource: NavigationSource
@@ -109,4 +110,5 @@ extension PublicationContentView {
             static let articleRowHeight: CGFloat = 80
         }
     }
+    
 }

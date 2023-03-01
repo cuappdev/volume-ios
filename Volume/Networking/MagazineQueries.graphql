@@ -13,7 +13,6 @@ fragment magazineFields on Magazine {
 
 # MARK: - Mag Page
 
-# need better endpoint from backend
 query GetAllMagazineSemesters($limit: Float!) {
   magazines: getAllMagazines(limit: $limit) {
     semester

@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct BookmarksView: View {
+
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
     @StateObject private var viewModel = ViewModel()
@@ -172,4 +173,5 @@ struct BookmarksView: View {
             VolumeMessage(message: .noBookmarks, largeFont: true, fullWidth: true)
         }
     }
+    
 }

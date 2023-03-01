@@ -12,9 +12,11 @@ protocol ReadableContent: Hashable, Identifiable {
 }
 
 extension ReadableContent {
+
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
+    
 }
 
 enum ReaderViewInitType<Content: ReadableContent> {

@@ -172,4 +172,5 @@ extension PublicationContentView {
         static let magazineTabWidth: CGFloat = 106
         static let loadingIndicatorTopPadding: CGFloat = 180
     }
+    
 }

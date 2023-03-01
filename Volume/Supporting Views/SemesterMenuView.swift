@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct SemesterMenuView: View {
+
     @Binding var selection: String?
     let options: [String]
 
@@ -39,9 +40,11 @@ struct SemesterMenuView: View {
             }
         }
     }
+    
 }
 
 extension SemesterMenuView {
+
     private static func format(semesterString: String) -> String {
         let prefix = semesterString.prefix(2)
         let suffix = semesterString.suffix(2)
@@ -90,4 +93,5 @@ extension SemesterMenuView {
             }
         }
     }
+
 }
