@@ -79,6 +79,7 @@ enum NavigationSource: String {
     case followingPublications = "following_publications"
     case morePublications = "more_publications"
     case onboarding = "onboarding"
+    case magazineDetail = "magazine_detail"
 
     case unspecified
 }

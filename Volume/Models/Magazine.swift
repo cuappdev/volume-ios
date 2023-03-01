@@ -7,9 +7,10 @@
 //
 
 import Foundation
+import PDFKit
 import SwiftUI
 
-struct Magazine: Identifiable, Hashable {
+struct Magazine: ReadableContent {
     let id: String
     let date: Date
     let isNSFW: Bool
@@ -18,8 +19,9 @@ struct Magazine: Identifiable, Hashable {
     let semester: String
     let shoutouts: Int
     let title: String
+    var pdfDoc: PDFDocument?
     
-    init(from magazine : MagazineFields) {
+    init(from magazine : MagazineFields) async {
         date = Date.from(iso8601: magazine.date)
         id = magazine.id
         isNSFW = magazine.nsfw
@@ -28,12 +30,23 @@ struct Magazine: Identifiable, Hashable {
         semester = magazine.semester
         shoutouts = Int(magazine.shoutouts)
         title = magazine.title
+        if let pdfUrl {
+            pdfDoc = await fetchPDF(url: pdfUrl)
+        }
     }
-    
+
+    private func fetchPDF(url: URL) async -> PDFDocument? {
+        await withCheckedContinuation { continuation in
+            Task {
+                let doc = await PDFDocument(url: url)
+                continuation.resume(returning: doc)
+            }
+        }
+    }
 }
 
 extension Array where Element == Magazine {
-    init(_ magazines: [MagazineFields]) {
-        self.init(magazines.map(Magazine.init))
+    init(_ magazines: [MagazineFields]) async {
+        await self.init(magazines.asyncMap(Magazine.init))
     }
 }

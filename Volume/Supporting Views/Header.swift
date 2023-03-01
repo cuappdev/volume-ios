@@ -23,9 +23,3 @@ struct Header: View {
             .frame(maxWidth: .infinity, alignment: alignment)
     }
 }
-
-struct Header_Previews: PreviewProvider {
-    static var previews: some View {
-        Header("Header", .leading)
-    }
-}

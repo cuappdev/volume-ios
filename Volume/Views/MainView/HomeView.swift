@@ -158,6 +158,7 @@ struct HomeView: View {
                     ArticleRow.Skeleton()
                         .padding(.vertical, Constants.rowVerticalPadding)
                         .onAppear {
+                            // scrolled to last loaded row, fetch more rows
                             viewModel.fetchPage(followed: followed)
                         }
                 } else if followed {
@@ -182,13 +183,8 @@ struct HomeView: View {
 
     private var weeklyDebriefButton: some View {
         Group {
-            switch viewModel.weeklyDebrief {
-            case .none:
-                SkeletonView()
-            case .some(let weeklyDebrief):
-                if let _ = weeklyDebrief {
-                    WeeklyDebriefButton(buttonPressed: $viewModel.isWeeklyDebriefOpen)
-                }
+            if viewModel.weeklyDebrief != nil {
+                WeeklyDebriefButton(buttonPressed: $viewModel.isWeeklyDebriefOpen)
             }
         }
         .padding(.top, Constants.weeklyDebriefTopPadding)

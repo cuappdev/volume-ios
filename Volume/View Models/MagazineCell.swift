@@ -15,8 +15,7 @@ struct MagazineCell: View {
     @EnvironmentObject private var userData: UserData
 
     let magazine: Magazine
-    let magazineUrl: URL
-    
+
     private struct Constants {
         static let pdfviewWidth: CGFloat = 150
         static let pdfviewHeight: CGFloat = 220
@@ -37,19 +36,17 @@ struct MagazineCell: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            if let pdfDoc = PDFDocument(url: magazineUrl) {
-                PDFKitView(pdfDoc: pdfDoc)
-                    .frame(width: Constants.pdfviewWidth, height: Constants.pdfviewHeight)
-                    .scaledToFill()
-                    .shadow(color: Color.black.opacity(Constants.pdfviewOpacity), radius: Constants.pdfviewRadius, x: Constants.pdfviewX, y: Constants.pdfviewY)
-                    .disabled(true)
-            } else {
-                PDFKitView(pdfDoc: PDFDocument())
-                    .frame(width: Constants.pdfviewWidth, height: Constants.pdfviewHeight)
-                    .scaledToFill()
-                    .shadow(color: Color.black.opacity(Constants.pdfviewOpacity), radius: Constants.pdfviewRadius, x: Constants.pdfviewX, y: Constants.pdfviewY)
-                    .disabled(true)
+            Group {
+                if let pdfDoc = magazine.pdfDoc {
+                    PDFKitView(pdfDoc: pdfDoc, isCover: true)
+                } else {
+                    PDFKitView(pdfDoc: PDFDocument(), isCover: true)
+                }
             }
+            .frame(width: Constants.pdfviewWidth, height: Constants.pdfviewHeight)
+            .scaledToFill()
+            .shadow(color: Color.black.opacity(Constants.pdfviewOpacity), radius: Constants.pdfviewRadius, x: Constants.pdfviewX, y: Constants.pdfviewY)
+            .disabled(true)
 
             Spacer()
                 .frame(height: Constants.pdfPubPadding)

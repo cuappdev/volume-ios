@@ -38,8 +38,10 @@ extension HomeView {
         private var queryBag = Set<AnyCancellable>()
 
         func setupEnvironment(networkState: NetworkState, userData: UserData) {
-            self.networkState = networkState
-            self.userData = userData
+            if self.networkState == nil || self.userData == nil {
+                self.networkState = networkState
+                self.userData = userData
+            }
         }
 
         private var followedPublicationSlugs: [String] {
@@ -65,7 +67,9 @@ extension HomeView {
         func fetchContent() async {
             fetchTrendingArticles()
             fetchWeeklyDebrief()
-            await fetchFirstPage()
+            if followedArticles == nil {
+                await fetchFirstPage()
+            }
         }
 
         func refreshContent() async {
@@ -181,7 +185,9 @@ extension HomeView {
         // MARK: Deeplink
 
         func handleURL(_ url: URL) {
-            if url.isDeeplink, let id = url.parameters["id"] {
+            if url.isDeeplink,
+               url.contentType == .article,
+               let id = url.parameters["id"] {
                 deeplinkID = id
                 openArticleFromDeeplink = true
             }

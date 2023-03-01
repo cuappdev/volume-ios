@@ -89,7 +89,7 @@ struct PublicationDetailHeader: View {
                 .fixedSize(horizontal: false, vertical: true)
             externalLinks
         }
-        .padding([.leading, .trailing])
+        .padding([.top, .horizontal])
     }
 }
 

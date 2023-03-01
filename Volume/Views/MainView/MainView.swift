@@ -22,12 +22,10 @@ struct MainView: View {
             }
             .tag(Screen.home)
 
-            #if DEBUG
             TabContainer(screen: .magazines) {
                 MagazinesList()
             }
             .tag(Screen.magazines)
-            #endif
 
             TabContainer(screen: .publications) {
                 PublicationList()
@@ -35,7 +33,7 @@ struct MainView: View {
             .tag(Screen.publications)
             
             TabContainer(screen: .bookmarks) {
-                BookmarksList()
+                BookmarksView()
             }
             .tag(Screen.bookmarks)
         }
@@ -54,13 +52,11 @@ struct MainView: View {
                         .foregroundColor(selectedTab == .home ? .volume.orange : .volume.lightGray)
                         .onTapGesture { selectedTab = .home }
 
-                    #if DEBUG
                     Spacer()
 
                     TabItem(icon: .volume.magazine, size: iconSize, name: "Magazines")
                         .foregroundColor(selectedTab == .magazines ? .volume.orange : .volume.lightGray)
                         .onTapGesture { selectedTab = .magazines }
-                    #endif
 
                     Spacer()
                     
@@ -98,9 +94,23 @@ struct MainView: View {
             }
         }
         .onOpenURL { url in
-            // TODO: handle deeplink to magazines after API is finalized
-            if url.isDeeplink && url.host == ValidURLHost.article.host {
-                selectedTab = .home
+            guard url.isDeeplink else {
+                return
+            }
+
+            switch url.contentType {
+            case .article:
+                if selectedTab != .home {
+                    selectedTab = .home
+                    UIApplication.shared.open(url)
+                }
+            case .magazine:
+                if selectedTab != .magazines {
+                    selectedTab = .magazines
+                    UIApplication.shared.open(url)
+                }
+            default:
+                break
             }
         }
         .onChange(of: notifications.isWeeklyDebriefOpen) { isOpen in

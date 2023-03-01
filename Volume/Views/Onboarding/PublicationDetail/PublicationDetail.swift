@@ -14,162 +14,144 @@ import SwiftUI
 struct PublicationDetail: View {
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @GestureState private var dragOffset = CGSize.zero
-    @State private var cancellableArticlesQuery: AnyCancellable?
-    @State private var state: PublicationDetailState = .loading
+    @Namespace var namespace
 
-    let navigationSource: NavigationSource
     let publication: Publication
+    let navigationSource: NavigationSource
 
-    private func fetchContent() {
-        // TODO: implement pagination, default limit is 25
-        cancellableArticlesQuery = Network.shared.publisher(for: GetArticlesByPublicationSlugQuery(slug: publication.slug))
-            .map(\.articles)
-            .sink(receiveCompletion: { completion in
-                if case let .failure(error) = completion {
-                    print("Error: GetArticlesByPublicationSlugQuery failed on PublicationDetail: \(error.localizedDescription)")
+    var body: some View {
+        GeometryReader { proxy in
+            ScrollView {
+                coverImageHeader
+                contentSection
+            }
+            .navigationBarHidden(true)
+            .edgesIgnoringSafeArea(.top)
+            .background(Color.white)
+            .gesture(
+                DragGesture().updating($dragOffset) { value, _, _ in
+                    if value.startLocation.x < Constants.dragGestureMinX && value.translation.width > Constants.dragGestureMaxX {
+                        presentationMode.wrappedValue.dismiss()
+                    }
                 }
-            }, receiveValue: { value in
-                withAnimation(.linear(duration: 0.1)) {
-                    state = .results([Article](value.map(\.fragments.articleFields)).sorted(by: { $0.date > $1.date }))
-                }
-            })
-    }
-
-    private var isLoading: Bool {
-        switch state {
-        case .loading:
-            return true
-        case .results:
-            return false
+            )
         }
     }
 
-    private var backgroundImage: some View {
-        ZStack {
-            GeometryReader { geometry in
-                let scrollOffset = geometry.frame(in: .global).minY
-                let headerOffset = scrollOffset > 0 ? -scrollOffset : 0
-                let headerHeight = geometry.size.height + max(scrollOffset, 0)
-                
+    // MARK: Header
+
+    private var coverImageHeader: some View {
+        VStack(alignment: .center) {
+            ZStack {
+                coverImage
+                coverImageOverlay
+            }
+            .frame(height: Constants.coverImageOverlayHeight)
+
+            publicationDescription
+            divider
+        }
+    }
+
+    private var coverImage: some View {
+        GeometryReader { geometry in
+            let scrollOffset = geometry.frame(in: .global).minY
+            let headerOffset = scrollOffset > 0 ? -scrollOffset : 0
+            let headerHeight = geometry.size.height + max(scrollOffset, 0)
+
+            Group {
                 if let url = publication.backgroundImageUrl {
                     WebImage(url: url)
                         .resizable()
                         .grayBackground()
                         .scaledToFill()
-                        .frame(width: geometry.size.width, height: headerHeight)
                         .clipped()
-                        .offset(y: headerOffset)
                 } else {
                     Rectangle() // TODO: Custom image
-                        .frame(width: geometry.size.width, height: headerHeight)
                         .foregroundColor(.blue)
-                        .offset(y: headerOffset)
                 }
             }
-            .frame(height: 140)
-            
-            HStack {
-                VStack(alignment: .leading) {
-                    Button(action: {
-                        self.presentationMode.wrappedValue.dismiss()
-                    }) {
-                        Image.volume.backArrow
-                            .foregroundColor(.white)
-                            .padding(.top, 55)
-                            .padding(.leading, 20)
-                            .shadow(color: .black, radius: 4)
-                    }
+            .frame(width: geometry.size.width, height: headerHeight)
+            .offset(y: headerOffset)
+        }
+        .frame(height: Constants.coverImageHeight)
+    }
 
-                    Spacer()
+    private var coverImageOverlay: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                Button {
+                    self.presentationMode.wrappedValue.dismiss()
+                } label: {
+                    Image.volume.backArrow
+                        .foregroundColor(.white)
+                        .padding(.top, Constants.backButtonTopPadding)
+                        .padding(.leading, Constants.backButtonLeadingPadding)
+                        .shadow(color: .black, radius: Constants.shadowRadius)
+                }
 
+                Spacer()
+
+                Group {
                     if let imageUrl = publication.profileImageUrl {
                         WebImage(url: imageUrl)
                             .grayBackground()
                             .resizable()
                             .clipShape(Circle())
-                            .frame(width: 60, height: 60)
-                            .overlay(Circle().stroke(Color.white, lineWidth: 3))
-                            .shadow(color: .volume.shadowBlack, radius: 5)
-                            .padding(.leading, 16)
                     } else {
                         Circle()
-                            .frame(width: 60, height: 60)
-                            .overlay(Circle().stroke(Color.white, lineWidth: 3))
-                            .shadow(color: .volume.shadowBlack, radius: 5)
-                            .padding(.leading, 16)
                     }
                 }
-
-                Spacer()
+                .frame(width: Constants.profileImageDimension, height: Constants.profileImageDimension)
+                .overlay(Circle().stroke(Color.white, lineWidth: Constants.profileImageStrokeWidth))
+                .shadow(color: .volume.shadowBlack, radius: Constants.shadowRadius)
+                .padding(.leading, Constants.horizontalPadding)
             }
+
+            Spacer()
         }
-        .frame(height: 156)
     }
 
-    var body: some View {
-        Section {
-            ScrollView {
-                backgroundImage
-                PublicationDetailHeader(navigationSource: navigationSource, publication: publication)
-                    .padding(.bottom)
-                Divider()
-                    .background(Color.volume.buttonGray)
-                    .frame(width: 100)
-                Header("Articles")
-                    .padding()
-                
-                switch state {
-                case .loading:
-                    VStack {
-                        ForEach(0..<5) { _ in
-                            ArticleRow.Skeleton(showsPublicationName: false)
-                                .padding([.bottom, .leading, .trailing])
-                        }
-                    }
-                case .results(let articles):
-                    LazyVStack {
-                        ForEach(articles) { article in
-                            NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: navigationSource)) {
-                                ArticleRow(article: article, navigationSource: navigationSource, showsPublicationName: false)
-                                    .padding([.bottom, .leading, .trailing])
-                            }
-                        }
-                    }
-                }
-            }
-            .disabled(isLoading)
-        }
-        .edgesIgnoringSafeArea(.top)
-        .navigationBarHidden(true)
-        .background(Color.white)
-        .gesture(
-            DragGesture().updating($dragOffset) { value, _, _ in
-                if value.startLocation.x < 20 && value.translation.width > 100 {
-                    presentationMode.wrappedValue.dismiss()
-                }
-            }
+    private var publicationDescription: some View {
+        PublicationDetailHeader(
+            navigationSource: navigationSource,
+            publication: publication
         )
-        .onAppear(perform: fetchContent)
+        .padding(.bottom)
+    }
+
+    // MARK: Publication Content
+
+    private var contentSection: some View {
+        PublicationContentView(
+            viewModel: PublicationContentView.ViewModel(
+                publication: publication,
+                navigationSource: navigationSource
+            )
+        )
+    }
+
+    // MARK: Helpers
+
+    private var divider: some View {
+        Divider()
+            .background(Color.volume.veryLightGray)
+            .frame(width: Constants.dividerWidth)
     }
 }
 
 extension PublicationDetail {
-    private enum PublicationDetailState {
-        case loading
-        case results([Article])
+    private struct Constants {
+        static let horizontalPadding: CGFloat = 18
+        static let backButtonTopPadding: CGFloat = 55
+        static let backButtonLeadingPadding: CGFloat = 20
+        static let shadowRadius: CGFloat = 4
+        static let coverImageHeight: CGFloat = 140
+        static let coverImageOverlayHeight: CGFloat = 156
+        static let profileImageDimension: CGFloat = 60
+        static let profileImageStrokeWidth: CGFloat = 3
+        static let dividerWidth: CGFloat = 100
+        static let dragGestureMinX: CGFloat = 20
+        static let dragGestureMaxX: CGFloat = 100
     }
 }
-
-//struct PublicationDetail_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PublicationDetail(
-//            publication: Publication(
-//                description: "A publication bringing you only the collest horse facts.",
-//                name: "Guac",
-//                id: "asdfsf39201sd923k",
-//                imageURL: nil,
-//                recent: "Horses love to swim"
-//            )
-//        )
-//    }
-//}

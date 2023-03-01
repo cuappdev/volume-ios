@@ -11,23 +11,27 @@ import SwiftUI
 
 struct MagazinesList: View {
     @EnvironmentObject private var networkState: NetworkState
-    @State private var onOpenMagazineUrl: String?
-    @State private var openedUrl = false
+    @State private var deeplinkId: String?
+    @State private var openMagazineFromDeeplink = false
     @State private var sectionQueries: SectionQueries = (nil, nil)
     @State private var sectionStates: SectionStates = (.loading, .loading)
-    
+    @State private var selectedSemester: String?
+    @State private var allSemesters: [String]? = nil
+    @State private var queryBag = Set<AnyCancellable>()
+
     private struct Constants {
-        static let currentSemester = "fa22"
         static let featuredMagazinesLimit: Double = 7
         static let animationDuration = 0.1
-        
+        static let navigationTitleKey = "MagazineReaderView"
     }
+
+    // MARK: Requests
 
     private func fetchContent(_ done: @escaping () -> Void = { }) {
         guard sectionStates.featuredMagazines.isLoading || sectionStates.magazinesBySemester.isLoading else { return }
         
         fetchFeaturedMagazines(done)
-        fetchMagazinesBySemester()
+        fetchMagazineSemesters()
     }
     
     private func fetchFeaturedMagazines(_ done: @escaping () -> Void = { }) {
@@ -38,27 +42,56 @@ struct MagazinesList: View {
             .sink { completion in
                 networkState.handleCompletion(screen: .magazines, completion)
             } receiveValue: { magazineFields in
-                let featuredMagazines = [Magazine](magazineFields)
-                withAnimation(.linear(duration: Constants.animationDuration)) {
-                    sectionStates.featuredMagazines = .results(featuredMagazines)
+                Task {
+                    let featuredMagazines = await [Magazine](magazineFields)
+                    withAnimation(.linear(duration: Constants.animationDuration)) {
+                        sectionStates.featuredMagazines = .results(featuredMagazines)
+                    }
+                    done()
                 }
-                done()
             }
     }
+
+    private func fetchMagazineSemesters() {
+        // TODO: replace logic when backend implements Publication.getMagazineSemesters
+        Network.shared.publisher(
+            for: GetAllMagazineSemestersQuery(limit: 100)
+        )
+        .map { $0.magazines.map(\.semester) }
+        .sink { completion in
+            networkState.handleCompletion(screen: .magazines, completion)
+        } receiveValue: { semesters in
+            allSemesters = Array(Set(semesters))
+                .sorted(by: compareSemesters)
+
+            if let currentSemester = allSemesters?.last {
+                selectedSemester = currentSemester
+                fetchMagazinesBySemester(currentSemester)
+            }
+        }
+        .store(in: &queryBag)
+    }
     
-    private func fetchMagazinesBySemester() {
-        sectionQueries.magazinesBySemester = Network.shared.publisher(for: GetMagazinesBySemesterQuery(semester: Constants.currentSemester))
-            .map { $0.magazines.map(\.fragments.magazineFields) }
-            .sink { completion in
-                networkState.handleCompletion(screen: .magazines, completion)
-            } receiveValue: { magazineFields in
-                let magazinesBySemester = [Magazine](magazineFields)
-                
+    private func fetchMagazinesBySemester(_ semester: String) {
+        sectionStates.magazinesBySemester = .loading
+
+        sectionQueries.magazinesBySemester = Network.shared.publisher(
+            for: GetMagazinesBySemesterQuery(semester: semester)
+        )
+        .map { $0.magazines.map(\.fragments.magazineFields) }
+        .sink { completion in
+            networkState.handleCompletion(screen: .magazines, completion)
+        } receiveValue: { magazineFields in
+            Task {
+                let magazinesBySemester = await [Magazine](magazineFields)
                 withAnimation(.linear(duration: 0.1)) {
                     sectionStates.magazinesBySemester = .results(magazinesBySemester)
                 }
             }
+        }
     }
+
+    // MARK: UI
     
     private var featureMagazinesSection: some View {
         Group {
@@ -68,16 +101,16 @@ struct MagazinesList: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 24) {
                     switch sectionStates.featuredMagazines {
-                    case .loading:
-                        ForEach(0..<10) { _ in
+                    case .loading, .reloading:
+                        ForEach(0..<3) { _ in
                              MagazineCell.Skeleton()
                         }
-                    case .reloading(let results), .results(let results):
+                    case .results(let results):
                         ForEach(results) { magazine in
-                            if let url = magazine.pdfUrl {
-                                NavigationLink(destination: MagazineReaderView(magazine: magazine, magazineUrl: url, navigationSource: .featuredMagazines)) {
-                                    MagazineCell(magazine: magazine, magazineUrl: url)
-                                }
+                            NavigationLink {
+                                MagazineReaderView(initType: .readyForDisplay(magazine), navigationSource: .featuredMagazines)
+                            } label: {
+                                MagazineCell(magazine: magazine)
                             }
                         }
                     }
@@ -89,34 +122,71 @@ struct MagazinesList: View {
 
     private var magazinesBySemesterSection: some View {
         Group {
-            Header("More magazines")
-                .padding([.top, .horizontal])
+            HStack(alignment: .center) {
+                Header("More magazines")
+                    .padding([.top, .horizontal])
+
+                Group {
+                    if let allSemesters {
+                        SemesterMenuView(
+                            selection: $selectedSemester,
+                            options: allSemesters
+                        )
+                    } else {
+                        SemesterMenuView.Skeleton()
+                    }
+                }
+                .padding(.trailing, 16)
+                .padding(.top, 8)
+            }
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 24) {
                     switch sectionStates.magazinesBySemester {
-                    case .loading:
-                        ForEach(0..<10) { _ in
+                    case .loading, .reloading:
+                        ForEach(0..<3) { _ in
                              MagazineCell.Skeleton()
                         }
-                    case .reloading(let results), .results(let results):
+                    case .results(let results):
                         ForEach(results) { magazine in
-                            if let url = magazine.pdfUrl {
-                                NavigationLink(destination: MagazineReaderView(magazine: magazine, magazineUrl: url, navigationSource: .moreMagazines)) {
-                                    MagazineCell(magazine: magazine, magazineUrl: url)
-                                }
+                            NavigationLink {
+                                MagazineReaderView(initType: .readyForDisplay(magazine), navigationSource: .moreMagazines)
+                            } label: {
+                                MagazineCell(magazine: magazine)
                             }
                         }
-    
                     }
                 }
             }
             .padding(.horizontal)
         }
+        .onChange(of: selectedSemester) { newValue in
+            if let selectedSemester {
+                fetchMagazinesBySemester(selectedSemester)
+            }
+        }
+    }
+
+    private var deepNavigationLink: some View {
+        Group {
+            if let magazineId = deeplinkId {
+                NavigationLink(Constants.navigationTitleKey, isActive: $openMagazineFromDeeplink) {
+                    MagazineReaderView(initType: .fetchRequired(magazineId), navigationSource: .moreMagazines)
+                }
+                .hidden()
+            }
+        }
+    }
+
+    private var background: some View {
+        ZStack {
+            Color.volume.backgroundGray
+            deepNavigationLink
+        }
     }
     
     var body: some View {
-        RefreshableScrollView(onRefresh: { done in
+        RefreshableScrollView { done in
             if case let .results(magazines) = sectionStates.featuredMagazines {
                 sectionStates.featuredMagazines = .reloading(magazines)
             }
@@ -124,28 +194,54 @@ struct MagazinesList: View {
             sectionStates.magazinesBySemester = .loading
             
             fetchContent(done)
-            }) {
-                VStack {
-                    featureMagazinesSection
-                    Spacer()
-                        .frame(height: 16)
-                    magazinesBySemesterSection
-               }
+        } content: {
+            VStack {
+                featureMagazinesSection
+                Spacer()
+                    .frame(height: 16)
+                magazinesBySemesterSection
             }
-            .disabled(sectionStates.featuredMagazines.isLoading)
-            .padding(.top)
-            .background(Color.volume.backgroundGray)
-            .toolbar {
-                ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
-                    BubblePeriodText("Magazines")
-                        .font(.newYorkMedium(size: 28))
-                        .offset(y: 8)
-                }
-            }
-            .navigationBarTitleDisplayMode(.inline)
-            .onAppear {
-                fetchContent()
         }
+        .disabled(sectionStates.featuredMagazines.isLoading)
+        .padding(.top)
+        .background(background)
+        .toolbar {
+            ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+                BubblePeriodText("Magazines")
+                    .font(.newYorkMedium(size: 28))
+                    .offset(y: 8)
+            }
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            fetchContent()
+        }
+        .onOpenURL { url in
+            if url.isDeeplink,
+               url.contentType == .magazine,
+               let id = url.parameters["id"] {
+                deeplinkId = id
+                openMagazineFromDeeplink = true
+            }
+        }
+    }
+
+    // MARK: Helpers
+
+    private func compareSemesters(_ s1: String, _ s2: String) -> Bool {
+        if let s1Year = Int(s1.suffix(2)),
+           let s2Year = Int(s2.suffix(2)),
+           s1Year != s2Year {
+            return s1Year < s2Year
+        }
+
+        let validSemesterStrings = ["sp", "fa"]
+        if let s1Semester = validSemesterStrings.firstIndex(of: String(s1.prefix(2))),
+           let s2Semester = validSemesterStrings.firstIndex(of: String(s2.prefix(2))) {
+            return s1Semester < s2Semester
+        }
+
+        return false
     }
 }
 
@@ -164,4 +260,22 @@ extension MagazinesList {
         featuredMagazines: AnyCancellable?,
         magazinesBySemester: AnyCancellable?
     )
+
+    private static func format(semesterString: String) -> String {
+        let prefix = semesterString.prefix(2)
+        let suffix = semesterString.suffix(2)
+
+        var result = ""
+
+        switch prefix {
+        case "fa":
+            result = "Fall"
+        case "sp":
+            result = "Spring"
+        default:
+            break
+        }
+
+        return "\(result) 20\(suffix)"
+    }
 }

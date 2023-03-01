@@ -6,23 +6,23 @@
 //  Copyright © 2022 Cornell AppDev. All rights reserved.
 //
 
-import SwiftUI
-import PDFKit
 import AppDevAnalytics
 import Combine
 import LinkPresentation
+import PDFKit
 import SDWebImageSwiftUI
+import SwiftUI
 
 struct MagazineReaderView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @EnvironmentObject private var userData: UserData
-    
-    let magazine: Magazine
-    let magazineUrl: URL
+    @EnvironmentObject private var networkState: NetworkState
+
+    let initType: ReaderViewInitType<Magazine>
     let navigationSource: NavigationSource
-    @State private var bookmarkRequestInProgress = false
-    @State private var cancellableShoutoutMutation: AnyCancellable?
-    
+
+    @State private var magazine: Magazine?
+    @State private var queryBag = Set<AnyCancellable>()
+
     private struct Constants {
         static let navbarOpacity: CGFloat = 0.2
         static let navbarRadius: CGFloat = 2
@@ -42,184 +42,106 @@ struct MagazineReaderView: View {
         static let toolbarLeftBorderPadding: CGFloat = 7
         static let toolbarRightBorderPadding: CGFloat = 6
         static let toolbarShoutoutsFontSize: CGFloat = 12
-        
     }
-    
-    private var isShoutoutsButtonEnabled: Bool {
-        return userData.canIncrementMagazineShoutouts(magazine)
+
+    // MARK: Data
+
+    private func fetchMagazineById(_ magazineId: String) {
+        Network.shared.publisher(
+            for: GetMagazineByIdQuery(id: magazineId)
+        )
+        .compactMap(\.magazine?.fragments.magazineFields)
+        .sink { completion in
+            networkState.handleCompletion(screen: .magazines, completion)
+        } receiveValue: { magazineFields in
+            Task {
+                magazine = await Magazine(from: magazineFields)
+            }
+        }
+        .store(in: &queryBag)
     }
-    
+
+    // MARK: UI
+
     private var navbar: some View {
-            ZStack {
-                Rectangle()
-                    .foregroundColor(.white)
-                    .shadow(color: .black.opacity(Constants.navbarOpacity), radius: Constants.navbarRadius, y: Constants.navbarY)
-                
-                HStack {
-                    Button {
-                        presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        Image.volume.leftArrow
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(height: Constants.navbarLeftComponentHeight)
-                            .foregroundColor(.black)
-                    }
-                    
-                    Spacer()
-                    
-                    Image.volume.menu
+        ZStack {
+            Rectangle()
+                .foregroundColor(.white)
+                .shadow(color: .black.opacity(Constants.navbarOpacity), radius: Constants.navbarRadius, y: Constants.navbarY)
+
+            HStack {
+                Button {
+                    presentationMode.wrappedValue.dismiss()
+                } label: {
+                    Image.volume.leftArrow
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(height: Constants.navbarRightComponentHeight)
-                        .foregroundColor(.volume.lightGray)
-                }
-                .padding(.horizontal, Constants.navbarHStackPadding)
-                
-                VStack {
-                    Text(magazine.title)
-                        .font(.newYorkBold(size: Constants.navbarTitleSize))
-                        .truncationMode(.tail)
-                    
-                    Text(Constants.navbarSubtitle)
-                        .font(.helveticaRegular(size: Constants.navbarSubtitleSize))
-                        .foregroundColor(.volume.lightGray)
-                }
-                .padding(.horizontal, Constants.navbarVStackPadding)
-            }
-            .background(Color.white)
-            .frame(height: Constants.navbarHeight)
-    }
-        
-        private var toolbar: some View {
-            HStack(spacing: 0) {
-                NavigationLink(destination: PublicationDetail(navigationSource: navigationSource, publication: magazine.publication)) {
-                    
-                    if let imageUrl = magazine.publication.profileImageUrl {
-                        WebImage(url: imageUrl)
-                            .grayBackground()
-                            .resizable()
-                            .clipShape(Circle())
-                            .frame(width: Constants.toolbarPubImageW, height: Constants.toolbarPubImageH)
-                    } else {
-                        Circle()
-                            .fill(.gray)
-                            .frame(width: Constants.toolbarPubImageW, height: Constants.toolbarPubImageH)
-                    }
-                    
-                    Spacer()
-                        .frame(width: Constants.toolbarLeftBorderPadding)
-                    
-                    Text("See more")
-                        .font(.helveticaRegular(size: 12))
+                        .frame(height: Constants.navbarLeftComponentHeight)
                         .foregroundColor(.black)
                 }
+
                 Spacer()
-                Group {
-                    Button(action: {
-                        bookmarkRequestInProgress = true
-                        userData.toggleMagazineSaved(magazine, $bookmarkRequestInProgress)
-                    }, label: {
-                        Image(systemName: userData.isMagazineSaved(magazine) ? "bookmark.fill" : "bookmark")
-                            .font(Font.system(size: 18, weight: .semibold))
-                            .foregroundColor(.volume.orange)
-                    })
-                    .disabled(bookmarkRequestInProgress)
-                    
-                    Spacer()
-                        .frame(width: Constants.toolbarRightComponentsPadding)
-                    
-                    Button {
-                        displayShareScreen(for: magazine)
-                    } label: {
-                        Image(systemName: "square.and.arrow.up.on.square")
-                            .font(Font.system(size: 16, weight: .semibold))
-                            .foregroundColor(.volume.orange)
-                    }
-                    
-                    Spacer()
-                        .frame(width: Constants.toolbarRightComponentsPadding)
-                    
-                    Button {
-                        incrementShoutouts(for: magazine)
-                    } label: {
-                        Image.volume.shoutout
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 24)
-                            .foregroundColor(.volume.orange)
-                            .foregroundColor(isShoutoutsButtonEnabled ? .volume.orange : .gray)
-                    }
-                    .disabled(!isShoutoutsButtonEnabled)
-                    
-                    Spacer()
-                        .frame(width: Constants.toolbarRightBorderPadding)
-                    
-                    Text(String(max(magazine.shoutouts, userData.magazineShoutoutsCache[magazine.id, default: 0])))
-                        .font(.helveticaRegular(size: Constants.toolbarShoutoutsFontSize))
-                }
+
+                Image.volume.menu
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: Constants.navbarRightComponentHeight)
+                    .foregroundColor(.volume.lightGray)
             }
-            .padding([.leading, .trailing], 16)
-            .padding([.top, .bottom], 8)
-            .background(Color.white)
-        }
-        
-        var body: some View {
-            ZStack {
-                VStack(spacing: 0) {
-                    
-                    Spacer()
-                        .frame(height: Constants.navbarHeight)
-                    
-                    if let pdfDoc = PDFDocument(url: magazineUrl) {
-                        PDFKitView(pdfDoc: pdfDoc)
-                    } else {
-                        PDFKitView(pdfDoc: PDFDocument())
-                    }
-                    
-                    toolbar
-                }
-                
-                VStack(spacing: 0) {
-                    navbar
-                    
-                    Spacer()
-                }
+            .padding(.horizontal, Constants.navbarHStackPadding)
+
+            VStack {
+                Text(magazine?.title ?? "Loading magazine...")
+                    .font(.newYorkBold(size: Constants.navbarTitleSize))
+                    .truncationMode(.tail)
+
+                Text(Constants.navbarSubtitle)
+                    .font(.helveticaRegular(size: Constants.navbarSubtitleSize))
+                    .foregroundColor(.volume.lightGray)
             }
-            .navigationBarHidden(true)
-            .navigationBarBackButtonHidden(true)
+            .padding(.horizontal, Constants.navbarVStackPadding)
         }
-    
-    // MARK: Actions
-    private func incrementShoutouts(for magazine: Magazine) {
-        guard let uuid = userData.uuid else { return }
-        userData.incrementMagazineShoutoutsCounter(magazine)
-        let currentMagazineShoutouts = max(userData.magazineShoutoutsCache[magazine.id, default: 0], magazine.shoutouts)
-        userData.magazineShoutoutsCache[magazine.id, default: 0] = currentMagazineShoutouts + 1
-        let currentPublicationShoutouts = max(userData.shoutoutsCache[magazine.publication.slug, default: 0], magazine.publication.shoutouts)
-        userData.shoutoutsCache[magazine.publication.slug, default: 0] = currentPublicationShoutouts + 1
-        
-        cancellableShoutoutMutation = Network.shared.publisher(for: IncrementMagazineShoutoutsMutation(id: magazine.id, uuid: uuid))
-            .sink(receiveCompletion: { completion in
-                if case let .failure(error) = completion {
-                    print("Error: IncrementMagazineShoutoutsMutation failed on MagazineReaderView: \(error.localizedDescription)")
-                }
-            }, receiveValue: { _ in })
+        .background(Color.white)
+        .frame(height: Constants.navbarHeight)
     }
-    
-    func displayShareScreen(for magazine: Magazine) {
-        let rawString = Secrets.openArticleUrl + magazine.id
-        if let shareMagazineUrl = URL(string: rawString) {
-            let linkSource = LinkItemSource(url: shareMagazineUrl, magazine: magazine)
-            let shareVC = UIActivityViewController(activityItems: [linkSource], applicationActivities: nil)
-            UIApplication.shared.windows.first?.rootViewController?.present(shareVC, animated: true)
+
+    var body: some View {
+        ZStack {
+            VStack(spacing: 0) {
+
+                Spacer()
+                    .frame(height: Constants.navbarHeight)
+
+                if let pdfDoc = magazine?.pdfDoc {
+                    PDFKitView(pdfDoc: pdfDoc)
+                } else {
+                    PDFKitView(pdfDoc: PDFDocument())
+                }
+
+                ReaderToolbarView(content: magazine, navigationSource: navigationSource)
+            }
+
+            VStack(spacing: 0) {
+                navbar
+
+                Spacer()
+            }
+        }
+        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
+        .onAppear {
+            switch initType {
+            case .fetchRequired(let magazineId):
+                fetchMagazineById(magazineId)
+            case .readyForDisplay(let magazine):
+                self.magazine = magazine
+            }
         }
     }
-    
 }
-    
-    extension MagazineReaderView {
-        private enum MagazineReaderViewState<Results> {
-            case loading, results(Results)
-        }
+
+extension MagazineReaderView {
+    private enum MagazineReaderViewState<Results> {
+        case loading, results(Results)
     }
+}
