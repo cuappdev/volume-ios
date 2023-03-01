@@ -64,6 +64,7 @@ enum NavigationSource: String {
     case followingArticles = "following_articles"
     case otherArticles = "other_articles"
     case publicationDetail = "publication_detail"
+    case searchArticles = "search_articles"
     case trendingArticles = "trending_articles"
     case pushNotification = "push_notification"
     case weeklyDebrief = "weekly_debrief"

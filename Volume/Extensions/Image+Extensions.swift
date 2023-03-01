@@ -30,11 +30,13 @@ extension Image {
         let pen = Image("pen")
         let period = Image("period")
         let rightArrow = Image("right-arrow")
+        let searchIcon = Image("search-icon")
         let settings = Image("settings")
         let share = Image("share")
         let shared = Image("shared")
         let shoutout = Image("shout-out")
         let underline = Image("underline")
         let weeklyDebriefCurves = Image("weekly-debrief-curves")
+        let xIcon = Image("x-icon")
     }
 }
