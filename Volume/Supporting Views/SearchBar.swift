@@ -68,7 +68,7 @@ struct SearchBar: View {
                 }
                 .onSubmit {
                     if hasSearchText {
-                        userData.updateRecentSearchQueries(searchText)
+                        userData.addRecentSearchQueries(searchText)
                         showingCursor = false
                         searchState = .results
                     }

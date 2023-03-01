@@ -189,7 +189,7 @@ class UserData: ObservableObject {
         magazineShoutoutsCounter[magazine.id, default: 0] += 1
     }
     
-    func updateRecentSearchQueries(_ query: String) {
+    func addRecentSearchQueries(_ query: String) {
         recentSearchQueries = recentSearchQueries.filter { $0 != query }
         recentSearchQueries.insert(query, at: 0)
         if recentSearchQueries.count > 5 { recentSearchQueries.removeLast() }

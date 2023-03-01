@@ -17,7 +17,9 @@ struct HiddenNavigationBar: ViewModifier {
 }
 
 extension View {
+    
     func hiddenNavigationBarStyle() -> some View {
         modifier( HiddenNavigationBar() )
     }
+    
 }

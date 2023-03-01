@@ -36,7 +36,7 @@ struct SearchDropdownView: View {
                         .font(.helveticaNeueMedium(size: Constants.searchQueryTextSize))
                         .onTapGesture {
                             withAnimation(.linear(duration: Constants.animationDuration)) {
-                                userData.updateRecentSearchQueries(query)
+                                userData.addRecentSearchQueries(query)
                                 searchText = query
                                 searchState = .results
                             }

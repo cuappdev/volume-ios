@@ -44,7 +44,9 @@ struct SearchView: View {
 }
 
 extension SearchView {
+    
     enum SearchState {
         case searching, results
     }
+    
 }
