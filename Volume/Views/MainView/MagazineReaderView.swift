@@ -9,11 +9,12 @@
 import AppDevAnalytics
 import Combine
 import LinkPresentation
-import PDFKit
 import SDWebImageSwiftUI
 import SwiftUI
+import PDFKit
 
 struct MagazineReaderView: View {
+    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject private var networkState: NetworkState
 
@@ -22,6 +23,9 @@ struct MagazineReaderView: View {
 
     @State private var magazine: Magazine?
     @State private var queryBag = Set<AnyCancellable>()
+    
+    let pdfView = PDFViewUnselectable(frame: CGRect(origin: .zero, size: Constants.pdfViewSize))
+    @State private var showScrollbar: Bool = false
 
     private struct Constants {
         static let navbarOpacity: CGFloat = 0.2
@@ -42,8 +46,11 @@ struct MagazineReaderView: View {
         static let toolbarLeftBorderPadding: CGFloat = 7
         static let toolbarRightBorderPadding: CGFloat = 6
         static let toolbarShoutoutsFontSize: CGFloat = 12
+        
+        static let pdfViewSize = CGSize(width: 150, height: 220)
+        static let scrollbarHeight: CGFloat = 45
     }
-
+    
     // MARK: Data
 
     private func fetchMagazineById(_ magazineId: String) {
@@ -56,6 +63,12 @@ struct MagazineReaderView: View {
         } receiveValue: { magazineFields in
             Task {
                 magazine = await Magazine(from: magazineFields)
+                
+                if let pdfDoc = magazine?.pdfDoc {
+                    pdfView.document = pdfDoc
+                } else {
+                    pdfView.document = PDFDocument()
+                }
             }
         }
         .store(in: &queryBag)
@@ -81,12 +94,16 @@ struct MagazineReaderView: View {
                 }
 
                 Spacer()
-
+                
                 Image.volume.menu
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(height: Constants.navbarRightComponentHeight)
                     .foregroundColor(.volume.lightGray)
+                    .onTapGesture {
+                        showScrollbar.toggle()
+                    }
+                
             }
             .padding(.horizontal, Constants.navbarHStackPadding)
 
@@ -108,24 +125,31 @@ struct MagazineReaderView: View {
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
-
                 Spacer()
                     .frame(height: Constants.navbarHeight)
-
+                
                 if let pdfDoc = magazine?.pdfDoc {
-                    PDFKitView(pdfDoc: pdfDoc)
+                    PDFKitView(pdfView: pdfView, pdfDoc: pdfDoc)
                 } else {
-                    PDFKitView(pdfDoc: PDFDocument())
+                    PDFKitView(pdfView: pdfView, pdfDoc: PDFDocument())
                 }
-
+                
+                if showScrollbar {
+                    MagsScrollbarView(pdfView: pdfView)
+                        .frame(height: Constants.scrollbarHeight)
+                        .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
+                        .zIndex(1)
+                }
+                
                 ReaderToolbarView(content: magazine, navigationSource: navigationSource)
             }
 
             VStack(spacing: 0) {
                 navbar
-
+                
                 Spacer()
             }
+            
         }
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)

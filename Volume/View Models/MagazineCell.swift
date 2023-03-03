@@ -15,7 +15,7 @@ struct MagazineCell: View {
     @EnvironmentObject private var userData: UserData
 
     let magazine: Magazine
-
+    
     private struct Constants {
         static let pdfviewWidth: CGFloat = 150
         static let pdfviewHeight: CGFloat = 220
@@ -38,9 +38,9 @@ struct MagazineCell: View {
         VStack(alignment: .leading) {
             Group {
                 if let pdfDoc = magazine.pdfDoc {
-                    PDFKitView(pdfDoc: pdfDoc, isCover: true)
+                    PDFKitView(pdfView: PDFViewUnselectable(), pdfDoc: pdfDoc, isCover: true)
                 } else {
-                    PDFKitView(pdfDoc: PDFDocument(), isCover: true)
+                    PDFKitView(pdfView: PDFViewUnselectable(), pdfDoc: PDFDocument(), isCover: true)
                 }
             }
             .frame(width: Constants.pdfviewWidth, height: Constants.pdfviewHeight)

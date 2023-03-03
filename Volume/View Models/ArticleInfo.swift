@@ -29,7 +29,7 @@ struct ArticleInfo: View {
                     .font(.helveticaNeueMedium(size: isDebrief ? 24 : 16))
                     .lineLimit(3)
                     .padding(.top, 0.5)
-                    .blur(radius: article.isNsfw ? 3 : 0)
+//                    .blur(radius: article.isNsfw ? 3 : 0) Remove NSFW Blur
                     .multilineTextAlignment(.leading)
 
                 Spacer()

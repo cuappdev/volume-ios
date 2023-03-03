@@ -11,28 +11,33 @@ import SwiftUI
 import PDFKit
 
 struct PDFKitView: UIViewRepresentable {
-    
+
+    let pdfView: PDFViewUnselectable
     let pdfDoc: PDFDocument
     var isCover = false
-
+    
     func makeUIView(context: Context) -> PDFViewUnselectable {
-        let pdfView = PDFViewUnselectable(frame: CGRect(origin: .zero, size: CGSize(width: 150, height: 220)))
         pdfView.document = pdfDoc
         pdfView.autoScales = true
         pdfView.usePageViewController(true)
         pdfView.displayDirection = isCover ? .vertical : .horizontal
         pdfView.displaysAsBook = true
         pdfView.displaysPageBreaks = false
-
+        pdfView.displayMode = .singlePage
+                
+        let scrollView = pdfView.subviews.first?.subviews.first as? UIScrollView
+        scrollView?.showsVerticalScrollIndicator = false
+        scrollView?.showsHorizontalScrollIndicator = false
+        
         return pdfView
     }
-
+    
     func updateUIView(_ pdfView: PDFViewUnselectable, context: Context) {
         pdfView.document = pdfDoc
     }
 }
 
-class PDFViewUnselectable: PDFView {
+class PDFViewUnselectable: PDFView, ObservableObject {
 
     /// prevent users from copy+pasting content from PDF documents
     override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {

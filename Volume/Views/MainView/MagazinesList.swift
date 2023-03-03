@@ -55,7 +55,7 @@ struct MagazinesList: View {
     private func fetchMagazineSemesters() {
         // TODO: replace logic when backend implements Publication.getMagazineSemesters
         Network.shared.publisher(
-            for: GetAllMagazineSemestersQuery(limit: 100)
+            for: GetAllMagazineSemestersQuery(limit: 100)   // 100 is good for now
         )
         .map { $0.magazines.map(\.semester) }
         .sink { completion in

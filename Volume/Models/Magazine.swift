@@ -7,10 +7,11 @@
 //
 
 import Foundation
-import PDFKit
 import SwiftUI
+import PDFKit
 
 struct Magazine: ReadableContent {
+    
     let id: String
     let date: Date
     let isNSFW: Bool
@@ -34,7 +35,7 @@ struct Magazine: ReadableContent {
             pdfDoc = await fetchPDF(url: pdfUrl)
         }
     }
-
+    
     private func fetchPDF(url: URL) async -> PDFDocument? {
         await withCheckedContinuation { continuation in
             Task {
@@ -43,6 +44,7 @@ struct Magazine: ReadableContent {
             }
         }
     }
+    
 }
 
 extension Array where Element == Magazine {
