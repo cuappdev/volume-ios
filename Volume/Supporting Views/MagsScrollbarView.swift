@@ -33,6 +33,6 @@ extension MagsScrollbarView {
     private struct Constants {
         static let thumbnailWidth: CGFloat = 20
         static let thumbnailHeight: CGFloat = 40
-        static let scrollbarColor: UIColor = .lightGray
+        static let scrollbarColor: UIColor = UIColor(Color(white: 0.93))
     }
 }

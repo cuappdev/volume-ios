@@ -38,7 +38,7 @@ struct PDFKitView: UIViewRepresentable {
 }
 
 class PDFViewUnselectable: PDFView, ObservableObject {
-
+    
     /// prevent users from copy+pasting content from PDF documents
     override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
         return false
