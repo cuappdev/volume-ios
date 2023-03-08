@@ -123,6 +123,13 @@ struct MagazineReaderView: View {
 
                 if let pdfDoc = magazine?.pdfDoc {
                     PDFKitView(pdfView: pdfView, pdfDoc: pdfDoc)
+                        .overlay(showScrollbar
+                                 ? PageIndicatorView(
+                                        totalPage: pdfDoc.pageCount,
+                                        pdfView: pdfView
+                                    ).padding([.top, .trailing])
+                                 : nil
+                                 ,alignment: .topTrailing)
                 } else {
                     PDFKitView(pdfView: pdfView, pdfDoc: PDFDocument())
                 }
@@ -152,6 +159,9 @@ struct MagazineReaderView: View {
             case .readyForDisplay(let magazine):
                 self.magazine = magazine
             }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name.PDFViewPageChanged)) { _ in
+            pdfView.objectWillChange.send()
         }
     }
 }
