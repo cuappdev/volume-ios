@@ -124,12 +124,9 @@ struct MagazineReaderView: View {
                 if let pdfDoc = magazine?.pdfDoc {
                     PDFKitView(pdfView: pdfView, pdfDoc: pdfDoc)
                         .overlay(showScrollbar
-                                 ? PageIndicatorView(
-                                        totalPage: pdfDoc.pageCount,
-                                        pdfView: pdfView
-                                    ).padding([.top, .trailing])
-                                 : nil
-                                 ,alignment: .topTrailing)
+                                 ? PageIndicatorView(totalPage: pdfDoc.pageCount, pdfView: pdfView).padding([.top, .trailing])
+                                 : nil,
+                                 alignment: .topTrailing)
                 } else {
                     PDFKitView(pdfView: pdfView, pdfDoc: PDFDocument())
                 }

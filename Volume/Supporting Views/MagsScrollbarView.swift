@@ -25,6 +25,7 @@ struct MagsScrollbarView: UIViewRepresentable {
     func updateUIView(_ pdfThumbnailView: PDFThumbnailView, context: Context) {
         pdfThumbnailView.pdfView = pdfView
     }
+    
 }
 
 // MARK: - Constants
@@ -35,4 +36,5 @@ extension MagsScrollbarView {
         static let thumbnailHeight: CGFloat = 40
         static let scrollbarColor: UIColor = UIColor(Color(white: 0.93))
     }
+    
 }

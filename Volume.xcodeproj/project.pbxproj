@@ -222,7 +222,6 @@
 				060FFDDA2577EC800052F3EA /* FollowView.swift */,
 				060FFDDB2577EC800052F3EA /* OnboardingView.swift */,
 				060FFDD92577EC800052F3EA /* WelcomeView.swift */,
-				3360B9D62926129100A923A6 /* PublicationDetail */,
 			);
 			name = Onboarding;
 			path = Volume/Views/Onboarding;
@@ -319,6 +318,7 @@
 		7E23DFDC254A0FEA0001C3A3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3360B9D62926129100A923A6 /* PublicationDetail */,
 				7EA0BB4F2624DF7C00A1652E /* AboutUsView.swift */,
 				0685AA9D259EA84900DD55C4 /* BrowserView.swift */,
 				7ED7C33A252D117A0078B1BD /* ContentView.swift */,
