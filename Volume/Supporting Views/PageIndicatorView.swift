@@ -25,7 +25,7 @@ struct PageIndicatorView: View {
                     .cornerRadius(Constants.indicatorCorner)
                     .blur(radius: 0.5)
 
-                Label(String(currentPage) + " of " + String(totalPage), systemImage: "")
+                Label("\(currentPage) of \(totalPage)", systemImage: "")
                     .labelStyle(.titleOnly)
                     .font(.newYorkMedium(size: 12))
             }
