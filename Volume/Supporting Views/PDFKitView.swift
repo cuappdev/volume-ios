@@ -12,7 +12,7 @@ import PDFKit
 
 struct PDFKitView: UIViewRepresentable {
     
-    let pdfView: PDFViewUnselectable
+    @ObservedObject var pdfView: PDFViewUnselectable
     let pdfDoc: PDFDocument
     var isCover = false
 

@@ -23,7 +23,7 @@ struct MagazineReaderView: View {
     @State private var magazine: Magazine?
     @State private var queryBag = Set<AnyCancellable>()
     
-    let pdfView = PDFViewUnselectable(frame: CGRect(origin: .zero, size: Constants.pdfViewSize))
+    @StateObject var pdfView = PDFViewUnselectable(frame: CGRect(origin: .zero, size: Constants.pdfViewSize))
     @State private var showScrollbar: Bool = false
 
     private struct Constants {

@@ -11,7 +11,7 @@ import SwiftUI
 struct PageIndicatorView: View {
 
     let totalPage: Int
-    @StateObject var pdfView: PDFViewUnselectable
+    @ObservedObject var pdfView: PDFViewUnselectable
 
     var body: some View {
         ZStack {

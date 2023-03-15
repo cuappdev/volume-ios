@@ -26,10 +26,7 @@ struct HomeView: View {
     var body: some View {
         ZStack {
             background.edgesIgnoringSafeArea(.all)
-            VStack(spacing: 0) {
-                searchBar
-                listContent
-            }
+            listContent
             .toolbar {
                 ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
                     Image.volume.logo.foregroundColor(.red)
@@ -55,6 +52,7 @@ struct HomeView: View {
     private var listContent: some View {
         List {
             Group {
+                searchBar
                 trendingArticlesSection
                 weeklyDebriefButton
                 followedArticlesSection
@@ -64,6 +62,8 @@ struct HomeView: View {
             .listRowSeparator(.hidden)
             .listRowInsets(EdgeInsets(top: 0, leading: Constants.listHorizontalPadding, bottom: 0, trailing: Constants.listHorizontalPadding))
             .listRowBackground(Color.clear)
+            
+            Spacer(minLength: Constants.searchBarTopOffset)
         }
         .navigationBarTitleDisplayMode(.inline)
         .listStyle(.grouped)
@@ -73,19 +73,19 @@ struct HomeView: View {
         .modifier(ListBackgroundModifier())
         .background(background)
         .disabled(viewModel.disableScrolling)
+        .offset(x:0, y: -Constants.searchBarTopOffset).edgesIgnoringSafeArea(.bottom)
     }
 
     // MARK: Sections
     
     private var searchBar: some View {
-        NavigationLink {
-            SearchView()
-        } label: {
-            SearchBar(searchState: $viewModel.searchState, searchText: $viewModel.searchText)
-                .disabled(true)
-                .padding(EdgeInsets(top: Constants.navBarVerticalPadding, leading: Constants.listHorizontalPadding, bottom: Constants.rowVerticalPadding,
-                    trailing: Constants.listHorizontalPadding))
-        }
+        SearchBar(searchState: $viewModel.searchState, searchText: $viewModel.searchText)
+            .disabled(true)
+            .padding(EdgeInsets(top: Constants.rowVerticalPadding, leading: 0, bottom: Constants.rowVerticalPadding,
+                trailing: 0))
+            .overlay(NavigationLink(destination: SearchView(), label: {
+                EmptyView()
+            }).opacity(0))
     }
 
     private var trendingArticlesSection: some View {
@@ -236,6 +236,7 @@ struct HomeView: View {
 
 extension HomeView {
     private struct Constants {
+        static let searchBarTopOffset: CGFloat = 25
         static let listHorizontalPadding: CGFloat = 16
         static let navBarVerticalPadding: CGFloat = 10
         static let rowVerticalPadding: CGFloat = 6
