@@ -22,6 +22,9 @@ struct MagazineReaderView: View {
 
     @State private var magazine: Magazine?
     @State private var queryBag = Set<AnyCancellable>()
+    
+    @StateObject var pdfView = PDFViewUnselectable(frame: CGRect(origin: .zero, size: Constants.pdfViewSize))
+    @State private var showScrollbar: Bool = false
 
     private struct Constants {
         static let navbarOpacity: CGFloat = 0.2
@@ -42,6 +45,9 @@ struct MagazineReaderView: View {
         static let toolbarLeftBorderPadding: CGFloat = 7
         static let toolbarRightBorderPadding: CGFloat = 6
         static let toolbarShoutoutsFontSize: CGFloat = 12
+        
+        static let pdfViewSize = CGSize(width: 150, height: 220)
+        static let scrollbarHeight: CGFloat = 45
     }
 
     // MARK: Data
@@ -87,6 +93,9 @@ struct MagazineReaderView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(height: Constants.navbarRightComponentHeight)
                     .foregroundColor(.volume.lightGray)
+                    .onTapGesture {
+                        showScrollbar.toggle()
+                    }
             }
             .padding(.horizontal, Constants.navbarHStackPadding)
 
@@ -113,12 +122,25 @@ struct MagazineReaderView: View {
                     .frame(height: Constants.navbarHeight)
 
                 if let pdfDoc = magazine?.pdfDoc {
-                    PDFKitView(pdfDoc: pdfDoc)
+                    PDFKitView(pdfView: pdfView, pdfDoc: pdfDoc)
+                        .overlay(showScrollbar
+                                 ? PageIndicatorView(totalPage: pdfDoc.pageCount, pdfView: pdfView).padding([.top, .trailing])
+                                 : nil,
+                                 alignment: .topTrailing)
                 } else {
-                    PDFKitView(pdfDoc: PDFDocument())
+                    Label("Unable to retrieve magazine", systemImage: "")
+                        .labelStyle(.titleOnly)
+                    PDFKitView(pdfView: pdfView, pdfDoc: PDFDocument())
+                }
+                
+                if showScrollbar {
+                    MagsScrollbarView(pdfView: pdfView)
+                        .frame(height: Constants.scrollbarHeight)
+                        .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
+                        .zIndex(1)
                 }
 
-                ReaderToolbarView(content: magazine, navigationSource: navigationSource)
+                ReaderToolbarView(content: magazine, navigationSource: .magazineDetail)
             }
 
             VStack(spacing: 0) {
@@ -136,6 +158,9 @@ struct MagazineReaderView: View {
             case .readyForDisplay(let magazine):
                 self.magazine = magazine
             }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name.PDFViewPageChanged)) { _ in
+            pdfView.objectWillChange.send()
         }
     }
 }

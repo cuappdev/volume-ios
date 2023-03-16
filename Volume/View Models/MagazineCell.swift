@@ -37,11 +37,7 @@ struct MagazineCell: View {
     var body: some View {
         VStack(alignment: .leading) {
             Group {
-                if let pdfDoc = magazine.pdfDoc {
-                    PDFKitView(pdfDoc: pdfDoc, isCover: true)
-                } else {
-                    PDFKitView(pdfDoc: PDFDocument(), isCover: true)
-                }
+                PDFKitView(pdfView: PDFViewUnselectable(), pdfDoc: magazine.pdfDoc ?? PDFDocument(), isCover: true)
             }
             .frame(width: Constants.pdfviewWidth, height: Constants.pdfviewHeight)
             .scaledToFill()

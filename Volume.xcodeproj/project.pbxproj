@@ -22,6 +22,8 @@
 		06B80D13257DC18600F3BF9B /* WebImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B80D12257DC18600F3BF9B /* WebImage+Extension.swift */; };
 		06DBC684257DE35F00B6A453 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DBC683257DE35F00B6A453 /* UserData.swift */; };
 		06EC2D24259CED0500FE0A71 /* PublicationDetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EC2D23259CED0500FE0A71 /* PublicationDetailHeader.swift */; };
+		2EB5568829B9485700794423 /* MagsScrollbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB5568729B9485700794423 /* MagsScrollbarView.swift */; };
+		2EB5568C29B94A5600794423 /* PageIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB5568B29B94A5600794423 /* PageIndicatorView.swift */; };
 		331159CD27D26773003B0F06 /* MagazinesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331159CC27D26773003B0F06 /* MagazinesList.swift */; };
 		331159D727D41C89003B0F06 /* Image+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331159D627D41C89003B0F06 /* Image+Extensions.swift */; };
 		3334F4A02705269800CF0987 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3334F49F2705269800CF0987 /* AppDelegate.swift */; };
@@ -118,6 +120,8 @@
 		06B80D12257DC18600F3BF9B /* WebImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebImage+Extension.swift"; sourceTree = "<group>"; };
 		06DBC683257DE35F00B6A453 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		06EC2D23259CED0500FE0A71 /* PublicationDetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicationDetailHeader.swift; sourceTree = "<group>"; };
+		2EB5568729B9485700794423 /* MagsScrollbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagsScrollbarView.swift; sourceTree = "<group>"; };
+		2EB5568B29B94A5600794423 /* PageIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicatorView.swift; sourceTree = "<group>"; };
 		2ED344C7F76751CD56407579 /* Pods-Volume.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Volume.debug.xcconfig"; path = "Target Support Files/Pods-Volume/Pods-Volume.debug.xcconfig"; sourceTree = "<group>"; };
 		331159CC27D26773003B0F06 /* MagazinesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazinesList.swift; sourceTree = "<group>"; };
 		331159D627D41C89003B0F06 /* Image+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extensions.swift"; sourceTree = "<group>"; };
@@ -218,7 +222,6 @@
 				060FFDDA2577EC800052F3EA /* FollowView.swift */,
 				060FFDDB2577EC800052F3EA /* OnboardingView.swift */,
 				060FFDD92577EC800052F3EA /* WelcomeView.swift */,
-				3360B9D62926129100A923A6 /* PublicationDetail */,
 			);
 			name = Onboarding;
 			path = Volume/Views/Onboarding;
@@ -315,6 +318,7 @@
 		7E23DFDC254A0FEA0001C3A3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3360B9D62926129100A923A6 /* PublicationDetail */,
 				7EA0BB4F2624DF7C00A1652E /* AboutUsView.swift */,
 				0685AA9D259EA84900DD55C4 /* BrowserView.swift */,
 				7ED7C33A252D117A0078B1BD /* ContentView.swift */,
@@ -372,7 +376,6 @@
 			children = (
 				060B738A256340580035E252 /* BubblePeriodText.swift */,
 				7E416C312561D7870010D70B /* Header.swift */,
-				BC72AEB72920519900209573 /* PDFKitView.swift */,
 				3392D71B2937BF4E005165F6 /* ReaderToolbarView.swift */,
 				3375EC042937F7C9005A046F /* SemesterMenuView.swift */,
 				7E49582C2612BD740015BE45 /* RefreshableScrollView.swift */,
@@ -389,6 +392,8 @@
 				922FE3022931C78B00E14911 /* SearchResultsList.swift */,
 				922FE30A29341A5400E14911 /* SearchTabBar.swift */,
 				922FE3062931D07100E14911 /* SearchView.swift */,
+				2EB5568729B9485700794423 /* MagsScrollbarView.swift */,
+				2EB5568B29B94A5600794423 /* PageIndicatorView.swift */,
 			);
 			path = "Supporting Views";
 			sourceTree = "<group>";
@@ -643,6 +648,7 @@
 				3349BF6F290DC1E900B0FD3A /* WeeklyDebriefButton.swift in Sources */,
 				061233A12553127C0025F7E0 /* UnderlinedText.swift in Sources */,
 				7E9E4719262808AC007E8E6C /* SettingsPageRow.swift in Sources */,
+				2EB5568C29B94A5600794423 /* PageIndicatorView.swift in Sources */,
 				7E9E473226294423007E8E6C /* Constants.swift in Sources */,
 				06DBC684257DE35F00B6A453 /* UserData.swift in Sources */,
 				A2A4CB1C27D5276D00774C70 /* Magazine.swift in Sources */,
@@ -661,6 +667,7 @@
 				502E3EA32757D3C6005DA441 /* WeeklyDebriefView.swift in Sources */,
 				7ED7C33B252D117A0078B1BD /* ContentView.swift in Sources */,
 				06EC2D24259CED0500FE0A71 /* PublicationDetailHeader.swift in Sources */,
+				2EB5568829B9485700794423 /* MagsScrollbarView.swift in Sources */,
 				331159CD27D26773003B0F06 /* MagazinesList.swift in Sources */,
 				95A79FB42622255D00CADF88 /* TabContainer.swift in Sources */,
 				33913A0C27D89E0A00C5718D /* TabBarReader.swift in Sources */,
