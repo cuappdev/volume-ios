@@ -2,23 +2,24 @@
 //  MagazinesList.swift
 //  Volume
 //
-//  Created by Hanzheng Li on 3/4/22.
-//  Copyright © 2022 Cornell AppDev. All rights reserved.
+//  Created by Vin Bui on 3/18/23.
+//  Copyright © 2023 Cornell AppDev. All rights reserved.
 //
 
-import Combine
 import SwiftUI
+import Combine
 
 struct MagazinesList: View {
     
     @EnvironmentObject private var networkState: NetworkState
     @StateObject private var viewModel = ViewModel()
     
+    // MARK: - Constants
     private struct Constants {
         static let navigationTitleKey = "MagazineReaderView"
     }
 
-    // MARK: UI
+    // MARK: - UI
     private var featureMagazinesSection: some View {
         Group {
             Header("Featured")

@@ -26,7 +26,7 @@ extension MagazinesList {
         private var offset: Double = 0
 
         private struct Constants {
-            static let allMagazinesLimit: Double = 5
+            static let allMagazinesLimit: Double = 15
             static let featuredMagazinesLimit: Double = 7
             static let animationDuration = 0.1
         }
