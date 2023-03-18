@@ -13,6 +13,12 @@ fragment magazineFields on Magazine {
 
 # MARK: - Mag Page
 
+query GetAllMagazines($limit: Float!, $offset: Float!) {
+  magazines: getAllMagazines(limit: $limit, offset: $offset) {
+    ...magazineFields
+  }
+}
+
 query GetAllMagazineSemesters($limit: Float!) {
   magazines: getAllMagazines(limit: $limit) {
     semester

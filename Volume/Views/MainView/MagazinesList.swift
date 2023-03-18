@@ -18,8 +18,12 @@ struct MagazinesList: View {
     @State private var selectedSemester: String?
     @State private var allSemesters: [String]? = nil
     @State private var queryBag = Set<AnyCancellable>()
+    
+    private var numMagsLoaded: Double = 0
+    private var offset: Double = 0
 
     private struct Constants {
+        static let allMagazinesLimit: Double = 5
         static let featuredMagazinesLimit: Double = 7
         static let animationDuration = 0.1
         static let navigationTitleKey = "MagazineReaderView"
@@ -63,11 +67,11 @@ struct MagazinesList: View {
         } receiveValue: { semesters in
             allSemesters = Array(Set(semesters))
                 .sorted(by: compareSemesters)
-
-            if let currentSemester = allSemesters?.last {
-                selectedSemester = currentSemester
-                fetchMagazinesBySemester(currentSemester)
-            }
+            
+            allSemesters?.reverse()
+            allSemesters?.insert("all", at: 0)
+            selectedSemester = "all"
+            fetchAllMagazines()
         }
         .store(in: &queryBag)
     }
@@ -86,6 +90,24 @@ struct MagazinesList: View {
                 let magazinesBySemester = await [Magazine](magazineFields)
                 withAnimation(.linear(duration: 0.1)) {
                     sectionStates.magazinesBySemester = .results(magazinesBySemester)
+                }
+            }
+        }
+    }
+    
+    private func fetchAllMagazines() {
+        sectionStates.magazinesBySemester = .loading
+        sectionQueries.magazinesBySemester = Network.shared.publisher(
+            for: GetAllMagazinesQuery(limit: Constants.allMagazinesLimit, offset: offset)
+        )
+        .map { $0.magazines.map(\.fragments.magazineFields) }
+        .sink { completion in
+            networkState.handleCompletion(screen: .magazines, completion)
+        } receiveValue: { magazineFields in
+            Task {
+                let allMagazines = await [Magazine](magazineFields)
+                withAnimation(.linear(duration: 0.1)) {
+                    sectionStates.magazinesBySemester = .results(allMagazines)
                 }
             }
         }
@@ -161,7 +183,10 @@ struct MagazinesList: View {
             .padding(.horizontal)
         }
         .onChange(of: selectedSemester) { newValue in
-            if let selectedSemester {
+            guard let selectedSemester = selectedSemester else { return }
+            if selectedSemester == "all" {
+                fetchAllMagazines()
+            } else {
                 fetchMagazinesBySemester(selectedSemester)
             }
         }

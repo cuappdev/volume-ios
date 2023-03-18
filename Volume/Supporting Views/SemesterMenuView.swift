@@ -11,7 +11,7 @@ import SwiftUI
 struct SemesterMenuView: View {
 
     @Binding var selection: String?
-    let options: [String]
+    var options: [String]
 
     var body: some View {
         Menu {
@@ -25,7 +25,7 @@ struct SemesterMenuView: View {
                 Text(Self.format(semesterString: selection ?? options.last ?? Constants.semesterPlaceholder))
                     .font(.helveticaNeueMedium(size: Constants.fontSize))
                     .fixedSize()
-
+                
                 Image("down-arrow")
                     .resizable()
                     .renderingMode(.template)
@@ -46,6 +46,8 @@ struct SemesterMenuView: View {
 extension SemesterMenuView {
 
     private static func format(semesterString: String) -> String {
+        if (semesterString == "all") { return "All semesters" }
+        
         let prefix = semesterString.prefix(2)
         let suffix = semesterString.suffix(2)
 
