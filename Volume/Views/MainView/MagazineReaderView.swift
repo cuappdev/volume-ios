@@ -128,9 +128,8 @@ struct MagazineReaderView: View {
                                  : nil,
                                  alignment: .topTrailing)
                 } else {
-                    Label("Unable to retrieve magazine", systemImage: "")
-                        .labelStyle(.titleOnly)
                     PDFKitView(pdfView: pdfView, pdfDoc: PDFDocument())
+                        .overlay(ProgressView())
                 }
                 
                 if showScrollbar {
