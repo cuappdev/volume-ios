@@ -10,111 +10,15 @@ import Combine
 import SwiftUI
 
 struct MagazinesList: View {
-    @EnvironmentObject private var networkState: NetworkState
-    @State private var deeplinkId: String?
-    @State private var openMagazineFromDeeplink = false
-    @State private var sectionQueries: SectionQueries = (nil, nil)
-    @State private var sectionStates: SectionStates = (.loading, .loading)
-    @State private var selectedSemester: String?
-    @State private var allSemesters: [String]? = nil
-    @State private var queryBag = Set<AnyCancellable>()
     
-    private var numMagsLoaded: Double = 0
-    private var offset: Double = 0
-
+    @EnvironmentObject private var networkState: NetworkState
+    @StateObject private var viewModel = ViewModel()
+    
     private struct Constants {
-        static let allMagazinesLimit: Double = 5
-        static let featuredMagazinesLimit: Double = 7
-        static let animationDuration = 0.1
         static let navigationTitleKey = "MagazineReaderView"
     }
 
-    // MARK: Requests
-
-    private func fetchContent(_ done: @escaping () -> Void = { }) {
-        guard sectionStates.featuredMagazines.isLoading || sectionStates.magazinesBySemester.isLoading else { return }
-        
-        fetchFeaturedMagazines(done)
-        fetchMagazineSemesters()
-    }
-    
-    private func fetchFeaturedMagazines(_ done: @escaping () -> Void = { }) {
-        sectionQueries.featuredMagazines = Network.shared.publisher(for: GetFeaturedMagazinesQuery(limit: Constants.featuredMagazinesLimit))
-            .compactMap {
-                $0.magazines?.map(\.fragments.magazineFields)
-            }
-            .sink { completion in
-                networkState.handleCompletion(screen: .magazines, completion)
-            } receiveValue: { magazineFields in
-                Task {
-                    let featuredMagazines = await [Magazine](magazineFields)
-                    withAnimation(.linear(duration: Constants.animationDuration)) {
-                        sectionStates.featuredMagazines = .results(featuredMagazines)
-                    }
-                    done()
-                }
-            }
-    }
-
-    private func fetchMagazineSemesters() {
-        // TODO: replace logic when backend implements Publication.getMagazineSemesters
-        Network.shared.publisher(
-            for: GetAllMagazineSemestersQuery(limit: 100)
-        )
-        .map { $0.magazines.map(\.semester) }
-        .sink { completion in
-            networkState.handleCompletion(screen: .magazines, completion)
-        } receiveValue: { semesters in
-            allSemesters = Array(Set(semesters))
-                .sorted(by: compareSemesters)
-            
-            allSemesters?.reverse()
-            allSemesters?.insert("all", at: 0)
-            selectedSemester = "all"
-            fetchAllMagazines()
-        }
-        .store(in: &queryBag)
-    }
-    
-    private func fetchMagazinesBySemester(_ semester: String) {
-        sectionStates.magazinesBySemester = .loading
-
-        sectionQueries.magazinesBySemester = Network.shared.publisher(
-            for: GetMagazinesBySemesterQuery(semester: semester)
-        )
-        .map { $0.magazines.map(\.fragments.magazineFields) }
-        .sink { completion in
-            networkState.handleCompletion(screen: .magazines, completion)
-        } receiveValue: { magazineFields in
-            Task {
-                let magazinesBySemester = await [Magazine](magazineFields)
-                withAnimation(.linear(duration: 0.1)) {
-                    sectionStates.magazinesBySemester = .results(magazinesBySemester)
-                }
-            }
-        }
-    }
-    
-    private func fetchAllMagazines() {
-        sectionStates.magazinesBySemester = .loading
-        sectionQueries.magazinesBySemester = Network.shared.publisher(
-            for: GetAllMagazinesQuery(limit: Constants.allMagazinesLimit, offset: offset)
-        )
-        .map { $0.magazines.map(\.fragments.magazineFields) }
-        .sink { completion in
-            networkState.handleCompletion(screen: .magazines, completion)
-        } receiveValue: { magazineFields in
-            Task {
-                let allMagazines = await [Magazine](magazineFields)
-                withAnimation(.linear(duration: 0.1)) {
-                    sectionStates.magazinesBySemester = .results(allMagazines)
-                }
-            }
-        }
-    }
-
     // MARK: UI
-    
     private var featureMagazinesSection: some View {
         Group {
             Header("Featured")
@@ -122,7 +26,7 @@ struct MagazinesList: View {
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 24) {
-                    switch sectionStates.featuredMagazines {
+                    switch viewModel.sectionStates.featuredMagazines {
                     case .loading, .reloading:
                         ForEach(0..<3) { _ in
                              MagazineCell.Skeleton()
@@ -149,10 +53,10 @@ struct MagazinesList: View {
                     .padding([.top, .horizontal])
 
                 Group {
-                    if let allSemesters {
+                    if let options = viewModel.allSemesters {
                         SemesterMenuView(
-                            selection: $selectedSemester,
-                            options: allSemesters
+                            selection: $viewModel.selectedSemester,
+                            options: options
                         )
                     } else {
                         SemesterMenuView.Skeleton()
@@ -164,7 +68,7 @@ struct MagazinesList: View {
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 24) {
-                    switch sectionStates.magazinesBySemester {
+                    switch viewModel.sectionStates.magazinesBySemester {
                     case .loading, .reloading:
                         ForEach(0..<3) { _ in
                              MagazineCell.Skeleton()
@@ -182,20 +86,20 @@ struct MagazinesList: View {
             }
             .padding(.horizontal)
         }
-        .onChange(of: selectedSemester) { newValue in
-            guard let selectedSemester = selectedSemester else { return }
+        .onChange(of: viewModel.selectedSemester) { newValue in
+            guard let selectedSemester = viewModel.selectedSemester else { return }
             if selectedSemester == "all" {
-                fetchAllMagazines()
+                viewModel.fetchAllMagazines()
             } else {
-                fetchMagazinesBySemester(selectedSemester)
+                viewModel.fetchMagazinesBySemester(selectedSemester)
             }
         }
     }
 
     private var deepNavigationLink: some View {
         Group {
-            if let magazineId = deeplinkId {
-                NavigationLink(Constants.navigationTitleKey, isActive: $openMagazineFromDeeplink) {
+            if let magazineId = viewModel.deeplinkId {
+                NavigationLink(Constants.navigationTitleKey, isActive: $viewModel.openMagazineFromDeeplink) {
                     MagazineReaderView(initType: .fetchRequired(magazineId), navigationSource: .moreMagazines)
                 }
                 .hidden()
@@ -212,13 +116,13 @@ struct MagazinesList: View {
     
     var body: some View {
         RefreshableScrollView { done in
-            if case let .results(magazines) = sectionStates.featuredMagazines {
-                sectionStates.featuredMagazines = .reloading(magazines)
+            if case let .results(magazines) = viewModel.sectionStates.featuredMagazines {
+                viewModel.sectionStates.featuredMagazines = .reloading(magazines)
             }
             
-            sectionStates.magazinesBySemester = .loading
+            viewModel.sectionStates.magazinesBySemester = .loading
             
-            fetchContent(done)
+            viewModel.fetchContent(done)
         } content: {
             VStack {
                 featureMagazinesSection
@@ -227,7 +131,7 @@ struct MagazinesList: View {
                 magazinesBySemesterSection
             }
         }
-        .disabled(sectionStates.featuredMagazines.isLoading)
+        .disabled(viewModel.sectionStates.featuredMagazines.isLoading)
         .padding(.top)
         .background(background)
         .toolbar {
@@ -239,68 +143,17 @@ struct MagazinesList: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            fetchContent()
+            viewModel.networkState = networkState
+            viewModel.fetchContent()
         }
         .onOpenURL { url in
             if url.isDeeplink,
                url.contentType == .magazine,
                let id = url.parameters["id"] {
-                deeplinkId = id
-                openMagazineFromDeeplink = true
+                viewModel.deeplinkId = id
+                viewModel.openMagazineFromDeeplink = true
             }
         }
     }
-
-    // MARK: Helpers
-
-    private func compareSemesters(_ s1: String, _ s2: String) -> Bool {
-        if let s1Year = Int(s1.suffix(2)),
-           let s2Year = Int(s2.suffix(2)),
-           s1Year != s2Year {
-            return s1Year < s2Year
-        }
-
-        let validSemesterStrings = ["sp", "fa"]
-        if let s1Semester = validSemesterStrings.firstIndex(of: String(s1.prefix(2))),
-           let s2Semester = validSemesterStrings.firstIndex(of: String(s2.prefix(2))) {
-            return s1Semester < s2Semester
-        }
-
-        return false
-    }
-}
-
-extension MagazinesList {
-    typealias ResultsPublisher = Publishers.Zip<
-        Publishers.Map<OperationPublisher<GetFeaturedMagazinesQuery.Data>, MagazineFields>,
-        Publishers.Map<OperationPublisher<GetMagazinesBySemesterQuery.Data>, MagazineFields>
-        >
     
-    typealias SectionStates = (
-        featuredMagazines: MainView.TabState<[Magazine]>,
-        magazinesBySemester: MainView.TabState<[Magazine]>
-    )
-    
-    typealias SectionQueries = (
-        featuredMagazines: AnyCancellable?,
-        magazinesBySemester: AnyCancellable?
-    )
-
-    private static func format(semesterString: String) -> String {
-        let prefix = semesterString.prefix(2)
-        let suffix = semesterString.suffix(2)
-
-        var result = ""
-
-        switch prefix {
-        case "fa":
-            result = "Fall"
-        case "sp":
-            result = "Spring"
-        default:
-            break
-        }
-
-        return "\(result) 20\(suffix)"
-    }
 }
