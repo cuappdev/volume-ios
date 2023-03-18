@@ -52,18 +52,6 @@ struct WeeklyDebriefView: View {
                 StatisticView(image: .volume.bookmark, leftText: "bookmarked", number: weeklyDebrief.numBookmarkedArticles, rightText: "articles")
                 
                 HStack {
-                    Text("You were among the top ")
-                        .font(.newYorkRegular(size: 16)) +
-                    Text("10% ")
-                        .font(.newYorkMedium(size: 36))
-                        .foregroundColor(.volume.orange) +
-                    Text("active readers last week!")
-                        .font(.newYorkRegular(size: 16))
-                    
-                    Spacer()
-                }
-                
-                HStack {
                     Text("Keep up the volume! 📣")
                         .font(.newYorkRegular(size: 16))
                         .frame(alignment: .leading)
