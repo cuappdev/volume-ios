@@ -17,7 +17,7 @@ struct SearchResultsList: View {
     @EnvironmentObject private var networkState: NetworkState
     @State private var sectionQueries: SectionQueries = (nil, nil)
     @State private var sectionStates: SectionStates = (.loading, .loading)
-    @State private var selectedTab: SearchTab = .articles
+    @State private var selectedTab: Publication.ContentType = .articles
     let searchText: String
 
     private struct Constants {
@@ -124,12 +124,15 @@ struct SearchResultsList: View {
             .onAppear {
                 fetchContent()
             }
+        }
+
     }
 
     @ViewBuilder
     private var articleSection: some View {
         if hasArticleSearchResults {
             articleList
+                .padding(.horizontal)
         } else {
             VolumeMessage(message: .noSearchResults, largeFont: true, fullWidth: true)
                 .padding(.vertical, Constants.emptyResultsMessagePadding)

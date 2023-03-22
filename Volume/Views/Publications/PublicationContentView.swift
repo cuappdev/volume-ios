@@ -54,21 +54,7 @@ struct PublicationContentView: View {
     }
 
     private var tabBar: some View {
-        SlidingTabBarView(
-            selectedTab: $viewModel.selectedTab,
-            items: [
-                viewModel.showArticleTab ? SlidingTabBarView.Item(
-                    title: "Articles",
-                    tab: .articles,
-                    width: Constants.articleTabWidth
-                ) : nil,
-                viewModel.showMagazineTab ? SlidingTabBarView.Item(
-                    title: "Magazines",
-                    tab: .magazines,
-                    width: Constants.magazineTabWidth
-                ) : nil
-            ].compactMap { $0 }
-        )
+        ContentFilterBarView(selectedTab: $viewModel.selectedTab, showArticleTab: viewModel.showArticleTab, showMagazineTab: viewModel.showMagazineTab)
     }
 
     private var articleContent: some View {

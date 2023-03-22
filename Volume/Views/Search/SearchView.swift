@@ -11,6 +11,7 @@ import SwiftUI
 struct SearchView: View {
     @State private var searchText = ""
     @State private var searchState: SearchState = .searching
+    @State private var selectedTab: Publication.ContentType = .articles
     
     private struct Constants {
         static let sectionHorizontalPadding: CGFloat = 19
@@ -22,21 +23,18 @@ struct SearchView: View {
             Color.volume.backgroundGray.edgesIgnoringSafeArea(.all)
             VStack(alignment: .leading, spacing: 0) {
                 SearchBar(searchState: $searchState, searchText: $searchText)
-                
-                Spacer()
-                    .frame(height: Constants.sectionVerticalPadding)
+                    .padding(.horizontal)
                 
                 switch searchState {
                 case .searching:
                     SearchDropdownView(searchState: $searchState, searchText: $searchText)
+                        .padding([.top, .horizontal])
                 case .results:
                     SearchResultsList(searchText: searchText)
                         .transition(.move(edge: .trailing))
                 }
             }
             .foregroundColor(.black)
-            .padding(EdgeInsets(top: Constants.sectionVerticalPadding, leading: Constants.sectionHorizontalPadding,
-                    bottom: 0, trailing: Constants.sectionHorizontalPadding))
         }
         .hiddenNavigationBarStyle()
     }
