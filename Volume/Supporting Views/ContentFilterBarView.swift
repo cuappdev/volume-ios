@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct ContentFilterBarView: View {
-    
     @Binding var selectedTab: Publication.ContentType
     var showArticleTab: Bool = true
     var showMagazineTab: Bool = true
@@ -39,6 +38,3 @@ struct ContentFilterBarView: View {
     }
     
 }
-
-
-
