@@ -46,7 +46,7 @@ struct SemesterMenuView: View {
 extension SemesterMenuView {
 
     private static func format(semesterString: String) -> String {
-        if (semesterString == "all") { return "All semesters" }
+        if semesterString == "all" { return "All semesters" }
         
         let prefix = semesterString.prefix(2)
         let suffix = semesterString.suffix(2)

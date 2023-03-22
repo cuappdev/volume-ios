@@ -13,22 +13,21 @@ extension MagazinesList {
     
     @MainActor
     class ViewModel: ObservableObject {
+        @Published var allSemesters: [String]? = nil
         @Published var deeplinkId: String?
         @Published var openMagazineFromDeeplink = false
-        @Published var sectionQueries: SectionQueries = (nil, nil)
-        @Published var sectionStates: SectionStates = (.loading, .loading)
-        @Published var selectedSemester: String?
-        @Published var allSemesters: [String]? = nil
         @Published var queryBag = Set<AnyCancellable>()
+        @Published var sectionQueries: SectionQueries = (nil, nil)
+        @Published var selectedSemester: String?
+        @Published var sectionStates: SectionStates = (.loading, .loading)
                 
         var networkState: NetworkState = NetworkState()
-        private var numMagsLoaded: Double = 0
         private var offset: Double = 0
 
         private struct Constants {
             static let allMagazinesLimit: Double = 15
             static let featuredMagazinesLimit: Double = 7
-            static let animationDuration = 0.1
+            static let animationDuration: Double = 0.1
         }
         
         // MARK: Requests
@@ -91,7 +90,7 @@ extension MagazinesList {
             } receiveValue: { [weak self] magazineFields in
                 Task {
                     let magazinesBySemester = await [Magazine](magazineFields)
-                    withAnimation(.linear(duration: 0.1)) {
+                    withAnimation(.linear(duration: Constants.animationDuration)) {
                         self?.sectionStates.magazinesBySemester = .results(magazinesBySemester)
                     }
                 }
@@ -122,13 +121,13 @@ extension MagazinesList {
             if let s1Year = Int(s1.suffix(2)),
                let s2Year = Int(s2.suffix(2)),
                s1Year != s2Year {
-                return s1Year < s2Year
+                return s1Year > s2Year
             }
 
             let validSemesterStrings = ["sp", "fa"]
             if let s1Semester = validSemesterStrings.firstIndex(of: String(s1.prefix(2))),
                let s2Semester = validSemesterStrings.firstIndex(of: String(s2.prefix(2))) {
-                return s1Semester < s2Semester
+                return s1Semester > s2Semester
             }
 
             return false
