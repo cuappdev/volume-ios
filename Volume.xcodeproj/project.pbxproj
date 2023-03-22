@@ -22,9 +22,10 @@
 		06B80D13257DC18600F3BF9B /* WebImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B80D12257DC18600F3BF9B /* WebImage+Extension.swift */; };
 		06DBC684257DE35F00B6A453 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DBC683257DE35F00B6A453 /* UserData.swift */; };
 		06EC2D24259CED0500FE0A71 /* PublicationDetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EC2D23259CED0500FE0A71 /* PublicationDetailHeader.swift */; };
+		2E05005B29C65B82001B4131 /* MagazinesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E05005A29C65B82001B4131 /* MagazinesListViewModel.swift */; };
+		2E05005D29C66999001B4131 /* MagazinesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E05005C29C66999001B4131 /* MagazinesList.swift */; };
 		2EB5568829B9485700794423 /* MagsScrollbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB5568729B9485700794423 /* MagsScrollbarView.swift */; };
 		2EB5568C29B94A5600794423 /* PageIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB5568B29B94A5600794423 /* PageIndicatorView.swift */; };
-		331159CD27D26773003B0F06 /* MagazinesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331159CC27D26773003B0F06 /* MagazinesList.swift */; };
 		331159D727D41C89003B0F06 /* Image+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331159D627D41C89003B0F06 /* Image+Extensions.swift */; };
 		3334F4A02705269800CF0987 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3334F49F2705269800CF0987 /* AppDelegate.swift */; };
 		333EB8A92909ECBA00EA9950 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333EB8A82909ECBA00EA9950 /* HomeViewModel.swift */; };
@@ -120,10 +121,11 @@
 		06B80D12257DC18600F3BF9B /* WebImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebImage+Extension.swift"; sourceTree = "<group>"; };
 		06DBC683257DE35F00B6A453 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		06EC2D23259CED0500FE0A71 /* PublicationDetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicationDetailHeader.swift; sourceTree = "<group>"; };
+		2E05005A29C65B82001B4131 /* MagazinesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazinesListViewModel.swift; sourceTree = "<group>"; };
+		2E05005C29C66999001B4131 /* MagazinesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazinesList.swift; sourceTree = "<group>"; };
 		2EB5568729B9485700794423 /* MagsScrollbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagsScrollbarView.swift; sourceTree = "<group>"; };
 		2EB5568B29B94A5600794423 /* PageIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicatorView.swift; sourceTree = "<group>"; };
 		2ED344C7F76751CD56407579 /* Pods-Volume.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Volume.debug.xcconfig"; path = "Target Support Files/Pods-Volume/Pods-Volume.debug.xcconfig"; sourceTree = "<group>"; };
-		331159CC27D26773003B0F06 /* MagazinesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazinesList.swift; sourceTree = "<group>"; };
 		331159D627D41C89003B0F06 /* Image+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extensions.swift"; sourceTree = "<group>"; };
 		3334F49F2705269800CF0987 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		333EB8A82909ECBA00EA9950 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -271,7 +273,7 @@
 				95A79FB72622296800CADF88 /* ConnectionFailedView.swift */,
 				06A8E2522575429200C28C68 /* MainView.swift */,
 				333EB8AA2909EE5400EA9950 /* HomeView.swift */,
-				331159CC27D26773003B0F06 /* MagazinesList.swift */,
+				2E05005C29C66999001B4131 /* MagazinesList.swift */,
 				A2B4DF3127D9AAB000440184 /* MagazineReaderView.swift */,
 				7E8658A7254B719A002DEE68 /* PublicationList.swift */,
 				95A79FB32622255D00CADF88 /* TabContainer.swift */,
@@ -367,6 +369,7 @@
 				7E9E4718262808AC007E8E6C /* SettingsPageRow.swift */,
 				333EB8A82909ECBA00EA9950 /* HomeViewModel.swift */,
 				3360B9DD29274B9500A923A6 /* PublicationContentViewModel.swift */,
+				2E05005A29C65B82001B4131 /* MagazinesListViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -637,10 +640,12 @@
 				922FE30B29341A5400E14911 /* SearchTabBar.swift in Sources */,
 				33538BEE2745C477009DD191 /* WeeklyDebrief.swift in Sources */,
 				7E416C322561D7870010D70B /* Header.swift in Sources */,
+				2E05005B29C65B82001B4131 /* MagazinesListViewModel.swift in Sources */,
 				06B23228258EDDA9006D9A53 /* SkeletonView.swift in Sources */,
 				3392D71E2937C021005165F6 /* ReadableContent.swift in Sources */,
 				33E851A6290AE6ED004453D2 /* ListBackgroundModifier.swift in Sources */,
 				BC72AEBA29259D4500209573 /* API.swift in Sources */,
+				2E05005D29C66999001B4131 /* MagazinesList.swift in Sources */,
 				06662888257F204E006FEBCF /* Secrets.swift in Sources */,
 				061DB39725571D760038BEF5 /* Font+Extension.swift in Sources */,
 				3334F4A02705269800CF0987 /* AppDelegate.swift in Sources */,
@@ -668,7 +673,6 @@
 				7ED7C33B252D117A0078B1BD /* ContentView.swift in Sources */,
 				06EC2D24259CED0500FE0A71 /* PublicationDetailHeader.swift in Sources */,
 				2EB5568829B9485700794423 /* MagsScrollbarView.swift in Sources */,
-				331159CD27D26773003B0F06 /* MagazinesList.swift in Sources */,
 				95A79FB42622255D00CADF88 /* TabContainer.swift in Sources */,
 				33913A0C27D89E0A00C5718D /* TabBarReader.swift in Sources */,
 				7EA0BB502624DF7C00A1652E /* AboutUsView.swift in Sources */,
@@ -824,7 +828,7 @@
 				CODE_SIGN_ENTITLEMENTS = Volume/Volume.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_ASSET_PATHS = "\"Volume/Preview Content\"";
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
 				ENABLE_PREVIEWS = YES;
@@ -836,7 +840,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.6;
+				MARKETING_VERSION = 1.2.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cornellappdev.volume-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -854,7 +858,7 @@
 				CODE_SIGN_ENTITLEMENTS = Volume/Volume.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_ASSET_PATHS = "\"Volume/Preview Content\"";
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
 				ENABLE_PREVIEWS = YES;
@@ -866,7 +870,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.6;
+				MARKETING_VERSION = 1.2.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cornellappdev.volume-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
