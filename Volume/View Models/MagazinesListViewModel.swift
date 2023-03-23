@@ -2,121 +2,220 @@
 //  MagazinesListViewModel.swift
 //  Volume
 //
-//  Created by Vin Bui on 3/18/23.
+//  Created by Vin Bui on 3/23/23.
 //  Copyright © 2023 Cornell AppDev. All rights reserved.
 //
 
-import SwiftUI
 import Combine
+import SwiftUI
 
 extension MagazinesList {
     
     @MainActor
     class ViewModel: ObservableObject {
+        
+        // MARK: - Publishers
+        typealias ResultsPublisher = Publishers.Zip3<
+            Publishers.Map<OperationPublisher<GetFeaturedMagazinesQuery.Data>, MagazineFields>,
+            Publishers.Map<OperationPublisher<GetMagazinesBySemesterQuery.Data>, MagazineFields>,
+            Publishers.Map<OperationPublisher<GetAllMagazinesQuery.Data>, MagazineFields>
+        >
+        
+        // MARK: - Properties
+        
         @Published var allSemesters: [String]? = nil
-        @Published var deeplinkId: String?
-        @Published var openMagazineFromDeeplink = false
-        @Published var queryBag = Set<AnyCancellable>()
-        @Published var sectionQueries: SectionQueries = (nil, nil)
-        @Published var selectedSemester: String?
-        @Published var sectionStates: SectionStates = (.loading, .loading)
-                
-        var networkState: NetworkState = NetworkState()
-        private var offset: Double = 0
-
+        @Published var featuredMagazines: [Magazine]? = nil
+        @Published var moreMagazines: [Magazine]? = nil
+        
+        @Published var deeplinkID: String? = nil
+        @Published var hasMoreMagazines: Bool = true
+        @Published var openMagazineFromDeeplink: Bool = false
+        @Published var selectedSemester: String? = Constants.allSemestersIdentifier
+        
+        var networkState: NetworkState?
+        private var queryBag: Set = Set<AnyCancellable>()
+        
+        // MARK: - Logic Constants
+        
         private struct Constants {
-            static let allMagazinesLimit: Double = 15
             static let featuredMagazinesLimit: Double = 7
-            static let animationDuration: Double = 0.1
+            static let semesterCountLimit: Double = 50  // TODO: Change this value when backend implements getMagazineSemesters
+            static let moreMagazinesLimit: Double = 4
+            static let allSemestersIdentifier: String = "all"
         }
         
-        // MARK: Requests
+        // MARK: - Public Requests
 
-        func fetchContent(_ done: @escaping () -> Void = { }) {
-            guard sectionStates.featuredMagazines.isLoading || sectionStates.magazinesBySemester.isLoading else { return }
-            
-            fetchFeaturedMagazines(done)
+        func fetchContent() async {
+            fetchFeaturedMagazines()
             fetchMagazineSemesters()
+            
+            if moreMagazines == nil {
+                fetchMoreMagazinesSection()
+            }
         }
         
-        func fetchFeaturedMagazines(_ done: @escaping () -> Void = { }) {
-            sectionQueries.featuredMagazines = Network.shared.publisher(for: GetFeaturedMagazinesQuery(limit: Constants.featuredMagazinesLimit))
-                .compactMap {
-                    $0.magazines?.map(\.fragments.magazineFields)
-                }
+        func refreshContent(_ done: @escaping () -> Void = { } ) {
+            Network.shared.clearCache()
+            queryBag.removeAll()
+
+            featuredMagazines = nil
+            moreMagazines = nil
+            hasMoreMagazines = true
+
+            Task {
+                await fetchContent()
+                done()
+            }
+        }
+        
+        func fetchMoreMagazinesSection() {
+            moreMagazines = nil
+            
+            if selectedSemester == Constants.allSemestersIdentifier {
+                fetchAllSemestersMagazines()
+            } else {
+                fetchSemesterMagazines()
+            }
+        }
+        
+        func fetchNextPage() {
+            if selectedSemester == Constants.allSemestersIdentifier {
+                fetchAllSemestersNextPage()
+            } else {
+                fetchSemesterNextPage()
+            }
+        }
+        
+        // MARK: - Hidden Requests
+        
+        private func fetchFeaturedMagazines() {
+            Network.shared.publisher(for: GetFeaturedMagazinesQuery(limit: Constants.featuredMagazinesLimit))
+                .compactMap { $0.magazines?.map(\.fragments.magazineFields) }
                 .sink { [weak self] completion in
-                    self?.networkState.handleCompletion(screen: .magazines, completion)
+                    self?.networkState?.handleCompletion(screen: .magazines, completion)
                 } receiveValue: { [weak self] magazineFields in
                     Task {
-                        let featuredMagazines = await [Magazine](magazineFields)
-                        withAnimation(.linear(duration: Constants.animationDuration)) {
-                            self?.sectionStates.featuredMagazines = .results(featuredMagazines)
-                        }
-                        done()
+                        self?.featuredMagazines = await [Magazine](magazineFields)
                     }
                 }
-        }
-
-        func fetchMagazineSemesters() {
-            // TODO: replace logic when backend implements Publication.getMagazineSemesters
-            Network.shared.publisher(
-                for: GetAllMagazineSemestersQuery(limit: 100)
-            )
-            .map { $0.magazines.map(\.semester) }
-            .sink { [weak self] completion in
-                self?.networkState.handleCompletion(screen: .magazines, completion)
-            } receiveValue: { [weak self] semesters in
-                guard let `self` = self else { return }
-                self.allSemesters = Array(Set(semesters))
-                    .sorted(by: self.compareSemesters)
-                
-                self.allSemesters?.reverse()
-                self.allSemesters?.insert("all", at: 0)
-                self.selectedSemester = "all"
-                self.fetchAllMagazines()
-            }
-            .store(in: &queryBag)
+                .store(in: &queryBag)
         }
         
-        func fetchMagazinesBySemester(_ semester: String) {
-            sectionStates.magazinesBySemester = .loading
-
-            sectionQueries.magazinesBySemester = Network.shared.publisher(
-                for: GetMagazinesBySemesterQuery(semester: semester)
-            )
-            .map { $0.magazines.map(\.fragments.magazineFields) }
-            .sink { [weak self] completion in
-                self?.networkState.handleCompletion(screen: .magazines, completion)
-            } receiveValue: { [weak self] magazineFields in
-                Task {
-                    let magazinesBySemester = await [Magazine](magazineFields)
-                    withAnimation(.linear(duration: Constants.animationDuration)) {
-                        self?.sectionStates.magazinesBySemester = .results(magazinesBySemester)
+        private func fetchMagazineSemesters() {
+            Network.shared.publisher(for: GetAllMagazineSemestersQuery(limit: Constants.semesterCountLimit))
+                .map { $0.magazines.map(\.semester) }
+                .sink { [weak self] completion in
+                    self?.networkState?.handleCompletion(screen: .magazines, completion)
+                } receiveValue: { [weak self] semesters in
+                    guard let `self` = self else { return }
+                    self.allSemesters = Array(Set(semesters)).sorted(by: self.compareSemesters)
+                    self.allSemesters?.insert(Constants.allSemestersIdentifier, at: 0)
+                }
+                .store(in: &queryBag)
+        }
+        
+        private func fetchSemesterMagazines() {
+            guard let selectedSemester = selectedSemester else { return }
+            Network.shared
+                .publisher(
+                    for: GetMagazinesBySemesterQuery(
+                        semester: selectedSemester,
+                        limit: Constants.moreMagazinesLimit,
+                        offset: 0
+                    )
+                )
+                .map { $0.magazines.map(\.fragments.magazineFields) }
+                .sink { [weak self] completion in
+                    self?.networkState?.handleCompletion(screen: .magazines, completion)
+                } receiveValue: { [weak self] magazineFields in
+                    Task {
+                        self?.moreMagazines = await [Magazine](magazineFields)
                     }
                 }
-            }
+                .store(in: &queryBag)
         }
         
-        func fetchAllMagazines() {
-            sectionStates.magazinesBySemester = .loading
-            sectionQueries.magazinesBySemester = Network.shared.publisher(
-                for: GetAllMagazinesQuery(limit: Constants.allMagazinesLimit, offset: offset)
-            )
-            .map { $0.magazines.map(\.fragments.magazineFields) }
-            .sink { [weak self] completion in
-                self?.networkState.handleCompletion(screen: .magazines, completion)
-            } receiveValue: { [weak self] magazineFields in
-                Task {
-                    let allMagazines = await [Magazine](magazineFields)
-                    withAnimation(.linear(duration: 0.1)) {
-                        self?.sectionStates.magazinesBySemester = .results(allMagazines)
+        private func fetchAllSemestersMagazines() {
+            Network.shared
+                .publisher(
+                    for: GetAllMagazinesQuery(
+                        limit: Constants.moreMagazinesLimit,
+                        offset: 0
+                    )
+                )
+                .map { $0.magazines.map(\.fragments.magazineFields) }
+                .sink { [weak self] completion in
+                    self?.networkState?.handleCompletion(screen: .magazines, completion)
+                } receiveValue: { [weak self] magazineFields in
+                    Task {
+                        self?.moreMagazines = await [Magazine](magazineFields)
                     }
                 }
+                .store(in: &queryBag)
+        }
+        
+        private func fetchSemesterNextPage() {
+            guard let selectedSemester = selectedSemester else { return }
+            Network.shared
+                .publisher(
+                    for: GetMagazinesBySemesterQuery(
+                        semester: selectedSemester,
+                        limit: Constants.moreMagazinesLimit,
+                        offset: offset(for: moreMagazines)
+                    )
+                )
+                .map { $0.magazines.map(\.fragments.magazineFields) }
+                .sink { [weak self] completion in
+                    self?.networkState?.handleCompletion(screen: .magazines, completion)
+                } receiveValue: { [weak self] magazineFields in
+                    Task {
+                        let newMagazines = await [Magazine](magazineFields)
+                        self?.loadMoreMagazines(with: newMagazines)
+                    }
+                }
+                .store(in: &queryBag)
+        }
+        
+        private func fetchAllSemestersNextPage() {
+            Network.shared
+                .publisher(
+                    for: GetAllMagazinesQuery(
+                        limit: Constants.moreMagazinesLimit,
+                        offset: offset(for: moreMagazines)
+                    )
+                )
+                .map { $0.magazines.map(\.fragments.magazineFields) }
+                .sink { [weak self] completion in
+                    self?.networkState?.handleCompletion(screen: .magazines, completion)
+                } receiveValue: { [weak self] magazineFields in
+                    Task {
+                        let newMagazines = await [Magazine](magazineFields)
+                        self?.loadMoreMagazines(with: newMagazines)
+                    }
+                }
+                .store(in: &queryBag)
+        }
+        
+        // MARK: - Helpers
+        
+        private func loadMoreMagazines(with newMagazines: [Magazine]) {
+            switch moreMagazines {
+            case .none:
+                moreMagazines = newMagazines
+            case .some(let oldMagazines):
+                moreMagazines = oldMagazines + newMagazines
+            }
+
+            if newMagazines.count < Int(Constants.moreMagazinesLimit) {
+                hasMoreMagazines = false
             }
         }
         
-        // MARK: Helpers
-
+        private func offset(for mags: [Magazine]?) -> Double {
+            Double(mags?.count ?? 0)
+        }
+        
         private func compareSemesters(_ s1: String, _ s2: String) -> Bool {
             if let s1Year = Int(s1.suffix(2)),
                let s2Year = Int(s2.suffix(2)),
@@ -132,43 +231,6 @@ extension MagazinesList {
 
             return false
         }
-    }
-    
-}
-
-extension MagazinesList {
-    
-    typealias ResultsPublisher = Publishers.Zip<
-        Publishers.Map<OperationPublisher<GetFeaturedMagazinesQuery.Data>, MagazineFields>,
-        Publishers.Map<OperationPublisher<GetMagazinesBySemesterQuery.Data>, MagazineFields>
-        >
-    
-    typealias SectionStates = (
-        featuredMagazines: MainView.TabState<[Magazine]>,
-        magazinesBySemester: MainView.TabState<[Magazine]>
-    )
-    
-    typealias SectionQueries = (
-        featuredMagazines: AnyCancellable?,
-        magazinesBySemester: AnyCancellable?
-    )
-
-    private static func format(semesterString: String) -> String {
-        let prefix = semesterString.prefix(2)
-        let suffix = semesterString.suffix(2)
-
-        var result = ""
-
-        switch prefix {
-        case "fa":
-            result = "Fall"
-        case "sp":
-            result = "Spring"
-        default:
-            break
-        }
-
-        return "\(result) 20\(suffix)"
     }
     
 }
