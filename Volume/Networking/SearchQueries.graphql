@@ -3,3 +3,9 @@ query SearchArticles($query: String!) {
     ...articleFields
   }
 }
+
+query SearchMagazines($query: String!) {
+  magazine: searchMagazines(query: $query) {
+    ...magazineFields
+  }
+}
