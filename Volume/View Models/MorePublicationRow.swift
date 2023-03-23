@@ -61,6 +61,7 @@ struct MorePublicationRow: View {
             Spacer()
 
             Button {
+                Haptics.shared.play(.light)
                 withAnimation {
                     followRequestInProgress = true
                     userData.togglePublicationFollowed(publication, $followRequestInProgress)
