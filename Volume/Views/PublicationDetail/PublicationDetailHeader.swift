@@ -59,6 +59,7 @@ struct PublicationDetailHeader: View {
                 Spacer()
 
                 Button(action: {
+                    Haptics.shared.play(.light)
                     followRequestInProgress = true
                     userData.togglePublicationFollowed(publication, $followRequestInProgress)
                     AppDevAnalytics.log(

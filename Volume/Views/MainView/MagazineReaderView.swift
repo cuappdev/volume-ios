@@ -95,6 +95,7 @@ struct MagazineReaderView: View {
                     .foregroundColor(.volume.lightGray)
                     .onTapGesture {
                         showScrollbar.toggle()
+                        Haptics.shared.play(.light)
                     }
             }
             .padding(.horizontal, Constants.navbarHStackPadding)
