@@ -24,6 +24,7 @@
 		06EC2D24259CED0500FE0A71 /* PublicationDetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EC2D23259CED0500FE0A71 /* PublicationDetailHeader.swift */; };
 		2E05005B29C65B82001B4131 /* MagazinesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E05005A29C65B82001B4131 /* MagazinesListViewModel.swift */; };
 		2E05005D29C66999001B4131 /* MagazinesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E05005C29C66999001B4131 /* MagazinesList.swift */; };
+		2E531A3129CCC1920043EB85 /* ShimmerEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E531A3029CCC1920043EB85 /* ShimmerEffect.swift */; };
 		2EB5568829B9485700794423 /* MagsScrollbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB5568729B9485700794423 /* MagsScrollbarView.swift */; };
 		2EB5568C29B94A5600794423 /* PageIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB5568B29B94A5600794423 /* PageIndicatorView.swift */; };
 		331159D727D41C89003B0F06 /* Image+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331159D627D41C89003B0F06 /* Image+Extensions.swift */; };
@@ -123,6 +124,7 @@
 		06EC2D23259CED0500FE0A71 /* PublicationDetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicationDetailHeader.swift; sourceTree = "<group>"; };
 		2E05005A29C65B82001B4131 /* MagazinesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazinesListViewModel.swift; sourceTree = "<group>"; };
 		2E05005C29C66999001B4131 /* MagazinesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazinesList.swift; sourceTree = "<group>"; };
+		2E531A3029CCC1920043EB85 /* ShimmerEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerEffect.swift; sourceTree = "<group>"; };
 		2EB5568729B9485700794423 /* MagsScrollbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagsScrollbarView.swift; sourceTree = "<group>"; };
 		2EB5568B29B94A5600794423 /* PageIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicatorView.swift; sourceTree = "<group>"; };
 		2ED344C7F76751CD56407579 /* Pods-Volume.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Volume.debug.xcconfig"; path = "Target Support Files/Pods-Volume/Pods-Volume.debug.xcconfig"; sourceTree = "<group>"; };
@@ -397,6 +399,7 @@
 				922FE3062931D07100E14911 /* SearchView.swift */,
 				2EB5568729B9485700794423 /* MagsScrollbarView.swift */,
 				2EB5568B29B94A5600794423 /* PageIndicatorView.swift */,
+				2E531A3029CCC1920043EB85 /* ShimmerEffect.swift */,
 			);
 			path = "Supporting Views";
 			sourceTree = "<group>";
@@ -642,6 +645,7 @@
 				7E416C322561D7870010D70B /* Header.swift in Sources */,
 				2E05005B29C65B82001B4131 /* MagazinesListViewModel.swift in Sources */,
 				06B23228258EDDA9006D9A53 /* SkeletonView.swift in Sources */,
+				2E531A3129CCC1920043EB85 /* ShimmerEffect.swift in Sources */,
 				3392D71E2937C021005165F6 /* ReadableContent.swift in Sources */,
 				33E851A6290AE6ED004453D2 /* ListBackgroundModifier.swift in Sources */,
 				BC72AEBA29259D4500209573 /* API.swift in Sources */,
