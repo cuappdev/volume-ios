@@ -73,6 +73,7 @@ enum NavigationSource: String {
     case bookmarkMagazines = "bookmark_magazines"
     case featuredMagazines = "featured_magazines"
     case moreMagazines = "more_magazines"
+    case searchMagazines = "search_magazines"
     
     // Publication Entry Points
     case articleDetail = "article_detail"
