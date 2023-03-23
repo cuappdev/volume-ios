@@ -192,7 +192,11 @@ class UserData: ObservableObject {
     func addRecentSearchQueries(_ query: String) {
         recentSearchQueries = recentSearchQueries.filter { $0 != query }
         recentSearchQueries.insert(query, at: 0)
-        if recentSearchQueries.count > 5 { recentSearchQueries.removeLast() }
+        if recentSearchQueries.count > 10 { recentSearchQueries.removeLast() }
+    }
+    
+    func removeRecentSearchQueries(_ query: String) {
+        recentSearchQueries = recentSearchQueries.filter { $0 != query }
     }
 
     func set(article: Article, isSaved: Bool, bookmarkRequestInProgress: Binding<Bool>) {
