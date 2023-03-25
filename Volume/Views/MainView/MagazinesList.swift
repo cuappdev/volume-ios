@@ -169,7 +169,6 @@ struct MagazinesList: View {
     }
     
 }
-
 // MARK: Uncomment below if needed
 
 //struct MagazinesList_Previews: PreviewProvider {

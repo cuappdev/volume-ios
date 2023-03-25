@@ -13,12 +13,12 @@ extension View {
     @ViewBuilder
     func shimmer(_ config: ShimmerConfig) -> some View {
         self
-            .modifier(ShimmerEffectHelper(config: config))
+            .modifier(ShimmerEffect(config: config))
     }
 
 }
 
-struct ShimmerEffectHelper: ViewModifier {
+struct ShimmerEffect: ViewModifier {
 
     @State private var moveTo: CGFloat = -1.5
     var config: ShimmerConfig
