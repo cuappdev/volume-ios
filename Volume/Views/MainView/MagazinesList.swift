@@ -2,137 +2,43 @@
 //  MagazinesList.swift
 //  Volume
 //
-//  Created by Vin Bui on 3/18/23.
+//  Created by Vin Bui on 3/23/23.
 //  Copyright © 2023 Cornell AppDev. All rights reserved.
 //
 
 import SwiftUI
-import Combine
 
 struct MagazinesList: View {
+    
+    // MARK: - Properties
     
     @EnvironmentObject private var networkState: NetworkState
     @StateObject private var viewModel = ViewModel()
     
-    // MARK: - Constants
+    // MARK: - UI Constants
+    
     private struct Constants {
+        static let gridColumns: Array = Array(repeating: GridItem(.flexible()), count: 2)
+        static let groupTopPadding: CGFloat = 8
+        static let magazineHorizontalSpacing: CGFloat = 24
+        static let magazineVerticalSpacing: CGFloat = 30
         static let navigationTitleKey = "MagazineReaderView"
+        static let sidePadding: CGFloat = 16
     }
-
+    
     // MARK: - UI
-    private var featureMagazinesSection: some View {
-        Group {
-            Header("Featured")
-                .padding([.top, .horizontal])
-            
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 24) {
-                    switch viewModel.sectionStates.featuredMagazines {
-                    case .loading, .reloading:
-                        ForEach(0..<3) { _ in
-                             MagazineCell.Skeleton()
-                        }
-                    case .results(let results):
-                        ForEach(results) { magazine in
-                            NavigationLink {
-                                MagazineReaderView(initType: .readyForDisplay(magazine), navigationSource: .featuredMagazines)
-                            } label: {
-                                MagazineCell(magazine: magazine)
-                            }
-                        }
-                    }
-                }
-            }
-            .padding(.horizontal)
-        }
-    }
-
-    private var magazinesBySemesterSection: some View {
-        Group {
-            HStack(alignment: .center) {
-                Header("More magazines")
-                    .padding([.top, .horizontal])
-
-                Group {
-                    if let options = viewModel.allSemesters {
-                        SemesterMenuView(
-                            selection: $viewModel.selectedSemester,
-                            options: options
-                        )
-                    } else {
-                        SemesterMenuView.Skeleton()
-                    }
-                }
-                .padding(.trailing, 16)
-                .padding(.top, 8)
-            }
-
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 24) {
-                    switch viewModel.sectionStates.magazinesBySemester {
-                    case .loading, .reloading:
-                        ForEach(0..<3) { _ in
-                             MagazineCell.Skeleton()
-                        }
-                    case .results(let results):
-                        ForEach(results) { magazine in
-                            NavigationLink {
-                                MagazineReaderView(initType: .readyForDisplay(magazine), navigationSource: .moreMagazines)
-                            } label: {
-                                MagazineCell(magazine: magazine)
-                            }
-                        }
-                    }
-                }
-            }
-            .padding(.horizontal)
-        }
-        .onChange(of: viewModel.selectedSemester) { newValue in
-            guard let selectedSemester = viewModel.selectedSemester else { return }
-            if selectedSemester == "all" {
-                viewModel.fetchAllMagazines()
-            } else {
-                viewModel.fetchMagazinesBySemester(selectedSemester)
-            }
-        }
-    }
-
-    private var deepNavigationLink: some View {
-        Group {
-            if let magazineId = viewModel.deeplinkId {
-                NavigationLink(Constants.navigationTitleKey, isActive: $viewModel.openMagazineFromDeeplink) {
-                    MagazineReaderView(initType: .fetchRequired(magazineId), navigationSource: .moreMagazines)
-                }
-                .hidden()
-            }
-        }
-    }
-
-    private var background: some View {
-        ZStack {
-            Color.volume.backgroundGray
-            deepNavigationLink
-        }
-    }
     
     var body: some View {
         RefreshableScrollView { done in
-            if case let .results(magazines) = viewModel.sectionStates.featuredMagazines {
-                viewModel.sectionStates.featuredMagazines = .reloading(magazines)
-            }
-            
-            viewModel.sectionStates.magazinesBySemester = .loading
-            
-            viewModel.fetchContent(done)
+            viewModel.refreshContent(done)
         } content: {
             VStack {
-                featureMagazinesSection
+                featuredMagazinesSection
                 Spacer()
-                    .frame(height: 16)
-                magazinesBySemesterSection
+                    .frame(height: Constants.groupTopPadding)
+                moreMagazinesSection
             }
         }
-        .disabled(viewModel.sectionStates.featuredMagazines.isLoading)
         .padding(.top)
         .background(background)
         .toolbar {
@@ -145,16 +51,129 @@ struct MagazinesList: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             viewModel.networkState = networkState
-            viewModel.fetchContent()
+            Task {
+                await viewModel.fetchContent()
+            }
         }
         .onOpenURL { url in
             if url.isDeeplink,
                url.contentType == .magazine,
                let id = url.parameters["id"] {
-                viewModel.deeplinkId = id
+                viewModel.deeplinkID = id
                 viewModel.openMagazineFromDeeplink = true
             }
         }
     }
     
+    private var featuredMagazinesSection: some View {
+        Group {
+            Header("Featured")
+                .padding([.top, .horizontal])
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                LazyHStack(spacing: Constants.magazineHorizontalSpacing) {
+                    switch viewModel.featuredMagazines {
+                    case .none:
+                        ForEach(0..<3) { _ in
+                             MagazineCell.Skeleton()
+                        }
+                    case .some(let magazines):
+                        ForEach(magazines) { magazine in
+                            NavigationLink {
+                                MagazineReaderView(initType: .readyForDisplay(magazine), navigationSource: .featuredMagazines)
+                            } label: {
+                                MagazineCell(magazine: magazine)
+                            }
+                        }
+                    }
+                }
+            }
+            .padding(.horizontal)
+        }
+    }
+    
+    private var moreMagazinesSection: some View {
+        Group {
+            moreMagazinesHeader
+            
+            LazyVGrid(columns: Constants.gridColumns, spacing: Constants.magazineVerticalSpacing) {
+                switch viewModel.moreMagazines {
+                case .none:
+                    ForEach(0..<2) { _ in
+                        MagazineCell.Skeleton()
+                    }
+                case .some(let magazines):
+                    ForEach(magazines) { magazine in
+                        NavigationLink {
+                            MagazineReaderView(initType: .readyForDisplay(magazine), navigationSource: .moreMagazines)
+                        } label: {
+                            MagazineCell(magazine: magazine)
+                        }
+                    }
+                    
+                    if viewModel.hasMoreMagazines {
+                        ForEach(0..<2) { _ in
+                            MagazineCell.Skeleton()
+                        }
+                        .onAppear {
+                            viewModel.fetchNextPage()
+                        }
+                    }
+                }
+            }
+            .padding(.bottom)
+        }
+        .padding(.top)
+        .onChange(of: viewModel.selectedSemester) { _ in
+            viewModel.fetchMoreMagazinesSection()
+        }
+    }
+    
+    private var moreMagazinesHeader: some View {
+        HStack(alignment: .center) {
+            Header("More magazines")
+                .padding([.top, .horizontal])
+
+            Group {
+                if let options = viewModel.allSemesters {
+                    SemesterMenuView(
+                        selection: $viewModel.selectedSemester,
+                        options: options
+                    )
+                } else {
+                    SemesterMenuView.Skeleton()
+                }
+            }
+            .padding(.trailing, Constants.sidePadding)
+            .padding(.top)
+        }
+    }
+    
+    // MARK: - Supporting Views
+    private var background: some View {
+        ZStack {
+            Color.volume.backgroundGray
+            deepNavigationLink
+        }
+    }
+    
+    private var deepNavigationLink: some View {
+        Group {
+            if let magazineID = viewModel.deeplinkID {
+                NavigationLink(Constants.navigationTitleKey, isActive: $viewModel.openMagazineFromDeeplink) {
+                    MagazineReaderView(initType: .fetchRequired(magazineID), navigationSource: .moreMagazines)
+                }
+                .hidden()
+            }
+        }
+    }
+    
 }
+// MARK: Uncomment below if needed
+
+//struct MagazinesList_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MagazinesList()
+//            .environmentObject(NetworkState())
+//    }
+//}
