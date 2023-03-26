@@ -39,6 +39,7 @@ struct DebriefArticleView: View {
 
     var saveButton: some View {
         Button(action: {
+            Haptics.shared.play(.light)
             bookmarkRequestInProgress = true 
             userData.toggleArticleSaved(article, $bookmarkRequestInProgress)
             AppDevAnalytics.log(
@@ -63,6 +64,7 @@ struct DebriefArticleView: View {
     
     var shareButton: some View {
         Button {
+            Haptics.shared.play(.light)
             AppDevAnalytics.log(VolumeEvent.shareArticle.toEvent(.article, value: article.id, navigationSource: .weeklyDebrief))
             displayShareScreen(for: article)
         } label: {
@@ -76,6 +78,7 @@ struct DebriefArticleView: View {
     
     var shoutoutButton: some View {
         Button {
+            Haptics.shared.play(.light)
             incrementShoutouts(for: article)
         } label: {
             Image.volume.shoutout
