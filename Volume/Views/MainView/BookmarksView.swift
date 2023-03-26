@@ -173,7 +173,12 @@ struct BookmarksView: View {
     private var noSavedContentView: some View {
         VStack {
             Spacer(minLength: 250)
-            VolumeMessage(message: .noBookmarks, largeFont: true, fullWidth: true)
+            switch viewModel.selectedTab {
+            case .articles:
+                VolumeMessage(image: Image.volume.feed, message: .noBookmarkedArticles, largeFont: true, fullWidth: true)
+            case .magazines:
+                VolumeMessage(image: Image.volume.magazine, message: .noBookmarkedMagazines, largeFont: true, fullWidth: true)
+            }
         }
     }
     
