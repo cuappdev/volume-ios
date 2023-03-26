@@ -107,9 +107,9 @@ struct DebriefArticleView: View {
                         WebImage(url: url)
                             .resizable()
                             .grayBackground()
+                            .scaledToFit()
                             .frame(width: Self.bodyFrameSize, height: Self.bodyFrameSize)
                             .clipped()
-                            .scaledToFill()
                     } else {
                         WebImage(url: article.publication.profileImageUrl)
                             .resizable()
