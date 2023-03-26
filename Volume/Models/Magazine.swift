@@ -10,6 +10,8 @@ import Foundation
 import PDFKit
 import SwiftUI
 
+typealias MagazineID = String
+
 struct Magazine: ReadableContent {
     let id: String
     let date: Date

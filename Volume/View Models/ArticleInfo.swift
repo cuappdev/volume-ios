@@ -23,6 +23,7 @@ struct ArticleInfo: View {
                         .font(.newYorkMedium(size: isDebrief ? 18 : 12))
                         .padding(.bottom, isDebrief ? 3.5 : 1.5)
                         .multilineTextAlignment(.leading)
+                        .foregroundColor(Color.black)
                 }
 
                 Text(article.title)
@@ -30,6 +31,7 @@ struct ArticleInfo: View {
                     .lineLimit(3)
                     .padding(.top, 0.5)
                     .multilineTextAlignment(.leading)
+                    .foregroundColor(Color.black)
 
                 Spacer()
 
