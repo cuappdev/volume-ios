@@ -14,9 +14,7 @@ import SDWebImageSwiftUI
 import SwiftUI
 
 struct MagazineReaderView: View {
-    
-    // TODO: Refactor to support MVVM
-    
+        
     // MARK: - Properties
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -32,6 +30,8 @@ struct MagazineReaderView: View {
     
     let initType: ReaderViewInitType<Magazine>
     let navigationSource: NavigationSource
+    
+    // MARK: - Constants
 
     private struct Constants {
         static let navbarOpacity: CGFloat = 0.2
@@ -57,7 +57,7 @@ struct MagazineReaderView: View {
         static let scrollbarHeight: CGFloat = 45
     }
 
-    // MARK: Data
+    // MARK: - Data
     
     private func markMagazineRead() {
         guard let uuid = userData.uuid, let magazineID = magazine?.id else { return }
@@ -93,7 +93,7 @@ struct MagazineReaderView: View {
         .store(in: &queryBag)
     }
 
-    // MARK: UI
+    // MARK: - UI
 
     private var navbar: some View {
         ZStack {
@@ -194,7 +194,9 @@ struct MagazineReaderView: View {
 }
 
 extension MagazineReaderView {
+    
     private enum MagazineReaderViewState<Results> {
         case loading, results(Results)
     }
+    
 }

@@ -84,12 +84,12 @@ struct DebriefArticleView: View {
             Image.volume.shoutout
                 .resizable()
                 .foregroundColor(isShoutoutsButtonEnabled ? .volume.orange : .white)
-                .background(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]) > 0 ? Color.volume.orange : Color.white)
+                .background(isShoutoutsButtonEnabled ? Color.white : Color.volume.orange)
                 .scaledToFit()
                 .frame(height: Self.buttonLabelHeight)
         }
         .frame(width: Self.buttonSize, height: Self.buttonSize)
-        .background(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]) > 0 ? Color.volume.orange : Color.white)
+        .background(isShoutoutsButtonEnabled ? Color.white : Color.volume.orange)
         .overlay(Circle().stroke(Color.volume.orange, lineWidth: 4))
         .clipShape(Circle())
         .disabled(!isShoutoutsButtonEnabled)
