@@ -138,6 +138,7 @@ struct ReaderToolbarView<Content: ReadableContent>: View {
 
     private func bookmarkButton(content: Content) -> some View {
         Button {
+            Haptics.shared.play(.light)
             toggleSaved(for: content)
         } label: {
             Image(systemName: isSaved(content) ? "bookmark.fill" : "bookmark")
@@ -149,6 +150,7 @@ struct ReaderToolbarView<Content: ReadableContent>: View {
 
     private func shareButton(content: Content) -> some View {
         Button {
+            Haptics.shared.play(.light)
             displayShareScreen(for: content)
         } label: {
             Image(systemName: "square.and.arrow.up.on.square")
@@ -160,6 +162,7 @@ struct ReaderToolbarView<Content: ReadableContent>: View {
     private func shoutoutButton(content: Content) -> some View {
         Group {
             Button {
+                Haptics.shared.play(.light)
                 incrementShoutouts(for: content)
             } label: {
                 Image.volume.shoutout

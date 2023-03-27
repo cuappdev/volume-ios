@@ -51,6 +51,9 @@ struct BookmarksView: View {
                 .offset(x: -5, y: 5)
                 .buttonStyle(PlainButtonStyle())
         }
+        .onTapGesture {
+            Haptics.shared.play(.light)
+        }
     }
 
     private var tabBar: some View {

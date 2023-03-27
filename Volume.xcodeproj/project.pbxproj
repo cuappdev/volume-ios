@@ -24,6 +24,7 @@
 		06EC2D24259CED0500FE0A71 /* PublicationDetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EC2D23259CED0500FE0A71 /* PublicationDetailHeader.swift */; };
 		2E05005B29C65B82001B4131 /* MagazinesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E05005A29C65B82001B4131 /* MagazinesListViewModel.swift */; };
 		2E05005D29C66999001B4131 /* MagazinesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E05005C29C66999001B4131 /* MagazinesList.swift */; };
+		2E4B30DE29CCEE9B000D6AA6 /* HapticTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4B30DD29CCEE9B000D6AA6 /* HapticTouch.swift */; };
 		2E531A3129CCC1920043EB85 /* ShimmerEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E531A3029CCC1920043EB85 /* ShimmerEffect.swift */; };
 		2EB5568829B9485700794423 /* MagsScrollbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB5568729B9485700794423 /* MagsScrollbarView.swift */; };
 		2EB5568C29B94A5600794423 /* PageIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB5568B29B94A5600794423 /* PageIndicatorView.swift */; };
@@ -124,6 +125,7 @@
 		06EC2D23259CED0500FE0A71 /* PublicationDetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicationDetailHeader.swift; sourceTree = "<group>"; };
 		2E05005A29C65B82001B4131 /* MagazinesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazinesListViewModel.swift; sourceTree = "<group>"; };
 		2E05005C29C66999001B4131 /* MagazinesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazinesList.swift; sourceTree = "<group>"; };
+		2E4B30DD29CCEE9B000D6AA6 /* HapticTouch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticTouch.swift; sourceTree = "<group>"; };
 		2E531A3029CCC1920043EB85 /* ShimmerEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerEffect.swift; sourceTree = "<group>"; };
 		2EB5568729B9485700794423 /* MagsScrollbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagsScrollbarView.swift; sourceTree = "<group>"; };
 		2EB5568B29B94A5600794423 /* PageIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicatorView.swift; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 				95F1DC892608F4DD000B3D91 /* GoogleService-Info.plist */,
 				7ED7C344252D117B0078B1BD /* Info.plist */,
 				7E369E1625EED97500FC0419 /* Secrets.plist */,
+				2E4B30DD29CCEE9B000D6AA6 /* HapticTouch.swift */,
 			);
 			path = Supporting;
 			sourceTree = "<group>";
@@ -281,6 +284,18 @@
 				95A79FB32622255D00CADF88 /* TabContainer.swift */,
 			);
 			path = MainView;
+			sourceTree = "<group>";
+		};
+		2E68CF0E29CFB75200E67E67 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				922FE2FA2931529000E14911 /* SearchBar.swift */,
+				922FE2FC29316B0D00E14911 /* SearchDropdownView.swift */,
+				922FE3022931C78B00E14911 /* SearchResultsList.swift */,
+				922FE30A29341A5400E14911 /* SearchTabBar.swift */,
+				922FE3062931D07100E14911 /* SearchView.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		3360B9D62926129100A923A6 /* PublicationDetail */ = {
@@ -322,6 +337,7 @@
 		7E23DFDC254A0FEA0001C3A3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2E68CF0E29CFB75200E67E67 /* Search */,
 				3360B9D62926129100A923A6 /* PublicationDetail */,
 				7EA0BB4F2624DF7C00A1652E /* AboutUsView.swift */,
 				0685AA9D259EA84900DD55C4 /* BrowserView.swift */,
@@ -392,11 +408,6 @@
 				0685AAA0259EBA3800DD55C4 /* WebView.swift */,
 				3349BF6E290DC1E900B0FD3A /* WeeklyDebriefButton.swift */,
 				BC72AEB72920519900209573 /* PDFKitView.swift */,
-				922FE2FA2931529000E14911 /* SearchBar.swift */,
-				922FE2FC29316B0D00E14911 /* SearchDropdownView.swift */,
-				922FE3022931C78B00E14911 /* SearchResultsList.swift */,
-				922FE30A29341A5400E14911 /* SearchTabBar.swift */,
-				922FE3062931D07100E14911 /* SearchView.swift */,
 				2EB5568729B9485700794423 /* MagsScrollbarView.swift */,
 				2EB5568B29B94A5600794423 /* PageIndicatorView.swift */,
 				2E531A3029CCC1920043EB85 /* ShimmerEffect.swift */,
@@ -635,6 +646,7 @@
 				922FE3072931D07100E14911 /* SearchView.swift in Sources */,
 				922FE2FB2931529000E14911 /* SearchBar.swift in Sources */,
 				0685AA9E259EA84900DD55C4 /* BrowserView.swift in Sources */,
+				2E4B30DE29CCEE9B000D6AA6 /* HapticTouch.swift in Sources */,
 				7E23DFD2254A05EF0001C3A3 /* Color+Extension.swift in Sources */,
 				7E416C2F2561D47C0010D70B /* Date+Extension.swift in Sources */,
 				502E3EA52757F774005DA441 /* StatisticView.swift in Sources */,
@@ -832,7 +844,7 @@
 				CODE_SIGN_ENTITLEMENTS = Volume/Volume.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_ASSET_PATHS = "\"Volume/Preview Content\"";
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
 				ENABLE_PREVIEWS = YES;
@@ -844,7 +856,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.2.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cornellappdev.volume-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -862,7 +874,7 @@
 				CODE_SIGN_ENTITLEMENTS = Volume/Volume.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_ASSET_PATHS = "\"Volume/Preview Content\"";
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
 				ENABLE_PREVIEWS = YES;
@@ -874,7 +886,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.2.1;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cornellappdev.volume-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";

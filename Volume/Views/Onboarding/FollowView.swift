@@ -35,6 +35,7 @@ extension OnboardingView {
                     case .loading:
                         ForEach(0..<4) { _ in
                             MorePublicationRow.Skeleton()
+                                .shimmer(.init(tint: .gray.opacity(0.3), highlight: .white, blur: 10))
                         }
                     case .results(let publications):
                         ForEach(publications) { publication in

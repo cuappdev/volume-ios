@@ -32,15 +32,26 @@ struct SearchDropdownView: View {
             }
             VStack(alignment: .leading, spacing: Constants.searchQueryTextPadding) {
                 ForEach(suggestedSearchQueries, id: \.self) { query in
-                    Text(query)
-                        .font(.helveticaNeueMedium(size: Constants.searchQueryTextSize))
-                        .onTapGesture {
-                            withAnimation(.linear(duration: Constants.animationDuration)) {
-                                userData.addRecentSearchQueries(query)
-                                searchText = query
-                                searchState = .results
+                    HStack {
+                        Text(query)
+                            .font(.helveticaNeueMedium(size: Constants.searchQueryTextSize))
+                            .onTapGesture {
+                                withAnimation(.linear(duration: Constants.animationDuration)) {
+                                    userData.addRecentSearchQueries(query)
+                                    searchText = query
+                                    searchState = .results
+                                }
                             }
-                        }
+                        
+                        Spacer()
+
+                        Text("✗")
+                            .onTapGesture {
+                                withAnimation(.linear(duration: Constants.animationDuration)) {
+                                    userData.removeRecentSearchQueries(query)
+                                }
+                            }
+                    }
                 }
             }
         }

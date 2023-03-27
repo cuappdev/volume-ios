@@ -22,9 +22,12 @@ struct SearchResultsList: View {
     
     private struct Constants {
         static let animationDuration: CGFloat = 0.1
+        static let articleSkeletonSize: Int = 10
         static let emptyResultsMessagePadding: CGFloat = 135
+        static let gridColumns: Array = Array(repeating: GridItem(.flexible()), count: 2)
+        static let magazineSkeletonSize: Int = 4
+        static let magazineVerticalSpacing: CGFloat = 30
         static let rowVerticalPadding: CGFloat = 10
-        static let skeletonSize: Int = 10
     }
     
     private var hasArticleSearchResults: Bool {
@@ -36,11 +39,22 @@ struct SearchResultsList: View {
         }
     }
     
+    private var hasMagazineSearchResults: Bool {
+        switch sectionStates.magazines {
+        case .loading, .reloading:
+            return true
+        case .results(let searchedMagazines):
+            return searchedMagazines.count > 0
+        }
+    }
+
+    // MARK: - Network Requests
+    
     private func fetchContent(_ done: @escaping () -> Void = { }) {
         guard sectionStates.articles.isLoading else { return }
         
         fetchSearchedArticles(done)
-        fetchSearchedMagazines()
+        fetchSearchedMagazines(done)
     }
     
     private func fetchSearchedArticles(_ done: @escaping () -> Void = { }) {
@@ -60,8 +74,24 @@ struct SearchResultsList: View {
     }
     
     private func fetchSearchedMagazines(_ done: @escaping () -> Void = { }) {
-        //TODO: Add magazine search once implemented by backend
+        sectionQueries.magazines = Network.shared.publisher(for: SearchMagazinesQuery(query: searchText))
+            .compactMap {
+                $0.magazine.map(\.fragments.magazineFields)
+            }
+            .sink { completion in
+                networkState.handleCompletion(screen: .search, completion)
+            } receiveValue: { magazineFields in
+                Task {
+                    let searchedMagazines = await [Magazine](magazineFields)
+                    withAnimation(.linear(duration: Constants.animationDuration)) {
+                        sectionStates.magazines = .results(searchedMagazines)
+                    }
+                    done()
+                }
+            }
     }
+    
+    // MARK: - UI
     
     var body: some View {
         SearchTabBar(selectedTab: $selectedTab)
@@ -70,11 +100,15 @@ struct SearchResultsList: View {
             .frame(height: Constants.rowVerticalPadding)
 
         RefreshableScrollView(onRefresh: { done in
-            if case let .results(articles) = sectionStates.articles {
+            if case let .results(articles) = sectionStates.articles,
+               case let .results(magazines) = sectionStates.magazines {
+                
                 sectionStates.articles = .reloading(articles)
+                sectionStates.magazines = .reloading(magazines)
             }
             
             sectionStates.articles = .loading
+            sectionStates.magazines = .loading
             
             fetchContent(done)
             }) {
@@ -82,10 +116,11 @@ struct SearchResultsList: View {
                 case .articles:
                     articleSection
                 case .magazines:
-                    EmptyView()
+                    magazineSection
                 }
             }
             .disabled(sectionStates.articles.isLoading)
+            .disabled(sectionStates.magazines.isLoading)
             .onAppear {
                 fetchContent()
             }
@@ -105,7 +140,7 @@ struct SearchResultsList: View {
         VStack(spacing: Constants.rowVerticalPadding) {
             switch sectionStates.articles {
             case .loading:
-                ForEach(0..<Constants.skeletonSize, id: \.self) { _ in
+                ForEach(0..<Constants.articleSkeletonSize, id: \.self) { _ in
                      ArticleRow.Skeleton()
                 }
             case .reloading(let searchedArticles), .results(let searchedArticles):
@@ -121,9 +156,50 @@ struct SearchResultsList: View {
         }
     }
     
+    @ViewBuilder
+    private var magazineSection: some View {
+        if hasMagazineSearchResults {
+            magazineList
+        } else {
+            VolumeMessage(message: .noSearchResults, largeFont: true, fullWidth: true)
+                .padding(.vertical, Constants.emptyResultsMessagePadding)
+        }
+    }
+
+    private var magazineList: some View {
+        VStack(spacing: Constants.rowVerticalPadding) {
+            switch sectionStates.magazines {
+            case .loading:
+                ForEach(0..<Constants.magazineSkeletonSize / 2, id: \.self) { _ in
+                    HStack {
+                        MagazineCell.Skeleton()
+                        
+                        Spacer()
+                        
+                        MagazineCell.Skeleton()
+                    }
+                }
+                .padding(.top)
+            case .reloading(let searchedMagazines), .results(let searchedMagazines):
+                LazyVGrid(columns: Constants.gridColumns, spacing: Constants.magazineVerticalSpacing) {
+                    ForEach(searchedMagazines) { magazine in
+                        NavigationLink {
+                            MagazineReaderView(initType: .readyForDisplay(magazine), navigationSource: .moreMagazines)
+                        } label: {
+                            MagazineCell(magazine: magazine)
+                        }
+                    }
+                }
+                .padding(.bottom)
+                .padding(.top)
+            }
+        }
+    }
+    
 }
 
 extension SearchResultsList {
+    
     typealias SectionStates = (
         articles: MainView.TabState<[Article]>,
         magazines: MainView.TabState<[Magazine]>
@@ -133,5 +209,6 @@ extension SearchResultsList {
         articles: AnyCancellable?,
         magazines: AnyCancellable?
     )
+    
 }
 
