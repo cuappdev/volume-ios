@@ -39,6 +39,7 @@ struct DebriefArticleView: View {
 
     var saveButton: some View {
         Button(action: {
+            Haptics.shared.play(.light)
             bookmarkRequestInProgress = true 
             userData.toggleArticleSaved(article, $bookmarkRequestInProgress)
             AppDevAnalytics.log(
@@ -63,6 +64,7 @@ struct DebriefArticleView: View {
     
     var shareButton: some View {
         Button {
+            Haptics.shared.play(.light)
             AppDevAnalytics.log(VolumeEvent.shareArticle.toEvent(.article, value: article.id, navigationSource: .weeklyDebrief))
             displayShareScreen(for: article)
         } label: {
@@ -76,17 +78,18 @@ struct DebriefArticleView: View {
     
     var shoutoutButton: some View {
         Button {
+            Haptics.shared.play(.light)
             incrementShoutouts(for: article)
         } label: {
             Image.volume.shoutout
                 .resizable()
                 .foregroundColor(isShoutoutsButtonEnabled ? .volume.orange : .white)
-                .background(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]) > 0 ? Color.volume.orange : Color.white)
+                .background(isShoutoutsButtonEnabled ? Color.white : Color.volume.orange)
                 .scaledToFit()
                 .frame(height: Self.buttonLabelHeight)
         }
         .frame(width: Self.buttonSize, height: Self.buttonSize)
-        .background(max(article.shoutouts, userData.shoutoutsCache[article.id, default: 0]) > 0 ? Color.volume.orange : Color.white)
+        .background(isShoutoutsButtonEnabled ? Color.white : Color.volume.orange)
         .overlay(Circle().stroke(Color.volume.orange, lineWidth: 4))
         .clipShape(Circle())
         .disabled(!isShoutoutsButtonEnabled)
@@ -104,9 +107,9 @@ struct DebriefArticleView: View {
                         WebImage(url: url)
                             .resizable()
                             .grayBackground()
+                            .scaledToFit()
                             .frame(width: Self.bodyFrameSize, height: Self.bodyFrameSize)
                             .clipped()
-                            .scaledToFill()
                     } else {
                         WebImage(url: article.publication.profileImageUrl)
                             .resizable()

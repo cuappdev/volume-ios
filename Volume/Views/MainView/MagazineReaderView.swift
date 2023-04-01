@@ -14,17 +14,24 @@ import SDWebImageSwiftUI
 import SwiftUI
 
 struct MagazineReaderView: View {
+        
+    // MARK: - Properties
+    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject private var networkState: NetworkState
-
-    let initType: ReaderViewInitType<Magazine>
-    let navigationSource: NavigationSource
-
-    @State private var magazine: Magazine?
-    @State private var queryBag = Set<AnyCancellable>()
+    @EnvironmentObject private var userData: UserData
     
     @StateObject var pdfView = PDFViewUnselectable(frame: CGRect(origin: .zero, size: Constants.pdfViewSize))
+
+    @State private var cancellableReadMutation: AnyCancellable?
+    @State private var magazine: Magazine?
+    @State private var queryBag = Set<AnyCancellable>()
     @State private var showScrollbar: Bool = false
+    
+    let initType: ReaderViewInitType<Magazine>
+    let navigationSource: NavigationSource
+    
+    // MARK: - Constants
 
     private struct Constants {
         static let navbarOpacity: CGFloat = 0.2
@@ -50,7 +57,26 @@ struct MagazineReaderView: View {
         static let scrollbarHeight: CGFloat = 45
     }
 
-    // MARK: Data
+    // MARK: - Data
+    
+    private func markMagazineRead() {
+        guard let uuid = userData.uuid, let magazineID = magazine?.id else { return }
+        cancellableReadMutation = Network.shared.publisher(
+            for: ReadMagazineMutation(
+                id: magazineID,
+                uuid: uuid)
+        )
+        .map(\.readMagazine?.id)
+        .sink { completion in
+            if case let .failure(error) = completion {
+                print("Error: ReadMagazineMutation failed on MagazineReaderView: \(error.localizedDescription)")
+            }
+        } receiveValue: { id in
+            #if DEBUG
+            print("Marked magazine read with ID: \(id ?? "nil")")
+            #endif
+        }
+    }
 
     private func fetchMagazineById(_ magazineId: String) {
         Network.shared.publisher(
@@ -67,7 +93,7 @@ struct MagazineReaderView: View {
         .store(in: &queryBag)
     }
 
-    // MARK: UI
+    // MARK: - UI
 
     private var navbar: some View {
         ZStack {
@@ -158,6 +184,8 @@ struct MagazineReaderView: View {
             case .readyForDisplay(let magazine):
                 self.magazine = magazine
             }
+            
+            markMagazineRead()
         }
         .onReceive(NotificationCenter.default.publisher(for: Notification.Name.PDFViewPageChanged)) { _ in
             pdfView.objectWillChange.send()
@@ -166,7 +194,9 @@ struct MagazineReaderView: View {
 }
 
 extension MagazineReaderView {
+    
     private enum MagazineReaderViewState<Results> {
         case loading, results(Results)
     }
+    
 }

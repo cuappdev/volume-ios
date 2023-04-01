@@ -16,6 +16,7 @@ struct WeeklyDebrief: Codable {
     let numShoutouts: Int
     let readArticleIDs: [ArticleID]
     let randomArticleIDs: [ArticleID]
+    let readMagazineIDs: [MagazineID]
     
     init(from weeklyDebrief: GetWeeklyDebriefQuery.Data.User.WeeklyDebrief) {
         creationDate = Date.from(iso8601: weeklyDebrief.creationDate)
@@ -25,6 +26,7 @@ struct WeeklyDebrief: Codable {
         numShoutouts = Int(weeklyDebrief.numShoutouts)
         readArticleIDs = weeklyDebrief.readArticles.map(\.fragments.articleFields.id)
         randomArticleIDs = weeklyDebrief.randomArticles.map(\.fragments.articleFields.id)
+        readMagazineIDs = weeklyDebrief.readMagazines.map(\.fragments.magazineFields.id)
     }
 
     var isExpired: Bool {
