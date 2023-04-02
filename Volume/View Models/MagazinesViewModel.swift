@@ -1,5 +1,5 @@
 //
-//  MagazinesListViewModel.swift
+//  MagazinesViewModel.swift
 //  Volume
 //
 //  Created by Vin Bui on 3/23/23.
@@ -9,7 +9,7 @@
 import Combine
 import SwiftUI
 
-extension MagazinesList {
+extension MagazinesView {
     
     @MainActor
     class ViewModel: ObservableObject {
@@ -27,10 +27,11 @@ extension MagazinesList {
         @Published var featuredMagazines: [Magazine]? = nil
         @Published var moreMagazines: [Magazine]? = nil
         
-        @Published var deeplinkID: String? = nil
         @Published var hasMoreMagazines: Bool = true
-        @Published var openMagazineFromDeeplink: Bool = false
         @Published var selectedSemester: String? = Constants.allSemestersIdentifier
+        
+        @Published var searchState: SearchView.SearchState = .searching
+        @Published var searchText: String = ""
         
         var networkState: NetworkState?
         private var queryBag: Set = Set<AnyCancellable>()

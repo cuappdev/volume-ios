@@ -10,6 +10,7 @@ import SwiftUI
 
 enum Message {
     case noBookmarkedArticles
+    case noBookmarkedFlyers
     case noBookmarkedMagazines
     case noFollowingHome
     case noFollowingPublications
@@ -18,7 +19,7 @@ enum Message {
 
     var title: String {
         switch self {
-        case .noBookmarkedArticles, .noBookmarkedMagazines, .noFollowingHome, .noSearchResults:
+        case .noBookmarkedArticles, .noBookmarkedMagazines, .noFollowingHome, .noSearchResults, .noBookmarkedFlyers:
             return "Nothing to see here!"
         case .noFollowingPublications:
             return "No Followed Publications"
@@ -29,6 +30,8 @@ enum Message {
 
     var subtitle: String {
         switch self {
+        case .noBookmarkedFlyers:
+            return "You have no saved flyers"
         case .noBookmarkedArticles:
             return "You have no saved articles"
         case .noBookmarkedMagazines:

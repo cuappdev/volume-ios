@@ -1,5 +1,5 @@
 //
-//  MagazineDetail.swift
+//  MagazineReaderView.swift
 //  Volume
 //
 //  Created by Justin Ngai on 9/3/2022.
