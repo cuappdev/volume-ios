@@ -93,7 +93,7 @@ extension MagazinesList {
             Network.shared.publisher(for: GetFeaturedMagazinesQuery(limit: Constants.featuredMagazinesLimit))
                 .compactMap { $0.magazines?.map(\.fragments.magazineFields) }
                 .sink { [weak self] completion in
-                    self?.networkState?.handleCompletion(screen: .magazines, completion)
+                    self?.networkState?.handleCompletion(screen: .reads, completion)
                 } receiveValue: { [weak self] magazineFields in
                     Task {
                         self?.featuredMagazines = await [Magazine](magazineFields)
@@ -106,7 +106,7 @@ extension MagazinesList {
             Network.shared.publisher(for: GetAllMagazineSemestersQuery(limit: Constants.semesterCountLimit))
                 .map { $0.magazines.map(\.semester) }
                 .sink { [weak self] completion in
-                    self?.networkState?.handleCompletion(screen: .magazines, completion)
+                    self?.networkState?.handleCompletion(screen: .reads, completion)
                 } receiveValue: { [weak self] semesters in
                     guard let `self` = self else { return }
                     self.allSemesters = Array(Set(semesters)).sorted(by: self.compareSemesters)
@@ -127,7 +127,7 @@ extension MagazinesList {
                 )
                 .map { $0.magazines.map(\.fragments.magazineFields) }
                 .sink { [weak self] completion in
-                    self?.networkState?.handleCompletion(screen: .magazines, completion)
+                    self?.networkState?.handleCompletion(screen: .reads, completion)
                 } receiveValue: { [weak self] magazineFields in
                     Task {
                         self?.moreMagazines = await [Magazine](magazineFields)
@@ -146,7 +146,7 @@ extension MagazinesList {
                 )
                 .map { $0.magazines.map(\.fragments.magazineFields) }
                 .sink { [weak self] completion in
-                    self?.networkState?.handleCompletion(screen: .magazines, completion)
+                    self?.networkState?.handleCompletion(screen: .reads, completion)
                 } receiveValue: { [weak self] magazineFields in
                     Task {
                         self?.moreMagazines = await [Magazine](magazineFields)
@@ -167,7 +167,7 @@ extension MagazinesList {
                 )
                 .map { $0.magazines.map(\.fragments.magazineFields) }
                 .sink { [weak self] completion in
-                    self?.networkState?.handleCompletion(screen: .magazines, completion)
+                    self?.networkState?.handleCompletion(screen: .reads, completion)
                 } receiveValue: { [weak self] magazineFields in
                     Task {
                         let newMagazines = await [Magazine](magazineFields)
@@ -187,7 +187,7 @@ extension MagazinesList {
                 )
                 .map { $0.magazines.map(\.fragments.magazineFields) }
                 .sink { [weak self] completion in
-                    self?.networkState?.handleCompletion(screen: .magazines, completion)
+                    self?.networkState?.handleCompletion(screen: .reads, completion)
                 } receiveValue: { [weak self] magazineFields in
                     Task {
                         let newMagazines = await [Magazine](magazineFields)

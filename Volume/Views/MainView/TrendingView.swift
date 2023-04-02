@@ -1,5 +1,5 @@
 //
-//  BookmarksView.swift
+//  TrendingView.swift
 //  Volume
 //
 //  Created by Vin Bui on 4/2/23.
@@ -8,14 +8,14 @@
 
 import SwiftUI
 
-struct BookmarksView: View {
+struct TrendingView: View {
     var body: some View {
-        Text("Bookmarks View")
+        Text("Trending View")
     }
 }
 
-struct BookmarksView_Previews: PreviewProvider {
+struct TrendingView_Previews: PreviewProvider {
     static var previews: some View {
-        BookmarksView()
+        TrendingView()
     }
 }

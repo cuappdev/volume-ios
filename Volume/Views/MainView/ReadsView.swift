@@ -1,5 +1,5 @@
 //
-//  BookmarksView.swift
+//  ReadsView.swift
 //  Volume
 //
 //  Created by Vin Bui on 4/2/23.
@@ -8,14 +8,14 @@
 
 import SwiftUI
 
-struct BookmarksView: View {
+struct ReadsView: View {
     var body: some View {
-        Text("Bookmarks View")
+        Text("Reads View")
     }
 }
 
-struct BookmarksView_Previews: PreviewProvider {
+struct ReadsView_Previews: PreviewProvider {
     static var previews: some View {
-        BookmarksView()
+        ReadsView()
     }
 }

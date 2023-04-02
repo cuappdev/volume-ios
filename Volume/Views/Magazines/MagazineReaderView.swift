@@ -14,23 +14,23 @@ import SDWebImageSwiftUI
 import SwiftUI
 
 struct MagazineReaderView: View {
-        
+
     // MARK: - Properties
-    
+
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
-    
+
     @StateObject var pdfView = PDFViewUnselectable(frame: CGRect(origin: .zero, size: Constants.pdfViewSize))
 
     @State private var cancellableReadMutation: AnyCancellable?
     @State private var magazine: Magazine?
     @State private var queryBag = Set<AnyCancellable>()
     @State private var showScrollbar: Bool = false
-    
+
     let initType: ReaderViewInitType<Magazine>
     let navigationSource: NavigationSource
-    
+
     // MARK: - Constants
 
     private struct Constants {
@@ -45,20 +45,20 @@ struct MagazineReaderView: View {
         static let navbarSubtitleSize: CGFloat = 10
         static let navbarVStackPadding: CGFloat = 48
         static let navbarHeight: CGFloat = 40
-        
+
         static let toolbarPubImageW: CGFloat = 32
         static let toolbarPubImageH: CGFloat = 32
         static let toolbarRightComponentsPadding: CGFloat = 16
         static let toolbarLeftBorderPadding: CGFloat = 7
         static let toolbarRightBorderPadding: CGFloat = 6
         static let toolbarShoutoutsFontSize: CGFloat = 12
-        
+
         static let pdfViewSize = CGSize(width: 150, height: 220)
         static let scrollbarHeight: CGFloat = 45
     }
 
     // MARK: - Data
-    
+
     private func markMagazineRead() {
         guard let uuid = userData.uuid, let magazineID = magazine?.id else { return }
         cancellableReadMutation = Network.shared.publisher(
@@ -84,7 +84,7 @@ struct MagazineReaderView: View {
         )
         .compactMap(\.magazine?.fragments.magazineFields)
         .sink { completion in
-            networkState.handleCompletion(screen: .magazines, completion)
+            networkState.handleCompletion(screen: .reads, completion)
         } receiveValue: { magazineFields in
             Task {
                 magazine = await Magazine(from: magazineFields)
@@ -158,7 +158,7 @@ struct MagazineReaderView: View {
                     PDFKitView(pdfView: pdfView, pdfDoc: PDFDocument())
                         .overlay(ProgressView())
                 }
-                
+
                 if showScrollbar {
                     MagsScrollbarView(pdfView: pdfView)
                         .frame(height: Constants.scrollbarHeight)
@@ -184,7 +184,7 @@ struct MagazineReaderView: View {
             case .readyForDisplay(let magazine):
                 self.magazine = magazine
             }
-            
+
             markMagazineRead()
         }
         .onReceive(NotificationCenter.default.publisher(for: Notification.Name.PDFViewPageChanged)) { _ in
@@ -194,9 +194,9 @@ struct MagazineReaderView: View {
 }
 
 extension MagazineReaderView {
-    
+
     private enum MagazineReaderViewState<Results> {
         case loading, results(Results)
     }
-    
+
 }

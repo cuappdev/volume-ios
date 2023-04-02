@@ -19,6 +19,7 @@ extension Image {
         let compass = Image("compass")
         let feed = Image("feed")
         let flag = Image("flag")
+        let flyer = Image("flyer")
         let follow = Image("follow")
         let followed = Image("followed")
         let info = Image("info")

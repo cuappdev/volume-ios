@@ -19,7 +19,7 @@ struct SearchResultsList: View {
     @State private var sectionStates: SectionStates = (.loading, .loading)
     @State private var selectedTab: SearchTab = .articles
     let searchText: String
-    
+
     private struct Constants {
         static let animationDuration: CGFloat = 0.1
         static let articleSkeletonSize: Int = 10
@@ -29,7 +29,7 @@ struct SearchResultsList: View {
         static let magazineVerticalSpacing: CGFloat = 30
         static let rowVerticalPadding: CGFloat = 10
     }
-    
+
     private var hasArticleSearchResults: Bool {
         switch sectionStates.articles {
         case .loading, .reloading:
@@ -38,7 +38,7 @@ struct SearchResultsList: View {
             return searchedArticles.count > 0
         }
     }
-    
+
     private var hasMagazineSearchResults: Bool {
         switch sectionStates.magazines {
         case .loading, .reloading:
@@ -49,14 +49,14 @@ struct SearchResultsList: View {
     }
 
     // MARK: - Network Requests
-    
+
     private func fetchContent(_ done: @escaping () -> Void = { }) {
         guard sectionStates.articles.isLoading else { return }
-        
+
         fetchSearchedArticles(done)
         fetchSearchedMagazines(done)
     }
-    
+
     private func fetchSearchedArticles(_ done: @escaping () -> Void = { }) {
         sectionQueries.articles = Network.shared.publisher(for: SearchArticlesQuery(query: searchText))
             .compactMap {
@@ -72,7 +72,7 @@ struct SearchResultsList: View {
                 done()
             }
     }
-    
+
     private func fetchSearchedMagazines(_ done: @escaping () -> Void = { }) {
         sectionQueries.magazines = Network.shared.publisher(for: SearchMagazinesQuery(query: searchText))
             .compactMap {
@@ -90,26 +90,26 @@ struct SearchResultsList: View {
                 }
             }
     }
-    
+
     // MARK: - UI
-    
+
     var body: some View {
         SearchTabBar(selectedTab: $selectedTab)
-        
+
         Spacer()
             .frame(height: Constants.rowVerticalPadding)
 
         RefreshableScrollView(onRefresh: { done in
             if case let .results(articles) = sectionStates.articles,
                case let .results(magazines) = sectionStates.magazines {
-                
+
                 sectionStates.articles = .reloading(articles)
                 sectionStates.magazines = .reloading(magazines)
             }
-            
+
             sectionStates.articles = .loading
             sectionStates.magazines = .loading
-            
+
             fetchContent(done)
             }) {
                 switch selectedTab {
@@ -125,7 +125,7 @@ struct SearchResultsList: View {
                 fetchContent()
             }
     }
-    
+
     @ViewBuilder
     private var articleSection: some View {
         if hasArticleSearchResults {
@@ -135,7 +135,7 @@ struct SearchResultsList: View {
                 .padding(.vertical, Constants.emptyResultsMessagePadding)
         }
     }
-    
+
     private var articleList: some View {
         VStack(spacing: Constants.rowVerticalPadding) {
             switch sectionStates.articles {
@@ -155,7 +155,7 @@ struct SearchResultsList: View {
             }
         }
     }
-    
+
     @ViewBuilder
     private var magazineSection: some View {
         if hasMagazineSearchResults {
@@ -173,9 +173,9 @@ struct SearchResultsList: View {
                 ForEach(0..<Constants.magazineSkeletonSize / 2, id: \.self) { _ in
                     HStack {
                         MagazineCell.Skeleton()
-                        
+
                         Spacer()
-                        
+
                         MagazineCell.Skeleton()
                     }
                 }
@@ -195,20 +195,20 @@ struct SearchResultsList: View {
             }
         }
     }
-    
+
 }
 
 extension SearchResultsList {
-    
+
     typealias SectionStates = (
         articles: MainView.TabState<[Article]>,
         magazines: MainView.TabState<[Magazine]>
     )
-    
+
     typealias SectionQueries = (
         articles: AnyCancellable?,
         magazines: AnyCancellable?
     )
-    
+
 }
 
