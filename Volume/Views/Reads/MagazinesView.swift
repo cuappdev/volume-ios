@@ -82,6 +82,7 @@ struct MagazinesView: View {
                 }
             }
             .padding(.horizontal)
+            .environment(\EnvironmentValues.refresh as! WritableKeyPath<EnvironmentValues, RefreshAction?>, nil)
         }
     }
     

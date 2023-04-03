@@ -13,6 +13,8 @@ struct FlyerCellUpcoming: View {
     // MARK: - Constants
     
     private struct Constants {
+        static let skeletonHeight: CGFloat = 92
+        static let skeletonWidth: CGFloat = 352
         static let frameHeight: CGFloat = 92
         static let frameWidth: CGFloat = 92
     }
