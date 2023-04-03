@@ -39,7 +39,7 @@ enum Message {
         case .noFollowingHome:
             return "Follow some student publications that you are interested in"
         case .noFollowingPublications:
-            return "Follow some below and we'll show them up here"
+            return "Follow some below and we'll display them here"
         case .upToDate:
             return "You've seen all new articles from the publications you're following."
         case .noSearchResults:

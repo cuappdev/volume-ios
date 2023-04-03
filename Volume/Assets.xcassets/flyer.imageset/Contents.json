@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "vector.png",
+      "filename" : "flyer@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "vector (1).png",
+      "filename" : "flyer@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Vector (2).png",
+      "filename" : "flyer@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
