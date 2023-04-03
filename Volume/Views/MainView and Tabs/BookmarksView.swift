@@ -214,6 +214,8 @@ struct BookmarksView: View {
     
 }
 
+// MARK: Uncomment below if needed
+
 //struct BookmarksView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        BookmarksView()
