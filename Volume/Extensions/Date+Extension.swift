@@ -36,4 +36,16 @@ extension Date {
         formatter.setLocalizedDateFormatFromTemplate("M/dd")
         return formatter.string(from: self)
     }
+    
+    var flyerDateString: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEE, MMMM d"
+        return formatter.string(from: self)
+    }
+    
+    var flyerTimeString: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h a"
+        return formatter.string(from: self)
+    }
 }

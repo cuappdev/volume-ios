@@ -37,6 +37,35 @@ extension Organization {
     enum ContentType {
         case academic, art, awareness, comedy, cultural, dance, foodDrinks, greekLife, music, socialJustice, spiritual, sports
     }
+    
+    static func contentTypeString(type: Organization.ContentType) -> String {
+        switch type {
+        case .academic:
+            return "Academic"
+        case .art:
+            return "Art"
+        case .awareness:
+            return "Awareness"
+        case .comedy:
+            return "Comedy"
+        case .cultural:
+            return "Cultural"
+        case .dance:
+            return "Dance"
+        case .foodDrinks:
+            return "Food & Drinks"
+        case .greekLife:
+            return "Greek Life"
+        case .music:
+            return "Music"
+        case .socialJustice:
+            return "Social Justice"
+        case .spiritual:
+            return "Spritual"
+        case .sports:
+            return "Sports"
+        }
+    }
 
 }
 
