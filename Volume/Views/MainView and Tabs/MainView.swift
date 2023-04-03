@@ -90,7 +90,7 @@ struct MainView: View {
                 floatingTabBar
                 
                 ZStack(alignment: .trailing) {
-                    Color.clear
+                    Color.black.opacity(0.0001)
                         .ignoresSafeArea(.all)
                         .contentShape(Rectangle())
                         .onTapGesture {
