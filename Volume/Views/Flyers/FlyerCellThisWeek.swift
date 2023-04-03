@@ -147,37 +147,34 @@ struct FlyerCellThisWeek: View {
 }
 
 extension FlyerCellThisWeek {
+    
     struct Skeleton: View {
         var body: some View {
-            SkeletonView()
+            VStack(alignment: .leading) {
+                SkeletonView()
+                    .frame(width: Constants.frameWidth, height: Constants.frameHeight)
+
+                SkeletonView()
+                    .frame(width: 130, height: 15)
+
+                SkeletonView()
+                    .frame(width: 200, height: 20)
+
+                SkeletonView()
+                    .frame(width: 180, height: 15)
+
+                SkeletonView()
+                    .frame(width: 100, height: 15)
+            }
         }
     }
     
-//    struct Skeleton: View {
-//        var body: some View {
-//            VStack(alignment: .leading) {
-//                SkeletonView()
-//                    .frame(width: Constants.frameWidth, height: Constants.frameHeight)
-//
-//                SkeletonView()
-//                    .frame(width: 130, height: 15)
-//
-//                SkeletonView()
-//                    .frame(width: 200, height: 20)
-//
-//                SkeletonView()
-//                    .frame(width: 180, height: 15)
-//
-//                SkeletonView()
-//                    .frame(width: 100, height: 15)
-//            }
-//        }
-//    }
-    
 }
 
-struct FlyerCellThisWeek_Previews: PreviewProvider {
-    static var previews: some View {
-        FlyerCellThisWeek(flyer: asiaverse)
-    }
-}
+// MARK: Uncomment below if needed
+
+//struct FlyerCellThisWeek_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FlyerCellThisWeek(flyer: asiaverse)
+//    }
+//}

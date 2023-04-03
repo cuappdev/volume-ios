@@ -28,7 +28,6 @@ struct FlyersView: View {
     // MARK: - UI
     
     var body: some View {
-
         listContent
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -77,12 +76,13 @@ struct FlyersView: View {
                         FlyerCellThisWeek.Skeleton()
                         FlyerCellThisWeek.Skeleton()
                     case .some(let flyers):
-                        ForEach(flyers, id: \.self) { flyer in
+                        ForEach(flyers) { flyer in
                             FlyerCellThisWeek(flyer: flyer)
                         }
                     }
                 }
             }
+            .environment(\EnvironmentValues.refresh as! WritableKeyPath<EnvironmentValues, RefreshAction?>, nil)
         } header: {
             Header("This Week")
                 .padding(.vertical, Constants.rowVerticalPadding)
@@ -107,6 +107,7 @@ struct FlyersView: View {
                 }
                 .frame(height: Constants.upcomingSectionHeight)
             }
+            .environment(\EnvironmentValues.refresh as! WritableKeyPath<EnvironmentValues, RefreshAction?>, nil)
         } header: {
             upcomingHeader
                 .padding(.vertical, Constants.rowVerticalPadding)
