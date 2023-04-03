@@ -11,6 +11,7 @@ import SwiftUI
 struct FlyerCellThisWeek: View {
     
     // MARK: - Properties
+    
     let flyer: Flyer
     
     // MARK: - Constants
@@ -20,9 +21,11 @@ struct FlyerCellThisWeek: View {
         static let categoryFont: Font = .helveticaRegular(size: 10)
         static let categoryHorizontalPadding: CGFloat = 16
         static let categoryVerticalPadding: CGFloat = 4
+        static let cellHeight: CGFloat = 344
+        static let cellWidth: CGFloat = 256
         static let dateFont: Font = .helveticaRegular(size: 12)
-        static let frameHeight: CGFloat = 256
-        static let frameWidth: CGFloat = 256
+        static let imageHeight: CGFloat = 256
+        static let imageWidth: CGFloat = 256
         static let locationFont: Font = .helveticaRegular(size: 12)
         static let organizationNameFont: Font = .newYorkMedium(size: 10)
         static let spacing: CGFloat = 4
@@ -39,6 +42,7 @@ struct FlyerCellThisWeek: View {
             flyerDate
             flyerLocation
         }
+        .frame(width: Constants.cellWidth, height: Constants.cellHeight)
     }
     
     private var imageFrame: some View {
@@ -48,11 +52,11 @@ struct FlyerCellThisWeek: View {
                 url: URL(string: flyer.imageURL),
                 content: { image in
                     image.resizable()
-                        .frame(width: Constants.frameWidth, height: Constants.frameHeight)
+                        .frame(width: Constants.imageWidth, height: Constants.imageHeight)
                 },
                 placeholder: {
                     SkeletonView()
-                        .frame(width: 256, height: 256)
+                        .frame(width: Constants.imageWidth, height: Constants.imageHeight)
                 }
             )
             
@@ -73,7 +77,6 @@ struct FlyerCellThisWeek: View {
         }
     }
     
-    @ViewBuilder
     private var bookmarkButton: some View {
         Button {
             Haptics.shared.play(.light)
@@ -86,11 +89,10 @@ struct FlyerCellThisWeek: View {
         }
     }
 
-    @ViewBuilder
     private var shareButton: some View {
         Button {
             Haptics.shared.play(.light)
-            // TODO: Bookmark Flyer
+            // TODO: Share Flyer
         } label: {
             Image.volume.share
                 .resizable()
@@ -103,6 +105,7 @@ struct FlyerCellThisWeek: View {
         HStack(alignment: .top) {
             Text(flyer.organization.name)
                 .font(Constants.organizationNameFont)
+                .lineLimit(1)
             
             Spacer()
             
@@ -113,37 +116,39 @@ struct FlyerCellThisWeek: View {
         .padding(.bottom, -Constants.spacing)
     }
     
-    @ViewBuilder
     private var flyerTitle: some View {
         Text(flyer.title)
             .font(Constants.titleFont)
+            .lineLimit(1)
     }
     
     private var flyerDate: some View {
         HStack {
-            Label {
-                Text(flyer.date.flyerDateString)
-                    .font(Constants.dateFont)
-            } icon: {
-                Image.volume.calendar
-                    .foregroundColor(Color.black)
-            }
+            Image.volume.calendar
+                .foregroundColor(Color.black)
+            
+            Text(flyer.date.flyerDateString)
+                .font(Constants.dateFont)
+                .padding(.trailing, 2 * Constants.spacing)
+                .lineLimit(1)
             
             Text(flyer.date.flyerTimeString)
                 .font(Constants.dateFont)
+                .lineLimit(1)
         }
     }
     
-    @ViewBuilder
     private var flyerLocation: some View {
-        Label {
-            Text(flyer.location)
-                .font(Constants.locationFont)
-        } icon: {
+        HStack {
             Image.volume.location
                 .foregroundColor(Color.black)
+            
+            Text(flyer.location)
+                .font(Constants.locationFont)
+                .lineLimit(1)
         }
     }
+    
 }
 
 extension FlyerCellThisWeek {
@@ -152,7 +157,7 @@ extension FlyerCellThisWeek {
         var body: some View {
             VStack(alignment: .leading) {
                 SkeletonView()
-                    .frame(width: Constants.frameWidth, height: Constants.frameHeight)
+                    .frame(width: Constants.imageWidth, height: Constants.imageHeight)
 
                 SkeletonView()
                     .frame(width: 130, height: 15)
@@ -166,6 +171,7 @@ extension FlyerCellThisWeek {
                 SkeletonView()
                     .frame(width: 100, height: 15)
             }
+            .frame(width: Constants.cellWidth, height: Constants.cellHeight)
         }
     }
     
