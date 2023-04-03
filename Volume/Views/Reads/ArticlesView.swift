@@ -78,7 +78,6 @@ struct ArticlesView: View {
             .listRowSeparator(.hidden)
             .listRowInsets(EdgeInsets(top: 0, leading: Constants.listHorizontalPadding, bottom: 0, trailing: Constants.listHorizontalPadding))
             .listRowBackground(Color.clear)
-
         }
         .navigationBarTitleDisplayMode(.inline)
         .listStyle(.plain)
@@ -123,6 +122,8 @@ struct ArticlesView: View {
                     }
                 }
             }
+            .environment(\EnvironmentValues.refresh as! WritableKeyPath<EnvironmentValues, RefreshAction?>, nil)
+
         } header: {
             Header("The Big Read")
                 .padding(.vertical, Constants.rowVerticalPadding)
