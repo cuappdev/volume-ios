@@ -455,7 +455,6 @@
 			isa = PBXGroup;
 			children = (
 				7ED7C335252D117A0078B1BD /* Volume */,
-				7ED7C33C252D117B0078B1BD /* Assets.xcassets */,
 				7ED7C334252D117A0078B1BD /* Products */,
 				83C84BDB5D19AF58134A64D3 /* Pods */,
 				7E369DFB25EED6FC00FC0419 /* Recovered References */,
@@ -474,6 +473,7 @@
 		7ED7C335252D117A0078B1BD /* Volume */ = {
 			isa = PBXGroup;
 			children = (
+				7ED7C33C252D117B0078B1BD /* Assets.xcassets */,
 				995C99FE25E576E600F6FBA5 /* Analytics */,
 				7E51586325589D3F003A0F4A /* Models */,
 				7E23DFDC254A0FEA0001C3A3 /* Views */,
