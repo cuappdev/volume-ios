@@ -37,15 +37,29 @@ extension Date {
         return formatter.string(from: self)
     }
     
+    /// This `Date` in the format "EEE, MMMM d"
     var flyerDateString: String {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEE, MMMM d"
         return formatter.string(from: self)
     }
     
+    /// This `Date` in the format "h:mm a" with trailing 00 removed
     var flyerTimeString: String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "h a"
-        return formatter.string(from: self)
+        formatter.dateFormat = "h:mm a"
+        
+        // Remove trailing 00
+        let formatted = formatter.string(from: self)
+        if formatted.hasSuffix("00 AM") || formatted.hasSuffix("00 PM"),
+           let colonPos = formatted.firstIndex(of: ":"),
+           let spacePos = formatted.firstIndex(of: " ") {
+            
+            let prefix = formatted[..<colonPos]
+            let suffix = formatted[formatted.index(spacePos, offsetBy: 1)...]
+            return String(prefix + suffix)
+        }
+        
+        return formatted
     }
 }

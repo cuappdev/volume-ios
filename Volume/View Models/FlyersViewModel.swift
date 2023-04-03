@@ -16,7 +16,7 @@ extension FlyersView {
         
         @Published var pastFlyers: [Flyer]? = nil
         @Published var thisWeekFlyers: [Flyer]? = FlyerDummyData.thisWeekFlyers
-        @Published var upcomingFlyers: [Flyer]? = nil
+        @Published var upcomingFlyers: [Flyer]? = FlyerDummyData.upcomingFlyers
         
         var disableScrolling: Bool {
             // TODO: Revert back

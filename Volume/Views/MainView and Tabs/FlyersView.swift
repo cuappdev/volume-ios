@@ -102,7 +102,9 @@ struct FlyersView: View {
                             FlyerCellUpcoming.Skeleton()
                         }
                     case .some(let flyers):
-                        FlyerCellUpcoming.Skeleton()
+                        ForEach(flyers) { flyer in
+                            FlyerCellUpcoming(flyer: flyer)
+                        }
                     }
                 }
                 .frame(height: Constants.upcomingSectionHeight)
