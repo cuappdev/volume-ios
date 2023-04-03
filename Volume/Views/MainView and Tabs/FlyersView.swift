@@ -77,7 +77,9 @@ struct FlyersView: View {
                         FlyerCellThisWeek.Skeleton()
                         FlyerCellThisWeek.Skeleton()
                     case .some(let flyers):
-                        SkeletonView()
+                        ForEach(flyers, id: \.self) { flyer in
+                            FlyerCellThisWeek(flyer: flyer)
+                        }
                     }
                 }
             }
