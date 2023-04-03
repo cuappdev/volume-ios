@@ -86,7 +86,7 @@ struct PublicationList: View {
                     }
                 }
             } else {
-                VolumeMessage(message: .noFollowingPublications, largeFont: false, fullWidth: true)
+                VolumeMessage(image: Image.volume.pen, message: .noFollowingPublications, largeFont: false, fullWidth: true)
             }
         }
     }
