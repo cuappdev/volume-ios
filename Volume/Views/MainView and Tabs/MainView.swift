@@ -11,7 +11,9 @@ import AppDevAnnouncements
 import SwiftUI
 
 struct MainView: View {
+    
     @State private var selectedTab: Screen = .trending
+    @State private var showPublication: Bool = false
     @State private var tabBarHeight: CGFloat = 75
     @EnvironmentObject private var notifications: Notifications
 
@@ -28,7 +30,7 @@ struct MainView: View {
             .tag(Screen.flyers)
 
             TabContainer(screen: .reads) {
-                ReadsView()
+                ReadsView(showPublication: $showPublication)
             }
             .tag(Screen.reads)
             
@@ -82,40 +84,60 @@ struct MainView: View {
     }
     
     var body: some View {
-        ZStack {
-            tabViewContainer
-            floatingTabBar
-        }
-        .onAppear {
-            SwiftUIAnnounce.presentAnnouncement { presented in
-                if presented {
-                    AppDevAnalytics.log(VolumeEvent.announcementPresented.toEvent(.general))
+        GeometryReader { geometry in
+            ZStack(alignment: .trailing) {
+                tabViewContainer
+                floatingTabBar
+                
+                ZStack(alignment: .trailing) {
+                    Color.clear
+                        .ignoresSafeArea(.all)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            withAnimation { showPublication.toggle() }
+                        }
+                    
+                    Rectangle()
+                        .frame(width: geometry.size.width * 0.8)
+                        .shadow(radius: 10)
+                    
+                    PublicationList(showPublication: $showPublication)
+                        .frame(width: geometry.size.width * 0.8)
+                }
+                .offset(x: showPublication ? 0 : UIScreen.main.bounds.width)
+                .animation(.spring(), value: showPublication)
+            }
+            .onAppear {
+                SwiftUIAnnounce.presentAnnouncement { presented in
+                    if presented {
+                        AppDevAnalytics.log(VolumeEvent.announcementPresented.toEvent(.general))
+                    }
                 }
             }
-        }
-        .onOpenURL { url in
-            guard url.isDeeplink else {
-                return
-            }
+            .onOpenURL { url in
+                guard url.isDeeplink else {
+                    return
+                }
 
-            switch url.contentType {
-            case .article:
-                if selectedTab != .reads {
-                    selectedTab = .reads
-                    UIApplication.shared.open(url)
+                switch url.contentType {
+                case .article:
+                    if selectedTab != .reads {
+                        selectedTab = .reads
+                        UIApplication.shared.open(url)
+                    }
+                case .magazine:
+                    if selectedTab != .reads {
+                        selectedTab = .reads
+                        UIApplication.shared.open(url)
+                    }
+                default:
+                    break
                 }
-            case .magazine:
-                if selectedTab != .reads {
-                    selectedTab = .reads
-                    UIApplication.shared.open(url)
-                }
-            default:
-                break
             }
-        }
-        .onChange(of: notifications.isWeeklyDebriefOpen) { isOpen in
-            if isOpen {
-                selectedTab = .trending
+            .onChange(of: notifications.isWeeklyDebriefOpen) { isOpen in
+                if isOpen {
+                    selectedTab = .trending
+                }
             }
         }
     }
