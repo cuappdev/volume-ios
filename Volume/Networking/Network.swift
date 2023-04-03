@@ -151,7 +151,6 @@ class NetworkState: ObservableObject {
 
     public enum Screen: String, CaseIterable {
         case trending, flyers, reads, publications, bookmarks, publicationDetail, search
-//        case trending, flyers, articles, magazines, publications, bookmarks, publicationDetail, search
     }
 
     func handleCompletion(screen: Screen, _ completion: Subscribers.Completion<WrappedGraphQLError>) {

@@ -125,7 +125,6 @@ extension MainView {
     /// An enum to keep track of which tab the user is currently on
     private enum Screen {
         case trending, flyers, reads, publications, bookmarks, weeklyDebriefPopup
-//        case home, magazines, publications, bookmarks, weeklyDebriefPopup
     }
     
     enum TabState<Results> {
