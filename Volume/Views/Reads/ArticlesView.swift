@@ -1,37 +1,53 @@
 //
-//  HomeView.swift
+//  ArticlesView.swift
 //  Volume
 //
-//  Created by Hanzheng Li on 10/26/22.
-//  Copyright © 2022 Cornell AppDev. All rights reserved.
+//  Created by Vin Bui on 4/2/23.
+//  Copyright © 2023 Cornell AppDev. All rights reserved.
 //
 
 import SwiftUI
 
-struct HomeView: View {
+struct ArticlesView: View {
+    
+    // MARK: - Properties
+    
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
     @StateObject var viewModel = ViewModel()
+    
+    // MARK: - Constants
+    
+    private struct Constants {
+        static let followedArticlesSectionTitle: String = "Following"
+        static let listHorizontalPadding: CGFloat = 16
+        static let rowVerticalPadding: CGFloat = 6
+        static let trendingArticleHorizontalSpacing: CGFloat = 24
+        static let unfollowedArticlesSectionTitle: String = "Other Articles"
+        static let volumeMessageBottomPadding: CGFloat = 0
+        static let volumeMessageTopPadding: CGFloat = 25
+        static let weeklyDebriefTopPadding: CGFloat = 24
+        
+        static var backgroundColor: Color {
+            // Prevent inconsistency w/ List background in lower iOS versions
+            if #available(iOS 16.0, *) {
+                return Color.volume.backgroundGray
+            } else {
+                return Color.white
+            }
+        }
 
-    init() {
-        let navBarAppearance = UINavigationBarAppearance()
-        navBarAppearance.configureWithTransparentBackground()
-        navBarAppearance.backgroundColor = UIColor(Constants.backgroundColor)
-
-        UINavigationBar.appearance().standardAppearance = navBarAppearance
-        UINavigationBar.appearance().compactAppearance = navBarAppearance
-        UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
+        static var headerBackgroundColor: Color {
+            backgroundColor.opacity(0.8)
+        }
     }
-
+    
+    // MARK: - UI
+    
     var body: some View {
         ZStack {
             background.edgesIgnoringSafeArea(.all)
             listContent
-            .toolbar {
-                ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
-                    Image.volume.logo.foregroundColor(.red)
-                }
-            }
             .onAppear {
                 viewModel.setupEnvironment(networkState: networkState, userData: userData)
                 Task {
@@ -48,7 +64,7 @@ struct HomeView: View {
             }
         }
     }
-
+    
     private var listContent: some View {
         List {
             Group {
@@ -62,32 +78,29 @@ struct HomeView: View {
             .listRowSeparator(.hidden)
             .listRowInsets(EdgeInsets(top: 0, leading: Constants.listHorizontalPadding, bottom: 0, trailing: Constants.listHorizontalPadding))
             .listRowBackground(Color.clear)
-            
-            Spacer(minLength: Constants.searchBarTopOffset)
+
         }
         .navigationBarTitleDisplayMode(.inline)
-        .listStyle(.grouped)
+        .listStyle(.plain)
         .refreshable {
             await viewModel.refreshContent()
         }
         .modifier(ListBackgroundModifier())
         .background(background)
         .disabled(viewModel.disableScrolling)
-        .offset(x:0, y: -Constants.searchBarTopOffset).edgesIgnoringSafeArea(.bottom)
     }
-
-    // MARK: Sections
     
     private var searchBar: some View {
         SearchBar(searchState: $viewModel.searchState, searchText: $viewModel.searchText)
             .disabled(true)
-            .padding(EdgeInsets(top: Constants.rowVerticalPadding, leading: 0, bottom: Constants.rowVerticalPadding,
-                trailing: 0))
             .overlay(NavigationLink(destination: SearchView(), label: {
                 EmptyView()
             }).opacity(0))
+            .padding(.top, 5)
     }
-
+    
+    // MARK: - Sections
+    
     private var trendingArticlesSection: some View {
         Section {
             ScrollView(.horizontal, showsIndicators: false) {
@@ -118,7 +131,7 @@ struct HomeView: View {
         }
         .background(headerGradient)
     }
-
+    
     private var followedArticlesSection: some View {
         articleSection(followed: true)
     }
@@ -178,9 +191,9 @@ struct HomeView: View {
         }
         .background(headerGradient)
     }
-
-    // MARK: Weekly Debrief
-
+    
+    // MARK: - Weekly Debrief
+    
     private var weeklyDebriefButton: some View {
         Group {
             if viewModel.weeklyDebrief != nil {
@@ -203,9 +216,9 @@ struct HomeView: View {
             }
         }
     }
-
-    // MARK: Supporting Views
-
+    
+    // MARK: - Supporting Views
+    
     private var headerGradient: some View {
         LinearGradient(
             colors: [Constants.backgroundColor, Constants.backgroundColor.opacity(0)],
@@ -215,50 +228,15 @@ struct HomeView: View {
 
     private var background: some View {
         ZStack {
-            deepNavigationLink
             Constants.backgroundColor
         }
     }
-
-    private var deepNavigationLink: some View {
-        // Invisible navigation link
-        // Only opens if application is opened through deeplink w/ valid article
-        Group {
-            if let articleID = viewModel.deeplinkID {
-                NavigationLink(Constants.browserViewNavigationTitleKey, isActive: $viewModel.openArticleFromDeeplink) {
-                    BrowserView(initType: .fetchRequired(articleID), navigationSource: .morePublications)
-                }
-                .hidden()
-            }
-        }
-    }
 }
 
-extension HomeView {
-    private struct Constants {
-        static let searchBarTopOffset: CGFloat = 25
-        static let listHorizontalPadding: CGFloat = 16
-        static let navBarVerticalPadding: CGFloat = 10
-        static let rowVerticalPadding: CGFloat = 6
-        static let weeklyDebriefTopPadding: CGFloat = 24
-        static let trendingArticleHorizontalSpacing: CGFloat = 24
-        static let volumeMessageTopPadding: CGFloat = 25
-        static let volumeMessageBottomPadding: CGFloat = 0
-        static let followedArticlesSectionTitle: String = "Following"
-        static let unfollowedArticlesSectionTitle: String = "Other Articles"
-        static let browserViewNavigationTitleKey: String = "BrowserView"
+// MARK: Uncomment below if needed
 
-        static var backgroundColor: Color {
-            // Prevent inconsistency w/ List background in lower iOS versions
-            if #available(iOS 16.0, *) {
-                return Color.volume.backgroundGray
-            } else {
-                return Color.white
-            }
-        }
-
-        static var headerBackgroundColor: Color {
-            backgroundColor.opacity(0.8)
-        }
-    }
-}
+//struct ArticlesView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ArticlesView()
+//    }
+//}

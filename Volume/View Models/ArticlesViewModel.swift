@@ -1,42 +1,48 @@
 //
-//  HomeViewModel.swift
+//  ArticlesViewModel.swift
 //  Volume
 //
-//  Created by Hanzheng Li on 10/26/22.
-//  Copyright © 2022 Cornell AppDev. All rights reserved.
+//  Created by Vin Bui on 4/2/23.
+//  Copyright © 2023 Cornell AppDev. All rights reserved.
 //
 
 import Combine
 import SwiftUI
 
-extension HomeView {
-    @MainActor class ViewModel: ObservableObject {
+extension ArticlesView {
+    
+    @MainActor
+    class ViewModel: ObservableObject {
+        // MARK: - Properties
+        
         typealias ArticlesResultPublisher = Publishers.Map<OperationPublisher<GetArticlesByPublicationSlugsQuery.Data>, [ArticleFields]>
+        
+        @Published var deeplinkID: String? = nil
+        @Published var followedArticles: [Article]? = nil
+        @Published var hasMoreFollowedArticlePages = true
+        @Published var hasMoreUnfollowedArticlePages = true
+        @Published var isWeeklyDebriefOpen: Bool = false
+        @Published var openArticleFromDeeplink: Bool = false
+        @Published var searchState: SearchView.SearchState = .searching
+        @Published var searchText: String = ""
+        @Published var trendingArticles: [Article]? = nil
+        @Published var unfollowedArticles: [Article]? = nil
+        @Published var weeklyDebrief: WeeklyDebrief? = nil
 
+        private var networkState: NetworkState?
+        private var publicationSlugs: [String]? = nil
+        private var queryBag = Set<AnyCancellable>()
+        private var userData: UserData?
+        
+        // MARK: - Constants
+        
         private struct Constants {
             static let pageSize: Double = 10
             static let trendingArticleLimit: Double = 7
         }
-
-        var networkState: NetworkState?
-        var userData: UserData?
-
-        @Published var trendingArticles: [Article]? = nil
-        @Published var weeklyDebrief: WeeklyDebrief? = nil
-        @Published var followedArticles: [Article]? = nil
-        @Published var unfollowedArticles: [Article]? = nil
-
-        @Published var hasMoreFollowedArticlePages = true
-        @Published var hasMoreUnfollowedArticlePages = true
-        @Published var isWeeklyDebriefOpen: Bool = false
-        @Published var deeplinkID: String? = nil
-        @Published var openArticleFromDeeplink: Bool = false
-        @Published var searchState: SearchView.SearchState = .searching
-        @Published var searchText: String = ""
-
-        private var publicationSlugs: [String]? = nil
-        private var queryBag = Set<AnyCancellable>()
-
+        
+        // MARK: - Property Helpers
+        
         func setupEnvironment(networkState: NetworkState, userData: UserData) {
             if self.networkState == nil || self.userData == nil {
                 self.networkState = networkState
@@ -61,12 +67,11 @@ extension HomeView {
         var disableScrolling: Bool {
             trendingArticles == .none
         }
-
-        // MARK: Requests
-
+        
+        // MARK: - Requests
+        
         func fetchContent() async {
             fetchTrendingArticles()
-            fetchWeeklyDebrief()
             if followedArticles == nil {
                 await fetchFirstPage()
             }
@@ -89,13 +94,13 @@ extension HomeView {
             Network.shared.publisher(for: GetTrendingArticlesQuery(limit: Constants.trendingArticleLimit))
                 .map { $0.articles.map(\.fragments.articleFields) }
                 .sink { [weak self] completion in
-                    self?.networkState?.handleCompletion(screen: .home, completion)
+                    self?.networkState?.handleCompletion(screen: .reads, completion)
                 } receiveValue: { [weak self] articleFieldsList in
                     self?.trendingArticles = [Article](articleFieldsList)
                 }
                 .store(in: &queryBag)
         }
-
+        
         func fetchWeeklyDebrief() {
             func fetch() {
                 guard let uuid = userData?.uuid else {
@@ -108,11 +113,11 @@ extension HomeView {
                 Network.shared.publisher(for: GetWeeklyDebriefQuery(uuid: uuid))
                     .map(\.user?.weeklyDebrief)
                     .sink { [weak self] completion in
-                        self?.networkState?.handleCompletion(screen: .home, completion)
+                        self?.networkState?.handleCompletion(screen: .reads, completion)
                     } receiveValue: { [weak self] weeklyDebriefFields in
                         guard let weeklyDebriefFields else {
                             #if DEBUG
-                            print("Error: GetWeeklyDebrief failed on HomeView: field \"weeklyDebrief\" is nil.")
+                            print("Error: GetWeeklyDebrief failed on ArticlesView: field \"weeklyDebrief\" is nil.")
                             #endif
                             self?.weeklyDebrief = nil
                             return
@@ -154,7 +159,7 @@ extension HomeView {
                             .map { $0.articles.map(\.fragments.articleFields) }
                     }
                     .sink { [weak self] completion in
-                        self?.networkState?.handleCompletion(screen: .home, completion)
+                        self?.networkState?.handleCompletion(screen: .reads, completion)
                     } receiveValue: { [weak self] articleFields in
                         self?.updateArticles(followed: true, with: articleFields)
                         continuation.resume()
@@ -175,15 +180,15 @@ extension HomeView {
                 )
                 .map { $0.articles.map(\.fragments.articleFields) }
                 .sink { [weak self] completion in
-                    self?.networkState?.handleCompletion(screen: .home, completion)
+                    self?.networkState?.handleCompletion(screen: .reads, completion)
                 } receiveValue: { [weak self] articleFields in
                     self?.updateArticles(followed: followed, with: articleFields)
                 }
                 .store(in: &queryBag)
         }
-
-        // MARK: Deeplink
-
+        
+        // MARK: - Deeplink
+        
         func handleURL(_ url: URL) {
             if url.isDeeplink,
                url.contentType == .article,
@@ -192,9 +197,9 @@ extension HomeView {
                 openArticleFromDeeplink = true
             }
         }
-
-        // MARK: Helpers
-
+        
+        // MARK: - Helpers
+        
         private func offset(for articles: [Article]?) -> Double {
             Double(articles?.count ?? 0)
         }
@@ -226,4 +231,5 @@ extension HomeView {
             }
         }
     }
+    
 }

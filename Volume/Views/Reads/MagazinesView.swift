@@ -1,5 +1,5 @@
 //
-//  MagazinesList.swift
+//  MagazinesView.swift
 //  Volume
 //
 //  Created by Vin Bui on 3/23/23.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct MagazinesList: View {
+struct MagazinesView: View {
     
     // MARK: - Properties
     
@@ -22,7 +22,7 @@ struct MagazinesList: View {
         static let groupTopPadding: CGFloat = 8
         static let magazineHorizontalSpacing: CGFloat = 24
         static let magazineVerticalSpacing: CGFloat = 30
-        static let navigationTitleKey = "MagazineReaderView"
+        static let searchTop: CGFloat = 5
         static let sidePadding: CGFloat = 16
     }
     
@@ -33,21 +33,14 @@ struct MagazinesList: View {
             viewModel.refreshContent(done)
         } content: {
             VStack {
+                searchBar
                 featuredMagazinesSection
                 Spacer()
                     .frame(height: Constants.groupTopPadding)
                 moreMagazinesSection
             }
         }
-        .padding(.top)
-        .background(background)
-        .toolbar {
-            ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
-                BubblePeriodText("Magazines")
-                    .font(.newYorkMedium(size: 28))
-                    .offset(y: 8)
-            }
-        }
+        .background(Color.volume.backgroundGray)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             viewModel.networkState = networkState
@@ -55,14 +48,14 @@ struct MagazinesList: View {
                 await viewModel.fetchContent()
             }
         }
-        .onOpenURL { url in
-            if url.isDeeplink,
-               url.contentType == .magazine,
-               let id = url.parameters["id"] {
-                viewModel.deeplinkID = id
-                viewModel.openMagazineFromDeeplink = true
-            }
-        }
+    }
+    
+    private var searchBar: some View {
+        NavigationLink(destination: SearchView(), label: {
+            SearchBar(searchState: $viewModel.searchState, searchText: $viewModel.searchText)
+                .disabled(true)
+                .padding(.init(top: Constants.searchTop, leading: Constants.sidePadding, bottom: 0, trailing: Constants.sidePadding))
+        })
     }
     
     private var featuredMagazinesSection: some View {
@@ -149,27 +142,7 @@ struct MagazinesList: View {
         }
     }
     
-    // MARK: - Supporting Views
-    private var background: some View {
-        ZStack {
-            Color.volume.backgroundGray
-            deepNavigationLink
-        }
-    }
-    
-    private var deepNavigationLink: some View {
-        Group {
-            if let magazineID = viewModel.deeplinkID {
-                NavigationLink(Constants.navigationTitleKey, isActive: $viewModel.openMagazineFromDeeplink) {
-                    MagazineReaderView(initType: .fetchRequired(magazineID), navigationSource: .moreMagazines)
-                }
-                .hidden()
-            }
-        }
-    }
-    
 }
-// MARK: Uncomment below if needed
 
 //struct MagazinesList_Previews: PreviewProvider {
 //    static var previews: some View {

@@ -11,26 +11,26 @@ import AppDevAnnouncements
 import SwiftUI
 
 struct MainView: View {
-    @State private var selectedTab: Screen = .home
+    @State private var selectedTab: Screen = .trending
     @State private var tabBarHeight: CGFloat = 75
     @EnvironmentObject private var notifications: Notifications
 
     private var tabViewContainer: some View {
         TabView(selection: $selectedTab) {
-            TabContainer(screen: .home) {
-                HomeView()
+            TabContainer(screen: .trending) {
+                TrendingView()
             }
-            .tag(Screen.home)
+            .tag(Screen.trending)
 
-            TabContainer(screen: .magazines) {
-                MagazinesList()
+            TabContainer(screen: .flyers) {
+                FlyersView()
             }
-            .tag(Screen.magazines)
+            .tag(Screen.flyers)
 
-            TabContainer(screen: .publications) {
-                PublicationList()
+            TabContainer(screen: .reads) {
+                ReadsView()
             }
-            .tag(Screen.publications)
+            .tag(Screen.reads)
             
             TabContainer(screen: .bookmarks) {
                 BookmarksView()
@@ -48,21 +48,21 @@ struct MainView: View {
                 HStack(alignment: .top) {
                     Spacer()
                     
-                    TabItem(icon: .volume.feed, size: iconSize, name: "For You")
-                        .foregroundColor(selectedTab == .home ? .volume.orange : .volume.lightGray)
-                        .onTapGesture { selectedTab = .home }
+                    TabItem(icon: .volume.feed, size: iconSize, name: "Trending")
+                        .foregroundColor(selectedTab == .trending ? .volume.orange : .volume.lightGray)
+                        .onTapGesture { selectedTab = .trending }
 
                     Spacer()
 
-                    TabItem(icon: .volume.magazine, size: iconSize, name: "Magazines")
-                        .foregroundColor(selectedTab == .magazines ? .volume.orange : .volume.lightGray)
-                        .onTapGesture { selectedTab = .magazines }
+                    TabItem(icon: .volume.flyer, size: iconSize, name: "Flyers")
+                        .foregroundColor(selectedTab == .flyers ? .volume.orange : .volume.lightGray)
+                        .onTapGesture { selectedTab = .flyers }
 
                     Spacer()
                     
-                    TabItem(icon: .volume.pen, size: iconSize, name: "Publications")
-                        .foregroundColor(selectedTab == .publications ? .volume.orange : .volume.lightGray)
-                        .onTapGesture { selectedTab = .publications }
+                    TabItem(icon: .volume.magazine, size: iconSize, name: "Reads")
+                        .foregroundColor(selectedTab == .reads ? .volume.orange : .volume.lightGray)
+                        .onTapGesture { selectedTab = .reads }
                     
                     Spacer()
                     
@@ -100,13 +100,13 @@ struct MainView: View {
 
             switch url.contentType {
             case .article:
-                if selectedTab != .home {
-                    selectedTab = .home
+                if selectedTab != .reads {
+                    selectedTab = .reads
                     UIApplication.shared.open(url)
                 }
             case .magazine:
-                if selectedTab != .magazines {
-                    selectedTab = .magazines
+                if selectedTab != .reads {
+                    selectedTab = .reads
                     UIApplication.shared.open(url)
                 }
             default:
@@ -115,7 +115,7 @@ struct MainView: View {
         }
         .onChange(of: notifications.isWeeklyDebriefOpen) { isOpen in
             if isOpen {
-                selectedTab = .home
+                selectedTab = .trending
             }
         }
     }
@@ -124,7 +124,7 @@ struct MainView: View {
 extension MainView {
     /// An enum to keep track of which tab the user is currently on
     private enum Screen {
-        case home, magazines, publications, bookmarks, weeklyDebriefPopup
+        case trending, flyers, reads, publications, bookmarks, weeklyDebriefPopup
     }
     
     enum TabState<Results> {

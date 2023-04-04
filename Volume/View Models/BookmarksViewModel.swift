@@ -2,23 +2,30 @@
 //  BookmarksViewModel.swift
 //  Volume
 //
-//  Created by Hanzheng Li on 11/18/22.
-//  Copyright © 2022 Cornell AppDev. All rights reserved.
+//  Created by Vin Bui on 4/2/23.
+//  Copyright © 2023 Cornell AppDev. All rights reserved.
 //
 
 import Combine
 import SwiftUI
 
 extension BookmarksView {
-    @MainActor class ViewModel: ObservableObject {
-        private var networkState: NetworkState?
-        private var userData: UserData?
-
+    
+    @MainActor
+    class ViewModel: ObservableObject {
+        // MARK: - Properties
+        
+        // TODO: Property for flyers
         @Published var articles: [Article]? = nil
         @Published var magazines: [Magazine]? = nil
-        @Published var selectedTab: Publication.ContentType = .articles
+        @Published var selectedTab: bookmarkTabs = .flyers
         @Published private var queryBag = Set<AnyCancellable>()
-
+        
+        private var networkState: NetworkState?
+        private var userData: UserData?
+        
+        // MARK: - Property Helpers
+        
         func setupEnvironmentVariables(networkState: NetworkState, userData: UserData) {
             self.networkState = networkState
             self.userData = userData
@@ -39,9 +46,11 @@ extension BookmarksView {
 
             return !userData.savedMagazineIDs.isEmpty
         }
-
-        // MARK: Requests
-
+        
+        // TODO: hasSavedFlyers
+        
+        // MARK: - Network Requests
+        
         func fetchContent() {
             fetchArticles(ids: userData?.savedArticleIDs ?? [])
             fetchMagazines(ids: userData?.savedMagazineIDs ?? [])
@@ -86,5 +95,18 @@ extension BookmarksView {
                 }
                 .store(in: &queryBag)
         }
+        
+        // TODO: fetchFlyers
     }
+    
+}
+
+extension BookmarksView {
+    
+    enum bookmarkTabs {
+        case flyers
+        case articles
+        case magazines
+    }
+    
 }

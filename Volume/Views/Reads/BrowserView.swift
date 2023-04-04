@@ -36,60 +36,60 @@ struct BrowserView: View {
     // MARK: UI Components
     
     private var navbar: some View {
-            ZStack {
-                Rectangle()
-                    .foregroundColor(.white)
-                    .shadow(color: .black.opacity(0.2), radius: 2, y: 3)
-                
-                if showToolbars {
-                    HStack {
-                        Button {
-                            presentationMode.wrappedValue.dismiss()
-                        } label: {
-                            Image.volume.leftArrow
+        ZStack {
+            Rectangle()
+                .foregroundColor(.white)
+                .shadow(color: .black.opacity(0.2), radius: 2, y: 3)
+            
+            if showToolbars {
+                HStack {
+                    Button {
+                        presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        Image.volume.leftArrow
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: 24)
+                            .foregroundColor(.black)
+                    }
+                    
+                    Spacer()
+                    
+                    if case let .results(article) = state, let url = article.articleUrl {
+                        Link(destination: url) {
+                            Image.volume.compass
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(height: 24)
                                 .foregroundColor(.black)
                         }
-                        
-                        Spacer()
-                        
-                        if case let .results(article) = state, let url = article.articleUrl {
-                            Link(destination: url) {
-                                Image.volume.compass
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(height: 24)
-                                    .foregroundColor(.black)
-                            }
-                        } else {
-                            Image.volume.compass
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(height: 24)
-                                .foregroundColor(.volume.lightGray)
-                        }
-                    }
-                    .padding(.horizontal, 16)
-                    
-                    VStack {
-                        Text(navigationTitle)
-                            .font(.newYorkBold(size: 12))
-                            .truncationMode(.tail)
-                        Text("Reading in Volume")
-                            .font(.helveticaRegular(size: 10))
+                    } else {
+                        Image.volume.compass
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: 24)
                             .foregroundColor(.volume.lightGray)
                     }
-                    .padding(.horizontal, 48)
-                } else {
-                    Text(navigationTitle)
-                        .font(.newYorkBold(size: 10))
-                        .fixedSize()
                 }
+                .padding(.horizontal, 16)
+                
+                VStack {
+                    Text(navigationTitle)
+                        .font(.newYorkBold(size: 12))
+                        .truncationMode(.tail)
+                    Text("Reading in Volume")
+                        .font(.helveticaRegular(size: 10))
+                        .foregroundColor(.volume.lightGray)
+                }
+                .padding(.horizontal, 48)
+            } else {
+                Text(navigationTitle)
+                    .font(.newYorkBold(size: 10))
+                    .fixedSize()
             }
-            .background(Color.white)
-            .frame(height: showToolbars ? 40 : 20)
+        }
+        .background(Color.white)
+        .frame(height: showToolbars ? 40 : 20)
     }
     
     private var toolbar: some View {

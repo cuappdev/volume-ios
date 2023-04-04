@@ -2,18 +2,32 @@
 //  BookmarksView.swift
 //  Volume
 //
-//  Created by Hanzheng Li on 11/18/22.
-//  Copyright © 2022 Cornell AppDev. All rights reserved.
+//  Created by Vin Bui on 4/2/23.
+//  Copyright © 2023 Cornell AppDev. All rights reserved.
 //
 
 import SwiftUI
 
 struct BookmarksView: View {
-
+    
+    // MARK: - Properties
+    
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
     @StateObject private var viewModel = ViewModel()
-
+    
+    // MARK: - Constants
+    
+    private struct Constants {
+        static let articlesTabWidth: CGFloat = 80
+        static let flyersTabWidth: CGFloat = 70
+        static let magazinesTabWidth: CGFloat = 110
+        static let titleFont: Font = .newYorkMedium(size: 28)
+        static let noSavedMessageLength: CGFloat = 250
+    }
+    
+    // MARK: - UI
+    
     var body: some View {
         VStack {
             tabBar
@@ -36,10 +50,10 @@ struct BookmarksView: View {
             viewModel.fetchContent()
         }
     }
-
+    
     private var title: some View {
         BubblePeriodText("Bookmarks")
-            .font(.newYorkMedium(size: 28))
+            .font(Constants.titleFont)
             .offset(y: 8)
     }
 
@@ -55,28 +69,35 @@ struct BookmarksView: View {
             Haptics.shared.play(.light)
         }
     }
-
+    
     private var tabBar: some View {
         SlidingTabBarView(
             selectedTab: $viewModel.selectedTab,
             items: [
                 SlidingTabBarView.Item(
+                    title: "Flyers",
+                    tab: .flyers,
+                    width: Constants.flyersTabWidth
+                ),
+                SlidingTabBarView.Item(
                     title: "Articles",
                     tab: .articles,
-                    width: 80
+                    width: Constants.articlesTabWidth
                 ),
                 SlidingTabBarView.Item(
                     title: "Magazines",
                     tab: .magazines,
-                    width: 106
+                    width: Constants.magazinesTabWidth
                 )
             ]
         )
     }
-
+    
     private var scrollContent: some View {
         Group {
             switch viewModel.selectedTab {
+            case .flyers:
+                flyerContent
             case .articles:
                 articleContent
             case .magazines:
@@ -85,7 +106,14 @@ struct BookmarksView: View {
         }
         .padding(.top)
     }
-
+    
+    // MARK: - Sections
+    
+    private var flyerContent: some View {
+        // TODO: Implement me
+        noSavedContentView
+    }
+    
     private var articleContent: some View {
         Group {
             if viewModel.hasSavedArticles {
@@ -115,7 +143,7 @@ struct BookmarksView: View {
             }
         }
     }
-
+    
     private var magazineContent: some View {
         Group {
             if viewModel.hasSavedMagazines {
@@ -146,7 +174,7 @@ struct BookmarksView: View {
             }
         }
     }
-
+    
     private func magazineCellRow(first: Magazine, second: Magazine?) -> some View {
         HStack {
             magazineCellLink(magazine: first)
@@ -161,7 +189,7 @@ struct BookmarksView: View {
         }
         .padding()
     }
-
+    
     private func magazineCellLink(magazine: Magazine) -> some View {
         NavigationLink {
             MagazineReaderView(initType: .readyForDisplay(magazine), navigationSource: .bookmarkMagazines)
@@ -172,8 +200,10 @@ struct BookmarksView: View {
 
     private var noSavedContentView: some View {
         VStack {
-            Spacer(minLength: 250)
+            Spacer(minLength: Constants.noSavedMessageLength)
             switch viewModel.selectedTab {
+            case .flyers:
+                VolumeMessage(image: Image.volume.flyer, message: .noBookmarkedFlyers, largeFont: true, fullWidth: true)
             case .articles:
                 VolumeMessage(image: Image.volume.feed, message: .noBookmarkedArticles, largeFont: true, fullWidth: true)
             case .magazines:
@@ -183,3 +213,11 @@ struct BookmarksView: View {
     }
     
 }
+
+// MARK: Uncomment below if needed
+
+//struct BookmarksView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        BookmarksView()
+//    }
+//}
