@@ -42,6 +42,8 @@
 		2E6A7D7529DABB23002F5250 /* FlyerCellUpcoming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6A7D7429DABB23002F5250 /* FlyerCellUpcoming.swift */; };
 		2E6A7D7729DAC784002F5250 /* FlyerCellPast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6A7D7629DAC784002F5250 /* FlyerCellPast.swift */; };
 		2E84654829DBB31800BFECBE /* FlyerCategoryMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E84654729DBB31800BFECBE /* FlyerCategoryMenu.swift */; };
+		2EA7DB7329DBEF7C001D7B8A /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7DB7229DBEF7C001D7B8A /* UIImage+Extension.swift */; };
+		2EA7DB7929DC0EE5001D7B8A /* URLImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7DB7829DC0EE5001D7B8A /* URLImageModel.swift */; };
 		2EB5568829B9485700794423 /* MagsScrollbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB5568729B9485700794423 /* MagsScrollbarView.swift */; };
 		2EB5568C29B94A5600794423 /* PageIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB5568B29B94A5600794423 /* PageIndicatorView.swift */; };
 		331159D727D41C89003B0F06 /* Image+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331159D627D41C89003B0F06 /* Image+Extensions.swift */; };
@@ -155,6 +157,8 @@
 		2E6A7D7429DABB23002F5250 /* FlyerCellUpcoming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerCellUpcoming.swift; sourceTree = "<group>"; };
 		2E6A7D7629DAC784002F5250 /* FlyerCellPast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerCellPast.swift; sourceTree = "<group>"; };
 		2E84654729DBB31800BFECBE /* FlyerCategoryMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerCategoryMenu.swift; sourceTree = "<group>"; };
+		2EA7DB7229DBEF7C001D7B8A /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		2EA7DB7829DC0EE5001D7B8A /* URLImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImageModel.swift; sourceTree = "<group>"; };
 		2EB5568729B9485700794423 /* MagsScrollbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagsScrollbarView.swift; sourceTree = "<group>"; };
 		2EB5568B29B94A5600794423 /* PageIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicatorView.swift; sourceTree = "<group>"; };
 		2ED344C7F76751CD56407579 /* Pods-Volume.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Volume.debug.xcconfig"; path = "Target Support Files/Pods-Volume/Pods-Volume.debug.xcconfig"; sourceTree = "<group>"; };
@@ -363,10 +367,10 @@
 		2E6A7D6F29DAAFB5002F5250 /* Flyers */ = {
 			isa = PBXGroup;
 			children = (
+				2E84654729DBB31800BFECBE /* FlyerCategoryMenu.swift */,
 				2E6A7D7629DAC784002F5250 /* FlyerCellPast.swift */,
 				2E6A7D7229DAB5BC002F5250 /* FlyerCellThisWeek.swift */,
 				2E6A7D7429DABB23002F5250 /* FlyerCellUpcoming.swift */,
-				2E84654729DBB31800BFECBE /* FlyerCategoryMenu.swift */,
 			);
 			path = Flyers;
 			sourceTree = "<group>";
@@ -399,13 +403,14 @@
 				7E23DFD1254A05EF0001C3A3 /* Color+Extension.swift */,
 				7E416C2E2561D47C0010D70B /* Date+Extension.swift */,
 				061DB39625571D760038BEF5 /* Font+Extension.swift */,
+				922FE3042931CDED00E14911 /* HiddenNavigationBarModifier.swift */,
 				331159D627D41C89003B0F06 /* Image+Extensions.swift */,
-				335E692527DFDC2700FBDE3A /* UIFont+Extension.swift */,
-				95AC9DC62637BFF8000B4BEE /* Url+Extension.swift */,
-				06B80D12257DC18600F3BF9B /* WebImage+Extension.swift */,
 				33E851A5290AE6ED004453D2 /* ListBackgroundModifier.swift */,
 				334AFCD62991AAAD00C0BB71 /* Sequence+Extension.swift */,
-				922FE3042931CDED00E14911 /* HiddenNavigationBarModifier.swift */,
+				335E692527DFDC2700FBDE3A /* UIFont+Extension.swift */,
+				2EA7DB7229DBEF7C001D7B8A /* UIImage+Extension.swift */,
+				95AC9DC62637BFF8000B4BEE /* Url+Extension.swift */,
+				06B80D12257DC18600F3BF9B /* WebImage+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -477,6 +482,7 @@
 				3360B9E129288DA900A923A6 /* SlidingTabBarView.swift */,
 				33913A0B27D89E0A00C5718D /* TabBarReader.swift */,
 				061233A02553127C0025F7E0 /* UnderlinedText.swift */,
+				2EA7DB7829DC0EE5001D7B8A /* URLImageModel.swift */,
 				7EE96DC72562505B000B246F /* VolumeMessage.swift */,
 				0685AAA0259EBA3800DD55C4 /* WebView.swift */,
 			);
@@ -756,7 +762,9 @@
 				2E6A7D5E29D9EFD6002F5250 /* ArticlesViewModel.swift in Sources */,
 				7EE96DC82562505B000B246F /* VolumeMessage.swift in Sources */,
 				060FFDDC2577EC800052F3EA /* WelcomeView.swift in Sources */,
+				2EA7DB7329DBEF7C001D7B8A /* UIImage+Extension.swift in Sources */,
 				995C9A0025E5770D00F6FBA5 /* Analytics.swift in Sources */,
+				2EA7DB7929DC0EE5001D7B8A /* URLImageModel.swift in Sources */,
 				922FE3052931CDED00E14911 /* HiddenNavigationBarModifier.swift in Sources */,
 				2E6A7D5C29D9EED7002F5250 /* ArticlesView.swift in Sources */,
 				7EA73D25254C9C5B009E8F9F /* BigReadArticleRow.swift in Sources */,
