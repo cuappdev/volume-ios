@@ -123,7 +123,6 @@ struct ArticlesView: View {
                 }
             }
             .environment(\EnvironmentValues.refresh as! WritableKeyPath<EnvironmentValues, RefreshAction?>, nil)
-
         } header: {
             Header("The Big Read")
                 .padding(.vertical, Constants.rowVerticalPadding)
