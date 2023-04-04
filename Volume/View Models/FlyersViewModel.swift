@@ -14,7 +14,11 @@ extension FlyersView {
     class ViewModel: ObservableObject {
         // MARK: - Properties
         
+        // TODO: Remove dummy data
+        
+        @Published var allCategories: [String]? = ["All", "Dance", "Music", "Academic", "Sports"]
         @Published var pastFlyers: [Flyer]? = FlyerDummyData.pastFlyers
+        @Published var selectedCategory: String? = "All"
         @Published var thisWeekFlyers: [Flyer]? = FlyerDummyData.thisWeekFlyers
         @Published var upcomingFlyers: [Flyer]? = FlyerDummyData.upcomingFlyers
         
