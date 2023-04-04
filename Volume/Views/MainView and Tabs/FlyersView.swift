@@ -17,6 +17,7 @@ struct FlyersView: View {
     
     private struct Constants {
         static let backgroundColor: Color = Color.volume.backgroundGray
+        static let endMessageWidth: CGFloat = 250
         static let gridRows: Array = Array(repeating: GridItem(.flexible()), count: 3)
         static let listHorizontalPadding: CGFloat = 16
         static let rowVerticalPadding: CGFloat = 6
@@ -48,6 +49,9 @@ struct FlyersView: View {
                 thisWeekSection
                 upcomingSection
                 pastSection
+                
+                // TODO: Implement logic to only show endSection if there are no more flyers
+                endSection
             }
             .listSectionSeparator(.hidden)
             .listRowSeparator(.hidden)
@@ -123,8 +127,18 @@ struct FlyersView: View {
         HStack {            
             Header("Upcoming")
             
-            // TODO: Add Filter
             Spacer()
+            
+            Group {
+                if let categories = viewModel.allCategories {
+                    FlyerCategoryMenu(
+                        categories: categories,
+                        selected: $viewModel.selectedCategory
+                    )
+                } else {
+                    FlyerCategoryMenu.Skeleton()
+                }
+            }
         }
     }
     
@@ -145,8 +159,20 @@ struct FlyersView: View {
                 .padding(.vertical, Constants.rowVerticalPadding)
                 .foregroundColor(.black)
                 .textCase(nil)
+                .edgesIgnoringSafeArea(.all)
         }
         .background(headerGradient)
+    }
+    
+    private var endSection: some View {
+        Section {
+            Group {
+                VolumeMessage(message: .upToDateFlyers, largeFont: false, fullWidth: true)
+                    .frame(width: Constants.endMessageWidth)
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
+            .padding([.top, .bottom], 40)
+        }
     }
     
     // MARK: - Supporting Views
