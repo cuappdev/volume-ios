@@ -14,7 +14,7 @@ extension FlyersView {
     class ViewModel: ObservableObject {
         // MARK: - Properties
         
-        @Published var pastFlyers: [Flyer]? = nil
+        @Published var pastFlyers: [Flyer]? = FlyerDummyData.pastFlyers
         @Published var thisWeekFlyers: [Flyer]? = FlyerDummyData.thisWeekFlyers
         @Published var upcomingFlyers: [Flyer]? = FlyerDummyData.upcomingFlyers
         
