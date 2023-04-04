@@ -13,6 +13,12 @@ struct FlyerCellPast: View {
     // MARK: - Properties
     
     let flyer: Flyer
+    @ObservedObject var urlImageModel: URLImageModel
+    
+    init(flyer: Flyer, urlImageModel: URLImageModel) {
+        self.flyer = flyer
+        self.urlImageModel = urlImageModel
+    }
     
     // MARK: - Constants
     
@@ -52,17 +58,18 @@ struct FlyerCellPast: View {
     
     private var imageFrame: some View {
         // TODO: Remove temporary image holder
-        AsyncImage(
-            url: URL(string: flyer.imageURL),
-            content: { image in
-                image.resizable()
-                    .frame(width: Constants.imageWidth, height: Constants.imageHeight)
-            },
-            placeholder: {
+        ZStack {
+            if let flyerImage = urlImageModel.image {
+                Color(uiColor: flyerImage.averageColor ?? .gray)
+                
+                Image(uiImage: urlImageModel.image ?? UIImage())
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            } else {
                 SkeletonView()
-                    .frame(width: Constants.imageWidth, height: Constants.imageHeight)
             }
-        )
+        }
+        .frame(width: Constants.imageWidth, height: Constants.imageHeight)
     }
     
     private var bookmarkButton: some View {
