@@ -11,6 +11,9 @@ import SwiftUI
 struct FlyersView: View {
     
     // MARK: - Properties
+    
+    @EnvironmentObject private var networkState: NetworkState
+    @EnvironmentObject private var userData: UserData
     @StateObject private var viewModel = ViewModel()
     
     // MARK: - Constants
