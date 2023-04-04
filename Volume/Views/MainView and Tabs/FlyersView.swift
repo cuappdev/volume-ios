@@ -136,7 +136,9 @@ struct FlyersView: View {
                     .padding(.bottom, Constants.spacing)
                 FlyerCellPast.Skeleton()
             case .some(let flyers):
-                SkeletonView()
+                ForEach(flyers) { flyer in
+                    FlyerCellPast(flyer: flyer)
+                }
             }
         } header: {
             Header("Past Flyers")
@@ -167,8 +169,8 @@ struct FlyersView: View {
 
 // MARK: - Uncomment below if needed
 
-struct FlyersView_Previews: PreviewProvider {
-    static var previews: some View {
-        FlyersView()
-    }
-}
+//struct FlyersView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FlyersView()
+//    }
+//}

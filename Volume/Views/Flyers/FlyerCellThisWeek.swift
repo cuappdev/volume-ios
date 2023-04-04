@@ -18,6 +18,7 @@ struct FlyerCellThisWeek: View {
     
     private struct Constants {
         static let buttonSize: CGFloat = 15
+        static let categoryCornerRadius: CGFloat = 8
         static let categoryFont: Font = .helveticaRegular(size: 10)
         static let categoryHorizontalPadding: CGFloat = 16
         static let categoryVerticalPadding: CGFloat = 4
@@ -72,7 +73,7 @@ struct FlyerCellThisWeek: View {
                 .font(Constants.categoryFont)
                 .foregroundColor(Color.white)
                 .background(Color.volume.orange)
-                .clipShape(Capsule())
+                .clipShape(RoundedRectangle(cornerRadius: Constants.categoryCornerRadius))
                 .padding([.top, .leading], 8)
         }
     }
