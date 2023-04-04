@@ -13,6 +13,12 @@ struct FlyerCellThisWeek: View {
     // MARK: - Properties
     
     let flyer: Flyer
+    @ObservedObject var urlImageModel: URLImageModel
+    
+    init(flyer: Flyer, urlImageModel: URLImageModel) {
+        self.flyer = flyer
+        self.urlImageModel = urlImageModel
+    }
     
     // MARK: - Constants
     
@@ -49,17 +55,16 @@ struct FlyerCellThisWeek: View {
     private var imageFrame: some View {
         ZStack(alignment: .topLeading) {
             // TODO: Remove temporary image holder
-            AsyncImage(
-                url: URL(string: flyer.imageURL),
-                content: { image in
-                    image.resizable()
-                        .frame(width: Constants.imageWidth, height: Constants.imageHeight)
-                },
-                placeholder: {
-                    SkeletonView()
-                        .frame(width: Constants.imageWidth, height: Constants.imageHeight)
-                }
-            )
+            if let flyerImage = urlImageModel.image {
+                Color(uiColor: flyerImage.averageColor ?? .gray)
+                
+                Image(uiImage: urlImageModel.image ?? UIImage())
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: Constants.imageWidth, height: Constants.imageHeight)
+            } else {
+                SkeletonView()
+            }
             
             Text(Organization.contentTypeString(
                     type: flyer.organization.contentType)
@@ -76,6 +81,7 @@ struct FlyerCellThisWeek: View {
                 .clipShape(RoundedRectangle(cornerRadius: Constants.categoryCornerRadius))
                 .padding([.top, .leading], 8)
         }
+        .frame(width: Constants.imageWidth, height: Constants.imageHeight)
     }
     
     private var bookmarkButton: some View {

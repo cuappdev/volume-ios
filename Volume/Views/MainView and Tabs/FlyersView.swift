@@ -81,7 +81,10 @@ struct FlyersView: View {
                         FlyerCellThisWeek.Skeleton()
                     case .some(let flyers):
                         ForEach(flyers) { flyer in
-                            FlyerCellThisWeek(flyer: flyer)
+                            FlyerCellThisWeek(
+                                flyer: flyer,
+                                urlImageModel: URLImageModel(urlString: flyer.imageURL)
+                            )
                         }
                     }
                 }
@@ -107,7 +110,10 @@ struct FlyersView: View {
                         }
                     case .some(let flyers):
                         ForEach(flyers) { flyer in
-                            FlyerCellUpcoming(flyer: flyer)
+                            FlyerCellUpcoming(
+                                flyer: flyer,
+                                urlImageModel: URLImageModel(urlString: flyer.imageURL)
+                            )
                         }
                     }
                 }
@@ -151,7 +157,10 @@ struct FlyersView: View {
                 FlyerCellPast.Skeleton()
             case .some(let flyers):
                 ForEach(flyers) { flyer in
-                    FlyerCellPast(flyer: flyer)
+                    FlyerCellPast(
+                        flyer: flyer,
+                        urlImageModel: URLImageModel(urlString: flyer.imageURL)
+                    )
                 }
             }
         } header: {
