@@ -16,7 +16,6 @@ struct Article: ReadableContent {
     let date: Date
     let id: String
     let imageUrl: URL?
-    let isFiltered: Bool
     let isTrending: Bool
     let isNsfw: Bool
     let publication: Publication
@@ -30,7 +29,6 @@ struct Article: ReadableContent {
         date = Date.from(iso8601: article.date)
         id = article.id
         imageUrl = URL(string: article.imageUrl)
-        isFiltered = article.isFiltered
         isTrending = article.isTrending
         isNsfw = article.nsfw
         publication = Publication(from: article.publication.fragments.publicationFields)
