@@ -12,7 +12,6 @@ fragment articleFields on Article {
   }
   isTrending
   trendiness
-  isFiltered
 }
 
 # MARK: - HomeList
