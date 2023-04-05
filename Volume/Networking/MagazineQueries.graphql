@@ -6,9 +6,13 @@ fragment magazineFields on Magazine {
   publication {
     ...publicationFields
   }
+  publicationSlug
   shoutouts
   title
   nsfw
+  isFeatured
+  trendiness
+  isFiltered
 }
 
 # MARK: - Mag Page
