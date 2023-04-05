@@ -90,8 +90,8 @@ extension FlyerCategoryMenu {
 
 // MARK: - Uncomment below if needed
 
-struct FlyerCategoryMenu_Previews: PreviewProvider {
-    static var previews: some View {
-        FlyerCategoryMenu(categories: ["Dance", "Music", "Academic", "Sports"], selected: .constant("All"))
-    }
-}
+//struct FlyerCategoryMenu_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FlyerCategoryMenu(categories: ["Dance", "Music", "Academic", "Sports"], selected: .constant("All"))
+//    }
+//}
