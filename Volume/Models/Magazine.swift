@@ -16,22 +16,31 @@ struct Magazine: ReadableContent {
     let id: String
     let date: Date
     let isNSFW: Bool
+    let isFeatured: Bool
+    let isFiltered: Bool
+    var pdfDoc: PDFDocument?
     let pdfUrl: URL?
     let publication: Publication
+    let publicationSlug: String
     let semester: String
     let shoutouts: Int
     let title: String
-    var pdfDoc: PDFDocument?
+    let trendiness: Int
+    
     
     init(from magazine : MagazineFields) async {
         date = Date.from(iso8601: magazine.date)
         id = magazine.id
+        isFeatured = magazine.isFeatured
+        isFiltered = magazine.isFiltered
         isNSFW = magazine.nsfw
         pdfUrl = URL(string: magazine.pdfUrl)
         publication = Publication(from: magazine.publication.fragments.publicationFields)
+        publicationSlug = magazine.publicationSlug
         semester = magazine.semester
         shoutouts = Int(magazine.shoutouts)
         title = magazine.title
+        trendiness = Int(magazine.trendiness)
         if let pdfUrl {
             pdfDoc = await fetchPDF(url: pdfUrl)
         }

@@ -16,20 +16,28 @@ struct Article: ReadableContent {
     let date: Date
     let id: String
     let imageUrl: URL?
+    let isFiltered: Bool
+    let isTrending: Bool
     let isNsfw: Bool
     let publication: Publication
+    let publicationSlug: String
     let shoutouts: Int
     let title: String
+    let trendiness: Int
 
     init(from article: ArticleFields) {
         articleUrl = URL(string: article.articleUrl)
         date = Date.from(iso8601: article.date)
         id = article.id
         imageUrl = URL(string: article.imageUrl)
+        isFiltered = article.isFiltered
+        isTrending = article.isTrending
         isNsfw = article.nsfw
         publication = Publication(from: article.publication.fragments.publicationFields)
+        publicationSlug = article.publicationSlug
         shoutouts = Int(article.shoutouts)
         title = article.title
+        trendiness = Int(article.trendiness)
     }
 }
 
