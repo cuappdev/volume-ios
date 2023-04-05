@@ -27,7 +27,6 @@ struct Magazine: ReadableContent {
     let title: String
     let trendiness: Int
     
-    
     init(from magazine : MagazineFields) async {
         date = Date.from(iso8601: magazine.date)
         id = magazine.id
