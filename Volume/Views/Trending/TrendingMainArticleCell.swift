@@ -40,7 +40,7 @@ struct TrendingMainArticleCell: View {
             }
         } else {
             SkeletonView()
-                .frame(height: Constants.skeletonHeight)
+                .frame(width: UIScreen.main.bounds.width, height: Constants.skeletonHeight)
         }
     }
     

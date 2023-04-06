@@ -183,7 +183,8 @@ struct FlyersView: View {
                     .frame(width: Constants.endMessageWidth)
             }
             .frame(maxWidth: .infinity, alignment: .center)
-            .padding([.top, .bottom], 40)
+            .padding(.top, 40)
+            .padding(.bottom, 80)
         }
     }
     
