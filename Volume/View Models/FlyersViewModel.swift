@@ -52,6 +52,8 @@ extension FlyersView {
         func fetchContent() async {
             fetchThisWeek()
             fetchCategories()
+            
+            // TODO: May need to remove this to implement pagination
             fetchUpcoming()
             fetchPast()
         }

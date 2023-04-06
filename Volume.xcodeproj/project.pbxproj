@@ -24,6 +24,9 @@
 		06EC2D24259CED0500FE0A71 /* PublicationDetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EC2D23259CED0500FE0A71 /* PublicationDetailHeader.swift */; };
 		2E05005B29C65B82001B4131 /* MagazinesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E05005A29C65B82001B4131 /* MagazinesViewModel.swift */; };
 		2E05005D29C66999001B4131 /* MagazinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E05005C29C66999001B4131 /* MagazinesView.swift */; };
+		2E3D326E29DDFE9600E7B0A1 /* TrendingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3D326D29DDFE9600E7B0A1 /* TrendingViewModel.swift */; };
+		2E3D327129DE058D00E7B0A1 /* TrendingMainArticleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3D327029DE058D00E7B0A1 /* TrendingMainArticleCell.swift */; };
+		2E3D327329DE1BD600E7B0A1 /* TrendingFlyerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3D327229DE1BD600E7B0A1 /* TrendingFlyerCell.swift */; };
 		2E4B30DE29CCEE9B000D6AA6 /* HapticTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4B30DD29CCEE9B000D6AA6 /* HapticTouch.swift */; };
 		2E531A3129CCC1920043EB85 /* ShimmerEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E531A3029CCC1920043EB85 /* ShimmerEffect.swift */; };
 		2E6A7D5029D9E3D3002F5250 /* TrendingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6A7D4F29D9E3D3002F5250 /* TrendingView.swift */; };
@@ -139,6 +142,9 @@
 		06EC2D23259CED0500FE0A71 /* PublicationDetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicationDetailHeader.swift; sourceTree = "<group>"; };
 		2E05005A29C65B82001B4131 /* MagazinesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazinesViewModel.swift; sourceTree = "<group>"; };
 		2E05005C29C66999001B4131 /* MagazinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazinesView.swift; sourceTree = "<group>"; };
+		2E3D326D29DDFE9600E7B0A1 /* TrendingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingViewModel.swift; sourceTree = "<group>"; };
+		2E3D327029DE058D00E7B0A1 /* TrendingMainArticleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingMainArticleCell.swift; sourceTree = "<group>"; };
+		2E3D327229DE1BD600E7B0A1 /* TrendingFlyerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingFlyerCell.swift; sourceTree = "<group>"; };
 		2E4B30DD29CCEE9B000D6AA6 /* HapticTouch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticTouch.swift; sourceTree = "<group>"; };
 		2E531A3029CCC1920043EB85 /* ShimmerEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerEffect.swift; sourceTree = "<group>"; };
 		2E6A7D4F29D9E3D3002F5250 /* TrendingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingView.swift; sourceTree = "<group>"; };
@@ -311,6 +317,15 @@
 			path = "MainView and Tabs";
 			sourceTree = "<group>";
 		};
+		2E3D326F29DE055C00E7B0A1 /* Trending */ = {
+			isa = PBXGroup;
+			children = (
+				2E3D327229DE1BD600E7B0A1 /* TrendingFlyerCell.swift */,
+				2E3D327029DE058D00E7B0A1 /* TrendingMainArticleCell.swift */,
+			);
+			path = Trending;
+			sourceTree = "<group>";
+		};
 		2E68CF0E29CFB75200E67E67 /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -425,6 +440,7 @@
 				3360B9D62926129100A923A6 /* Publications */,
 				2E6A7D5729D9E796002F5250 /* Reads */,
 				2E68CF0E29CFB75200E67E67 /* Search */,
+				2E3D326F29DE055C00E7B0A1 /* Trending */,
 				2E6A7D6429DA3F36002F5250 /* Weekly Debrief */,
 			);
 			path = Views;
@@ -463,6 +479,7 @@
 				2E05005A29C65B82001B4131 /* MagazinesViewModel.swift */,
 				3360B9DD29274B9500A923A6 /* PublicationContentViewModel.swift */,
 				2E6A7D6529DA46E6002F5250 /* ReadsViewModel.swift */,
+				2E3D326D29DDFE9600E7B0A1 /* TrendingViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -718,12 +735,14 @@
 				335E692627DFDC2700FBDE3A /* UIFont+Extension.swift in Sources */,
 				7EA0BB4C2624D1D100A1652E /* SettingsView.swift in Sources */,
 				0685AAA1259EBA3800DD55C4 /* WebView.swift in Sources */,
+				2E3D327329DE1BD600E7B0A1 /* TrendingFlyerCell.swift in Sources */,
 				BC72AEB82920519900209573 /* PDFKitView.swift in Sources */,
 				95A79FB82622296800CADF88 /* ConnectionFailedView.swift in Sources */,
 				922FE3072931D07100E14911 /* SearchView.swift in Sources */,
 				922FE2FB2931529000E14911 /* SearchBar.swift in Sources */,
 				0685AA9E259EA84900DD55C4 /* BrowserView.swift in Sources */,
 				2E6A7D7729DAC784002F5250 /* FlyerCellPast.swift in Sources */,
+				2E3D327129DE058D00E7B0A1 /* TrendingMainArticleCell.swift in Sources */,
 				2E4B30DE29CCEE9B000D6AA6 /* HapticTouch.swift in Sources */,
 				2E6A7D7329DAB5BC002F5250 /* FlyerCellThisWeek.swift in Sources */,
 				7E23DFD2254A05EF0001C3A3 /* Color+Extension.swift in Sources */,
@@ -768,6 +787,7 @@
 				922FE3052931CDED00E14911 /* HiddenNavigationBarModifier.swift in Sources */,
 				2E6A7D5C29D9EED7002F5250 /* ArticlesView.swift in Sources */,
 				7EA73D25254C9C5B009E8F9F /* BigReadArticleRow.swift in Sources */,
+				2E3D326E29DDFE9600E7B0A1 /* TrendingViewModel.swift in Sources */,
 				06A8E2532575429200C28C68 /* MainView.swift in Sources */,
 				3360B9DC29274B8200A923A6 /* PublicationContentView.swift in Sources */,
 				2E6A7D7529DABB23002F5250 /* FlyerCellUpcoming.swift in Sources */,

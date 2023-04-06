@@ -49,4 +49,17 @@ extension UIImage {
         )
     }
     
+    /// Returns the average color of this `UIImage`'s starting from the bottom with a height of 40. Gray if null.
+    var bottomAverageColor: UIColor? {
+        // Crop bottom part of the image
+        let cropRect = CGRect(x: 0, y: self.size.height - 40, width: self.size.width, height: 40)
+        let cropCGImage = self.cgImage?.cropping(to: cropRect)
+        
+        if let cropCGImage = cropCGImage {
+            // Return the average color
+            return UIImage(cgImage: cropCGImage).averageColor
+        }
+        return .gray
+    }
+    
 }

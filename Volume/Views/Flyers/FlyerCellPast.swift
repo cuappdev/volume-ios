@@ -13,12 +13,7 @@ struct FlyerCellPast: View {
     // MARK: - Properties
     
     let flyer: Flyer
-    @ObservedObject var urlImageModel: URLImageModel
-    
-    init(flyer: Flyer, urlImageModel: URLImageModel) {
-        self.flyer = flyer
-        self.urlImageModel = urlImageModel
-    }
+    @StateObject var urlImageModel: URLImageModel
     
     // MARK: - Constants
     
@@ -58,7 +53,7 @@ struct FlyerCellPast: View {
     
     private var imageFrame: some View {
         // TODO: Remove temporary image holder
-        ZStack {
+        ZStack(alignment: .center) {
             if let flyerImage = urlImageModel.image {
                 Color(uiColor: flyerImage.averageColor ?? .gray)
                 
