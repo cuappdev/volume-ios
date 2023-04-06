@@ -1,14 +1,14 @@
 //
-//  FlyerCellThisWeek.swift
+//  TrendingFlyerCell.swift
 //  Volume
 //
-//  Created by Vin Bui on 4/3/23.
+//  Created by Vin Bui on 4/5/23.
 //  Copyright © 2023 Cornell AppDev. All rights reserved.
 //
 
 import SwiftUI
 
-struct FlyerCellThisWeek: View {
+struct TrendingFlyerCell: View {
     
     // MARK: - Properties
     
@@ -18,16 +18,13 @@ struct FlyerCellThisWeek: View {
     // MARK: - Constants
     
     private struct Constants {
-        static let buttonSize: CGFloat = 15
+        static let buttonSize: CGFloat = 24
         static let categoryCornerRadius: CGFloat = 8
         static let categoryFont: Font = .helveticaRegular(size: 10)
         static let categoryHorizontalPadding: CGFloat = 16
         static let categoryVerticalPadding: CGFloat = 4
-        static let cellHeight: CGFloat = 344
-        static let cellWidth: CGFloat = 256
         static let dateFont: Font = .helveticaRegular(size: 12)
-        static let imageHeight: CGFloat = 256
-        static let imageWidth: CGFloat = 256
+        static let imageHeight: CGFloat = UIScreen.main.bounds.width - 32
         static let locationFont: Font = .helveticaRegular(size: 12)
         static let organizationNameFont: Font = .newYorkMedium(size: 10)
         static let spacing: CGFloat = 4
@@ -44,7 +41,6 @@ struct FlyerCellThisWeek: View {
             flyerDate
             flyerLocation
         }
-        .frame(width: Constants.cellWidth, height: Constants.cellHeight)
     }
     
     private var imageFrame: some View {
@@ -57,7 +53,7 @@ struct FlyerCellThisWeek: View {
                     Image(uiImage: urlImageModel.image ?? UIImage())
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: Constants.imageWidth, height: Constants.imageHeight)
+                        .frame(height: Constants.imageHeight)
                 }
             } else {
                 SkeletonView()
@@ -77,8 +73,9 @@ struct FlyerCellThisWeek: View {
                 .background(Color.volume.orange)
                 .clipShape(RoundedRectangle(cornerRadius: Constants.categoryCornerRadius))
                 .padding([.top, .leading], 8)
+                .frame(alignment: .topLeading)
         }
-        .frame(width: Constants.imageWidth, height: Constants.imageHeight)
+        .frame(height: Constants.imageHeight)
     }
     
     private var bookmarkButton: some View {
@@ -106,7 +103,7 @@ struct FlyerCellThisWeek: View {
     }
     
     private var organizationName: some View {
-        HStack(alignment: .top) {
+        HStack(alignment: .center) {
             Text(flyer.organization.name)
                 .font(Constants.organizationNameFont)
                 .lineLimit(1)
@@ -155,36 +152,35 @@ struct FlyerCellThisWeek: View {
     
 }
 
-extension FlyerCellThisWeek {
+extension TrendingFlyerCell {
     
     struct Skeleton: View {
         var body: some View {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 12) {
                 SkeletonView()
-                    .frame(width: Constants.imageWidth, height: Constants.imageHeight)
+                    .frame(height: Constants.imageHeight)
 
                 SkeletonView()
-                    .frame(width: 130, height: 15)
+                    .frame(width: 150, height: 15)
 
                 SkeletonView()
-                    .frame(width: 200, height: 20)
+                    .frame(width: 220, height: 20)
 
                 SkeletonView()
-                    .frame(width: 180, height: 15)
+                    .frame(width: 200, height: 15)
 
                 SkeletonView()
-                    .frame(width: 100, height: 15)
+                    .frame(width: 120, height: 15)
             }
-            .frame(width: Constants.cellWidth, height: Constants.cellHeight)
         }
     }
     
 }
 
-// MARK: Uncomment below if needed
+// MARK: - Uncomment below if needed
 
-//struct FlyerCellThisWeek_Previews: PreviewProvider {
+//struct TrendingFlyerCell_Previews: PreviewProvider {
 //    static var previews: some View {
-//        FlyerCellThisWeek(flyer: asiaverse)
+//        TrendingFlyerCell()
 //    }
 //}
