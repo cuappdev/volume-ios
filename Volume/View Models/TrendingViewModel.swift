@@ -96,7 +96,7 @@ extension TrendingView {
                 for: GetArticlesByPublicationSlugQuery(
                     slug: "guac",
                     limit: Constants.mainArticleLimit,
-                    offset: 2
+                    offset: Double.random(in: 0..<20)   // Just for fun :) will replace
                 ))
                 .map { $0.articles.map(\.fragments.articleFields) }
                 .sink { [weak self] completion in
