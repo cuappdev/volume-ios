@@ -22,7 +22,7 @@ struct TrendingView: View {
         static let backgroundColor: Color = Color.volume.backgroundGray
         static let endMessageWidth: CGFloat = 250
         static let gridColumns: Array = Array(repeating: GridItem(.flexible()), count: 2)
-        static let listHorizontalPadding: CGFloat = 16
+        static let sidePadding: CGFloat = 16
         static let mainArticleSkeletonHeight: CGFloat = 480
         static let magazineVerticalSpacing: CGFloat = 30
         static let sectionSpacing: CGFloat = 40
@@ -32,7 +32,20 @@ struct TrendingView: View {
     // MARK: - UI
     
     var body: some View {
-        listContent
+        RefreshableScrollView { done in
+            viewModel.refreshContent(done)
+        } content: {
+            LazyVStack(spacing: Constants.sectionSpacing) {
+                mainArticleSection
+                subArticlesSection
+                flyersSection
+                magazinesSection
+                endSection
+            }
+            .padding(.horizontal, Constants.sidePadding)
+        }
+        .background(Constants.backgroundColor)
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Image.volume.logo
@@ -46,31 +59,6 @@ struct TrendingView: View {
         }
     }
     
-    private var listContent: some View {
-        List {
-            Group {
-                mainArticleSection
-                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                subArticlesSection
-                flyersSection
-                magazinesSection
-                endSection
-            }
-            .padding(.bottom, Constants.sectionSpacing)
-            .listSectionSeparator(.hidden)
-            .listRowSeparator(.hidden)
-            .listRowInsets(EdgeInsets(top: 0, leading: Constants.listHorizontalPadding, bottom: 0, trailing: Constants.listHorizontalPadding))
-            .listRowBackground(Color.clear)
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .listStyle(.plain)
-        .refreshable {
-            await viewModel.refreshContent()
-        }
-        .modifier(ListBackgroundModifier())
-        .background(Constants.backgroundColor)
-    }
-    
     // MARK: - Sections
     
     private var mainArticleSection: some View {
@@ -78,17 +66,12 @@ struct TrendingView: View {
             switch viewModel.mainArticle {
             case .none:
                 SkeletonView()
-                    .frame(height: Constants.mainArticleSkeletonHeight)
+                    .frame(width: UIScreen.main.bounds.width, height: Constants.mainArticleSkeletonHeight)
             case .some(let article):
-                ZStack {
+                NavigationLink {
+                    BrowserView(initType: .readyForDisplay(article), navigationSource: .trendingArticles)
+                } label: {
                     TrendingMainArticleCell(article: article, urlImageModel: URLImageModel(urlString: article.imageUrl?.absoluteString ?? ""))
-                    
-                    NavigationLink {
-                        BrowserView(initType: .readyForDisplay(article), navigationSource: .trendingArticles)
-                    } label: {
-                        EmptyView()
-                    }
-                    .opacity(0)
                 }
             }
         }
@@ -105,15 +88,10 @@ struct TrendingView: View {
                     ArticleRow.Skeleton()
                 case .some(let articles):
                     ForEach(articles) { article in
-                        ZStack {
+                        NavigationLink {
+                            BrowserView(initType: .readyForDisplay(article), navigationSource: .trendingArticles)
+                        } label: {
                             ArticleRow(article: article, navigationSource: .trendingArticles)
-                            
-                            NavigationLink {
-                                BrowserView(initType: .readyForDisplay(article), navigationSource: .trendingArticles)
-                            } label: {
-                                EmptyView()
-                            }
-                            .opacity(0)
                         }
                     }
                 }
@@ -155,14 +133,10 @@ struct TrendingView: View {
                     MagazineCell.Skeleton()
                 case .some(let magazines):
                     ForEach(magazines) { magazine in
-                        ZStack {
+                        NavigationLink {
+                            MagazineReaderView(initType: .readyForDisplay(magazine), navigationSource: .featuredMagazines)
+                        } label: {
                             MagazineCell(magazine: magazine)
-                            
-                            NavigationLink {
-                                MagazineReaderView(initType: .readyForDisplay(magazine), navigationSource: .featuredMagazines)
-                            } label: {
-                                EmptyView()
-                            }.opacity(0)
                         }
                     }
                 }

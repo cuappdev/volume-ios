@@ -50,15 +50,19 @@ extension TrendingView {
             fetchSubArticles()
         }
         
-        func refreshContent() async {
+        func refreshContent(_ done: @escaping () -> Void = { } ) {
             Network.shared.clearCache()
             queryBag.removeAll()
+            
             flyers = nil
             mainArticle = nil
             magazines = nil
             subArticles = nil
             
-            await fetchContent()
+            Task {
+                await fetchContent()
+                done()
+            }
         }
         
         func fetchFlyers() async {
