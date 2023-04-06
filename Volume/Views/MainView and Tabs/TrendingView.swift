@@ -73,6 +73,7 @@ struct TrendingView: View {
                 } label: {
                     TrendingMainArticleCell(article: article, urlImageModel: URLImageModel(urlString: article.imageUrl?.absoluteString ?? ""))
                 }
+                .buttonStyle(EmptyButtonStyle())
             }
         }
         .padding(.top, 0.5 * Constants.sectionSpacing)
@@ -155,7 +156,8 @@ struct TrendingView: View {
                     .frame(width: Constants.endMessageWidth)
             }
             .frame(maxWidth: .infinity, alignment: .center)
-            .padding([.top, .bottom], Constants.sectionSpacing)
+            .padding(.top, Constants.sectionSpacing)
+            .padding(.bottom, 2 * Constants.sectionSpacing)
         }
     }
     

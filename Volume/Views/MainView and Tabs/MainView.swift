@@ -12,9 +12,10 @@ import SwiftUI
 
 struct MainView: View {
     
+    @State private var offset: CGFloat = 0
     @State private var selectedTab: Screen = .trending
     @State private var showPublication: Bool = false
-    @State private var tabBarHeight: CGFloat = 75
+    @State private var tabBarHeight: CGFloat = 93
     @EnvironmentObject private var notifications: Notifications
 
     private var tabViewContainer: some View {
@@ -46,7 +47,7 @@ struct MainView: View {
             VStack(spacing: 0) {
                 Spacer()
                 
-                let iconSize = tabBarHeight * 0.35
+                let iconSize = tabBarHeight * 0.3
                 HStack(alignment: .top) {
                     Spacer()
                     
@@ -74,8 +75,8 @@ struct MainView: View {
                     
                     Spacer()
                 }
-                .padding(.top, iconSize * 0.3)
-                .padding(.bottom, geometry.safeAreaInsets.bottom * 0.5)
+                .padding(.top, iconSize * 0.2)
+                .padding(.bottom, geometry.safeAreaInsets.bottom * 0.7)
                 .frame(width: geometry.size.width, height: tabBarHeight)
                 .background(Color.white)
             }
@@ -105,8 +106,22 @@ struct MainView: View {
                         PublicationList(showPublication: $showPublication)
                             .frame(width: geometry.size.width * 0.8)
                     }
-                    .offset(x: showPublication ? 0 : UIScreen.main.bounds.width)
+                    .offset(x: showPublication ? offset : UIScreen.main.bounds.width)
                     .animation(.spring(), value: showPublication)
+                    .gesture(
+                        DragGesture()
+                            .onChanged { gesture in
+                                if gesture.translation.width > 0 {
+                                    offset = gesture.translation.width
+                                }
+                            }
+                            .onEnded { _ in
+                                if offset > 125 {
+                                    showPublication = false
+                                }
+                                withAnimation { offset = 0 }
+                            }
+                    )
                 }
                 .onAppear {
                     SwiftUIAnnounce.presentAnnouncement { presented in

@@ -28,6 +28,7 @@
 		2E3D327129DE058D00E7B0A1 /* TrendingMainArticleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3D327029DE058D00E7B0A1 /* TrendingMainArticleCell.swift */; };
 		2E3D327329DE1BD600E7B0A1 /* TrendingFlyerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3D327229DE1BD600E7B0A1 /* TrendingFlyerCell.swift */; };
 		2E4B30DE29CCEE9B000D6AA6 /* HapticTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4B30DD29CCEE9B000D6AA6 /* HapticTouch.swift */; };
+		2E4BAE8429DE7FA700EB16D6 /* EmptyButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4BAE8329DE7FA600EB16D6 /* EmptyButtonStyle.swift */; };
 		2E531A3129CCC1920043EB85 /* ShimmerEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E531A3029CCC1920043EB85 /* ShimmerEffect.swift */; };
 		2E6A7D5029D9E3D3002F5250 /* TrendingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6A7D4F29D9E3D3002F5250 /* TrendingView.swift */; };
 		2E6A7D5229D9E6F8002F5250 /* BookmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6A7D5129D9E6F8002F5250 /* BookmarksView.swift */; };
@@ -146,6 +147,7 @@
 		2E3D327029DE058D00E7B0A1 /* TrendingMainArticleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingMainArticleCell.swift; sourceTree = "<group>"; };
 		2E3D327229DE1BD600E7B0A1 /* TrendingFlyerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingFlyerCell.swift; sourceTree = "<group>"; };
 		2E4B30DD29CCEE9B000D6AA6 /* HapticTouch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticTouch.swift; sourceTree = "<group>"; };
+		2E4BAE8329DE7FA600EB16D6 /* EmptyButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyButtonStyle.swift; sourceTree = "<group>"; };
 		2E531A3029CCC1920043EB85 /* ShimmerEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerEffect.swift; sourceTree = "<group>"; };
 		2E6A7D4F29D9E3D3002F5250 /* TrendingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingView.swift; sourceTree = "<group>"; };
 		2E6A7D5129D9E6F8002F5250 /* BookmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksView.swift; sourceTree = "<group>"; };
@@ -488,6 +490,7 @@
 			isa = PBXGroup;
 			children = (
 				060B738A256340580035E252 /* BubblePeriodText.swift */,
+				2E4BAE8329DE7FA600EB16D6 /* EmptyButtonStyle.swift */,
 				2E4B30DD29CCEE9B000D6AA6 /* HapticTouch.swift */,
 				2E6A7D6929DA893B002F5250 /* HamburgerMenuView.swift */,
 				7E416C312561D7870010D70B /* Header.swift */,
@@ -726,6 +729,7 @@
 				922FE3032931C78B00E14911 /* SearchResultsList.swift in Sources */,
 				7EC15DA0257767ED0053BA0B /* FollowingPublicationRow.swift in Sources */,
 				2E6A7D5029D9E3D3002F5250 /* TrendingView.swift in Sources */,
+				2E4BAE8429DE7FA700EB16D6 /* EmptyButtonStyle.swift in Sources */,
 				7EC15DA1257767ED0053BA0B /* MorePublicationRow.swift in Sources */,
 				3360B9E229288DA900A923A6 /* SlidingTabBarView.swift in Sources */,
 				7EC15DA2257767ED0053BA0B /* PublicationDetail.swift in Sources */,
