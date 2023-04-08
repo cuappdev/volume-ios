@@ -11,9 +11,11 @@ import SwiftUI
 struct ReadsView: View {
     
     // MARK: - Properties
-    @StateObject private var viewModel = ViewModel()
     
-    init() {
+    @Binding var showPublication: Bool
+    @StateObject private var viewModel = ViewModel()
+
+    let navBarAppearance: UINavigationBarAppearance = {
         let navBarAppearance = UINavigationBarAppearance()
         navBarAppearance.configureWithTransparentBackground()
         navBarAppearance.backgroundColor = UIColor(Constants.backgroundColor)
@@ -21,17 +23,15 @@ struct ReadsView: View {
         UINavigationBar.appearance().standardAppearance = navBarAppearance
         UINavigationBar.appearance().compactAppearance = navBarAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
-    }
+        
+        return navBarAppearance
+    }()
     
     // MARK: - Constants
     
     private struct Constants {
         static let articlesTabWidth: CGFloat = 80
         static let browserViewNavigationTitleKey: String = "BrowserView"
-        static let hamburgerLineHeight: CGFloat = 1
-        static let hamburgerLineSpacing: CGFloat = 7
-        static let hamburgerLineWidth: CGFloat = 25
-        static let hamburgerSidePadding: CGFloat = 30
         static let magazinesTabWidth: CGFloat = 106
         static let magazineNavigationTitleKey = "MagazineReaderView"
         static let searchTopPadding: CGFloat = 8
@@ -58,10 +58,16 @@ struct ReadsView: View {
                     
                     Spacer()
                     
-                    hamburgerMenu
+                    HamburgerMenuView()
                         .onTapGesture {
                             Haptics.shared.play(.light)
+                            withAnimation(.spring()) {
+                                showPublication.toggle()
+                            }
                         }
+                    
+                    Spacer()
+                    Spacer()
                 }
                 
                 scrollContent
@@ -101,19 +107,6 @@ struct ReadsView: View {
                 )
             ]
         )
-    }
-    
-    private var hamburgerMenu: some View {
-        VStack(spacing: Constants.hamburgerLineSpacing) {
-            Rectangle()
-                .frame(width: Constants.hamburgerLineWidth, height: Constants.hamburgerLineHeight)
-            Rectangle()
-                .frame(width: Constants.hamburgerLineWidth, height: Constants.hamburgerLineHeight)
-            Rectangle()
-                .frame(width: Constants.hamburgerLineWidth, height: Constants.hamburgerLineHeight)
-        }
-        .padding(.top)
-        .padding(.trailing, Constants.hamburgerSidePadding)
     }
     
     private var scrollContent: some View {

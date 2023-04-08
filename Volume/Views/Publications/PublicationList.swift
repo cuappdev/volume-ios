@@ -11,6 +11,7 @@ import SwiftUI
 
 struct PublicationList: View {
     @State private var cancellableQuery: AnyCancellable?
+    @Binding var showPublication: Bool
     @State private var state: MainView.TabState<Results> = .loading
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
@@ -85,7 +86,7 @@ struct PublicationList: View {
                     }
                 }
             } else {
-                VolumeMessage(message: .noFollowingPublications, largeFont: false, fullWidth: true)
+                VolumeMessage(image: Image.volume.pen, message: .noFollowingPublications, largeFont: false, fullWidth: true)
             }
         }
     }
@@ -145,19 +146,13 @@ struct PublicationList: View {
             }
             .disabled(state.isLoading)
             .padding(.top)
-            .background(Color.volume.backgroundGray)
-            .toolbar {
-                ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
-                    BubblePeriodText("Publications")
-                        .font(.newYorkMedium(size: 28))
-                        .offset(y: 8)
-                }
-            }
+            .background(Color.white)
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 fetch()
-        }
+            }
     }
+    
 }
 
 extension PublicationList {
