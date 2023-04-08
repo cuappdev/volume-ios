@@ -30,6 +30,7 @@ struct Organization: Hashable, Identifiable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
+    
 }
 
 extension Organization {

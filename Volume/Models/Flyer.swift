@@ -33,6 +33,7 @@ struct Flyer: Hashable, Identifiable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
+    
 }
 
 // TODO: Map FlyerFields to Flyer

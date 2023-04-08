@@ -13,6 +13,7 @@ import SwiftUI
 typealias MagazineID = String
 
 struct Magazine: ReadableContent {
+    
     let id: String
     let date: Date
     let isNSFW: Bool
@@ -53,10 +54,13 @@ struct Magazine: ReadableContent {
             }
         }
     }
+    
 }
 
 extension Array where Element == Magazine {
+    
     init(_ magazines: [MagazineFields]) async {
         await self.init(magazines.asyncMap(Magazine.init))
     }
+    
 }
