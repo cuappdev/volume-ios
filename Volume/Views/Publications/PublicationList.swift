@@ -152,6 +152,7 @@ struct PublicationList: View {
                 fetch()
             }
     }
+    
 }
 
 extension PublicationList {
