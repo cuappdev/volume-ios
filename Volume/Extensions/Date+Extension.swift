@@ -55,9 +55,9 @@ extension Date {
            let colonPos = formatted.firstIndex(of: ":"),
            let spacePos = formatted.firstIndex(of: " ") {
             
-            let prefix = formatted[..<colonPos]
-            let suffix = formatted[formatted.index(spacePos, offsetBy: 1)...]
-            return String(prefix + suffix)
+            let first = formatted[..<colonPos]
+            let last = formatted[formatted.index(spacePos, offsetBy: 1)...]
+            return String(first + last)
         }
         
         return formatted

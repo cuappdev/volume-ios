@@ -134,12 +134,12 @@ struct FlyerCellThisWeek: View {
             Image.volume.calendar
                 .foregroundColor(Color.black)
             
-            Text(flyer.date.flyerDateString)
+            Text(flyer.date.start.flyerDateString)
                 .font(Constants.dateFont)
                 .padding(.trailing, 2 * Constants.spacing)
                 .lineLimit(1)
             
-            Text(flyer.date.flyerTimeString)
+            Text("\(flyer.date.start.flyerTimeString) - \(flyer.date.end.flyerTimeString)")
                 .font(Constants.dateFont)
                 .lineLimit(1)
         }
