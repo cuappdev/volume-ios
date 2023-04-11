@@ -37,14 +37,14 @@ extension Date {
         return formatter.string(from: self)
     }
     
-    /// This `Date` in the format "EEE, MMMM d"
+    /// This `Date` in the format "EEE, MMMM d". For example, Tuesday April 11 is Tue, April 11
     var flyerDateString: String {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEE, MMMM d"
         return formatter.string(from: self)
     }
     
-    /// This `Date` in the format "h:mm a" with trailing 00 removed
+    /// This `Date` in the format "h:mm a" with trailing 00 removed. For example, 8:00PM is 8PM
     var flyerTimeString: String {
         let formatter = DateFormatter()
         formatter.dateFormat = "h:mm a"

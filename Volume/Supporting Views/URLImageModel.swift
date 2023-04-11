@@ -32,7 +32,7 @@ class URLImageModel: ObservableObject {
         task.resume()
     }
     
-    func getImageFromResponse(data: Data?, response: URLResponse?, error: Error?) {
+    private func getImageFromResponse(data: Data?, response: URLResponse?, error: Error?) {
         guard error == nil else {
             print("Error getting image: \(error!.localizedDescription)")
             return
