@@ -12,5 +12,6 @@ target 'Volume' do
   pod 'Firebase/Messaging'
   pod 'SDWebImageSwiftUI'
   pod 'SDWebImageSVGCoder'
+  pod 'lottie-ios'
 
 end

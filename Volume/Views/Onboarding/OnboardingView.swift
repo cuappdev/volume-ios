@@ -27,24 +27,19 @@ struct OnboardingView: View {
     private var splashView: some View {
         Group {
             Spacer()
-            Image.volume.logo
-                .resizable()
-                .scaledToFit()
-                .frame(maxWidth: .infinity)
-                .padding([.leading, .trailing], 65)
+            
+            LottieView(filename: "volume_logo", play: true)
+                .frame(width: 300, height: 150)
                 .matchedGeometryEffect(id: volumeLogoID, in: namespace)
+            
             Spacer()
         }
     }
 
     private var contentView: some View {
         Group {
-            Image.volume.logo
-                .resizable()
-                .scaledToFit()
-                .frame(maxWidth: .infinity)
-                .padding([.leading, .trailing], 65)
-                .padding(.top, 25)
+            LottieView(filename: "volume_logo", play: false)
+                .frame(width: 300, height: 150)
                 .matchedGeometryEffect(id: volumeLogoID, in: namespace)
 
             Group {
@@ -125,7 +120,7 @@ struct OnboardingView: View {
         }
         .background(Color.white.ignoresSafeArea())
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 AppDevAnalytics.log(VolumeEvent.startOnboarding.toEvent(.general))
                 withAnimation(.spring()) {
                     isShowingSplash = false

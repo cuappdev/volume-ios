@@ -79,6 +79,7 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.8.0):
     - GoogleUtilities/Logger
+  - lottie-ios (4.1.3)
   - nanopb (2.30907.0):
     - nanopb/decode (= 2.30907.0)
     - nanopb/encode (= 2.30907.0)
@@ -98,6 +99,7 @@ DEPENDENCIES:
   - AppDevAnalytics (from `https://github.com/cuappdev/analytics-ios.git`, commit `5d459c0475`)
   - AppDevAnnouncements (from `https://github.com/cuappdev/appdev-announcements.git`)
   - Firebase/Messaging
+  - lottie-ios
   - SDWebImageSVGCoder
   - SDWebImageSwiftUI
 
@@ -114,6 +116,7 @@ SPEC REPOS:
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleUtilities
+    - lottie-ios
     - nanopb
     - PromisesObjC
     - SDWebImage
@@ -149,12 +152,13 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 0c3b134b2c0a90c4c24833873894bfe0e42a0384
   GoogleDataTransport: 8b0e733ea77c9218778e5a9e34ba9508b8328939
   GoogleUtilities: 1d20a6ad97ef46f67bbdec158ce00563a671ebb7
+  lottie-ios: d0954d3150061f662ed0adf96ef98d7421864c47
   nanopb: 59221d7f958fb711001e6a449489542d92ae113e
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   SDWebImage: af5bbffef2cde09f148d826f9733dcde1a9414cd
   SDWebImageSVGCoder: 6fc109f9c2a82ab44510fff410b88b1a6c271ee8
   SDWebImageSwiftUI: 76c824afd24d896710e47f240755a31b80e056a0
 
-PODFILE CHECKSUM: 1f26e9c25bee7cc3a620ee2eaa6eea2d7d4e56ad
+PODFILE CHECKSUM: b87ac7adea7ddb9e2dbad74d58a9d7b1fe101abd
 
 COCOAPODS: 1.11.3
