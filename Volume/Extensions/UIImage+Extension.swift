@@ -37,7 +37,8 @@ extension UIImage {
             toBitmap: &bitmap,
             rowBytes: 4,
             bounds: CGRect(x: 0, y: 0, width: 1, height: 1),
-            format: .RGBA8, colorSpace: nil
+            format: .RGBA8,
+            colorSpace: nil
         )
 
         // Convert bitmap to UIColor

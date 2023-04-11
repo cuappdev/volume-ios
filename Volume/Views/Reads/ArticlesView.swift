@@ -175,7 +175,7 @@ struct ArticlesView: View {
                             viewModel.fetchPage(followed: followed)
                         }
                 } else if followed {
-                    VolumeMessage(message: articles.count > 0 ? .upToDate : .noFollowingHome, largeFont: false, fullWidth: false)
+                    VolumeMessage(message: articles.count > 0 ? .upToDateArticles : .noFollowingHome, largeFont: false, fullWidth: false)
                         .padding(.top, Constants.volumeMessageTopPadding)
                         .padding(.bottom, Constants.volumeMessageBottomPadding)
                         .onAppear {

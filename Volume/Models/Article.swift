@@ -12,6 +12,7 @@ import SwiftUI
 typealias ArticleID = String
 
 struct Article: ReadableContent {
+    
     let articleUrl: URL?
     let date: Date
     let id: String
@@ -37,10 +38,13 @@ struct Article: ReadableContent {
         title = article.title
         trendiness = Int(article.trendiness)
     }
+    
 }
 
 extension Array where Element == Article {
+    
     init(_ articles: [ArticleFields]) {
         self.init(articles.map(Article.init))
     }
+    
 }
