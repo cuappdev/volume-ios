@@ -53,8 +53,10 @@ struct TrendingView: View {
         }
         .onAppear {
             viewModel.setupEnvironment(networkState: networkState, userData: userData)
-            Task {
-                await viewModel.fetchContent()
+            if viewModel.mainArticle == nil || viewModel.subArticles == nil {
+                Task {
+                    await viewModel.fetchContent()
+                }
             }
         }
     }
@@ -119,7 +121,12 @@ struct TrendingView: View {
         }
         .task {
             // Fetch asynchronously only when in view
-            await viewModel.fetchFlyers()
+            switch viewModel.flyers {
+            case .none:
+                await viewModel.fetchFlyers()
+            case .some(_):
+                break
+            }
         }
     }
     
@@ -145,7 +152,12 @@ struct TrendingView: View {
         }
         .task {
             // Fetch asynchronously only when in view
-            await viewModel.fetchMagazines()
+            switch viewModel.magazines {
+            case .none:
+                await viewModel.fetchMagazines()
+            case .some(_):
+                break
+            }
         }
     }
     
