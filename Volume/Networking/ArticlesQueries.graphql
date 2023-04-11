@@ -4,11 +4,14 @@ fragment articleFields on Article {
   date
   title
   imageURL
+  publicationSlug
   nsfw
   shoutouts
   publication {
     ...publicationFields
   }
+  isTrending
+  trendiness
 }
 
 # MARK: - HomeList

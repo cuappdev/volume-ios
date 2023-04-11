@@ -15,7 +15,8 @@ enum Message {
     case noFollowingHome
     case noFollowingPublications
     case noSearchResults
-    case upToDate
+    case upToDateArticles
+    case upToDateFlyers
 
     var title: String {
         switch self {
@@ -23,8 +24,10 @@ enum Message {
             return "Nothing to see here!"
         case .noFollowingPublications:
             return "No Followed Publications"
-        case .upToDate:
+        case .upToDateArticles:
             return "You're up to date!"
+        case .upToDateFlyers:
+            return "Are you an organization?"
         }
     }
 
@@ -40,10 +43,12 @@ enum Message {
             return "Follow some student publications that you are interested in"
         case .noFollowingPublications:
             return "Follow some below and we'll display them here"
-        case .upToDate:
+        case .upToDateArticles:
             return "You've seen all new articles from the publications you're following."
         case .noSearchResults:
             return "We could not find any results."
+        case .upToDateFlyers:
+            return "If you want to see your organization’s events on Volume, email us at cornellappdev@gmail.com."
         }
     }
 }
@@ -67,7 +72,6 @@ struct VolumeMessage: View {
                     .font(.helveticaRegular(size: 12))
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
-                    .lineLimit(2)
             }
             .frame(width: fullWidth ? nil : 205, height: 100)
 
