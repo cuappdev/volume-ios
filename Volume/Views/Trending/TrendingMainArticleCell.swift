@@ -13,7 +13,7 @@ struct TrendingMainArticleCell: View {
     // MARK: - Properties
 
     let article: Article
-    @StateObject var urlImageModel: URLImageModel
+    @ObservedObject var urlImageModel: URLImageModel
     
     // MARK: - Constants
     

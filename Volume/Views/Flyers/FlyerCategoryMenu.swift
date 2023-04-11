@@ -12,14 +12,14 @@ struct FlyerCategoryMenu: View {
     
     // MARK: - Properties
 
-    let categories: [String]
-    @Binding var selected: String?
+    let categories: [Organization.ContentType]
+    @Binding var selected: Organization.ContentType?
     
     // MARK: - Constants
     
     private struct Constants {
         static let cornerRadius: CGFloat = 5
-        static let defaultSelected: String = "All"
+        static let defaultSelected: Organization.ContentType = .all
         static let downArrowSize = CGSize(width: 20, height: 16)
         static let font: Font = .helveticaRegular(size: 12)
         static let insets = EdgeInsets(top: 6, leading: 15, bottom: 6, trailing: 11)
@@ -31,7 +31,7 @@ struct FlyerCategoryMenu: View {
     var body: some View {
         Menu {
             ForEach(categories, id: \.self) { category in
-                Button(category) {
+                Button(Organization.contentTypeString(type: category)) {
                     selected = category
                 }
             }
@@ -42,7 +42,7 @@ struct FlyerCategoryMenu: View {
     
     private var dropdownTab: some View {
         HStack {
-            Text(selected ?? Constants.defaultSelected)
+            Text(Organization.contentTypeString(type: selected ?? Constants.defaultSelected))
                 .font(Constants.font)
                 .fixedSize()
             
@@ -90,8 +90,8 @@ extension FlyerCategoryMenu {
 
 // MARK: - Uncomment below if needed
 
-struct FlyerCategoryMenu_Previews: PreviewProvider {
-    static var previews: some View {
-        FlyerCategoryMenu(categories: ["Dance", "Music", "Academic", "Sports"], selected: .constant("All"))
-    }
-}
+//struct FlyerCategoryMenu_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FlyerCategoryMenu(categories: ["Dance", "Music", "Academic", "Sports"], selected: .constant("All"))
+//    }
+//}

@@ -67,7 +67,10 @@ extension TrendingView {
         
         func fetchFlyers() async {
             // TODO: Change query once backend implements trending
-            flyers = [newDestinations, asiaverse]
+            
+            // Fetch two random flyers from dummy data
+            let upcomingFlyers = FlyerDummyData.flyers.filter { $0.date.start > Date() }
+            flyers = upcomingFlyers[randomPick: 2]
         }
         
         func fetchMagazines() async {

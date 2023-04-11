@@ -50,6 +50,7 @@
 		2EA7DB7929DC0EE5001D7B8A /* URLImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7DB7829DC0EE5001D7B8A /* URLImageModel.swift */; };
 		2EB5568829B9485700794423 /* MagsScrollbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB5568729B9485700794423 /* MagsScrollbarView.swift */; };
 		2EB5568C29B94A5600794423 /* PageIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB5568B29B94A5600794423 /* PageIndicatorView.swift */; };
+		2EFA3FF029E5499E00771388 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA3FEF29E5499E00771388 /* Array+Extension.swift */; };
 		331159D727D41C89003B0F06 /* Image+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331159D627D41C89003B0F06 /* Image+Extensions.swift */; };
 		3334F4A02705269800CF0987 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3334F49F2705269800CF0987 /* AppDelegate.swift */; };
 		3349BF6F290DC1E900B0FD3A /* WeeklyDebriefButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3349BF6E290DC1E900B0FD3A /* WeeklyDebriefButton.swift */; };
@@ -170,6 +171,7 @@
 		2EB5568729B9485700794423 /* MagsScrollbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagsScrollbarView.swift; sourceTree = "<group>"; };
 		2EB5568B29B94A5600794423 /* PageIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicatorView.swift; sourceTree = "<group>"; };
 		2ED344C7F76751CD56407579 /* Pods-Volume.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Volume.debug.xcconfig"; path = "Target Support Files/Pods-Volume/Pods-Volume.debug.xcconfig"; sourceTree = "<group>"; };
+		2EFA3FEF29E5499E00771388 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		331159D627D41C89003B0F06 /* Image+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extensions.swift"; sourceTree = "<group>"; };
 		3334F49F2705269800CF0987 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3349BF6E290DC1E900B0FD3A /* WeeklyDebriefButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyDebriefButton.swift; sourceTree = "<group>"; };
@@ -417,6 +419,7 @@
 		7E23DFD4254A05F80001C3A3 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				2EFA3FEF29E5499E00771388 /* Array+Extension.swift */,
 				7E23DFD1254A05EF0001C3A3 /* Color+Extension.swift */,
 				7E416C2E2561D47C0010D70B /* Date+Extension.swift */,
 				061DB39625571D760038BEF5 /* Font+Extension.swift */,
@@ -719,6 +722,7 @@
 				06B80D13257DC18600F3BF9B /* WebImage+Extension.swift in Sources */,
 				2E6A7D7129DAB2AB002F5250 /* FlyersViewModel.swift in Sources */,
 				2E6A7D6E29DAA334002F5250 /* Organization.swift in Sources */,
+				2EFA3FF029E5499E00771388 /* Array+Extension.swift in Sources */,
 				33538BF22745DD27009DD191 /* Notifications.swift in Sources */,
 				3392D71C2937BF4E005165F6 /* ReaderToolbarView.swift in Sources */,
 				A2B4DF3227D9AAB000440184 /* MagazineReaderView.swift in Sources */,

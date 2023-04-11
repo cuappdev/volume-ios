@@ -37,6 +37,28 @@ struct FlyerCellThisWeek: View {
     // MARK: - UI
     
     var body: some View {
+        if let url = URL(string: flyer.pageURL) {
+            cellLinkView(url: url)
+        } else {
+            cellNoLinkView
+        }
+    }
+    
+    private func cellLinkView(url: URL) -> some View {
+        Link(destination: url) {
+            VStack(alignment: .leading, spacing: Constants.spacing) {
+                imageFrame
+                organizationName
+                flyerTitle
+                flyerDate
+                flyerLocation
+            }
+            .frame(width: Constants.cellWidth, height: Constants.cellHeight)
+        }
+        .buttonStyle(EmptyButtonStyle())
+    }
+    
+    private var cellNoLinkView: some View {
         VStack(alignment: .leading, spacing: Constants.spacing) {
             imageFrame
             organizationName
@@ -64,7 +86,8 @@ struct FlyerCellThisWeek: View {
             }
             
             Text(Organization.contentTypeString(
-                    type: flyer.organization.contentType)
+                    // TODO: May need to change this once backend implements
+                    type: flyer.organizations[0].contentType)
                 )
                 .padding(.init(
                     top: Constants.categoryVerticalPadding,
@@ -107,14 +130,23 @@ struct FlyerCellThisWeek: View {
     
     private var organizationName: some View {
         HStack(alignment: .top) {
-            Text(flyer.organization.name)
-                .font(Constants.organizationNameFont)
-                .lineLimit(1)
+            if flyer.organizations.count > 1 {
+                ForEach(flyer.organizations) { organization in
+                    Text(organization.name)
+                        .font(Constants.organizationNameFont)
+                        .lineLimit(1)
+                }
+            } else {
+                Text(flyer.organizations[0].name)
+                    .font(Constants.organizationNameFont)
+                    .lineLimit(1)
+            }
             
             Spacer()
             
-            bookmarkButton
-            shareButton
+            // TODO: Uncomment below once backend finishes
+//            bookmarkButton
+//            shareButton
         }
         .padding(.top, Constants.spacing)
         .padding(.bottom, -Constants.spacing)
@@ -131,12 +163,12 @@ struct FlyerCellThisWeek: View {
             Image.volume.calendar
                 .foregroundColor(Color.black)
             
-            Text(flyer.date.flyerDateString)
+            Text(flyer.date.start.flyerDateString)
                 .font(Constants.dateFont)
-                .padding(.trailing, 2 * Constants.spacing)
+                .padding(.trailing, Constants.spacing)
                 .lineLimit(1)
             
-            Text(flyer.date.flyerTimeString)
+            Text("\(flyer.date.start.flyerTimeString) - \(flyer.date.end.flyerTimeString)")
                 .font(Constants.dateFont)
                 .lineLimit(1)
         }

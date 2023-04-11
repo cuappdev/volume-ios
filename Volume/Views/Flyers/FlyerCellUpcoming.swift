@@ -34,6 +34,31 @@ struct FlyerCellUpcoming: View {
     // MARK: - UI
     
     var body: some View {
+        if let url = URL(string: flyer.pageURL) {
+            cellLinkView(url: url)
+        } else {
+            cellNoLinkView
+        }
+    }
+    
+    private func cellLinkView(url: URL) -> some View {
+        Link(destination: url) {
+            HStack(alignment: .top, spacing: Constants.horizontalSpacing) {
+                imageFrame
+                
+                VStack(alignment: .leading, spacing: Constants.verticalSpacing) {
+                    organizationName
+                    flyerTitle
+                    flyerDate
+                    flyerLocation
+                }
+            }
+            .frame(width: Constants.cellWidth, height: Constants.cellHeight)
+        }
+        .buttonStyle(EmptyButtonStyle())
+    }
+    
+    private var cellNoLinkView: some View {
         HStack(alignment: .top, spacing: Constants.horizontalSpacing) {
             imageFrame
             
@@ -89,14 +114,23 @@ struct FlyerCellUpcoming: View {
     
     private var organizationName: some View {
         HStack(alignment: .center) {
-            Text(flyer.organization.name)
-                .font(Constants.organizationNameFont)
-                .lineLimit(2)
+            if flyer.organizations.count > 1 {
+                ForEach(flyer.organizations) { organization in
+                    Text(organization.name)
+                        .font(Constants.organizationNameFont)
+                        .lineLimit(2)
+                }
+            } else {
+                Text(flyer.organizations[0].name)
+                    .font(Constants.organizationNameFont)
+                    .lineLimit(2)
+            }
             
             Spacer()
             
-            bookmarkButton
-            shareButton
+            // TODO: Uncomment below once backend finishes
+//            bookmarkButton
+//            shareButton
         }
         .padding(.bottom, -Constants.verticalSpacing)
     }
@@ -112,12 +146,12 @@ struct FlyerCellUpcoming: View {
             Image.volume.calendar
                 .foregroundColor(Color.black)
             
-            Text(flyer.date.flyerDateString)
+            Text(flyer.date.start.flyerDateString)
                 .font(Constants.dateFont)
                 .padding(.trailing, Constants.horizontalSpacing)
                 .lineLimit(1)
             
-            Text(flyer.date.flyerTimeString)
+            Text("\(flyer.date.start.flyerTimeString) - \(flyer.date.end.flyerTimeString)")
                 .font(Constants.dateFont)
                 .lineLimit(1)
         }
