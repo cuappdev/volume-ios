@@ -84,6 +84,7 @@ extension FlyersView {
             } else {
                 upcomingFlyers = FlyerDummyData.flyers.filter { $0.date.start > Date() && $0.organizations[0].contentType == selectedCategory }
             }
+            upcomingFlyers = sortFlyersByDateAsc(for: upcomingFlyers ?? [])
         }
         
         func fetchUpcomingNextPage() {
@@ -101,6 +102,7 @@ extension FlyersView {
             
             // Get flyers that are between now and 7 days from now
             thisWeekFlyers = FlyerDummyData.flyers.filter { $0.date.start.isBetween(Date(), and: Date(timeIntervalSinceNow: 604800)) }
+            thisWeekFlyers = sortFlyersByDateAsc(for: thisWeekFlyers ?? [])
         }
         
         private func fetchCategories() {
@@ -113,6 +115,7 @@ extension FlyersView {
             
             // Get flyers that is earlier than now
             pastFlyers = FlyerDummyData.flyers.filter { $0.date.start < Date() }
+            pastFlyers = sortFlyersByDateDesc(for: pastFlyers ?? [])
         }
         
         // MARK: - Deeplink
@@ -149,6 +152,16 @@ extension FlyersView {
         /// Calculate the offset for the GraphQL query
         private func offset(for flyers: [Flyer]?) -> Double {
             Double(flyers?.count ?? 0)
+        }
+        
+        /// Returns a list of Flyers sorted by date descending
+        private func sortFlyersByDateDesc(for flyers: [Flyer]) -> [Flyer] {
+            return flyers.sorted(by: { $0.date.start.compare($1.date.start) == .orderedDescending })
+        }
+        
+        /// Returns a list of Flyers sorted by date ascending
+        private func sortFlyersByDateAsc(for flyers: [Flyer]) -> [Flyer] {
+            return flyers.sorted(by: { $0.date.start.compare($1.date.start) == .orderedAscending })
         }
     }
     
