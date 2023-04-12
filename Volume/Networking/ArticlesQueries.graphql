@@ -42,12 +42,6 @@ query GetArticlesByPublicationSlugs($slugs: [String!]!, $limit: Float!, $offset:
   }
 }
 
-query GetShuffledArticlesByPublicationSlugs($slugs: [String!]!, $limit: Float!, $offset: Float = 0) {
-  articles: getShuffledArticlesByPublicationSlugs(slugs: $slugs, limit: $limit, offset: $offset) {
-    ...articleFields
-  }
-}
-
 # MARK: - BookmarksList
 
 query GetArticleByID($id: String!) {

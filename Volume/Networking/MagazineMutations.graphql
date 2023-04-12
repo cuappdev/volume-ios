@@ -9,9 +9,3 @@ mutation BookmarkMagazine($uuid: String!) {
     id
   }
 }
-
-mutation ReadMagazine($id: String!, $uuid: String!) {
-  readMagazine(magazineID: $id, uuid: $uuid) {
-    id
-  }
-}
