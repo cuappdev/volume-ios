@@ -107,3 +107,4 @@ let mediumdesigncollective = Organization(backgroundImageURL: "", bio: "", bioSh
 let dti = Organization(backgroundImageURL: "", bio: "", bioShort: "", contentType: .academic, id: "31", name: "Design & Tech Initiative", profileImageURL: "", rssName: "", rssURL: "", slug: "dti", websiteURL: "")
 let appdev = Organization(backgroundImageURL: "", bio: "", bioShort: "", contentType: .academic, id: "32", name: "AppDev", profileImageURL: "", rssName: "", rssURL: "", slug: "appdev", websiteURL: "")
 let bhangra = Organization(backgroundImageURL: "", bio: "", bioShort: "", contentType: .dance, id: "33", name: "Bhangra", profileImageURL: "", rssName: "", rssURL: "", slug: "bhangra", websiteURL: "")
+let projecthope = Organization(backgroundImageURL: "", bio: "", bioShort: "", contentType: .awareness, id: "34", name: "Project Hope", profileImageURL: "", rssName: "", rssURL: "", slug: "projecthope", websiteURL: "")
