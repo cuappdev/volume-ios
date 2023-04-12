@@ -39,7 +39,10 @@ struct FlyersView: View {
             }
         }
         .onAppear {
-            // TODO: Setup Environment and Fetch First Load
+            viewModel.setupEnvironment(networkState: networkState, userData: userData)
+            Task {
+                await viewModel.fetchContent()
+            }
         }
         .onOpenURL { url in
             // TODO: Handle deep link
@@ -129,6 +132,11 @@ struct FlyersView: View {
                 .foregroundColor(.black)
                 .textCase(nil)
         }
+        .onChange(of: viewModel.selectedCategory) { _ in
+            Task {
+                await viewModel.fetchUpcoming()
+            }
+        }
         .background(headerGradient)
     }
     
@@ -183,7 +191,8 @@ struct FlyersView: View {
                     .frame(width: Constants.endMessageWidth)
             }
             .frame(maxWidth: .infinity, alignment: .center)
-            .padding([.top, .bottom], 40)
+            .padding(.top, 40)
+            .padding(.bottom, 80)
         }
     }
     

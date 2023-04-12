@@ -20,7 +20,7 @@ extension OnboardingView {
                 FeatureRow(
                     image: "feed",
                     textBold: "Read articles ",
-                    textRegular: "trending in the Cornell commnity and from publications you follow"
+                    textRegular: "trending in the Cornell community and from publications you follow"
                 )
                 FeatureRow(
                     image: "shout-out",

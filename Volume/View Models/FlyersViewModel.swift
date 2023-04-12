@@ -16,13 +16,13 @@ extension FlyersView {
         // MARK: - Properties
         
         // TODO: Remove dummy data
-        @Published var allCategories: [String]? = ["All", "Dance", "Music", "Academic", "Sports"]
+        @Published var allCategories: [Organization.ContentType]? = nil
         @Published var hasMorePast: Bool = true
         @Published var hasMoreUpcoming: Bool = true
-        @Published var pastFlyers: [Flyer]? = FlyerDummyData.pastFlyers
-        @Published var selectedCategory: String? = "All"
-        @Published var thisWeekFlyers: [Flyer]? = FlyerDummyData.thisWeekFlyers
-        @Published var upcomingFlyers: [Flyer]? = FlyerDummyData.upcomingFlyers
+        @Published var pastFlyers: [Flyer]? = nil
+        @Published var selectedCategory: Organization.ContentType? = .all
+        @Published var thisWeekFlyers: [Flyer]? = nil
+        @Published var upcomingFlyers: [Flyer]? = nil
         
         private var networkState: NetworkState?
         private var queryBag = Set<AnyCancellable>()
@@ -35,7 +35,10 @@ extension FlyersView {
         }
                 
         func setupEnvironment(networkState: NetworkState, userData: UserData) {
-            // TODO: initialize environment properties
+            if self.networkState == nil || self.userData == nil {
+                self.networkState = networkState
+                self.userData = userData
+            }
         }
         
         // MARK: - Logic Constants
@@ -52,7 +55,9 @@ extension FlyersView {
         func fetchContent() async {
             fetchThisWeek()
             fetchCategories()
-            fetchUpcoming()
+            
+            // TODO: May need to remove this to implement pagination
+            await fetchUpcoming()
             fetchPast()
         }
         
@@ -70,6 +75,18 @@ extension FlyersView {
             await fetchContent()
         }
         
+        func fetchUpcoming() async {
+            // TODO: Fetch flyers under "Upcoming"
+            
+            // Get flyers that is later than now and matches the current category
+            if selectedCategory == .all {
+                upcomingFlyers = FlyerDummyData.flyers.filter { $0.date.start > Date() }
+            } else {
+                upcomingFlyers = FlyerDummyData.flyers.filter { $0.date.start > Date() && $0.organizations[0].contentType == selectedCategory }
+            }
+            upcomingFlyers = sortFlyersByDateAsc(for: upcomingFlyers ?? [])
+        }
+        
         func fetchUpcomingNextPage() {
             // TODO: Fetch next page of flyers under "Upcoming"
         }
@@ -82,18 +99,23 @@ extension FlyersView {
         
         private func fetchThisWeek() {
             // TODO: Fetch flyers under "This Week"
+            
+            // Get flyers that are between now and 7 days from now
+            thisWeekFlyers = FlyerDummyData.flyers.filter { $0.date.start.isBetween(Date(), and: Date(timeIntervalSinceNow: 604800)) }
+            thisWeekFlyers = sortFlyersByDateAsc(for: thisWeekFlyers ?? [])
         }
         
         private func fetchCategories() {
-            // TODO: Fetch flyer categories
-        }
-        
-        private func fetchUpcoming() {
-            // TODO: Fetch flyers under "Upcoming"
+            // TODO: Fetch flyer categories once backend implements
+            allCategories = [.all, .academic, .awareness, .comedy, .cultural, .dance, .music]
         }
         
         private func fetchPast() {
             // TODO: Fetch flyers under "Past"
+            
+            // Get flyers that is earlier than now
+            pastFlyers = FlyerDummyData.flyers.filter { $0.date.start < Date() }
+            pastFlyers = sortFlyersByDateDesc(for: pastFlyers ?? [])
         }
         
         // MARK: - Deeplink
@@ -130,6 +152,16 @@ extension FlyersView {
         /// Calculate the offset for the GraphQL query
         private func offset(for flyers: [Flyer]?) -> Double {
             Double(flyers?.count ?? 0)
+        }
+        
+        /// Returns a list of Flyers sorted by date descending
+        private func sortFlyersByDateDesc(for flyers: [Flyer]) -> [Flyer] {
+            return flyers.sorted(by: { $0.date.start.compare($1.date.start) == .orderedDescending })
+        }
+        
+        /// Returns a list of Flyers sorted by date ascending
+        private func sortFlyersByDateAsc(for flyers: [Flyer]) -> [Flyer] {
+            return flyers.sorted(by: { $0.date.start.compare($1.date.start) == .orderedAscending })
         }
     }
     

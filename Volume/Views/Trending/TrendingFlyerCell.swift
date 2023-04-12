@@ -1,14 +1,14 @@
 //
-//  FlyerCellUpcoming.swift
+//  TrendingFlyerCell.swift
 //  Volume
 //
-//  Created by Vin Bui on 4/3/23.
+//  Created by Vin Bui on 4/5/23.
 //  Copyright © 2023 Cornell AppDev. All rights reserved.
 //
 
 import SwiftUI
 
-struct FlyerCellUpcoming: View {
+struct TrendingFlyerCell: View {
     
     // MARK: - Properties
     
@@ -18,17 +18,17 @@ struct FlyerCellUpcoming: View {
     // MARK: - Constants
     
     private struct Constants {
-        static let buttonSize: CGFloat = 18
-        static let cellWidth: CGFloat = 325
-        static let cellHeight: CGFloat = 92
+        static let buttonSize: CGFloat = 24
+        static let categoryCornerRadius: CGFloat = 8
+        static let categoryFont: Font = .helveticaRegular(size: 10)
+        static let categoryHorizontalPadding: CGFloat = 16
+        static let categoryVerticalPadding: CGFloat = 4
         static let dateFont: Font = .helveticaRegular(size: 12)
-        static let imageHeight: CGFloat = 92
-        static let imageWidth: CGFloat = 92
-        static let horizontalSpacing: CGFloat = 8
+        static let imageHeight: CGFloat = UIScreen.main.bounds.width - 32
         static let locationFont: Font = .helveticaRegular(size: 12)
         static let organizationNameFont: Font = .newYorkMedium(size: 10)
-        static let titleFont: Font = .newYorkMedium(size: 16)
-        static let verticalSpacing: CGFloat = 4
+        static let spacing: CGFloat = 4
+        static let titleFont: Font = .newYorkMedium(size: 20)
     }
     
     // MARK: - UI
@@ -43,49 +43,61 @@ struct FlyerCellUpcoming: View {
     
     private func cellLinkView(url: URL) -> some View {
         Link(destination: url) {
-            HStack(alignment: .top, spacing: Constants.horizontalSpacing) {
+            VStack(alignment: .leading, spacing: Constants.spacing) {
                 imageFrame
-                
-                VStack(alignment: .leading, spacing: Constants.verticalSpacing) {
-                    organizationName
-                    flyerTitle
-                    flyerDate
-                    flyerLocation
-                }
-            }
-            .frame(width: Constants.cellWidth, height: Constants.cellHeight)
-        }
-        .buttonStyle(EmptyButtonStyle())
-    }
-    
-    private var cellNoLinkView: some View {
-        HStack(alignment: .top, spacing: Constants.horizontalSpacing) {
-            imageFrame
-            
-            VStack(alignment: .leading, spacing: Constants.verticalSpacing) {
                 organizationName
                 flyerTitle
                 flyerDate
                 flyerLocation
             }
         }
-        .frame(width: Constants.cellWidth, height: Constants.cellHeight)
+        .buttonStyle(EmptyButtonStyle())
+    }
+    
+    private var cellNoLinkView: some View {
+        VStack(alignment: .leading, spacing: Constants.spacing) {
+            imageFrame
+            organizationName
+            flyerTitle
+            flyerDate
+            flyerLocation
+        }
     }
     
     private var imageFrame: some View {
-        // TODO: Remove temporary image holder
-        ZStack(alignment: .center) {
+        ZStack(alignment: .topLeading) {
+            // TODO: Remove temporary image holder
             if let flyerImage = urlImageModel.image {
-                Color(uiColor: flyerImage.averageColor ?? .gray)
-                
-                Image(uiImage: urlImageModel.image ?? UIImage())
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
+                ZStack(alignment: .center) {
+                    Color(uiColor: flyerImage.averageColor ?? .gray)
+                    
+                    Image(uiImage: urlImageModel.image ?? UIImage())
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: Constants.imageHeight)
+                }
             } else {
                 SkeletonView()
             }
+            
+            Text(Organization.contentTypeString(
+                    // TODO: May need to change once backend implements
+                    type: flyer.organizations[0].contentType)
+                )
+                .padding(.init(
+                    top: Constants.categoryVerticalPadding,
+                    leading: Constants.categoryHorizontalPadding,
+                    bottom: Constants.categoryVerticalPadding,
+                    trailing: Constants.categoryHorizontalPadding
+                ))
+                .font(Constants.categoryFont)
+                .foregroundColor(Color.white)
+                .background(Color.volume.orange)
+                .clipShape(RoundedRectangle(cornerRadius: Constants.categoryCornerRadius))
+                .padding([.top, .leading], 8)
+                .frame(alignment: .topLeading)
         }
-        .frame(width: Constants.imageWidth, height: Constants.imageHeight)
+        .frame(height: Constants.imageHeight)
     }
     
     private var bookmarkButton: some View {
@@ -118,12 +130,12 @@ struct FlyerCellUpcoming: View {
                 ForEach(flyer.organizations) { organization in
                     Text(organization.name)
                         .font(Constants.organizationNameFont)
-                        .lineLimit(2)
+                        .lineLimit(1)
                 }
             } else {
                 Text(flyer.organizations[0].name)
                     .font(Constants.organizationNameFont)
-                    .lineLimit(2)
+                    .lineLimit(1)
             }
             
             Spacer()
@@ -132,7 +144,8 @@ struct FlyerCellUpcoming: View {
 //            bookmarkButton
 //            shareButton
         }
-        .padding(.bottom, -Constants.verticalSpacing)
+        .padding(.top, Constants.spacing)
+        .padding(.bottom, -Constants.spacing)
     }
     
     private var flyerTitle: some View {
@@ -148,11 +161,10 @@ struct FlyerCellUpcoming: View {
             
             Text(flyer.date.start.flyerDateString)
                 .font(Constants.dateFont)
-                .padding(.trailing, Constants.horizontalSpacing)
+                .padding(.trailing, Constants.spacing)
                 .lineLimit(1)
             
-            Text("\(flyer.date.start.flyerTimeString) - \(flyer.date.end.flyerTimeString)")
-                .font(Constants.dateFont)
+            Text("\(flyer.date.start.flyerTimeString) - \(flyer.date.end.flyerTimeString)")                .font(Constants.dateFont)
                 .lineLimit(1)
         }
     }
@@ -170,29 +182,26 @@ struct FlyerCellUpcoming: View {
     
 }
 
-extension FlyerCellUpcoming {
+extension TrendingFlyerCell {
     
     struct Skeleton: View {
         var body: some View {
-            HStack {
+            VStack(alignment: .leading, spacing: 12) {
                 SkeletonView()
-                    .frame(width: Constants.imageWidth, height: Constants.imageHeight)
-                
-                VStack(alignment: .leading) {
-                    SkeletonView()
-                        .frame(width: 130, height: 15)
-                    
-                    SkeletonView()
-                        .frame(width: 200, height: 20)
-                    
-                    SkeletonView()
-                        .frame(width: 180, height: 15)
-                    
-                    SkeletonView()
-                        .frame(width: 100, height: 15)
-                }
+                    .frame(height: Constants.imageHeight)
+
+                SkeletonView()
+                    .frame(width: 150, height: 15)
+
+                SkeletonView()
+                    .frame(width: 220, height: 20)
+
+                SkeletonView()
+                    .frame(width: 200, height: 15)
+
+                SkeletonView()
+                    .frame(width: 120, height: 15)
             }
-            .frame(width: Constants.cellWidth, height: Constants.cellHeight)
         }
     }
     
@@ -200,8 +209,8 @@ extension FlyerCellUpcoming {
 
 // MARK: - Uncomment below if needed
 
-//struct FlyerCellUpcoming_Previews: PreviewProvider {
+//struct TrendingFlyerCell_Previews: PreviewProvider {
 //    static var previews: some View {
-//        FlyerCellUpcoming(flyer: springFormal)
+//        TrendingFlyerCell()
 //    }
 //}

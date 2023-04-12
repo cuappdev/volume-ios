@@ -10,6 +10,7 @@ target 'Volume' do
   pod 'AppDevAnalytics', :git => 'https://github.com/cuappdev/analytics-ios.git', :commit => '5d459c0475'
   pod 'AppDevAnnouncements', :git => 'https://github.com/cuappdev/appdev-announcements.git'
   pod 'Firebase/Messaging'
+  pod 'lottie-ios'
   pod 'SDWebImageSwiftUI'
   pod 'SDWebImageSVGCoder'
 

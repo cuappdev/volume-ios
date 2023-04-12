@@ -13,12 +13,7 @@ struct FlyerCellPast: View {
     // MARK: - Properties
     
     let flyer: Flyer
-    @ObservedObject var urlImageModel: URLImageModel
-    
-    init(flyer: Flyer, urlImageModel: URLImageModel) {
-        self.flyer = flyer
-        self.urlImageModel = urlImageModel
-    }
+    @StateObject var urlImageModel: URLImageModel
     
     // MARK: - Constants
     
@@ -42,6 +37,32 @@ struct FlyerCellPast: View {
     // MARK: - UI
     
     var body: some View {
+        if let url = URL(string: flyer.pageURL) {
+            cellLinkView(url: url)
+        } else {
+            cellNoLinkView
+        }
+    }
+    
+    private func cellLinkView(url: URL) -> some View {
+        Link(destination: url) {
+            HStack(alignment: .top, spacing: Constants.horizontalSpacing) {
+                imageFrame
+                
+                VStack(alignment: .leading, spacing: Constants.verticalSpacing) {
+                    organizationName
+                    flyerTitle
+                    flyerDate
+                    flyerLocation
+                    categoryType
+                }
+            }
+            .padding(.bottom, Constants.cellSpacing)
+        }
+        .buttonStyle(EmptyButtonStyle())
+    }
+    
+    private var cellNoLinkView: some View {
         HStack(alignment: .top, spacing: Constants.horizontalSpacing) {
             imageFrame
             
@@ -58,7 +79,7 @@ struct FlyerCellPast: View {
     
     private var imageFrame: some View {
         // TODO: Remove temporary image holder
-        ZStack {
+        ZStack(alignment: .center) {
             if let flyerImage = urlImageModel.image {
                 Color(uiColor: flyerImage.averageColor ?? .gray)
                 
@@ -96,14 +117,23 @@ struct FlyerCellPast: View {
     
     private var organizationName: some View {
         HStack(alignment: .top) {
-            Text(flyer.organization.name)
-                .font(Constants.organizationNameFont)
-                .lineLimit(2)
+            if flyer.organizations.count > 1 {
+                ForEach(flyer.organizations) { organization in
+                    Text(organization.name)
+                        .font(Constants.organizationNameFont)
+                        .lineLimit(2)
+                }
+            } else {
+                Text(flyer.organizations[0].name)
+                    .font(Constants.organizationNameFont)
+                    .lineLimit(2)
+            }
             
             Spacer()
             
-            bookmarkButton
-            shareButton
+            // TODO: Uncomment below once backend finishes
+//            bookmarkButton
+//            shareButton
         }
         .padding(.bottom, -Constants.verticalSpacing)
     }
@@ -143,7 +173,8 @@ struct FlyerCellPast: View {
     
     private var categoryType: some View {
         Text(Organization.contentTypeString(
-                type: flyer.organization.contentType)
+                // TODO: May need to reimplement this once backend is finished
+                type: flyer.organizations[0].contentType)
             )
             .padding(.init(
                 top: Constants.categoryVerticalPadding,

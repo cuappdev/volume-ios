@@ -96,6 +96,7 @@ struct RefreshableScrollView<Content: View>: View {
                     let offset = movingY - fixedY
 
                     if offset > threshold && state == .waiting {
+                        Haptics.shared.play(.light)
                         state = .primed
                     } else if offset < threshold && state == .primed {
                         state = .loading
