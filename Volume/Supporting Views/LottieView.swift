@@ -12,6 +12,7 @@ import SwiftUI
 struct LottieView: UIViewRepresentable {
 
     typealias UIViewType = UIView
+    
     var filename: String
     var play: Bool
 
