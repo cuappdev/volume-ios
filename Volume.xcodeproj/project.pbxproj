@@ -103,7 +103,6 @@
 		922FE3052931CDED00E14911 /* HiddenNavigationBarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922FE3042931CDED00E14911 /* HiddenNavigationBarModifier.swift */; };
 		922FE3072931D07100E14911 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922FE3062931D07100E14911 /* SearchView.swift */; };
 		922FE3092931E67A00E14911 /* SearchQueries.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 922FE3082931E67A00E14911 /* SearchQueries.graphql */; };
-		922FE30B29341A5400E14911 /* SearchTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922FE30A29341A5400E14911 /* SearchTabBar.swift */; };
 		922FE30D29342F9200E14911 /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 922FE30C29342F9200E14911 /* schema.json */; };
 		925DBDAF29EB7C4D0019763A /* ContentFilterBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925DBDAE29EB7C4D0019763A /* ContentFilterBarView.swift */; };
 		925DBDB129EB7E860019763A /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925DBDB029EB7E860019763A /* Filter.swift */; };
@@ -233,7 +232,6 @@
 		922FE3042931CDED00E14911 /* HiddenNavigationBarModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiddenNavigationBarModifier.swift; sourceTree = "<group>"; };
 		922FE3062931D07100E14911 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		922FE3082931E67A00E14911 /* SearchQueries.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SearchQueries.graphql; sourceTree = "<group>"; };
-		922FE30A29341A5400E14911 /* SearchTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTabBar.swift; sourceTree = "<group>"; };
 		922FE30C29342F9200E14911 /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		925DBDAE29EB7C4D0019763A /* ContentFilterBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentFilterBarView.swift; sourceTree = "<group>"; };
 		925DBDB029EB7E860019763A /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
@@ -364,7 +362,6 @@
 				922FE2FA2931529000E14911 /* SearchBar.swift */,
 				922FE2FC29316B0D00E14911 /* SearchDropdownView.swift */,
 				922FE3022931C78B00E14911 /* SearchResultsList.swift */,
-				922FE30A29341A5400E14911 /* SearchTabBar.swift */,
 				922FE3062931D07100E14911 /* SearchView.swift */,
 			);
 			path = Search;
@@ -793,7 +790,6 @@
 				502E3EA52757F774005DA441 /* StatisticView.swift in Sources */,
 				3360B9DE29274B9500A923A6 /* PublicationContentViewModel.swift in Sources */,
 				334AFCD72991AAAD00C0BB71 /* Sequence+Extension.swift in Sources */,
-				922FE30B29341A5400E14911 /* SearchTabBar.swift in Sources */,
 				2E6A7D5429D9E723002F5250 /* FlyersView.swift in Sources */,
 				33538BEE2745C477009DD191 /* WeeklyDebrief.swift in Sources */,
 				2E81EB6A29F4FD1600A288C1 /* OnboardingPublicationsView.swift in Sources */,
