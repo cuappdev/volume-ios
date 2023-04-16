@@ -18,7 +18,7 @@ extension BookmarksView {
         // TODO: Property for flyers
         @Published var articles: [Article]? = nil
         @Published var magazines: [Magazine]? = nil
-        @Published var selectedTab: bookmarkTabs = .flyers
+        @Published var selectedTab: FilterContentType = .flyers
         @Published private var queryBag = Set<AnyCancellable>()
         
         private var networkState: NetworkState?
@@ -101,12 +101,3 @@ extension BookmarksView {
     
 }
 
-extension BookmarksView {
-    
-    enum bookmarkTabs {
-        case flyers
-        case articles
-        case magazines
-    }
-    
-}

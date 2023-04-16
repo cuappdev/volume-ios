@@ -22,21 +22,18 @@ struct SearchView: View {
             Color.volume.backgroundGray.edgesIgnoringSafeArea(.all)
             VStack(alignment: .leading, spacing: 0) {
                 SearchBar(searchState: $searchState, searchText: $searchText)
-                
-                Spacer()
-                    .frame(height: Constants.sectionVerticalPadding)
+                    .padding(.horizontal)
                 
                 switch searchState {
                 case .searching:
                     SearchDropdownView(searchState: $searchState, searchText: $searchText)
+                        .padding([.horizontal, .top])
                 case .results:
                     SearchResultsList(searchText: searchText)
                         .transition(.move(edge: .trailing))
                 }
             }
             .foregroundColor(.black)
-            .padding(EdgeInsets(top: Constants.sectionVerticalPadding, leading: Constants.sectionHorizontalPadding,
-                    bottom: 0, trailing: Constants.sectionHorizontalPadding))
         }
         .hiddenNavigationBarStyle()
     }
