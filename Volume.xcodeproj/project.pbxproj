@@ -497,6 +497,7 @@
 				7E8658AD254B71FF002DEE68 /* Publication.swift */,
 				3392D71D2937C021005165F6 /* ReadableContent.swift */,
 				33538BED2745C477009DD191 /* WeeklyDebrief.swift */,
+				925DBDB029EB7E860019763A /* Filter.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
