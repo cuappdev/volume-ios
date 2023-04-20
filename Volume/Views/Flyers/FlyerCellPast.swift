@@ -37,7 +37,7 @@ struct FlyerCellPast: View {
     // MARK: - UI
     
     var body: some View {
-        if let url = URL(string: flyer.pageURL) {
+        if let url = URL(string: flyer.postURL) {
             cellLinkView(url: url)
         } else {
             cellNoLinkView
@@ -149,12 +149,12 @@ struct FlyerCellPast: View {
             Image.volume.calendar
                 .foregroundColor(Color.black)
             
-            Text(flyer.date.start.flyerDateString)
+            Text(flyer.startDate.flyerDateString)
                 .font(Constants.dateFont)
                 .padding(.trailing, Constants.horizontalSpacing)
                 .lineLimit(1)
             
-            Text("\(flyer.date.start.flyerTimeString) - \(flyer.date.end.flyerTimeString)")
+            Text("\(flyer.startDate.flyerTimeString) - \(flyer.endDate.flyerTimeString)")
                 .font(Constants.dateFont)
                 .lineLimit(1)
         }
@@ -174,7 +174,7 @@ struct FlyerCellPast: View {
     private var categoryType: some View {
         Text(Organization.contentTypeString(
                 // TODO: May need to reimplement this once backend is finished
-                type: flyer.organizations[0].contentType)
+                type: flyer.organizations[0].type)
             )
             .padding(.init(
                 top: Constants.categoryVerticalPadding,

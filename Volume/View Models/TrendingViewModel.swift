@@ -68,9 +68,32 @@ extension TrendingView {
         func fetchFlyers() async {
             // TODO: Change query once backend implements trending
             
-            // Fetch two random flyers from dummy data
-            let upcomingFlyers = FlyerDummyData.flyers.filter { $0.date.start > Date() }
-            flyers = upcomingFlyers[randomPick: 2]
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MMM d yy h:mm a"
+            
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .formatted(formatter)
+            
+            guard let url = URL(string: "\(Secrets.cboardEndpoint)/flyers/") else { return }
+            
+            URLSession.shared.dataTaskPublisher(for: url)
+                .subscribe(on: DispatchQueue.global(qos: .background))
+                .receive(on: DispatchQueue.main)
+                .tryMap { data, response in
+                    guard let response = response as? HTTPURLResponse,
+                          response.statusCode >= 200 && response.statusCode < 300 else {
+                        throw URLError(.badServerResponse)
+                    }
+                    return data
+                }
+                .decode(type: [Flyer].self, decoder: decoder)
+                .sink { completion in
+                    print("COMPLETION: \(completion)")
+                } receiveValue: { [weak self] upcomingFlyers in
+                    let upcomingFlyers = upcomingFlyers.filter { $0.startDate > Date() }
+                    self?.flyers = upcomingFlyers[randomPick: 2]
+                }
+                .store(in: &queryBag)
         }
         
         func fetchMagazines() async {

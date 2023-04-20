@@ -71,7 +71,6 @@ struct FlyersView: View {
         }
         .modifier(ListBackgroundModifier())
         .background(Constants.backgroundColor)
-        .disabled(viewModel.disableScrolling)
     }
     
     // MARK: - Sections
