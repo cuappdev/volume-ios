@@ -172,7 +172,7 @@ extension ArticlesView {
             let slugs = followed ? followedPublicationSlugs : unfollowedPublicationSlugs
             Network.shared
                 .publisher(
-                    for: GetArticlesByPublicationSlugsQuery(
+                    for: GetShuffledArticlesByPublicationSlugsQuery(
                         slugs: slugs,
                         limit: Constants.pageSize,
                         offset: offset(for: followed ? followedArticles : unfollowedArticles)

@@ -48,7 +48,7 @@ struct WeeklyDebriefView: View {
                 }
                 
                 StatisticView(image: .volume.feed, leftText: "read", number: weeklyDebrief.numReadArticles, rightText: "articles")
-//                StatisticView(image: .volume.magazine, leftText: "read", number: weeklyDebrief.readMagazineIDs.count, rightText: "magazines")
+                StatisticView(image: .volume.magazine, leftText: "read", number: weeklyDebrief.readMagazineIDs.count, rightText: "magazines")
                 StatisticView(image: .volume.shoutout, leftText: "gave", number: weeklyDebrief.numShoutouts, rightText: "shout-outs")
                 StatisticView(image: .volume.bookmark, leftText: "bookmarked", number: weeklyDebrief.numBookmarkedArticles, rightText: "articles")
                 

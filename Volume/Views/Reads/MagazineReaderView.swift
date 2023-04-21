@@ -59,24 +59,24 @@ struct MagazineReaderView: View {
 
     // MARK: - Data
 
-//    private func markMagazineRead() {
-//        guard let uuid = userData.uuid, let magazineID = magazine?.id else { return }
-//        cancellableReadMutation = Network.shared.publisher(
-//            for: ReadMagazineMutation(
-//                id: magazineID,
-//                uuid: uuid)
-//        )
-//        .map(\.readMagazine?.id)
-//        .sink { completion in
-//            if case let .failure(error) = completion {
-//                print("Error: ReadMagazineMutation failed on MagazineReaderView: \(error.localizedDescription)")
-//            }
-//        } receiveValue: { id in
-//            #if DEBUG
-//            print("Marked magazine read with ID: \(id ?? "nil")")
-//            #endif
-//        }
-//    }
+    private func markMagazineRead() {
+        guard let uuid = userData.uuid, let magazineID = magazine?.id else { return }
+        cancellableReadMutation = Network.shared.publisher(
+            for: ReadMagazineMutation(
+                id: magazineID,
+                uuid: uuid)
+        )
+        .map(\.readMagazine?.id)
+        .sink { completion in
+            if case let .failure(error) = completion {
+                print("Error: ReadMagazineMutation failed on MagazineReaderView: \(error.localizedDescription)")
+            }
+        } receiveValue: { id in
+            #if DEBUG
+            print("Marked magazine read with ID: \(id ?? "nil")")
+            #endif
+        }
+    }
 
     private func fetchMagazineById(_ magazineId: String) {
         Network.shared.publisher(
@@ -185,7 +185,7 @@ struct MagazineReaderView: View {
                 self.magazine = magazine
             }
 
-//            markMagazineRead()
+            markMagazineRead()
         }
         .onReceive(NotificationCenter.default.publisher(for: Notification.Name.PDFViewPageChanged)) { _ in
             pdfView.objectWillChange.send()

@@ -12,6 +12,9 @@ query GetWeeklyDebrief($uuid:String!) {
             randomArticles {
                 ...articleFields
             }
+            readMagazines {
+                ...magazineFields
+            }
         }
     }
 }

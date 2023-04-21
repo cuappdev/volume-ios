@@ -42,7 +42,7 @@ extension FlyersView {
             // TODO: Replace values if necessary
             static let thisWeekFlyersLimit: Double = 7
             static let upcomingFlyersLimit: Double = 6
-            static let pastFlyersLimit: Double = 10
+            static let pastFlyersLimit: Double = 20
         }
         
         // MARK: - Public Requests
@@ -154,8 +154,9 @@ extension FlyersView {
                 .sink { completion in
                     print("Fetching past flyers: \(completion)")
                 } receiveValue: { [weak self] flyers in
-                    let sortedFlyers = self?.sortFlyersByDateDesc(for: flyers)
-                    self?.pastFlyers = sortedFlyers
+                    if let sortedFlyers = self?.sortFlyersByDateDesc(for: flyers) {
+                        self?.pastFlyers = Array(sortedFlyers.prefix(Int(Constants.pastFlyersLimit)))
+                    }
                 }
                 .store(in: &queryBag)
         }
