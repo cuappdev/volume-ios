@@ -34,7 +34,7 @@ struct FlyerCellUpcoming: View {
     // MARK: - UI
     
     var body: some View {
-        if let url = URL(string: flyer.pageURL) {
+        if let url = URL(string: flyer.postURL) {
             cellLinkView(url: url)
         } else {
             cellNoLinkView
@@ -146,12 +146,12 @@ struct FlyerCellUpcoming: View {
             Image.volume.calendar
                 .foregroundColor(Color.black)
             
-            Text(flyer.date.start.flyerDateString)
+            Text(flyer.startDate.flyerDateString)
                 .font(Constants.dateFont)
                 .padding(.trailing, Constants.horizontalSpacing)
                 .lineLimit(1)
             
-            Text("\(flyer.date.start.flyerTimeString) - \(flyer.date.end.flyerTimeString)")
+            Text("\(flyer.startDate.flyerTimeString) - \(flyer.endDate.flyerTimeString)")
                 .font(Constants.dateFont)
                 .lineLimit(1)
         }
@@ -192,7 +192,6 @@ extension FlyerCellUpcoming {
                         .frame(width: 100, height: 15)
                 }
             }
-            .frame(width: Constants.cellWidth, height: Constants.cellHeight)
         }
     }
     

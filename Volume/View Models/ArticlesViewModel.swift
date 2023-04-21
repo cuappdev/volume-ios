@@ -37,6 +37,7 @@ extension ArticlesView {
         // MARK: - Constants
         
         private struct Constants {
+            static let followedArticlesLimit: Int = 20
             static let pageSize: Double = 10
             static let trendingArticleLimit: Double = 7
         }
@@ -228,6 +229,10 @@ extension ArticlesView {
                 } else {
                     hasMoreUnfollowedArticlePages = false
                 }
+            }
+            
+            if followedArticles?.count ?? 0 > Constants.followedArticlesLimit {
+                hasMoreFollowedArticlePages = false
             }
         }
     }

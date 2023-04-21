@@ -67,11 +67,10 @@ struct FlyersView: View {
         .navigationBarTitleDisplayMode(.inline)
         .listStyle(.plain)
         .refreshable {
-            // TODO: RefreshContent
+            await viewModel.refreshContent()
         }
         .modifier(ListBackgroundModifier())
         .background(Constants.backgroundColor)
-        .disabled(viewModel.disableScrolling)
     }
     
     // MARK: - Sections
@@ -133,6 +132,7 @@ struct FlyersView: View {
                 .textCase(nil)
         }
         .onChange(of: viewModel.selectedCategory) { _ in
+            viewModel.upcomingFlyers = nil
             Task {
                 await viewModel.fetchUpcoming()
             }

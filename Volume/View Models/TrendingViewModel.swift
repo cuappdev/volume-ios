@@ -46,8 +46,8 @@ extension TrendingView {
         // MARK: - Public Requests
         
         func fetchContent() async {
-            fetchMainArticle()
-            fetchSubArticles()
+            mainArticle == nil ? fetchMainArticle() : nil
+            subArticles == nil ? fetchSubArticles() : nil
         }
         
         func refreshContent(_ done: @escaping () -> Void = { } ) {
@@ -67,10 +67,25 @@ extension TrendingView {
         
         func fetchFlyers() async {
             // TODO: Change query once backend implements trending
+            guard let url = URL(string: "\(Secrets.cboardEndpoint)/flyers/trending/") else { return }
             
-            // Fetch two random flyers from dummy data
-            let upcomingFlyers = FlyerDummyData.flyers.filter { $0.date.start > Date() }
-            flyers = upcomingFlyers[randomPick: 2]
+            URLSession.shared.dataTaskPublisher(for: url)
+                .subscribe(on: DispatchQueue.global(qos: .background))
+                .receive(on: DispatchQueue.main)
+                .tryMap { data, response in
+                    guard let response = response as? HTTPURLResponse,
+                          response.statusCode >= 200 && response.statusCode < 300 else {
+                        throw URLError(.badServerResponse)
+                    }
+                    return data
+                }
+                .decode(type: [Flyer].self, decoder: JSONDecoder.flyersDecoder)
+                .sink { completion in
+                    print("Fetching trending flyers: \(completion)")
+                } receiveValue: { [weak self] flyers in
+                    self?.flyers = flyers
+                }
+                .store(in: &queryBag)
         }
         
         func fetchMagazines() async {

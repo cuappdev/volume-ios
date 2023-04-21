@@ -12,14 +12,14 @@ struct FlyerCategoryMenu: View {
     
     // MARK: - Properties
 
-    let categories: [Organization.ContentType]
-    @Binding var selected: Organization.ContentType?
+    let categories: [OrganizationType]
+    @Binding var selected: OrganizationType?
     
     // MARK: - Constants
     
     private struct Constants {
         static let cornerRadius: CGFloat = 5
-        static let defaultSelected: Organization.ContentType = .all
+        static let defaultSelected: OrganizationType = .all
         static let downArrowSize = CGSize(width: 20, height: 16)
         static let font: Font = .helveticaRegular(size: 12)
         static let insets = EdgeInsets(top: 6, leading: 15, bottom: 6, trailing: 11)
