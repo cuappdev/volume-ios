@@ -192,7 +192,6 @@ extension FlyerCellUpcoming {
                         .frame(width: 100, height: 15)
                 }
             }
-            .frame(width: Constants.cellWidth, height: Constants.cellHeight)
         }
     }
     

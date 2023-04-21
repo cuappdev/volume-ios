@@ -100,7 +100,7 @@ struct FlyerCellPast: View {
             .frame(width: Constants.buttonSize, height: Constants.buttonSize)
             .onTapGesture {
                 Haptics.shared.play(.light)
-                // TODO: Share Flyer
+                // TODO: Bookmark Flyer
             }
     }
 

@@ -46,8 +46,8 @@ extension TrendingView {
         // MARK: - Public Requests
         
         func fetchContent() async {
-            fetchMainArticle()
-            fetchSubArticles()
+            mainArticle == nil ? fetchMainArticle() : nil
+            subArticles == nil ? fetchSubArticles() : nil
         }
         
         func refreshContent(_ done: @escaping () -> Void = { } ) {
@@ -67,14 +67,7 @@ extension TrendingView {
         
         func fetchFlyers() async {
             // TODO: Change query once backend implements trending
-            
-            let formatter = DateFormatter()
-            formatter.dateFormat = "MMM d yy h:mm a"
-            
-            let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .formatted(formatter)
-            
-            guard let url = URL(string: "\(Secrets.cboardEndpoint)/flyers/") else { return }
+            guard let url = URL(string: "\(Secrets.cboardEndpoint)/flyers/trending/") else { return }
             
             URLSession.shared.dataTaskPublisher(for: url)
                 .subscribe(on: DispatchQueue.global(qos: .background))
@@ -86,12 +79,11 @@ extension TrendingView {
                     }
                     return data
                 }
-                .decode(type: [Flyer].self, decoder: decoder)
+                .decode(type: [Flyer].self, decoder: JSONDecoder.flyersDecoder)
                 .sink { completion in
-                    print("COMPLETION: \(completion)")
-                } receiveValue: { [weak self] upcomingFlyers in
-                    let upcomingFlyers = upcomingFlyers.filter { $0.startDate > Date() }
-                    self?.flyers = upcomingFlyers[randomPick: 2]
+                    print("Fetching trending flyers: \(completion)")
+                } receiveValue: { [weak self] flyers in
+                    self?.flyers = flyers
                 }
                 .store(in: &queryBag)
         }

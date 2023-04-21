@@ -8,6 +8,8 @@
 
 import Foundation
 
+// TODO: Reimplement once backend finishes
+
 struct Organization: Codable, Identifiable {
     
     let id: String
@@ -55,29 +57,3 @@ extension Organization {
     }
 
 }
-
-// TODO: - Reimplement once backend is finished
-
-//struct Organization: Hashable, Identifiable {
-//
-//    let backgroundImageURL: String
-//    let bio: String
-//    let bioShort: String
-//    let contentType: Organization.ContentType
-//    let id: String
-//    let name: String
-//    let profileImageURL: String
-//    let rssName: String
-//    let rssURL: String?
-//    let slug: String
-//    let shoutouts: Int? = 0
-//    let websiteURL: String
-//
-//    // TODO: init for OrganizationFields
-//
-//    func hash(into hasher: inout Hasher) {
-//        hasher.combine(id)
-//    }
-//
-//}
-//
