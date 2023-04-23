@@ -13,7 +13,7 @@ struct ContentView: View {
 
     var body: some View {
         if isFirstLaunch {
-            OnboardingView()
+            OnboardingMainView()
                 .transition(.asymmetric(insertion: .opacity, removal: .move(edge: .leading)))
         } else {
             MainView()

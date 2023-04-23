@@ -186,7 +186,7 @@ extension TrendingFlyerCell {
     
     struct Skeleton: View {
         var body: some View {
-            VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: 8) {
                 SkeletonView()
                     .frame(height: Constants.imageHeight)
 
