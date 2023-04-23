@@ -30,12 +30,13 @@ struct ScrollFadingView: View {
             startPoint: fadesDown ? .top : .bottom,
             endPoint: fadesDown ? .bottom : .top
         )
-            .frame(height: 50)
+        .frame(height: 50)
         
         if !fadesDown {
             Spacer()
         }
     }
+    
 }
 
 // MARK: - Uncomment below if needed

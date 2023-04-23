@@ -101,7 +101,6 @@ struct OnboardingMainView: View {
             .padding(.bottom)
             
             nextButton
-                .padding(.bottom)
             
             Spacer()
         }
@@ -128,6 +127,7 @@ struct OnboardingMainView: View {
                         .stroke(Color.volume.orange, lineWidth: Constants.buttonStrokeWidth)
                 )
         }
+        .padding(.bottom)
     }
     
     @ViewBuilder
