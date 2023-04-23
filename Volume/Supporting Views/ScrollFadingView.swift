@@ -23,7 +23,7 @@ struct ScrollFadingView: View {
         LinearGradient(
             gradient: Gradient(
                 colors: [
-                    .white.opacity(0),
+                    .clear,
                     .white
                 ]
             ),
