@@ -22,8 +22,8 @@ struct BookmarksView: View {
         static let articlesTabWidth: CGFloat = 80
         static let flyersTabWidth: CGFloat = 70
         static let magazinesTabWidth: CGFloat = 110
-        static let titleFont: Font = .newYorkMedium(size: 28)
         static let noSavedMessageLength: CGFloat = 250
+        static let titleFont: Font = .newYorkMedium(size: 28)
     }
     
     // MARK: - UI
@@ -31,6 +31,7 @@ struct BookmarksView: View {
     var body: some View {
         VStack {
             tabBar
+            
             ScrollView {
                 scrollContent
             }
@@ -201,6 +202,7 @@ struct BookmarksView: View {
     private var noSavedContentView: some View {
         VStack {
             Spacer(minLength: Constants.noSavedMessageLength)
+            
             switch viewModel.selectedTab {
             case .flyers:
                 VolumeMessage(image: Image.volume.flyer, message: .noBookmarkedFlyers, largeFont: true, fullWidth: true)

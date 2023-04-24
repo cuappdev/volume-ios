@@ -8,9 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		060B738B256340580035E252 /* BubblePeriodText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060B738A256340580035E252 /* BubblePeriodText.swift */; };
-		060FFDDC2577EC800052F3EA /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060FFDD92577EC800052F3EA /* WelcomeView.swift */; };
-		060FFDDD2577EC800052F3EA /* FollowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060FFDDA2577EC800052F3EA /* FollowView.swift */; };
-		060FFDDE2577EC800052F3EA /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060FFDDB2577EC800052F3EA /* OnboardingView.swift */; };
 		061233A12553127C0025F7E0 /* UnderlinedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061233A02553127C0025F7E0 /* UnderlinedText.swift */; };
 		061DB39725571D760038BEF5 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061DB39625571D760038BEF5 /* Font+Extension.swift */; };
 		063EED25257BF8A7002136EE /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063EED24257BF8A7002136EE /* Network.swift */; };
@@ -49,6 +46,11 @@
 		2E6A7D7329DAB5BC002F5250 /* FlyerCellThisWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6A7D7229DAB5BC002F5250 /* FlyerCellThisWeek.swift */; };
 		2E6A7D7529DABB23002F5250 /* FlyerCellUpcoming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6A7D7429DABB23002F5250 /* FlyerCellUpcoming.swift */; };
 		2E6A7D7729DAC784002F5250 /* FlyerCellPast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6A7D7629DAC784002F5250 /* FlyerCellPast.swift */; };
+		2E81EB6229F4DA5300A288C1 /* OnboardingMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E81EB6129F4DA5300A288C1 /* OnboardingMainView.swift */; };
+		2E81EB6429F4EC8000A288C1 /* OnboardingWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E81EB6329F4EC8000A288C1 /* OnboardingWelcomeView.swift */; };
+		2E81EB6629F4F4A800A288C1 /* OnboardingFlyersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E81EB6529F4F4A800A288C1 /* OnboardingFlyersView.swift */; };
+		2E81EB6829F4FC0900A288C1 /* ScrollFadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E81EB6729F4FC0900A288C1 /* ScrollFadingView.swift */; };
+		2E81EB6A29F4FD1600A288C1 /* OnboardingPublicationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E81EB6929F4FD1600A288C1 /* OnboardingPublicationsView.swift */; };
 		2E84654829DBB31800BFECBE /* FlyerCategoryMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E84654729DBB31800BFECBE /* FlyerCategoryMenu.swift */; };
 		2EA7DB7329DBEF7C001D7B8A /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7DB7229DBEF7C001D7B8A /* UIImage+Extension.swift */; };
 		2EA7DB7929DC0EE5001D7B8A /* URLImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7DB7829DC0EE5001D7B8A /* URLImageModel.swift */; };
@@ -126,9 +128,6 @@
 
 /* Begin PBXFileReference section */
 		060B738A256340580035E252 /* BubblePeriodText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubblePeriodText.swift; sourceTree = "<group>"; };
-		060FFDD92577EC800052F3EA /* WelcomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
-		060FFDDA2577EC800052F3EA /* FollowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowView.swift; sourceTree = "<group>"; };
-		060FFDDB2577EC800052F3EA /* OnboardingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		061233A02553127C0025F7E0 /* UnderlinedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlinedText.swift; sourceTree = "<group>"; };
 		061BA9E0259E355C00B93AEB /* Secrets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		061DB39625571D760038BEF5 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
@@ -172,6 +171,11 @@
 		2E6A7D7229DAB5BC002F5250 /* FlyerCellThisWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerCellThisWeek.swift; sourceTree = "<group>"; };
 		2E6A7D7429DABB23002F5250 /* FlyerCellUpcoming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerCellUpcoming.swift; sourceTree = "<group>"; };
 		2E6A7D7629DAC784002F5250 /* FlyerCellPast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerCellPast.swift; sourceTree = "<group>"; };
+		2E81EB6129F4DA5300A288C1 /* OnboardingMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingMainView.swift; sourceTree = "<group>"; };
+		2E81EB6329F4EC8000A288C1 /* OnboardingWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWelcomeView.swift; sourceTree = "<group>"; };
+		2E81EB6529F4F4A800A288C1 /* OnboardingFlyersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFlyersView.swift; sourceTree = "<group>"; };
+		2E81EB6729F4FC0900A288C1 /* ScrollFadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollFadingView.swift; sourceTree = "<group>"; };
+		2E81EB6929F4FD1600A288C1 /* OnboardingPublicationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPublicationsView.swift; sourceTree = "<group>"; };
 		2E84654729DBB31800BFECBE /* FlyerCategoryMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerCategoryMenu.swift; sourceTree = "<group>"; };
 		2EA7DB7229DBEF7C001D7B8A /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		2EA7DB7829DC0EE5001D7B8A /* URLImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImageModel.swift; sourceTree = "<group>"; };
@@ -269,9 +273,10 @@
 		060FFDD82577EC800052F3EA /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				060FFDDA2577EC800052F3EA /* FollowView.swift */,
-				060FFDDB2577EC800052F3EA /* OnboardingView.swift */,
-				060FFDD92577EC800052F3EA /* WelcomeView.swift */,
+				2E81EB6529F4F4A800A288C1 /* OnboardingFlyersView.swift */,
+				2E81EB6129F4DA5300A288C1 /* OnboardingMainView.swift */,
+				2E81EB6929F4FD1600A288C1 /* OnboardingPublicationsView.swift */,
+				2E81EB6329F4EC8000A288C1 /* OnboardingWelcomeView.swift */,
 			);
 			name = Onboarding;
 			path = Volume/Views/Onboarding;
@@ -514,6 +519,7 @@
 				2E38E14929E5CBB8006323E5 /* LottieView.swift */,
 				3392D71B2937BF4E005165F6 /* ReaderToolbarView.swift */,
 				7E49582C2612BD740015BE45 /* RefreshableScrollView.swift */,
+				2E81EB6729F4FC0900A288C1 /* ScrollFadingView.swift */,
 				3375EC042937F7C9005A046F /* SemesterMenuView.swift */,
 				2E531A3029CCC1920043EB85 /* ShimmerEffect.swift */,
 				06B23227258EDDA9006D9A53 /* SkeletonView.swift */,
@@ -742,7 +748,9 @@
 				2E6A7D7129DAB2AB002F5250 /* FlyersViewModel.swift in Sources */,
 				2E6A7D6E29DAA334002F5250 /* Organization.swift in Sources */,
 				33538BF22745DD27009DD191 /* Notifications.swift in Sources */,
+				2E81EB6829F4FC0900A288C1 /* ScrollFadingView.swift in Sources */,
 				3392D71C2937BF4E005165F6 /* ReaderToolbarView.swift in Sources */,
+				2E81EB6229F4DA5300A288C1 /* OnboardingMainView.swift in Sources */,
 				A2B4DF3227D9AAB000440184 /* MagazineReaderView.swift in Sources */,
 				7EC15D9F257767ED0053BA0B /* Publication.swift in Sources */,
 				95AC9DCF2637C120000B4BEE /* Main.swift in Sources */,
@@ -780,6 +788,7 @@
 				922FE30B29341A5400E14911 /* SearchTabBar.swift in Sources */,
 				2E6A7D5429D9E723002F5250 /* FlyersView.swift in Sources */,
 				33538BEE2745C477009DD191 /* WeeklyDebrief.swift in Sources */,
+				2E81EB6A29F4FD1600A288C1 /* OnboardingPublicationsView.swift in Sources */,
 				7E416C322561D7870010D70B /* Header.swift in Sources */,
 				2E05005B29C65B82001B4131 /* MagazinesViewModel.swift in Sources */,
 				06B23228258EDDA9006D9A53 /* SkeletonView.swift in Sources */,
@@ -794,7 +803,6 @@
 				2E6A7D5629D9E73E002F5250 /* ReadsView.swift in Sources */,
 				061DB39725571D760038BEF5 /* Font+Extension.swift in Sources */,
 				3334F4A02705269800CF0987 /* AppDelegate.swift in Sources */,
-				060FFDDD2577EC800052F3EA /* FollowView.swift in Sources */,
 				3349BF6F290DC1E900B0FD3A /* WeeklyDebriefButton.swift in Sources */,
 				061233A12553127C0025F7E0 /* UnderlinedText.swift in Sources */,
 				7E9E4719262808AC007E8E6C /* SettingsPageRow.swift in Sources */,
@@ -807,7 +815,6 @@
 				7EA73D28254C9C67009E8F9F /* Article.swift in Sources */,
 				2E6A7D5E29D9EFD6002F5250 /* ArticlesViewModel.swift in Sources */,
 				7EE96DC82562505B000B246F /* VolumeMessage.swift in Sources */,
-				060FFDDC2577EC800052F3EA /* WelcomeView.swift in Sources */,
 				2EA7DB7329DBEF7C001D7B8A /* UIImage+Extension.swift in Sources */,
 				995C9A0025E5770D00F6FBA5 /* Analytics.swift in Sources */,
 				2EA7DB7929DC0EE5001D7B8A /* URLImageModel.swift in Sources */,
@@ -829,7 +836,6 @@
 				95A79FB42622255D00CADF88 /* TabContainer.swift in Sources */,
 				33913A0C27D89E0A00C5718D /* TabBarReader.swift in Sources */,
 				7EA0BB502624DF7C00A1652E /* AboutUsView.swift in Sources */,
-				060FFDDE2577EC800052F3EA /* OnboardingView.swift in Sources */,
 				A2A5CC1027D567EA0000F377 /* MagazineCell.swift in Sources */,
 				50C360542759482A006CDB2E /* DebriefArticleView.swift in Sources */,
 				063EED25257BF8A7002136EE /* Network.swift in Sources */,
@@ -837,7 +843,9 @@
 				7EA73D22254C9C21009E8F9F /* ArticleRow.swift in Sources */,
 				95AC9DC72637BFF8000B4BEE /* Url+Extension.swift in Sources */,
 				060B738B256340580035E252 /* BubblePeriodText.swift in Sources */,
+				2E81EB6429F4EC8000A288C1 /* OnboardingWelcomeView.swift in Sources */,
 				7E49582D2612BD740015BE45 /* RefreshableScrollView.swift in Sources */,
+				2E81EB6629F4F4A800A288C1 /* OnboardingFlyersView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
