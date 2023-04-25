@@ -1,5 +1,5 @@
 //
-//  NoConnectionView.swift
+//  ConnectionFailedView.swift
 //  Volume
 //
 //  Created by Sergio Diaz on 4/10/21.
@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct ConnectionFailedView: View {
+    
     var body: some View {
         VStack(spacing: 0) {
             Spacer()
@@ -32,4 +33,5 @@ struct ConnectionFailedView: View {
         .offset(x: 0, y: -20)
         .background(Color.volume.backgroundGray)
     }
+    
 }
