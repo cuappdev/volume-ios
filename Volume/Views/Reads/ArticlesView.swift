@@ -76,7 +76,7 @@ struct ArticlesView: View {
             }
             .listSectionSeparator(.hidden)
             .listRowSeparator(.hidden)
-            .listRowInsets(EdgeInsets(top: 0, leading: Constants.listHorizontalPadding, bottom: 0, trailing: Constants.listHorizontalPadding))
+            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             .listRowBackground(Color.clear)
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -95,6 +95,7 @@ struct ArticlesView: View {
             .overlay(NavigationLink(destination: SearchView(), label: {
                 EmptyView()
             }).opacity(0))
+            .padding(.horizontal, Constants.listHorizontalPadding)
             .padding(.top, 5)
     }
     
@@ -122,10 +123,12 @@ struct ArticlesView: View {
                     }
                 }
             }
+            .padding(.horizontal, Constants.listHorizontalPadding)
             .environment(\EnvironmentValues.refresh as! WritableKeyPath<EnvironmentValues, RefreshAction?>, nil)
         } header: {
             Header("The Big Read")
                 .padding(.vertical, Constants.rowVerticalPadding)
+                .padding(.horizontal, Constants.listHorizontalPadding)
                 .foregroundColor(.black)
                 .textCase(nil)
         }
@@ -142,50 +145,54 @@ struct ArticlesView: View {
 
     private func articleSection(followed: Bool) -> some View {
         Section {
-            switch followed ? viewModel.followedArticles : viewModel.unfollowedArticles {
-            case .none:
-                if followed && userData.followedPublicationSlugs.isEmpty {
-                    VolumeMessage(message: .noFollowingHome, largeFont: false, fullWidth: false)
-                        .padding(.top, Constants.volumeMessageTopPadding)
-                        .padding(.bottom, Constants.volumeMessageBottomPadding)
-                } else {
-                    ForEach(0..<5) { _ in
+            Group {
+                switch followed ? viewModel.followedArticles : viewModel.unfollowedArticles {
+                case .none:
+                    if followed && userData.followedPublicationSlugs.isEmpty {
+                        VolumeMessage(message: .noFollowingHome, largeFont: false, fullWidth: false)
+                            .padding(.top, Constants.volumeMessageTopPadding)
+                            .padding(.bottom, Constants.volumeMessageBottomPadding)
+                    } else {
+                        ForEach(0..<5) { _ in
+                            ArticleRow.Skeleton()
+                                .padding(.vertical, Constants.rowVerticalPadding)
+                        }
+                    }
+                case .some(let articles):
+                    ForEach(articles) { article in
+                        ZStack {
+                            ArticleRow(article: article, navigationSource: .followingArticles)
+                                .padding(.vertical, Constants.rowVerticalPadding)
+                            NavigationLink {
+                                BrowserView(initType: .readyForDisplay(article), navigationSource: .followingArticles)
+                            } label: {
+                                EmptyView()
+                            }.opacity(0)
+                        }
+                    }
+                    
+                    if followed ? viewModel.hasMoreFollowedArticlePages : viewModel.hasMoreUnfollowedArticlePages {
                         ArticleRow.Skeleton()
                             .padding(.vertical, Constants.rowVerticalPadding)
+                            .onAppear {
+                                // scrolled to last loaded row, fetch more rows
+                                viewModel.fetchPage(followed: followed)
+                            }
+                    } else if followed {
+                        VolumeMessage(message: articles.count > 0 ? .upToDateArticles : .noFollowingHome, largeFont: false, fullWidth: false)
+                            .padding(.top, Constants.volumeMessageTopPadding)
+                            .padding(.bottom, Constants.volumeMessageBottomPadding)
+                            .onAppear {
+                                viewModel.fetchPage(followed: false)
+                            }
                     }
-                }
-            case .some(let articles):
-                ForEach(articles) { article in
-                    ZStack {
-                        ArticleRow(article: article, navigationSource: .followingArticles)
-                            .padding(.vertical, Constants.rowVerticalPadding)
-                        NavigationLink {
-                            BrowserView(initType: .readyForDisplay(article), navigationSource: .followingArticles)
-                        } label: {
-                            EmptyView()
-                        }.opacity(0)
-                    }
-                }
-
-                if followed ? viewModel.hasMoreFollowedArticlePages : viewModel.hasMoreUnfollowedArticlePages {
-                    ArticleRow.Skeleton()
-                        .padding(.vertical, Constants.rowVerticalPadding)
-                        .onAppear {
-                            // scrolled to last loaded row, fetch more rows
-                            viewModel.fetchPage(followed: followed)
-                        }
-                } else if followed {
-                    VolumeMessage(message: articles.count > 0 ? .upToDateArticles : .noFollowingHome, largeFont: false, fullWidth: false)
-                        .padding(.top, Constants.volumeMessageTopPadding)
-                        .padding(.bottom, Constants.volumeMessageBottomPadding)
-                        .onAppear {
-                            viewModel.fetchPage(followed: false)
-                        }
                 }
             }
+            .padding(.horizontal, Constants.listHorizontalPadding)
         } header: {
             Header(followed ? Constants.followedArticlesSectionTitle : Constants.unfollowedArticlesSectionTitle)
                 .padding(.vertical, Constants.rowVerticalPadding)
+                .padding(.horizontal, Constants.listHorizontalPadding)
                 .foregroundColor(.black)
                 .textCase(nil)
         }
