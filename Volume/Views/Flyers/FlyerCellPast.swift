@@ -185,6 +185,7 @@ struct FlyerCellPast: View {
             .font(Constants.categoryFont)
             .foregroundColor(Color.volume.orange)
             .background(Color.white)
+            .cornerRadius(Constants.categoryCornerRadius)
             .overlay(
                 RoundedRectangle(cornerRadius: Constants.categoryCornerRadius)
                     .stroke(Color.volume.orange, lineWidth: 1)
