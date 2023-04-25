@@ -36,6 +36,7 @@ struct OnboardingMainView: View {
         static let messageFont: Font = .newYorkRegular(size: 16)
         static let nextHoriPadding: CGFloat = 24
         static let nextVertPadding: CGFloat = 10
+        static let sidePadding: CGFloat = 16
         static let volumeLogoID: String = "volume-logo"
     }
     
@@ -83,6 +84,7 @@ struct OnboardingMainView: View {
                 OnboardingFlyersView()
             case .publications:
                 OnboardingPublicationsView()
+                    .padding(.horizontal, Constants.sidePadding)
             }
             
             Spacer()
@@ -149,6 +151,7 @@ struct OnboardingMainView: View {
         .multilineTextAlignment(.center)
         .font(Constants.messageFont)
         .fixedSize(horizontal: false, vertical: true)
+        .padding(.horizontal, 2 * Constants.sidePadding)
         
         Divider()
             .background(Color.volume.buttonGray)
