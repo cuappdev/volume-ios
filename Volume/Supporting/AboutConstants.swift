@@ -2,8 +2,8 @@
 //  AboutConstants.swift
 //  Volume
 //
-//  Created by Cameron Russell on 4/16/21.
-//  Copyright © 2021 Cornell AppDev. All rights reserved.
+//  Created by Vin Bui on 4/25/21.
+//  Copyright © 2023 Cornell AppDev. All rights reserved.
 //
 
 import Foundation
