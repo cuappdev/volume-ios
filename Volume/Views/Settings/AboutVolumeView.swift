@@ -17,14 +17,14 @@ struct AboutVolumeView: View {
     // MARK: - Constants
     private struct Constants {
         static let headerSpacing: CGFloat = 8
-        static let missionFont: Font = .helveticaRegular(size: 16)
         static let memberFont: Font = .newYorkRegular(size: 16)
+        static let missionFont: Font = .helveticaRegular(size: 16)
         static let navHeaderText: Font = .newYorkMedium(size: 20)
+        static let sectionSpacing: CGFloat = 24
+        static let semesterFont: Font = .newYorkMedium(size: 16)
+        static let semesterSpacing: CGFloat = 40
         static let sidePadding: CGFloat = 24
         static let subteamFont: Font = .newYorkMedium(size: 20)
-        static let semesterFont: Font = .newYorkMedium(size: 16)
-        static let sectionSpacing: CGFloat = 24
-        static let semesterSpacing: CGFloat = 40
         static let teamSpacing: CGFloat = 8
     }
     
