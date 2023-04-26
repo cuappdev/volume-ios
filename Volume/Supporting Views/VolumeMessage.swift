@@ -48,7 +48,7 @@ enum Message {
         case .noSearchResults:
             return "We could not find any results."
         case .upToDateFlyers:
-            return "If you want to see your organization’s events on Volume, email us at cornellappdev@gmail.com."
+            return "If you want to see your organization’s events on Volume, email us at volumeappdev@gmail.com."
         }
     }
 }

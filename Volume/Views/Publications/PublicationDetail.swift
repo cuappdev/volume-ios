@@ -64,6 +64,7 @@ struct PublicationDetail: View {
                     WebImage(url: url)
                         .resizable()
                         .grayBackground()
+                        .frame(width: geometry.size.width, height: headerHeight)
                         .scaledToFill()
                         .clipped()
                 } else {

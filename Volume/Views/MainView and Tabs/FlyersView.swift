@@ -61,7 +61,7 @@ struct FlyersView: View {
             }
             .listSectionSeparator(.hidden)
             .listRowSeparator(.hidden)
-            .listRowInsets(EdgeInsets(top: 0, leading: Constants.listHorizontalPadding, bottom: 0, trailing: Constants.listHorizontalPadding))
+            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             .listRowBackground(Color.clear)
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -93,11 +93,13 @@ struct FlyersView: View {
                         }
                     }
                 }
+                .padding(.horizontal, Constants.listHorizontalPadding)
             }
             .environment(\EnvironmentValues.refresh as! WritableKeyPath<EnvironmentValues, RefreshAction?>, nil)
         } header: {
             Header("This Week")
                 .padding(.vertical, Constants.rowVerticalPadding)
+                .padding(.horizontal, Constants.listHorizontalPadding)
                 .foregroundColor(.black)
                 .textCase(nil)
         }
@@ -122,12 +124,14 @@ struct FlyersView: View {
                         }
                     }
                 }
+                .padding(.horizontal, Constants.listHorizontalPadding)
                 .frame(height: Constants.upcomingSectionHeight)
             }
             .environment(\EnvironmentValues.refresh as! WritableKeyPath<EnvironmentValues, RefreshAction?>, nil)
         } header: {
             upcomingHeader
                 .padding(.vertical, Constants.rowVerticalPadding)
+                .padding(.horizontal, Constants.listHorizontalPadding)
                 .foregroundColor(.black)
                 .textCase(nil)
         }
@@ -161,22 +165,26 @@ struct FlyersView: View {
     
     private var pastSection: some View {
         Section {
-            switch viewModel.pastFlyers {
-            case .none:
-                FlyerCellPast.Skeleton()
-                    .padding(.bottom, Constants.spacing)
-                FlyerCellPast.Skeleton()
-            case .some(let flyers):
-                ForEach(flyers) { flyer in
-                    FlyerCellPast(
-                        flyer: flyer,
-                        urlImageModel: URLImageModel(urlString: flyer.imageURL)
-                    )
+            Group {
+                switch viewModel.pastFlyers {
+                case .none:
+                    FlyerCellPast.Skeleton()
+                        .padding(.bottom, Constants.spacing)
+                    FlyerCellPast.Skeleton()
+                case .some(let flyers):
+                    ForEach(flyers) { flyer in
+                        FlyerCellPast(
+                            flyer: flyer,
+                            urlImageModel: URLImageModel(urlString: flyer.imageURL)
+                        )
+                    }
                 }
             }
+            .padding(.horizontal, Constants.listHorizontalPadding)
         } header: {
             Header("Past Flyers")
                 .padding(.vertical, Constants.rowVerticalPadding)
+                .padding(.horizontal, Constants.listHorizontalPadding)
                 .foregroundColor(.black)
                 .textCase(nil)
                 .edgesIgnoringSafeArea(.all)
