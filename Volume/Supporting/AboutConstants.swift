@@ -108,7 +108,7 @@ struct AboutConstants {
                 ]),
                 .design([
                     "Christina Zeng",
-                    "Amande He",
+                    "Amanda He",
                     "Zixian Jia"
                 ]),
                 .marketing([

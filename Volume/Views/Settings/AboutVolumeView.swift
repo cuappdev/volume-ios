@@ -17,6 +17,7 @@ struct AboutVolumeView: View {
     // MARK: - Constants
     private struct Constants {
         static let headerSpacing: CGFloat = 8
+        static let lineSpacing: CGFloat = 2
         static let memberFont: Font = .newYorkRegular(size: 16)
         static let missionFont: Font = .helveticaRegular(size: 16)
         static let navHeaderText: Font = .newYorkMedium(size: 20)
@@ -65,7 +66,7 @@ struct AboutVolumeView: View {
         Section {
             Text(AboutConstants.missionStatement)
                 .font(Constants.missionFont)
-                .lineSpacing(2)
+                .lineSpacing(Constants.lineSpacing)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.top, Constants.headerSpacing)
                 .padding(.bottom, Constants.sectionSpacing)
