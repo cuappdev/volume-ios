@@ -12,6 +12,10 @@ enum Message {
     case noBookmarkedArticles
     case noBookmarkedFlyers
     case noBookmarkedMagazines
+    case noFlyersPast
+    case noFlyersToday
+    case noFlyersUpcoming
+    case noFlyersWeekly
     case noFollowingHome
     case noFollowingPublications
     case noSearchResults
@@ -28,6 +32,14 @@ enum Message {
             return "You're up to date!"
         case .upToDateFlyers:
             return "Are you an organization?"
+        case .noFlyersPast:
+            return "No past flyers"
+        case .noFlyersToday:
+            return "No flyers today"
+        case .noFlyersUpcoming:
+            return "No upcoming flyers for this category"
+        case .noFlyersWeekly:
+            return "No flyers this week"
         }
     }
 
@@ -47,7 +59,7 @@ enum Message {
             return "You've seen all new articles from the publications you're following."
         case .noSearchResults:
             return "We could not find any results."
-        case .upToDateFlyers:
+        case .upToDateFlyers, .noFlyersPast, .noFlyersToday, .noFlyersUpcoming, .noFlyersWeekly:
             return "If you want to see your organization’s events on Volume, email us at volumeappdev@gmail.com."
         }
     }
@@ -66,8 +78,12 @@ struct VolumeMessage: View {
             VStack(spacing: 10) {
                 image
                     .foregroundColor(.volume.orange)
+                
                 Text(message.title)
                     .font(.newYorkMedium(size: largeFont ? 24 : 18))
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+                
                 Text(message.subtitle)
                     .font(.helveticaRegular(size: 12))
                     .multilineTextAlignment(.center)

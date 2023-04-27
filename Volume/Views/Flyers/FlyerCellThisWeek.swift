@@ -12,7 +12,9 @@ struct FlyerCellThisWeek: View {
     
     // MARK: - Properties
     
+    let cellSize: CGSize
     let flyer: Flyer
+    let imageSize: CGSize
     @StateObject var urlImageModel: URLImageModel
     
     // MARK: - Constants
@@ -23,11 +25,7 @@ struct FlyerCellThisWeek: View {
         static let categoryFont: Font = .helveticaRegular(size: 10)
         static let categoryHorizontalPadding: CGFloat = 16
         static let categoryVerticalPadding: CGFloat = 4
-        static let cellHeight: CGFloat = 344
-        static let cellWidth: CGFloat = 256
         static let dateFont: Font = .helveticaRegular(size: 12)
-        static let imageHeight: CGFloat = 256
-        static let imageWidth: CGFloat = 256
         static let locationFont: Font = .helveticaRegular(size: 12)
         static let organizationNameFont: Font = .newYorkMedium(size: 10)
         static let spacing: CGFloat = 4
@@ -53,7 +51,7 @@ struct FlyerCellThisWeek: View {
                 flyerDate
                 flyerLocation
             }
-            .frame(width: Constants.cellWidth, height: Constants.cellHeight)
+            .frame(width: cellSize.width, height: cellSize.height)
         }
         .buttonStyle(EmptyButtonStyle())
     }
@@ -66,7 +64,7 @@ struct FlyerCellThisWeek: View {
             flyerDate
             flyerLocation
         }
-        .frame(width: Constants.cellWidth, height: Constants.cellHeight)
+        .frame(width: cellSize.width, height: cellSize.height)
     }
     
     private var imageFrame: some View {
@@ -79,7 +77,7 @@ struct FlyerCellThisWeek: View {
                     Image(uiImage: urlImageModel.image ?? UIImage())
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: Constants.imageWidth, height: Constants.imageHeight)
+                        .frame(width: imageSize.width, height: imageSize.height)
                 }
             } else {
                 SkeletonView()
@@ -101,7 +99,7 @@ struct FlyerCellThisWeek: View {
                 .clipShape(RoundedRectangle(cornerRadius: Constants.categoryCornerRadius))
                 .padding([.top, .leading], 8)
         }
-        .frame(width: Constants.imageWidth, height: Constants.imageHeight)
+        .frame(width: imageSize.width, height: imageSize.height)
     }
     
     private var bookmarkButton: some View {
@@ -190,10 +188,14 @@ struct FlyerCellThisWeek: View {
 extension FlyerCellThisWeek {
     
     struct Skeleton: View {
+        
+        let cellSize: CGSize
+        let imageSize: CGSize
+        
         var body: some View {
             VStack(alignment: .leading) {
                 SkeletonView()
-                    .frame(width: Constants.imageWidth, height: Constants.imageHeight)
+                    .frame(width: imageSize.width, height: imageSize.height)
 
                 SkeletonView()
                     .frame(width: 130, height: 15)
@@ -207,7 +209,7 @@ extension FlyerCellThisWeek {
                 SkeletonView()
                     .frame(width: 100, height: 15)
             }
-            .frame(width: Constants.cellWidth, height: Constants.cellHeight)
+            .frame(width: cellSize.width, height: cellSize.height)
         }
     }
     

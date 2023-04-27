@@ -20,6 +20,8 @@ struct FlyersView: View {
     
     private struct Constants {
         static let backgroundColor: Color = Color.volume.backgroundGray
+        static let dailyCellSize: CGSize = CGSize(width: 340, height: 432)
+        static let dailyImageSize: CGSize = CGSize(width: 340, height: 340)
         static let endMessageWidth: CGFloat = 250
         static let gridRows: Array = Array(repeating: GridItem(.flexible()), count: 3)
         static let listHorizontalPadding: CGFloat = 16
@@ -27,6 +29,9 @@ struct FlyersView: View {
         static let spacing: CGFloat = 16
         static let titleFont: Font = .newYorkMedium(size: 28)
         static let upcomingSectionHeight: CGFloat = 308
+        static let volumeMessagePadding: CGFloat = 20
+        static let weeklyCellSize: CGSize = CGSize(width: 256, height: 350)
+        static let weeklyImageSize: CGSize = CGSize(width: 256, height: 256)
     }
     
     // MARK: - UI
@@ -52,6 +57,7 @@ struct FlyersView: View {
     private var listContent: some View {
         List {
             Group {
+                todaySection
                 thisWeekSection
                 upcomingSection
                 pastSection
@@ -75,19 +81,62 @@ struct FlyersView: View {
     
     // MARK: - Sections
     
+    private var todaySection: some View {
+        Section {
+            if let flyers = viewModel.dailyFlyers {
+                flyers.isEmpty ? emptyMessage(section: .today) : nil
+            }
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                LazyHStack(spacing: Constants.spacing) {
+                    switch viewModel.dailyFlyers {
+                    case .none:
+                        FlyerCellThisWeek.Skeleton(cellSize: Constants.dailyCellSize, imageSize: Constants.dailyImageSize)
+                        FlyerCellThisWeek.Skeleton(cellSize: Constants.dailyCellSize, imageSize: Constants.dailyImageSize)
+                        FlyerCellThisWeek.Skeleton(cellSize: Constants.dailyCellSize, imageSize: Constants.dailyImageSize)
+                    case .some(let flyers):
+                        ForEach(flyers) { flyer in
+                            FlyerCellThisWeek(
+                                cellSize: Constants.dailyCellSize,
+                                flyer: flyer,
+                                imageSize: Constants.dailyImageSize,
+                                urlImageModel: URLImageModel(urlString: flyer.imageURL)
+                            )
+                        }
+                    }
+                }
+                .padding(.horizontal, Constants.listHorizontalPadding)
+            }
+            .environment(\EnvironmentValues.refresh as! WritableKeyPath<EnvironmentValues, RefreshAction?>, nil)
+        } header: {
+            Header("Today")
+                .padding(.vertical, Constants.rowVerticalPadding)
+                .padding(.horizontal, Constants.listHorizontalPadding)
+                .foregroundColor(.black)
+                .textCase(nil)
+        }
+        .background(headerGradient)
+    }
+    
     private var thisWeekSection: some View {
         Section {
+            if let flyers = viewModel.thisWeekFlyers {
+                flyers.isEmpty ? emptyMessage(section: .weekly) : nil
+            }
+            
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: Constants.spacing) {
                     switch viewModel.thisWeekFlyers {
                     case .none:
-                        FlyerCellThisWeek.Skeleton()
-                        FlyerCellThisWeek.Skeleton()
-                        FlyerCellThisWeek.Skeleton()
+                        FlyerCellThisWeek.Skeleton(cellSize: Constants.weeklyCellSize, imageSize: Constants.weeklyImageSize)
+                        FlyerCellThisWeek.Skeleton(cellSize: Constants.weeklyCellSize, imageSize: Constants.weeklyImageSize)
+                        FlyerCellThisWeek.Skeleton(cellSize: Constants.weeklyCellSize, imageSize: Constants.weeklyImageSize)
                     case .some(let flyers):
                         ForEach(flyers) { flyer in
                             FlyerCellThisWeek(
+                                cellSize: Constants.weeklyCellSize,
                                 flyer: flyer,
+                                imageSize: Constants.weeklyImageSize,
                                 urlImageModel: URLImageModel(urlString: flyer.imageURL)
                             )
                         }
@@ -108,6 +157,10 @@ struct FlyersView: View {
     
     private var upcomingSection: some View {
         Section {
+            if let flyers = viewModel.upcomingFlyers {
+                flyers.isEmpty ? emptyMessage(section: .upcoming) : nil
+            }
+            
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHGrid(rows: Constants.gridRows, spacing: Constants.spacing) {
                     switch viewModel.upcomingFlyers {
@@ -125,7 +178,7 @@ struct FlyersView: View {
                     }
                 }
                 .padding(.horizontal, Constants.listHorizontalPadding)
-                .frame(height: Constants.upcomingSectionHeight)
+                .frame(height: viewModel.upcomingFlyers?.isEmpty ?? false ? 0 : Constants.upcomingSectionHeight)
             }
             .environment(\EnvironmentValues.refresh as! WritableKeyPath<EnvironmentValues, RefreshAction?>, nil)
         } header: {
@@ -165,6 +218,10 @@ struct FlyersView: View {
     
     private var pastSection: some View {
         Section {
+            if let flyers = viewModel.pastFlyers {
+                flyers.isEmpty ? emptyMessage(section: .past) : nil
+            }
+            
             Group {
                 switch viewModel.pastFlyers {
                 case .none:
@@ -218,6 +275,31 @@ struct FlyersView: View {
             .font(Constants.titleFont)
             .offset(y: 8)
             .padding(.bottom)
+    }
+    
+    private func emptyMessage(section: FlyerSection) -> some View {
+        Group {
+            switch section {
+            case .past:
+                VolumeMessage(image: Image.volume.flyer, message: .noFlyersPast, largeFont: false, fullWidth: false)
+            case .today:
+                VolumeMessage(image: Image.volume.flyer, message: .noFlyersToday, largeFont: false, fullWidth: false)
+            case .upcoming:
+                VolumeMessage(image: Image.volume.flyer, message: .noFlyersUpcoming, largeFont: false, fullWidth: false)
+            case .weekly:
+                VolumeMessage(image: Image.volume.flyer, message: .noFlyersWeekly, largeFont: false, fullWidth: false)
+            }
+        }
+        .padding(.top, 2 * Constants.volumeMessagePadding)
+        .padding(.bottom, Constants.volumeMessagePadding)
+    }
+    
+}
+
+extension FlyersView {
+    
+    enum FlyerSection {
+        case past, today, upcoming, weekly
     }
     
 }
