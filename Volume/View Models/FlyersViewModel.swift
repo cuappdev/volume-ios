@@ -16,6 +16,7 @@ extension FlyersView {
         // MARK: - Properties
         
         @Published var allCategories: [OrganizationType]? = nil
+        @Published var dailyFlyers: [Flyer]? = nil
         @Published var hasMorePast: Bool = true
         @Published var hasMoreUpcoming: Bool = true
         @Published var pastFlyers: [Flyer]? = nil
@@ -49,6 +50,7 @@ extension FlyersView {
         
         func fetchContent() async {
             allCategories == nil ? fetchCategories() : nil
+            dailyFlyers == nil ? fetchDaily() : nil
             thisWeekFlyers == nil ? fetchThisWeek() : nil
             upcomingFlyers == nil ? await fetchUpcoming() : nil
             pastFlyers == nil ? fetchPast() : nil
@@ -58,6 +60,7 @@ extension FlyersView {
             Network.shared.clearCache()
             queryBag.removeAll()
             
+            dailyFlyers = nil
             thisWeekFlyers = nil
             upcomingFlyers = nil
             pastFlyers = nil
@@ -77,7 +80,7 @@ extension FlyersView {
                 .receive(on: DispatchQueue.main)
                 .tryMap { data, response in
                     guard let response = response as? HTTPURLResponse,
-                          response.statusCode >= 200 && response.statusCode < 300 else {
+                          200..<300 ~= response.statusCode else {
                         throw URLError(.badServerResponse)
                     }
                     return data
@@ -107,6 +110,30 @@ extension FlyersView {
         
         // MARK: - Private Requests
         
+        private func fetchDaily() {
+            // TODO: Fetch flyers under "Today"
+            guard let url = URL(string: "\(Secrets.cboardEndpoint)/flyers/daily/") else { return }
+            
+            URLSession.shared.dataTaskPublisher(for: url)
+                .subscribe(on: DispatchQueue.global(qos: .background))
+                .receive(on: DispatchQueue.main)
+                .tryMap { data, response in
+                    guard let response = response as? HTTPURLResponse,
+                          response.statusCode >= 200 && response.statusCode < 300 else {
+                        throw URLError(.badServerResponse)
+                    }
+                    return data
+                }
+                .decode(type: [Flyer].self, decoder: JSONDecoder.flyersDecoder)
+                .sink { completion in
+                    print("Fetching daily flyers: \(completion)")
+                } receiveValue: { [weak self] flyers in
+                    let sortedFlyers = self?.sortFlyersByDateAsc(for: flyers)
+                    self?.dailyFlyers = sortedFlyers
+                }
+                .store(in: &queryBag)
+        }
+        
         private func fetchThisWeek() {
             // TODO: Fetch flyers under "This Week"
             guard let url = URL(string: "\(Secrets.cboardEndpoint)/flyers/weekly/") else { return }
@@ -116,7 +143,7 @@ extension FlyersView {
                 .receive(on: DispatchQueue.main)
                 .tryMap { data, response in
                     guard let response = response as? HTTPURLResponse,
-                          response.statusCode >= 200 && response.statusCode < 300 else {
+                          200..<300 ~= response.statusCode else {
                         throw URLError(.badServerResponse)
                     }
                     return data
@@ -145,7 +172,7 @@ extension FlyersView {
                 .receive(on: DispatchQueue.main)
                 .tryMap { data, response in
                     guard let response = response as? HTTPURLResponse,
-                          response.statusCode >= 200 && response.statusCode < 300 else {
+                          200..<300 ~= response.statusCode else {
                         throw URLError(.badServerResponse)
                     }
                     return data
