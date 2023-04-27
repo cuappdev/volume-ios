@@ -80,7 +80,7 @@ extension FlyersView {
                 .receive(on: DispatchQueue.main)
                 .tryMap { data, response in
                     guard let response = response as? HTTPURLResponse,
-                          response.statusCode >= 200 && response.statusCode < 300 else {
+                          200..<300 ~= response.statusCode else {
                         throw URLError(.badServerResponse)
                     }
                     return data
@@ -143,7 +143,7 @@ extension FlyersView {
                 .receive(on: DispatchQueue.main)
                 .tryMap { data, response in
                     guard let response = response as? HTTPURLResponse,
-                          response.statusCode >= 200 && response.statusCode < 300 else {
+                          200..<300 ~= response.statusCode else {
                         throw URLError(.badServerResponse)
                     }
                     return data
@@ -172,7 +172,7 @@ extension FlyersView {
                 .receive(on: DispatchQueue.main)
                 .tryMap { data, response in
                     guard let response = response as? HTTPURLResponse,
-                          response.statusCode >= 200 && response.statusCode < 300 else {
+                          200..<300 ~= response.statusCode else {
                         throw URLError(.badServerResponse)
                     }
                     return data
