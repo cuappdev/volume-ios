@@ -86,7 +86,7 @@ extension ShimmerConfig {
         return ShimmerConfig(
             tint: Color.gray.opacity(0.3),
             highlight: Color.white,
-            blur: 25,
+            blur: 30,
             speed: 1.5,
             degrees: -70
         )
@@ -96,7 +96,7 @@ extension ShimmerConfig {
         return ShimmerConfig(
             tint: Color.gray.opacity(0.3),
             highlight: Color.white,
-            blur: 30,
+            blur: 33,
             speed: 1.5,
             degrees: -70
         )
@@ -108,7 +108,8 @@ extension ShimmerConfig {
             highlight: Color.white.opacity(0.95),
             blur: 35,
             speed: 1.3,
-            degrees: 12
+            degrees: -70
+//            degrees: 12
         )
     }
     

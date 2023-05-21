@@ -71,7 +71,13 @@ class LoadingWebView: WKWebView {
 }
 
 extension LoadingWebView: WKNavigationDelegate {
+    
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        loadingIndicator.stopAnimating()
+        scrollView.isScrollEnabled = true
+    }
+    
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
         loadingIndicator.stopAnimating()
         scrollView.isScrollEnabled = true
     }
@@ -84,4 +90,5 @@ extension LoadingWebView: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         loadingIndicator.stopAnimating()
     }
+    
 }
