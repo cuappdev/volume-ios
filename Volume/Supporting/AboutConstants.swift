@@ -77,6 +77,7 @@ struct AboutConstants {
                     "Kidus Zegeye"
                 ]),
                 .android([
+                    "Emily Hu",
                     "Benjamin Harris"
                 ]),
                 .design([
