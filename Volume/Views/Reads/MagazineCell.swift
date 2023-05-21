@@ -102,6 +102,7 @@ extension MagazineCell {
                 }
             }
             .frame(width: Constants.cellWidth, height: Constants.cellHeight)
+            .shimmer(.largeShimmer())
         }
     }
 }

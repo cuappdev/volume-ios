@@ -45,6 +45,7 @@ extension BigReadArticleRow {
                 ArticleInfo.Skeleton()
             }
             .frame(width: 180, height: 300)
+            .shimmer(.largeShimmer())
         }
     }
 }

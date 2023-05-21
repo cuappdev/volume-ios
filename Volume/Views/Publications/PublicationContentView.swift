@@ -50,6 +50,7 @@ struct PublicationContentView: View {
                     magazineContent
                 case .flyers:
                     SkeletonView()
+                        .shimmer(.smallShimmer())
                 }
             }
         }

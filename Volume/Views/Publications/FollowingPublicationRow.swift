@@ -56,6 +56,7 @@ extension FollowingPublicationRow {
                 Spacer()
             }
             .frame(width: 90, height: 135)
+            .shimmer(.smallShimmer())
         }
     }
 }

@@ -54,6 +54,7 @@ extension ArticleRow {
                     .frame(width: showsPublicationName ? 100 : 80, height: showsPublicationName ? 100 : 80)
             }
             .frame(maxWidth: .infinity, idealHeight: showsPublicationName ? 100 : 80, alignment: .leading)
+            .shimmer(.mediumShimmer())
         }
     }
 }
