@@ -116,6 +116,7 @@ struct SearchResultsList: View {
                 case .magazines:
                     magazineSection
                 case .flyers:
+                    // TODO: Implement flyers search section once done on the backend
                     SkeletonView()
                 }
             }

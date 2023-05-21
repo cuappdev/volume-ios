@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import SwiftUI
 
 enum FilterContentType {
     case articles, magazines, flyers

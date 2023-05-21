@@ -12,11 +12,6 @@ struct SearchView: View {
     @State private var searchText = ""
     @State private var searchState: SearchState = .searching
     
-    private struct Constants {
-        static let sectionHorizontalPadding: CGFloat = 19
-        static let sectionVerticalPadding: CGFloat = 18
-    }
-    
     var body: some View {
         ZStack {
             Color.volume.backgroundGray.edgesIgnoringSafeArea(.all)

@@ -490,13 +490,13 @@
 			isa = PBXGroup;
 			children = (
 				7EA73D27254C9C67009E8F9F /* Article.swift */,
+				925DBDB029EB7E860019763A /* Filter.swift */,
 				2E6A7D6B29DAA2E7002F5250 /* Flyer.swift */,
 				A2A4CB1B27D5276D00774C70 /* Magazine.swift */,
 				2E6A7D6D29DAA334002F5250 /* Organization.swift */,
 				7E8658AD254B71FF002DEE68 /* Publication.swift */,
 				3392D71D2937C021005165F6 /* ReadableContent.swift */,
 				33538BED2745C477009DD191 /* WeeklyDebrief.swift */,
-				925DBDB029EB7E860019763A /* Filter.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
