@@ -17,7 +17,7 @@ struct SearchResultsList: View {
     @EnvironmentObject private var networkState: NetworkState
     @State private var sectionQueries: SectionQueries = (nil, nil)
     @State private var sectionStates: SectionStates = (.loading, .loading)
-    @State private var selectedTab: SearchTab = .articles
+    @State private var selectedTab: FilterContentType = .articles
     let searchText: String
 
     private struct Constants {
@@ -94,29 +94,30 @@ struct SearchResultsList: View {
     // MARK: - UI
 
     var body: some View {
-        SearchTabBar(selectedTab: $selectedTab)
-
-        Spacer()
-            .frame(height: Constants.rowVerticalPadding)
-
-        RefreshableScrollView(onRefresh: { done in
-            if case let .results(articles) = sectionStates.articles,
-               case let .results(magazines) = sectionStates.magazines {
-
-                sectionStates.articles = .reloading(articles)
-                sectionStates.magazines = .reloading(magazines)
-            }
-
-            sectionStates.articles = .loading
-            sectionStates.magazines = .loading
-
-            fetchContent(done)
-            }) {
+        VStack {
+            ContentFilterBarView(selectedTab: $selectedTab, showFlyerTab: false)
+            
+            RefreshableScrollView { done in
+                if case let .results(articles) = sectionStates.articles,
+                   case let .results(magazines) = sectionStates.magazines {
+                    
+                    sectionStates.articles = .reloading(articles)
+                    sectionStates.magazines = .reloading(magazines)
+                }
+                
+                sectionStates.articles = .loading
+                sectionStates.magazines = .loading
+                
+                fetchContent(done)
+            } content: {
                 switch selectedTab {
                 case .articles:
                     articleSection
                 case .magazines:
                     magazineSection
+                case .flyers:
+                    // TODO: Implement flyers search section once done on the backend
+                    SkeletonView()
                 }
             }
             .disabled(sectionStates.articles.isLoading)
@@ -124,6 +125,8 @@ struct SearchResultsList: View {
             .onAppear {
                 fetchContent()
             }
+            .padding(.horizontal)
+        }
     }
 
     @ViewBuilder

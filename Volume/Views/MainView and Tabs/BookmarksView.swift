@@ -74,26 +74,7 @@ struct BookmarksView: View {
     }
     
     private var tabBar: some View {
-        SlidingTabBarView(
-            selectedTab: $viewModel.selectedTab,
-            items: [
-                SlidingTabBarView.Item(
-                    title: "Flyers",
-                    tab: .flyers,
-                    width: Constants.flyersTabWidth
-                ),
-                SlidingTabBarView.Item(
-                    title: "Articles",
-                    tab: .articles,
-                    width: Constants.articlesTabWidth
-                ),
-                SlidingTabBarView.Item(
-                    title: "Magazines",
-                    tab: .magazines,
-                    width: Constants.magazinesTabWidth
-                )
-            ]
-        )
+        ContentFilterBarView(selectedTab: $viewModel.selectedTab)
     }
     
     private var scrollContent: some View {

@@ -19,7 +19,7 @@ extension PublicationContentView {
         @Published var articles: [Article]? = nil
         @Published var magazines: [Magazine]? = nil
         @Published var hasMorePages: Bool = true
-        @Published var selectedTab: Publication.ContentType = .articles
+        @Published var selectedTab: FilterContentType = .articles
         @Published private var queryBag = Set<AnyCancellable>()
 
         var showArticleTab: Bool {

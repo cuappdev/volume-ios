@@ -17,7 +17,7 @@ extension ReadsView {
         @Published var deeplinkID: String? = nil
         @Published var openArticleFromDeeplink: Bool = false
         @Published var openMagazineFromDeeplink: Bool = false
-        @Published var selectedTab: Publication.ContentType = .articles
+        @Published var selectedTab: FilterContentType = .articles
         
         // MARK: - Deeplink
         

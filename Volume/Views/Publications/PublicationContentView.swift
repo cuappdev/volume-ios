@@ -48,27 +48,15 @@ struct PublicationContentView: View {
                     articleContent
                 case .magazines:
                     magazineContent
+                case .flyers:
+                    SkeletonView()
                 }
             }
         }
     }
 
     private var tabBar: some View {
-        SlidingTabBarView(
-            selectedTab: $viewModel.selectedTab,
-            items: [
-                viewModel.showArticleTab ? SlidingTabBarView.Item(
-                    title: "Articles",
-                    tab: .articles,
-                    width: Constants.articleTabWidth
-                ) : nil,
-                viewModel.showMagazineTab ? SlidingTabBarView.Item(
-                    title: "Magazines",
-                    tab: .magazines,
-                    width: Constants.magazineTabWidth
-                ) : nil
-            ].compactMap { $0 }
-        )
+        ContentFilterBarView(selectedTab: $viewModel.selectedTab, showArticleTab: viewModel.showArticleTab, showMagazineTab: viewModel.showMagazineTab, showFlyerTab: false)
     }
 
     private var articleContent: some View {

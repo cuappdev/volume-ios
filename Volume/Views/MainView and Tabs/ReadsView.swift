@@ -92,21 +92,7 @@ struct ReadsView: View {
     }
     
     private var tabBar: some View {
-        SlidingTabBarView(
-            selectedTab: $viewModel.selectedTab,
-            items: [
-                SlidingTabBarView.Item(
-                    title: "Articles",
-                    tab: .articles,
-                    width: Constants.articlesTabWidth
-                ),
-                SlidingTabBarView.Item(
-                    title: "Magazines",
-                    tab: .magazines,
-                    width: Constants.magazinesTabWidth
-                )
-            ]
-        )
+        ContentFilterBarView(selectedTab: $viewModel.selectedTab, showFlyerTab: false)
     }
     
     private var scrollContent: some View {
@@ -116,6 +102,8 @@ struct ReadsView: View {
                 ArticlesView()
             case .magazines:
                 MagazinesView()
+            case .flyers:
+                SkeletonView()
             }
         }
     }

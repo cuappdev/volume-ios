@@ -105,6 +105,8 @@
 		922FE3092931E67A00E14911 /* SearchQueries.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 922FE3082931E67A00E14911 /* SearchQueries.graphql */; };
 		922FE30B29341A5400E14911 /* SearchTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922FE30A29341A5400E14911 /* SearchTabBar.swift */; };
 		922FE30D29342F9200E14911 /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 922FE30C29342F9200E14911 /* schema.json */; };
+		925DBDAF29EB7C4D0019763A /* ContentFilterBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925DBDAE29EB7C4D0019763A /* ContentFilterBarView.swift */; };
+		925DBDB129EB7E860019763A /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925DBDB029EB7E860019763A /* Filter.swift */; };
 		95A79FB42622255D00CADF88 /* TabContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A79FB32622255D00CADF88 /* TabContainer.swift */; };
 		95A79FB82622296800CADF88 /* ConnectionFailedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A79FB72622296800CADF88 /* ConnectionFailedView.swift */; };
 		95AC9DC72637BFF8000B4BEE /* Url+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95AC9DC62637BFF8000B4BEE /* Url+Extension.swift */; };
@@ -233,6 +235,8 @@
 		922FE3082931E67A00E14911 /* SearchQueries.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SearchQueries.graphql; sourceTree = "<group>"; };
 		922FE30A29341A5400E14911 /* SearchTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTabBar.swift; sourceTree = "<group>"; };
 		922FE30C29342F9200E14911 /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
+		925DBDAE29EB7C4D0019763A /* ContentFilterBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentFilterBarView.swift; sourceTree = "<group>"; };
+		925DBDB029EB7E860019763A /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		95A79FB32622255D00CADF88 /* TabContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabContainer.swift; sourceTree = "<group>"; };
 		95A79FB72622296800CADF88 /* ConnectionFailedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionFailedView.swift; sourceTree = "<group>"; };
 		95AC9DC62637BFF8000B4BEE /* Url+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Url+Extension.swift"; sourceTree = "<group>"; };
@@ -486,6 +490,7 @@
 			isa = PBXGroup;
 			children = (
 				7EA73D27254C9C67009E8F9F /* Article.swift */,
+				925DBDB029EB7E860019763A /* Filter.swift */,
 				2E6A7D6B29DAA2E7002F5250 /* Flyer.swift */,
 				A2A4CB1B27D5276D00774C70 /* Magazine.swift */,
 				2E6A7D6D29DAA334002F5250 /* Organization.swift */,
@@ -531,6 +536,7 @@
 				2EA7DB7829DC0EE5001D7B8A /* URLImageModel.swift */,
 				7EE96DC72562505B000B246F /* VolumeMessage.swift */,
 				0685AAA0259EBA3800DD55C4 /* WebView.swift */,
+				925DBDAE29EB7C4D0019763A /* ContentFilterBarView.swift */,
 			);
 			path = "Supporting Views";
 			sourceTree = "<group>";
@@ -755,6 +761,7 @@
 				2E81EB6229F4DA5300A288C1 /* OnboardingMainView.swift in Sources */,
 				A2B4DF3227D9AAB000440184 /* MagazineReaderView.swift in Sources */,
 				7EC15D9F257767ED0053BA0B /* Publication.swift in Sources */,
+				925DBDAF29EB7C4D0019763A /* ContentFilterBarView.swift in Sources */,
 				95AC9DCF2637C120000B4BEE /* Main.swift in Sources */,
 				2E6A7D6A29DA893B002F5250 /* HamburgerMenuView.swift in Sources */,
 				922FE3032931C78B00E14911 /* SearchResultsList.swift in Sources */,
@@ -811,6 +818,7 @@
 				06DBC684257DE35F00B6A453 /* UserData.swift in Sources */,
 				A2A4CB1C27D5276D00774C70 /* Magazine.swift in Sources */,
 				7EA73D31254CA7E2009E8F9F /* ArticleInfo.swift in Sources */,
+				925DBDB129EB7E860019763A /* Filter.swift in Sources */,
 				3375EC052937F7C9005A046F /* SemesterMenuView.swift in Sources */,
 				7EA73D28254C9C67009E8F9F /* Article.swift in Sources */,
 				2E6A7D5E29D9EFD6002F5250 /* ArticlesViewModel.swift in Sources */,
