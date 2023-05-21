@@ -9,10 +9,6 @@
 import Combine
 import SwiftUI
 
-enum SearchTab {
-    case articles, magazines
-}
-
 struct SearchResultsList: View {
     @EnvironmentObject private var networkState: NetworkState
     @State private var sectionQueries: SectionQueries = (nil, nil)
