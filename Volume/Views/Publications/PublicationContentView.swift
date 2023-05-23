@@ -119,6 +119,7 @@ struct PublicationContentView: View {
                 }
             }
         }
+        .padding(.horizontal, 16)
     }
 
     // MARK: Helpers

@@ -70,6 +70,7 @@ struct FlyersView: View {
             .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             .listRowBackground(Color.clear)
         }
+        .padding(.top, 8)
         .navigationBarTitleDisplayMode(.inline)
         .listStyle(.plain)
         .refreshable {
@@ -271,10 +272,14 @@ struct FlyersView: View {
     }
     
     private var title: some View {
-        BubblePeriodText("Flyers")
-            .font(Constants.titleFont)
-            .offset(y: 8)
-            .padding(.bottom)
+        VStack {
+            Rectangle()
+                .frame(height: 8)
+                .foregroundColor(Constants.backgroundColor)
+            
+            BubblePeriodText("Flyers")
+                .font(Constants.titleFont)
+        }
     }
     
     private func emptyMessage(section: FlyerSection) -> some View {
