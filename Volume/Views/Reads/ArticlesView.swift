@@ -210,6 +210,7 @@ struct ArticlesView: View {
         }
         .padding(.top, Constants.weeklyDebriefTopPadding)
         .padding(.bottom, Constants.rowVerticalPadding)
+        .padding(.horizontal, Constants.listHorizontalPadding)
     }
 
     private var weeklyDebriefView: some View {

@@ -73,6 +73,8 @@ extension ArticlesView {
         
         func fetchContent() async {
             fetchTrendingArticles()
+            fetchWeeklyDebrief()
+            
             if followedArticles == nil {
                 await fetchFirstPage()
             }
