@@ -109,7 +109,7 @@ extension ShimmerConfig {
             highlight: Color.white.opacity(0.85),
             blur: 35,
             speed: 1.3,
-            degrees: 12
+            degrees: 15
         )
     }
     

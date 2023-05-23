@@ -15,7 +15,7 @@ struct MainView: View {
     @State private var offset: CGFloat = 0
     @State private var selectedTab: Screen = .trending
     @State private var showPublication: Bool = false
-    @State private var tabBarHeight: CGFloat = 93
+    @State private var tabBarHeight: CGFloat = UIScreen.main.bounds.height * 0.10
     @EnvironmentObject private var notifications: Notifications
 
     private var tabViewContainer: some View {
@@ -40,6 +40,7 @@ struct MainView: View {
             }
             .tag(Screen.bookmarks)
         }
+        .padding(.bottom, 16)
     }
     
     private var floatingTabBar: some View {

@@ -189,6 +189,7 @@ struct ArticlesView: View {
                 }
             }
             .padding(.horizontal, Constants.listHorizontalPadding)
+            .padding(.bottom)
         } header: {
             Header(followed ? Constants.followedArticlesSectionTitle : Constants.unfollowedArticlesSectionTitle)
                 .padding(.vertical, Constants.rowVerticalPadding)
