@@ -16,6 +16,7 @@ struct Magazine: ReadableContent {
     
     let id: String
     let date: Date
+    let imageUrl: URL?
     let isNSFW: Bool
     let isFeatured: Bool
     let isFiltered: Bool
@@ -31,6 +32,7 @@ struct Magazine: ReadableContent {
     init(from magazine : MagazineFields) async {
         date = Date.from(iso8601: magazine.date)
         id = magazine.id
+        imageUrl = URL(string: magazine.imageUrl)
         isFeatured = magazine.isFeatured
         isFiltered = magazine.isFiltered
         isNSFW = magazine.nsfw
@@ -41,18 +43,6 @@ struct Magazine: ReadableContent {
         shoutouts = Int(magazine.shoutouts)
         title = magazine.title
         trendiness = Int(magazine.trendiness)
-        if let pdfUrl {
-            pdfDoc = await fetchPDF(url: pdfUrl)
-        }
-    }
-
-    private func fetchPDF(url: URL) async -> PDFDocument? {
-        await withCheckedContinuation { continuation in
-            Task {
-                let doc = await PDFDocument(url: url)
-                continuation.resume(returning: doc)
-            }
-        }
     }
     
 }

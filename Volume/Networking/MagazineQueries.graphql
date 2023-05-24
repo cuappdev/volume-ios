@@ -1,5 +1,6 @@
 fragment magazineFields on Magazine {
   id
+  imageURL
   date
   semester
   pdfURL

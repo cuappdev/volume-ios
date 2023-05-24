@@ -14,13 +14,12 @@ struct PDFKitView: UIViewRepresentable {
     
     @ObservedObject var pdfView: PDFViewUnselectable
     let pdfDoc: PDFDocument
-    var isCover = false
 
     func makeUIView(context: Context) -> PDFViewUnselectable {
         pdfView.document = pdfDoc
         pdfView.autoScales = true
         pdfView.usePageViewController(true)
-        pdfView.displayDirection = isCover ? .vertical : .horizontal
+        pdfView.displayDirection = .horizontal
         pdfView.displaysAsBook = true
         pdfView.displaysPageBreaks = false
         pdfView.displayMode = .singlePage

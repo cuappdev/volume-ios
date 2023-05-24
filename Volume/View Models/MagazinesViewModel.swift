@@ -71,6 +71,7 @@ extension MagazinesView {
         
         func fetchMoreMagazinesSection() {
             moreMagazines = nil
+            hasMoreMagazines = true
             
             if selectedSemester == Constants.allSemestersIdentifier {
                 fetchAllSemestersMagazines()

@@ -25,6 +25,7 @@ struct MagazineReaderView: View {
 
     @State private var cancellableReadMutation: AnyCancellable?
     @State private var magazine: Magazine?
+    @State private var pdfDoc: PDFDocument?
     @State private var queryBag = Set<AnyCancellable>()
     @State private var showScrollbar: Bool = false
 
@@ -58,6 +59,10 @@ struct MagazineReaderView: View {
     }
 
     // MARK: - Data
+    
+    private func fetchPDF(url: URL) async {
+        pdfDoc = PDFDocument(url: url)
+    }
 
     private func markMagazineRead() {
         guard let uuid = userData.uuid, let magazineID = magazine?.id else { return }
@@ -148,7 +153,7 @@ struct MagazineReaderView: View {
                 Spacer()
                     .frame(height: Constants.navbarHeight)
 
-                if let pdfDoc = magazine?.pdfDoc {
+                if let pdfDoc = pdfDoc {
                     PDFKitView(pdfView: pdfView, pdfDoc: pdfDoc)
                         .overlay(showScrollbar
                                  ? PageIndicatorView(totalPage: pdfDoc.pageCount, pdfView: pdfView).padding([.top, .trailing])
@@ -178,11 +183,19 @@ struct MagazineReaderView: View {
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
         .onAppear {
-            switch initType {
-            case .fetchRequired(let magazineId):
-                fetchMagazineById(magazineId)
-            case .readyForDisplay(let magazine):
-                self.magazine = magazine
+            if magazine == nil {
+                switch initType {
+                case .fetchRequired(let magazineId):
+                    fetchMagazineById(magazineId)
+                case .readyForDisplay(let magazine):
+                    self.magazine = magazine
+
+                    if let url = magazine.pdfUrl {
+                        Task {
+                            await fetchPDF(url: url)
+                        }
+                    }
+                }
             }
 
             markMagazineRead()
