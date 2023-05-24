@@ -68,7 +68,7 @@ struct ShimmerEffect: ViewModifier {
 }
 
 struct ShimmerConfig {
-    
+
     // MARK: - Design Constants
     var tint: Color
     var highlight: Color

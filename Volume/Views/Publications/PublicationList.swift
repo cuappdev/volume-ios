@@ -131,8 +131,10 @@ struct PublicationList: View {
         ScrollView {
             VStack {
                 followedPublicationsSection
+                
                 Spacer()
                     .frame(height: 16)
+                
                 morePublicationsSection
             }
         }
