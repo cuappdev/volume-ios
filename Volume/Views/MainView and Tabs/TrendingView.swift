@@ -32,9 +32,7 @@ struct TrendingView: View {
     // MARK: - UI
     
     var body: some View {
-        RefreshableScrollView { done in
-            viewModel.refreshContent(done)
-        } content: {
+        ScrollView {
             LazyVStack(spacing: Constants.sectionSpacing) {
                 mainArticleSection
                 subArticlesSection
@@ -57,6 +55,11 @@ struct TrendingView: View {
                 Task {
                     await viewModel.fetchContent()
                 }
+            }
+        }
+        .refreshable {
+            Task {
+                await viewModel.refreshContent()
             }
         }
     }

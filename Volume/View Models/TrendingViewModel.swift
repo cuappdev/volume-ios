@@ -50,7 +50,7 @@ extension TrendingView {
             subArticles == nil ? fetchSubArticles() : nil
         }
         
-        func refreshContent(_ done: @escaping () -> Void = { } ) {
+        func refreshContent() async {
             Network.shared.clearCache()
             queryBag.removeAll()
             
@@ -61,7 +61,6 @@ extension TrendingView {
             
             Task {
                 await fetchContent()
-                done()
             }
         }
         
@@ -121,7 +120,9 @@ extension TrendingView {
                     self?.networkState?.handleCompletion(screen: .trending, completion)
                 } receiveValue: { [weak self] articleFields in
                     let articles = [Article] (articleFields)
-                    self?.mainArticle = articles[0]
+                    if let article = articles.first {
+                        self?.mainArticle = article
+                    }
                 }
                 .store(in: &queryBag)
         }

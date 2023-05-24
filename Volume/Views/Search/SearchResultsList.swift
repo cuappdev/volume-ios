@@ -93,7 +93,18 @@ struct SearchResultsList: View {
         VStack {
             ContentFilterBarView(selectedTab: $selectedTab, showFlyerTab: false)
             
-            RefreshableScrollView { done in
+            ScrollView {
+                switch selectedTab {
+                case .articles:
+                    articleSection
+                case .magazines:
+                    magazineSection
+                case .flyers:
+                    // TODO: Implement flyers search section once done on the backend
+                    SkeletonView()
+                }
+            }
+            .refreshable {
                 if case let .results(articles) = sectionStates.articles,
                    case let .results(magazines) = sectionStates.magazines {
                     
@@ -104,17 +115,7 @@ struct SearchResultsList: View {
                 sectionStates.articles = .loading
                 sectionStates.magazines = .loading
                 
-                fetchContent(done)
-            } content: {
-                switch selectedTab {
-                case .articles:
-                    articleSection
-                case .magazines:
-                    magazineSection
-                case .flyers:
-                    // TODO: Implement flyers search section once done on the backend
-                    SkeletonView()
-                }
+                fetchContent()
             }
             .disabled(sectionStates.articles.isLoading)
             .disabled(sectionStates.magazines.isLoading)
@@ -177,6 +178,7 @@ struct SearchResultsList: View {
 
                         MagazineCell.Skeleton()
                     }
+                    .padding(.horizontal, 16)
                 }
                 .padding(.top)
             case .reloading(let searchedMagazines), .results(let searchedMagazines):

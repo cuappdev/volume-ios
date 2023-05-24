@@ -29,9 +29,7 @@ struct MagazinesView: View {
     // MARK: - UI
     
     var body: some View {
-        RefreshableScrollView { done in
-            viewModel.refreshContent(done)
-        } content: {
+        ScrollView {
             VStack {
                 searchBar
                 featuredMagazinesSection
@@ -48,6 +46,31 @@ struct MagazinesView: View {
                 await viewModel.fetchContent()
             }
         }
+        .refreshable {
+            Task {
+                await viewModel.refreshContent()
+            }
+        }
+        
+//        RefreshableScrollView { done in
+//            viewModel.refreshContent(done)
+//        } content: {
+//            VStack {
+//                searchBar
+//                featuredMagazinesSection
+//                Spacer()
+//                    .frame(height: Constants.groupTopPadding)
+//                moreMagazinesSection
+//            }
+//        }
+//        .background(Color.volume.backgroundGray)
+//        .navigationBarTitleDisplayMode(.inline)
+//        .onAppear {
+//            viewModel.networkState = networkState
+//            Task {
+//                await viewModel.fetchContent()
+//            }
+//        }
     }
     
     private var searchBar: some View {
