@@ -24,17 +24,29 @@ struct MagazinesView: View {
         static let magazineVerticalSpacing: CGFloat = 30
         static let searchTop: CGFloat = 5
         static let sidePadding: CGFloat = 16
+        
+        static var backgroundColor: Color {
+            // Prevent inconsistency w/ List background in lower iOS versions
+            if #available(iOS 16.0, *) {
+                return Color.volume.backgroundGray
+            } else {
+                return Color.white
+            }
+        }
     }
     
     // MARK: - UI
     
     var body: some View {
         ScrollView {
-            VStack {
+            LazyVStack(spacing: Constants.groupTopPadding * 2, pinnedViews: [.sectionHeaders]) {
                 searchBar
+                
                 featuredMagazinesSection
+                
                 Spacer()
                     .frame(height: Constants.groupTopPadding)
+                
                 moreMagazinesSection
             }
         }
@@ -51,72 +63,58 @@ struct MagazinesView: View {
                 await viewModel.refreshContent()
             }
         }
-        
-//        RefreshableScrollView { done in
-//            viewModel.refreshContent(done)
-//        } content: {
-//            VStack {
-//                searchBar
-//                featuredMagazinesSection
-//                Spacer()
-//                    .frame(height: Constants.groupTopPadding)
-//                moreMagazinesSection
-//            }
-//        }
-//        .background(Color.volume.backgroundGray)
-//        .navigationBarTitleDisplayMode(.inline)
-//        .onAppear {
-//            viewModel.networkState = networkState
-//            Task {
-//                await viewModel.fetchContent()
-//            }
-//        }
     }
     
     private var searchBar: some View {
-        NavigationLink(destination: SearchView(), label: {
+        NavigationLink {
+            SearchView()
+        } label: {
             SearchBar(searchState: $viewModel.searchState, searchText: $viewModel.searchText)
                 .disabled(true)
                 .padding(.init(top: Constants.searchTop, leading: Constants.sidePadding, bottom: 0, trailing: Constants.sidePadding))
-        })
+        }
     }
     
     private var featuredMagazinesSection: some View {
-        Group {
-            Header("Featured")
-                .padding([.top, .horizontal])
-            
-            ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(spacing: Constants.magazineHorizontalSpacing) {
-                    switch viewModel.featuredMagazines {
-                    case .none:
-                        ForEach(0..<3) { _ in
-                             MagazineCell.Skeleton()
-                        }
-                    case .some(let magazines):
-                        ForEach(magazines) { magazine in
-                            NavigationLink {
-                                MagazineReaderView(initType: .readyForDisplay(magazine), navigationSource: .featuredMagazines)
-                            } label: {
-                                MagazineCell(magazine: magazine)
+        Section {
+            if viewModel.featuredMagazines?.count == 0 {
+                VolumeMessage(image: Image.volume.magazine, message: .noFeaturedMagazines, largeFont: false, fullWidth: false)
+            } else {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    LazyHStack(spacing: Constants.magazineHorizontalSpacing) {
+                        switch viewModel.featuredMagazines {
+                        case .none:
+                            ForEach(0..<3) { _ in
+                                MagazineCell.Skeleton()
+                            }
+                        case .some(let magazines):
+                            ForEach(magazines) { magazine in
+                                NavigationLink {
+                                    MagazineReaderView(initType: .readyForDisplay(magazine), navigationSource: .featuredMagazines)
+                                } label: {
+                                    MagazineCell(magazine: magazine)
+                                }
                             }
                         }
                     }
                 }
+                .padding(.horizontal)
+                .environment(\EnvironmentValues.refresh as! WritableKeyPath<EnvironmentValues, RefreshAction?>, nil)
             }
-            .padding(.horizontal)
-            .environment(\EnvironmentValues.refresh as! WritableKeyPath<EnvironmentValues, RefreshAction?>, nil)
+        } header: {
+            Header("Featured")
+                .padding(.vertical, Constants.groupTopPadding)
+                .background(Constants.backgroundColor)
         }
+        .padding(.horizontal, Constants.sidePadding)
     }
     
     private var moreMagazinesSection: some View {
-        Group {
-            moreMagazinesHeader
-            
+        Section {
             LazyVGrid(columns: Constants.gridColumns, spacing: Constants.magazineVerticalSpacing) {
                 switch viewModel.moreMagazines {
                 case .none:
-                    ForEach(0..<2) { _ in
+                    ForEach(0..<4) { _ in
                         MagazineCell.Skeleton()
                     }
                 case .some(let magazines):
@@ -139,8 +137,10 @@ struct MagazinesView: View {
                 }
             }
             .padding(.bottom)
+        } header: {
+            moreMagazinesHeader
         }
-        .padding(.top)
+        .padding(.horizontal, Constants.sidePadding)
         .onChange(of: viewModel.selectedSemester) { _ in
             viewModel.fetchMoreMagazinesSection()
         }
@@ -149,23 +149,19 @@ struct MagazinesView: View {
     private var moreMagazinesHeader: some View {
         HStack(alignment: .center) {
             Header("More magazines")
-                .padding([.top, .horizontal])
 
-            Group {
-                if let options = viewModel.allSemesters {
-                    SemesterMenuView(
-                        selection: $viewModel.selectedSemester,
-                        options: options
-                    )
-                } else {
-                    SemesterMenuView.Skeleton()
-                }
+            if let options = viewModel.allSemesters {
+                SemesterMenuView(
+                    selection: $viewModel.selectedSemester,
+                    options: options
+                )
+            } else {
+                SemesterMenuView.Skeleton()
             }
-            .padding(.trailing, Constants.sidePadding)
-            .padding(.top)
         }
+        .padding(.vertical, Constants.groupTopPadding)
+        .background(Constants.backgroundColor)
     }
-    
 }
 
 //struct MagazinesList_Previews: PreviewProvider {

@@ -9,9 +9,11 @@
 import SwiftUI
 
 enum Message {
+    
     case noBookmarkedArticles
     case noBookmarkedFlyers
     case noBookmarkedMagazines
+    case noFeaturedMagazines
     case noFlyersPast
     case noFlyersToday
     case noFlyersUpcoming
@@ -24,7 +26,7 @@ enum Message {
 
     var title: String {
         switch self {
-        case .noBookmarkedArticles, .noBookmarkedMagazines, .noFollowingHome, .noSearchResults, .noBookmarkedFlyers:
+        case .noBookmarkedArticles, .noBookmarkedMagazines, .noFollowingHome, .noSearchResults, .noBookmarkedFlyers, .noFeaturedMagazines:
             return "Nothing to see here!"
         case .noFollowingPublications:
             return "No Followed Publications"
@@ -51,6 +53,8 @@ enum Message {
             return "You have no saved articles"
         case .noBookmarkedMagazines:
             return "You have no saved magazines"
+        case .noFeaturedMagazines:
+            return "There are no featured magazines"
         case .noFollowingHome:
             return "Follow some student publications that you are interested in"
         case .noFollowingPublications:
@@ -63,9 +67,11 @@ enum Message {
             return "If you want to see your organization’s events on Volume, email us at volumeappdev@gmail.com."
         }
     }
+    
 }
 
 struct VolumeMessage: View {
+    
     @State var image: Image = Image.volume.feed
     @State var message: Message
     @State var largeFont : Bool
@@ -94,4 +100,5 @@ struct VolumeMessage: View {
             Spacer()
         }
     }
+    
 }
