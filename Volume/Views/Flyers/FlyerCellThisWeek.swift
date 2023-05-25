@@ -12,6 +12,7 @@ struct FlyerCellThisWeek: View {
     
     // MARK: - Properties
     
+    let buttonSize: CGSize
     let cellSize: CGSize
     let flyer: Flyer
     let imageSize: CGSize
@@ -20,7 +21,6 @@ struct FlyerCellThisWeek: View {
     // MARK: - Constants
     
     private struct Constants {
-        static let buttonSize: CGFloat = 15
         static let categoryCornerRadius: CGFloat = 8
         static let categoryFont: Font = .helveticaRegular(size: 10)
         static let categoryHorizontalPadding: CGFloat = 16
@@ -109,19 +109,19 @@ struct FlyerCellThisWeek: View {
             Image.volume.bookmark
                 .resizable()
                 .foregroundColor(.volume.orange)
-                .frame(width: Constants.buttonSize, height: Constants.buttonSize)
+                .frame(width: buttonSize.width, height: buttonSize.height)
         }
     }
 
     private var shareButton: some View {
         Button {
             Haptics.shared.play(.light)
-            // TODO: Share Flyer
+            FlyersView.ViewModel.displayShareScreen(for: flyer)
         } label: {
             Image.volume.share
                 .resizable()
                 .foregroundColor(.black)
-                .frame(width: Constants.buttonSize, height: Constants.buttonSize)
+                .frame(width: buttonSize.width, height: buttonSize.height)
         }
     }
     
@@ -141,9 +141,8 @@ struct FlyerCellThisWeek: View {
             
             Spacer()
             
-            // TODO: Uncomment below once backend finishes
-//            bookmarkButton
-//            shareButton
+            bookmarkButton
+            shareButton
         }
         .padding(.top, Constants.spacing)
         .padding(.bottom, -Constants.spacing)

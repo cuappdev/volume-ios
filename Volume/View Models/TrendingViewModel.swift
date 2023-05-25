@@ -108,7 +108,7 @@ extension TrendingView {
                 }
                 .store(in: &queryBag)
             
-            // Currently uncommented in case trending is not working on backend
+            // TODO: Currently uncommented in case trending is not working on backend
 //            Network.shared.publisher(
 //                for: GetArticlesByPublicationSlugQuery(
 //                    slug: "guac",

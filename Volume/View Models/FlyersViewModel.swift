@@ -189,6 +189,22 @@ extension FlyersView {
         private func sortFlyersByDateAsc(for flyers: [Flyer]) -> [Flyer] {
             return flyers.sorted(by: { $0.startDate.compare($1.startDate) == .orderedAscending })
         }
+        
+        static func displayShareScreen(for flyer: Flyer) {
+            var linkSource: LinkItemSource?
+
+            if let url = flyer.flyerUrl {
+                linkSource = LinkItemSource(url: url, flyer: flyer)
+            }
+
+            guard let linkSource else {
+                return
+            }
+
+            let shareVC = UIActivityViewController(activityItems: [linkSource], applicationActivities: nil)
+            UIApplication.shared.windows.first?.rootViewController?.present(shareVC, animated: true)
+        }
+        
     }
     
 }

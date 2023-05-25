@@ -103,7 +103,7 @@ struct FlyerCellUpcoming: View {
     private var shareButton: some View {
         Button {
             Haptics.shared.play(.light)
-            // TODO: Share Flyer
+            FlyersView.ViewModel.displayShareScreen(for: flyer)
         } label: {
             Image.volume.share
                 .resizable()
@@ -128,9 +128,8 @@ struct FlyerCellUpcoming: View {
             
             Spacer()
             
-            // TODO: Uncomment below once backend finishes
-//            bookmarkButton
-//            shareButton
+            bookmarkButton
+            shareButton
         }
         .padding(.bottom, -Constants.verticalSpacing)
     }

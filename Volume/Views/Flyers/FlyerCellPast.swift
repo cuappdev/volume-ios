@@ -111,7 +111,7 @@ struct FlyerCellPast: View {
             .frame(width: Constants.buttonSize, height: Constants.buttonSize)
             .onTapGesture {
                 Haptics.shared.play(.light)
-                // TODO: Share Flyer
+                FlyersView.ViewModel.displayShareScreen(for: flyer)
             }
     }
     
@@ -131,9 +131,8 @@ struct FlyerCellPast: View {
             
             Spacer()
             
-            // TODO: Uncomment below once backend finishes
-//            bookmarkButton
-//            shareButton
+            bookmarkButton
+            shareButton
         }
         .padding(.bottom, -Constants.verticalSpacing)
     }

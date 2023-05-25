@@ -20,6 +20,7 @@ struct FlyersView: View {
     
     private struct Constants {
         static let backgroundColor: Color = Color.volume.backgroundGray
+        static let dailyButtonSize: CGSize = CGSize(width: 20, height: 20)
         static let dailyCellSize: CGSize = CGSize(width: 340, height: 432)
         static let dailyImageSize: CGSize = CGSize(width: 340, height: 340)
         static let endMessageWidth: CGFloat = 250
@@ -30,6 +31,7 @@ struct FlyersView: View {
         static let titleFont: Font = .newYorkMedium(size: 28)
         static let upcomingSectionHeight: CGFloat = 308
         static let volumeMessagePadding: CGFloat = 20
+        static let weeklyButtonSize: CGSize = CGSize(width: 15, height: 15)
         static let weeklyCellSize: CGSize = CGSize(width: 256, height: 350)
         static let weeklyImageSize: CGSize = CGSize(width: 256, height: 256)
     }
@@ -99,6 +101,7 @@ struct FlyersView: View {
                         ForEach(flyers) { flyer in
                             if let urlString = flyer.imageUrl?.absoluteString {
                                 FlyerCellThisWeek(
+                                    buttonSize: Constants.dailyButtonSize,
                                     cellSize: Constants.dailyCellSize,
                                     flyer: flyer,
                                     imageSize: Constants.dailyImageSize,
@@ -138,6 +141,7 @@ struct FlyersView: View {
                         ForEach(flyers) { flyer in
                             if let urlString = flyer.imageUrl?.absoluteString {
                                 FlyerCellThisWeek(
+                                    buttonSize: Constants.weeklyButtonSize,
                                     cellSize: Constants.weeklyCellSize,
                                     flyer: flyer,
                                     imageSize: Constants.weeklyImageSize,
