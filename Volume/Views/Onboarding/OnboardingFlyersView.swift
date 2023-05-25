@@ -37,7 +37,7 @@ struct OnboardingFlyersView: View {
                     }
                 case .some(let flyers):
                     ForEach(flyers) { flyer in
-                        if let urlString = flyer.flyerUrl?.absoluteString {
+                        if let urlString = flyer.imageUrl?.absoluteString {
                             FlyerCellUpcoming(
                                 flyer: flyer,
                                 urlImageModel: URLImageModel(urlString: urlString)
@@ -73,7 +73,7 @@ struct OnboardingFlyersView: View {
                     print("Error: GetFlyersAfterDateQuery failed on OnboardingFlyersView: \(error.localizedDescription)")
                 }
             } receiveValue: { flyerFields in
-                flyers = [Flyer](flyerFields)
+                flyers = sortFlyersByDateAsc(for: [Flyer](flyerFields))
             }
     }
     
