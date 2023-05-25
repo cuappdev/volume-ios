@@ -37,10 +37,12 @@ struct OnboardingFlyersView: View {
                     }
                 case .some(let flyers):
                     ForEach(flyers) { flyer in
-                        FlyerCellUpcoming(
-                            flyer: flyer,
-                            urlImageModel: URLImageModel(urlString: flyer.imageURL)
-                        )
+                        if let urlString = flyer.flyerUrl?.absoluteString {
+                            FlyerCellUpcoming(
+                                flyer: flyer,
+                                urlImageModel: URLImageModel(urlString: urlString)
+                            )
+                        }
                     }
                 }
             }
@@ -64,24 +66,14 @@ struct OnboardingFlyersView: View {
     }
     
     private func fetchUpcoming() async {
-        // TODO: Fetch flyers under "Upcoming"
-        guard let url = URL(string: "\(Secrets.cboardEndpoint)/flyers/upcoming/") else { return }
-        
-        cancellableQuery = URLSession.shared.dataTaskPublisher(for: url)
-            .subscribe(on: DispatchQueue.global(qos: .background))
-            .receive(on: DispatchQueue.main)
-            .tryMap { data, response in
-                guard let response = response as? HTTPURLResponse,
-                      response.statusCode >= 200 && response.statusCode < 300 else {
-                    throw URLError(.badServerResponse)
-                }
-                return data
-            }
-            .decode(type: [Flyer].self, decoder: JSONDecoder.flyersDecoder)
+        cancellableQuery = Network.shared.publisher(for: GetFlyersAfterDateQuery(since: Date().flyerDateTimeString))
+            .map { $0.getFlyersAfterDate.map(\.fragments.flyerFields) }
             .sink { completion in
-                print("Fetching upcoming flyers: \(completion)")
-            } receiveValue: { newFlyers in
-                flyers = Array(sortFlyersByDateAsc(for: newFlyers).prefix(Constants.flyersLimit))
+                if case let .failure(error) = completion {
+                    print("Error: GetFlyersAfterDateQuery failed on OnboardingFlyersView: \(error.localizedDescription)")
+                }
+            } receiveValue: { flyerFields in
+                flyers = [Flyer](flyerFields)
             }
     }
     

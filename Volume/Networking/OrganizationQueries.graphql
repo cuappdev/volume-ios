@@ -1,0 +1,23 @@
+fragment organizationFields on Organization {
+  id
+  backgroundImageURL
+  bio
+  categorySlug
+  name
+  profileImageURL
+  slug
+  shoutouts
+  websiteURL
+}
+
+query GetAllOrganizationCategorySlugs {
+  getAllOrganizations {
+    categorySlug
+  }
+}
+
+query GetOrganizationSlugsByCategorySlug($categorySlug: String!) {
+  getOrganizationsByCategory(categorySlug: $categorySlug) {
+    slug
+  }
+}

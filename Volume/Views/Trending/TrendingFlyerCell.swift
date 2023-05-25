@@ -34,7 +34,7 @@ struct TrendingFlyerCell: View {
     // MARK: - UI
     
     var body: some View {
-        if let url = URL(string: flyer.postURL) {
+        if let url = flyer.flyerUrl {
             cellLinkView(url: url)
         } else {
             cellNoLinkView
@@ -81,8 +81,7 @@ struct TrendingFlyerCell: View {
             }
             
             Text(Organization.contentTypeString(
-                    // TODO: May need to change once backend implements
-                    type: flyer.organizations[0].type)
+                    type: flyer.organizations[0].categorySlug)
                 )
                 .padding(.init(
                     top: Constants.categoryVerticalPadding,

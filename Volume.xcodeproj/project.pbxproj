@@ -58,6 +58,9 @@
 		2EA7DB7929DC0EE5001D7B8A /* URLImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7DB7829DC0EE5001D7B8A /* URLImageModel.swift */; };
 		2EB5568829B9485700794423 /* MagsScrollbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB5568729B9485700794423 /* MagsScrollbarView.swift */; };
 		2EB5568C29B94A5600794423 /* PageIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB5568B29B94A5600794423 /* PageIndicatorView.swift */; };
+		2EF894B42A1E9DCF001DD2A1 /* FlyerQueries.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 2EF894B32A1E9DCF001DD2A1 /* FlyerQueries.graphql */; };
+		2EF894B62A1E9E43001DD2A1 /* OrganizationQueries.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 2EF894B52A1E9E43001DD2A1 /* OrganizationQueries.graphql */; };
+		2EF894B82A1EE7ED001DD2A1 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF894B72A1EE7ED001DD2A1 /* Calendar+Extension.swift */; };
 		331159D727D41C89003B0F06 /* Image+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331159D627D41C89003B0F06 /* Image+Extensions.swift */; };
 		3334F4A02705269800CF0987 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3334F49F2705269800CF0987 /* AppDelegate.swift */; };
 		3349BF6F290DC1E900B0FD3A /* WeeklyDebriefButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3349BF6E290DC1E900B0FD3A /* WeeklyDebriefButton.swift */; };
@@ -181,6 +184,9 @@
 		2EA7DB7829DC0EE5001D7B8A /* URLImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImageModel.swift; sourceTree = "<group>"; };
 		2EB5568729B9485700794423 /* MagsScrollbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagsScrollbarView.swift; sourceTree = "<group>"; };
 		2EB5568B29B94A5600794423 /* PageIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicatorView.swift; sourceTree = "<group>"; };
+		2EF894B32A1E9DCF001DD2A1 /* FlyerQueries.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FlyerQueries.graphql; sourceTree = "<group>"; };
+		2EF894B52A1E9E43001DD2A1 /* OrganizationQueries.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OrganizationQueries.graphql; sourceTree = "<group>"; };
+		2EF894B72A1EE7ED001DD2A1 /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
 		331159D627D41C89003B0F06 /* Image+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extensions.swift"; sourceTree = "<group>"; };
 		3334F49F2705269800CF0987 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3349BF6E290DC1E900B0FD3A /* WeeklyDebriefButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyDebriefButton.swift; sourceTree = "<group>"; };
@@ -285,10 +291,12 @@
 				BC72AEB929259D4500209573 /* API.swift */,
 				922FE30C29342F9200E14911 /* schema.json */,
 				063EED49257BFDA9002136EE /* PublicationsQueries.graphql */,
+				2EF894B32A1E9DCF001DD2A1 /* FlyerQueries.graphql */,
 				06B80CFB257D9E9700F3BF9B /* ArticlesQueries.graphql */,
 				0685AAA3259EC2AF00DD55C4 /* ArticlesMutations.graphql */,
 				922FE3082931E67A00E14911 /* SearchQueries.graphql */,
 				33AE4CEC27403F670001BA5B /* UserMutations.graphql */,
+				2EF894B52A1E9E43001DD2A1 /* OrganizationQueries.graphql */,
 				33538BEF2745C579009DD191 /* UserQueries.graphql */,
 				BC2C4C182909E74D0083C6AA /* MagazineQueries.graphql */,
 				BC72AEBB29259E8000209573 /* MagazineMutations.graphql */,
@@ -451,6 +459,7 @@
 				2EA7DB7229DBEF7C001D7B8A /* UIImage+Extension.swift */,
 				95AC9DC62637BFF8000B4BEE /* Url+Extension.swift */,
 				06B80D12257DC18600F3BF9B /* WebImage+Extension.swift */,
+				2EF894B72A1EE7ED001DD2A1 /* Calendar+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -671,7 +680,9 @@
 				BC2C4C192909E74D0083C6AA /* MagazineQueries.graphql in Resources */,
 				95F1DC8A2608F4DD000B3D91 /* GoogleService-Info.plist in Resources */,
 				922FE3092931E67A00E14911 /* SearchQueries.graphql in Resources */,
+				2EF894B62A1E9E43001DD2A1 /* OrganizationQueries.graphql in Resources */,
 				2E38E14F29E5CE4C006323E5 /* LaunchScreen.storyboard in Resources */,
+				2EF894B42A1E9DCF001DD2A1 /* FlyerQueries.graphql in Resources */,
 				7ED7C33D252D117B0078B1BD /* Assets.xcassets in Resources */,
 				990081EF25E5C31600BF8362 /* Events.md in Resources */,
 			);
@@ -752,6 +763,7 @@
 				33538BF22745DD27009DD191 /* Notifications.swift in Sources */,
 				2E81EB6829F4FC0900A288C1 /* ScrollFadingView.swift in Sources */,
 				3392D71C2937BF4E005165F6 /* ReaderToolbarView.swift in Sources */,
+				2EF894B82A1EE7ED001DD2A1 /* Calendar+Extension.swift in Sources */,
 				2E81EB6229F4DA5300A288C1 /* OnboardingMainView.swift in Sources */,
 				A2B4DF3227D9AAB000440184 /* MagazineReaderView.swift in Sources */,
 				7EC15D9F257767ED0053BA0B /* Publication.swift in Sources */,

@@ -118,7 +118,12 @@ struct TrendingView: View {
                     .frame(maxWidth: .infinity)
                 case .some(let flyers):
                     ForEach(flyers) { flyer in
-                        TrendingFlyerCell(flyer: flyer, urlImageModel: URLImageModel(urlString: flyer.imageURL))
+                        if let urlString = flyer.imageUrl?.absoluteString {
+                            TrendingFlyerCell(
+                                flyer: flyer,
+                                urlImageModel: URLImageModel(urlString: urlString)
+                            )
+                        }
                     }
                 }
             }

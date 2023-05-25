@@ -89,7 +89,7 @@ struct FlyersView: View {
             }
             
             ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(spacing: Constants.spacing) {
+                HStack(spacing: Constants.spacing) {
                     switch viewModel.dailyFlyers {
                     case .none:
                         FlyerCellThisWeek.Skeleton(cellSize: Constants.dailyCellSize, imageSize: Constants.dailyImageSize)
@@ -97,12 +97,14 @@ struct FlyersView: View {
                         FlyerCellThisWeek.Skeleton(cellSize: Constants.dailyCellSize, imageSize: Constants.dailyImageSize)
                     case .some(let flyers):
                         ForEach(flyers) { flyer in
-                            FlyerCellThisWeek(
-                                cellSize: Constants.dailyCellSize,
-                                flyer: flyer,
-                                imageSize: Constants.dailyImageSize,
-                                urlImageModel: URLImageModel(urlString: flyer.imageURL)
-                            )
+                            if let urlString = flyer.imageUrl?.absoluteString {
+                                FlyerCellThisWeek(
+                                    cellSize: Constants.dailyCellSize,
+                                    flyer: flyer,
+                                    imageSize: Constants.dailyImageSize,
+                                    urlImageModel: URLImageModel(urlString: urlString)
+                                )
+                            }
                         }
                     }
                 }
@@ -126,7 +128,7 @@ struct FlyersView: View {
             }
             
             ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(spacing: Constants.spacing) {
+                HStack(spacing: Constants.spacing) {
                     switch viewModel.thisWeekFlyers {
                     case .none:
                         FlyerCellThisWeek.Skeleton(cellSize: Constants.weeklyCellSize, imageSize: Constants.weeklyImageSize)
@@ -134,12 +136,14 @@ struct FlyersView: View {
                         FlyerCellThisWeek.Skeleton(cellSize: Constants.weeklyCellSize, imageSize: Constants.weeklyImageSize)
                     case .some(let flyers):
                         ForEach(flyers) { flyer in
-                            FlyerCellThisWeek(
-                                cellSize: Constants.weeklyCellSize,
-                                flyer: flyer,
-                                imageSize: Constants.weeklyImageSize,
-                                urlImageModel: URLImageModel(urlString: flyer.imageURL)
-                            )
+                            if let urlString = flyer.imageUrl?.absoluteString {
+                                FlyerCellThisWeek(
+                                    cellSize: Constants.weeklyCellSize,
+                                    flyer: flyer,
+                                    imageSize: Constants.weeklyImageSize,
+                                    urlImageModel: URLImageModel(urlString: urlString)
+                                )
+                            }
                         }
                     }
                 }
@@ -171,10 +175,12 @@ struct FlyersView: View {
                         }
                     case .some(let flyers):
                         ForEach(flyers) { flyer in
-                            FlyerCellUpcoming(
-                                flyer: flyer,
-                                urlImageModel: URLImageModel(urlString: flyer.imageURL)
-                            )
+                            if let urlString = flyer.imageUrl?.absoluteString {
+                                FlyerCellUpcoming(
+                                    flyer: flyer,
+                                    urlImageModel: URLImageModel(urlString: urlString)
+                                )
+                            }
                         }
                     }
                 }
@@ -231,10 +237,12 @@ struct FlyersView: View {
                     FlyerCellPast.Skeleton()
                 case .some(let flyers):
                     ForEach(flyers) { flyer in
-                        FlyerCellPast(
-                            flyer: flyer,
-                            urlImageModel: URLImageModel(urlString: flyer.imageURL)
-                        )
+                        if let urlString = flyer.imageUrl?.absoluteString {
+                            FlyerCellPast(
+                                flyer: flyer,
+                                urlImageModel: URLImageModel(urlString: urlString)
+                            )
+                        }
                     }
                 }
             }

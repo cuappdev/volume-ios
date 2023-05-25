@@ -34,7 +34,7 @@ struct FlyerCellUpcoming: View {
     // MARK: - UI
     
     var body: some View {
-        if let url = URL(string: flyer.postURL) {
+        if let url = flyer.flyerUrl {
             cellLinkView(url: url)
         } else {
             cellNoLinkView

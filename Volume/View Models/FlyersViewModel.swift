@@ -72,29 +72,16 @@ extension FlyersView {
         }
         
         func fetchUpcoming() async {
-            // TODO: Fetch flyers under "Upcoming"
-            guard let url = URL(string: "\(Secrets.cboardEndpoint)/flyers/upcoming/") else { return }
-            
-            URLSession.shared.dataTaskPublisher(for: url)
-                .subscribe(on: DispatchQueue.global(qos: .background))
-                .receive(on: DispatchQueue.main)
-                .tryMap { data, response in
-                    guard let response = response as? HTTPURLResponse,
-                          200..<300 ~= response.statusCode else {
-                        throw URLError(.badServerResponse)
-                    }
-                    return data
-                }
-                .decode(type: [Flyer].self, decoder: JSONDecoder.flyersDecoder)
-                .sink { completion in
-                    print("Fetching upcoming flyers: \(completion)")
-                } receiveValue: { [weak self] flyers in
-                    let sortedFlyers = self?.sortFlyersByDateAsc(for: flyers)
-                                        
-                    if self?.selectedCategory == .all {
-                        self?.upcomingFlyers = sortedFlyers
-                    } else {
-                        self?.upcomingFlyers = sortedFlyers?.filter { $0.organizations[0].type == self?.selectedCategory }
+            Network.shared.publisher(for: GetFlyersAfterDateQuery(since: Date().flyerDateTimeString))
+                .map { $0.getFlyersAfterDate.map(\.fragments.flyerFields) }
+                .sink { [weak self] completion in
+                    self?.networkState?.handleCompletion(screen: .flyers, completion)
+                } receiveValue: { [weak self] flyerFields in
+                    self?.upcomingFlyers = [Flyer](flyerFields)
+                    if self?.selectedCategory != .all {
+                        self?.upcomingFlyers = self?.upcomingFlyers?.filter {
+                            $0.organizations[0].categorySlug == self?.selectedCategory
+                        }
                     }
                 }
                 .store(in: &queryBag)
@@ -111,49 +98,28 @@ extension FlyersView {
         // MARK: - Private Requests
         
         private func fetchDaily() {
-            // TODO: Fetch flyers under "Today"
-            guard let url = URL(string: "\(Secrets.cboardEndpoint)/flyers/daily/") else { return }
-            
-            URLSession.shared.dataTaskPublisher(for: url)
-                .subscribe(on: DispatchQueue.global(qos: .background))
-                .receive(on: DispatchQueue.main)
-                .tryMap { data, response in
-                    guard let response = response as? HTTPURLResponse,
-                          response.statusCode >= 200 && response.statusCode < 300 else {
-                        throw URLError(.badServerResponse)
-                    }
-                    return data
-                }
-                .decode(type: [Flyer].self, decoder: JSONDecoder.flyersDecoder)
-                .sink { completion in
-                    print("Fetching daily flyers: \(completion)")
-                } receiveValue: { [weak self] flyers in
-                    let sortedFlyers = self?.sortFlyersByDateAsc(for: flyers)
-                    self?.dailyFlyers = sortedFlyers
+            Network.shared.publisher(for: GetFlyersAfterDateQuery(since: Date().flyerDateTimeString))
+                .map { $0.getFlyersAfterDate.map(\.fragments.flyerFields) }
+                .sink { [weak self] completion in
+                    self?.networkState?.handleCompletion(screen: .flyers, completion)
+                } receiveValue: { [weak self] flyerFields in
+                    let upcomingFlyers = [Flyer](flyerFields)
+                    self?.dailyFlyers = upcomingFlyers.filter { Calendar.current.isDateInToday($0.endDate) }
                 }
                 .store(in: &queryBag)
         }
         
         private func fetchThisWeek() {
-            // TODO: Fetch flyers under "This Week"
-            guard let url = URL(string: "\(Secrets.cboardEndpoint)/flyers/weekly/") else { return }
-            
-            URLSession.shared.dataTaskPublisher(for: url)
-                .subscribe(on: DispatchQueue.global(qos: .background))
-                .receive(on: DispatchQueue.main)
-                .tryMap { data, response in
-                    guard let response = response as? HTTPURLResponse,
-                          200..<300 ~= response.statusCode else {
-                        throw URLError(.badServerResponse)
+            Network.shared.publisher(for: GetFlyersAfterDateQuery(since: Date().flyerDateTimeString))
+                .map { $0.getFlyersAfterDate.map(\.fragments.flyerFields) }
+                .sink { [weak self] completion in
+                    self?.networkState?.handleCompletion(screen: .flyers, completion)
+                } receiveValue: { [weak self] flyerFields in
+                    let upcomingFlyers = [Flyer](flyerFields)
+                    self?.thisWeekFlyers = upcomingFlyers.filter {
+                        // In this week but not today
+                        Calendar.current.isDateInThisWeek($0.endDate) && !Calendar.current.isDateInToday(Date())
                     }
-                    return data
-                }
-                .decode(type: [Flyer].self, decoder: JSONDecoder.flyersDecoder)
-                .sink { completion in
-                    print("Fetching weekly flyers: \(completion)")
-                } receiveValue: { [weak self] flyers in
-                    let sortedFlyers = self?.sortFlyersByDateAsc(for: flyers)
-                    self?.thisWeekFlyers = sortedFlyers
                 }
                 .store(in: &queryBag)
         }
@@ -164,26 +130,16 @@ extension FlyersView {
         }
         
         private func fetchPast() {
-            // TODO: Fetch flyers under "Past"
-            guard let url = URL(string: "\(Secrets.cboardEndpoint)/flyers/past/") else { return }
-            
-            URLSession.shared.dataTaskPublisher(for: url)
-                .subscribe(on: DispatchQueue.global(qos: .background))
-                .receive(on: DispatchQueue.main)
-                .tryMap { data, response in
-                    guard let response = response as? HTTPURLResponse,
-                          200..<300 ~= response.statusCode else {
-                        throw URLError(.badServerResponse)
-                    }
-                    return data
-                }
-                .decode(type: [Flyer].self, decoder: JSONDecoder.flyersDecoder)
-                .sink { completion in
-                    print("Fetching past flyers: \(completion)")
-                } receiveValue: { [weak self] flyers in
-                    if let sortedFlyers = self?.sortFlyersByDateDesc(for: flyers) {
-                        self?.pastFlyers = Array(sortedFlyers.prefix(Int(Constants.pastFlyersLimit)))
-                    }
+            Network.shared.publisher(
+                for: GetFlyersBeforeDateQuery(
+                    limit: Constants.pastFlyersLimit,
+                    before: Date().flyerDateTimeString)
+                )
+                .map { $0.getFlyersBeforeDate.map(\.fragments.flyerFields) }
+                .sink { [weak self] completion in
+                    self?.networkState?.handleCompletion(screen: .flyers, completion)
+                } receiveValue: { [weak self] flyerFields in
+                    self?.pastFlyers = [Flyer](flyerFields)
                 }
                 .store(in: &queryBag)
         }

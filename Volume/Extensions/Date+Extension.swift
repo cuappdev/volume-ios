@@ -44,6 +44,13 @@ extension Date {
         return formatter.string(from: self)
     }
     
+    /// This `Date` in the format "MMM d yy h:mm a". For example, April 11 2023 at 5:00 PM is Apr 11 23 5:00 PM
+    var flyerDateTimeString: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d yy h:mm a"
+        return formatter.string(from: self)
+    }
+    
     /// This `Date` in the format "h:mm a" with trailing 00 removed. For example, 8:00PM is 8PM
     var flyerTimeString: String {
         let formatter = DateFormatter()
