@@ -13,7 +13,10 @@ struct TrendingFlyerCell: View {
     // MARK: - Properties
     
     let flyer: Flyer
+    
+    @State private var bookmarkRequestInProgress: Bool = false
     @StateObject var urlImageModel: URLImageModel
+    @EnvironmentObject private var userData: UserData
     
     // MARK: - Constants
     
@@ -80,8 +83,9 @@ struct TrendingFlyerCell: View {
                 SkeletonView()
             }
             
-            Text(Organization.contentTypeString(
-                    type: flyer.organizations[0].categorySlug)
+            if let categorySlug = flyer.organizations.first?.categorySlug {
+                Text(Organization.contentTypeString(
+                    type: categorySlug)
                 )
                 .padding(.init(
                     top: Constants.categoryVerticalPadding,
@@ -95,6 +99,7 @@ struct TrendingFlyerCell: View {
                 .clipShape(RoundedRectangle(cornerRadius: Constants.categoryCornerRadius))
                 .padding([.top, .leading], 8)
                 .frame(alignment: .topLeading)
+            }
         }
         .frame(height: Constants.imageHeight)
     }
@@ -102,19 +107,34 @@ struct TrendingFlyerCell: View {
     private var bookmarkButton: some View {
         Button {
             Haptics.shared.play(.light)
-            // TODO: Bookmark Flyer
+            toggleSaved(for: flyer)
         } label: {
-            Image.volume.bookmark
-                .resizable()
-                .foregroundColor(.volume.orange)
-                .frame(width: Constants.buttonSize, height: Constants.buttonSize)
+            if userData.isFlyerSaved(flyer) {
+                Image.volume.bookmarkFilled
+                    .resizable()
+                    .scaledToFit()
+                    .foregroundColor(.volume.orange)
+                    .frame(width: Constants.buttonSize, height: Constants.buttonSize)
+            } else {
+                Image.volume.bookmark
+                    .resizable()
+                    .scaledToFit()
+                    .foregroundColor(.volume.orange)
+                    .frame(width: Constants.buttonSize, height: Constants.buttonSize)
+            }
+        }
+        .onTapGesture {
+            withAnimation(.easeInOut) {
+                Haptics.shared.play(.light)
+                toggleSaved(for: flyer)
+            }
         }
     }
 
     private var shareButton: some View {
         Button {
             Haptics.shared.play(.light)
-            // TODO: Share Flyer
+            FlyersView.ViewModel.displayShareScreen(for: flyer)
         } label: {
             Image.volume.share
                 .resizable()
@@ -132,16 +152,17 @@ struct TrendingFlyerCell: View {
                         .lineLimit(1)
                 }
             } else {
-                Text(flyer.organizations[0].name)
-                    .font(Constants.organizationNameFont)
-                    .lineLimit(1)
+                if let name = flyer.organizations.first?.name {
+                    Text(name)
+                        .font(Constants.organizationNameFont)
+                        .lineLimit(1)
+                }
             }
             
             Spacer()
             
-            // TODO: Uncomment below once backend finishes
-//            bookmarkButton
-//            shareButton
+            bookmarkButton
+            shareButton
         }
         .padding(.top, Constants.spacing)
         .padding(.bottom, -Constants.spacing)
@@ -177,6 +198,13 @@ struct TrendingFlyerCell: View {
                 .font(Constants.locationFont)
                 .lineLimit(1)
         }
+    }
+    
+    // MARK: - Bookmarking Logic
+    
+    private func toggleSaved(for flyer: Flyer) {
+        bookmarkRequestInProgress = true
+        userData.toggleFlyerSaved(flyer, $bookmarkRequestInProgress)
     }
     
 }

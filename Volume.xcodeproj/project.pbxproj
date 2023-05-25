@@ -61,6 +61,7 @@
 		2EF894B42A1E9DCF001DD2A1 /* FlyerQueries.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 2EF894B32A1E9DCF001DD2A1 /* FlyerQueries.graphql */; };
 		2EF894B62A1E9E43001DD2A1 /* OrganizationQueries.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 2EF894B52A1E9E43001DD2A1 /* OrganizationQueries.graphql */; };
 		2EF894B82A1EE7ED001DD2A1 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF894B72A1EE7ED001DD2A1 /* Calendar+Extension.swift */; };
+		2EF894BA2A1F087F001DD2A1 /* FlyerMutations.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 2EF894B92A1F087F001DD2A1 /* FlyerMutations.graphql */; };
 		331159D727D41C89003B0F06 /* Image+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331159D627D41C89003B0F06 /* Image+Extensions.swift */; };
 		3334F4A02705269800CF0987 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3334F49F2705269800CF0987 /* AppDelegate.swift */; };
 		3349BF6F290DC1E900B0FD3A /* WeeklyDebriefButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3349BF6E290DC1E900B0FD3A /* WeeklyDebriefButton.swift */; };
@@ -187,6 +188,7 @@
 		2EF894B32A1E9DCF001DD2A1 /* FlyerQueries.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FlyerQueries.graphql; sourceTree = "<group>"; };
 		2EF894B52A1E9E43001DD2A1 /* OrganizationQueries.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OrganizationQueries.graphql; sourceTree = "<group>"; };
 		2EF894B72A1EE7ED001DD2A1 /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
+		2EF894B92A1F087F001DD2A1 /* FlyerMutations.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FlyerMutations.graphql; sourceTree = "<group>"; };
 		331159D627D41C89003B0F06 /* Image+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extensions.swift"; sourceTree = "<group>"; };
 		3334F49F2705269800CF0987 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3349BF6E290DC1E900B0FD3A /* WeeklyDebriefButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyDebriefButton.swift; sourceTree = "<group>"; };
@@ -290,16 +292,17 @@
 				063EED24257BF8A7002136EE /* Network.swift */,
 				BC72AEB929259D4500209573 /* API.swift */,
 				922FE30C29342F9200E14911 /* schema.json */,
-				063EED49257BFDA9002136EE /* PublicationsQueries.graphql */,
-				2EF894B32A1E9DCF001DD2A1 /* FlyerQueries.graphql */,
-				06B80CFB257D9E9700F3BF9B /* ArticlesQueries.graphql */,
 				0685AAA3259EC2AF00DD55C4 /* ArticlesMutations.graphql */,
+				06B80CFB257D9E9700F3BF9B /* ArticlesQueries.graphql */,
+				2EF894B92A1F087F001DD2A1 /* FlyerMutations.graphql */,
+				2EF894B32A1E9DCF001DD2A1 /* FlyerQueries.graphql */,
+				BC72AEBB29259E8000209573 /* MagazineMutations.graphql */,
+				BC2C4C182909E74D0083C6AA /* MagazineQueries.graphql */,
+				2EF894B52A1E9E43001DD2A1 /* OrganizationQueries.graphql */,
+				063EED49257BFDA9002136EE /* PublicationsQueries.graphql */,
 				922FE3082931E67A00E14911 /* SearchQueries.graphql */,
 				33AE4CEC27403F670001BA5B /* UserMutations.graphql */,
-				2EF894B52A1E9E43001DD2A1 /* OrganizationQueries.graphql */,
 				33538BEF2745C579009DD191 /* UserQueries.graphql */,
-				BC2C4C182909E74D0083C6AA /* MagazineQueries.graphql */,
-				BC72AEBB29259E8000209573 /* MagazineMutations.graphql */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -675,6 +678,7 @@
 				7E369E1725EED97500FC0419 /* Secrets.plist in Resources */,
 				2E38E14D29E5CC67006323E5 /* volume_logo.json in Resources */,
 				922FE30D29342F9200E14911 /* schema.json in Resources */,
+				2EF894BA2A1F087F001DD2A1 /* FlyerMutations.graphql in Resources */,
 				7ED7C340252D117B0078B1BD /* Preview Assets.xcassets in Resources */,
 				95F1DC8A2608F4DD000B3D91 /* GoogleService-Info.plist in Resources */,
 				BC2C4C192909E74D0083C6AA /* MagazineQueries.graphql in Resources */,

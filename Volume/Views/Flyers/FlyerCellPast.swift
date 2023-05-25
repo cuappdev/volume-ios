@@ -13,7 +13,10 @@ struct FlyerCellPast: View {
     // MARK: - Properties
     
     let flyer: Flyer
+    
+    @State private var bookmarkRequestInProgress: Bool = false
     @StateObject var urlImageModel: URLImageModel
+    @EnvironmentObject private var userData: UserData
     
     // MARK: - Constants
     
@@ -93,15 +96,33 @@ struct FlyerCellPast: View {
         .frame(width: Constants.imageWidth, height: Constants.imageHeight)
     }
     
+    @ViewBuilder
     private var bookmarkButton: some View {
-        Image.volume.bookmark
-            .resizable()
-            .foregroundColor(.volume.orange)
-            .frame(width: Constants.buttonSize, height: Constants.buttonSize)
-            .onTapGesture {
-                Haptics.shared.play(.light)
-                // TODO: Bookmark Flyer
-            }
+        if userData.isFlyerSaved(flyer) {
+            Image.volume.bookmarkFilled
+                .resizable()
+                .scaledToFit()
+                .foregroundColor(.volume.orange)
+                .frame(width: Constants.buttonSize, height: Constants.buttonSize)
+                .onTapGesture {
+                    withAnimation {
+                        Haptics.shared.play(.light)
+                        toggleSaved(for: flyer)
+                    }
+                }
+        } else {
+            Image.volume.bookmark
+                .resizable()
+                .scaledToFit()
+                .foregroundColor(.volume.orange)
+                .frame(width: Constants.buttonSize, height: Constants.buttonSize)
+                .onTapGesture {
+                    withAnimation {
+                        Haptics.shared.play(.light)
+                        toggleSaved(for: flyer)
+                    }
+                }
+        }
     }
 
     private var shareButton: some View {
@@ -124,9 +145,11 @@ struct FlyerCellPast: View {
                         .lineLimit(2)
                 }
             } else {
-                Text(flyer.organizations[0].name)
-                    .font(Constants.organizationNameFont)
-                    .lineLimit(2)
+                if let name = flyer.organizations.first?.name {
+                    Text(name)
+                        .font(Constants.organizationNameFont)
+                        .lineLimit(2)
+                }
             }
             
             Spacer()
@@ -170,9 +193,11 @@ struct FlyerCellPast: View {
         }
     }
     
+    @ViewBuilder
     private var categoryType: some View {
-        Text(Organization.contentTypeString(
-                type: flyer.organizations[0].categorySlug)
+        if let categorySlug = flyer.organizations.first?.categorySlug {
+            Text(Organization.contentTypeString(
+                type: categorySlug)
             )
             .padding(.init(
                 top: Constants.categoryVerticalPadding,
@@ -188,6 +213,14 @@ struct FlyerCellPast: View {
                 RoundedRectangle(cornerRadius: Constants.categoryCornerRadius)
                     .stroke(Color.volume.orange, lineWidth: 1)
             )
+        }
+    }
+    
+    // MARK: - Bookmarking Logic
+    
+    private func toggleSaved(for flyer: Flyer) {
+        bookmarkRequestInProgress = true
+        userData.toggleFlyerSaved(flyer, $bookmarkRequestInProgress)
     }
     
 }

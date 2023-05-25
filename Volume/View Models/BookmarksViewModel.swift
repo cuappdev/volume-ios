@@ -15,8 +15,8 @@ extension BookmarksView {
     class ViewModel: ObservableObject {
         // MARK: - Properties
         
-        // TODO: Property for flyers
         @Published var articles: [Article]? = nil
+        @Published var flyers: [Flyer]? = nil
         @Published var magazines: [Magazine]? = nil
         @Published var selectedTab: FilterContentType = .flyers
         @Published private var queryBag = Set<AnyCancellable>()
@@ -47,13 +47,20 @@ extension BookmarksView {
             return !userData.savedMagazineIDs.isEmpty
         }
         
-        // TODO: hasSavedFlyers
+        var hasSavedFlyers: Bool {
+            guard let userData else {
+                return false
+            }
+
+            return !userData.savedFlyerIDs.isEmpty
+        }
         
         // MARK: - Network Requests
         
         func fetchContent() {
             fetchArticles(ids: userData?.savedArticleIDs ?? [])
             fetchMagazines(ids: userData?.savedMagazineIDs ?? [])
+            fetchFlyers(ids: userData?.savedFlyerIDs ?? [])
         }
 
         func fetchArticles(ids: [String]) {
@@ -96,7 +103,19 @@ extension BookmarksView {
                 .store(in: &queryBag)
         }
         
-        // TODO: fetchFlyers
+        func fetchFlyers(ids: [String]) {
+            Network.shared.publisher(for: GetFlyersByIDsQuery(ids: ids))
+                .map { $0.flyers.map(\.fragments.flyerFields) }
+                .sink { [weak self] completion in
+                    self?.networkState?.handleCompletion(screen: .bookmarks, completion)
+                } receiveValue: { [weak self] flyerFields in
+                    let flyers = [Flyer](flyerFields)
+                    withAnimation(.linear(duration: 0.1)) {
+                        self?.flyers = flyers
+                    }
+                }
+                .store(in: &queryBag)
+        }
     }
     
 }

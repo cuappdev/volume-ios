@@ -24,6 +24,7 @@ extension FlyersView {
         @Published var thisWeekFlyers: [Flyer]? = nil
         @Published var upcomingFlyers: [Flyer]? = nil
         
+        @State private var bookmarkRequestInProgress: Bool = false
         private var networkState: NetworkState?
         private var queryBag = Set<AnyCancellable>()
         private var userData: UserData?
@@ -73,16 +74,17 @@ extension FlyersView {
         
         func fetchUpcoming() async {
             Network.shared.publisher(for: GetFlyersAfterDateQuery(since: Date().flyerDateTimeString))
-                .map { $0.getFlyersAfterDate.map(\.fragments.flyerFields) }
+                .map { $0.flyers.map(\.fragments.flyerFields) }
                 .sink { [weak self] completion in
                     self?.networkState?.handleCompletion(screen: .flyers, completion)
                 } receiveValue: { [weak self] flyerFields in
-                    self?.upcomingFlyers = [Flyer](flyerFields)
+                    var upcoming = [Flyer](flyerFields)
                     if self?.selectedCategory != .all {
-                        self?.upcomingFlyers = self?.upcomingFlyers?.filter {
-                            $0.organizations[0].categorySlug == self?.selectedCategory
+                        upcoming = upcoming.filter {
+                            $0.organizations.first?.categorySlug == self?.selectedCategory
                         }
                     }
+                    self?.upcomingFlyers = self?.sortFlyersByDateAsc(for: upcoming)
                 }
                 .store(in: &queryBag)
         }
@@ -99,27 +101,29 @@ extension FlyersView {
         
         private func fetchDaily() {
             Network.shared.publisher(for: GetFlyersAfterDateQuery(since: Date().flyerDateTimeString))
-                .map { $0.getFlyersAfterDate.map(\.fragments.flyerFields) }
+                .map { $0.flyers.map(\.fragments.flyerFields) }
                 .sink { [weak self] completion in
                     self?.networkState?.handleCompletion(screen: .flyers, completion)
                 } receiveValue: { [weak self] flyerFields in
-                    let upcomingFlyers = [Flyer](flyerFields)
-                    self?.dailyFlyers = upcomingFlyers.filter { Calendar.current.isDateInToday($0.endDate) }
+                    var upcomingFlyers = [Flyer](flyerFields)
+                    upcomingFlyers = upcomingFlyers.filter { Calendar.current.isDateInToday($0.endDate) }
+                    self?.dailyFlyers = self?.sortFlyersByDateAsc(for: upcomingFlyers)
                 }
                 .store(in: &queryBag)
         }
         
         private func fetchThisWeek() {
             Network.shared.publisher(for: GetFlyersAfterDateQuery(since: Date().flyerDateTimeString))
-                .map { $0.getFlyersAfterDate.map(\.fragments.flyerFields) }
+                .map { $0.flyers.map(\.fragments.flyerFields) }
                 .sink { [weak self] completion in
                     self?.networkState?.handleCompletion(screen: .flyers, completion)
                 } receiveValue: { [weak self] flyerFields in
-                    let upcomingFlyers = [Flyer](flyerFields)
-                    self?.thisWeekFlyers = upcomingFlyers.filter {
+                    var upcomingFlyers = [Flyer](flyerFields)
+                    upcomingFlyers = upcomingFlyers.filter {
                         // In this week but not today
-                        Calendar.current.isDateInThisWeek($0.endDate) && !Calendar.current.isDateInToday(Date())
+                        Calendar.current.isDateInThisWeek($0.endDate) && !Calendar.current.isDateInToday($0.endDate)
                     }
+                    self?.thisWeekFlyers = self?.sortFlyersByDateAsc(for: upcomingFlyers)
                 }
                 .store(in: &queryBag)
         }
@@ -135,7 +139,7 @@ extension FlyersView {
                     limit: Constants.pastFlyersLimit,
                     before: Date().flyerDateTimeString)
                 )
-                .map { $0.getFlyersBeforeDate.map(\.fragments.flyerFields) }
+                .map { $0.flyers.map(\.fragments.flyerFields) }
                 .sink { [weak self] completion in
                     self?.networkState?.handleCompletion(screen: .flyers, completion)
                 } receiveValue: { [weak self] flyerFields in
@@ -151,6 +155,8 @@ extension FlyersView {
         }
         
         // MARK: - Helpers
+        
+        // TODO: The next two functions are not in use but will by helpful once pagination is implemented
         
         private func loadMoreUpcoming(with newFlyers: [Flyer]) {
             switch upcomingFlyers {
@@ -189,7 +195,7 @@ extension FlyersView {
         private func sortFlyersByDateAsc(for flyers: [Flyer]) -> [Flyer] {
             return flyers.sorted(by: { $0.startDate.compare($1.startDate) == .orderedAscending })
         }
-        
+
         static func displayShareScreen(for flyer: Flyer) {
             var linkSource: LinkItemSource?
 

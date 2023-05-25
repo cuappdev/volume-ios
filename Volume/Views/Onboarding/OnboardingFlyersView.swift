@@ -67,7 +67,7 @@ struct OnboardingFlyersView: View {
     
     private func fetchUpcoming() async {
         cancellableQuery = Network.shared.publisher(for: GetFlyersAfterDateQuery(since: Date().flyerDateTimeString))
-            .map { $0.getFlyersAfterDate.map(\.fragments.flyerFields) }
+            .map { $0.flyers.map(\.fragments.flyerFields) }
             .sink { completion in
                 if case let .failure(error) = completion {
                     print("Error: GetFlyersAfterDateQuery failed on OnboardingFlyersView: \(error.localizedDescription)")

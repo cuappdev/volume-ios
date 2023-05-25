@@ -16,7 +16,10 @@ struct FlyerCellThisWeek: View {
     let cellSize: CGSize
     let flyer: Flyer
     let imageSize: CGSize
+    
+    @State private var bookmarkRequestInProgress: Bool = false
     @StateObject var urlImageModel: URLImageModel
+    @EnvironmentObject private var userData: UserData
     
     // MARK: - Constants
     
@@ -69,7 +72,6 @@ struct FlyerCellThisWeek: View {
     
     private var imageFrame: some View {
         ZStack(alignment: .topLeading) {
-            // TODO: Remove temporary image holder
             if let flyerImage = urlImageModel.image {
                 ZStack(alignment: .center) {
                     Color(uiColor: flyerImage.averageColor ?? .gray)
@@ -83,8 +85,9 @@ struct FlyerCellThisWeek: View {
                 SkeletonView()
             }
             
-            Text(Organization.contentTypeString(
-                    type: flyer.organizations[0].categorySlug)
+            if let categorySlug = flyer.organizations.first?.categorySlug {
+                Text(Organization.contentTypeString(
+                    type: categorySlug)
                 )
                 .padding(.init(
                     top: Constants.categoryVerticalPadding,
@@ -97,6 +100,7 @@ struct FlyerCellThisWeek: View {
                 .background(Color.volume.orange)
                 .clipShape(RoundedRectangle(cornerRadius: Constants.categoryCornerRadius))
                 .padding([.top, .leading], 8)
+            }
         }
         .frame(width: imageSize.width, height: imageSize.height)
     }
@@ -104,12 +108,27 @@ struct FlyerCellThisWeek: View {
     private var bookmarkButton: some View {
         Button {
             Haptics.shared.play(.light)
-            // TODO: Bookmark Flyer
+            toggleSaved(for: flyer)
         } label: {
-            Image.volume.bookmark
-                .resizable()
-                .foregroundColor(.volume.orange)
-                .frame(width: buttonSize.width, height: buttonSize.height)
+            if userData.isFlyerSaved(flyer) {
+                Image.volume.bookmarkFilled
+                    .resizable()
+                    .scaledToFit()
+                    .foregroundColor(.volume.orange)
+                    .frame(width: buttonSize.width, height: buttonSize.height)
+            } else {
+                Image.volume.bookmark
+                    .resizable()
+                    .scaledToFit()
+                    .foregroundColor(.volume.orange)
+                    .frame(width: buttonSize.width, height: buttonSize.height)
+            }
+        }
+        .onTapGesture {
+            withAnimation(.easeInOut) {
+                Haptics.shared.play(.light)
+                toggleSaved(for: flyer)
+            }
         }
     }
 
@@ -134,9 +153,11 @@ struct FlyerCellThisWeek: View {
                         .lineLimit(1)
                 }
             } else {
-                Text(flyer.organizations[0].name)
-                    .font(Constants.organizationNameFont)
-                    .lineLimit(1)
+                if let name = flyer.organizations.first?.name {
+                    Text(name)
+                        .font(Constants.organizationNameFont)
+                        .lineLimit(1)
+                }
             }
             
             Spacer()
@@ -179,6 +200,13 @@ struct FlyerCellThisWeek: View {
                 .font(Constants.locationFont)
                 .lineLimit(1)
         }
+    }
+    
+    // MARK: - Bookmarking Logic
+    
+    private func toggleSaved(for flyer: Flyer) {
+        bookmarkRequestInProgress = true
+        userData.toggleFlyerSaved(flyer, $bookmarkRequestInProgress)
     }
     
 }

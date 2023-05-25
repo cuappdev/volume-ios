@@ -17,19 +17,25 @@ fragment flyerFields on Flyer {
 }
 
 query GetFlyersAfterDate($limit: Float, $since: String!) {
-  getFlyersAfterDate(limit: $limit, since: $since) {
+  flyers: getFlyersAfterDate(limit: $limit, since: $since) {
     ...flyerFields
   }
 }
 
 query GetFlyersBeforeDate($limit: Float, $before: String!) {
-  getFlyersBeforeDate(limit: $limit, before: $before) {
+  flyers: getFlyersBeforeDate(limit: $limit, before: $before) {
     ...flyerFields
   }
 }
 
 query GetTrendingFlyers($limit: Float) {
-  getTrendingFlyers(limit: $limit) {
+  flyers: getTrendingFlyers(limit: $limit) {
+    ...flyerFields
+  }
+}
+
+query GetFlyersByIDs($ids: [String!]!) {
+  flyers: getFlyersByIDs(ids: $ids) {
     ...flyerFields
   }
 }

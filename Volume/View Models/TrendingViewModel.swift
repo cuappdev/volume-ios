@@ -66,7 +66,7 @@ extension TrendingView {
         
         func fetchFlyers() async {
             Network.shared.publisher(for: GetTrendingFlyersQuery(limit: 2))
-                .map { $0.getTrendingFlyers.map(\.fragments.flyerFields) }
+                .map { $0.flyers.map(\.fragments.flyerFields) }
                 .sink { [weak self] completion in
                     self?.networkState?.handleCompletion(screen: .flyers, completion)
                 } receiveValue: { [weak self] flyerFields in

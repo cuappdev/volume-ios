@@ -17,6 +17,7 @@ class UserData: ObservableObject {
     private let articleShoutoutsKey = "articleShoutoutsCounter"
     private let articlesKey = "savedArticleIds"
     private let fcmTokenKey = "fcmToken"
+    private let flyersKey = "savedFlyersIds"
     private let isFirstLaunchKey = "isFirstLaunch"
     private let magazineShoutoutsKey = "magazineShoutoutsCounter"
     private let magazinesKey = "savedMagazineIds"
@@ -83,6 +84,13 @@ class UserData: ObservableObject {
         }
     }
     
+    @Published private(set) var savedFlyerIDs: [String] = [] {
+        willSet {
+            UserDefaults.standard.setValue(newValue, forKey: flyersKey)
+            objectWillChange.send()
+        }
+    }
+    
     var uuid: String? = nil {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: userUUIDKey)
@@ -114,6 +122,10 @@ class UserData: ObservableObject {
         
         if let ids = UserDefaults.standard.object(forKey: magazinesKey) as? [String] {
             savedMagazineIDs = ids
+        }
+        
+        if let ids = UserDefaults.standard.object(forKey: flyersKey) as? [String] {
+            savedFlyerIDs = ids
         }
 
         if let slugs = UserDefaults.standard.object(forKey: publicationsKey) as? [String] {
@@ -156,6 +168,10 @@ class UserData: ObservableObject {
     func isMagazineSaved(_ magazine: Magazine) -> Bool {
         savedMagazineIDs.contains(magazine.id)
     }
+    
+    func isFlyerSaved(_ flyer: Flyer) -> Bool {
+        savedFlyerIDs.contains(flyer.id)
+    }
 
     func isPublicationFollowed(_ publication: Publication) -> Bool {
         followedPublicationSlugs.contains(publication.slug)
@@ -167,6 +183,10 @@ class UserData: ObservableObject {
 
     func toggleMagazineSaved(_ magazine: Magazine, _ bookmarkRequestInProgress: Binding<Bool>) {
         set(magazine: magazine, isSaved: !isMagazineSaved(magazine), bookmarkRequestInProgress: bookmarkRequestInProgress)
+    }
+    
+    func toggleFlyerSaved(_ flyer: Flyer, _ bookmarkRequestInProgress: Binding<Bool>) {
+        set(flyer: flyer, isSaved: !isFlyerSaved(flyer), bookmarkRequestInProgress: bookmarkRequestInProgress)
     }
 
     func togglePublicationFollowed(_ publication: Publication, _ followRequestInProgress: Binding<Bool>) {
@@ -258,6 +278,36 @@ class UserData: ObservableObject {
             savedMagazineIDs.removeAll(where: { $0 == magazine.id })
         }
     }
+    
+    func set(flyer: Flyer, isSaved: Bool, bookmarkRequestInProgress: Binding<Bool>) {
+        @Binding var requestInProgress: Bool
+        _requestInProgress = bookmarkRequestInProgress
+
+        guard let uuid = uuid else {
+            #if DEBUG
+            print("Error: received nil for UUID in set(flyer :isSaved)")
+            #endif
+            requestInProgress = false
+            return
+        }
+
+        if isSaved {
+            cancellables[.bookmarkFlyer(flyer)] = Network.shared.publisher(for: BookmarkFlyerMutation(uuid: uuid))
+                .sink { completion in
+                    if case let .failure(error) = completion {
+                        print("Error: BookmarkFlyerMutation failed on UserData: \(error.localizedDescription)")
+                    }
+                    requestInProgress = false
+                } receiveValue: { _ in
+                    if !self.savedFlyerIDs.contains(flyer.id) {
+                        self.savedFlyerIDs.insert(flyer.id, at: 0)
+                    }
+                }
+        } else {
+            requestInProgress = false
+            savedFlyerIDs.removeAll(where: { $0 == flyer.id })
+        }
+    }
 
     func set(publication: Publication, isFollowed: Bool, followRequestInProgress: Binding<Bool>) {
         @Binding var requestInProgress: Bool
@@ -307,6 +357,6 @@ class UserData: ObservableObject {
 
 extension UserData {
     private enum Mutation: Hashable {
-        case follow(Publication), unfollow(Publication), bookmarkArticle(Article), bookmarkMagazine(Magazine)
+        case follow(Publication), unfollow(Publication), bookmarkArticle(Article), bookmarkMagazine(Magazine), bookmarkFlyer(Flyer)
     }
 }

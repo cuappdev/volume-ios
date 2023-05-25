@@ -62,9 +62,7 @@ struct FlyersView: View {
                 todaySection
                 thisWeekSection
                 upcomingSection
-                pastSection
-                
-                // TODO: Implement logic to only show endSection if there are no more flyers
+                pastSection                
                 endSection
             }
             .listSectionSeparator(.hidden)

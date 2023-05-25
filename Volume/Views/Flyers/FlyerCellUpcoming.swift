@@ -13,7 +13,10 @@ struct FlyerCellUpcoming: View {
     // MARK: - Properties
     
     let flyer: Flyer
+    
+    @State private var bookmarkRequestInProgress: Bool = false
     @StateObject var urlImageModel: URLImageModel
+    @EnvironmentObject private var userData: UserData
     
     // MARK: - Constants
     
@@ -73,7 +76,6 @@ struct FlyerCellUpcoming: View {
     }
     
     private var imageFrame: some View {
-        // TODO: Remove temporary image holder
         ZStack(alignment: .center) {
             if let flyerImage = urlImageModel.image {
                 Color(uiColor: flyerImage.averageColor ?? .gray)
@@ -91,12 +93,27 @@ struct FlyerCellUpcoming: View {
     private var bookmarkButton: some View {
         Button {
             Haptics.shared.play(.light)
-            // TODO: Bookmark Flyer
+            toggleSaved(for: flyer)
         } label: {
-            Image.volume.bookmark
-                .resizable()
-                .foregroundColor(.volume.orange)
-                .frame(width: Constants.buttonSize, height: Constants.buttonSize)
+            if userData.isFlyerSaved(flyer) {
+                Image.volume.bookmarkFilled
+                    .resizable()
+                    .scaledToFit()
+                    .foregroundColor(.volume.orange)
+                    .frame(width: Constants.buttonSize, height: Constants.buttonSize)
+            } else {
+                Image.volume.bookmark
+                    .resizable()
+                    .scaledToFit()
+                    .foregroundColor(.volume.orange)
+                    .frame(width: Constants.buttonSize, height: Constants.buttonSize)
+            }
+        }
+        .onTapGesture {
+            withAnimation(.easeInOut) {
+                Haptics.shared.play(.light)
+                toggleSaved(for: flyer)
+            }
         }
     }
 
@@ -121,9 +138,11 @@ struct FlyerCellUpcoming: View {
                         .lineLimit(2)
                 }
             } else {
-                Text(flyer.organizations[0].name)
-                    .font(Constants.organizationNameFont)
-                    .lineLimit(2)
+                if let name = flyer.organizations.first?.name {
+                    Text(name)
+                        .font(Constants.organizationNameFont)
+                        .lineLimit(2)
+                }
             }
             
             Spacer()
@@ -165,6 +184,13 @@ struct FlyerCellUpcoming: View {
                 .font(Constants.locationFont)
                 .lineLimit(1)
         }
+    }
+    
+    // MARK: - Bookmarking Logic
+    
+    private func toggleSaved(for flyer: Flyer) {
+        bookmarkRequestInProgress = true
+        userData.toggleFlyerSaved(flyer, $bookmarkRequestInProgress)
     }
     
 }

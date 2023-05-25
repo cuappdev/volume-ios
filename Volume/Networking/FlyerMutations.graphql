@@ -1,0 +1,5 @@
+mutation BookmarkFlyer($uuid: String!) {
+  bookmarkArticle(uuid: $uuid) {
+    id
+  }
+}
