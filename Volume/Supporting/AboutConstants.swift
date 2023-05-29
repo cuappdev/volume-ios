@@ -14,6 +14,27 @@ struct AboutConstants {
     
     static let volumeRoster: [PodRoster] = [
         PodRoster(
+            semester: "Fall 2023",
+            subteams: [
+                .podLead("Jennifer Gu"),
+                .ios([
+                    "Vin Bui"
+                ]),
+                .backend([
+                    "Isaac Han"
+                ]),
+                .android([
+                    "Zach Seidner"
+                ]),
+                .design([
+                    "Amy Ge"
+                ]),
+                .marketing([
+                    "Jane Lee"
+                ])
+            ]
+        ),
+        PodRoster(
             semester: "Spring 2023",
             subteams: [
                 .podLead("Liam Du"),
