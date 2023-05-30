@@ -42,7 +42,9 @@ struct MagazinesView: View {
             LazyVStack(spacing: Constants.groupTopPadding * 2, pinnedViews: [.sectionHeaders]) {
                 searchBar
                 
-                featuredMagazinesSection
+                if viewModel.featuredMagazines != nil && viewModel.featuredMagazines?.count != 0 {
+                    featuredMagazinesSection
+                }
                 
                 Spacer()
                     .frame(height: Constants.groupTopPadding)
@@ -77,30 +79,26 @@ struct MagazinesView: View {
     
     private var featuredMagazinesSection: some View {
         Section {
-            if viewModel.featuredMagazines?.count == 0 {
-                VolumeMessage(image: Image.volume.magazine, message: .noFeaturedMagazines, largeFont: false, fullWidth: false)
-            } else {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    LazyHStack(spacing: Constants.magazineHorizontalSpacing) {
-                        switch viewModel.featuredMagazines {
-                        case .none:
-                            ForEach(0..<3) { _ in
-                                MagazineCell.Skeleton()
-                            }
-                        case .some(let magazines):
-                            ForEach(magazines) { magazine in
-                                NavigationLink {
-                                    MagazineReaderView(initType: .readyForDisplay(magazine), navigationSource: .featuredMagazines)
-                                } label: {
-                                    MagazineCell(magazine: magazine)
-                                }
+            ScrollView(.horizontal, showsIndicators: false) {
+                LazyHStack(spacing: Constants.magazineHorizontalSpacing) {
+                    switch viewModel.featuredMagazines {
+                    case .none:
+                        ForEach(0..<3) { _ in
+                            MagazineCell.Skeleton()
+                        }
+                    case .some(let magazines):
+                        ForEach(magazines) { magazine in
+                            NavigationLink {
+                                MagazineReaderView(initType: .readyForDisplay(magazine), navigationSource: .featuredMagazines)
+                            } label: {
+                                MagazineCell(magazine: magazine)
                             }
                         }
                     }
                 }
-                .padding(.horizontal)
-                .environment(\EnvironmentValues.refresh as! WritableKeyPath<EnvironmentValues, RefreshAction?>, nil)
             }
+            .padding(.horizontal)
+            .environment(\EnvironmentValues.refresh as! WritableKeyPath<EnvironmentValues, RefreshAction?>, nil)
         } header: {
             Header("Featured")
                 .padding(.vertical, Constants.groupTopPadding)
