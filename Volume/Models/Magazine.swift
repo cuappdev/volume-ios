@@ -20,7 +20,6 @@ struct Magazine: ReadableContent {
     let isNSFW: Bool
     let isFeatured: Bool
     let isFiltered: Bool
-    var pdfDoc: PDFDocument?
     let pdfUrl: URL?
     let publication: Publication
     let publicationSlug: String

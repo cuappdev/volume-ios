@@ -70,7 +70,8 @@ struct ShimmerEffect: ViewModifier {
 struct ShimmerConfig {
 
     // MARK: - Design Constants
-    var tint: Color
+    
+    var tint: Color = Color.gray.opacity(0.3)
     var highlight: Color
     var blur: CGFloat
     var highlightOpacity: CGFloat = 1
@@ -85,7 +86,6 @@ extension ShimmerConfig {
     
     static func smallShimmer() -> ShimmerConfig {
         return ShimmerConfig(
-            tint: Color.gray.opacity(0.3),
             highlight: Color.white,
             blur: 30,
             speed: 1.5,
@@ -95,7 +95,6 @@ extension ShimmerConfig {
     
     static func mediumShimmer() -> ShimmerConfig {
         return ShimmerConfig(
-            tint: Color.gray.opacity(0.3),
             highlight: Color.white,
             blur: 33,
             speed: 1.5,
@@ -105,7 +104,6 @@ extension ShimmerConfig {
     
     static func largeShimmer() -> ShimmerConfig {
         return ShimmerConfig(
-            tint: Color.gray.opacity(0.3),
             highlight: Color.white.opacity(0.85),
             blur: 35,
             speed: 1.3,
