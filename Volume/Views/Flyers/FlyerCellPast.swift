@@ -219,6 +219,7 @@ extension FlyerCellPast {
                         .frame(width: 60, height: 15)
                 }
             }
+            .shimmer(.mediumShimmer())
         }
     }
     

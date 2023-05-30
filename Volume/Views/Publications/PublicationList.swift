@@ -128,29 +128,32 @@ struct PublicationList: View {
     }
 
     var body: some View {
-        RefreshableScrollView(onRefresh: { done in
-            switch state {
-                case .loading, .reloading:
-                    return
-                case .results(let results):
-                    state = .reloading(results)
-                    fetch(done)
-                }
-            }) {
-                VStack {
-                    followedPublicationsSection
-                    Spacer()
-                        .frame(height: 16)
-                    morePublicationsSection
-                }
+        ScrollView {
+            VStack {
+                followedPublicationsSection
+                
+                Spacer()
+                    .frame(height: 16)
+                
+                morePublicationsSection
             }
-            .disabled(state.isLoading)
-            .padding(.top)
-            .background(Color.white)
-            .navigationBarTitleDisplayMode(.inline)
-            .onAppear {
+        }
+        .refreshable {
+            switch state {
+            case .loading, .reloading:
+                return
+            case .results(let results):
+                state = .reloading(results)
                 fetch()
             }
+        }
+        .disabled(state.isLoading)
+        .padding(.top)
+        .background(Color.white)
+        .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            fetch()
+        }
     }
     
 }

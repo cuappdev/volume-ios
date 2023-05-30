@@ -189,6 +189,7 @@ struct ArticlesView: View {
                 }
             }
             .padding(.horizontal, Constants.listHorizontalPadding)
+            .padding(.bottom)
         } header: {
             Header(followed ? Constants.followedArticlesSectionTitle : Constants.unfollowedArticlesSectionTitle)
                 .padding(.vertical, Constants.rowVerticalPadding)
@@ -209,6 +210,7 @@ struct ArticlesView: View {
         }
         .padding(.top, Constants.weeklyDebriefTopPadding)
         .padding(.bottom, Constants.rowVerticalPadding)
+        .padding(.horizontal, Constants.listHorizontalPadding)
     }
 
     private var weeklyDebriefView: some View {

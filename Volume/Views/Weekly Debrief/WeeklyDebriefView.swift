@@ -117,32 +117,34 @@ struct WeeklyDebriefView: View {
     }
     
     var body: some View {
-        TabView(selection: $currentPage) {
-            debriefSummary
-                .tag(0)
-            
-            ForEach(weeklyDebrief.readArticleIDs.indices, id: \.self) { idx in
-                makeDebriefArticleView(articleID: weeklyDebrief.readArticleIDs[idx], header: "Share What You Read")
-                    .tag(1 + idx)
+        NavigationView {
+            TabView(selection: $currentPage) {
+                debriefSummary
+                    .tag(0)
+                
+                ForEach(weeklyDebrief.readArticleIDs.indices, id: \.self) { idx in
+                    makeDebriefArticleView(articleID: weeklyDebrief.readArticleIDs[idx], header: "Share What You Read")
+                        .tag(1 + idx)
+                }
+                
+                ForEach(weeklyDebrief.randomArticleIDs.indices, id: \.self) { idx in
+                    makeDebriefArticleView(articleID: weeklyDebrief.randomArticleIDs[idx], header: "Top Articles of the Week")
+                        .tag(1 + weeklyDebrief.readArticleIDs.count + idx)
+                }
+                
+                debriefConclusion
+                    .tag(1 + weeklyDebrief.readArticleIDs.count + weeklyDebrief.randomArticleIDs.count)
             }
-            
-            ForEach(weeklyDebrief.randomArticleIDs.indices, id: \.self) { idx in
-                makeDebriefArticleView(articleID: weeklyDebrief.randomArticleIDs[idx], header: "Top Articles of the Week")
-                    .tag(1 + weeklyDebrief.readArticleIDs.count + idx)
+            .tabViewStyle(PageTabViewStyle())
+            .onAppear {
+                UIPageControl.appearance().currentPageIndicatorTintColor = .gray
+                UIPageControl.appearance().pageIndicatorTintColor = .lightGray
+                fetchDebriefArticles()
             }
-            
-            debriefConclusion
-                .tag(1 + weeklyDebrief.readArticleIDs.count + weeklyDebrief.randomArticleIDs.count)
-        }
-        .tabViewStyle(PageTabViewStyle())
-        .onAppear {
-            UIPageControl.appearance().currentPageIndicatorTintColor = .gray
-            UIPageControl.appearance().pageIndicatorTintColor = .lightGray
-            fetchDebriefArticles()
-        }
-        .onDisappear {
-            UIPageControl.appearance().currentPageIndicatorTintColor = nil
-            UIPageControl.appearance().pageIndicatorTintColor = nil
+            .onDisappear {
+                UIPageControl.appearance().currentPageIndicatorTintColor = nil
+                UIPageControl.appearance().pageIndicatorTintColor = nil
+            }
         }
     }
     

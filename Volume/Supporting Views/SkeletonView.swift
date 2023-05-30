@@ -13,6 +13,5 @@ struct SkeletonView: View {
         Rectangle()
             .fill(Color.volume.veryLightGray)
             .transition(.opacity)
-            .shimmer(.init(tint: .gray.opacity(0.3), highlight: .white, blur: 30))
     }
 }

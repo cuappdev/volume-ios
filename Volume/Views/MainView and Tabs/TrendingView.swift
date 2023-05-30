@@ -32,9 +32,7 @@ struct TrendingView: View {
     // MARK: - UI
     
     var body: some View {
-        RefreshableScrollView { done in
-            viewModel.refreshContent(done)
-        } content: {
+        ScrollView {
             LazyVStack(spacing: Constants.sectionSpacing) {
                 mainArticleSection
                 subArticlesSection
@@ -59,6 +57,11 @@ struct TrendingView: View {
                 }
             }
         }
+        .refreshable {
+            Task {
+                await viewModel.refreshContent()
+            }
+        }
     }
     
     // MARK: - Sections
@@ -69,6 +72,7 @@ struct TrendingView: View {
             case .none:
                 SkeletonView()
                     .frame(width: UIScreen.main.bounds.width, height: Constants.mainArticleSkeletonHeight)
+                    .shimmer(.largeShimmer())
             case .some(let article):
                 NavigationLink {
                     BrowserView(initType: .readyForDisplay(article), navigationSource: .trendingArticles)

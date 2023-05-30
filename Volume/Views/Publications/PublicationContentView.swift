@@ -50,6 +50,7 @@ struct PublicationContentView: View {
                     magazineContent
                 case .flyers:
                     SkeletonView()
+                        .shimmer(.smallShimmer())
                 }
             }
         }
@@ -118,6 +119,7 @@ struct PublicationContentView: View {
                 }
             }
         }
+        .padding(.horizontal, 16)
     }
 
     // MARK: Helpers

@@ -116,6 +116,7 @@ extension MorePublicationRow {
                     .frame(width: 24, height: 24)
                     .cornerRadius(8)
             }.padding([.leading, .trailing])
+            .shimmer(.smallShimmer())
         }
     }
 }

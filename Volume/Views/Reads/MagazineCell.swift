@@ -1,5 +1,5 @@
 //
-//  FollowingMagazineCell.swift
+//  MagazineCell.swift
 //  Volume
 //
 //  Created by Justin Ngai on 6/3/2022.
@@ -17,8 +17,7 @@ struct MagazineCell: View {
     let magazine: Magazine
 
     private struct Constants {
-        static let pdfviewWidth: CGFloat = 150
-        static let pdfviewHeight: CGFloat = 220
+        static let imageSize: CGSize = CGSize(width: 150, height: 220)
         static let pdfviewOpacity: CGFloat = 0.2
         static let pdfviewRadius: CGFloat = 8
         static let pdfviewX: CGFloat = 4
@@ -37,9 +36,15 @@ struct MagazineCell: View {
     var body: some View {
         VStack(alignment: .leading) {
             Group {
-                PDFKitView(pdfView: PDFViewUnselectable(), pdfDoc: magazine.pdfDoc ?? PDFDocument(), isCover: true)
+                if let url = magazine.imageUrl {
+                    WebImage(url: url)
+                        .resizable()
+                        .grayBackground()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
+                        .clipped()
+                }
             }
-            .frame(width: Constants.pdfviewWidth, height: Constants.pdfviewHeight)
             .scaledToFill()
             .shadow(color: Color.black.opacity(Constants.pdfviewOpacity), radius: Constants.pdfviewRadius, x: Constants.pdfviewX, y: Constants.pdfviewY)
             .disabled(true)
@@ -74,7 +79,7 @@ extension MagazineCell {
         var body: some View {
             VStack(alignment: .leading) {
                 SkeletonView()
-                    .frame(width: Constants.pdfviewWidth, height: Constants.pdfviewHeight)
+                    .frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
 
                 Spacer()
                     .frame(height: Constants.pdfPubPadding)
@@ -102,6 +107,7 @@ extension MagazineCell {
                 }
             }
             .frame(width: Constants.cellWidth, height: Constants.cellHeight)
+            .shimmer(.largeShimmer())
         }
     }
 }

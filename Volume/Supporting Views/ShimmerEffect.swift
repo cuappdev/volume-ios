@@ -46,6 +46,7 @@ struct ShimmerEffect: ViewModifier {
                                                 .white.opacity(0)
                                             ], startPoint: .top, endPoint: .bottom)
                                         )
+                                        .frame(width: 100)
                                         .blur(radius: config.blur)
                                         .rotationEffect(.init(degrees: config.degrees))
                                         .offset(x: size.width * moveTo)
@@ -69,11 +70,45 @@ struct ShimmerEffect: ViewModifier {
 struct ShimmerConfig {
 
     // MARK: - Design Constants
-    var tint: Color
+    
+    var tint: Color = Color.gray.opacity(0.3)
     var highlight: Color
     var blur: CGFloat
     var highlightOpacity: CGFloat = 1
     var speed: CGFloat = 1
     var degrees: CGFloat = -70
 
+}
+
+extension ShimmerConfig {
+    
+    // MARK: - Shimmer Presets
+    
+    static func smallShimmer() -> ShimmerConfig {
+        return ShimmerConfig(
+            highlight: Color.white,
+            blur: 30,
+            speed: 1.5,
+            degrees: -70
+        )
+    }
+    
+    static func mediumShimmer() -> ShimmerConfig {
+        return ShimmerConfig(
+            highlight: Color.white,
+            blur: 33,
+            speed: 1.5,
+            degrees: -70
+        )
+    }
+    
+    static func largeShimmer() -> ShimmerConfig {
+        return ShimmerConfig(
+            highlight: Color.white.opacity(0.85),
+            blur: 35,
+            speed: 1.3,
+            degrees: 15
+        )
+    }
+    
 }

@@ -24,19 +24,31 @@ struct MagazinesView: View {
         static let magazineVerticalSpacing: CGFloat = 30
         static let searchTop: CGFloat = 5
         static let sidePadding: CGFloat = 16
+        
+        static var backgroundColor: Color {
+            // Prevent inconsistency w/ List background in lower iOS versions
+            if #available(iOS 16.0, *) {
+                return Color.volume.backgroundGray
+            } else {
+                return Color.white
+            }
+        }
     }
     
     // MARK: - UI
     
     var body: some View {
-        RefreshableScrollView { done in
-            viewModel.refreshContent(done)
-        } content: {
-            VStack {
+        ScrollView {
+            LazyVStack(spacing: Constants.groupTopPadding * 2, pinnedViews: [.sectionHeaders]) {
                 searchBar
-                featuredMagazinesSection
+                
+                if viewModel.featuredMagazines != nil && viewModel.featuredMagazines?.count != 0 {
+                    featuredMagazinesSection
+                }
+                
                 Spacer()
                     .frame(height: Constants.groupTopPadding)
+                
                 moreMagazinesSection
             }
         }
@@ -48,27 +60,31 @@ struct MagazinesView: View {
                 await viewModel.fetchContent()
             }
         }
+        .refreshable {
+            Task {
+                await viewModel.refreshContent()
+            }
+        }
     }
     
     private var searchBar: some View {
-        NavigationLink(destination: SearchView(), label: {
+        NavigationLink {
+            SearchView()
+        } label: {
             SearchBar(searchState: $viewModel.searchState, searchText: $viewModel.searchText)
                 .disabled(true)
                 .padding(.init(top: Constants.searchTop, leading: Constants.sidePadding, bottom: 0, trailing: Constants.sidePadding))
-        })
+        }
     }
     
     private var featuredMagazinesSection: some View {
-        Group {
-            Header("Featured")
-                .padding([.top, .horizontal])
-            
+        Section {
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: Constants.magazineHorizontalSpacing) {
                     switch viewModel.featuredMagazines {
                     case .none:
                         ForEach(0..<3) { _ in
-                             MagazineCell.Skeleton()
+                            MagazineCell.Skeleton()
                         }
                     case .some(let magazines):
                         ForEach(magazines) { magazine in
@@ -83,17 +99,20 @@ struct MagazinesView: View {
             }
             .padding(.horizontal)
             .environment(\EnvironmentValues.refresh as! WritableKeyPath<EnvironmentValues, RefreshAction?>, nil)
+        } header: {
+            Header("Featured")
+                .padding(.vertical, Constants.groupTopPadding)
+                .background(Constants.backgroundColor)
         }
+        .padding(.horizontal, Constants.sidePadding)
     }
     
     private var moreMagazinesSection: some View {
-        Group {
-            moreMagazinesHeader
-            
+        Section {
             LazyVGrid(columns: Constants.gridColumns, spacing: Constants.magazineVerticalSpacing) {
                 switch viewModel.moreMagazines {
                 case .none:
-                    ForEach(0..<2) { _ in
+                    ForEach(0..<4) { _ in
                         MagazineCell.Skeleton()
                     }
                 case .some(let magazines):
@@ -116,8 +135,10 @@ struct MagazinesView: View {
                 }
             }
             .padding(.bottom)
+        } header: {
+            moreMagazinesHeader
         }
-        .padding(.top)
+        .padding(.horizontal, Constants.sidePadding)
         .onChange(of: viewModel.selectedSemester) { _ in
             viewModel.fetchMoreMagazinesSection()
         }
@@ -126,23 +147,19 @@ struct MagazinesView: View {
     private var moreMagazinesHeader: some View {
         HStack(alignment: .center) {
             Header("More magazines")
-                .padding([.top, .horizontal])
 
-            Group {
-                if let options = viewModel.allSemesters {
-                    SemesterMenuView(
-                        selection: $viewModel.selectedSemester,
-                        options: options
-                    )
-                } else {
-                    SemesterMenuView.Skeleton()
-                }
+            if let options = viewModel.allSemesters {
+                SemesterMenuView(
+                    selection: $viewModel.selectedSemester,
+                    options: options
+                )
+            } else {
+                SemesterMenuView.Skeleton()
             }
-            .padding(.trailing, Constants.sidePadding)
-            .padding(.top)
         }
+        .padding(.vertical, Constants.groupTopPadding)
+        .background(Constants.backgroundColor)
     }
-    
 }
 
 //struct MagazinesList_Previews: PreviewProvider {

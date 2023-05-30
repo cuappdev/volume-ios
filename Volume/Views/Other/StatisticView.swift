@@ -56,6 +56,7 @@ extension StatisticView {
                 })
                 Spacer()
             }
+            .shimmer(.smallShimmer())
         }
     }
 }

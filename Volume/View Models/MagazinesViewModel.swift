@@ -56,7 +56,7 @@ extension MagazinesView {
             }
         }
         
-        func refreshContent(_ done: @escaping () -> Void = { } ) {
+        func refreshContent() async {
             Network.shared.clearCache()
             queryBag.removeAll()
 
@@ -66,12 +66,12 @@ extension MagazinesView {
 
             Task {
                 await fetchContent()
-                done()
             }
         }
         
         func fetchMoreMagazinesSection() {
             moreMagazines = nil
+            hasMoreMagazines = true
             
             if selectedSemester == Constants.allSemestersIdentifier {
                 fetchAllSemestersMagazines()

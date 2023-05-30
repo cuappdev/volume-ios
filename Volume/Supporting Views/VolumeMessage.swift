@@ -9,6 +9,7 @@
 import SwiftUI
 
 enum Message {
+    
     case noBookmarkedArticles
     case noBookmarkedFlyers
     case noBookmarkedMagazines
@@ -63,9 +64,11 @@ enum Message {
             return "If you want to see your organization’s events on Volume, email us at volumeappdev@gmail.com."
         }
     }
+    
 }
 
 struct VolumeMessage: View {
+    
     @State var image: Image = Image.volume.feed
     @State var message: Message
     @State var largeFont : Bool
@@ -94,4 +97,5 @@ struct VolumeMessage: View {
             Spacer()
         }
     }
+    
 }

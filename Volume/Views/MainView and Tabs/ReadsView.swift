@@ -104,6 +104,7 @@ struct ReadsView: View {
                 MagazinesView()
             case .flyers:
                 SkeletonView()
+                    .shimmer(.smallShimmer())
             }
         }
     }

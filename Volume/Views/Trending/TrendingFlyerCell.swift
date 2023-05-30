@@ -202,6 +202,7 @@ extension TrendingFlyerCell {
                 SkeletonView()
                     .frame(width: 120, height: 15)
             }
+            .shimmer(.largeShimmer())
         }
     }
     
