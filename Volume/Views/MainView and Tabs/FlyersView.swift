@@ -59,6 +59,7 @@ struct FlyersView: View {
     private var listContent: some View {
         List {
             Group {
+                searchBar
                 todaySection
                 thisWeekSection
                 upcomingSection
@@ -103,7 +104,8 @@ struct FlyersView: View {
                                     cellSize: Constants.dailyCellSize,
                                     flyer: flyer,
                                     imageSize: Constants.dailyImageSize,
-                                    urlImageModel: URLImageModel(urlString: urlString)
+                                    urlImageModel: URLImageModel(urlString: urlString),
+                                    viewModel: viewModel
                                 )
                             }
                         }
@@ -143,7 +145,8 @@ struct FlyersView: View {
                                     cellSize: Constants.weeklyCellSize,
                                     flyer: flyer,
                                     imageSize: Constants.weeklyImageSize,
-                                    urlImageModel: URLImageModel(urlString: urlString)
+                                    urlImageModel: URLImageModel(urlString: urlString),
+                                    viewModel: viewModel
                                 )
                             }
                         }
@@ -180,7 +183,8 @@ struct FlyersView: View {
                             if let urlString = flyer.imageUrl?.absoluteString {
                                 FlyerCellUpcoming(
                                     flyer: flyer,
-                                    urlImageModel: URLImageModel(urlString: urlString)
+                                    urlImageModel: URLImageModel(urlString: urlString),
+                                    viewModel: viewModel
                                 )
                             }
                         }
@@ -242,7 +246,8 @@ struct FlyersView: View {
                         if let urlString = flyer.imageUrl?.absoluteString {
                             FlyerCellPast(
                                 flyer: flyer,
-                                urlImageModel: URLImageModel(urlString: urlString)
+                                urlImageModel: URLImageModel(urlString: urlString),
+                                viewModel: viewModel
                             )
                         }
                     }
@@ -270,6 +275,16 @@ struct FlyersView: View {
             .padding(.top, 40)
             .padding(.bottom, 80)
         }
+    }
+    
+    private var searchBar: some View {
+        SearchBar(searchState: $viewModel.searchState, searchText: $viewModel.searchText)
+            .disabled(true)
+            .overlay(NavigationLink(destination: SearchView(), label: {
+                EmptyView()
+            }).opacity(0))
+            .padding(.horizontal, Constants.listHorizontalPadding)
+            .padding(.top, 5)
     }
     
     // MARK: - Supporting Views

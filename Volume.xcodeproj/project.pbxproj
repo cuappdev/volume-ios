@@ -58,6 +58,7 @@
 		2EA7DB7929DC0EE5001D7B8A /* URLImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7DB7829DC0EE5001D7B8A /* URLImageModel.swift */; };
 		2EB5568829B9485700794423 /* MagsScrollbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB5568729B9485700794423 /* MagsScrollbarView.swift */; };
 		2EB5568C29B94A5600794423 /* PageIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB5568B29B94A5600794423 /* PageIndicatorView.swift */; };
+		2EE8411F2A2EA0DE00691BB7 /* FlyersSupporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE8411E2A2EA0DE00691BB7 /* FlyersSupporting.swift */; };
 		2EF894B42A1E9DCF001DD2A1 /* FlyerQueries.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 2EF894B32A1E9DCF001DD2A1 /* FlyerQueries.graphql */; };
 		2EF894B62A1E9E43001DD2A1 /* OrganizationQueries.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 2EF894B52A1E9E43001DD2A1 /* OrganizationQueries.graphql */; };
 		2EF894B82A1EE7ED001DD2A1 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF894B72A1EE7ED001DD2A1 /* Calendar+Extension.swift */; };
@@ -185,6 +186,7 @@
 		2EA7DB7829DC0EE5001D7B8A /* URLImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImageModel.swift; sourceTree = "<group>"; };
 		2EB5568729B9485700794423 /* MagsScrollbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagsScrollbarView.swift; sourceTree = "<group>"; };
 		2EB5568B29B94A5600794423 /* PageIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicatorView.swift; sourceTree = "<group>"; };
+		2EE8411E2A2EA0DE00691BB7 /* FlyersSupporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyersSupporting.swift; sourceTree = "<group>"; };
 		2EF894B32A1E9DCF001DD2A1 /* FlyerQueries.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FlyerQueries.graphql; sourceTree = "<group>"; };
 		2EF894B52A1E9E43001DD2A1 /* OrganizationQueries.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OrganizationQueries.graphql; sourceTree = "<group>"; };
 		2EF894B72A1EE7ED001DD2A1 /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
@@ -421,6 +423,7 @@
 				2E6A7D7629DAC784002F5250 /* FlyerCellPast.swift */,
 				2E6A7D7229DAB5BC002F5250 /* FlyerCellThisWeek.swift */,
 				2E6A7D7429DABB23002F5250 /* FlyerCellUpcoming.swift */,
+				2EE8411E2A2EA0DE00691BB7 /* FlyersSupporting.swift */,
 			);
 			path = Flyers;
 			sourceTree = "<group>";
@@ -848,6 +851,7 @@
 				502E3EA32757D3C6005DA441 /* WeeklyDebriefView.swift in Sources */,
 				7ED7C33B252D117A0078B1BD /* ContentView.swift in Sources */,
 				06EC2D24259CED0500FE0A71 /* PublicationDetailHeader.swift in Sources */,
+				2EE8411F2A2EA0DE00691BB7 /* FlyersSupporting.swift in Sources */,
 				2E6A7D6629DA46E6002F5250 /* ReadsViewModel.swift in Sources */,
 				2EB5568829B9485700794423 /* MagsScrollbarView.swift in Sources */,
 				95A79FB42622255D00CADF88 /* TabContainer.swift in Sources */,

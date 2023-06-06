@@ -21,8 +21,8 @@ struct Flyer: Hashable, Identifiable {
     let nsfw: Bool
     let organizations: [Organization]
     let organizationSlugs: [String]
-    let shoutouts: Int
     let startDate: Date
+    let timesClicked: Int
     let title: String
     let trendiness: Int
     
@@ -36,8 +36,8 @@ struct Flyer: Hashable, Identifiable {
         self.nsfw = flyer.nsfw
         self.organizations = flyer.organizations.map { Organization(from: $0.fragments.organizationFields) }
         self.organizationSlugs = flyer.organizationSlugs
-        self.shoutouts = Int(flyer.shoutouts)
         self.startDate = Date.from(iso8601: flyer.startDate)
+        self.timesClicked = Int(flyer.timesClicked)
         self.title = flyer.title
         self.trendiness = Int(flyer.trendiness)
     }

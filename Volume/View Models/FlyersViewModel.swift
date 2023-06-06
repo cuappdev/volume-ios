@@ -20,6 +20,8 @@ extension FlyersView {
         @Published var hasMorePast: Bool = true
         @Published var hasMoreUpcoming: Bool = true
         @Published var pastFlyers: [Flyer]? = nil
+        @Published var searchState: SearchView.SearchState = .searching
+        @Published var searchText: String = ""
         @Published var selectedCategory: OrganizationType? = .all
         @Published var thisWeekFlyers: [Flyer]? = nil
         @Published var upcomingFlyers: [Flyer]? = nil
@@ -41,7 +43,7 @@ extension FlyersView {
         // MARK: - Logic Constants
         
         private struct Constants {
-            // TODO: Replace values if necessary
+            // TODO: Replace values once pagination is implemented
             static let thisWeekFlyersLimit: Double = 7
             static let upcomingFlyersLimit: Double = 6
             static let pastFlyersLimit: Double = 20
@@ -86,6 +88,17 @@ extension FlyersView {
                     }
                     self?.upcomingFlyers = self?.sortFlyersByDateAsc(for: upcoming)
                 }
+                .store(in: &queryBag)
+        }
+        
+        func readFlyer(_ flyer: Flyer) async {
+            guard let uuid = userData?.uuid else { return }
+            
+            Network.shared.publisher(for: IncrementTimesClickedMutation(id: flyer.id, uuid: uuid))
+                .sink { [weak self] completion in
+                    self?.networkState?.handleCompletion(screen: .flyers, completion)
+                    print("Marked flyer \(flyer.id) read")
+                } receiveValue: { _ in }
                 .store(in: &queryBag)
         }
         
@@ -151,7 +164,7 @@ extension FlyersView {
         // MARK: - Deeplink
         
         func handleURL(_ url: URL) {
-            // TODO: Handle deeplink logic
+            // TODO: Handle deeplink logic if needed
         }
         
         // MARK: - Helpers

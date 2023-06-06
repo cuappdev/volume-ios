@@ -17,11 +17,12 @@ struct TrendingFlyerCell: View {
     @State private var bookmarkRequestInProgress: Bool = false
     @StateObject var urlImageModel: URLImageModel
     @EnvironmentObject private var userData: UserData
+    @ObservedObject var viewModel: TrendingView.ViewModel
     
     // MARK: - Constants
     
     private struct Constants {
-        static let buttonSize: CGFloat = 24
+        static let buttonSize: CGSize = CGSize(width: 24, height: 24)
         static let categoryCornerRadius: CGFloat = 8
         static let categoryFont: Font = .helveticaRegular(size: 10)
         static let categoryHorizontalPadding: CGFloat = 16
@@ -55,6 +56,13 @@ struct TrendingFlyerCell: View {
             }
         }
         .buttonStyle(EmptyButtonStyle())
+        .simultaneousGesture(
+            TapGesture().onEnded {
+                Task {
+                    await viewModel.readFlyer(flyer)
+                }
+            }
+        )
     }
     
     private var cellNoLinkView: some View {
@@ -69,7 +77,6 @@ struct TrendingFlyerCell: View {
     
     private var imageFrame: some View {
         ZStack(alignment: .topLeading) {
-            // TODO: Remove temporary image holder
             if let flyerImage = urlImageModel.image {
                 ZStack(alignment: .center) {
                     Color(uiColor: flyerImage.averageColor ?? .gray)
@@ -104,45 +111,6 @@ struct TrendingFlyerCell: View {
         .frame(height: Constants.imageHeight)
     }
     
-    private var bookmarkButton: some View {
-        Button {
-            Haptics.shared.play(.light)
-            toggleSaved(for: flyer)
-        } label: {
-            if userData.isFlyerSaved(flyer) {
-                Image.volume.bookmarkFilled
-                    .resizable()
-                    .scaledToFit()
-                    .foregroundColor(.volume.orange)
-                    .frame(width: Constants.buttonSize, height: Constants.buttonSize)
-            } else {
-                Image.volume.bookmark
-                    .resizable()
-                    .scaledToFit()
-                    .foregroundColor(.volume.orange)
-                    .frame(width: Constants.buttonSize, height: Constants.buttonSize)
-            }
-        }
-        .onTapGesture {
-            withAnimation(.easeInOut) {
-                Haptics.shared.play(.light)
-                toggleSaved(for: flyer)
-            }
-        }
-    }
-
-    private var shareButton: some View {
-        Button {
-            Haptics.shared.play(.light)
-            FlyersView.ViewModel.displayShareScreen(for: flyer)
-        } label: {
-            Image.volume.share
-                .resizable()
-                .foregroundColor(.black)
-                .frame(width: Constants.buttonSize, height: Constants.buttonSize)
-        }
-    }
-    
     private var organizationName: some View {
         HStack(alignment: .center) {
             if flyer.organizations.count > 1 {
@@ -161,8 +129,8 @@ struct TrendingFlyerCell: View {
             
             Spacer()
             
-            bookmarkButton
-            shareButton
+            FlyersBookmark(buttonSize: Constants.buttonSize, flyer: flyer, isPast: false)
+            FlyersShare(buttonSize: Constants.buttonSize, flyer: flyer, isPast: false)
         }
         .padding(.top, Constants.spacing)
         .padding(.bottom, -Constants.spacing)
@@ -198,13 +166,6 @@ struct TrendingFlyerCell: View {
                 .font(Constants.locationFont)
                 .lineLimit(1)
         }
-    }
-    
-    // MARK: - Bookmarking Logic
-    
-    private func toggleSaved(for flyer: Flyer) {
-        bookmarkRequestInProgress = true
-        userData.toggleFlyerSaved(flyer, $bookmarkRequestInProgress)
     }
     
 }

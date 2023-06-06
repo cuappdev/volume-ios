@@ -116,6 +116,18 @@ extension BookmarksView {
                 }
                 .store(in: &queryBag)
         }
+        
+        func readFlyer(_ flyer: Flyer) async {
+            guard let uuid = userData?.uuid else { return }
+            
+            Network.shared.publisher(for: IncrementTimesClickedMutation(id: flyer.id, uuid: uuid))
+                .sink { [weak self] completion in
+                    self?.networkState?.handleCompletion(screen: .flyers, completion)
+                    print("Marked flyer \(flyer.id) read")
+                } receiveValue: { _ in }
+                .store(in: &queryBag)
+        }
+        
     }
     
 }

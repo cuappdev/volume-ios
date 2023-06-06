@@ -20,6 +20,7 @@ struct FlyerCellThisWeek: View {
     @State private var bookmarkRequestInProgress: Bool = false
     @StateObject var urlImageModel: URLImageModel
     @EnvironmentObject private var userData: UserData
+    @ObservedObject var viewModel: FlyersView.ViewModel
     
     // MARK: - Constants
     
@@ -57,6 +58,13 @@ struct FlyerCellThisWeek: View {
             .frame(width: cellSize.width, height: cellSize.height)
         }
         .buttonStyle(EmptyButtonStyle())
+        .simultaneousGesture(
+            TapGesture().onEnded {
+                Task {
+                    await viewModel.readFlyer(flyer)
+                }
+            }
+        )
     }
     
     private var cellNoLinkView: some View {
@@ -105,45 +113,6 @@ struct FlyerCellThisWeek: View {
         .frame(width: imageSize.width, height: imageSize.height)
     }
     
-    private var bookmarkButton: some View {
-        Button {
-            Haptics.shared.play(.light)
-            toggleSaved(for: flyer)
-        } label: {
-            if userData.isFlyerSaved(flyer) {
-                Image.volume.bookmarkFilled
-                    .resizable()
-                    .scaledToFit()
-                    .foregroundColor(.volume.orange)
-                    .frame(width: buttonSize.width, height: buttonSize.height)
-            } else {
-                Image.volume.bookmark
-                    .resizable()
-                    .scaledToFit()
-                    .foregroundColor(.volume.orange)
-                    .frame(width: buttonSize.width, height: buttonSize.height)
-            }
-        }
-        .onTapGesture {
-            withAnimation(.easeInOut) {
-                Haptics.shared.play(.light)
-                toggleSaved(for: flyer)
-            }
-        }
-    }
-
-    private var shareButton: some View {
-        Button {
-            Haptics.shared.play(.light)
-            FlyersView.ViewModel.displayShareScreen(for: flyer)
-        } label: {
-            Image.volume.share
-                .resizable()
-                .foregroundColor(.black)
-                .frame(width: buttonSize.width, height: buttonSize.height)
-        }
-    }
-    
     private var organizationName: some View {
         HStack(alignment: .top) {
             if flyer.organizations.count > 1 {
@@ -162,8 +131,8 @@ struct FlyerCellThisWeek: View {
             
             Spacer()
             
-            bookmarkButton
-            shareButton
+            FlyersBookmark(buttonSize: buttonSize, flyer: flyer, isPast: false)
+            FlyersShare(buttonSize: buttonSize, flyer: flyer, isPast: false)
         }
         .padding(.top, Constants.spacing)
         .padding(.bottom, -Constants.spacing)
@@ -200,13 +169,6 @@ struct FlyerCellThisWeek: View {
                 .font(Constants.locationFont)
                 .lineLimit(1)
         }
-    }
-    
-    // MARK: - Bookmarking Logic
-    
-    private func toggleSaved(for flyer: Flyer) {
-        bookmarkRequestInProgress = true
-        userData.toggleFlyerSaved(flyer, $bookmarkRequestInProgress)
     }
     
 }

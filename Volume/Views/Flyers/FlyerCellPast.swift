@@ -14,14 +14,14 @@ struct FlyerCellPast: View {
     
     let flyer: Flyer
     
-    @State private var bookmarkRequestInProgress: Bool = false
     @StateObject var urlImageModel: URLImageModel
     @EnvironmentObject private var userData: UserData
+    @ObservedObject var viewModel: FlyersView.ViewModel
     
     // MARK: - Constants
     
     private struct Constants {
-        static let buttonSize: CGFloat = 18
+        static let buttonSize: CGSize = CGSize(width: 18, height: 18)
         static let categoryCornerRadius: CGFloat = 8
         static let categoryFont: Font = .helveticaRegular(size: 10)
         static let categoryHorizontalPadding: CGFloat = 16
@@ -63,6 +63,13 @@ struct FlyerCellPast: View {
             .padding(.bottom, Constants.cellSpacing)
         }
         .buttonStyle(EmptyButtonStyle())
+        .simultaneousGesture(
+            TapGesture().onEnded {
+                Task {
+                    await viewModel.readFlyer(flyer)
+                }
+            }
+        )
     }
     
     private var cellNoLinkView: some View {
@@ -96,46 +103,6 @@ struct FlyerCellPast: View {
         .frame(width: Constants.imageWidth, height: Constants.imageHeight)
     }
     
-    @ViewBuilder
-    private var bookmarkButton: some View {
-        if userData.isFlyerSaved(flyer) {
-            Image.volume.bookmarkFilled
-                .resizable()
-                .scaledToFit()
-                .foregroundColor(.volume.orange)
-                .frame(width: Constants.buttonSize, height: Constants.buttonSize)
-                .onTapGesture {
-                    withAnimation {
-                        Haptics.shared.play(.light)
-                        toggleSaved(for: flyer)
-                    }
-                }
-        } else {
-            Image.volume.bookmark
-                .resizable()
-                .scaledToFit()
-                .foregroundColor(.volume.orange)
-                .frame(width: Constants.buttonSize, height: Constants.buttonSize)
-                .onTapGesture {
-                    withAnimation {
-                        Haptics.shared.play(.light)
-                        toggleSaved(for: flyer)
-                    }
-                }
-        }
-    }
-
-    private var shareButton: some View {
-        Image.volume.share
-            .resizable()
-            .foregroundColor(.black)
-            .frame(width: Constants.buttonSize, height: Constants.buttonSize)
-            .onTapGesture {
-                Haptics.shared.play(.light)
-                FlyersView.ViewModel.displayShareScreen(for: flyer)
-            }
-    }
-    
     private var organizationName: some View {
         HStack(alignment: .top) {
             if flyer.organizations.count > 1 {
@@ -154,8 +121,8 @@ struct FlyerCellPast: View {
             
             Spacer()
             
-            bookmarkButton
-            shareButton
+            FlyersBookmark(buttonSize: Constants.buttonSize, flyer: flyer, isPast: true)
+            FlyersShare(buttonSize: Constants.buttonSize, flyer: flyer, isPast: true)
         }
         .padding(.bottom, -Constants.verticalSpacing)
     }
@@ -214,13 +181,6 @@ struct FlyerCellPast: View {
                     .stroke(Color.volume.orange, lineWidth: 1)
             )
         }
-    }
-    
-    // MARK: - Bookmarking Logic
-    
-    private func toggleSaved(for flyer: Flyer) {
-        bookmarkRequestInProgress = true
-        userData.toggleFlyerSaved(flyer, $bookmarkRequestInProgress)
     }
     
 }

@@ -9,3 +9,9 @@ query SearchMagazines($query: String!) {
     ...magazineFields
   }
 }
+
+query SearchFlyers($query: String!) {
+  flyer: searchFlyers(query: $query) {
+    ...flyerFields
+  }
+}

@@ -121,7 +121,8 @@ struct TrendingView: View {
                         if let urlString = flyer.imageUrl?.absoluteString {
                             TrendingFlyerCell(
                                 flyer: flyer,
-                                urlImageModel: URLImageModel(urlString: urlString)
+                                urlImageModel: URLImageModel(urlString: urlString),
+                                viewModel: viewModel
                             )
                         }
                     }

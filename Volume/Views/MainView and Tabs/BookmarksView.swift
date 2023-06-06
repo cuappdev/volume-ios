@@ -108,7 +108,8 @@ struct BookmarksView: View {
                         if let urlString = flyer.imageUrl?.absoluteString {
                             FlyerCellPast(
                                 flyer: flyer,
-                                urlImageModel: URLImageModel(urlString: urlString)
+                                urlImageModel: URLImageModel(urlString: urlString),
+                                viewModel: FlyersView.ViewModel()
                             )
                         }
                     }

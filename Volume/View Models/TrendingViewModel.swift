@@ -36,9 +36,8 @@ extension TrendingView {
         // MARK: - Logic Constants
         
         private struct Constants {
-            // TODO: May need to change depending on backend queries
             static let flyersLimit: Double = 2
-            static let mainArticleLimit: Double = 1
+            static let mainArticleLimit: Double = 10
             static let magazinesLimit: Double = 4
             static let subArticlesLimit: Double = 3
         }
@@ -76,7 +75,7 @@ extension TrendingView {
         }
         
         func fetchMagazines() async {
-            // TODO: Change query once backend implements trending
+            // TODO: Change query once backend implements trending magazines
             Network.shared.publisher(
                 for: GetAllMagazinesQuery(
                     limit: Constants.magazinesLimit,
@@ -93,6 +92,17 @@ extension TrendingView {
                 .store(in: &queryBag)
         }
         
+        func readFlyer(_ flyer: Flyer) async {
+            guard let uuid = userData?.uuid else { return }
+            
+            Network.shared.publisher(for: IncrementTimesClickedMutation(id: flyer.id, uuid: uuid))
+                .sink { [weak self] completion in
+                    self?.networkState?.handleCompletion(screen: .flyers, completion)
+                    print("Marked flyer \(flyer.id) read")
+                } receiveValue: { _ in }
+                .store(in: &queryBag)
+        }
+        
         // MARK: - Private Requests
         
         private func fetchMainArticle() {
@@ -102,7 +112,7 @@ extension TrendingView {
                     self?.networkState?.handleCompletion(screen: .trending, completion)
                 } receiveValue: { [weak self] articleFields in
                     let articles = [Article] (articleFields)
-                    if let article = articles.first {
+                    if let article = articles.randomElement() {
                         self?.mainArticle = article
                     }
                 }
@@ -128,7 +138,6 @@ extension TrendingView {
         }
         
         private func fetchSubArticles() {
-            // TODO: Change query once backend implements trending
             Network.shared.publisher(
                 for: GetTrendingArticlesQuery(
                     limit: Constants.subArticlesLimit

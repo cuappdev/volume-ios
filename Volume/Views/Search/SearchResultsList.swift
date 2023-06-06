@@ -10,11 +10,13 @@ import Combine
 import SwiftUI
 
 struct SearchResultsList: View {
-    @EnvironmentObject private var networkState: NetworkState
-    @State private var sectionQueries: SectionQueries = (nil, nil)
-    @State private var sectionStates: SectionStates = (.loading, .loading)
-    @State private var selectedTab: FilterContentType = .articles
+    
     let searchText: String
+    
+    @EnvironmentObject private var networkState: NetworkState
+    @State private var sectionQueries: SectionQueries = (nil, nil, nil)
+    @State private var sectionStates: SectionStates = (.loading, .loading, .loading)
+    @State private var selectedTab: FilterContentType = .articles
 
     private struct Constants {
         static let animationDuration: CGFloat = 0.1
@@ -43,14 +45,26 @@ struct SearchResultsList: View {
             return searchedMagazines.count > 0
         }
     }
+    
+    private var hasFlyerSearchResults: Bool {
+        switch sectionStates.flyers {
+        case .loading, .reloading:
+            return true
+        case .results(let searchFlyers):
+            return searchFlyers.count > 0
+        }
+    }
 
     // MARK: - Network Requests
 
     private func fetchContent(_ done: @escaping () -> Void = { }) {
         guard sectionStates.articles.isLoading else { return }
+        guard sectionStates.magazines.isLoading else { return }
+        guard sectionStates.flyers.isLoading else { return }
 
         fetchSearchedArticles(done)
         fetchSearchedMagazines(done)
+        fetchSearchedFlyers(done)
     }
 
     private func fetchSearchedArticles(_ done: @escaping () -> Void = { }) {
@@ -86,12 +100,28 @@ struct SearchResultsList: View {
                 }
             }
     }
+    
+    private func fetchSearchedFlyers(_ done: @escaping () -> Void = { }) {
+        sectionQueries.articles = Network.shared.publisher(for: SearchFlyersQuery(query: searchText))
+            .compactMap {
+                $0.flyer.map(\.fragments.flyerFields)
+            }
+            .sink { completion in
+                networkState.handleCompletion(screen: .search, completion)
+            } receiveValue: { flyerFields in
+                let searchedFlyers = [Flyer](flyerFields)
+                withAnimation(.linear(duration: Constants.animationDuration)) {
+                    sectionStates.flyers = .results(searchedFlyers)
+                }
+                done()
+            }
+    }
 
     // MARK: - UI
 
     var body: some View {
         VStack {
-            ContentFilterBarView(selectedTab: $selectedTab, showFlyerTab: false)
+            ContentFilterBarView(selectedTab: $selectedTab, showFlyerTab: true)
             
             ScrollView {
                 switch selectedTab {
@@ -100,8 +130,7 @@ struct SearchResultsList: View {
                 case .magazines:
                     magazineSection
                 case .flyers:
-                    // TODO: Implement flyers search section once done on the backend
-                    SkeletonView()
+                    flyerSection
                 }
             }
             .refreshable {
@@ -196,6 +225,38 @@ struct SearchResultsList: View {
             }
         }
     }
+    
+    @ViewBuilder
+    private var flyerSection: some View {
+        if hasFlyerSearchResults {
+            flyerList
+        } else {
+            VolumeMessage(message: .noSearchResults, largeFont: true, fullWidth: true)
+                .padding(.vertical, Constants.emptyResultsMessagePadding)
+        }
+    }
+    
+    private var flyerList: some View {
+        VStack(spacing: Constants.rowVerticalPadding) {
+            switch sectionStates.flyers {
+            case .loading:
+                ForEach(0..<4) { _ in
+                    FlyerCellPast.Skeleton()
+                        .padding(.bottom, 16)
+                }
+            case .reloading(let searchedFlyers), .results(let searchedFlyers):
+                ForEach(searchedFlyers) { flyer in
+                    if let urlString = flyer.imageUrl?.absoluteString {
+                        FlyerCellPast(
+                            flyer: flyer,
+                            urlImageModel: URLImageModel(urlString: urlString),
+                            viewModel: FlyersView.ViewModel()
+                        )
+                    }
+                }
+            }
+        }
+    }
 
 }
 
@@ -203,12 +264,14 @@ extension SearchResultsList {
 
     typealias SectionStates = (
         articles: MainView.TabState<[Article]>,
-        magazines: MainView.TabState<[Magazine]>
+        magazines: MainView.TabState<[Magazine]>,
+        flyers: MainView.TabState<[Flyer]>
     )
 
     typealias SectionQueries = (
         articles: AnyCancellable?,
-        magazines: AnyCancellable?
+        magazines: AnyCancellable?,
+        flyers: AnyCancellable?
     )
 
 }

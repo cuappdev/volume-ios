@@ -10,8 +10,8 @@ fragment flyerFields on Flyer {
     ...organizationFields
   }
   organizationSlugs
-  shoutouts
   startDate
+  timesClicked
   title
   trendiness
 }
