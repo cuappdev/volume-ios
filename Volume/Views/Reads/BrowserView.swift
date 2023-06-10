@@ -118,9 +118,6 @@ struct BrowserView: View {
                                 AppDevAnalytics.log(VolumeEvent.openArticle.toEvent(.article, value: article.id, navigationSource: navigationSource))
                                 markArticleRead(id: article.id)
                             }
-                            .onDisappear {
-                                AppDevAnalytics.log(VolumeEvent.closeArticle.toEvent(.article, value: article.id, navigationSource: navigationSource))
-                            }
                     }
                 }
                 if showToolbars {

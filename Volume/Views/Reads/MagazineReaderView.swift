@@ -64,7 +64,7 @@ struct MagazineReaderView: View {
         pdfDoc = PDFDocument(url: url)
     }
 
-    private func markMagazineRead() {
+    private func markMagazineRead() async {
         guard let uuid = userData.uuid, let magazineID = magazine?.id else { return }
         cancellableReadMutation = Network.shared.publisher(
             for: ReadMagazineMutation(
@@ -190,6 +190,12 @@ struct MagazineReaderView: View {
                 case .readyForDisplay(let magazine):
                     self.magazine = magazine
 
+                    AppDevAnalytics.log(VolumeEvent.openMagazine.toEvent(.magazine, value: magazine.id, navigationSource: navigationSource))
+                    
+                    Task {
+                        await markMagazineRead()
+                    }
+
                     if let url = magazine.pdfUrl {
                         Task {
                             await fetchPDF(url: url)
@@ -197,8 +203,6 @@ struct MagazineReaderView: View {
                     }
                 }
             }
-
-            markMagazineRead()
         }
         .onReceive(NotificationCenter.default.publisher(for: Notification.Name.PDFViewPageChanged)) { _ in
             pdfView.objectWillChange.send()

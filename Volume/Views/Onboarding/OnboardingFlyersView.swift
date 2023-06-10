@@ -40,6 +40,7 @@ struct OnboardingFlyersView: View {
                         if let urlString = flyer.imageUrl?.absoluteString {
                             FlyerCellUpcoming(
                                 flyer: flyer,
+                                navigationSource: .onboarding,
                                 urlImageModel: URLImageModel(urlString: urlString),
                                 viewModel: FlyersView.ViewModel()
                             )

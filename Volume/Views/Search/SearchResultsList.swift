@@ -249,6 +249,7 @@ struct SearchResultsList: View {
                     if let urlString = flyer.imageUrl?.absoluteString {
                         FlyerCellPast(
                             flyer: flyer,
+                            navigationSource: .searchFlyers,
                             urlImageModel: URLImageModel(urlString: urlString),
                             viewModel: FlyersView.ViewModel()
                         )

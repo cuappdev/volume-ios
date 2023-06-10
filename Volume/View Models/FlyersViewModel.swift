@@ -6,6 +6,7 @@
 //  Copyright © 2023 Cornell AppDev. All rights reserved.
 //
 
+import AppDevAnalytics
 import Combine
 import SwiftUI
 
@@ -216,9 +217,7 @@ extension FlyersView {
                 linkSource = LinkItemSource(url: url, flyer: flyer)
             }
 
-            guard let linkSource else {
-                return
-            }
+            guard let linkSource else { return }
 
             let shareVC = UIActivityViewController(activityItems: [linkSource], applicationActivities: nil)
             UIApplication.shared.windows.first?.rootViewController?.present(shareVC, animated: true)

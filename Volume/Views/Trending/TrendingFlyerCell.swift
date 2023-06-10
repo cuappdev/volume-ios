@@ -129,8 +129,8 @@ struct TrendingFlyerCell: View {
             
             Spacer()
             
-            FlyersBookmark(buttonSize: Constants.buttonSize, flyer: flyer, isPast: false)
-            FlyersShare(buttonSize: Constants.buttonSize, flyer: flyer, isPast: false)
+            FlyersBookmark(buttonSize: Constants.buttonSize, flyer: flyer, isPast: false, navigationSource: .trending)
+            FlyersShare(buttonSize: Constants.buttonSize, flyer: flyer, isPast: false, navigationSource: .trending)
         }
         .padding(.top, Constants.spacing)
         .padding(.bottom, -Constants.spacing)

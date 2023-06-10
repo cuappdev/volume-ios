@@ -52,6 +52,8 @@ struct ReaderToolbarView<Content: ReadableContent>: View {
     }
 
     private func incrementShoutouts(for magazine: Magazine, uuid: String) {
+        AppDevAnalytics.log(VolumeEvent.shoutoutMagazine.toEvent(.magazine, value: magazine.id, navigationSource: navigationSource))
+        
         userData.incrementMagazineShoutoutsCounter(magazine)
         userData.magazineShoutoutsCache[magazine.id, default: 0] = numShoutouts(for: magazine as! Content) + 1
         let currentPublicationShoutouts = max(userData.shoutoutsCache[magazine.publication.slug, default: 0], magazine.publication.shoutouts)
@@ -70,13 +72,20 @@ struct ReaderToolbarView<Content: ReadableContent>: View {
         bookmarkRequestInProgress = true
 
         if let article = content as? Article {
+            if !userData.isArticleSaved(article) {
+                AppDevAnalytics.log(
+                    VolumeEvent.bookmarkArticle.toEvent(.article, value: article.id, navigationSource: navigationSource)
+                )
+            }
+            
             userData.toggleArticleSaved(article, $bookmarkRequestInProgress)
-            AppDevAnalytics.log(
-                userData.isArticleSaved(article) ?
-                VolumeEvent.bookmarkArticle.toEvent(.article, value: article.id, navigationSource: navigationSource) :
-                    VolumeEvent.unbookmarkArticle.toEvent(.article, value: article.id, navigationSource: navigationSource)
-            )
         } else if let magazine = content as? Magazine {
+            if !userData.isMagazineSaved(magazine) {
+                AppDevAnalytics.log(
+                    VolumeEvent.bookmarkMagazine.toEvent(.magazine, value: magazine.id, navigationSource: navigationSource)
+                )
+            }
+            
             userData.toggleMagazineSaved(magazine, $bookmarkRequestInProgress)
         }
     }
@@ -229,6 +238,12 @@ struct ReaderToolbarView<Content: ReadableContent>: View {
         } else if let magazine = content as? Magazine,
                   let url = URL(string: "\(Secrets.openMagazineUrl)\(magazine.id)") {
             linkSource = LinkItemSource(url: url, magazine: magazine)
+            AppDevAnalytics.log(
+                VolumeEvent.shareMagazine.toEvent(
+                    .magazine, value: magazine.id,
+                    navigationSource: navigationSource
+                )
+            )
         }
 
         guard let linkSource else {
