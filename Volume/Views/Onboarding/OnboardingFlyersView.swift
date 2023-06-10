@@ -59,7 +59,7 @@ struct OnboardingFlyersView: View {
                 ScrollFadingView(fadesDown: true)
             }
         )
-        .transition(.move(edge: .trailing))
+        .transition(.asymmetric(insertion: .opacity, removal: .move(edge: .leading)))
         .onAppear {
             Task {
                 await fetchUpcoming()
