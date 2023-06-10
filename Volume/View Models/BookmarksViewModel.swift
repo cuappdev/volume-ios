@@ -18,7 +18,7 @@ extension BookmarksView {
         @Published var articles: [Article]? = nil
         @Published var flyers: [Flyer]? = nil
         @Published var magazines: [Magazine]? = nil
-        @Published var selectedTab: FilterContentType = .flyers
+        @Published var selectedTab: FilterContentType = .articles
         @Published private var queryBag = Set<AnyCancellable>()
         
         private var networkState: NetworkState?
