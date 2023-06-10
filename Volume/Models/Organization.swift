@@ -8,14 +8,33 @@
 
 import Foundation
 
-// TODO: Reimplement once backend finishes
-
-struct Organization: Codable, Identifiable {
+struct Organization: Hashable, Identifiable {
     
     let id: String
+    let backgroundImageUrl: URL?
+    let bio: String?
+    let categorySlug: OrganizationType
     let name: String
+    let profileImageUrl: URL?
     let slug: String
-    let type: OrganizationType
+    let shoutouts: Int
+    let websiteUrl: URL?
+    
+    init(from organization: OrganizationFields) {
+        self.id = organization.id
+        self.backgroundImageUrl = URL(string: organization.backgroundImageUrl)
+        self.bio = organization.bio
+        self.categorySlug = OrganizationType(rawValue: organization.categorySlug) ?? .academic
+        self.name = organization.name
+        self.profileImageUrl = URL(string: organization.profileImageUrl)
+        self.slug = organization.slug
+        self.shoutouts = Int(organization.shoutouts)
+        self.websiteUrl = URL(string: organization.websiteUrl)
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
     
 }
 
@@ -56,4 +75,12 @@ extension Organization {
         }
     }
 
+}
+
+extension Array where Element == Organization {
+
+    init(_ organizations: [OrganizationFields]) {
+        self.init(organizations.map(Organization.init))
+    }
+    
 }

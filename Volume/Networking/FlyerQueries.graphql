@@ -1,0 +1,41 @@
+fragment flyerFields on Flyer {
+  id
+  endDate
+  flyerURL
+  imageURL
+  isTrending
+  location
+  nsfw
+  organizations {
+    ...organizationFields
+  }
+  organizationSlugs
+  startDate
+  timesClicked
+  title
+  trendiness
+}
+
+query GetFlyersAfterDate($limit: Float, $since: String!) {
+  flyers: getFlyersAfterDate(limit: $limit, since: $since) {
+    ...flyerFields
+  }
+}
+
+query GetFlyersBeforeDate($limit: Float, $before: String!) {
+  flyers: getFlyersBeforeDate(limit: $limit, before: $before) {
+    ...flyerFields
+  }
+}
+
+query GetTrendingFlyers($limit: Float) {
+  flyers: getTrendingFlyers(limit: $limit) {
+    ...flyerFields
+  }
+}
+
+query GetFlyersByIDs($ids: [String!]!) {
+  flyers: getFlyersByIDs(ids: $ids) {
+    ...flyerFields
+  }
+}

@@ -13,12 +13,15 @@ struct FlyerCellPast: View {
     // MARK: - Properties
     
     let flyer: Flyer
+    
     @StateObject var urlImageModel: URLImageModel
+    @EnvironmentObject private var userData: UserData
+    @ObservedObject var viewModel: FlyersView.ViewModel
     
     // MARK: - Constants
     
     private struct Constants {
-        static let buttonSize: CGFloat = 18
+        static let buttonSize: CGSize = CGSize(width: 18, height: 18)
         static let categoryCornerRadius: CGFloat = 8
         static let categoryFont: Font = .helveticaRegular(size: 10)
         static let categoryHorizontalPadding: CGFloat = 16
@@ -37,7 +40,7 @@ struct FlyerCellPast: View {
     // MARK: - UI
     
     var body: some View {
-        if let url = URL(string: flyer.postURL) {
+        if let url = flyer.flyerUrl {
             cellLinkView(url: url)
         } else {
             cellNoLinkView
@@ -60,6 +63,13 @@ struct FlyerCellPast: View {
             .padding(.bottom, Constants.cellSpacing)
         }
         .buttonStyle(EmptyButtonStyle())
+        .simultaneousGesture(
+            TapGesture().onEnded {
+                Task {
+                    await viewModel.readFlyer(flyer)
+                }
+            }
+        )
     }
     
     private var cellNoLinkView: some View {
@@ -93,28 +103,6 @@ struct FlyerCellPast: View {
         .frame(width: Constants.imageWidth, height: Constants.imageHeight)
     }
     
-    private var bookmarkButton: some View {
-        Image.volume.bookmark
-            .resizable()
-            .foregroundColor(.volume.orange)
-            .frame(width: Constants.buttonSize, height: Constants.buttonSize)
-            .onTapGesture {
-                Haptics.shared.play(.light)
-                // TODO: Bookmark Flyer
-            }
-    }
-
-    private var shareButton: some View {
-        Image.volume.share
-            .resizable()
-            .foregroundColor(.black)
-            .frame(width: Constants.buttonSize, height: Constants.buttonSize)
-            .onTapGesture {
-                Haptics.shared.play(.light)
-                // TODO: Share Flyer
-            }
-    }
-    
     private var organizationName: some View {
         HStack(alignment: .top) {
             if flyer.organizations.count > 1 {
@@ -124,16 +112,17 @@ struct FlyerCellPast: View {
                         .lineLimit(2)
                 }
             } else {
-                Text(flyer.organizations[0].name)
-                    .font(Constants.organizationNameFont)
-                    .lineLimit(2)
+                if let name = flyer.organizations.first?.name {
+                    Text(name)
+                        .font(Constants.organizationNameFont)
+                        .lineLimit(2)
+                }
             }
             
             Spacer()
             
-            // TODO: Uncomment below once backend finishes
-//            bookmarkButton
-//            shareButton
+            FlyersBookmark(buttonSize: Constants.buttonSize, flyer: flyer, isPast: true)
+            FlyersShare(buttonSize: Constants.buttonSize, flyer: flyer, isPast: true)
         }
         .padding(.bottom, -Constants.verticalSpacing)
     }
@@ -171,10 +160,11 @@ struct FlyerCellPast: View {
         }
     }
     
+    @ViewBuilder
     private var categoryType: some View {
-        Text(Organization.contentTypeString(
-                // TODO: May need to reimplement this once backend is finished
-                type: flyer.organizations[0].type)
+        if let categorySlug = flyer.organizations.first?.categorySlug {
+            Text(Organization.contentTypeString(
+                type: categorySlug)
             )
             .padding(.init(
                 top: Constants.categoryVerticalPadding,
@@ -190,6 +180,7 @@ struct FlyerCellPast: View {
                 RoundedRectangle(cornerRadius: Constants.categoryCornerRadius)
                     .stroke(Color.volume.orange, lineWidth: 1)
             )
+        }
     }
     
 }

@@ -29,6 +29,14 @@ class LinkItemSource: NSObject, UIActivityItemSource {
         metadata.title = magazine.title
         self.url = url
     }
+    
+    init(url: URL, flyer: Flyer) {
+        item = "flyer"
+        metadata.originalURL = url
+        metadata.url = metadata.originalURL
+        metadata.title = flyer.title
+        self.url = url
+    }
 
     // What is presented to user within the share view controller
     func activityViewControllerLinkMetadata(_ activityViewController: UIActivityViewController) -> LPLinkMetadata? {

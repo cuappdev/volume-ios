@@ -12,15 +12,19 @@ struct FlyerCellThisWeek: View {
     
     // MARK: - Properties
     
+    let buttonSize: CGSize
     let cellSize: CGSize
     let flyer: Flyer
     let imageSize: CGSize
+    
+    @State private var bookmarkRequestInProgress: Bool = false
     @StateObject var urlImageModel: URLImageModel
+    @EnvironmentObject private var userData: UserData
+    @ObservedObject var viewModel: FlyersView.ViewModel
     
     // MARK: - Constants
     
     private struct Constants {
-        static let buttonSize: CGFloat = 15
         static let categoryCornerRadius: CGFloat = 8
         static let categoryFont: Font = .helveticaRegular(size: 10)
         static let categoryHorizontalPadding: CGFloat = 16
@@ -35,7 +39,7 @@ struct FlyerCellThisWeek: View {
     // MARK: - UI
     
     var body: some View {
-        if let url = URL(string: flyer.postURL) {
+        if let url = flyer.flyerUrl {
             cellLinkView(url: url)
         } else {
             cellNoLinkView
@@ -54,6 +58,13 @@ struct FlyerCellThisWeek: View {
             .frame(width: cellSize.width, height: cellSize.height)
         }
         .buttonStyle(EmptyButtonStyle())
+        .simultaneousGesture(
+            TapGesture().onEnded {
+                Task {
+                    await viewModel.readFlyer(flyer)
+                }
+            }
+        )
     }
     
     private var cellNoLinkView: some View {
@@ -69,7 +80,6 @@ struct FlyerCellThisWeek: View {
     
     private var imageFrame: some View {
         ZStack(alignment: .topLeading) {
-            // TODO: Remove temporary image holder
             if let flyerImage = urlImageModel.image {
                 ZStack(alignment: .center) {
                     Color(uiColor: flyerImage.averageColor ?? .gray)
@@ -83,9 +93,9 @@ struct FlyerCellThisWeek: View {
                 SkeletonView()
             }
             
-            Text(Organization.contentTypeString(
-                    // TODO: May need to change this once backend implements
-                    type: flyer.organizations[0].type)
+            if let categorySlug = flyer.organizations.first?.categorySlug {
+                Text(Organization.contentTypeString(
+                    type: categorySlug)
                 )
                 .padding(.init(
                     top: Constants.categoryVerticalPadding,
@@ -98,32 +108,9 @@ struct FlyerCellThisWeek: View {
                 .background(Color.volume.orange)
                 .clipShape(RoundedRectangle(cornerRadius: Constants.categoryCornerRadius))
                 .padding([.top, .leading], 8)
+            }
         }
         .frame(width: imageSize.width, height: imageSize.height)
-    }
-    
-    private var bookmarkButton: some View {
-        Button {
-            Haptics.shared.play(.light)
-            // TODO: Bookmark Flyer
-        } label: {
-            Image.volume.bookmark
-                .resizable()
-                .foregroundColor(.volume.orange)
-                .frame(width: Constants.buttonSize, height: Constants.buttonSize)
-        }
-    }
-
-    private var shareButton: some View {
-        Button {
-            Haptics.shared.play(.light)
-            // TODO: Share Flyer
-        } label: {
-            Image.volume.share
-                .resizable()
-                .foregroundColor(.black)
-                .frame(width: Constants.buttonSize, height: Constants.buttonSize)
-        }
     }
     
     private var organizationName: some View {
@@ -135,16 +122,17 @@ struct FlyerCellThisWeek: View {
                         .lineLimit(1)
                 }
             } else {
-                Text(flyer.organizations[0].name)
-                    .font(Constants.organizationNameFont)
-                    .lineLimit(1)
+                if let name = flyer.organizations.first?.name {
+                    Text(name)
+                        .font(Constants.organizationNameFont)
+                        .lineLimit(1)
+                }
             }
             
             Spacer()
             
-            // TODO: Uncomment below once backend finishes
-//            bookmarkButton
-//            shareButton
+            FlyersBookmark(buttonSize: buttonSize, flyer: flyer, isPast: false)
+            FlyersShare(buttonSize: buttonSize, flyer: flyer, isPast: false)
         }
         .padding(.top, Constants.spacing)
         .padding(.bottom, -Constants.spacing)

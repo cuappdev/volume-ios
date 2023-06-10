@@ -23,6 +23,7 @@ struct BookmarksView: View {
         static let flyersTabWidth: CGFloat = 70
         static let magazinesTabWidth: CGFloat = 110
         static let noSavedMessageLength: CGFloat = 250
+        static let sidePadding: CGFloat = 16
         static let titleFont: Font = .newYorkMedium(size: 28)
     }
     
@@ -94,8 +95,30 @@ struct BookmarksView: View {
     // MARK: - Sections
     
     private var flyerContent: some View {
-        // TODO: Implement me
-        noSavedContentView
+        Group {
+            if viewModel.hasSavedFlyers {
+                switch viewModel.flyers {
+                case .none:
+                    ForEach(0..<4) { _ in
+                        FlyerCellPast.Skeleton()
+                            .padding(.bottom, 16)
+                    }
+                case .some(let flyers):
+                    ForEach(flyers) { flyer in
+                        if let urlString = flyer.imageUrl?.absoluteString {
+                            FlyerCellPast(
+                                flyer: flyer,
+                                urlImageModel: URLImageModel(urlString: urlString),
+                                viewModel: FlyersView.ViewModel()
+                            )
+                        }
+                    }
+                }
+            } else {
+                noSavedContentView
+            }
+        }
+        .padding(.horizontal, Constants.sidePadding)
     }
     
     private var articleContent: some View {

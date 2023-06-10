@@ -1,0 +1,11 @@
+mutation BookmarkFlyer($uuid: String!) {
+  bookmarkArticle(uuid: $uuid) {
+    id
+  }
+}
+
+mutation IncrementTimesClicked($id: String!, $uuid: String!) {
+  incrementTimesClicked(id:$id, uuid:$uuid) {
+    id
+  }
+}

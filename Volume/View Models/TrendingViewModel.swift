@@ -36,9 +36,8 @@ extension TrendingView {
         // MARK: - Logic Constants
         
         private struct Constants {
-            // TODO: May need to change depending on backend queries
             static let flyersLimit: Double = 2
-            static let mainArticleLimit: Double = 1
+            static let mainArticleLimit: Double = 10
             static let magazinesLimit: Double = 4
             static let subArticlesLimit: Double = 3
         }
@@ -65,30 +64,18 @@ extension TrendingView {
         }
         
         func fetchFlyers() async {
-            // TODO: Change query once backend implements trending
-            guard let url = URL(string: "\(Secrets.cboardEndpoint)/flyers/trending/") else { return }
-            
-            URLSession.shared.dataTaskPublisher(for: url)
-                .subscribe(on: DispatchQueue.global(qos: .background))
-                .receive(on: DispatchQueue.main)
-                .tryMap { data, response in
-                    guard let response = response as? HTTPURLResponse,
-                          response.statusCode >= 200 && response.statusCode < 300 else {
-                        throw URLError(.badServerResponse)
-                    }
-                    return data
-                }
-                .decode(type: [Flyer].self, decoder: JSONDecoder.flyersDecoder)
-                .sink { completion in
-                    print("Fetching trending flyers: \(completion)")
-                } receiveValue: { [weak self] flyers in
-                    self?.flyers = flyers
+            Network.shared.publisher(for: GetTrendingFlyersQuery(limit: 2))
+                .map { $0.flyers.map(\.fragments.flyerFields) }
+                .sink { [weak self] completion in
+                    self?.networkState?.handleCompletion(screen: .flyers, completion)
+                } receiveValue: { [weak self] flyerFields in
+                    self?.flyers = [Flyer](flyerFields)
                 }
                 .store(in: &queryBag)
         }
         
         func fetchMagazines() async {
-            // TODO: Change query once backend implements trending
+            // TODO: Change query once backend implements trending magazines
             Network.shared.publisher(
                 for: GetAllMagazinesQuery(
                     limit: Constants.magazinesLimit,
@@ -105,30 +92,52 @@ extension TrendingView {
                 .store(in: &queryBag)
         }
         
+        func readFlyer(_ flyer: Flyer) async {
+            guard let uuid = userData?.uuid else { return }
+            
+            Network.shared.publisher(for: IncrementTimesClickedMutation(id: flyer.id, uuid: uuid))
+                .sink { [weak self] completion in
+                    self?.networkState?.handleCompletion(screen: .flyers, completion)
+                    print("Marked flyer \(flyer.id) read")
+                } receiveValue: { _ in }
+                .store(in: &queryBag)
+        }
+        
         // MARK: - Private Requests
         
         private func fetchMainArticle() {
-            // TODO: Change query once backend implements trending
-            Network.shared.publisher(
-                for: GetArticlesByPublicationSlugQuery(
-                    slug: "guac",
-                    limit: Constants.mainArticleLimit,
-                    offset: Double.random(in: 0..<20)   // Just for fun :) will replace
-                ))
+            Network.shared.publisher(for: GetTrendingArticlesQuery(limit: Constants.mainArticleLimit))
                 .map { $0.articles.map(\.fragments.articleFields) }
                 .sink { [weak self] completion in
                     self?.networkState?.handleCompletion(screen: .trending, completion)
                 } receiveValue: { [weak self] articleFields in
                     let articles = [Article] (articleFields)
-                    if let article = articles.first {
+                    if let article = articles.randomElement() {
                         self?.mainArticle = article
                     }
                 }
                 .store(in: &queryBag)
+            
+            // TODO: Currently uncommented in case trending is not working on backend
+//            Network.shared.publisher(
+//                for: GetArticlesByPublicationSlugQuery(
+//                    slug: "guac",
+//                    limit: Constants.mainArticleLimit,
+//                    offset: Double.random(in: 0..<20)   // Just for fun :) will replace
+//                ))
+//                .map { $0.articles.map(\.fragments.articleFields) }
+//                .sink { [weak self] completion in
+//                    self?.networkState?.handleCompletion(screen: .trending, completion)
+//                } receiveValue: { [weak self] articleFields in
+//                    let articles = [Article] (articleFields)
+//                    if let article = articles.first {
+//                        self?.mainArticle = article
+//                    }
+//                }
+//                .store(in: &queryBag)
         }
         
         private func fetchSubArticles() {
-            // TODO: Change query once backend implements trending
             Network.shared.publisher(
                 for: GetTrendingArticlesQuery(
                     limit: Constants.subArticlesLimit

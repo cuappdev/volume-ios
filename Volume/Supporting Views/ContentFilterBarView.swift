@@ -18,11 +18,6 @@ struct ContentFilterBarView: View {
         SlidingTabBarView(
             selectedTab: $selectedTab,
             items: [
-                showFlyerTab ? SlidingTabBarView.Item(
-                    title: "Flyers",
-                    tab: .flyers,
-                    width: Constants.flyersTabWidth
-                ) : nil,
                 showArticleTab ? SlidingTabBarView.Item(
                     title: "Articles",
                     tab: .articles,
@@ -32,6 +27,11 @@ struct ContentFilterBarView: View {
                     title: "Magazines",
                     tab: .magazines,
                     width: Constants.magazinesTabWidth
+                ) : nil,
+                showFlyerTab ? SlidingTabBarView.Item(
+                    title: "Flyers",
+                    tab: .flyers,
+                    width: Constants.flyersTabWidth
                 ) : nil
             ].compactMap { $0 }
         )

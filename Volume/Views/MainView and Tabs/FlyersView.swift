@@ -20,6 +20,7 @@ struct FlyersView: View {
     
     private struct Constants {
         static let backgroundColor: Color = Color.volume.backgroundGray
+        static let dailyButtonSize: CGSize = CGSize(width: 20, height: 20)
         static let dailyCellSize: CGSize = CGSize(width: 340, height: 432)
         static let dailyImageSize: CGSize = CGSize(width: 340, height: 340)
         static let endMessageWidth: CGFloat = 250
@@ -30,6 +31,7 @@ struct FlyersView: View {
         static let titleFont: Font = .newYorkMedium(size: 28)
         static let upcomingSectionHeight: CGFloat = 308
         static let volumeMessagePadding: CGFloat = 20
+        static let weeklyButtonSize: CGSize = CGSize(width: 15, height: 15)
         static let weeklyCellSize: CGSize = CGSize(width: 256, height: 350)
         static let weeklyImageSize: CGSize = CGSize(width: 256, height: 256)
     }
@@ -57,12 +59,11 @@ struct FlyersView: View {
     private var listContent: some View {
         List {
             Group {
+                searchBar
                 todaySection
                 thisWeekSection
                 upcomingSection
-                pastSection
-                
-                // TODO: Implement logic to only show endSection if there are no more flyers
+                pastSection                
                 endSection
             }
             .listSectionSeparator(.hidden)
@@ -89,7 +90,7 @@ struct FlyersView: View {
             }
             
             ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(spacing: Constants.spacing) {
+                HStack(spacing: Constants.spacing) {
                     switch viewModel.dailyFlyers {
                     case .none:
                         FlyerCellThisWeek.Skeleton(cellSize: Constants.dailyCellSize, imageSize: Constants.dailyImageSize)
@@ -97,12 +98,16 @@ struct FlyersView: View {
                         FlyerCellThisWeek.Skeleton(cellSize: Constants.dailyCellSize, imageSize: Constants.dailyImageSize)
                     case .some(let flyers):
                         ForEach(flyers) { flyer in
-                            FlyerCellThisWeek(
-                                cellSize: Constants.dailyCellSize,
-                                flyer: flyer,
-                                imageSize: Constants.dailyImageSize,
-                                urlImageModel: URLImageModel(urlString: flyer.imageURL)
-                            )
+                            if let urlString = flyer.imageUrl?.absoluteString {
+                                FlyerCellThisWeek(
+                                    buttonSize: Constants.dailyButtonSize,
+                                    cellSize: Constants.dailyCellSize,
+                                    flyer: flyer,
+                                    imageSize: Constants.dailyImageSize,
+                                    urlImageModel: URLImageModel(urlString: urlString),
+                                    viewModel: viewModel
+                                )
+                            }
                         }
                     }
                 }
@@ -126,7 +131,7 @@ struct FlyersView: View {
             }
             
             ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(spacing: Constants.spacing) {
+                HStack(spacing: Constants.spacing) {
                     switch viewModel.thisWeekFlyers {
                     case .none:
                         FlyerCellThisWeek.Skeleton(cellSize: Constants.weeklyCellSize, imageSize: Constants.weeklyImageSize)
@@ -134,12 +139,16 @@ struct FlyersView: View {
                         FlyerCellThisWeek.Skeleton(cellSize: Constants.weeklyCellSize, imageSize: Constants.weeklyImageSize)
                     case .some(let flyers):
                         ForEach(flyers) { flyer in
-                            FlyerCellThisWeek(
-                                cellSize: Constants.weeklyCellSize,
-                                flyer: flyer,
-                                imageSize: Constants.weeklyImageSize,
-                                urlImageModel: URLImageModel(urlString: flyer.imageURL)
-                            )
+                            if let urlString = flyer.imageUrl?.absoluteString {
+                                FlyerCellThisWeek(
+                                    buttonSize: Constants.weeklyButtonSize,
+                                    cellSize: Constants.weeklyCellSize,
+                                    flyer: flyer,
+                                    imageSize: Constants.weeklyImageSize,
+                                    urlImageModel: URLImageModel(urlString: urlString),
+                                    viewModel: viewModel
+                                )
+                            }
                         }
                     }
                 }
@@ -171,10 +180,13 @@ struct FlyersView: View {
                         }
                     case .some(let flyers):
                         ForEach(flyers) { flyer in
-                            FlyerCellUpcoming(
-                                flyer: flyer,
-                                urlImageModel: URLImageModel(urlString: flyer.imageURL)
-                            )
+                            if let urlString = flyer.imageUrl?.absoluteString {
+                                FlyerCellUpcoming(
+                                    flyer: flyer,
+                                    urlImageModel: URLImageModel(urlString: urlString),
+                                    viewModel: viewModel
+                                )
+                            }
                         }
                     }
                 }
@@ -231,10 +243,13 @@ struct FlyersView: View {
                     FlyerCellPast.Skeleton()
                 case .some(let flyers):
                     ForEach(flyers) { flyer in
-                        FlyerCellPast(
-                            flyer: flyer,
-                            urlImageModel: URLImageModel(urlString: flyer.imageURL)
-                        )
+                        if let urlString = flyer.imageUrl?.absoluteString {
+                            FlyerCellPast(
+                                flyer: flyer,
+                                urlImageModel: URLImageModel(urlString: urlString),
+                                viewModel: viewModel
+                            )
+                        }
                     }
                 }
             }
@@ -260,6 +275,16 @@ struct FlyersView: View {
             .padding(.top, 40)
             .padding(.bottom, 80)
         }
+    }
+    
+    private var searchBar: some View {
+        SearchBar(searchState: $viewModel.searchState, searchText: $viewModel.searchText)
+            .disabled(true)
+            .overlay(NavigationLink(destination: SearchView(), label: {
+                EmptyView()
+            }).opacity(0))
+            .padding(.horizontal, Constants.listHorizontalPadding)
+            .padding(.top, 5)
     }
     
     // MARK: - Supporting Views

@@ -16,6 +16,7 @@ extension Image {
         // socials not included b/c names are specified by backend strings
         let backArrow = Image("back-arrow")
         let bookmark = Image("bookmark")
+        let bookmarkFilled = Image("bookmark-filled")
         let calendar = Image("calendar")
         let compass = Image("compass")
         let feed = Image("feed")
