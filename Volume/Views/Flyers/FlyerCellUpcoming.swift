@@ -94,6 +94,7 @@ struct FlyerCellUpcoming: View {
                     .aspectRatio(contentMode: .fit)
             } else {
                 SkeletonView()
+                    .shimmer(.smallShimmer())
             }
         }
         .frame(width: Constants.imageWidth, height: Constants.imageHeight)

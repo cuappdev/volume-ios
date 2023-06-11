@@ -49,7 +49,9 @@ struct BookmarksView: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             viewModel.setupEnvironmentVariables(networkState: networkState, userData: userData)
-            viewModel.fetchContent()
+            Task {
+                await viewModel.fetchContent()
+            }
         }
     }
     

@@ -42,6 +42,7 @@ struct TrendingMainArticleCell: View {
         } else {
             SkeletonView()
                 .frame(width: UIScreen.main.bounds.width, height: Constants.skeletonHeight)
+                .shimmer(.largeShimmer())
         }
     }
     

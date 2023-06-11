@@ -88,6 +88,7 @@ struct TrendingFlyerCell: View {
                 }
             } else {
                 SkeletonView()
+                    .shimmer(.largeShimmer())
             }
             
             if let categorySlug = flyer.organizations.first?.categorySlug {

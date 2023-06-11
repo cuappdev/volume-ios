@@ -57,13 +57,13 @@ extension BookmarksView {
         
         // MARK: - Network Requests
         
-        func fetchContent() {
-            fetchArticles(ids: userData?.savedArticleIDs ?? [])
-            fetchMagazines(ids: userData?.savedMagazineIDs ?? [])
-            fetchFlyers(ids: userData?.savedFlyerIDs ?? [])
+        func fetchContent() async {
+            await fetchArticles(ids: userData?.savedArticleIDs ?? [])
+            await fetchMagazines(ids: userData?.savedMagazineIDs ?? [])
+            await fetchFlyers(ids: userData?.savedFlyerIDs ?? [])
         }
 
-        func fetchArticles(ids: [String]) {
+        func fetchArticles(ids: [String]) async {
             ids.publisher
                 .map(GetArticleByIdQuery.init)
                 .flatMap(Network.shared.publisher)
@@ -87,7 +87,7 @@ extension BookmarksView {
                 .store(in: &queryBag)
         }
 
-        func fetchMagazines(ids: [String]) {
+        func fetchMagazines(ids: [String]) async {
             Network.shared.publisher(for: GetMagazinesByIDsQuery(ids: ids))
                 .map { $0.magazine.map(\.fragments.magazineFields) }
                 .sink { [weak self] completion in
@@ -103,7 +103,7 @@ extension BookmarksView {
                 .store(in: &queryBag)
         }
         
-        func fetchFlyers(ids: [String]) {
+        func fetchFlyers(ids: [String]) async {
             Network.shared.publisher(for: GetFlyersByIDsQuery(ids: ids))
                 .map { $0.flyers.map(\.fragments.flyerFields) }
                 .sink { [weak self] completion in

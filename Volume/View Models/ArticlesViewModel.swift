@@ -72,8 +72,8 @@ extension ArticlesView {
         // MARK: - Requests
         
         func fetchContent() async {
-            fetchTrendingArticles()
-            fetchWeeklyDebrief()
+            await fetchTrendingArticles()
+            await fetchWeeklyDebrief()
             
             if followedArticles == nil {
                 await fetchFirstPage()
@@ -93,7 +93,7 @@ extension ArticlesView {
             await fetchContent()
         }
 
-        func fetchTrendingArticles() {
+        func fetchTrendingArticles() async {
             Network.shared.publisher(for: GetTrendingArticlesQuery(limit: Constants.trendingArticleLimit))
                 .map { $0.articles.map(\.fragments.articleFields) }
                 .sink { [weak self] completion in
@@ -104,7 +104,7 @@ extension ArticlesView {
                 .store(in: &queryBag)
         }
         
-        func fetchWeeklyDebrief() {
+        func fetchWeeklyDebrief() async {
             func fetch() {
                 guard let uuid = userData?.uuid else {
                     #if DEBUG
@@ -171,7 +171,7 @@ extension ArticlesView {
             }
         }
 
-        func fetchPage(followed: Bool) {
+        func fetchPage(followed: Bool) async {
             let slugs = followed ? followedPublicationSlugs : unfollowedPublicationSlugs
             Network.shared
                 .publisher(

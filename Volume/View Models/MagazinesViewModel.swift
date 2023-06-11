@@ -48,11 +48,11 @@ extension MagazinesView {
         // MARK: - Public Requests
 
         func fetchContent() async {
-            fetchFeaturedMagazines()
-            fetchMagazineSemesters()
+            await fetchFeaturedMagazines()
+            await fetchMagazineSemesters()
             
             if moreMagazines == nil {
-                fetchMoreMagazinesSection()
+                await fetchMoreMagazinesSection()
             }
         }
         
@@ -69,28 +69,28 @@ extension MagazinesView {
             }
         }
         
-        func fetchMoreMagazinesSection() {
+        func fetchMoreMagazinesSection() async {
             moreMagazines = nil
             hasMoreMagazines = true
             
             if selectedSemester == Constants.allSemestersIdentifier {
-                fetchAllSemestersMagazines()
+                await fetchAllSemestersMagazines()
             } else {
-                fetchSemesterMagazines()
+                await fetchSemesterMagazines()
             }
         }
         
-        func fetchNextPage() {
+        func fetchNextPage() async {
             if selectedSemester == Constants.allSemestersIdentifier {
-                fetchAllSemestersNextPage()
+                await fetchAllSemestersNextPage()
             } else {
-                fetchSemesterNextPage()
+                await fetchSemesterNextPage()
             }
         }
         
         // MARK: - Hidden Requests
         
-        private func fetchFeaturedMagazines() {
+        private func fetchFeaturedMagazines() async {
             Network.shared.publisher(for: GetFeaturedMagazinesQuery(limit: Constants.featuredMagazinesLimit))
                 .compactMap { $0.magazines?.map(\.fragments.magazineFields) }
                 .sink { [weak self] completion in
@@ -103,7 +103,7 @@ extension MagazinesView {
                 .store(in: &queryBag)
         }
         
-        private func fetchMagazineSemesters() {
+        private func fetchMagazineSemesters() async {
             Network.shared.publisher(for: GetAllMagazineSemestersQuery(limit: Constants.semesterCountLimit))
                 .map { $0.magazines.map(\.semester) }
                 .sink { [weak self] completion in
@@ -116,7 +116,7 @@ extension MagazinesView {
                 .store(in: &queryBag)
         }
         
-        private func fetchSemesterMagazines() {
+        private func fetchSemesterMagazines() async {
             guard let selectedSemester = selectedSemester else { return }
             Network.shared
                 .publisher(
@@ -137,7 +137,7 @@ extension MagazinesView {
                 .store(in: &queryBag)
         }
         
-        private func fetchAllSemestersMagazines() {
+        private func fetchAllSemestersMagazines() async {
             Network.shared
                 .publisher(
                     for: GetAllMagazinesQuery(
@@ -156,7 +156,7 @@ extension MagazinesView {
                 .store(in: &queryBag)
         }
         
-        private func fetchSemesterNextPage() {
+        private func fetchSemesterNextPage() async {
             guard let selectedSemester = selectedSemester else { return }
             Network.shared
                 .publisher(
@@ -178,7 +178,7 @@ extension MagazinesView {
                 .store(in: &queryBag)
         }
         
-        private func fetchAllSemestersNextPage() {
+        private func fetchAllSemestersNextPage() async {
             Network.shared
                 .publisher(
                     for: GetAllMagazinesQuery(

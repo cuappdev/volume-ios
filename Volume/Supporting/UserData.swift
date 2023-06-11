@@ -178,19 +178,27 @@ class UserData: ObservableObject {
     }
 
     func toggleArticleSaved(_ article: Article, _ bookmarkRequestInProgress: Binding<Bool>) {
-        set(article: article, isSaved: !isArticleSaved(article), bookmarkRequestInProgress: bookmarkRequestInProgress)
+        Task {
+            await set(article: article, isSaved: !isArticleSaved(article), bookmarkRequestInProgress: bookmarkRequestInProgress)
+        }
     }
 
     func toggleMagazineSaved(_ magazine: Magazine, _ bookmarkRequestInProgress: Binding<Bool>) {
-        set(magazine: magazine, isSaved: !isMagazineSaved(magazine), bookmarkRequestInProgress: bookmarkRequestInProgress)
+        Task {
+            await set(magazine: magazine, isSaved: !isMagazineSaved(magazine), bookmarkRequestInProgress: bookmarkRequestInProgress)
+        }
     }
     
     func toggleFlyerSaved(_ flyer: Flyer, _ bookmarkRequestInProgress: Binding<Bool>) {
-        set(flyer: flyer, isSaved: !isFlyerSaved(flyer), bookmarkRequestInProgress: bookmarkRequestInProgress)
+        Task {
+            await set(flyer: flyer, isSaved: !isFlyerSaved(flyer), bookmarkRequestInProgress: bookmarkRequestInProgress)
+        }
     }
 
     func togglePublicationFollowed(_ publication: Publication, _ followRequestInProgress: Binding<Bool>) {
-        set(publication: publication, isFollowed: !isPublicationFollowed(publication), followRequestInProgress: followRequestInProgress)
+        Task {
+            await set(publication: publication, isFollowed: !isPublicationFollowed(publication), followRequestInProgress: followRequestInProgress)
+        }
     }
 
     func canIncrementShoutouts(_ article: Article) -> Bool {
@@ -219,7 +227,7 @@ class UserData: ObservableObject {
         recentSearchQueries = recentSearchQueries.filter { $0 != query }
     }
 
-    func set(article: Article, isSaved: Bool, bookmarkRequestInProgress: Binding<Bool>) {
+    func set(article: Article, isSaved: Bool, bookmarkRequestInProgress: Binding<Bool>) async {
         @Binding var requestInProgress: Bool
         _requestInProgress = bookmarkRequestInProgress
         
@@ -249,7 +257,7 @@ class UserData: ObservableObject {
         }
     }
 
-    func set(magazine: Magazine, isSaved: Bool, bookmarkRequestInProgress: Binding<Bool>) {
+    func set(magazine: Magazine, isSaved: Bool, bookmarkRequestInProgress: Binding<Bool>) async {
         @Binding var requestInProgress: Bool
         _requestInProgress = bookmarkRequestInProgress
 
@@ -279,7 +287,7 @@ class UserData: ObservableObject {
         }
     }
     
-    func set(flyer: Flyer, isSaved: Bool, bookmarkRequestInProgress: Binding<Bool>) {
+    func set(flyer: Flyer, isSaved: Bool, bookmarkRequestInProgress: Binding<Bool>) async {
         @Binding var requestInProgress: Bool
         _requestInProgress = bookmarkRequestInProgress
 
@@ -309,7 +317,7 @@ class UserData: ObservableObject {
         }
     }
 
-    func set(publication: Publication, isFollowed: Bool, followRequestInProgress: Binding<Bool>) {
+    func set(publication: Publication, isFollowed: Bool, followRequestInProgress: Binding<Bool>) async {
         @Binding var requestInProgress: Bool
         _requestInProgress = followRequestInProgress
         

@@ -28,13 +28,17 @@ struct ReaderToolbarView<Content: ReadableContent>: View {
         }
 
         if let article = content as? Article {
-            incrementShoutouts(for: article, uuid: uuid)
+            Task {
+                await incrementShoutouts(for: article, uuid: uuid)
+            }
         } else if let magazine = content as? Magazine {
-            incrementShoutouts(for: magazine, uuid: uuid)
+            Task {
+                await incrementShoutouts(for: magazine, uuid: uuid)
+            }
         }
     }
 
-    private func incrementShoutouts(for article: Article, uuid: String) {
+    private func incrementShoutouts(for article: Article, uuid: String) async {
         AppDevAnalytics.log(VolumeEvent.shoutoutArticle.toEvent(.article, value: article.id, navigationSource: navigationSource))
 
         userData.incrementShoutoutsCounter(article)
@@ -51,7 +55,7 @@ struct ReaderToolbarView<Content: ReadableContent>: View {
             .store(in: &queryBag)
     }
 
-    private func incrementShoutouts(for magazine: Magazine, uuid: String) {
+    private func incrementShoutouts(for magazine: Magazine, uuid: String) async {
         AppDevAnalytics.log(VolumeEvent.shoutoutMagazine.toEvent(.magazine, value: magazine.id, navigationSource: navigationSource))
         
         userData.incrementMagazineShoutoutsCounter(magazine)

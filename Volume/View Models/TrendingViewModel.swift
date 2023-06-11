@@ -45,8 +45,8 @@ extension TrendingView {
         // MARK: - Public Requests
         
         func fetchContent() async {
-            mainArticle == nil ? fetchMainArticle() : nil
-            subArticles == nil ? fetchSubArticles() : nil
+            mainArticle == nil ? await fetchMainArticle() : nil
+            subArticles == nil ? await fetchSubArticles() : nil
         }
         
         func refreshContent() async {
@@ -105,7 +105,7 @@ extension TrendingView {
         
         // MARK: - Private Requests
         
-        private func fetchMainArticle() {
+        private func fetchMainArticle() async {
             // TODO: Currently uncommented in case trending is not working on backend
 //            Network.shared.publisher(for: GetTrendingArticlesQuery(limit: Constants.mainArticleLimit))
 //                .map { $0.articles.map(\.fragments.articleFields) }
@@ -137,7 +137,7 @@ extension TrendingView {
                 .store(in: &queryBag)
         }
         
-        private func fetchSubArticles() {
+        private func fetchSubArticles() async {
             Network.shared.publisher(
                 for: GetTrendingArticlesQuery(
                     limit: Constants.subArticlesLimit
