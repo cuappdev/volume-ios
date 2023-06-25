@@ -10,7 +10,9 @@ import Foundation
 
 struct Organization: Hashable, Identifiable {
     
-    let id: String
+    var id: String {
+        slug
+    }
     let backgroundImageUrl: URL?
     let bio: String?
     let categorySlug: OrganizationType
@@ -21,7 +23,6 @@ struct Organization: Hashable, Identifiable {
     let websiteUrl: URL?
     
     init(from organization: OrganizationFields) {
-        self.id = organization.id
         self.backgroundImageUrl = URL(string: organization.backgroundImageUrl)
         self.bio = organization.bio
         self.categorySlug = OrganizationType(rawValue: organization.categorySlug) ?? .academic

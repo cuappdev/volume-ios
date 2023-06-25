@@ -22,7 +22,6 @@ struct Secrets {
     static let announcementsPath = Secrets.keyDict["announcements-path"] as! String
     static let announcementsScheme = Secrets.keyDict["announcements-scheme"] as! String
     static let appdevWebsite = Secrets.keyDict["appdev-website"] as! String
-    // TODO: Remove Vin's backend endpoint from Secrets once actual backend is done
     static let cboardEndpoint = Secrets.keyDict["cboard-endpoint-temp"] as! String
     static let feedbackForm = Secrets.keyDict["feedback-form"] as! String
     static let openArticleUrl = Secrets.keyDict["openarticle-url"] as! String
