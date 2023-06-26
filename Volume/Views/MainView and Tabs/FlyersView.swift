@@ -183,6 +183,7 @@ struct FlyersView: View {
                             if let urlString = flyer.imageUrl?.absoluteString {
                                 FlyerCellUpcoming(
                                     flyer: flyer,
+                                    navigationSource: .flyersTab,
                                     urlImageModel: URLImageModel(urlString: urlString),
                                     viewModel: viewModel
                                 )
@@ -246,6 +247,7 @@ struct FlyersView: View {
                         if let urlString = flyer.imageUrl?.absoluteString {
                             FlyerCellPast(
                                 flyer: flyer,
+                                navigationSource: .flyersTab,
                                 urlImageModel: URLImageModel(urlString: urlString),
                                 viewModel: viewModel
                             )

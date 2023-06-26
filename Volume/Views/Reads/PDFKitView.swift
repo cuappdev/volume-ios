@@ -23,6 +23,7 @@ struct PDFKitView: UIViewRepresentable {
         pdfView.displaysAsBook = true
         pdfView.displaysPageBreaks = false
         pdfView.displayMode = .singlePage
+        pdfView.minScaleFactor = pdfView.scaleFactor
 
         let scrollView = pdfView.subviews.first?.subviews.first as? UIScrollView
         scrollView?.showsVerticalScrollIndicator = false

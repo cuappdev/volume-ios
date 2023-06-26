@@ -25,7 +25,9 @@ struct PublicationContentView: View {
         }
         .onAppear {
             viewModel.setupEnvironmentVariables(networkState: networkState)
-            viewModel.fetchContent()
+            Task {
+                await viewModel.fetchContent()
+            }
         }
     }
 

@@ -176,14 +176,18 @@ struct ArticlesView: View {
                             .padding(.vertical, Constants.rowVerticalPadding)
                             .onAppear {
                                 // scrolled to last loaded row, fetch more rows
-                                viewModel.fetchPage(followed: followed)
+                                Task {
+                                    await viewModel.fetchPage(followed: followed)
+                                }
                             }
                     } else if followed {
                         VolumeMessage(message: articles.count > 0 ? .upToDateArticles : .noFollowingHome, largeFont: false, fullWidth: false)
                             .padding(.top, Constants.volumeMessageTopPadding)
                             .padding(.bottom, Constants.volumeMessageBottomPadding)
                             .onAppear {
-                                viewModel.fetchPage(followed: false)
+                                Task {
+                                    await viewModel.fetchPage(followed: false)
+                                }
                             }
                     }
                 }

@@ -42,15 +42,15 @@ extension PublicationContentView {
             self.networkState = networkState
         }
 
-        func fetchContent() {
+        func fetchContent() async {
             // TODO: replace this logic when backend implements Publication.numMagazines
-            fetchMagazines()
+            await fetchMagazines()
             if showArticleTab {
-                fetchPage()
+                await fetchPage()
             }
         }
 
-        func fetchMagazines() {
+        func fetchMagazines() async {
             Network.shared.publisher(
                 for: GetMagazinesByPublicationSlugQuery(slug: publication.slug)
             )
@@ -71,11 +71,13 @@ extension PublicationContentView {
 
         func fetchPageIfLast(article: Article) {
             if let articles, articles.firstIndex(of: article) == articles.index(articles.endIndex, offsetBy: -1) {
-                fetchPage()
+                Task {
+                    await fetchPage()
+                }
             }
         }
 
-        private func fetchPage() {
+        private func fetchPage() async {
             Network.shared.publisher(
                 for: GetArticlesByPublicationSlugQuery(
                     slug: publication.slug,

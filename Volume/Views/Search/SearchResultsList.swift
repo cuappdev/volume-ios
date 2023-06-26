@@ -102,7 +102,7 @@ struct SearchResultsList: View {
     }
     
     private func fetchSearchedFlyers(_ done: @escaping () -> Void = { }) {
-        sectionQueries.articles = Network.shared.publisher(for: SearchFlyersQuery(query: searchText))
+        sectionQueries.flyers = Network.shared.publisher(for: SearchFlyersQuery(query: searchText))
             .compactMap {
                 $0.flyer.map(\.fragments.flyerFields)
             }
@@ -135,19 +135,20 @@ struct SearchResultsList: View {
             }
             .refreshable {
                 if case let .results(articles) = sectionStates.articles,
-                   case let .results(magazines) = sectionStates.magazines {
+                   case let .results(magazines) = sectionStates.magazines,
+                   case let .results(flyers) = sectionStates.flyers {
                     
                     sectionStates.articles = .reloading(articles)
                     sectionStates.magazines = .reloading(magazines)
+                    sectionStates.flyers = .reloading(flyers)
                 }
                 
                 sectionStates.articles = .loading
                 sectionStates.magazines = .loading
+                sectionStates.flyers = .loading
                 
                 fetchContent()
             }
-            .disabled(sectionStates.articles.isLoading)
-            .disabled(sectionStates.magazines.isLoading)
             .onAppear {
                 fetchContent()
             }
@@ -249,6 +250,7 @@ struct SearchResultsList: View {
                     if let urlString = flyer.imageUrl?.absoluteString {
                         FlyerCellPast(
                             flyer: flyer,
+                            navigationSource: .searchFlyers,
                             urlImageModel: URLImageModel(urlString: urlString),
                             viewModel: FlyersView.ViewModel()
                         )

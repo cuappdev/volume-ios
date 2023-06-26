@@ -40,6 +40,7 @@ struct OnboardingFlyersView: View {
                         if let urlString = flyer.imageUrl?.absoluteString {
                             FlyerCellUpcoming(
                                 flyer: flyer,
+                                navigationSource: .onboarding,
                                 urlImageModel: URLImageModel(urlString: urlString),
                                 viewModel: FlyersView.ViewModel()
                             )
@@ -58,7 +59,7 @@ struct OnboardingFlyersView: View {
                 ScrollFadingView(fadesDown: true)
             }
         )
-        .transition(.move(edge: .trailing))
+        .transition(.asymmetric(insertion: .opacity, removal: .move(edge: .leading)))
         .onAppear {
             Task {
                 await fetchUpcoming()

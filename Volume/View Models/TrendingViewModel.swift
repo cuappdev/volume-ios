@@ -45,8 +45,8 @@ extension TrendingView {
         // MARK: - Public Requests
         
         func fetchContent() async {
-            mainArticle == nil ? fetchMainArticle() : nil
-            subArticles == nil ? fetchSubArticles() : nil
+            mainArticle == nil ? await fetchMainArticle() : nil
+            subArticles == nil ? await fetchSubArticles() : nil
         }
         
         func refreshContent() async {
@@ -105,39 +105,39 @@ extension TrendingView {
         
         // MARK: - Private Requests
         
-        private func fetchMainArticle() {
-            Network.shared.publisher(for: GetTrendingArticlesQuery(limit: Constants.mainArticleLimit))
-                .map { $0.articles.map(\.fragments.articleFields) }
-                .sink { [weak self] completion in
-                    self?.networkState?.handleCompletion(screen: .trending, completion)
-                } receiveValue: { [weak self] articleFields in
-                    let articles = [Article] (articleFields)
-                    if let article = articles.randomElement() {
-                        self?.mainArticle = article
-                    }
-                }
-                .store(in: &queryBag)
-            
+        private func fetchMainArticle() async {
             // TODO: Currently uncommented in case trending is not working on backend
-//            Network.shared.publisher(
-//                for: GetArticlesByPublicationSlugQuery(
-//                    slug: "guac",
-//                    limit: Constants.mainArticleLimit,
-//                    offset: Double.random(in: 0..<20)   // Just for fun :) will replace
-//                ))
+//            Network.shared.publisher(for: GetTrendingArticlesQuery(limit: Constants.mainArticleLimit))
 //                .map { $0.articles.map(\.fragments.articleFields) }
 //                .sink { [weak self] completion in
 //                    self?.networkState?.handleCompletion(screen: .trending, completion)
 //                } receiveValue: { [weak self] articleFields in
 //                    let articles = [Article] (articleFields)
-//                    if let article = articles.first {
+//                    if let article = articles.randomElement() {
 //                        self?.mainArticle = article
 //                    }
 //                }
 //                .store(in: &queryBag)
+            
+            Network.shared.publisher(
+                for: GetArticlesByPublicationSlugQuery(
+                    slug: "guac",
+                    limit: Constants.mainArticleLimit,
+                    offset: Double.random(in: 0..<20)
+                ))
+                .map { $0.articles.map(\.fragments.articleFields) }
+                .sink { [weak self] completion in
+                    self?.networkState?.handleCompletion(screen: .trending, completion)
+                } receiveValue: { [weak self] articleFields in
+                    let articles = [Article] (articleFields)
+                    if let article = articles.first {
+                        self?.mainArticle = article
+                    }
+                }
+                .store(in: &queryBag)
         }
         
-        private func fetchSubArticles() {
+        private func fetchSubArticles() async {
             Network.shared.publisher(
                 for: GetTrendingArticlesQuery(
                     limit: Constants.subArticlesLimit

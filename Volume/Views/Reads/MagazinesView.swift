@@ -129,7 +129,9 @@ struct MagazinesView: View {
                             MagazineCell.Skeleton()
                         }
                         .onAppear {
-                            viewModel.fetchNextPage()
+                            Task {
+                                await viewModel.fetchNextPage()
+                            }
                         }
                     }
                 }
@@ -140,7 +142,9 @@ struct MagazinesView: View {
         }
         .padding(.horizontal, Constants.sidePadding)
         .onChange(of: viewModel.selectedSemester) { _ in
-            viewModel.fetchMoreMagazinesSection()
+            Task {
+                await viewModel.fetchMoreMagazinesSection()
+            }
         }
     }
     

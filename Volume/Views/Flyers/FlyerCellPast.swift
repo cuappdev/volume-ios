@@ -13,6 +13,7 @@ struct FlyerCellPast: View {
     // MARK: - Properties
     
     let flyer: Flyer
+    let navigationSource: NavigationSource
     
     @StateObject var urlImageModel: URLImageModel
     @EnvironmentObject private var userData: UserData
@@ -88,7 +89,6 @@ struct FlyerCellPast: View {
     }
     
     private var imageFrame: some View {
-        // TODO: Remove temporary image holder
         ZStack(alignment: .center) {
             if let flyerImage = urlImageModel.image {
                 Color(uiColor: flyerImage.averageColor ?? .gray)
@@ -98,6 +98,7 @@ struct FlyerCellPast: View {
                     .aspectRatio(contentMode: .fit)
             } else {
                 SkeletonView()
+                    .shimmer(.mediumShimmer())
             }
         }
         .frame(width: Constants.imageWidth, height: Constants.imageHeight)
@@ -121,8 +122,8 @@ struct FlyerCellPast: View {
             
             Spacer()
             
-            FlyersBookmark(buttonSize: Constants.buttonSize, flyer: flyer, isPast: true)
-            FlyersShare(buttonSize: Constants.buttonSize, flyer: flyer, isPast: true)
+            FlyersBookmark(buttonSize: Constants.buttonSize, flyer: flyer, isPast: true, navigationSource: navigationSource)
+            FlyersShare(buttonSize: Constants.buttonSize, flyer: flyer, isPast: true, navigationSource: navigationSource)
         }
         .padding(.bottom, -Constants.verticalSpacing)
     }

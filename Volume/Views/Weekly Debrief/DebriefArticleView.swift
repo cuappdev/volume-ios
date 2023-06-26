@@ -43,9 +43,7 @@ struct DebriefArticleView: View {
             bookmarkRequestInProgress = true 
             userData.toggleArticleSaved(article, $bookmarkRequestInProgress)
             AppDevAnalytics.log(
-                userData.isArticleSaved(article) ?
-                VolumeEvent.bookmarkArticle.toEvent(.article, value: article.id, navigationSource: .weeklyDebrief) :
-                    VolumeEvent.unbookmarkArticle.toEvent(.article, value: article.id, navigationSource: .weeklyDebrief)
+                VolumeEvent.bookmarkArticle.toEvent(.article, value: article.id, navigationSource: .weeklyDebrief)
             )
         }, label: {
             Image.volume.bookmark
@@ -79,7 +77,9 @@ struct DebriefArticleView: View {
     var shoutoutButton: some View {
         Button {
             Haptics.shared.play(.light)
-            incrementShoutouts(for: article)
+            Task {
+                await incrementShoutouts(for: article)
+            }
         } label: {
             Image.volume.shoutout
                 .resizable()
@@ -149,7 +149,7 @@ struct DebriefArticleView: View {
         return userData.canIncrementShoutouts(article)
     }
 
-    private func incrementShoutouts(for article: Article) {
+    private func incrementShoutouts(for article: Article) async {
         guard let uuid = userData.uuid else { return }
 
         AppDevAnalytics.log(VolumeEvent.shoutoutArticle.toEvent(.article, value: article.id, navigationSource: .weeklyDebrief))

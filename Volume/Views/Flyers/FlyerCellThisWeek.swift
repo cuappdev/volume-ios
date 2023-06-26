@@ -91,6 +91,7 @@ struct FlyerCellThisWeek: View {
                 }
             } else {
                 SkeletonView()
+                    .shimmer(.largeShimmer())
             }
             
             if let categorySlug = flyer.organizations.first?.categorySlug {
@@ -131,8 +132,8 @@ struct FlyerCellThisWeek: View {
             
             Spacer()
             
-            FlyersBookmark(buttonSize: buttonSize, flyer: flyer, isPast: false)
-            FlyersShare(buttonSize: buttonSize, flyer: flyer, isPast: false)
+            FlyersBookmark(buttonSize: buttonSize, flyer: flyer, isPast: false, navigationSource: .flyersTab)
+            FlyersShare(buttonSize: buttonSize, flyer: flyer, isPast: false, navigationSource: .flyersTab)
         }
         .padding(.top, Constants.spacing)
         .padding(.bottom, -Constants.spacing)

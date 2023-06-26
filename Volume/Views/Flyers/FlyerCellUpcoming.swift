@@ -13,6 +13,7 @@ struct FlyerCellUpcoming: View {
     // MARK: - Properties
     
     let flyer: Flyer
+    let navigationSource: NavigationSource
     
     @State private var bookmarkRequestInProgress: Bool = false
     @StateObject var urlImageModel: URLImageModel
@@ -93,6 +94,7 @@ struct FlyerCellUpcoming: View {
                     .aspectRatio(contentMode: .fit)
             } else {
                 SkeletonView()
+                    .shimmer(.smallShimmer())
             }
         }
         .frame(width: Constants.imageWidth, height: Constants.imageHeight)
@@ -116,8 +118,8 @@ struct FlyerCellUpcoming: View {
             
             Spacer()
             
-            FlyersBookmark(buttonSize: Constants.buttonSize, flyer: flyer, isPast: false)
-            FlyersShare(buttonSize: Constants.buttonSize, flyer: flyer, isPast: false)
+            FlyersBookmark(buttonSize: Constants.buttonSize, flyer: flyer, isPast: false, navigationSource: navigationSource)
+            FlyersShare(buttonSize: Constants.buttonSize, flyer: flyer, isPast: false, navigationSource: navigationSource)
         }
         .padding(.bottom, -Constants.verticalSpacing)
     }

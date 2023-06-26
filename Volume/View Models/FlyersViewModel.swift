@@ -6,6 +6,7 @@
 //  Copyright © 2023 Cornell AppDev. All rights reserved.
 //
 
+import AppDevAnalytics
 import Combine
 import SwiftUI
 
@@ -52,11 +53,11 @@ extension FlyersView {
         // MARK: - Public Requests
         
         func fetchContent() async {
-            allCategories == nil ? fetchCategories() : nil
-            dailyFlyers == nil ? fetchDaily() : nil
-            thisWeekFlyers == nil ? fetchThisWeek() : nil
+            allCategories == nil ? await fetchCategories() : nil
+            dailyFlyers == nil ? await fetchDaily() : nil
+            thisWeekFlyers == nil ? await fetchThisWeek() : nil
             upcomingFlyers == nil ? await fetchUpcoming() : nil
-            pastFlyers == nil ? fetchPast() : nil
+            pastFlyers == nil ? await fetchPast() : nil
         }
         
         func refreshContent() async {
@@ -112,7 +113,7 @@ extension FlyersView {
         
         // MARK: - Private Requests
         
-        private func fetchDaily() {
+        private func fetchDaily() async {
             Network.shared.publisher(for: GetFlyersAfterDateQuery(since: Date().flyerDateTimeString))
                 .map { $0.flyers.map(\.fragments.flyerFields) }
                 .sink { [weak self] completion in
@@ -125,7 +126,7 @@ extension FlyersView {
                 .store(in: &queryBag)
         }
         
-        private func fetchThisWeek() {
+        private func fetchThisWeek() async {
             Network.shared.publisher(for: GetFlyersAfterDateQuery(since: Date().flyerDateTimeString))
                 .map { $0.flyers.map(\.fragments.flyerFields) }
                 .sink { [weak self] completion in
@@ -141,12 +142,12 @@ extension FlyersView {
                 .store(in: &queryBag)
         }
         
-        private func fetchCategories() {
+        private func fetchCategories() async {
             // TODO: Fetch flyer categories once backend implements
             allCategories = [.all, .academic, .art, .awareness, .comedy, .cultural, .dance, .foodDrinks, .greekLife, .music, .socialJustice, .spiritual, .sports]
         }
         
-        private func fetchPast() {
+        private func fetchPast() async {
             Network.shared.publisher(
                 for: GetFlyersBeforeDateQuery(
                     limit: Constants.pastFlyersLimit,
@@ -216,9 +217,7 @@ extension FlyersView {
                 linkSource = LinkItemSource(url: url, flyer: flyer)
             }
 
-            guard let linkSource else {
-                return
-            }
+            guard let linkSource else { return }
 
             let shareVC = UIActivityViewController(activityItems: [linkSource], applicationActivities: nil)
             UIApplication.shared.windows.first?.rootViewController?.present(shareVC, animated: true)

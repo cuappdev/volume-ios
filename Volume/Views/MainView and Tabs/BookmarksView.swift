@@ -49,7 +49,9 @@ struct BookmarksView: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             viewModel.setupEnvironmentVariables(networkState: networkState, userData: userData)
-            viewModel.fetchContent()
+            Task {
+                await viewModel.fetchContent()
+            }
         }
     }
     
@@ -108,6 +110,7 @@ struct BookmarksView: View {
                         if let urlString = flyer.imageUrl?.absoluteString {
                             FlyerCellPast(
                                 flyer: flyer,
+                                navigationSource: .bookmarkFlyers,
                                 urlImageModel: URLImageModel(urlString: urlString),
                                 viewModel: FlyersView.ViewModel()
                             )

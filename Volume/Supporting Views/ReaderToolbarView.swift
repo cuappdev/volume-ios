@@ -28,13 +28,17 @@ struct ReaderToolbarView<Content: ReadableContent>: View {
         }
 
         if let article = content as? Article {
-            incrementShoutouts(for: article, uuid: uuid)
+            Task {
+                await incrementShoutouts(for: article, uuid: uuid)
+            }
         } else if let magazine = content as? Magazine {
-            incrementShoutouts(for: magazine, uuid: uuid)
+            Task {
+                await incrementShoutouts(for: magazine, uuid: uuid)
+            }
         }
     }
 
-    private func incrementShoutouts(for article: Article, uuid: String) {
+    private func incrementShoutouts(for article: Article, uuid: String) async {
         AppDevAnalytics.log(VolumeEvent.shoutoutArticle.toEvent(.article, value: article.id, navigationSource: navigationSource))
 
         userData.incrementShoutoutsCounter(article)
@@ -51,7 +55,9 @@ struct ReaderToolbarView<Content: ReadableContent>: View {
             .store(in: &queryBag)
     }
 
-    private func incrementShoutouts(for magazine: Magazine, uuid: String) {
+    private func incrementShoutouts(for magazine: Magazine, uuid: String) async {
+        AppDevAnalytics.log(VolumeEvent.shoutoutMagazine.toEvent(.magazine, value: magazine.id, navigationSource: navigationSource))
+        
         userData.incrementMagazineShoutoutsCounter(magazine)
         userData.magazineShoutoutsCache[magazine.id, default: 0] = numShoutouts(for: magazine as! Content) + 1
         let currentPublicationShoutouts = max(userData.shoutoutsCache[magazine.publication.slug, default: 0], magazine.publication.shoutouts)
@@ -70,13 +76,20 @@ struct ReaderToolbarView<Content: ReadableContent>: View {
         bookmarkRequestInProgress = true
 
         if let article = content as? Article {
+            if !userData.isArticleSaved(article) {
+                AppDevAnalytics.log(
+                    VolumeEvent.bookmarkArticle.toEvent(.article, value: article.id, navigationSource: navigationSource)
+                )
+            }
+            
             userData.toggleArticleSaved(article, $bookmarkRequestInProgress)
-            AppDevAnalytics.log(
-                userData.isArticleSaved(article) ?
-                VolumeEvent.bookmarkArticle.toEvent(.article, value: article.id, navigationSource: navigationSource) :
-                    VolumeEvent.unbookmarkArticle.toEvent(.article, value: article.id, navigationSource: navigationSource)
-            )
         } else if let magazine = content as? Magazine {
+            if !userData.isMagazineSaved(magazine) {
+                AppDevAnalytics.log(
+                    VolumeEvent.bookmarkMagazine.toEvent(.magazine, value: magazine.id, navigationSource: navigationSource)
+                )
+            }
+            
             userData.toggleMagazineSaved(magazine, $bookmarkRequestInProgress)
         }
     }
@@ -229,6 +242,12 @@ struct ReaderToolbarView<Content: ReadableContent>: View {
         } else if let magazine = content as? Magazine,
                   let url = URL(string: "\(Secrets.openMagazineUrl)\(magazine.id)") {
             linkSource = LinkItemSource(url: url, magazine: magazine)
+            AppDevAnalytics.log(
+                VolumeEvent.shareMagazine.toEvent(
+                    .magazine, value: magazine.id,
+                    navigationSource: navigationSource
+                )
+            )
         }
 
         guard let linkSource else {
