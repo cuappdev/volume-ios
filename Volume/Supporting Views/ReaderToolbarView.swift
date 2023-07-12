@@ -221,7 +221,7 @@ struct ReaderToolbarView<Content: ReadableContent>: View {
             }
         }
         .padding([.leading, .trailing], 16)
-        .padding(.top, 8)
+        .padding(.vertical, 8)
         .background(Color.white)
     }
 
