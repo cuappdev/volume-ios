@@ -41,6 +41,7 @@ struct MainView: View {
             .tag(Screen.bookmarks)
         }
         .padding(.bottom, 16)
+        .edgesIgnoringSafeArea(.all)
     }
     
     private var floatingTabBar: some View {

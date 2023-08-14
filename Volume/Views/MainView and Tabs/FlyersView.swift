@@ -60,8 +60,12 @@ struct FlyersView: View {
         List {
             Group {
                 searchBar
-                todaySection
-                thisWeekSection
+                if let flyers = viewModel.dailyFlyers {
+                    !flyers.isEmpty ? todaySection : nil
+                }
+                if let flyers = viewModel.thisWeekFlyers {
+                    !flyers.isEmpty ? thisWeekSection : nil
+                }
                 upcomingSection
                 pastSection                
                 endSection
@@ -85,10 +89,6 @@ struct FlyersView: View {
     
     private var todaySection: some View {
         Section {
-            if let flyers = viewModel.dailyFlyers {
-                flyers.isEmpty ? emptyMessage(section: .today) : nil
-            }
-            
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: Constants.spacing) {
                     switch viewModel.dailyFlyers {
@@ -126,10 +126,6 @@ struct FlyersView: View {
     
     private var thisWeekSection: some View {
         Section {
-            if let flyers = viewModel.thisWeekFlyers {
-                flyers.isEmpty ? emptyMessage(section: .weekly) : nil
-            }
-            
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: Constants.spacing) {
                     switch viewModel.thisWeekFlyers {
@@ -314,12 +310,8 @@ struct FlyersView: View {
             switch section {
             case .past:
                 VolumeMessage(image: Image.volume.flyer, message: .noFlyersPast, largeFont: false, fullWidth: false)
-            case .today:
-                VolumeMessage(image: Image.volume.flyer, message: .noFlyersToday, largeFont: false, fullWidth: false)
             case .upcoming:
                 VolumeMessage(image: Image.volume.flyer, message: .noFlyersUpcoming, largeFont: false, fullWidth: false)
-            case .weekly:
-                VolumeMessage(image: Image.volume.flyer, message: .noFlyersWeekly, largeFont: false, fullWidth: false)
             }
         }
         .padding(.top, 2 * Constants.volumeMessagePadding)
@@ -331,7 +323,7 @@ struct FlyersView: View {
 extension FlyersView {
     
     enum FlyerSection {
-        case past, today, upcoming, weekly
+        case past, upcoming
     }
     
 }
