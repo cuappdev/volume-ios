@@ -30,7 +30,7 @@ struct TrendingFlyerCell: View {
         static let dateFont: Font = .helveticaRegular(size: 12)
         static let imageHeight: CGFloat = UIScreen.main.bounds.width - 32
         static let locationFont: Font = .helveticaRegular(size: 12)
-        static let organizationNameFont: Font = .newYorkMedium(size: 10)
+        static let organizationNameFont: Font = .newYorkMedium(size: 12)
         static let spacing: CGFloat = 4
         static let titleFont: Font = .newYorkMedium(size: 20)
     }

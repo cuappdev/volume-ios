@@ -32,62 +32,80 @@ class UserData: ObservableObject {
     /// wipe the cache.
     @Published var shoutoutsCache: [String: Int] = [:] {
         willSet {
-            objectWillChange.send()
+            DispatchQueue.main.async {
+                self.objectWillChange.send()
+            }
         }
     }
 
     @Published private(set) var savedArticleIDs: [String] = [] {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: articlesKey)
-            objectWillChange.send()
+            DispatchQueue.main.async {
+                self.objectWillChange.send()
+            }
         }
     }
 
     @Published private(set) var followedPublicationSlugs: [String] = [] {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: publicationsKey)
-            objectWillChange.send()
+            DispatchQueue.main.async {
+                self.objectWillChange.send()
+            }
         }
     }
 
     @Published private var articleShoutoutsCounter: [String: Int] = [:] {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: articleShoutoutsKey)
-            objectWillChange.send()
+            DispatchQueue.main.async {
+                self.objectWillChange.send()
+            }
         }
     }
     
     @Published var magazineShoutoutsCache: [String: Int] = [:] {
         willSet {
-            objectWillChange.send()
+            DispatchQueue.main.async {
+                self.objectWillChange.send()
+            }
         }
     }
     
     @Published private(set) var savedMagazineIDs: [String] = [] {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: magazinesKey)
-            objectWillChange.send()
+            DispatchQueue.main.async {
+                self.objectWillChange.send()
+            }
         }
     }
 
     @Published private var magazineShoutoutsCounter: [String: Int] = [:] {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: magazineShoutoutsKey)
-            objectWillChange.send()
+            DispatchQueue.main.async {
+                self.objectWillChange.send()
+            }
         }
     }
     
     @Published var recentSearchQueries: [String] = [] {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: recentSearchesKey)
-            objectWillChange.send()
+            DispatchQueue.main.async {
+                self.objectWillChange.send()
+            }
         }
     }
     
     @Published private(set) var savedFlyerIDs: [String] = [] {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: flyersKey)
-            objectWillChange.send()
+            DispatchQueue.main.async {
+                self.objectWillChange.send()
+            }
         }
     }
     
@@ -241,6 +259,7 @@ class UserData: ObservableObject {
         
         if isSaved {
             cancellables[.bookmarkArticle(article)] = Network.shared.publisher(for: BookmarkArticleMutation(uuid: uuid))
+                .receive(on: DispatchQueue.main)
                 .sink { completion in
                     if case let .failure(error) = completion {
                         print("Error: BookmarkArticleMutation failed on UserData: \(error.localizedDescription)")
@@ -253,7 +272,9 @@ class UserData: ObservableObject {
                 }
         } else {
             requestInProgress = false
-            savedArticleIDs.removeAll(where: { $0 == article.id })
+            DispatchQueue.main.async {
+                self.savedArticleIDs.removeAll(where: { $0 == article.id })
+            }
         }
     }
 
@@ -283,7 +304,9 @@ class UserData: ObservableObject {
                 }
         } else {
             requestInProgress = false
-            savedMagazineIDs.removeAll(where: { $0 == magazine.id })
+            DispatchQueue.main.async {
+                self.savedMagazineIDs.removeAll(where: { $0 == magazine.id })
+            }
         }
     }
     
@@ -313,7 +336,9 @@ class UserData: ObservableObject {
                 }
         } else {
             requestInProgress = false
-            savedFlyerIDs.removeAll(where: { $0 == flyer.id })
+            DispatchQueue.main.async {
+                self.savedFlyerIDs.removeAll(where: { $0 == flyer.id })
+            }
         }
     }
 

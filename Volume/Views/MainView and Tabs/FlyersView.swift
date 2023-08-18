@@ -104,6 +104,7 @@ struct FlyersView: View {
                                     cellSize: Constants.dailyCellSize,
                                     flyer: flyer,
                                     imageSize: Constants.dailyImageSize,
+                                    organizationNameFont: .newYorkMedium(size: 12),
                                     urlImageModel: URLImageModel(urlString: urlString),
                                     viewModel: viewModel
                                 )
@@ -141,6 +142,7 @@ struct FlyersView: View {
                                     cellSize: Constants.weeklyCellSize,
                                     flyer: flyer,
                                     imageSize: Constants.weeklyImageSize,
+                                    organizationNameFont: .newYorkMedium(size: 10),
                                     urlImageModel: URLImageModel(urlString: urlString),
                                     viewModel: viewModel
                                 )
