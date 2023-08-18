@@ -4,8 +4,8 @@ mutation BookmarkFlyer($uuid: String!) {
   }
 }
 
-mutation IncrementTimesClicked($id: String!, $uuid: String!) {
-  incrementTimesClicked(id:$id, uuid:$uuid) {
+mutation IncrementTimesClicked($id: String!) {
+  incrementTimesClicked(id:$id) {
     id
   }
 }

@@ -95,7 +95,7 @@ extension TrendingView {
         func readFlyer(_ flyer: Flyer) async {
             guard let uuid = userData?.uuid else { return }
             
-            Network.shared.publisher(for: IncrementTimesClickedMutation(id: flyer.id, uuid: uuid))
+            Network.shared.publisher(for: IncrementTimesClickedMutation(id: flyer.id))
                 .sink { [weak self] completion in
                     self?.networkState?.handleCompletion(screen: .flyers, completion)
                     print("Marked flyer \(flyer.id) read")

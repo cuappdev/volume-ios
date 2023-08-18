@@ -16,6 +16,7 @@ struct FlyerCellThisWeek: View {
     let cellSize: CGSize
     let flyer: Flyer
     let imageSize: CGSize
+    let organizationNameFont: Font
     
     @State private var bookmarkRequestInProgress: Bool = false
     @StateObject var urlImageModel: URLImageModel
@@ -31,7 +32,6 @@ struct FlyerCellThisWeek: View {
         static let categoryVerticalPadding: CGFloat = 4
         static let dateFont: Font = .helveticaRegular(size: 12)
         static let locationFont: Font = .helveticaRegular(size: 12)
-        static let organizationNameFont: Font = .newYorkMedium(size: 10)
         static let spacing: CGFloat = 4
         static let titleFont: Font = .newYorkMedium(size: 20)
     }
@@ -119,13 +119,13 @@ struct FlyerCellThisWeek: View {
             if flyer.organizations.count > 1 {
                 ForEach(flyer.organizations) { organization in
                     Text(organization.name)
-                        .font(Constants.organizationNameFont)
+                        .font(organizationNameFont)
                         .lineLimit(1)
                 }
             } else {
                 if let name = flyer.organizations.first?.name {
                     Text(name)
-                        .font(Constants.organizationNameFont)
+                        .font(organizationNameFont)
                         .lineLimit(1)
                 }
             }
