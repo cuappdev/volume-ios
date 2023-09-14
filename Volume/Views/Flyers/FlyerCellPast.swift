@@ -106,19 +106,9 @@ struct FlyerCellPast: View {
     
     private var organizationName: some View {
         HStack(alignment: .top) {
-            if flyer.organizations.count > 1 {
-                ForEach(flyer.organizations) { organization in
-                    Text(organization.name)
-                        .font(Constants.organizationNameFont)
-                        .lineLimit(2)
-                }
-            } else {
-                if let name = flyer.organizations.first?.name {
-                    Text(name)
-                        .font(Constants.organizationNameFont)
-                        .lineLimit(2)
-                }
-            }
+            Text(flyer.organization.name)
+                .font(Constants.organizationNameFont)
+                .lineLimit(2)
             
             Spacer()
             
@@ -163,10 +153,7 @@ struct FlyerCellPast: View {
     
     @ViewBuilder
     private var categoryType: some View {
-        if let categorySlug = flyer.organizations.first?.categorySlug {
-            Text(Organization.contentTypeString(
-                type: categorySlug)
-            )
+        Text(Organization.contentTypeString(type: flyer.organization.categorySlug))
             .padding(.init(
                 top: Constants.categoryVerticalPadding,
                 leading: Constants.categoryHorizontalPadding,
@@ -181,7 +168,6 @@ struct FlyerCellPast: View {
                 RoundedRectangle(cornerRadius: Constants.categoryCornerRadius)
                     .stroke(Color.volume.orange, lineWidth: 1)
             )
-        }
     }
     
 }

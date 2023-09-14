@@ -23,11 +23,17 @@ struct Organization: Hashable, Identifiable {
     let websiteUrl: URL?
     
     init(from organization: OrganizationFields) {
-        self.backgroundImageUrl = URL(string: organization.backgroundImageUrl)
+        self.backgroundImageUrl = {
+            guard let stringUrl = organization.backgroundImageUrl else { return nil }
+            return URL(string: stringUrl)
+        }()
         self.bio = organization.bio
         self.categorySlug = OrganizationType(rawValue: organization.categorySlug) ?? .academic
         self.name = organization.name
-        self.profileImageUrl = URL(string: organization.profileImageUrl)
+        self.profileImageUrl = {
+            guard let stringUrl = organization.profileImageUrl else { return nil }
+            return URL(string: stringUrl)
+        }()
         self.slug = organization.slug
         self.shoutouts = Int(organization.shoutouts)
         self.websiteUrl = URL(string: organization.websiteUrl)
