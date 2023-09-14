@@ -29,7 +29,6 @@ struct FlyersView: View {
         static let rowVerticalPadding: CGFloat = 6
         static let spacing: CGFloat = 16
         static let titleFont: Font = .newYorkMedium(size: 28)
-        static let upcomingSectionHeight: CGFloat = 308
         static let volumeMessagePadding: CGFloat = 20
         static let weeklyButtonSize: CGSize = CGSize(width: 15, height: 15)
         static let weeklyCellSize: CGSize = CGSize(width: 256, height: 350)
