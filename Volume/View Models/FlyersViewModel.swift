@@ -84,7 +84,7 @@ extension FlyersView {
                     var upcoming = [Flyer](flyerFields)
                     if self?.selectedCategory != .all {
                         upcoming = upcoming.filter {
-                            $0.organizations.first?.categorySlug == self?.selectedCategory
+                            $0.organization.categorySlug == self?.selectedCategory
                         }
                     }
                     self?.upcomingFlyers = self?.sortFlyersByDateAsc(for: upcoming)

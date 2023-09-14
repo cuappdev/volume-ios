@@ -5,11 +5,10 @@ fragment flyerFields on Flyer {
   imageURL
   isTrending
   location
-  nsfw
-  organizations {
+  organization {
     ...organizationFields
   }
-  organizationSlugs
+  organizationSlug
   startDate
   timesClicked
   title

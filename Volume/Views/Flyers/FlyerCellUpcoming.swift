@@ -102,19 +102,9 @@ struct FlyerCellUpcoming: View {
     
     private var organizationName: some View {
         HStack(alignment: .center) {
-            if flyer.organizations.count > 1 {
-                ForEach(flyer.organizations) { organization in
-                    Text(organization.name)
-                        .font(Constants.organizationNameFont)
-                        .lineLimit(2)
-                }
-            } else {
-                if let name = flyer.organizations.first?.name {
-                    Text(name)
-                        .font(Constants.organizationNameFont)
-                        .lineLimit(2)
-                }
-            }
+            Text(flyer.organization.name)
+                .font(Constants.organizationNameFont)
+                .lineLimit(2)
             
             Spacer()
             
