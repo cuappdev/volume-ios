@@ -169,29 +169,27 @@ struct FlyersView: View {
                 flyers.isEmpty ? emptyMessage(section: .upcoming) : nil
             }
             
-            ScrollView(.horizontal, showsIndicators: false) {
-                LazyHGrid(rows: Constants.gridRows, spacing: Constants.spacing) {
-                    switch viewModel.upcomingFlyers {
-                    case .none:
-                        ForEach(0..<6) { _ in
-                            FlyerCellUpcoming.Skeleton()
-                        }
-                    case .some(let flyers):
-                        ForEach(flyers) { flyer in
-                            if let urlString = flyer.imageUrl?.absoluteString {
-                                FlyerCellUpcoming(
-                                    flyer: flyer,
-                                    navigationSource: .flyersTab,
-                                    urlImageModel: URLImageModel(urlString: urlString),
-                                    viewModel: viewModel
-                                )
-                            }
+            // TODO: Update FlyerCellUpcoming after user research
+            Group {
+                switch viewModel.upcomingFlyers {
+                case .none:
+                    FlyerCellPast.Skeleton()
+                        .padding(.bottom, Constants.spacing)
+                    FlyerCellPast.Skeleton()
+                case .some(let flyers):
+                    ForEach(flyers) { flyer in
+                        if let urlString = flyer.imageUrl?.absoluteString {
+                            FlyerCellPast(
+                                flyer: flyer,
+                                navigationSource: .flyersTab,
+                                urlImageModel: URLImageModel(urlString: urlString),
+                                viewModel: viewModel
+                            )
                         }
                     }
                 }
-                .padding(.horizontal, Constants.listHorizontalPadding)
-                .frame(height: viewModel.upcomingFlyers?.isEmpty ?? false ? 0 : Constants.upcomingSectionHeight)
             }
+            .padding(.horizontal, Constants.listHorizontalPadding)
             .environment(\EnvironmentValues.refresh as! WritableKeyPath<EnvironmentValues, RefreshAction?>, nil)
         } header: {
             upcomingHeader
