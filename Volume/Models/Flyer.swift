@@ -16,7 +16,6 @@ struct Flyer: Hashable, Identifiable {
     let endDate: Date
     let flyerUrl: URL?
     let imageUrl: URL?
-    let isTrending: Bool
     let location: String
     let organization: Organization
     let organizationSlug: String
@@ -33,7 +32,6 @@ struct Flyer: Hashable, Identifiable {
             return URL(string: stringUrl)
         }()
         self.imageUrl = URL(string: flyer.imageUrl)
-        self.isTrending = Bool(flyer.isTrending)
         self.location = flyer.location
         self.organization = Organization(from: flyer.organization.fragments.organizationFields)
         self.organizationSlug = flyer.organizationSlug

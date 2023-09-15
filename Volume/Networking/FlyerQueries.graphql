@@ -3,7 +3,6 @@ fragment flyerFields on Flyer {
   endDate
   flyerURL
   imageURL
-  isTrending
   location
   organization {
     ...organizationFields
