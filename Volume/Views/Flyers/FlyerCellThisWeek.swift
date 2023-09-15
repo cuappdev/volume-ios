@@ -94,10 +94,7 @@ struct FlyerCellThisWeek: View {
                     .shimmer(.largeShimmer())
             }
             
-            if let categorySlug = flyer.organizations.first?.categorySlug {
-                Text(Organization.contentTypeString(
-                    type: categorySlug)
-                )
+            Text(Organization.contentTypeString(type: flyer.organization.categorySlug))
                 .padding(.init(
                     top: Constants.categoryVerticalPadding,
                     leading: Constants.categoryHorizontalPadding,
@@ -109,26 +106,15 @@ struct FlyerCellThisWeek: View {
                 .background(Color.volume.orange)
                 .clipShape(RoundedRectangle(cornerRadius: Constants.categoryCornerRadius))
                 .padding([.top, .leading], 8)
-            }
         }
         .frame(width: imageSize.width, height: imageSize.height)
     }
     
     private var organizationName: some View {
         HStack(alignment: .top) {
-            if flyer.organizations.count > 1 {
-                ForEach(flyer.organizations) { organization in
-                    Text(organization.name)
-                        .font(organizationNameFont)
-                        .lineLimit(1)
-                }
-            } else {
-                if let name = flyer.organizations.first?.name {
-                    Text(name)
-                        .font(organizationNameFont)
-                        .lineLimit(1)
-                }
-            }
+            Text(flyer.organization.name)
+                .font(organizationNameFont)
+                .lineLimit(1)
             
             Spacer()
             

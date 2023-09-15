@@ -91,10 +91,7 @@ struct TrendingFlyerCell: View {
                     .shimmer(.largeShimmer())
             }
             
-            if let categorySlug = flyer.organizations.first?.categorySlug {
-                Text(Organization.contentTypeString(
-                    type: categorySlug)
-                )
+            Text(Organization.contentTypeString(type: flyer.organization.categorySlug))
                 .padding(.init(
                     top: Constants.categoryVerticalPadding,
                     leading: Constants.categoryHorizontalPadding,
@@ -107,26 +104,15 @@ struct TrendingFlyerCell: View {
                 .clipShape(RoundedRectangle(cornerRadius: Constants.categoryCornerRadius))
                 .padding([.top, .leading], 8)
                 .frame(alignment: .topLeading)
-            }
         }
         .frame(height: Constants.imageHeight)
     }
     
     private var organizationName: some View {
         HStack(alignment: .center) {
-            if flyer.organizations.count > 1 {
-                ForEach(flyer.organizations) { organization in
-                    Text(organization.name)
-                        .font(Constants.organizationNameFont)
-                        .lineLimit(1)
-                }
-            } else {
-                if let name = flyer.organizations.first?.name {
-                    Text(name)
-                        .font(Constants.organizationNameFont)
-                        .lineLimit(1)
-                }
-            }
+            Text(flyer.organization.name)
+                .font(Constants.organizationNameFont)
+                .lineLimit(1)
             
             Spacer()
             

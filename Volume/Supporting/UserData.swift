@@ -348,12 +348,14 @@ class UserData: ObservableObject {
         
         guard let uuid = uuid else {
             // User has not finished onboarding
-            if isFollowed {
-                if !followedPublicationSlugs.contains(publication.slug) {
-                    followedPublicationSlugs.insert(publication.slug, at: 0)
+            DispatchQueue.main.async {
+                if isFollowed {
+                    if !self.followedPublicationSlugs.contains(publication.slug) {
+                        self.followedPublicationSlugs.insert(publication.slug, at: 0)
+                    }
+                } else {
+                    self.followedPublicationSlugs.removeAll(where: { $0 == publication.slug })
                 }
-            } else {
-                followedPublicationSlugs.removeAll(where: { $0 == publication.slug })
             }
             requestInProgress = false
             return
@@ -362,6 +364,7 @@ class UserData: ObservableObject {
         if isFollowed {
             let followMutation = FollowPublicationMutation(slug: publication.slug, uuid: uuid)
             cancellables[.follow(publication)] = Network.shared.publisher(for: followMutation)
+                .receive(on: DispatchQueue.main)
                 .sink { completion in
                     if case let .failure(error) = completion {
                         print("Error: FollowPublicationMutation failed on UserData: \(error.localizedDescription)")
@@ -376,6 +379,7 @@ class UserData: ObservableObject {
         } else {
             let unfollowMutation = UnfollowPublicationMutation(slug: publication.slug, uuid: uuid)
             cancellables[.unfollow(publication)] = Network.shared.publisher(for: unfollowMutation)
+                .receive(on: DispatchQueue.main)
                 .sink { completion in
                     if case let .failure(error) = completion {
                         print("Error: UnfollowPublicationMutation failed on UserData: \(error.localizedDescription)")
