@@ -7,6 +7,7 @@
 #  Copyright © 2023 Cornell AppDev. All rights reserved.
 
 echo "Installing Cocoapods Dependencies"
+brew install cocoapods
 pod deintegrate
 pod install
 
