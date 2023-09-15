@@ -186,6 +186,7 @@
 		2EA7DB7829DC0EE5001D7B8A /* URLImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImageModel.swift; sourceTree = "<group>"; };
 		2EB5568729B9485700794423 /* MagsScrollbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagsScrollbarView.swift; sourceTree = "<group>"; };
 		2EB5568B29B94A5600794423 /* PageIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicatorView.swift; sourceTree = "<group>"; };
+		2EE2078B2AB41984009A8ED3 /* ci_post_clone.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_clone.sh; sourceTree = "<group>"; };
 		2EE8411E2A2EA0DE00691BB7 /* FlyersSupporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyersSupporting.swift; sourceTree = "<group>"; };
 		2EF894B32A1E9DCF001DD2A1 /* FlyerQueries.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FlyerQueries.graphql; sourceTree = "<group>"; };
 		2EF894B52A1E9E43001DD2A1 /* OrganizationQueries.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OrganizationQueries.graphql; sourceTree = "<group>"; };
@@ -428,6 +429,14 @@
 			path = Flyers;
 			sourceTree = "<group>";
 		};
+		2EE2078A2AB4196F009A8ED3 /* ci_scripts */ = {
+			isa = PBXGroup;
+			children = (
+				2EE2078B2AB41984009A8ED3 /* ci_post_clone.sh */,
+			);
+			path = ci_scripts;
+			sourceTree = "<group>";
+		};
 		3360B9D62926129100A923A6 /* Publications */ = {
 			isa = PBXGroup;
 			children = (
@@ -553,6 +562,7 @@
 		7ED7C32A252D117A0078B1BD = {
 			isa = PBXGroup;
 			children = (
+				2EE2078A2AB4196F009A8ED3 /* ci_scripts */,
 				7ED7C335252D117A0078B1BD /* Volume */,
 				7ED7C334252D117A0078B1BD /* Products */,
 				83C84BDB5D19AF58134A64D3 /* Pods */,
