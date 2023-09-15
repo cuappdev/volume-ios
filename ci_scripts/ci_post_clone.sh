@@ -6,10 +6,9 @@
 #  Created by Vin Bui on 9/14/23.
 #  Copyright © 2023 Cornell AppDev. All rights reserved.
 
-#echo "Installing Cocoapods Dependencies"
-#brew install cocoapods
+echo "Installing Cocoapods Dependencies"
+pod deintegrate
 pod install
-#pod install --repo-update
 
 echo "Installing Apollo Client Dependencies"
 brew install node
@@ -23,6 +22,3 @@ apollo schema:download --endpoint=$PROD_ENDPOINT ../Volume/Networking/schema.jso
 apollo codegen:generate --target=swift --includes='../**/*.graphql' --localSchemaFile='../Volume/Networking/schema.json' ../Volume/Networking/API.swift
 wget -O ../Volume/Supporting/GoogleService-Info.plist "$GOOGLE_SERVICE_PLIST"
 wget -O ../Volume/Supporting/Secrets.plist "$SECRETS_PLIST"
-
-#cd ..
-#"Pods/Target Support Files/Pods-Volume/Pods-Volume-frameworks.sh"
