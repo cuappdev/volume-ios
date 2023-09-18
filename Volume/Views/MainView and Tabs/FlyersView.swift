@@ -29,7 +29,6 @@ struct FlyersView: View {
         static let rowVerticalPadding: CGFloat = 6
         static let spacing: CGFloat = 16
         static let titleFont: Font = .newYorkMedium(size: 28)
-        static let upcomingSectionHeight: CGFloat = 308
         static let volumeMessagePadding: CGFloat = 20
         static let weeklyButtonSize: CGSize = CGSize(width: 15, height: 15)
         static let weeklyCellSize: CGSize = CGSize(width: 256, height: 350)
@@ -169,29 +168,26 @@ struct FlyersView: View {
                 flyers.isEmpty ? emptyMessage(section: .upcoming) : nil
             }
             
-            ScrollView(.horizontal, showsIndicators: false) {
-                LazyHGrid(rows: Constants.gridRows, spacing: Constants.spacing) {
-                    switch viewModel.upcomingFlyers {
-                    case .none:
-                        ForEach(0..<6) { _ in
-                            FlyerCellUpcoming.Skeleton()
-                        }
-                    case .some(let flyers):
-                        ForEach(flyers) { flyer in
-                            if let urlString = flyer.imageUrl?.absoluteString {
-                                FlyerCellUpcoming(
-                                    flyer: flyer,
-                                    navigationSource: .flyersTab,
-                                    urlImageModel: URLImageModel(urlString: urlString),
-                                    viewModel: viewModel
-                                )
-                            }
+            Group {
+                switch viewModel.upcomingFlyers {
+                case .none:
+                    FlyerCellPast.Skeleton()
+                        .padding(.bottom, Constants.spacing)
+                    FlyerCellPast.Skeleton()
+                case .some(let flyers):
+                    ForEach(flyers) { flyer in
+                        if let urlString = flyer.imageUrl?.absoluteString {
+                            FlyerCellPast(
+                                flyer: flyer,
+                                navigationSource: .flyersTab,
+                                urlImageModel: URLImageModel(urlString: urlString),
+                                viewModel: viewModel
+                            )
                         }
                     }
                 }
-                .padding(.horizontal, Constants.listHorizontalPadding)
-                .frame(height: viewModel.upcomingFlyers?.isEmpty ?? false ? 0 : Constants.upcomingSectionHeight)
             }
+            .padding(.horizontal, Constants.listHorizontalPadding)
             .environment(\EnvironmentValues.refresh as! WritableKeyPath<EnvironmentValues, RefreshAction?>, nil)
         } header: {
             upcomingHeader
