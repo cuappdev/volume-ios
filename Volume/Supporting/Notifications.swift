@@ -98,7 +98,7 @@ extension Notifications {
 }
 
 extension Notifications: MessagingDelegate {
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+    @MainActor func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         if let fcmToken = fcmToken {
             #if DEBUG
             print("Firebase Messaging registration token: \(fcmToken)")
