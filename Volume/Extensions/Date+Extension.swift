@@ -44,10 +44,10 @@ extension Date {
         return formatter.string(from: self)
     }
     
-    /// This `Date` in the format "MMM d yy h:mm a". For example, April 11 2023 at 5:00 PM is Apr 11 23 5:00 PM
-    var flyerDateTimeString: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d yy h:mm a"
+    /// This `Date` in UTC ISO 8601 format
+    var flyerUTCISOString: String {
+        let formatter = ISO8601DateFormatter()
+        formatter.timeZone = NSTimeZone(abbreviation: "UTC") as? TimeZone
         return formatter.string(from: self)
     }
     

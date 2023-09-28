@@ -16,11 +16,9 @@ struct Flyer: Hashable, Identifiable {
     let endDate: Date
     let flyerUrl: URL?
     let imageUrl: URL?
-    let isTrending: Bool
     let location: String
-    let nsfw: Bool
-    let organizations: [Organization]
-    let organizationSlugs: [String]
+    let organization: Organization
+    let organizationSlug: String
     let startDate: Date
     let timesClicked: Int
     let title: String
@@ -29,13 +27,14 @@ struct Flyer: Hashable, Identifiable {
     init(from flyer: FlyerFields) {
         self.id = flyer.id
         self.endDate = Date.from(iso8601: flyer.endDate)
-        self.flyerUrl = URL(string: flyer.flyerUrl)
+        self.flyerUrl = {
+            guard let stringUrl = flyer.flyerUrl else { return nil }
+            return URL(string: stringUrl)
+        }()
         self.imageUrl = URL(string: flyer.imageUrl)
-        self.isTrending = Bool(flyer.isTrending)
         self.location = flyer.location
-        self.nsfw = flyer.nsfw
-        self.organizations = flyer.organizations.map { Organization(from: $0.fragments.organizationFields) }
-        self.organizationSlugs = flyer.organizationSlugs
+        self.organization = Organization(from: flyer.organization.fragments.organizationFields)
+        self.organizationSlug = flyer.organizationSlug
         self.startDate = Date.from(iso8601: flyer.startDate)
         self.timesClicked = Int(flyer.timesClicked)
         self.title = flyer.title

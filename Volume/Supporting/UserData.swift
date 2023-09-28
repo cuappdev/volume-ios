@@ -10,6 +10,7 @@ import Combine
 import Foundation
 import SwiftUI
 
+@MainActor
 class UserData: ObservableObject {
 
     static let shared = UserData()
@@ -32,80 +33,62 @@ class UserData: ObservableObject {
     /// wipe the cache.
     @Published var shoutoutsCache: [String: Int] = [:] {
         willSet {
-            DispatchQueue.main.async {
-                self.objectWillChange.send()
-            }
+            self.objectWillChange.send()
         }
     }
 
     @Published private(set) var savedArticleIDs: [String] = [] {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: articlesKey)
-            DispatchQueue.main.async {
-                self.objectWillChange.send()
-            }
+            self.objectWillChange.send()
         }
     }
 
     @Published private(set) var followedPublicationSlugs: [String] = [] {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: publicationsKey)
-            DispatchQueue.main.async {
-                self.objectWillChange.send()
-            }
+            self.objectWillChange.send()
         }
     }
 
     @Published private var articleShoutoutsCounter: [String: Int] = [:] {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: articleShoutoutsKey)
-            DispatchQueue.main.async {
-                self.objectWillChange.send()
-            }
+            self.objectWillChange.send()
         }
     }
     
     @Published var magazineShoutoutsCache: [String: Int] = [:] {
         willSet {
-            DispatchQueue.main.async {
-                self.objectWillChange.send()
-            }
+            self.objectWillChange.send()
         }
     }
     
     @Published private(set) var savedMagazineIDs: [String] = [] {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: magazinesKey)
-            DispatchQueue.main.async {
-                self.objectWillChange.send()
-            }
+            self.objectWillChange.send()
         }
     }
 
     @Published private var magazineShoutoutsCounter: [String: Int] = [:] {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: magazineShoutoutsKey)
-            DispatchQueue.main.async {
-                self.objectWillChange.send()
-            }
+            self.objectWillChange.send()
         }
     }
     
     @Published var recentSearchQueries: [String] = [] {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: recentSearchesKey)
-            DispatchQueue.main.async {
-                self.objectWillChange.send()
-            }
+            self.objectWillChange.send()
         }
     }
     
     @Published private(set) var savedFlyerIDs: [String] = [] {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: flyersKey)
-            DispatchQueue.main.async {
-                self.objectWillChange.send()
-            }
+            self.objectWillChange.send()
         }
     }
     
@@ -236,9 +219,11 @@ class UserData: ObservableObject {
     }
     
     func addRecentSearchQueries(_ query: String) {
+        let maxSearches: Int = 20
+        
         recentSearchQueries = recentSearchQueries.filter { $0 != query }
         recentSearchQueries.insert(query, at: 0)
-        if recentSearchQueries.count > 10 { recentSearchQueries.removeLast() }
+        if recentSearchQueries.count > maxSearches { recentSearchQueries.removeLast() }
     }
     
     func removeRecentSearchQueries(_ query: String) {
@@ -259,7 +244,6 @@ class UserData: ObservableObject {
         
         if isSaved {
             cancellables[.bookmarkArticle(article)] = Network.shared.publisher(for: BookmarkArticleMutation(uuid: uuid))
-                .receive(on: DispatchQueue.main)
                 .sink { completion in
                     if case let .failure(error) = completion {
                         print("Error: BookmarkArticleMutation failed on UserData: \(error.localizedDescription)")
@@ -272,9 +256,7 @@ class UserData: ObservableObject {
                 }
         } else {
             requestInProgress = false
-            DispatchQueue.main.async {
-                self.savedArticleIDs.removeAll(where: { $0 == article.id })
-            }
+            self.savedArticleIDs.removeAll(where: { $0 == article.id })
         }
     }
 
@@ -304,9 +286,7 @@ class UserData: ObservableObject {
                 }
         } else {
             requestInProgress = false
-            DispatchQueue.main.async {
-                self.savedMagazineIDs.removeAll(where: { $0 == magazine.id })
-            }
+            self.savedMagazineIDs.removeAll(where: { $0 == magazine.id })
         }
     }
     
@@ -336,9 +316,7 @@ class UserData: ObservableObject {
                 }
         } else {
             requestInProgress = false
-            DispatchQueue.main.async {
-                self.savedFlyerIDs.removeAll(where: { $0 == flyer.id })
-            }
+            self.savedFlyerIDs.removeAll(where: { $0 == flyer.id })
         }
     }
 
@@ -349,11 +327,11 @@ class UserData: ObservableObject {
         guard let uuid = uuid else {
             // User has not finished onboarding
             if isFollowed {
-                if !followedPublicationSlugs.contains(publication.slug) {
-                    followedPublicationSlugs.insert(publication.slug, at: 0)
+                if !self.followedPublicationSlugs.contains(publication.slug) {
+                    self.followedPublicationSlugs.insert(publication.slug, at: 0)
                 }
             } else {
-                followedPublicationSlugs.removeAll(where: { $0 == publication.slug })
+                self.followedPublicationSlugs.removeAll(where: { $0 == publication.slug })
             }
             requestInProgress = false
             return

@@ -19,21 +19,30 @@ struct FlyersBookmark: View {
     let navigationSource: NavigationSource
     
     @State private var bookmarkRequestInProgress: Bool = false
+    @State private var isFlyerSaved: Bool = false
     @EnvironmentObject private var userData: UserData
     
     // MARK: - UI
     
     var body: some View {
-        if isPast {
-            pastBookmark
-        } else {
-            upcomingBookmark
+        Group {
+            if isPast {
+                pastBookmark
+            } else {
+                upcomingBookmark
+            }
+        }
+        .onAppear {
+            isFlyerSaved = userData.isFlyerSaved(flyer)
+        }
+        .onChange(of: userData.isFlyerSaved(flyer)) { saved in
+            isFlyerSaved = saved
         }
     }
     
     @ViewBuilder
     private var pastBookmark: some View {
-        if userData.isFlyerSaved(flyer) {
+        if isFlyerSaved {
             Image.volume.bookmarkFilled
                 .resizable()
                 .scaledToFit()
@@ -65,7 +74,7 @@ struct FlyersBookmark: View {
             Haptics.shared.play(.light)
             toggleSaved(for: flyer)
         } label: {
-            if userData.isFlyerSaved(flyer) {
+            if isFlyerSaved {
                 Image.volume.bookmarkFilled
                     .resizable()
                     .scaledToFit()
@@ -91,6 +100,7 @@ struct FlyersBookmark: View {
     
     private func toggleSaved(for flyer: Flyer) {
         bookmarkRequestInProgress = true
+        isFlyerSaved.toggle()
         userData.toggleFlyerSaved(flyer, $bookmarkRequestInProgress)
         AppDevAnalytics.log(
             VolumeEvent.bookmarkFlyer.toEvent(.flyer, value: flyer.id, navigationSource: navigationSource)

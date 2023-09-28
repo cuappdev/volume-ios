@@ -76,7 +76,7 @@ extension FlyersView {
         }
         
         func fetchUpcoming() async {
-            Network.shared.publisher(for: GetFlyersAfterDateQuery(since: Date().flyerDateTimeString))
+            Network.shared.publisher(for: GetFlyersAfterDateQuery(since: Date().flyerUTCISOString))
                 .map { $0.flyers.map(\.fragments.flyerFields) }
                 .sink { [weak self] completion in
                     self?.networkState?.handleCompletion(screen: .flyers, completion)
@@ -84,7 +84,7 @@ extension FlyersView {
                     var upcoming = [Flyer](flyerFields)
                     if self?.selectedCategory != .all {
                         upcoming = upcoming.filter {
-                            $0.organizations.first?.categorySlug == self?.selectedCategory
+                            $0.organization.categorySlug == self?.selectedCategory
                         }
                     }
                     self?.upcomingFlyers = self?.sortFlyersByDateAsc(for: upcoming)
@@ -114,7 +114,7 @@ extension FlyersView {
         // MARK: - Private Requests
         
         private func fetchDaily() async {
-            Network.shared.publisher(for: GetFlyersAfterDateQuery(since: Date().flyerDateTimeString))
+            Network.shared.publisher(for: GetFlyersAfterDateQuery(since: Date().flyerUTCISOString))
                 .map { $0.flyers.map(\.fragments.flyerFields) }
                 .sink { [weak self] completion in
                     self?.networkState?.handleCompletion(screen: .flyers, completion)
@@ -127,7 +127,7 @@ extension FlyersView {
         }
         
         private func fetchThisWeek() async {
-            Network.shared.publisher(for: GetFlyersAfterDateQuery(since: Date().flyerDateTimeString))
+            Network.shared.publisher(for: GetFlyersAfterDateQuery(since: Date().flyerUTCISOString))
                 .map { $0.flyers.map(\.fragments.flyerFields) }
                 .sink { [weak self] completion in
                     self?.networkState?.handleCompletion(screen: .flyers, completion)
@@ -151,7 +151,7 @@ extension FlyersView {
             Network.shared.publisher(
                 for: GetFlyersBeforeDateQuery(
                     limit: Constants.pastFlyersLimit,
-                    before: Date().flyerDateTimeString)
+                    before: Date().flyerUTCISOString)
                 )
                 .map { $0.flyers.map(\.fragments.flyerFields) }
                 .sink { [weak self] completion in
