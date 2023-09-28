@@ -18,10 +18,12 @@ struct AboutConstants {
             subteams: [
                 .podLead("Jennifer Gu"),
                 .ios([
-                    "Vin Bui"
+                    "Vin Bui",
+                    "Jennifer Gu"
                 ]),
                 .backend([
-                    "Isaac Han"
+                    "Cindy Liang",
+                    "Aayush Agnihotri"
                 ]),
                 .android([
                     "Zach Seidner"
@@ -30,7 +32,8 @@ struct AboutConstants {
                     "Amy Ge"
                 ]),
                 .marketing([
-                    "Jane Lee"
+                    "Jane Lee",
+                    "Candy Wu"
                 ])
             ]
         ),
