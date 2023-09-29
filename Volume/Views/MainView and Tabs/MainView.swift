@@ -55,25 +55,37 @@ struct MainView: View {
                     
                     TabItem(icon: .volume.feed, size: iconSize, name: "Trending")
                         .foregroundColor(selectedTab == .trending ? .volume.orange : .volume.lightGray)
-                        .onTapGesture { selectedTab = .trending }
+                        .onTapGesture {
+                            selectedTab = .trending
+                            AppDevAnalytics.log(VolumeEvent.tapTrendingPage.toEvent(.page))
+                        }
 
                     Spacer()
 
                     TabItem(icon: .volume.flyer, size: iconSize, name: "Flyers")
                         .foregroundColor(selectedTab == .flyers ? .volume.orange : .volume.lightGray)
-                        .onTapGesture { selectedTab = .flyers }
+                        .onTapGesture {
+                            selectedTab = .flyers
+                            AppDevAnalytics.log(VolumeEvent.tapFlyersPage.toEvent(.page))
+                        }
 
                     Spacer()
                     
                     TabItem(icon: .volume.magazine, size: iconSize, name: "Reads")
                         .foregroundColor(selectedTab == .reads ? .volume.orange : .volume.lightGray)
-                        .onTapGesture { selectedTab = .reads }
+                        .onTapGesture {
+                            selectedTab = .reads
+                            AppDevAnalytics.log(VolumeEvent.tapReadsPage.toEvent(.page))
+                        }
                     
                     Spacer()
                     
                     TabItem(icon: .volume.bookmark, size: iconSize, name: "Bookmarks")
                         .foregroundColor(selectedTab == .bookmarks ? .volume.orange : .volume.lightGray)
-                        .onTapGesture { selectedTab = .bookmarks }
+                        .onTapGesture {
+                            selectedTab = .bookmarks
+                            AppDevAnalytics.log(VolumeEvent.tapBookmarksPage.toEvent(.page))
+                        }
                     
                     Spacer()
                 }
