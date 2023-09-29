@@ -20,3 +20,9 @@ query GetOrganizationSlugsByCategorySlug($categorySlug: String!) {
     slug
   }
 }
+
+query CheckAccessCode($accessCode: String!, $slug: String!) {
+  organization: checkAccessCode(accessCode: $accessCode, slug: $slug) {
+    ...organizationFields
+  }
+}

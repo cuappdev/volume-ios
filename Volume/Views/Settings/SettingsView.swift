@@ -15,6 +15,7 @@ struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
     
     // MARK: - Constants
+    
     private struct Constants {
         static let font: Font = .newYorkRegular(size: 16)
         static let imageSize: CGSize = CGSize(width: 24, height: 24)
@@ -29,12 +30,14 @@ struct SettingsView: View {
     
     var body: some View {
         VStack(spacing: Constants.vertSpacing) {
-            settingsRowDestination(image: Image.volume.info, label: "About Volume", destination: .internalView(.aboutUs))
+            settingsRowDestination(image: Image.volume.info, label: "About Volume", destination: .internalView(.aboutUs(AboutVolumeView())))
             
             settingsRowDestination(image: Image.volume.flag, label: "Send feedback", destination: .externalLink(Secrets.feedbackForm))
             
-            settingsRowDestination(image: Image(systemName: "link"), label: "Visit our website", destination: .externalLink(Secrets.appdevWebsite))
+            settingsRowDestination(image: Image.volume.link, label: "Visit our website", destination: .externalLink(Secrets.appdevWebsite))
             
+            settingsRowDestination(image: Image.volume.lock, label: "Organization login", destination: .internalView(.organizationLogin(OrgsLoginView())))
+                        
             Spacer()
         }
         .padding(.horizontal, Constants.sidePadding)
@@ -71,7 +74,12 @@ struct SettingsView: View {
             }
          case .internalView(let destinationView):
             NavigationLink {
-                getView(for: destinationView)
+                switch destinationView {
+                case .aboutUs(let aboutUsView):
+                    aboutUsView
+                case .organizationLogin(let orgsLoginView):
+                    orgsLoginView
+                }
             } label: {
                 settingsRow(image: image, label: label)
             }
@@ -97,15 +105,6 @@ struct SettingsView: View {
         .background(Color.volume.backgroundGray)
     }
     
-    // MARK: - Helpers
-    
-    private func getView(for view: SettingsInternalView) -> some View {
-        switch view {
-        case .aboutUs:
-            return AboutVolumeView()
-        }
-    }
-    
 }
 
 extension SettingsView {
@@ -116,7 +115,8 @@ extension SettingsView {
     }
     
     enum SettingsInternalView {
-        case aboutUs
+        case aboutUs(AboutVolumeView)
+        case organizationLogin(OrgsLoginView)
     }
     
 }
