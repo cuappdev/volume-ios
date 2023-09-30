@@ -28,7 +28,6 @@ struct OrgsLoginView: View {
         static let labelFont: Font = .newYorkRegular(size: 16)
         static let labelSpacing: CGFloat = 8
         static let maxAccessCodeLength: Int = 6
-        static let navHeaderText: Font = .newYorkMedium(size: 20)
         static let sidePadding: CGFloat = 16
         static let textColor: Color = Color.volume.textGray
         static let textFieldBorderColor: Color = Color.volume.outlineGray
@@ -40,37 +39,42 @@ struct OrgsLoginView: View {
     // MARK: - UI
     
     var body: some View {
-        VStack(spacing: Constants.inputSpacing) {
-            slugInput
-            codeInput
-            
-            VStack(alignment: .leading, spacing: 8) {
-                authenticateButton
+        NavigationStack {
+            VStack(spacing: Constants.inputSpacing) {
+                slugInput
+                codeInput
                 
-                viewModel.showErrorMessage ? errorMessage : nil
-            }
-            
-            Spacer()
-        }
-        .padding(.top, Constants.topPadding)
-        .padding(.horizontal, Constants.sidePadding)
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                Text("Organization Login")
-                    .font(Constants.navHeaderText)
-            }
-            
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button {
-                    dismiss()
-                } label: {
-                    Image.volume.backArrow
+                VStack(alignment: .leading, spacing: 8) {
+                    authenticateButton
+                    viewModel.showErrorMessage ? errorMessage : nil
                 }
-                .buttonStyle(EmptyButtonStyle())
+                
+                Spacer()
+            }
+            .padding(.top, Constants.topPadding)
+            .padding(.horizontal, Constants.sidePadding)
+            .background(Color.volume.backgroundGray)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("Organization Login")
+                        .font(.newYorkMedium(size: 20))
+                }
+                
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image.volume.backArrow
+                    }
+                    .buttonStyle(EmptyButtonStyle())
+                }
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationDestination(isPresented: $viewModel.isAuthenticated) {
+                FlyerUploadView(organization: viewModel.organization)
             }
         }
         .navigationBarBackButtonHidden(true)
-        .background(Color.volume.backgroundGray)
         .onChange(of: viewModel.accessCode) { _ in
             withAnimation(.easeOut(duration: 0.3)) {
                 viewModel.buttonEnabled = viewModel.accessCode.count == Constants.maxAccessCodeLength && !viewModel.slug.isEmpty
@@ -83,10 +87,7 @@ struct OrgsLoginView: View {
         }
         .onAppear {
             slugIsFocused = true  // First responder
-        }
-        .onChange(of: viewModel.organization) { organization in
-            // TODO: Do something if authenticated
-            print("Fetched \(String(describing: organization?.name))")
+            viewModel.isAuthenticated = false
         }
     }
     
@@ -104,7 +105,6 @@ struct OrgsLoginView: View {
                             viewModel.showErrorMessage ? Color.volume.errorRed :
                                 slugIsFocused ? Color.volume.orange : Constants.textFieldBorderColor, style: StrokeStyle(lineWidth: 1)
                         )
-                        .background(slugIsFocused ? Color.volume.offWhite : nil)
                 )
                 .focused($slugIsFocused)
         }
@@ -125,7 +125,6 @@ struct OrgsLoginView: View {
                             viewModel.showErrorMessage ? Color.volume.errorRed :
                                 accessCodeIsFocused ? Color.volume.orange : Constants.textFieldBorderColor, style: StrokeStyle(lineWidth: 1)
                         )
-                        .background(accessCodeIsFocused ? Color.volume.offWhite : nil)
                 )
                 .focused($accessCodeIsFocused)
                 .keyboardType(.numberPad)

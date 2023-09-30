@@ -18,9 +18,10 @@ extension OrgsLoginView {
         
         @Published var accessCode: String = ""
         @Published var buttonEnabled: Bool = false
+        @Published var isAuthenticated: Bool = false
         @Published var showErrorMessage: Bool = false
         @Published var slug: String = ""
-        @Published var organization: Organization?
+        @Published var organization: Organization? = nil
         
         private var networkState: NetworkState?
         private var queryBag = Set<AnyCancellable>()
@@ -37,12 +38,14 @@ extension OrgsLoginView {
                     case .failure(let error):
                         print("Error in OrgsLoginViewModel.authenticate: \(error)")
                         self?.showErrorMessage = true
+                        self?.isAuthenticated = false
                     default:
                         break
                     }
                 } receiveValue: { [weak self] organizationFields in
                     self?.organization = Organization(from: organizationFields)
                     self?.showErrorMessage = false
+                    self?.isAuthenticated = true
                 }
                 .store(in: &queryBag)
         }

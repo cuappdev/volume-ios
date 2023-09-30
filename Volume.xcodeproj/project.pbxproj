@@ -55,6 +55,8 @@
 		2E81EB6829F4FC0900A288C1 /* ScrollFadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E81EB6729F4FC0900A288C1 /* ScrollFadingView.swift */; };
 		2E81EB6A29F4FD1600A288C1 /* OnboardingPublicationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E81EB6929F4FD1600A288C1 /* OnboardingPublicationsView.swift */; };
 		2E84654829DBB31800BFECBE /* FlyerCategoryMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E84654729DBB31800BFECBE /* FlyerCategoryMenu.swift */; };
+		2E9349AA2AC718C70098CAC8 /* FlyerUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9349A92AC718C70098CAC8 /* FlyerUploadView.swift */; };
+		2E9349AC2AC718D70098CAC8 /* FlyerUploadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9349AB2AC718D70098CAC8 /* FlyerUploadViewModel.swift */; };
 		2EA7DB7329DBEF7C001D7B8A /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7DB7229DBEF7C001D7B8A /* UIImage+Extension.swift */; };
 		2EA7DB7929DC0EE5001D7B8A /* URLImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7DB7829DC0EE5001D7B8A /* URLImageModel.swift */; };
 		2EB5568829B9485700794423 /* MagsScrollbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB5568729B9485700794423 /* MagsScrollbarView.swift */; };
@@ -184,6 +186,8 @@
 		2E81EB6729F4FC0900A288C1 /* ScrollFadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollFadingView.swift; sourceTree = "<group>"; };
 		2E81EB6929F4FD1600A288C1 /* OnboardingPublicationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPublicationsView.swift; sourceTree = "<group>"; };
 		2E84654729DBB31800BFECBE /* FlyerCategoryMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerCategoryMenu.swift; sourceTree = "<group>"; };
+		2E9349A92AC718C70098CAC8 /* FlyerUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerUploadView.swift; sourceTree = "<group>"; };
+		2E9349AB2AC718D70098CAC8 /* FlyerUploadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerUploadViewModel.swift; sourceTree = "<group>"; };
 		2EA7DB7229DBEF7C001D7B8A /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		2EA7DB7829DC0EE5001D7B8A /* URLImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImageModel.swift; sourceTree = "<group>"; };
 		2EB5568729B9485700794423 /* MagsScrollbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagsScrollbarView.swift; sourceTree = "<group>"; };
@@ -437,6 +441,7 @@
 			isa = PBXGroup;
 			children = (
 				2EC811EB2AC6875500ED1ACC /* OrgsLoginView.swift */,
+				2E9349A92AC718C70098CAC8 /* FlyerUploadView.swift */,
 			);
 			path = "Orgs Login";
 			sourceTree = "<group>";
@@ -539,6 +544,7 @@
 				2E6A7D5D29D9EFD6002F5250 /* ArticlesViewModel.swift */,
 				2E6A7D6229DA39D3002F5250 /* BookmarksViewModel.swift */,
 				2E6A7D7029DAB2AB002F5250 /* FlyersViewModel.swift */,
+				2E9349AB2AC718D70098CAC8 /* FlyerUploadViewModel.swift */,
 				2E05005A29C65B82001B4131 /* MagazinesViewModel.swift */,
 				2EC811ED2AC6B20600ED1ACC /* OrgsLoginViewModel.swift */,
 				3360B9DD29274B9500A923A6 /* PublicationContentViewModel.swift */,
@@ -794,6 +800,7 @@
 				33538BF22745DD27009DD191 /* Notifications.swift in Sources */,
 				2E81EB6829F4FC0900A288C1 /* ScrollFadingView.swift in Sources */,
 				3392D71C2937BF4E005165F6 /* ReaderToolbarView.swift in Sources */,
+				2E9349AC2AC718D70098CAC8 /* FlyerUploadViewModel.swift in Sources */,
 				2EF894B82A1EE7ED001DD2A1 /* Calendar+Extension.swift in Sources */,
 				2E81EB6229F4DA5300A288C1 /* OnboardingMainView.swift in Sources */,
 				A2B4DF3227D9AAB000440184 /* MagazineReaderView.swift in Sources */,
@@ -813,6 +820,7 @@
 				95E4DA492638816500584E5C /* LinkItemSource.swift in Sources */,
 				7EC15DA3257767ED0053BA0B /* PublicationList.swift in Sources */,
 				335E692627DFDC2700FBDE3A /* UIFont+Extension.swift in Sources */,
+				2E9349AA2AC718C70098CAC8 /* FlyerUploadView.swift in Sources */,
 				0685AAA1259EBA3800DD55C4 /* WebView.swift in Sources */,
 				2E3D327329DE1BD600E7B0A1 /* TrendingFlyerCell.swift in Sources */,
 				BC72AEB82920519900209573 /* PDFKitView.swift in Sources */,
@@ -1041,7 +1049,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Volume/Supporting/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Volume;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1071,7 +1079,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Volume/Supporting/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Volume;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
