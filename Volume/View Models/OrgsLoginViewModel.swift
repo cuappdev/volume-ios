@@ -16,12 +16,22 @@ extension OrgsLoginView {
         
         // MARK: - Properties
         
+        @AppStorage("orgAccessCode") var orgAccessCode: String = ""
+        @AppStorage("orgSlug") var orgSlug: String = ""
+        
         @Published var accessCode: String = ""
         @Published var buttonEnabled: Bool = false
         @Published var isAuthenticated: Bool = false
+        @Published var isInfoSaved: Bool = false
         @Published var showErrorMessage: Bool = false
+        @Published var showSpinner: Bool = false
         @Published var slug: String = ""
         @Published var organization: Organization? = nil
+        
+        var orgLoginInfo: [String] {[
+            accessCode,
+            slug
+        ]}
         
         private var networkState: NetworkState?
         private var queryBag = Set<AnyCancellable>()
@@ -30,6 +40,7 @@ extension OrgsLoginView {
         
         func authenticate(accessCode: String, slug: String) async {
             organization = nil // Reset
+            showSpinner = true
             
             Network.shared.publisher(for: CheckAccessCodeQuery(accessCode: accessCode, slug: slug))
                 .compactMap { $0.organization?.fragments.organizationFields }
@@ -39,6 +50,7 @@ extension OrgsLoginView {
                         print("Error in OrgsLoginViewModel.authenticate: \(error)")
                         self?.showErrorMessage = true
                         self?.isAuthenticated = false
+                        self?.showSpinner = false
                     default:
                         break
                     }
@@ -46,8 +58,26 @@ extension OrgsLoginView {
                     self?.organization = Organization(from: organizationFields)
                     self?.showErrorMessage = false
                     self?.isAuthenticated = true
+                    self?.showSpinner = false
+                    
+                    // Save/unsave login
+                    if let self = self {
+                        if self.isInfoSaved {
+                            UserDefaults.standard.setValue(self.slug, forKey: "orgSlug")
+                            UserDefaults.standard.setValue(self.accessCode, forKey: "orgAccessCode")
+                        } else {
+                            UserDefaults.standard.setValue("", forKey: "orgSlug")
+                            UserDefaults.standard.setValue("", forKey: "orgAccessCode")
+                        }
+                    }
                 }
                 .store(in: &queryBag)
+        }
+        
+        func fetchSavedInfo() {
+            accessCode = orgAccessCode
+            slug = orgSlug
+            isInfoSaved = !orgAccessCode.isEmpty && !orgSlug.isEmpty
         }
         
     }

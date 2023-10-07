@@ -22,8 +22,9 @@ struct OrgsLoginView: View {
     // MARK: - Constants
     
     private struct Constants {
+        static let borderWidth: CGFloat = 1
         static let buttonTextFont: Font = .helveticaNeueMedium(size: 16)
-        static let errorMessageFont: Font = .helveticaNeueMedium(size: 14)
+        static let errorMessageFont: Font = .helveticaRegular(size: 14)
         static let inputSpacing: CGFloat = 24
         static let labelFont: Font = .newYorkRegular(size: 16)
         static let labelSpacing: CGFloat = 8
@@ -40,16 +41,24 @@ struct OrgsLoginView: View {
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: Constants.inputSpacing) {
-                slugInput
-                codeInput
-                
-                VStack(alignment: .leading, spacing: 8) {
-                    authenticateButton
-                    viewModel.showErrorMessage ? errorMessage : nil
+            ZStack {
+                VStack(alignment: .leading, spacing: Constants.inputSpacing) {
+                    slugInput
+                    codeInput
+                    saveInfo
+                    
+                    VStack(alignment: .leading, spacing: 8) {
+                        authenticateButton
+                        viewModel.showErrorMessage ? errorMessage : nil
+                    }
+                    
+                    Spacer()
                 }
                 
-                Spacer()
+                if viewModel.showSpinner {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                }
             }
             .padding(.top, Constants.topPadding)
             .padding(.horizontal, Constants.sidePadding)
@@ -60,11 +69,12 @@ struct OrgsLoginView: View {
                         .font(.newYorkMedium(size: 20))
                 }
                 
-                ToolbarItem(placement: .navigationBarLeading) {
+                ToolbarItem(placement: .topBarLeading) {
                     Button {
                         dismiss()
                     } label: {
                         Image.volume.backArrow
+                            .foregroundColor(Color.black)
                     }
                     .buttonStyle(EmptyButtonStyle())
                 }
@@ -75,12 +85,7 @@ struct OrgsLoginView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-        .onChange(of: viewModel.accessCode) { _ in
-            withAnimation(.easeOut(duration: 0.3)) {
-                viewModel.buttonEnabled = viewModel.accessCode.count == Constants.maxAccessCodeLength && !viewModel.slug.isEmpty
-            }
-        }
-        .onChange(of: viewModel.slug) { _ in
+        .onChange(of: viewModel.orgLoginInfo) { _ in
             withAnimation(.easeOut(duration: 0.3)) {
                 viewModel.buttonEnabled = viewModel.accessCode.count == Constants.maxAccessCodeLength && !viewModel.slug.isEmpty
             }
@@ -88,6 +93,7 @@ struct OrgsLoginView: View {
         .onAppear {
             slugIsFocused = true  // First responder
             viewModel.isAuthenticated = false
+            viewModel.fetchSavedInfo()
         }
     }
     
@@ -103,7 +109,7 @@ struct OrgsLoginView: View {
                     RoundedRectangle(cornerRadius: 4)
                         .strokeBorder(
                             viewModel.showErrorMessage ? Color.volume.errorRed :
-                                slugIsFocused ? Color.volume.orange : Constants.textFieldBorderColor, style: StrokeStyle(lineWidth: 1)
+                                slugIsFocused ? Color.volume.orange : Constants.textFieldBorderColor, style: StrokeStyle(lineWidth: Constants.borderWidth)
                         )
                 )
                 .focused($slugIsFocused)
@@ -123,7 +129,7 @@ struct OrgsLoginView: View {
                     RoundedRectangle(cornerRadius: 4)
                         .strokeBorder(
                             viewModel.showErrorMessage ? Color.volume.errorRed :
-                                accessCodeIsFocused ? Color.volume.orange : Constants.textFieldBorderColor, style: StrokeStyle(lineWidth: 1)
+                                accessCodeIsFocused ? Color.volume.orange : Constants.textFieldBorderColor, style: StrokeStyle(lineWidth: Constants.borderWidth)
                         )
                 )
                 .focused($accessCodeIsFocused)
@@ -164,6 +170,33 @@ struct OrgsLoginView: View {
             
             Text("Invalid slug or code. Please try again.")
                 .font(Constants.errorMessageFont)
+                .foregroundColor(Constants.textColor)
+        }
+    }
+    
+    private var saveInfo: some View {
+        HStack(alignment: .center, spacing: 16) {
+            Button {
+                viewModel.isInfoSaved.toggle()
+            } label: {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 4)
+                        .strokeBorder(viewModel.isInfoSaved ? Color.volume.orange : Constants.textFieldBorderColor, style: StrokeStyle(lineWidth: Constants.borderWidth))
+                    
+                    if viewModel.isInfoSaved {
+                        Image.volume.checkmark
+                            .resizable()
+                            .frame(width: 12, height: 12)
+                            .foregroundColor(Color.white)
+                    }
+                }
+            }
+            .background(viewModel.isInfoSaved ? Color.volume.orange : nil)
+            .cornerRadius(4)
+            .frame(width: 24, height: 24)
+            
+            Text("Save login info")
+                .font(Constants.textFieldFont)
                 .foregroundColor(Constants.textColor)
         }
     }

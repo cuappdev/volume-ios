@@ -6,6 +6,7 @@
 //  Copyright © 2023 Cornell AppDev. All rights reserved.
 //
 
+import PhotosUI
 import SwiftUI
 
 struct FlyerUploadView: View {
@@ -20,6 +21,8 @@ struct FlyerUploadView: View {
     // MARK: - Constants
     
     private struct Constants {
+        static let borderWidth: CGFloat = 1
+        static let buttonTextFont: Font = .helveticaNeueMedium(size: 16)
         static let inputSpacing: CGFloat = 24
         static let labelFont: Font = .newYorkRegular(size: 16)
         static let labelSpacing: CGFloat = 8
@@ -50,11 +53,12 @@ struct FlyerUploadView: View {
                         .font(.newYorkMedium(size: 20))
                 }
                 
-                ToolbarItem(placement: .navigationBarLeading) {
+                ToolbarItem(placement: .topBarLeading) {
                     Button {
                         dismiss()
                     } label: {
                         Image.volume.backArrow
+                            .foregroundColor(Color.black)
                     }
                     .buttonStyle(EmptyButtonStyle())
                 }
@@ -67,24 +71,56 @@ struct FlyerUploadView: View {
                     viewModel.endIsFocused = false
                 }
             }
+            .task {
+                await viewModel.fetchCategories()
+            }
+            .onChange(of: viewModel.flyerStringInfo) { _ in
+                withAnimation(.easeOut(duration: 0.3)) {
+                    viewModel.buttonEnabled = !viewModel.flyerName.isEmpty && !viewModel.flyerLocation.isEmpty && !viewModel.flyerCategory.isEmpty && (viewModel.flyerStart < viewModel.flyerEnd) && viewModel.flyerImage != nil
+                }
+            }
+            .onChange(of: viewModel.flyerDateInfo) { _ in
+                withAnimation(.easeOut(duration: 0.3)) {
+                    viewModel.buttonEnabled = !viewModel.flyerName.isEmpty && !viewModel.flyerLocation.isEmpty && !viewModel.flyerCategory.isEmpty && (viewModel.flyerStart < viewModel.flyerEnd) && viewModel.flyerImage != nil
+                    viewModel.showErrorMessage = viewModel.flyerStart > viewModel.flyerEnd
+                }
+            }
+            .onChange(of: viewModel.flyerImage) { _ in
+                withAnimation(.easeOut(duration: 0.3)) {
+                    viewModel.buttonEnabled = !viewModel.flyerName.isEmpty && !viewModel.flyerLocation.isEmpty && !viewModel.flyerCategory.isEmpty && (viewModel.flyerStart < viewModel.flyerEnd) && viewModel.flyerImage != nil
+                }
+            }
     }
     
     private var mainContent: some View {
-        VStack(alignment: .leading, spacing: Constants.inputSpacing) {
-            organizationName
-            flyerNameInput
-            
-            HStack(spacing: Constants.inputSpacing) {
-                startTimeInput
-                endTimeInput
+        ScrollView {
+            VStack(alignment: .leading, spacing: Constants.inputSpacing) {
+                organizationName
+                flyerNameInput
+                
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack(spacing: Constants.inputSpacing) {
+                        startTimeInput
+                        endTimeInput
+                    }
+                    
+                    viewModel.showErrorMessage ? errorMessage : nil
+                }
+                
+                locationInput
+                categoryInput
+                redirectInput
+                
+                VStack(alignment: .leading, spacing: 40) {
+                    imagePicker
+                    uploadButton
+                }
+                
+                Spacer()
             }
-            
-            locationInput
-            
-            Spacer()
+            .padding(.top, Constants.topPadding)
+            .padding(.horizontal, Constants.sidePadding)
         }
-        .padding(.top, Constants.topPadding)
-        .padding(.horizontal, Constants.sidePadding)
     }
     
     private var organizationName: some View {
@@ -93,7 +129,7 @@ struct FlyerUploadView: View {
                 .font(Constants.labelFont)
                 .foregroundColor(Constants.textColor)
             
-            Text("Cornell AppDev")
+            Text(organization?.name ?? "Invalid Organization")
                 .font(.newYorkMedium(size: 24))
         }
     }
@@ -103,12 +139,12 @@ struct FlyerUploadView: View {
             Text("Flyer Name")
                 .font(Constants.labelFont)
             
-            TextField("", text: $viewModel.flyerName)
+            TextField("Enter flyer name", text: $viewModel.flyerName)
                 .font(Constants.textFieldFont)
                 .padding(Constants.textFieldPadding)
                 .background(
                     RoundedRectangle(cornerRadius: 4)
-                        .strokeBorder( Constants.textFieldBorderColor, style: StrokeStyle(lineWidth: 1)
+                        .strokeBorder( Constants.textFieldBorderColor, style: StrokeStyle(lineWidth: Constants.borderWidth)
                         )
                 )
         }
@@ -136,7 +172,7 @@ struct FlyerUploadView: View {
                     .overlay(
                         RoundedRectangle(cornerRadius: 4)
                             .strokeBorder(
-                                Constants.textFieldBorderColor, style: StrokeStyle(lineWidth: 1)
+                                Constants.textFieldBorderColor, style: StrokeStyle(lineWidth: Constants.borderWidth)
                             )
                     )
             }
@@ -165,7 +201,7 @@ struct FlyerUploadView: View {
                     .overlay(
                         RoundedRectangle(cornerRadius: 4)
                             .strokeBorder(
-                                Constants.textFieldBorderColor, style: StrokeStyle(lineWidth: 1)
+                                Constants.textFieldBorderColor, style: StrokeStyle(lineWidth: Constants.borderWidth)
                             )
                     )
             }
@@ -178,16 +214,113 @@ struct FlyerUploadView: View {
             Text("Location")
                 .font(Constants.labelFont)
             
-            TextField("", text: $viewModel.flyerLocation)
+            TextField("Enter location", text: $viewModel.flyerLocation)
                 .font(Constants.textFieldFont)
                 .padding(Constants.textFieldPadding)
                 .background(
                     RoundedRectangle(cornerRadius: 4)
-                        .strokeBorder( Constants.textFieldBorderColor, style: StrokeStyle(lineWidth: 1)
+                        .strokeBorder(
+                            Constants.textFieldBorderColor, style: StrokeStyle(lineWidth: Constants.borderWidth)
                         )
                 )
         }
         .foregroundColor(Constants.textColor)
+    }
+    
+    private var categoryInput: some View {
+        VStack(alignment: .leading, spacing: Constants.labelSpacing) {
+            Text("Category")
+                .font(Constants.labelFont)
+            
+            if let firstCategory = viewModel.allCategories.first {
+                CategoryDropdown(
+                    borderColor: Constants.textFieldBorderColor,
+                    categories: viewModel.allCategories,
+                    defaultSelected: firstCategory,
+                    font: Constants.textFieldFont,
+                    insets: Constants.textFieldPadding,
+                    selected: $viewModel.flyerCategory,
+                    strokeWidth: Constants.borderWidth,
+                    textColor: Constants.textColor
+                )
+            }
+        }
+        .foregroundColor(Constants.textColor)
+    }
+    
+    private var redirectInput: some View {
+        VStack(alignment: .leading, spacing: Constants.labelSpacing) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Flyer Redirect Link")
+                    .font(Constants.labelFont)
+                
+                Text("Optional: Clicking on the flyer in app will take you to this link")
+                    .font(.helveticaRegular(size: 12))
+                    .foregroundColor(Color.volume.lightGray)
+            }
+            
+            TextField("", text: $viewModel.flyerURL)
+                .font(Constants.textFieldFont)
+                .padding(Constants.textFieldPadding)
+                .background(
+                    RoundedRectangle(cornerRadius: 4)
+                        .strokeBorder(
+                            Constants.textFieldBorderColor, style: StrokeStyle(lineWidth: Constants.borderWidth)
+                        )
+                )
+        }
+        .foregroundColor(Constants.textColor)
+    }
+    
+    private var imagePicker: some View {
+        PhotosPicker(selection: $viewModel.flyerImage, matching: .images) {
+            HStack(alignment: .center) {
+                Image.volume.camera
+                    .frame(width: 16, height: 16)
+                    .foregroundColor(Color.volume.orange)
+
+                Text(viewModel.flyerImage != nil ? "1 image selected" : "Select an image...")
+                    .font(.helveticaRegular(size: 16))
+                    .padding(Constants.textFieldPadding)
+            }
+            .frame(maxWidth: .infinity)
+            .background(
+                RoundedRectangle(cornerRadius: 4)
+                    .strokeBorder(
+                        Color.volume.orange, style: StrokeStyle(lineWidth: Constants.borderWidth)
+                    )
+            )
+        }
+        .foregroundColor(Color.volume.orange)
+    }
+    
+    private var uploadButton: some View {
+        Button {
+            
+        } label: {
+            Text("Upload Flyer")
+                .font(Constants.buttonTextFont)
+                .foregroundColor(viewModel.buttonEnabled ? Color.white : Constants.textColor)
+                .padding(.vertical, 12)
+                .frame(maxWidth: .infinity)
+                .background(
+                    RoundedRectangle(cornerRadius: 4)
+                        .foregroundColor(viewModel.buttonEnabled ? Color.volume.orange : Color.volume.buttonDisabledGray)
+                )
+        }
+        .padding(.top, 8)
+        .disabled(!viewModel.buttonEnabled)
+    }
+    
+    private var errorMessage: some View {
+        HStack(alignment: .center,spacing: 4) {
+            Image.volume.error
+                .frame(width: 16, height: 16)
+            
+            Text("End time must be after start time.")
+                .font(.helveticaRegular(size: 14))
+                .foregroundColor(Constants.textColor)
+        }
     }
     
     // MARK: - Supporting Views
@@ -196,32 +329,32 @@ struct FlyerUploadView: View {
         VStack {
             Spacer()
             
-            DatePicker("", selection: $viewModel.flyerStart)
+            DatePicker(">>>", selection: $viewModel.flyerStart)
                 .datePickerStyle(.wheel)
-                .frame(width: .zero)
-                .padding(.bottom)
+                .frame(maxWidth: .infinity)
+                .padding([.bottom, .horizontal])
+                .background(Color(.systemGray5))
         }
-        .transition(AnyTransition.move(edge: .bottom))
     }
     
     private var endDatePicker: some View {
         VStack {
             Spacer()
             
-            DatePicker("", selection: $viewModel.flyerEnd)
+            DatePicker(">>>", selection: $viewModel.flyerEnd)
                 .datePickerStyle(.wheel)
-                .frame(width: .zero)
-                .padding(.bottom)
+                .frame(maxWidth: .infinity)
+                .padding([.bottom, .horizontal])
+                .background(Color(.systemGray5))
         }
-        .transition(AnyTransition.move(edge: .bottom))
     }
     
 }
 
 // MARK: - Uncomment below if needed
 
-struct FlyerUploadView_Provider: PreviewProvider {
-    static var previews: some View {
-        FlyerUploadView(organization: nil)
-    }
-}
+//struct FlyerUploadView_Provider: PreviewProvider {
+//    static var previews: some View {
+//        FlyerUploadView(organization: nil)
+//    }
+//}

@@ -18,6 +18,8 @@ extension Image {
         let bookmark = Image("bookmark")
         let bookmarkFilled = Image("bookmark-filled")
         let calendar = Image("calendar")
+        let camera = Image(systemName: "camera.fill")
+        let checkmark = Image(systemName: "checkmark")
         let compass = Image("compass")
         let error = Image("error")
         let feed = Image("feed")

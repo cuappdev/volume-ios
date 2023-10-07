@@ -1,5 +1,6 @@
 fragment flyerFields on Flyer {
   id
+  categorySlug
   endDate
   flyerURL
   imageURL
@@ -36,4 +37,8 @@ query GetFlyersByIDs($ids: [String!]!) {
   flyers: getFlyersByIDs(ids: $ids) {
     ...flyerFields
   }
+}
+
+query GetAllFlyerCategories {
+  getAllFlyerCategories
 }

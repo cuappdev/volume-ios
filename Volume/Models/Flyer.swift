@@ -13,6 +13,7 @@ typealias FlyerID = String
 struct Flyer: Hashable, Identifiable {
     
     let id: String
+    let categorySlug: String
     let endDate: Date
     let flyerUrl: URL?
     let imageUrl: URL?
@@ -26,6 +27,7 @@ struct Flyer: Hashable, Identifiable {
     
     init(from flyer: FlyerFields) {
         self.id = flyer.id
+        self.categorySlug = flyer.categorySlug
         self.endDate = Date.from(iso8601: flyer.endDate)
         self.flyerUrl = {
             guard let stringUrl = flyer.flyerUrl else { return nil }
