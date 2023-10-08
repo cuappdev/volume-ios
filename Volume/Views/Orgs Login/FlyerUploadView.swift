@@ -90,17 +90,13 @@ struct FlyerUploadView: View {
         }
         .onChange(of: viewModel.flyerDateInfo) { _ in
             withAnimation(.easeOut(duration: 0.3)) {
-                withAnimation(.easeOut(duration: 0.3)) {
-                    viewModel.buttonEnabled = !viewModel.flyerName.isEmpty && !viewModel.flyerLocation.isEmpty && !viewModel.flyerCategory.isEmpty && (viewModel.flyerStart < viewModel.flyerEnd) && viewModel.flyerImageItem != nil
-                }
+                viewModel.buttonEnabled = !viewModel.flyerName.isEmpty && !viewModel.flyerLocation.isEmpty && !viewModel.flyerCategory.isEmpty && (viewModel.flyerStart < viewModel.flyerEnd) && viewModel.flyerImageItem != nil
                 viewModel.showErrorMessage = viewModel.flyerStart > viewModel.flyerEnd
             }
         }
         .onChange(of: viewModel.flyerImageItem) { _ in
             withAnimation(.easeOut(duration: 0.3)) {
-                withAnimation(.easeOut(duration: 0.3)) {
-                    viewModel.buttonEnabled = !viewModel.flyerName.isEmpty && !viewModel.flyerLocation.isEmpty && !viewModel.flyerCategory.isEmpty && (viewModel.flyerStart < viewModel.flyerEnd) && viewModel.flyerImageItem != nil
-                }
+                viewModel.buttonEnabled = !viewModel.flyerName.isEmpty && !viewModel.flyerLocation.isEmpty && !viewModel.flyerCategory.isEmpty && (viewModel.flyerStart < viewModel.flyerEnd) && viewModel.flyerImageItem != nil
             }
         }
     }

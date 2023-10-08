@@ -74,7 +74,7 @@ extension FlyerUploadView {
                     organizationID: organizationID,
                     location: flyerLocation,
                     imageB64: flyerImageB64,
-                    flyerURL: flyerURL.isEmpty ? "" : "http://\(flyerURL)",
+                    flyerURL: formatFlyerURL(flyerURL),
                     endDate: flyerEnd.flyerUTCISOString,
                     categorySlug: flyerCategory)
                 )
@@ -91,6 +91,22 @@ extension FlyerUploadView {
                 }
                 .store(in: &queryBag)
             }
+        }
+        
+        // MARK: - Helpers
+        
+        /**
+         Format the given string to be passed into the network request
+         
+         If `flyerURL` is an empty string, return an empty string. Otherwise, prepend "http://" if the string does not contain "http://" and "https://".
+         */
+        private func formatFlyerURL(_ flyerURL: String) -> String {
+            if flyerURL.isEmpty {
+                return ""
+            } else if !flyerURL.contains("http://") && !flyerURL.contains("https://") {
+                return "http://\(flyerURL)"
+            }
+            return flyerURL
         }
         
     }

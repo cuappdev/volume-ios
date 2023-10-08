@@ -31,7 +31,7 @@ extension Image {
         let leftArrow = Image("left-arrow")
         let link = Image(systemName: "link")
         let location = Image("location")
-        let lock = Image("lock")
+        let lock = Image(systemName: "lock")
         let logo = Image("volume-logo")
         let magazine = Image("magazine")
         let menu = Image("menu")
