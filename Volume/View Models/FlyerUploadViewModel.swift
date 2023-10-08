@@ -22,18 +22,21 @@ extension FlyerUploadView {
         @Published var endIsFocused: Bool = false
         @Published var flyerCategory: String! = ""
         @Published var flyerEnd: Date = Date.now
-        @Published var flyerImage: PhotosPickerItem? = nil
+        @Published var flyerImageData: Data? = nil
+        @Published var flyerImageItem: PhotosPickerItem? = nil
         @Published var flyerLocation: String = ""
         @Published var flyerName: String = ""
         @Published var flyerStart: Date = Date.now
         @Published var flyerURL: String = ""
         @Published var showErrorMessage: Bool = false
+        @Published var showSpinner: Bool = false
         @Published var startIsFocused: Bool = false
+        @Published var uploadSuccessful: Bool? = nil
         
         private var networkState: NetworkState?
         private var queryBag = Set<AnyCancellable>()
         
-        var flyerStringInfo: [String] {[
+        var flyerStringInfo: [String?] {[
             flyerCategory,
             flyerLocation,
             flyerName,
@@ -57,6 +60,37 @@ extension FlyerUploadView {
                     self?.allCategories = categories.sorted { $0 < $1 }
                 }
                 .store(in: &queryBag)
+        }
+        
+        func uploadFlyer(for organizationID: String?) async {
+            uploadSuccessful = nil
+            showSpinner = true
+                        
+            if let flyerImageB64 = flyerImageData?.base64EncodedString(),
+               let organizationID = organizationID {
+                Network.shared.publisher(for: CreateFlyerMutation(
+                    title: flyerName,
+                    startDate: flyerStart.flyerUTCISOString,
+                    organizationID: organizationID,
+                    location: flyerLocation,
+                    imageB64: flyerImageB64,
+                    flyerURL: flyerURL.isEmpty ? "" : "http://\(flyerURL)",
+                    endDate: flyerEnd.flyerUTCISOString,
+                    categorySlug: flyerCategory)
+                )
+                .map(\.createFlyer.fragments.flyerFields)
+                .sink { [weak self] completion in
+                    if case let .failure(error) = completion {
+                        print("Error: CreateFlyerMutation failed on FlyerUploadView: \(error)")
+                        self?.uploadSuccessful = false
+                        self?.showSpinner = false
+                    }
+                } receiveValue: { [weak self] _ in
+                    self?.uploadSuccessful = true
+                    self?.showSpinner = false
+                }
+                .store(in: &queryBag)
+            }
         }
         
     }

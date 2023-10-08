@@ -21,8 +21,10 @@ struct FlyerUploadView: View {
     // MARK: - Constants
     
     private struct Constants {
+        static let backgroundColor: Color = Color.volume.backgroundGray
         static let borderWidth: CGFloat = 1
         static let buttonTextFont: Font = .helveticaNeueMedium(size: 16)
+        static let compressionQuality: CGFloat = 1
         static let inputSpacing: CGFloat = 24
         static let labelFont: Font = .newYorkRegular(size: 16)
         static let labelSpacing: CGFloat = 8
@@ -37,89 +39,111 @@ struct FlyerUploadView: View {
     // MARK: - UI
     
     var body: some View {
-        mainContent
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden(true)
-            .background(Color.volume.backgroundGray)
-            .overlay(
-                viewModel.startIsFocused ? startDatePicker : nil
-            )
-            .overlay(
-                viewModel.endIsFocused ? endDatePicker : nil
-            )
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    Text("Upload Flyer")
-                        .font(.newYorkMedium(size: 20))
-                }
-                
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image.volume.backArrow
-                            .foregroundColor(Color.black)
-                    }
-                    .buttonStyle(EmptyButtonStyle())
-                }
+        ZStack(alignment: .center) {
+            mainContent
+            
+            if viewModel.showSpinner {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
             }
-            .onTapGesture {
-                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .background(Color.volume.backgroundGray)
+        .overlay(
+            viewModel.startIsFocused ? startDatePicker : nil
+        )
+        .overlay(
+            viewModel.endIsFocused ? endDatePicker : nil
+        )
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("Upload Flyer")
+                    .font(.newYorkMedium(size: 20))
+            }
+            
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image.volume.backArrow
+                        .foregroundColor(Color.black)
+                }
+                .buttonStyle(EmptyButtonStyle())
+            }
+        }
+        .onTapGesture {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
 
+            withAnimation(.easeOut(duration: 0.3)) {
+                viewModel.startIsFocused = false
+                viewModel.endIsFocused = false
+            }
+        }
+        .task {
+            await viewModel.fetchCategories()
+        }
+        .onChange(of: viewModel.flyerStringInfo) { _ in
+            withAnimation(.easeOut(duration: 0.3)) {
+                viewModel.buttonEnabled = !viewModel.flyerName.isEmpty && !viewModel.flyerLocation.isEmpty && !viewModel.flyerCategory.isEmpty && (viewModel.flyerStart < viewModel.flyerEnd) && viewModel.flyerImageItem != nil
+            }
+        }
+        .onChange(of: viewModel.flyerDateInfo) { _ in
+            withAnimation(.easeOut(duration: 0.3)) {
                 withAnimation(.easeOut(duration: 0.3)) {
-                    viewModel.startIsFocused = false
-                    viewModel.endIsFocused = false
+                    viewModel.buttonEnabled = !viewModel.flyerName.isEmpty && !viewModel.flyerLocation.isEmpty && !viewModel.flyerCategory.isEmpty && (viewModel.flyerStart < viewModel.flyerEnd) && viewModel.flyerImageItem != nil
+                }
+                viewModel.showErrorMessage = viewModel.flyerStart > viewModel.flyerEnd
+            }
+        }
+        .onChange(of: viewModel.flyerImageItem) { _ in
+            withAnimation(.easeOut(duration: 0.3)) {
+                withAnimation(.easeOut(duration: 0.3)) {
+                    viewModel.buttonEnabled = !viewModel.flyerName.isEmpty && !viewModel.flyerLocation.isEmpty && !viewModel.flyerCategory.isEmpty && (viewModel.flyerStart < viewModel.flyerEnd) && viewModel.flyerImageItem != nil
                 }
             }
-            .task {
-                await viewModel.fetchCategories()
-            }
-            .onChange(of: viewModel.flyerStringInfo) { _ in
-                withAnimation(.easeOut(duration: 0.3)) {
-                    viewModel.buttonEnabled = !viewModel.flyerName.isEmpty && !viewModel.flyerLocation.isEmpty && !viewModel.flyerCategory.isEmpty && (viewModel.flyerStart < viewModel.flyerEnd) && viewModel.flyerImage != nil
-                }
-            }
-            .onChange(of: viewModel.flyerDateInfo) { _ in
-                withAnimation(.easeOut(duration: 0.3)) {
-                    viewModel.buttonEnabled = !viewModel.flyerName.isEmpty && !viewModel.flyerLocation.isEmpty && !viewModel.flyerCategory.isEmpty && (viewModel.flyerStart < viewModel.flyerEnd) && viewModel.flyerImage != nil
-                    viewModel.showErrorMessage = viewModel.flyerStart > viewModel.flyerEnd
-                }
-            }
-            .onChange(of: viewModel.flyerImage) { _ in
-                withAnimation(.easeOut(duration: 0.3)) {
-                    viewModel.buttonEnabled = !viewModel.flyerName.isEmpty && !viewModel.flyerLocation.isEmpty && !viewModel.flyerCategory.isEmpty && (viewModel.flyerStart < viewModel.flyerEnd) && viewModel.flyerImage != nil
-                }
-            }
+        }
     }
     
     private var mainContent: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: Constants.inputSpacing) {
-                organizationName
-                flyerNameInput
-                
-                VStack(alignment: .leading, spacing: 8) {
-                    HStack(spacing: Constants.inputSpacing) {
-                        startTimeInput
-                        endTimeInput
+        GeometryReader { geometry in
+            ScrollView {
+                if viewModel.uploadSuccessful != nil {
+                    stateMessage
+                        .frame(minHeight: geometry.size.height)
+                } else {
+                    VStack(alignment: .leading, spacing: Constants.inputSpacing) {
+                        organizationName
+                        flyerNameInput
+                        
+                        VStack(alignment: .leading, spacing: 8) {
+                            HStack(spacing: Constants.inputSpacing) {
+                                startTimeInput
+                                endTimeInput
+                            }
+                            
+                            viewModel.showErrorMessage ? errorMessage : nil
+                        }
+                        
+                        locationInput
+                        categoryInput
+                        redirectInput
+                        
+                        VStack(alignment: .leading, spacing: 40) {
+                            imagePicker
+                            uploadButton
+                        }
+                        
+                        Spacer()
                     }
-                    
-                    viewModel.showErrorMessage ? errorMessage : nil
+                    .padding(.top, Constants.topPadding)
+                    .padding(.horizontal, Constants.sidePadding)
+                    .background(Constants.backgroundColor)
                 }
-                
-                locationInput
-                categoryInput
-                redirectInput
-                
-                VStack(alignment: .leading, spacing: 40) {
-                    imagePicker
-                    uploadButton
-                }
-                
-                Spacer()
             }
-            .padding(.top, Constants.topPadding)
-            .padding(.horizontal, Constants.sidePadding)
+            .scrollIndicators(.hidden)
+            .scrollDisabled(viewModel.uploadSuccessful != nil)
+            .frame(width: geometry.size.width)
         }
     }
     
@@ -273,13 +297,13 @@ struct FlyerUploadView: View {
     }
     
     private var imagePicker: some View {
-        PhotosPicker(selection: $viewModel.flyerImage, matching: .images) {
+        PhotosPicker(selection: $viewModel.flyerImageItem, matching: .images) {
             HStack(alignment: .center) {
                 Image.volume.camera
                     .frame(width: 16, height: 16)
                     .foregroundColor(Color.volume.orange)
 
-                Text(viewModel.flyerImage != nil ? "1 image selected" : "Select an image...")
+                Text(viewModel.flyerImageItem != nil ? "1 image selected" : "Select an image...")
                     .font(.helveticaRegular(size: 16))
                     .padding(Constants.textFieldPadding)
             }
@@ -292,11 +316,23 @@ struct FlyerUploadView: View {
             )
         }
         .foregroundColor(Color.volume.orange)
+        .onChange(of: viewModel.flyerImageItem) { newItem in
+            Task {
+                // Retrieve selected asset in the form of Data
+                if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                    // Convert to UIImage and compress
+                    let img = UIImage(data: data)
+                    viewModel.flyerImageData = img?.jpegData(compressionQuality: Constants.compressionQuality)
+                }
+            }
+        }
     }
     
     private var uploadButton: some View {
         Button {
-            
+            Task {
+                await viewModel.uploadFlyer(for: organization?.id)
+            }
         } label: {
             Text("Upload Flyer")
                 .font(Constants.buttonTextFont)
@@ -321,6 +357,29 @@ struct FlyerUploadView: View {
                 .font(.helveticaRegular(size: 14))
                 .foregroundColor(Constants.textColor)
         }
+    }
+    
+    private var stateMessage: some View {
+        VStack {
+            Spacer()
+            
+            VStack(alignment: .center, spacing: 8) {
+                switch viewModel.uploadSuccessful {
+                case .none:
+                    EmptyView()
+                case .some(let success):
+                    Text(success ? "Flyer Published!" : "Oh no, something went wrong.")
+                        .font(.newYorkMedium(size: 20))
+                    
+                    Text(success ? "Thank you for using Volume." : "Please try again later.")
+                        .font(.helveticaRegular(size: 14))
+                        .foregroundColor(Color.volume.lightGray)
+                }
+            }
+            
+            Spacer()
+        }
+        .background(Constants.backgroundColor)
     }
     
     // MARK: - Supporting Views

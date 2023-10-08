@@ -36,6 +36,12 @@ extension OrgsLoginView {
         private var networkState: NetworkState?
         private var queryBag = Set<AnyCancellable>()
         
+        // MARK: - Logic Constants
+        
+        private struct Constants {
+            static let maxAccessCodeLength: Int = 6
+        }
+        
         // MARK: - Public Requests
         
         func authenticate(accessCode: String, slug: String) async {
@@ -72,6 +78,14 @@ extension OrgsLoginView {
                     }
                 }
                 .store(in: &queryBag)
+        }
+        
+        // MARK: - Helpers
+        
+        func updateAuthenticateButton() {
+            withAnimation(.easeOut(duration: 0.3)) {
+                buttonEnabled = accessCode.count == Constants.maxAccessCodeLength && !slug.isEmpty
+            }
         }
         
         func fetchSavedInfo() {

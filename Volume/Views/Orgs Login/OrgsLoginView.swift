@@ -86,9 +86,7 @@ struct OrgsLoginView: View {
         }
         .navigationBarBackButtonHidden(true)
         .onChange(of: viewModel.orgLoginInfo) { _ in
-            withAnimation(.easeOut(duration: 0.3)) {
-                viewModel.buttonEnabled = viewModel.accessCode.count == Constants.maxAccessCodeLength && !viewModel.slug.isEmpty
-            }
+            viewModel.updateAuthenticateButton()
         }
         .onAppear {
             slugIsFocused = true  // First responder
