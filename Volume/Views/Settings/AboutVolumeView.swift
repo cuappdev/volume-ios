@@ -15,6 +15,7 @@ struct AboutVolumeView: View {
     @Environment(\.dismiss) var dismiss
     
     // MARK: - Constants
+    
     private struct Constants {
         static let headerSpacing: CGFloat = 8
         static let lineSpacing: CGFloat = 2

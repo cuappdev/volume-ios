@@ -14,6 +14,7 @@ extension FlyersView {
     
     @MainActor
     class ViewModel: ObservableObject {
+        
         // MARK: - Properties
         
         @Published var allCategories: [OrganizationType]? = nil
