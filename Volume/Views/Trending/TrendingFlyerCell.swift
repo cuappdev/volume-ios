@@ -91,7 +91,7 @@ struct TrendingFlyerCell: View {
                     .shimmer(.largeShimmer())
             }
             
-            Text(Organization.contentTypeString(type: flyer.organization.categorySlug))
+            Text(flyer.categorySlug.titleCase())
                 .padding(.init(
                     top: Constants.categoryVerticalPadding,
                     leading: Constants.categoryHorizontalPadding,

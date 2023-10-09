@@ -91,6 +91,7 @@ struct SettingsView: View {
         HStack {
             image
                 .resizable()
+                .scaledToFit()
                 .frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
                 .foregroundColor(.black)
             

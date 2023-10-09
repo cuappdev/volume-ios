@@ -10,12 +10,10 @@ import Foundation
 
 struct Organization: Hashable, Identifiable {
     
-    var id: String {
-        slug
-    }
+    let id: String
     let backgroundImageUrl: URL?
     let bio: String?
-    let categorySlug: OrganizationType
+    let categorySlug: String
     let name: String
     let profileImageUrl: URL?
     let slug: String
@@ -23,12 +21,13 @@ struct Organization: Hashable, Identifiable {
     let websiteUrl: URL?
     
     init(from organization: OrganizationFields) {
+        self.id = organization.id
         self.backgroundImageUrl = {
             guard let stringUrl = organization.backgroundImageUrl else { return nil }
             return URL(string: stringUrl)
         }()
         self.bio = organization.bio
-        self.categorySlug = OrganizationType(rawValue: organization.categorySlug) ?? .academic
+        self.categorySlug = organization.categorySlug
         self.name = organization.name
         self.profileImageUrl = {
             guard let stringUrl = organization.profileImageUrl else { return nil }
@@ -43,45 +42,6 @@ struct Organization: Hashable, Identifiable {
         hasher.combine(id)
     }
     
-}
-
-enum OrganizationType: String, Codable {
-    case all, academic, art, awareness, comedy, cultural, dance, foodDrinks, greekLife, music, socialJustice, spiritual, sports
-}
-
-extension Organization {
-    
-    static func contentTypeString(type: OrganizationType) -> String {
-        switch type {
-        case .all:
-            return "All"
-        case .academic:
-            return "Academic"
-        case .art:
-            return "Art"
-        case .awareness:
-            return "Awareness"
-        case .comedy:
-            return "Comedy"
-        case .cultural:
-            return "Cultural"
-        case .dance:
-            return "Dance"
-        case .foodDrinks:
-            return "Food & Drinks"
-        case .greekLife:
-            return "Greek Life"
-        case .music:
-            return "Music"
-        case .socialJustice:
-            return "Social Justice"
-        case .spiritual:
-            return "Spritual"
-        case .sports:
-            return "Sports"
-        }
-    }
-
 }
 
 extension Array where Element == Organization {
