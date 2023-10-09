@@ -1,4 +1,5 @@
 fragment organizationFields on Organization {
+  id
   backgroundImageURL
   bio
   categorySlug
@@ -18,5 +19,11 @@ query GetAllOrganizationCategorySlugs {
 query GetOrganizationSlugsByCategorySlug($categorySlug: String!) {
   getOrganizationsByCategory(categorySlug: $categorySlug) {
     slug
+  }
+}
+
+query CheckAccessCode($accessCode: String!, $slug: String!) {
+  organization: checkAccessCode(accessCode: $accessCode, slug: $slug) {
+    ...organizationFields
   }
 }

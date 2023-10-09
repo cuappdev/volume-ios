@@ -153,7 +153,7 @@ struct FlyerCellPast: View {
     
     @ViewBuilder
     private var categoryType: some View {
-        Text(Organization.contentTypeString(type: flyer.organization.categorySlug))
+        Text(flyer.categorySlug.titleCase())
             .padding(.init(
                 top: Constants.categoryVerticalPadding,
                 leading: Constants.categoryHorizontalPadding,

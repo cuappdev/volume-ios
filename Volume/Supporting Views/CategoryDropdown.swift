@@ -1,29 +1,32 @@
 //
-//  FlyerCategoryMenu.swift
+//  CategoryDropdown.swift
 //  Volume
 //
-//  Created by Vin Bui on 4/3/23.
+//  Created by Vin Bui on 10/6/23.
 //  Copyright © 2023 Cornell AppDev. All rights reserved.
 //
 
 import SwiftUI
 
-struct FlyerCategoryMenu: View {
+struct CategoryDropdown: View {
     
     // MARK: - Properties
 
-    let categories: [OrganizationType]
-    @Binding var selected: OrganizationType?
+    var borderColor: Color = Color.volume.orange
+    let categories: [String]
+    let defaultSelected: String
+    var font: Font = .helveticaRegular(size: 12)
+    var insets = EdgeInsets(top: 6, leading: 15, bottom: 6, trailing: 11)
+    @Binding var selected: String?
+    var strokeWidth: CGFloat = 1.5
+    var textColor: Color = Color.volume.orange
+    
     
     // MARK: - Constants
     
     private struct Constants {
-        static let cornerRadius: CGFloat = 5
-        static let defaultSelected: OrganizationType = .all
+        static let cornerRadius: CGFloat = 4
         static let downArrowSize = CGSize(width: 20, height: 16)
-        static let font: Font = .helveticaRegular(size: 12)
-        static let insets = EdgeInsets(top: 6, leading: 15, bottom: 6, trailing: 11)
-        static let strokeWidth: CGFloat = 1.5
     }
     
     // MARK: - UI
@@ -31,7 +34,7 @@ struct FlyerCategoryMenu: View {
     var body: some View {
         Menu {
             ForEach(categories, id: \.self) { category in
-                Button(Organization.contentTypeString(type: category)) {
+                Button(category.titleCase()) {
                     selected = category
                 }
             }
@@ -42,9 +45,11 @@ struct FlyerCategoryMenu: View {
     
     private var dropdownTab: some View {
         HStack {
-            Text(Organization.contentTypeString(type: selected ?? Constants.defaultSelected))
-                .font(Constants.font)
+            Text(selected?.titleCase() ?? defaultSelected)
+                .font(font)
                 .fixedSize()
+            
+            Spacer()
             
             Image("down-arrow")
                 .resizable()
@@ -52,46 +57,38 @@ struct FlyerCategoryMenu: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: Constants.downArrowSize.width, height: Constants.downArrowSize.height)
         }
-        .padding(Constants.insets)
-        .foregroundColor(.volume.orange)
+        .padding(insets)
+        .frame(maxWidth: .infinity)
+        .foregroundColor(textColor)
         .overlay {
             RoundedRectangle(cornerRadius: Constants.cornerRadius)
-                .stroke(Color.volume.orange, lineWidth: Constants.strokeWidth)
+                .stroke(borderColor, lineWidth: strokeWidth)
         }
     }
     
 }
 
-extension FlyerCategoryMenu {
+extension CategoryDropdown {
     
     struct Skeleton: View {
         var body: some View {
             HStack {
                 SkeletonView()
-                    .font(Constants.font)
                     .fixedSize()
-
+                
                 Image("down-arrow")
                     .resizable()
                     .renderingMode(.template)
                     .aspectRatio(contentMode: .fit)
                     .frame(width: Constants.downArrowSize.width, height: Constants.downArrowSize.height)
             }
-            .padding(Constants.insets)
-            .foregroundColor(.volume.veryLightGray)
+            .padding(EdgeInsets(top: 6, leading: 15, bottom: 6, trailing: 11))
+            .foregroundColor(Color.volume.veryLightGray)
             .overlay {
                 RoundedRectangle(cornerRadius: Constants.cornerRadius)
-                    .stroke(Color.volume.orange, lineWidth: Constants.strokeWidth)
+                    .stroke(Color.volume.veryLightGray, lineWidth: 1)
             }
         }
     }
     
 }
-
-// MARK: - Uncomment below if needed
-
-//struct FlyerCategoryMenu_Previews: PreviewProvider {
-//    static var previews: some View {
-//        FlyerCategoryMenu(categories: ["Dance", "Music", "Academic", "Sports"], selected: .constant("All"))
-//    }
-//}

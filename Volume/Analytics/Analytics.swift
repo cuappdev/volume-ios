@@ -15,6 +15,12 @@ struct AnyEvent: Event {
 }
 
 enum VolumeEvent: String {
+    // Page click events
+    case tapTrendingPage = "tap_trending_page"
+    case tapFlyersPage = "tap_flyers_page"
+    case tapReadsPage = "tap_reads_page"
+    case tapBookmarksPage = "tap_bookmarks_page"
+    
     // General events
     case announcementPresented = "announcement_presented"
     case startOnboarding = "start_onboarding"
@@ -47,7 +53,7 @@ enum VolumeEvent: String {
     case bookmarkFlyer = "bookmark_flyer"
     
     enum EventType {
-        case article, flyer, general, magazine, notification, notificationInterval, publication
+        case article, flyer, general, magazine, notification, notificationInterval, publication, page
     }
 
     func toEvent(_ event: EventType, value: String = "", navigationSource: NavigationSource = .unspecified) -> AnyEvent {

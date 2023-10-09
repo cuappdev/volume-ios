@@ -14,16 +14,17 @@ extension FlyersView {
     
     @MainActor
     class ViewModel: ObservableObject {
+        
         // MARK: - Properties
         
-        @Published var allCategories: [OrganizationType]? = nil
+        @Published var allCategories: [String]? = nil
         @Published var dailyFlyers: [Flyer]? = nil
         @Published var hasMorePast: Bool = true
         @Published var hasMoreUpcoming: Bool = true
         @Published var pastFlyers: [Flyer]? = nil
         @Published var searchState: SearchView.SearchState = .searching
         @Published var searchText: String = ""
-        @Published var selectedCategory: OrganizationType? = .all
+        @Published var selectedCategory: String? = Constants.defaultCategory
         @Published var thisWeekFlyers: [Flyer]? = nil
         @Published var upcomingFlyers: [Flyer]? = nil
         
@@ -43,8 +44,9 @@ extension FlyersView {
         
         // MARK: - Logic Constants
         
-        private struct Constants {
+        struct Constants {
             // TODO: Replace values once pagination is implemented
+            static let defaultCategory: String = "All"
             static let thisWeekFlyersLimit: Double = 7
             static let upcomingFlyersLimit: Double = 6
             static let pastFlyersLimit: Double = 20
@@ -82,7 +84,7 @@ extension FlyersView {
                     self?.networkState?.handleCompletion(screen: .flyers, completion)
                 } receiveValue: { [weak self] flyerFields in
                     var upcoming = [Flyer](flyerFields)
-                    if self?.selectedCategory != .all {
+                    if self?.selectedCategory != Constants.defaultCategory {
                         upcoming = upcoming.filter {
                             $0.organization.categorySlug == self?.selectedCategory
                         }
@@ -93,8 +95,6 @@ extension FlyersView {
         }
         
         func readFlyer(_ flyer: Flyer) async {
-            guard let uuid = userData?.uuid else { return }
-            
             Network.shared.publisher(for: IncrementTimesClickedMutation(id: flyer.id))
                 .sink { [weak self] completion in
                     self?.networkState?.handleCompletion(screen: .flyers, completion)
@@ -143,8 +143,15 @@ extension FlyersView {
         }
         
         private func fetchCategories() async {
-            // TODO: Fetch flyer categories once backend implements
-            allCategories = [.all, .academic, .art, .awareness, .comedy, .cultural, .dance, .foodDrinks, .greekLife, .music, .socialJustice, .spiritual, .sports]
+            Network.shared.publisher(for: GetAllFlyerCategoriesQuery())
+                .map { $0.getAllFlyerCategories }
+                .sink { [weak self] completion in
+                    self?.networkState?.handleCompletion(screen: .flyers, completion)
+                } receiveValue: { [weak self] categories in
+                    self?.allCategories = categories
+                    self?.allCategories?.insert(Constants.defaultCategory, at: 0)
+                }
+                .store(in: &queryBag)
         }
         
         private func fetchPast() async {

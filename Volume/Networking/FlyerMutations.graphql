@@ -9,3 +9,9 @@ mutation IncrementTimesClicked($id: String!) {
     id
   }
 }
+
+mutation CreateFlyer($title: String!, $startDate: String!, $organizationID: String!, $location: String!, $imageB64: String!, $flyerURL: String!, $endDate: String!, $categorySlug: String!) {
+  createFlyer(title: $title, startDate: $startDate, organizationID: $organizationID, location: $location, imageB64: $imageB64, flyerURL: $flyerURL, endDate: $endDate, categorySlug: $categorySlug) {
+    ...flyerFields
+  }
+}

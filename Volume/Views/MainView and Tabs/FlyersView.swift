@@ -23,6 +23,7 @@ struct FlyersView: View {
         static let dailyButtonSize: CGSize = CGSize(width: 20, height: 20)
         static let dailyCellSize: CGSize = CGSize(width: 340, height: 432)
         static let dailyImageSize: CGSize = CGSize(width: 340, height: 340)
+        static let dropdownWidth: CGFloat = 128
         static let endMessageWidth: CGFloat = 250
         static let gridRows: Array = Array(repeating: GridItem(.flexible()), count: 3)
         static let listHorizontalPadding: CGFloat = 16
@@ -213,12 +214,14 @@ struct FlyersView: View {
             
             Group {
                 if let categories = viewModel.allCategories {
-                    FlyerCategoryMenu(
+                    CategoryDropdown(
                         categories: categories,
+                        defaultSelected: FlyersView.ViewModel.Constants.defaultCategory,
                         selected: $viewModel.selectedCategory
                     )
+                    .frame(maxWidth: Constants.dropdownWidth)
                 } else {
-                    FlyerCategoryMenu.Skeleton()
+                    CategoryDropdown.Skeleton()
                 }
             }
         }
