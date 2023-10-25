@@ -9,18 +9,18 @@
 import SwiftUI
 
 struct HamburgerMenuView: View {
-    
+
     // MARK: - Constants
-    
+
     private struct Constants {
         static let hamburgerLineHeight: CGFloat = 1
         static let hamburgerLineSpacing: CGFloat = 7
         static let hamburgerLineWidth: CGFloat = 25
         static let hamburgerPadding: CGFloat = 10
     }
-    
+
     // MARK: - UI
-    
+
     var body: some View {
         Group {
             VStack(spacing: Constants.hamburgerLineSpacing) {
@@ -40,5 +40,5 @@ struct HamburgerMenuView: View {
             trailing: Constants.hamburgerPadding
         ))
     }
-    
+
 }

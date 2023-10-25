@@ -26,7 +26,7 @@ struct UnderlinedText: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: textSize.width + 4, height:
-                    (textSize.width + 4) * 6 / 112)
+                        (textSize.width + 4) * 6 / 112)
                 .clipped()
                 .padding(.top, -15 * textSize.height / 25)
         }

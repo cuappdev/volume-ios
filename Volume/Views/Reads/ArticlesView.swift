@@ -9,15 +9,15 @@
 import SwiftUI
 
 struct ArticlesView: View {
-    
+
     // MARK: - Properties
-    
+
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
     @StateObject var viewModel = ViewModel()
-    
+
     // MARK: - Constants
-    
+
     private struct Constants {
         static let followedArticlesSectionTitle: String = "Following"
         static let listHorizontalPadding: CGFloat = 16
@@ -27,7 +27,7 @@ struct ArticlesView: View {
         static let volumeMessageBottomPadding: CGFloat = 0
         static let volumeMessageTopPadding: CGFloat = 25
         static let weeklyDebriefTopPadding: CGFloat = 24
-        
+
         static var backgroundColor: Color {
             // Prevent inconsistency w/ List background in lower iOS versions
             if #available(iOS 16.0, *) {
@@ -41,30 +41,30 @@ struct ArticlesView: View {
             backgroundColor.opacity(0.8)
         }
     }
-    
+
     // MARK: - UI
-    
+
     var body: some View {
         ZStack {
             background.edgesIgnoringSafeArea(.all)
             listContent
-            .onAppear {
-                viewModel.setupEnvironment(networkState: networkState, userData: userData)
-                Task {
-                    await viewModel.fetchContent()
+                .onAppear {
+                    viewModel.setupEnvironment(networkState: networkState, userData: userData)
+                    Task {
+                        await viewModel.fetchContent()
+                    }
                 }
-            }
-            .onOpenURL { url in
-                viewModel.handleURL(url)
-            }
-            .sheet(isPresented: $viewModel.isWeeklyDebriefOpen) {
-                viewModel.isWeeklyDebriefOpen = false
-            } content: {
-                weeklyDebriefView
-            }
+                .onOpenURL { url in
+                    viewModel.handleURL(url)
+                }
+                .sheet(isPresented: $viewModel.isWeeklyDebriefOpen) {
+                    viewModel.isWeeklyDebriefOpen = false
+                } content: {
+                    weeklyDebriefView
+                }
         }
     }
-    
+
     private var listContent: some View {
         List {
             Group {
@@ -88,7 +88,7 @@ struct ArticlesView: View {
         .background(background)
         .disabled(viewModel.disableScrolling)
     }
-    
+
     private var searchBar: some View {
         SearchBar(searchState: $viewModel.searchState, searchText: $viewModel.searchText)
             .disabled(true)
@@ -98,9 +98,9 @@ struct ArticlesView: View {
             .padding(.horizontal, Constants.listHorizontalPadding)
             .padding(.top, 5)
     }
-    
+
     // MARK: - Sections
-    
+
     private var trendingArticlesSection: some View {
         Section {
             ScrollView(.horizontal, showsIndicators: false) {
@@ -134,7 +134,7 @@ struct ArticlesView: View {
         }
         .background(headerGradient)
     }
-    
+
     private var followedArticlesSection: some View {
         articleSection(followed: true)
     }
@@ -170,7 +170,7 @@ struct ArticlesView: View {
                             }.opacity(0)
                         }
                     }
-                    
+
                     if followed ? viewModel.hasMoreFollowedArticlePages : viewModel.hasMoreUnfollowedArticlePages {
                         ArticleRow.Skeleton()
                             .padding(.vertical, Constants.rowVerticalPadding)
@@ -181,14 +181,18 @@ struct ArticlesView: View {
                                 }
                             }
                     } else if followed {
-                        VolumeMessage(message: articles.count > 0 ? .upToDateArticles : .noFollowingHome, largeFont: false, fullWidth: false)
-                            .padding(.top, Constants.volumeMessageTopPadding)
-                            .padding(.bottom, Constants.volumeMessageBottomPadding)
-                            .onAppear {
-                                Task {
-                                    await viewModel.fetchPage(followed: false)
-                                }
+                        VolumeMessage(
+                            message: articles.count > 0 ? .upToDateArticles : .noFollowingHome,
+                            largeFont: false,
+                            fullWidth: false
+                        )
+                        .padding(.top, Constants.volumeMessageTopPadding)
+                        .padding(.bottom, Constants.volumeMessageBottomPadding)
+                        .onAppear {
+                            Task {
+                                await viewModel.fetchPage(followed: false)
                             }
+                        }
                     }
                 }
             }
@@ -203,9 +207,9 @@ struct ArticlesView: View {
         }
         .background(headerGradient)
     }
-    
+
     // MARK: - Weekly Debrief
-    
+
     private var weeklyDebriefButton: some View {
         Group {
             if viewModel.weeklyDebrief != nil {
@@ -229,13 +233,14 @@ struct ArticlesView: View {
             }
         }
     }
-    
+
     // MARK: - Supporting Views
-    
+
     private var headerGradient: some View {
         LinearGradient(
             colors: [Constants.backgroundColor, Constants.backgroundColor.opacity(0)],
-            startPoint: .top, endPoint: .bottom
+            startPoint: .top,
+            endPoint: .bottom
         )
     }
 

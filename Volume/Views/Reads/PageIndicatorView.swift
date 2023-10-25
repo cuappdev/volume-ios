@@ -44,5 +44,5 @@ extension PageIndicatorView {
         static let indicatorCorner: CGFloat = 15
         static let indicatorColor = Color(white: 0.93)
     }
-    
+
 }

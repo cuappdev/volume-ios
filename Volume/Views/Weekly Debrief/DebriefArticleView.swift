@@ -18,18 +18,24 @@ struct DebriefArticleView: View {
     static let bodySpacing: CGFloat = 30
     static let bodyFrameSize: CGFloat = 275
     static let bodyFrameHeight: CGFloat = 435
-    
+
     @State private var bookmarkRequestInProgress = false
     @State private var cancellableShoutoutMutation: AnyCancellable?
     @EnvironmentObject private var userData: UserData
     let header: String
     let article: Article
-    
+
     @Binding private var isDebriefOpen: Bool
     @Binding private var isURLOpen: Bool
     @Binding private var articleID: String?
-    
-    init(header: String, article: Article, isDebriefOpen: Binding<Bool>, isURLOpen: Binding<Bool>, articleID: Binding<String?>) {
+
+    init(
+        header: String,
+        article: Article,
+        isDebriefOpen: Binding<Bool>,
+        isURLOpen: Binding<Bool>,
+        articleID: Binding<String?>
+    ) {
         self.header = header
         self.article = article
         _isDebriefOpen = isDebriefOpen
@@ -40,7 +46,7 @@ struct DebriefArticleView: View {
     var saveButton: some View {
         Button(action: {
             Haptics.shared.play(.light)
-            bookmarkRequestInProgress = true 
+            bookmarkRequestInProgress = true
             userData.toggleArticleSaved(article, $bookmarkRequestInProgress)
             AppDevAnalytics.log(
                 VolumeEvent.bookmarkArticle.toEvent(.article, value: article.id, navigationSource: .weeklyDebrief)
@@ -59,11 +65,17 @@ struct DebriefArticleView: View {
         .overlay(Circle().stroke(Color.volume.orange, lineWidth: 4))
         .clipShape(Circle())
     }
-    
+
     var shareButton: some View {
         Button {
             Haptics.shared.play(.light)
-            AppDevAnalytics.log(VolumeEvent.shareArticle.toEvent(.article, value: article.id, navigationSource: .weeklyDebrief))
+            AppDevAnalytics.log(
+                VolumeEvent.shareArticle.toEvent(
+                    .article,
+                    value: article.id,
+                    navigationSource: .weeklyDebrief
+                )
+            )
             displayShareScreen(for: article)
         } label: {
             Image(systemName: "square.and.arrow.up")
@@ -73,7 +85,7 @@ struct DebriefArticleView: View {
         .overlay(Circle().stroke(Color.volume.orange, lineWidth: 4))
         .clipShape(Circle())
     }
-    
+
     var shoutoutButton: some View {
         Button {
             Haptics.shared.play(.light)
@@ -94,14 +106,19 @@ struct DebriefArticleView: View {
         .clipShape(Circle())
         .disabled(!isShoutoutsButtonEnabled)
     }
-    
+
     var body: some View {
         VStack(spacing: 0) {
             Header(header, .center)
                 .padding(.top, 24)
                 .padding(.bottom, 30)
-            
-            NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: .weeklyDebrief)) {
+
+            NavigationLink(
+                destination: BrowserView(
+                    initType: .readyForDisplay(article),
+                    navigationSource: .weeklyDebrief
+                )
+            ) {
                 VStack(spacing: 16) {
                     if let url = article.imageUrl {
                         WebImage(url: url)
@@ -124,7 +141,7 @@ struct DebriefArticleView: View {
             .accentColor(.black)
 
             Spacer()
-            
+
             HStack(spacing: Self.buttonSpacing) {
                 saveButton
                 shareButton
@@ -146,21 +163,36 @@ struct DebriefArticleView: View {
     }
 
     private var isShoutoutsButtonEnabled: Bool {
-        return userData.canIncrementShoutouts(article)
+        userData.canIncrementShoutouts(article)
     }
 
     private func incrementShoutouts(for article: Article) async {
         guard let uuid = userData.uuid else { return }
 
-        AppDevAnalytics.log(VolumeEvent.shoutoutArticle.toEvent(.article, value: article.id, navigationSource: .weeklyDebrief))
+        AppDevAnalytics.log(
+            VolumeEvent.shoutoutArticle.toEvent(
+                .article, value: article.id, navigationSource: .weeklyDebrief
+            )
+        )
         userData.incrementShoutoutsCounter(article)
+
         let currentArticleShoutouts = max(userData.shoutoutsCache[article.id, default: 0], article.shoutouts)
         userData.shoutoutsCache[article.id, default: 0] = currentArticleShoutouts + 1
-        let currentPublicationShoutouts = max(userData.shoutoutsCache[article.publication.slug, default: 0], article.publication.shoutouts)
+
+        let currentPublicationShoutouts = max(
+            userData.shoutoutsCache[article.publication.slug, default: 0],
+            article.publication.shoutouts
+        )
         userData.shoutoutsCache[article.publication.slug, default: 0] = currentPublicationShoutouts + 1
-        cancellableShoutoutMutation = Network.shared.publisher(for: IncrementShoutoutsMutation(id: article.id, uuid: uuid))
+
+        cancellableShoutoutMutation = Network.shared.publisher(
+            for: IncrementShoutoutsMutation(
+                id: article.id, uuid: uuid
+            )
+        )
             .sink(receiveCompletion: { completion in
                 if case let .failure(error) = completion {
+                    // swiftlint:disable:next line_length
                     print("Error: IncrementShoutoutsMutation failed on DebriefArticleView: \(error.localizedDescription)")
                 }
             }, receiveValue: { _ in })

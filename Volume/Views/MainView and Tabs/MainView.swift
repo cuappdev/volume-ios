@@ -11,7 +11,7 @@ import AppDevAnnouncements
 import SwiftUI
 
 struct MainView: View {
-    
+
     @State private var offset: CGFloat = 0
     @State private var selectedTab: Screen = .trending
     @State private var showPublication: Bool = false
@@ -34,7 +34,7 @@ struct MainView: View {
                 ReadsView(showPublication: $showPublication)
             }
             .tag(Screen.reads)
-            
+
             TabContainer(screen: .bookmarks) {
                 BookmarksView()
             }
@@ -43,16 +43,16 @@ struct MainView: View {
         .padding(.bottom, 16)
         .edgesIgnoringSafeArea(.all)
     }
-    
+
     private var floatingTabBar: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
                 Spacer()
-                
+
                 let iconSize = tabBarHeight * 0.3
                 HStack(alignment: .top) {
                     Spacer()
-                    
+
                     TabItem(icon: .volume.feed, size: iconSize, name: "Trending")
                         .foregroundColor(selectedTab == .trending ? .volume.orange : .volume.lightGray)
                         .onTapGesture {
@@ -70,23 +70,23 @@ struct MainView: View {
                         }
 
                     Spacer()
-                    
+
                     TabItem(icon: .volume.magazine, size: iconSize, name: "Reads")
                         .foregroundColor(selectedTab == .reads ? .volume.orange : .volume.lightGray)
                         .onTapGesture {
                             selectedTab = .reads
                             AppDevAnalytics.log(VolumeEvent.tapReadsPage.toEvent(.page))
                         }
-                    
+
                     Spacer()
-                    
+
                     TabItem(icon: .volume.bookmark, size: iconSize, name: "Bookmarks")
                         .foregroundColor(selectedTab == .bookmarks ? .volume.orange : .volume.lightGray)
                         .onTapGesture {
                             selectedTab = .bookmarks
                             AppDevAnalytics.log(VolumeEvent.tapBookmarksPage.toEvent(.page))
                         }
-                    
+
                     Spacer()
                 }
                 .padding(.top, iconSize * 0.2)
@@ -97,14 +97,14 @@ struct MainView: View {
             .edgesIgnoringSafeArea(.bottom)
         }
     }
-    
+
     var body: some View {
         NavigationView {
             GeometryReader { geometry in
                 ZStack(alignment: .trailing) {
                     tabViewContainer
                     floatingTabBar
-                    
+
                     ZStack(alignment: .trailing) {
                         Color.black.opacity(0.0001)
                             .ignoresSafeArea(.all)
@@ -112,11 +112,11 @@ struct MainView: View {
                             .onTapGesture {
                                 withAnimation { showPublication.toggle() }
                             }
-                        
+
                         Rectangle()
                             .frame(width: geometry.size.width * 0.8)
                             .shadow(radius: 10)
-                        
+
                         PublicationList(showPublication: $showPublication)
                             .frame(width: geometry.size.width * 0.8)
                     }
@@ -172,7 +172,7 @@ struct MainView: View {
             }
         }
     }
-    
+
 }
 
 extension MainView {
@@ -180,12 +180,12 @@ extension MainView {
     private enum Screen {
         case trending, flyers, reads, publications, bookmarks, weeklyDebriefPopup
     }
-    
+
     enum TabState<Results> {
         case loading
         case reloading(Results)
         case results(Results)
-        
+
         var isLoading: Bool {
             switch self {
             case .results:
@@ -202,22 +202,22 @@ extension MainView {
         let icon: Image
         let size: CGFloat
         let name: String
-        
+
         var body: some View {
             VStack(alignment: .center, spacing: 0) {
                 Spacer()
-                
+
                 icon
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: size, height: size)
-                
+
                 Spacer(minLength: 4)
-                
+
                 Text(name)
                     .font(.helveticaRegular(size: 10))
                     .multilineTextAlignment(.center)
-                
+
                 Spacer()
             }
             .frame(width: 75)

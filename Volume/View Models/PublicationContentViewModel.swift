@@ -16,8 +16,8 @@ extension PublicationContentView {
         let navigationSource: NavigationSource
         private var networkState: NetworkState?
 
-        @Published var articles: [Article]? = nil
-        @Published var magazines: [Magazine]? = nil
+        @Published var articles: [Article]?
+        @Published var magazines: [Magazine]?
         @Published var hasMorePages: Bool = true
         @Published var selectedTab: FilterContentType = .articles
         @Published private var queryBag = Set<AnyCancellable>()
@@ -43,7 +43,6 @@ extension PublicationContentView {
         }
 
         func fetchContent() async {
-            // TODO: replace this logic when backend implements Publication.numMagazines
             await fetchMagazines()
             if showArticleTab {
                 await fetchPage()
@@ -112,5 +111,5 @@ extension PublicationContentView {
             static let articleRowHeight: CGFloat = 80
         }
     }
-    
+
 }

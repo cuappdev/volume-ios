@@ -19,7 +19,7 @@ struct PublicationContentView: View {
             switch viewModel.magazines {
             case .none:
                 loadingView
-            case .some(_):
+            case .some:
                 contentView
             }
         }
@@ -59,7 +59,12 @@ struct PublicationContentView: View {
     }
 
     private var tabBar: some View {
-        ContentFilterBarView(selectedTab: $viewModel.selectedTab, showArticleTab: viewModel.showArticleTab, showMagazineTab: viewModel.showMagazineTab, showFlyerTab: false)
+        ContentFilterBarView(
+            selectedTab: $viewModel.selectedTab,
+            showArticleTab: viewModel.showArticleTab,
+            showMagazineTab: viewModel.showMagazineTab,
+            showFlyerTab: false
+        )
     }
 
     private var articleContent: some View {
@@ -164,5 +169,5 @@ extension PublicationContentView {
         static let magazineTabWidth: CGFloat = 106
         static let loadingIndicatorTopPadding: CGFloat = 180
     }
-    
+
 }

@@ -16,12 +16,12 @@ import Foundation
 class Network {
     static let shared = Network()
     private let apollo = ApolloClient(url: Secrets.endpoint)
-    
+
     /// Create a Publisher using a GraphQLQuery
     func publisher<Query: GraphQLQuery>(for query: Query) -> OperationPublisher<Query.Data> {
         OperationPublisher<Query.Data>(client: apollo, operation: QueryOperation(query: query).asAny)
     }
-    
+
     /// Create a Publisher using a GraphQLMutation
     /// - For mutations whose response can be discarded, use apollo.perform(mutation:)
     func publisher<Mutation: GraphQLMutation>(for mutation: Mutation) -> OperationPublisher<Mutation.Data> {
@@ -41,11 +41,16 @@ enum WrappedGraphQLError: Error {
 
 // MARK: Operation
 
-// The following 4 declarations (Operation, QueryOperation, MutationOperation, AnyOperation) take advantage of "type erasure" to allow the same Combine Publisher/Subscription functions to be applied on values of type GraphQLQuery and GraphQLMutation, without duplicating implementation.
+/*
+ The following 4 declarations (Operation, QueryOperation, MutationOperation, AnyOperation)
+ take advantage of "type erasure" to allow the same
+ Combine Publisher/Subscription functions to be applied on values of type GraphQLQuery
+ and GraphQLMutation, without duplicating implementation.
+ */
 private protocol Operation {
     associatedtype Data
     typealias Handler = (Result<GraphQLResult<Data>, Error>) -> Void
-    
+
     func execute(client: ApolloClient, resultHandler: @escaping Handler)
 }
 
@@ -55,9 +60,9 @@ extension Operation {
 
 private struct QueryOperation<Q: GraphQLQuery>: Operation {
     typealias Data = Q.Data
-    
+
     let query: Q
-    
+
     func execute(client: ApolloClient, resultHandler: @escaping (Result<GraphQLResult<Q.Data>, Error>) -> Void) {
         client.fetch(query: query, resultHandler: resultHandler)
     }
@@ -65,9 +70,9 @@ private struct QueryOperation<Q: GraphQLQuery>: Operation {
 
 private struct MutationOperation<M: GraphQLMutation>: Operation {
     typealias Data = M.Data
-    
+
     let mutation: M
-    
+
     func execute(client: ApolloClient, resultHandler: @escaping (Result<GraphQLResult<M.Data>, Error>) -> Void) {
         client.perform(mutation: mutation, resultHandler: resultHandler)
     }
@@ -75,7 +80,7 @@ private struct MutationOperation<M: GraphQLMutation>: Operation {
 
 struct AnyOperation<Data> {
     typealias Handler = (Result<GraphQLResult<Data>, Error>) -> Void
-    
+
     let execute: (ApolloClient, @escaping Handler) -> Void
 }
 
@@ -94,7 +99,7 @@ struct OperationPublisher<Data>: Publisher {
     }
 
     func receive<S>(subscriber: S)
-        where S: Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
+    where S: Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
         let subscription = OperationSubscription(client: client, operation: operation, subscriber: subscriber)
         subscriber.receive(subscription: subscription)
     }
@@ -103,7 +108,7 @@ struct OperationPublisher<Data>: Publisher {
 // MARK: OperationSubscription
 
 private class OperationSubscription<Data, S: Subscriber>: Subscription
-    where S.Input == Data, S.Failure == WrappedGraphQLError {
+where S.Input == Data, S.Failure == WrappedGraphQLError {
 
     private let client: ApolloClient
     private let operation: AnyOperation<Data>
@@ -147,7 +152,7 @@ private class OperationSubscription<Data, S: Subscriber>: Subscription
 // MARK: NetworkState
 
 class NetworkState: ObservableObject {
-    @Published var networkScreenFailed: [Screen : Bool] = [:]
+    @Published var networkScreenFailed: [Screen: Bool] = [:]
 
     public enum Screen: String, CaseIterable {
         case trending, flyers, reads, publications, bookmarks, publicationDetail, search

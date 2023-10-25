@@ -9,14 +9,14 @@
 import SwiftUI
 
 struct MagazinesView: View {
-    
+
     // MARK: - Properties
-    
+
     @EnvironmentObject private var networkState: NetworkState
     @StateObject private var viewModel = ViewModel()
-    
+
     // MARK: - UI Constants
-    
+
     private struct Constants {
         static let gridColumns: Array = Array(repeating: GridItem(.flexible()), count: 2)
         static let groupTopPadding: CGFloat = 8
@@ -24,7 +24,7 @@ struct MagazinesView: View {
         static let magazineVerticalSpacing: CGFloat = 30
         static let searchTop: CGFloat = 5
         static let sidePadding: CGFloat = 16
-        
+
         static var backgroundColor: Color {
             // Prevent inconsistency w/ List background in lower iOS versions
             if #available(iOS 16.0, *) {
@@ -34,21 +34,21 @@ struct MagazinesView: View {
             }
         }
     }
-    
+
     // MARK: - UI
-    
+
     var body: some View {
         ScrollView {
             LazyVStack(spacing: Constants.groupTopPadding * 2, pinnedViews: [.sectionHeaders]) {
                 searchBar
-                
+
                 if viewModel.featuredMagazines != nil && viewModel.featuredMagazines?.count != 0 {
                     featuredMagazinesSection
                 }
-                
+
                 Spacer()
                     .frame(height: Constants.groupTopPadding)
-                
+
                 moreMagazinesSection
             }
         }
@@ -66,17 +66,24 @@ struct MagazinesView: View {
             }
         }
     }
-    
+
     private var searchBar: some View {
         NavigationLink {
             SearchView()
         } label: {
             SearchBar(searchState: $viewModel.searchState, searchText: $viewModel.searchText)
                 .disabled(true)
-                .padding(.init(top: Constants.searchTop, leading: Constants.sidePadding, bottom: 0, trailing: Constants.sidePadding))
+                .padding(
+                    EdgeInsets(
+                        top: Constants.searchTop,
+                        leading: Constants.sidePadding,
+                        bottom: 0,
+                        trailing: Constants.sidePadding
+                    )
+                )
         }
     }
-    
+
     private var featuredMagazinesSection: some View {
         Section {
             ScrollView(.horizontal, showsIndicators: false) {
@@ -89,7 +96,10 @@ struct MagazinesView: View {
                     case .some(let magazines):
                         ForEach(magazines) { magazine in
                             NavigationLink {
-                                MagazineReaderView(initType: .readyForDisplay(magazine), navigationSource: .featuredMagazines)
+                                MagazineReaderView(
+                                    initType: .readyForDisplay(magazine),
+                                    navigationSource: .featuredMagazines
+                                )
                             } label: {
                                 MagazineCell(magazine: magazine)
                             }
@@ -106,7 +116,7 @@ struct MagazinesView: View {
         }
         .padding(.horizontal, Constants.sidePadding)
     }
-    
+
     private var moreMagazinesSection: some View {
         Section {
             LazyVGrid(columns: Constants.gridColumns, spacing: Constants.magazineVerticalSpacing) {
@@ -123,7 +133,7 @@ struct MagazinesView: View {
                             MagazineCell(magazine: magazine)
                         }
                     }
-                    
+
                     if viewModel.hasMoreMagazines {
                         ForEach(0..<2) { _ in
                             MagazineCell.Skeleton()
@@ -147,7 +157,7 @@ struct MagazinesView: View {
             }
         }
     }
-    
+
     private var moreMagazinesHeader: some View {
         HStack(alignment: .center) {
             Header("More magazines")

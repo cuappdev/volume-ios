@@ -14,7 +14,7 @@ import SwiftUI
 class UserData: ObservableObject {
 
     static let shared = UserData()
-    
+
     private let articleShoutoutsKey = "articleShoutoutsCounter"
     private let articlesKey = "savedArticleIds"
     private let fcmTokenKey = "fcmToken"
@@ -26,7 +26,7 @@ class UserData: ObservableObject {
     private let recentSearchesKey = "recentSearchQueries"
     private let userUUIDKey = "userUUID"
     private let weeklyDebriefKey = "weeklyDebrief"
-    
+
     /// This cache maps `Article` and `Publication`  slugs to shout outs. Its purpose is to allow the UI to
     /// display incremented shoutouts without refetching the model from the server. Users of the cache should
     /// display the max of the stored value if any and the model's `shoutouts`. This way, there is no need to
@@ -57,13 +57,13 @@ class UserData: ObservableObject {
             self.objectWillChange.send()
         }
     }
-    
+
     @Published var magazineShoutoutsCache: [String: Int] = [:] {
         willSet {
             self.objectWillChange.send()
         }
     }
-    
+
     @Published private(set) var savedMagazineIDs: [String] = [] {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: magazinesKey)
@@ -77,28 +77,28 @@ class UserData: ObservableObject {
             self.objectWillChange.send()
         }
     }
-    
+
     @Published var recentSearchQueries: [String] = [] {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: recentSearchesKey)
             self.objectWillChange.send()
         }
     }
-    
+
     @Published private(set) var savedFlyerIDs: [String] = [] {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: flyersKey)
             self.objectWillChange.send()
         }
     }
-    
-    var uuid: String? = nil {
+
+    var uuid: String? {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: userUUIDKey)
         }
     }
-    
-    var weeklyDebrief: WeeklyDebrief? = nil {
+
+    var weeklyDebrief: WeeklyDebrief? {
         willSet {
             if let encoded = try? JSONEncoder().encode(newValue) {
                 UserDefaults.standard.set(encoded, forKey: weeklyDebriefKey)
@@ -107,24 +107,24 @@ class UserData: ObservableObject {
             }
         }
     }
-    
-    var fcmToken: String? = nil {
+
+    var fcmToken: String? {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: fcmTokenKey)
         }
     }
-    
-    private var cancellables: [Mutation : AnyCancellable?] = [:]
+
+    private var cancellables: [Mutation: AnyCancellable?] = [:]
 
     private init() {
         if let ids = UserDefaults.standard.object(forKey: articlesKey) as? [String] {
             savedArticleIDs = ids
         }
-        
+
         if let ids = UserDefaults.standard.object(forKey: magazinesKey) as? [String] {
             savedMagazineIDs = ids
         }
-        
+
         if let ids = UserDefaults.standard.object(forKey: flyersKey) as? [String] {
             savedFlyerIDs = ids
         }
@@ -136,28 +136,28 @@ class UserData: ObservableObject {
         if let shoutoutsCounter = UserDefaults.standard.object(forKey: articleShoutoutsKey) as? [String: Int] {
             articleShoutoutsCounter = shoutoutsCounter
         }
-        
+
         if let shoutoutsCounter = UserDefaults.standard.object(forKey: magazineShoutoutsKey) as? [String: Int] {
             magazineShoutoutsCounter = shoutoutsCounter
         }
-        
+
         if let queries = UserDefaults.standard.object(forKey: recentSearchesKey) as? [String] {
             recentSearchQueries = queries
         }
-        
+
         if let debriefData = UserDefaults.standard.object(forKey: weeklyDebriefKey) as? Data,
            let debrief = try? JSONDecoder().decode(WeeklyDebrief.self, from: debriefData) {
             weeklyDebrief = debrief
         }
-        
+
         if let fcmToken = UserDefaults.standard.object(forKey: fcmTokenKey) as? String {
             self.fcmToken = fcmToken
         }
-        
+
         if let uuid = UserDefaults.standard.object(forKey: userUUIDKey) as? String {
-            #if DEBUG
+#if DEBUG
             print("Initializing UserData with UUID: \(uuid)")
-            #endif
+#endif
             self.uuid = uuid
         }
     }
@@ -165,11 +165,11 @@ class UserData: ObservableObject {
     func isArticleSaved(_ article: Article) -> Bool {
         savedArticleIDs.contains(article.id)
     }
-    
+
     func isMagazineSaved(_ magazine: Magazine) -> Bool {
         savedMagazineIDs.contains(magazine.id)
     }
-    
+
     func isFlyerSaved(_ flyer: Flyer) -> Bool {
         savedFlyerIDs.contains(flyer.id)
     }
@@ -180,16 +180,24 @@ class UserData: ObservableObject {
 
     func toggleArticleSaved(_ article: Article, _ bookmarkRequestInProgress: Binding<Bool>) {
         Task {
-            await set(article: article, isSaved: !isArticleSaved(article), bookmarkRequestInProgress: bookmarkRequestInProgress)
+            await set(
+                article: article,
+                isSaved: !isArticleSaved(article),
+                bookmarkRequestInProgress: bookmarkRequestInProgress
+            )
         }
     }
 
     func toggleMagazineSaved(_ magazine: Magazine, _ bookmarkRequestInProgress: Binding<Bool>) {
         Task {
-            await set(magazine: magazine, isSaved: !isMagazineSaved(magazine), bookmarkRequestInProgress: bookmarkRequestInProgress)
+            await set(
+                magazine: magazine,
+                isSaved: !isMagazineSaved(magazine),
+                bookmarkRequestInProgress: bookmarkRequestInProgress
+            )
         }
     }
-    
+
     func toggleFlyerSaved(_ flyer: Flyer, _ bookmarkRequestInProgress: Binding<Bool>) {
         Task {
             await set(flyer: flyer, isSaved: !isFlyerSaved(flyer), bookmarkRequestInProgress: bookmarkRequestInProgress)
@@ -198,7 +206,11 @@ class UserData: ObservableObject {
 
     func togglePublicationFollowed(_ publication: Publication, _ followRequestInProgress: Binding<Bool>) {
         Task {
-            await set(publication: publication, isFollowed: !isPublicationFollowed(publication), followRequestInProgress: followRequestInProgress)
+            await set(
+                publication: publication,
+                isFollowed: !isPublicationFollowed(publication),
+                followRequestInProgress: followRequestInProgress
+            )
         }
     }
 
@@ -209,7 +221,7 @@ class UserData: ObservableObject {
     func incrementShoutoutsCounter(_ article: Article) {
         articleShoutoutsCounter[article.id, default: 0] += 1
     }
-    
+
     func canIncrementMagazineShoutouts(_ magazine: Magazine) -> Bool {
         magazineShoutoutsCounter[magazine.id, default: 0] < 5
     }
@@ -217,15 +229,15 @@ class UserData: ObservableObject {
     func incrementMagazineShoutoutsCounter(_ magazine: Magazine) {
         magazineShoutoutsCounter[magazine.id, default: 0] += 1
     }
-    
+
     func addRecentSearchQueries(_ query: String) {
         let maxSearches: Int = 20
-        
+
         recentSearchQueries = recentSearchQueries.filter { $0 != query }
         recentSearchQueries.insert(query, at: 0)
         if recentSearchQueries.count > maxSearches { recentSearchQueries.removeLast() }
     }
-    
+
     func removeRecentSearchQueries(_ query: String) {
         recentSearchQueries = recentSearchQueries.filter { $0 != query }
     }
@@ -233,15 +245,15 @@ class UserData: ObservableObject {
     func set(article: Article, isSaved: Bool, bookmarkRequestInProgress: Binding<Bool>) async {
         @Binding var requestInProgress: Bool
         _requestInProgress = bookmarkRequestInProgress
-        
+
         guard let uuid = uuid else {
-            #if DEBUG
+#if DEBUG
             print("Error: received nil for UUID in set(article:isSaved)")
-            #endif
+#endif
             requestInProgress = false
             return
         }
-        
+
         if isSaved {
             cancellables[.bookmarkArticle(article)] = Network.shared.publisher(for: BookmarkArticleMutation(uuid: uuid))
                 .sink { completion in
@@ -273,31 +285,33 @@ class UserData: ObservableObject {
         }
 
         if isSaved {
-            cancellables[.bookmarkMagazine(magazine)] = Network.shared.publisher(for: BookmarkMagazineMutation(uuid: uuid))
-                .sink { completion in
-                    if case let .failure(error) = completion {
-                        print("Error: BookmarkMagazineMutation failed on UserData: \(error.localizedDescription)")
-                    }
-                    requestInProgress = false
-                } receiveValue: { _ in
-                    if !self.savedMagazineIDs.contains(magazine.id) {
-                        self.savedMagazineIDs.insert(magazine.id, at: 0)
-                    }
+            cancellables[.bookmarkMagazine(magazine)] = Network.shared.publisher(
+                for: BookmarkMagazineMutation(uuid: uuid)
+            )
+            .sink { completion in
+                if case let .failure(error) = completion {
+                    print("Error: BookmarkMagazineMutation failed on UserData: \(error.localizedDescription)")
                 }
+                requestInProgress = false
+            } receiveValue: { _ in
+                if !self.savedMagazineIDs.contains(magazine.id) {
+                    self.savedMagazineIDs.insert(magazine.id, at: 0)
+                }
+            }
         } else {
             requestInProgress = false
             self.savedMagazineIDs.removeAll(where: { $0 == magazine.id })
         }
     }
-    
+
     func set(flyer: Flyer, isSaved: Bool, bookmarkRequestInProgress: Binding<Bool>) async {
         @Binding var requestInProgress: Bool
         _requestInProgress = bookmarkRequestInProgress
 
         guard let uuid = uuid else {
-            #if DEBUG
+#if DEBUG
             print("Error: received nil for UUID in set(flyer :isSaved)")
-            #endif
+#endif
             requestInProgress = false
             return
         }
@@ -323,7 +337,7 @@ class UserData: ObservableObject {
     func set(publication: Publication, isFollowed: Bool, followRequestInProgress: Binding<Bool>) async {
         @Binding var requestInProgress: Bool
         _requestInProgress = followRequestInProgress
-        
+
         guard let uuid = uuid else {
             // User has not finished onboarding
             if isFollowed {
@@ -336,7 +350,7 @@ class UserData: ObservableObject {
             requestInProgress = false
             return
         }
-        
+
         if isFollowed {
             let followMutation = FollowPublicationMutation(slug: publication.slug, uuid: uuid)
             cancellables[.follow(publication)] = Network.shared.publisher(for: followMutation)
@@ -345,7 +359,7 @@ class UserData: ObservableObject {
                         print("Error: FollowPublicationMutation failed on UserData: \(error.localizedDescription)")
                     }
                     requestInProgress = false
-                } receiveValue: { value in
+                } receiveValue: { _ in
                     if !self.followedPublicationSlugs.contains(publication.slug) {
                         self.followedPublicationSlugs.insert(publication.slug, at: 0)
                     }
@@ -368,6 +382,10 @@ class UserData: ObservableObject {
 
 extension UserData {
     private enum Mutation: Hashable {
-        case follow(Publication), unfollow(Publication), bookmarkArticle(Article), bookmarkMagazine(Magazine), bookmarkFlyer(Flyer)
+        case follow(Publication)
+        case unfollow(Publication)
+        case bookmarkArticle(Article)
+        case bookmarkMagazine(Magazine)
+        case bookmarkFlyer(Flyer)
     }
 }

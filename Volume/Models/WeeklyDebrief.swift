@@ -17,7 +17,7 @@ struct WeeklyDebrief: Codable {
     let readArticleIDs: [ArticleID]
     let randomArticleIDs: [ArticleID]
     let readMagazineIDs: [MagazineID]
-    
+
     init(from weeklyDebrief: GetWeeklyDebriefQuery.Data.User.WeeklyDebrief) {
         creationDate = Date.from(iso8601: weeklyDebrief.creationDate)
         expirationDate = Date.from(iso8601: weeklyDebrief.expirationDate)

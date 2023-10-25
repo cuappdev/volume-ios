@@ -19,58 +19,79 @@ struct WeeklyDebriefView: View {
     @Binding var onOpenArticleUrl: String?
     @Binding var openedURL: Bool
     @EnvironmentObject private var userData: UserData
-    @State private var articleStates = [ArticleID : MainView.TabState<Article>]()
-    @State private var cancellableArticleQueries = [ArticleID : AnyCancellable]()
+    @State private var articleStates = [ArticleID: MainView.TabState<Article>]()
+    @State private var cancellableArticleQueries = [ArticleID: AnyCancellable]()
     @State private var currentPage: Int = 0
-    
+
     let weeklyDebrief: WeeklyDebrief
-    
+
     private var debriefSummary: some View {
         VStack {
             Image.volume.logo
                 .resizable()
                 .frame(width: 245, height: 75)
                 .padding(.top, 24)
+            // swiftlint:disable:next line_length
             Text("Your weekly debrief, \(weeklyDebrief.creationDate.simpleString) - \(weeklyDebrief.expirationDate.simpleString)")
                 .padding(.vertical, 32)
                 .font(.newYorkMedium(size: 16))
-            
+
             Divider()
                 .frame(width: 100)
                 .padding(.bottom, 48)
-            
+
             VStack(spacing: 24) {
                 HStack {
                     Text("In the past week, you...")
                         .font(.newYorkRegular(size: 16))
-                    
+
                     Spacer()
                 }
-                
-                StatisticView(image: .volume.feed, leftText: "read", number: weeklyDebrief.numReadArticles, rightText: "articles")
-                StatisticView(image: .volume.magazine, leftText: "read", number: weeklyDebrief.readMagazineIDs.count, rightText: "magazines")
-                StatisticView(image: .volume.shoutout, leftText: "gave", number: weeklyDebrief.numShoutouts, rightText: "shout-outs")
-                StatisticView(image: .volume.bookmark, leftText: "bookmarked", number: weeklyDebrief.numBookmarkedArticles, rightText: "articles")
-                
+
+                StatisticView(
+                    image: .volume.feed,
+                    leftText: "read",
+                    number: weeklyDebrief.numReadArticles,
+                    rightText: "articles"
+                )
+                StatisticView(
+                    image: .volume.magazine,
+                    leftText: "read",
+                    number: weeklyDebrief.readMagazineIDs.count,
+                    rightText: "magazines"
+                )
+                StatisticView(
+                    image: .volume.shoutout,
+                    leftText: "gave",
+                    number: weeklyDebrief.numShoutouts,
+                    rightText: "shout-outs"
+                )
+                StatisticView(
+                    image: .volume.bookmark,
+                    leftText: "bookmarked",
+                    number: weeklyDebrief.numBookmarkedArticles,
+                    rightText: "articles"
+                )
+
                 HStack {
                     Text("Keep up the volume! 📣")
                         .font(.newYorkRegular(size: 16))
                         .frame(alignment: .leading)
-                    
+
                     Spacer()
                 }
             }
             .padding(.horizontal, 48)
-            
+
             Spacer()
         }
     }
-    
+
     private var debriefConclusion: some View {
         VStack {
             Header("See You Next Week!", .center)
                 .padding(.top, 24)
-            
+
             VStack(spacing: 16) {
                 Image.volume.logo
                     .resizable()
@@ -82,7 +103,7 @@ struct WeeklyDebriefView: View {
             .padding(.top, 200)
 
             Spacer()
-            
+
             Button {
                 isOpen = false
             } label: {
@@ -94,44 +115,49 @@ struct WeeklyDebriefView: View {
             .padding(.vertical, 10)
             .overlay(RoundedRectangle(cornerRadius: 26)
                 .stroke(Color.volume.orange, lineWidth: 2))
-          
+
             Spacer()
                 .frame(height: 100)
         }
         .padding(.horizontal, 50)
     }
-    
+
     private func makeDebriefArticleView(articleID: ArticleID, header: String) -> some View {
         Group {
             switch articleStates[articleID] {
             case .loading, .none:
                 DebriefArticleView.Skeleton()
             case .reloading(let article), .results(let article):
-                DebriefArticleView(header: header,
-                                   article: article,
-                                   isDebriefOpen: $isOpen,
-                                   isURLOpen: $openedURL,
-                                   articleID: $onOpenArticleUrl)
+                DebriefArticleView(
+                    header: header,
+                    article: article,
+                    isDebriefOpen: $isOpen,
+                    isURLOpen: $openedURL,
+                    articleID: $onOpenArticleUrl
+                )
             }
         }
     }
-    
+
     var body: some View {
         NavigationView {
             TabView(selection: $currentPage) {
                 debriefSummary
                     .tag(0)
-                
+
                 ForEach(weeklyDebrief.readArticleIDs.indices, id: \.self) { idx in
                     makeDebriefArticleView(articleID: weeklyDebrief.readArticleIDs[idx], header: "Share What You Read")
                         .tag(1 + idx)
                 }
-                
+
                 ForEach(weeklyDebrief.randomArticleIDs.indices, id: \.self) { idx in
-                    makeDebriefArticleView(articleID: weeklyDebrief.randomArticleIDs[idx], header: "Top Articles of the Week")
-                        .tag(1 + weeklyDebrief.readArticleIDs.count + idx)
+                    makeDebriefArticleView(
+                        articleID: weeklyDebrief.randomArticleIDs[idx],
+                        header: "Top Articles of the Week"
+                    )
+                    .tag(1 + weeklyDebrief.readArticleIDs.count + idx)
                 }
-                
+
                 debriefConclusion
                     .tag(1 + weeklyDebrief.readArticleIDs.count + weeklyDebrief.randomArticleIDs.count)
             }
@@ -147,15 +173,15 @@ struct WeeklyDebriefView: View {
             }
         }
     }
-    
+
     // MARK: Network Requests
-    
+
     private func fetchDebriefArticles() {
         for id in weeklyDebrief.readArticleIDs + weeklyDebrief.randomArticleIDs {
             fetchArticle(articleID: id)
         }
     }
-    
+
     private func fetchArticle(articleID: ArticleID) {
         articleStates[articleID] = .loading
         cancellableArticleQueries[articleID] = Network.shared.publisher(for: GetArticleByIdQuery(id: articleID))
@@ -171,7 +197,7 @@ struct WeeklyDebriefView: View {
                     #endif
                     return
                 }
-                
+
                 articleStates[articleID] = .results(Article(from: articleFields))
             }
     }

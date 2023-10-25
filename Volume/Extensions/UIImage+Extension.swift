@@ -9,12 +9,12 @@
 import UIKit
 
 extension UIImage {
-    
+
     /// Returns a `UIColor` representing the average color of this `UIImage, nil if not found
     var averageColor: UIColor? {
         // Convert to CIImage
         guard let inputImage = CIImage(image: self) else { return nil }
-        
+
         // Create an extent vector with the same width and height as our image
         let extentVector = CIVector(
             x: inputImage.extent.origin.x,
@@ -24,13 +24,18 @@ extension UIImage {
         )
 
         // Create a CIFilter to help us pull the average color
-        guard let filter = CIFilter(name: "CIAreaAverage", parameters: [kCIInputImageKey: inputImage, kCIInputExtentKey: extentVector]) else { return nil }
+        guard let filter = CIFilter(
+            name: "CIAreaAverage",
+            parameters: [
+                kCIInputImageKey: inputImage, kCIInputExtentKey: extentVector
+            ]
+        ) else { return nil }
         guard let outputImage = filter.outputImage else { return nil }
 
         // Create a bitmap consiting of a (r,g,b,a) value
         var bitmap = [UInt8](repeating: 0, count: 4)
         let context = CIContext(options: [.workingColorSpace: kCFNull as Any])
-        
+
         // Render to a 1 by 1 image and pass it to our bit map
         context.render(
             outputImage,
@@ -49,18 +54,18 @@ extension UIImage {
             alpha: CGFloat(bitmap[3]) / 255
         )
     }
-    
+
     /// Returns the average color of this `UIImage`'s starting from the bottom with a given height. Gray if null.
     func bottomAverageColor(height: CGFloat) -> UIColor? {
         // Crop bottom part of the image
         let cropRect = CGRect(x: 0, y: self.size.height - 60, width: self.size.width, height: 60)
         let cropCGImage = self.cgImage?.cropping(to: cropRect)
-        
+
         if let cropCGImage = cropCGImage {
             // Return the average color
             return UIImage(cgImage: cropCGImage).averageColor
         }
         return .gray
     }
-    
+
 }

@@ -11,19 +11,19 @@ import PhotosUI
 import SwiftUI
 
 extension FlyerUploadView {
-    
+
     @MainActor
     class ViewModel: ObservableObject {
-        
+
         // MARK: - Properties
-        
+
         @Published var allCategories: [String] = []
         @Published var buttonEnabled: Bool = false
         @Published var endIsFocused: Bool = false
         @Published var flyerCategory: String! = ""
         @Published var flyerEnd: Date = Date.now
-        @Published var flyerImageData: Data? = nil
-        @Published var flyerImageItem: PhotosPickerItem? = nil
+        @Published var flyerImageData: Data?
+        @Published var flyerImageItem: PhotosPickerItem?
         @Published var flyerLocation: String = ""
         @Published var flyerName: String = ""
         @Published var flyerStart: Date = Date.now
@@ -31,25 +31,25 @@ extension FlyerUploadView {
         @Published var showErrorMessage: Bool = false
         @Published var showSpinner: Bool = false
         @Published var startIsFocused: Bool = false
-        @Published var uploadSuccessful: Bool? = nil
-        
+        @Published var uploadSuccessful: Bool?
+
         private var networkState: NetworkState?
         private var queryBag = Set<AnyCancellable>()
-        
+
         var flyerStringInfo: [String?] {[
             flyerCategory,
             flyerLocation,
             flyerName,
             flyerURL
         ]}
-        
+
         var flyerDateInfo: [Date] {[
             flyerEnd,
             flyerStart
         ]}
-        
+
         // MARK: - Public Requests
-        
+
         func fetchCategories() async {
             Network.shared.publisher(for: GetAllFlyerCategoriesQuery())
                 .map { $0.getAllFlyerCategories }
@@ -61,22 +61,24 @@ extension FlyerUploadView {
                 }
                 .store(in: &queryBag)
         }
-        
+
         func uploadFlyer(for organizationID: String?) async {
             uploadSuccessful = nil
             showSpinner = true
-                        
+
             if let flyerImageB64 = flyerImageData?.base64EncodedString(),
                let organizationID = organizationID {
-                Network.shared.publisher(for: CreateFlyerMutation(
-                    title: flyerName,
-                    startDate: flyerStart.flyerUTCISOString,
-                    organizationID: organizationID,
-                    location: flyerLocation,
-                    imageB64: flyerImageB64,
-                    flyerURL: formatFlyerURL(flyerURL),
-                    endDate: flyerEnd.flyerUTCISOString,
-                    categorySlug: flyerCategory)
+                Network.shared.publisher(
+                    for: CreateFlyerMutation(
+                        title: flyerName,
+                        startDate: flyerStart.flyerUTCISOString,
+                        organizationID: organizationID,
+                        location: flyerLocation,
+                        imageB64: flyerImageB64,
+                        flyerURL: formatFlyerURL(flyerURL),
+                        endDate: flyerEnd.flyerUTCISOString,
+                        categorySlug: flyerCategory
+                    )
                 )
                 .map(\.createFlyer.fragments.flyerFields)
                 .sink { [weak self] completion in
@@ -92,13 +94,14 @@ extension FlyerUploadView {
                 .store(in: &queryBag)
             }
         }
-        
+
         // MARK: - Helpers
-        
+
         /**
          Format the given string to be passed into the network request
-         
-         If `flyerURL` is an empty string, return an empty string. Otherwise, prepend "http://" if the string does not contain "http://" and "https://".
+
+         If `flyerURL` is an empty string, return an empty string.
+         Otherwise, prepend "http://" if the string does not contain "http://" and "https://".
          */
         private func formatFlyerURL(_ flyerURL: String) -> String {
             if flyerURL.isEmpty {
@@ -108,7 +111,7 @@ extension FlyerUploadView {
             }
             return flyerURL
         }
-        
+
     }
-    
+
 }

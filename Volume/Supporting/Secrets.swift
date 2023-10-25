@@ -10,11 +10,11 @@ import Foundation
 
 struct Secrets {
     // swiftlint:disable force_cast
-    #if DEBUG
+#if DEBUG
     static let endpoint = URL(string: keyDict["graphql-endpoint-debug"] as! String)!
-    #else
+#else
     static let endpoint = URL(string: keyDict["graphql-endpoint-production"] as! String)!
-    #endif
+#endif
     // swiftlint:enable force_cast
 
     static let announcementsCommonPath = Secrets.keyDict["announcements-common-path"] as! String
@@ -29,7 +29,7 @@ struct Secrets {
 
     private static let keyDict: NSDictionary = {
         guard let path = Bundle.main.path(forResource: "Secrets", ofType: "plist"),
-            let dict = NSDictionary(contentsOfFile: path)
+              let dict = NSDictionary(contentsOfFile: path)
         else { return [:] }
         return dict
     }()

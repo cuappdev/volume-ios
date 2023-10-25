@@ -11,14 +11,14 @@ import SwiftUI
 struct SearchView: View {
     @State private var searchText = ""
     @State private var searchState: SearchState = .searching
-    
+
     var body: some View {
         ZStack {
             Color.volume.backgroundGray.edgesIgnoringSafeArea(.all)
             VStack(alignment: .leading, spacing: 0) {
                 SearchBar(searchState: $searchState, searchText: $searchText)
                     .padding(.horizontal)
-                
+
                 switch searchState {
                 case .searching:
                     SearchDropdownView(searchState: $searchState, searchText: $searchText)
@@ -32,13 +32,13 @@ struct SearchView: View {
         }
         .hiddenNavigationBarStyle()
     }
-    
+
 }
 
 extension SearchView {
-    
+
     enum SearchState {
         case searching, results
     }
-    
+
 }

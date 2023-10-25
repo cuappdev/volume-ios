@@ -11,7 +11,7 @@ import Foundation
 enum ValidURLHost: CaseIterable {
     case article
     case magazine
-    
+
     var host: String? {
         switch self {
         case .article:
@@ -36,7 +36,7 @@ extension URL {
 
         return parameters
     }
-    
+
     var isDeeplink: Bool {
         guard let host = self.host else { return false }
         return ValidURLHost.allCases.contains { $0.host == host }

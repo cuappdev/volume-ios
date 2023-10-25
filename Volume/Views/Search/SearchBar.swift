@@ -15,11 +15,11 @@ struct SearchBar: View {
     @Binding var searchState: SearchView.SearchState
     @Binding var searchText: String
     @FocusState var showingCursor: Bool
-    
+
     private var hasSearchText: Bool {
         !searchText.isEmpty
     }
-    
+
     private struct Constants {
         static let animationDuration: CGFloat = 0.1
         static let searchBarDefaultText: String = "Search"
@@ -31,15 +31,15 @@ struct SearchBar: View {
         static let searchIconFrameHeight: CGFloat = 15
         static let sectionHorizontalPadding: CGFloat = 17
     }
-    
+
     var body: some View {
         if searchEnabled {
             HStack {
                 searchTextField
-                
+
                 Spacer()
                     .frame(width: Constants.sectionHorizontalPadding)
-                
+
                 Button("Cancel") {
                     presentationMode.wrappedValue.dismiss()
                 }
@@ -48,14 +48,16 @@ struct SearchBar: View {
             searchTextField
         }
     }
-    
+
     private var searchTextField: some View {
         HStack {
             Image.volume.searchIcon
                 .aspectRatio(contentMode: .fill)
-                .frame(width: Constants.searchIconFrameWidth,
-                       height: Constants.searchIconFrameHeight)
-            
+                .frame(
+                    width: Constants.searchIconFrameWidth,
+                    height: Constants.searchIconFrameHeight
+                )
+
             TextField(Constants.searchBarDefaultText, text: $searchText)
                 .font(.helveticaRegular(size: Constants.searchBarDefaultTextSize))
                 .focused($showingCursor)
@@ -73,7 +75,7 @@ struct SearchBar: View {
                         searchState = .results
                     }
                 }
-            
+
             if hasSearchText {
                 Image.volume.xIcon
                     .onTapGesture {
@@ -87,11 +89,13 @@ struct SearchBar: View {
                 .fill(Color.volume.backgroundGray)
         )
         .frame(alignment: .leading)
-        .shadow(color: Color.volume.shadowBlack,
-                radius: Constants.searchBarShadowRadiusSize)
+        .shadow(
+            color: Color.volume.shadowBlack,
+            radius: Constants.searchBarShadowRadiusSize
+        )
         .onAppear {
             showingCursor = searchState == .searching
         }
     }
-    
+
 }

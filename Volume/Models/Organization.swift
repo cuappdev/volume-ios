@@ -9,7 +9,7 @@
 import Foundation
 
 struct Organization: Hashable, Identifiable {
-    
+
     let id: String
     let backgroundImageUrl: URL?
     let bio: String?
@@ -19,7 +19,7 @@ struct Organization: Hashable, Identifiable {
     let slug: String
     let shoutouts: Int
     let websiteUrl: URL?
-    
+
     init(from organization: OrganizationFields) {
         self.id = organization.id
         self.backgroundImageUrl = {
@@ -37,11 +37,11 @@ struct Organization: Hashable, Identifiable {
         self.shoutouts = Int(organization.shoutouts)
         self.websiteUrl = URL(string: organization.websiteUrl)
     }
-    
+
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
-    
+
 }
 
 extension Array where Element == Organization {
@@ -49,5 +49,5 @@ extension Array where Element == Organization {
     init(_ organizations: [OrganizationFields]) {
         self.init(organizations.map(Organization.init))
     }
-    
+
 }

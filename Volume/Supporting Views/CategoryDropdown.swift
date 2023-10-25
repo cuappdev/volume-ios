@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct CategoryDropdown: View {
-    
+
     // MARK: - Properties
 
     var borderColor: Color = Color.volume.orange
@@ -20,17 +20,16 @@ struct CategoryDropdown: View {
     @Binding var selected: String?
     var strokeWidth: CGFloat = 1.5
     var textColor: Color = Color.volume.orange
-    
-    
+
     // MARK: - Constants
-    
+
     private struct Constants {
         static let cornerRadius: CGFloat = 4
         static let downArrowSize = CGSize(width: 20, height: 16)
     }
-    
+
     // MARK: - UI
-    
+
     var body: some View {
         Menu {
             ForEach(categories, id: \.self) { category in
@@ -42,15 +41,15 @@ struct CategoryDropdown: View {
             dropdownTab
         }
     }
-    
+
     private var dropdownTab: some View {
         HStack {
             Text(selected?.titleCase() ?? defaultSelected)
                 .font(font)
                 .fixedSize()
-            
+
             Spacer()
-            
+
             Image("down-arrow")
                 .resizable()
                 .renderingMode(.template)
@@ -65,17 +64,17 @@ struct CategoryDropdown: View {
                 .stroke(borderColor, lineWidth: strokeWidth)
         }
     }
-    
+
 }
 
 extension CategoryDropdown {
-    
+
     struct Skeleton: View {
         var body: some View {
             HStack {
                 SkeletonView()
                     .fixedSize()
-                
+
                 Image("down-arrow")
                     .resizable()
                     .renderingMode(.template)
@@ -90,5 +89,5 @@ extension CategoryDropdown {
             }
         }
     }
-    
+
 }

@@ -9,15 +9,15 @@
 import SwiftUI
 
 struct BookmarksView: View {
-    
+
     // MARK: - Properties
-    
+
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
     @StateObject private var viewModel = ViewModel()
-    
+
     // MARK: - Constants
-    
+
     private struct Constants {
         static let articlesTabWidth: CGFloat = 80
         static let flyersTabWidth: CGFloat = 70
@@ -26,13 +26,13 @@ struct BookmarksView: View {
         static let sidePadding: CGFloat = 16
         static let titleFont: Font = .newYorkMedium(size: 28)
     }
-    
+
     // MARK: - UI
-    
+
     var body: some View {
         VStack {
             tabBar
-            
+
             ScrollView {
                 scrollContent
             }
@@ -54,7 +54,7 @@ struct BookmarksView: View {
             }
         }
     }
-    
+
     private var title: some View {
         BubblePeriodText("Bookmarks")
             .font(Constants.titleFont)
@@ -75,11 +75,11 @@ struct BookmarksView: View {
             }
         )
     }
-    
+
     private var tabBar: some View {
         ContentFilterBarView(selectedTab: $viewModel.selectedTab)
     }
-    
+
     private var scrollContent: some View {
         Group {
             switch viewModel.selectedTab {
@@ -93,9 +93,9 @@ struct BookmarksView: View {
         }
         .padding(.top)
     }
-    
+
     // MARK: - Sections
-    
+
     private var flyerContent: some View {
         Group {
             if viewModel.hasSavedFlyers {
@@ -123,7 +123,7 @@ struct BookmarksView: View {
         }
         .padding(.horizontal, Constants.sidePadding)
     }
-    
+
     private var articleContent: some View {
         Group {
             if viewModel.hasSavedArticles {
@@ -153,7 +153,7 @@ struct BookmarksView: View {
             }
         }
     }
-    
+
     private var magazineContent: some View {
         Group {
             if viewModel.hasSavedMagazines {
@@ -184,7 +184,7 @@ struct BookmarksView: View {
             }
         }
     }
-    
+
     private func magazineCellRow(first: Magazine, second: Magazine?) -> some View {
         HStack {
             magazineCellLink(magazine: first)
@@ -199,7 +199,7 @@ struct BookmarksView: View {
         }
         .padding()
     }
-    
+
     private func magazineCellLink(magazine: Magazine) -> some View {
         NavigationLink {
             MagazineReaderView(initType: .readyForDisplay(magazine), navigationSource: .bookmarkMagazines)
@@ -211,18 +211,33 @@ struct BookmarksView: View {
     private var noSavedContentView: some View {
         VStack {
             Spacer(minLength: Constants.noSavedMessageLength)
-            
+
             switch viewModel.selectedTab {
             case .flyers:
-                VolumeMessage(image: Image.volume.flyer, message: .noBookmarkedFlyers, largeFont: true, fullWidth: true)
+                VolumeMessage(
+                    image: Image.volume.flyer,
+                    message: .noBookmarkedFlyers,
+                    largeFont: true,
+                    fullWidth: true
+                )
             case .articles:
-                VolumeMessage(image: Image.volume.feed, message: .noBookmarkedArticles, largeFont: true, fullWidth: true)
+                VolumeMessage(
+                    image: Image.volume.feed,
+                    message: .noBookmarkedArticles,
+                    largeFont: true,
+                    fullWidth: true
+                )
             case .magazines:
-                VolumeMessage(image: Image.volume.magazine, message: .noBookmarkedMagazines, largeFont: true, fullWidth: true)
+                VolumeMessage(
+                    image: Image.volume.magazine,
+                    message: .noBookmarkedMagazines,
+                    largeFont: true,
+                    fullWidth: true
+                )
             }
         }
     }
-    
+
 }
 
 // MARK: Uncomment below if needed

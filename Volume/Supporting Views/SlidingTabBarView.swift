@@ -56,7 +56,7 @@ struct SlidingTabBarView<T: Hashable>: View {
             selectedTab = item.tab
         }
     }
-    
+
 }
 
 extension SlidingTabBarView {

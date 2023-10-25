@@ -9,12 +9,12 @@
 import Foundation
 
 extension Calendar {
-    
-    private var currentDate: Date { return Date() }
-    
+
+    private var currentDate: Date { Date() }
+
     /// Returns `True` if `date` is within this week. `False` otherwise.
     func isDateInThisWeek(_ date: Date) -> Bool {
-        return isDate(date, equalTo: currentDate, toGranularity: .weekOfYear)
+        isDate(date, equalTo: currentDate, toGranularity: .weekOfYear)
     }
-    
+
 }

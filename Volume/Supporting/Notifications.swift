@@ -12,24 +12,28 @@ import SwiftUI
 import UserNotifications
 
 class Notifications: NSObject, ObservableObject {
-    
+
     static let shared = Notifications()
     private let center = UNUserNotificationCenter.current()
     let firebaseMessaging = Messaging.messaging()
     @Published var isWeeklyDebriefOpen = false
-    
-    private override init() {
+
+    override private init() {
         super.init()
         center.delegate = self
         firebaseMessaging.delegate = self
     }
-    
+
     func requestAuthorization() {
         center.getNotificationSettings { settings in
             if settings.authorizationStatus == .notDetermined {
                 self.center.requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
                     if granted {
-                        let event = VolumeEvent.enableNotification.toEvent(.notification, value: "", navigationSource: .unspecified)
+                        let event = VolumeEvent.enableNotification.toEvent(
+                            .notification,
+                            value: "",
+                            navigationSource: .unspecified
+                        )
                         AppDevAnalytics.log(event)
                     } else if let error = error {
                         print("Error: failed to obtain push notification permissions: \(error.localizedDescription)")
@@ -38,7 +42,7 @@ class Notifications: NSObject, ObservableObject {
             }
         }
     }
-    
+
     func registerForRemoteNotifications() {
         if !UIApplication.shared.isRegisteredForRemoteNotifications {
             DispatchQueue.main.async {
@@ -46,7 +50,7 @@ class Notifications: NSObject, ObservableObject {
             }
         }
     }
-    
+
     func handlePushNotification(userInfo: [AnyHashable: Any]) {
         #if DEBUG
         print("Notification payload userInfo: \(userInfo)")
@@ -73,38 +77,41 @@ class Notifications: NSObject, ObservableObject {
             #if DEBUG
             print("Error: unknown notificationType: \(notificationType)")
             #endif
-            break
         }
     }
-    
+
     private func openArticle(id: String) {
         guard let url = URL(string: "\(Secrets.openArticleUrl)\(id)") else { return }
         UIApplication.shared.open(url)
     }
-    
+
 }
 
 extension Notifications: UNUserNotificationCenterDelegate {
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
         // App is running in the background, user taps notification
         handlePushNotification(userInfo: response.notification.request.content.userInfo)
         completionHandler()
     }
-    
+
 }
 
 extension Notifications {
-    
+
     private enum NotificationType: String {
         case newArticle = "new_article"
         case weeklyDebrief = "weekly_debrief"
     }
-    
+
 }
 
 extension Notifications: MessagingDelegate {
-    
+
     @MainActor func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         if let fcmToken = fcmToken {
             #if DEBUG
@@ -117,9 +124,13 @@ extension Notifications: MessagingDelegate {
             #endif
             UserData.shared.fcmToken = "debugSimulatorFCMToken"
         }
-        
+
         let tokenDict = ["token": fcmToken ?? ""]
-        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil,userInfo: tokenDict)
+        NotificationCenter.default.post(
+            name: Notification.Name("FCMToken"),
+            object: nil,
+            userInfo: tokenDict
+        )
     }
-    
+
 }

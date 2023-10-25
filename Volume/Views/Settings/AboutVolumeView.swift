@@ -9,13 +9,13 @@
 import SwiftUI
 
 struct AboutVolumeView: View {
-    
+
     // MARK: - Properties
-    
+
     @Environment(\.dismiss) var dismiss
-    
+
     // MARK: - Constants
-    
+
     private struct Constants {
         static let headerSpacing: CGFloat = 8
         static let lineSpacing: CGFloat = 2
@@ -29,9 +29,9 @@ struct AboutVolumeView: View {
         static let subteamFont: Font = .newYorkMedium(size: 20)
         static let teamSpacing: CGFloat = 8
     }
-    
+
     // MARK: - UI
-    
+
     var body: some View {
         List {
             Group {
@@ -49,7 +49,7 @@ struct AboutVolumeView: View {
                 Text("About Volume")
                     .font(Constants.navHeaderText)
             }
-            
+
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
                     dismiss()
@@ -62,7 +62,7 @@ struct AboutVolumeView: View {
         .navigationBarBackButtonHidden(true)
         .background(Color.volume.backgroundGray)
     }
-    
+
     private var missionView: some View {
         Section {
             Text(AboutConstants.missionStatement)
@@ -78,14 +78,14 @@ struct AboutVolumeView: View {
         .padding(.horizontal, Constants.sidePadding)
         .background(Color.volume.backgroundGray)
     }
-    
+
     private var teamView: some View {
         Section {
             ForEach(AboutConstants.volumeRoster, id: \.self) { roster in
                 VStack(alignment: .leading, spacing: 2 * Constants.teamSpacing) {
                     Text(roster.semester)
                         .font(Constants.semesterFont)
-                    
+
                     subteamView(subteams: roster.subteams)
                 }
                 .padding(.bottom, Constants.semesterSpacing)
@@ -98,7 +98,7 @@ struct AboutVolumeView: View {
         .padding(.horizontal, Constants.sidePadding)
         .background(Color.volume.backgroundGray)
     }
-    
+
     private func subteamView(subteams: [AboutConstants.Subteam]) -> some View {
         ForEach(subteams, id: \.self) { subteam in
             VStack(alignment: .leading, spacing: Constants.teamSpacing) {
@@ -106,45 +106,45 @@ struct AboutVolumeView: View {
                 case .android(let members):
                     Text("Android")
                         .font(Constants.subteamFont)
-                    
+
                     memberNamesView(names: members)
                 case .backend(let members):
                     Text("Backend")
                         .font(Constants.subteamFont)
-                    
+
                     memberNamesView(names: members)
                 case .design(let members):
                     Text("Design")
                         .font(Constants.subteamFont)
-                    
+
                     memberNamesView(names: members)
                 case .ios(let members):
                     Text("iOS")
                         .font(Constants.subteamFont)
-                    
+
                     memberNamesView(names: members)
                 case .marketing(let members):
                     Text("Marketing")
                         .font(Constants.subteamFont)
-                    
+
                     memberNamesView(names: members)
                 case .podLead(let member):
                     Text("Pod Lead")
                         .font(Constants.subteamFont)
-                    
+
                     Text(member)
                         .font(Constants.memberFont)
                 }
             }
         }
     }
-    
+
     private func memberNamesView(names: [String]) -> some View {
         Text(names.joined(separator: ", "))
             .font(Constants.memberFont)
             .fixedSize(horizontal: false, vertical: true)
     }
-    
+
 }
 
 // MARK: - Uncomment below if needed

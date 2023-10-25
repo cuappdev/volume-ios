@@ -32,14 +32,15 @@ extension WebView {
     class Coordinator: NSObject, UIScrollViewDelegate {
         var parent: WebView
         private var lastContentOffset: CGFloat = 0
-        
+
         init(_ parent: WebView) {
             self.parent = parent
         }
-        
+
         func scrollViewDidScroll(_ scrollView: UIScrollView) {
             withAnimation {
                 // show toolbar when near top of page or scrolling up
+                // swiftlint:disable:next line_length
                 parent.showToolbars = (lastContentOffset > scrollView.contentOffset.y) || scrollView.contentOffset.y <= 10
             }
             lastContentOffset = scrollView.contentOffset.y
@@ -71,13 +72,7 @@ class LoadingWebView: WKWebView {
 }
 
 extension LoadingWebView: WKNavigationDelegate {
-    
-    // MARK: Commented out in case `didCommit` does not work
-//    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-//        loadingIndicator.stopAnimating()
-//        scrollView.isScrollEnabled = true
-//    }
-    
+
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
         loadingIndicator.stopAnimating()
         scrollView.isScrollEnabled = true
@@ -91,5 +86,5 @@ extension LoadingWebView: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         loadingIndicator.stopAnimating()
     }
-    
+
 }

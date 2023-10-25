@@ -6,11 +6,12 @@ disabled_rules:
   - function_body_length
   - multiple_closures_with_trailing_closure
   - type_body_length
+  - nesting
+  - indentation_width
 
 
 opt_in_rules:
   - closure_end_indentation
-  - indentation_width
   - implicit_return
   - literal_expression_end_indentation
   - modifier_order

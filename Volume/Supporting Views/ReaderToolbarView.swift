@@ -39,11 +39,20 @@ struct ReaderToolbarView<Content: ReadableContent>: View {
     }
 
     private func incrementShoutouts(for article: Article, uuid: String) async {
-        AppDevAnalytics.log(VolumeEvent.shoutoutArticle.toEvent(.article, value: article.id, navigationSource: navigationSource))
+        AppDevAnalytics.log(
+            VolumeEvent.shoutoutArticle.toEvent(
+                .article,
+                value: article.id,
+                navigationSource: navigationSource
+            )
+        )
 
         userData.incrementShoutoutsCounter(article)
         userData.shoutoutsCache[article.id, default: 0] = numShoutouts(for: article as! Content) + 1
-        let currentPublicationShoutouts = max(userData.shoutoutsCache[article.publication.slug, default: 0], article.publication.shoutouts)
+        let currentPublicationShoutouts = max(
+            userData.shoutoutsCache[article.publication.slug, default: 0],
+            article.publication.shoutouts
+        )
         userData.shoutoutsCache[article.publication.slug, default: 0] = currentPublicationShoutouts + 1
 
         Network.shared.publisher(for: IncrementShoutoutsMutation(id: article.id, uuid: uuid))
@@ -51,24 +60,36 @@ struct ReaderToolbarView<Content: ReadableContent>: View {
                 if case let .failure(error) = completion {
                     print("Error: IncrementShoutoutsMutation failed on BrowserView: \(error.localizedDescription)")
                 }
-            } receiveValue: { _ in }
+            } receiveValue: { _ in
+            }
             .store(in: &queryBag)
     }
 
     private func incrementShoutouts(for magazine: Magazine, uuid: String) async {
-        AppDevAnalytics.log(VolumeEvent.shoutoutMagazine.toEvent(.magazine, value: magazine.id, navigationSource: navigationSource))
-        
+        AppDevAnalytics.log(
+            VolumeEvent.shoutoutMagazine.toEvent(
+                .magazine,
+                value: magazine.id,
+                navigationSource: navigationSource
+            )
+        )
+
         userData.incrementMagazineShoutoutsCounter(magazine)
         userData.magazineShoutoutsCache[magazine.id, default: 0] = numShoutouts(for: magazine as! Content) + 1
-        let currentPublicationShoutouts = max(userData.shoutoutsCache[magazine.publication.slug, default: 0], magazine.publication.shoutouts)
+        let currentPublicationShoutouts = max(
+            userData.shoutoutsCache[magazine.publication.slug, default: 0],
+            magazine.publication.shoutouts
+        )
         userData.shoutoutsCache[magazine.publication.slug, default: 0] = currentPublicationShoutouts + 1
 
         Network.shared.publisher(for: IncrementMagazineShoutoutsMutation(id: magazine.id, uuid: uuid))
             .sink { completion in
                 if case let .failure(error) = completion {
+                    // swiftlint:disable:next line_length
                     print("Error: IncrementMagazineShoutoutsMutation failed on MagazineReaderView: \(error.localizedDescription)")
                 }
-            } receiveValue: { _ in }
+            } receiveValue: { _ in
+            }
             .store(in: &queryBag)
     }
 
@@ -81,15 +102,19 @@ struct ReaderToolbarView<Content: ReadableContent>: View {
                     VolumeEvent.bookmarkArticle.toEvent(.article, value: article.id, navigationSource: navigationSource)
                 )
             }
-            
+
             userData.toggleArticleSaved(article, $bookmarkRequestInProgress)
         } else if let magazine = content as? Magazine {
             if !userData.isMagazineSaved(magazine) {
                 AppDevAnalytics.log(
-                    VolumeEvent.bookmarkMagazine.toEvent(.magazine, value: magazine.id, navigationSource: navigationSource)
+                    VolumeEvent.bookmarkMagazine.toEvent(
+                        .magazine,
+                        value: magazine.id,
+                        navigationSource: navigationSource
+                    )
                 )
             }
-            
+
             userData.toggleMagazineSaved(magazine, $bookmarkRequestInProgress)
         }
     }
@@ -235,7 +260,8 @@ struct ReaderToolbarView<Content: ReadableContent>: View {
             linkSource = LinkItemSource(url: url, article: article)
             AppDevAnalytics.log(
                 VolumeEvent.shareArticle.toEvent(
-                    .article, value: article.id,
+                    .article,
+                    value: article.id,
                     navigationSource: navigationSource
                 )
             )
@@ -244,7 +270,8 @@ struct ReaderToolbarView<Content: ReadableContent>: View {
             linkSource = LinkItemSource(url: url, magazine: magazine)
             AppDevAnalytics.log(
                 VolumeEvent.shareMagazine.toEvent(
-                    .magazine, value: magazine.id,
+                    .magazine,
+                    value: magazine.id,
                     navigationSource: navigationSource
                 )
             )

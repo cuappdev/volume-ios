@@ -10,15 +10,15 @@ import Combine
 import SwiftUI
 
 extension OrgsLoginView {
-    
+
     @MainActor
     class ViewModel: ObservableObject {
-        
+
         // MARK: - Properties
-        
+
         @AppStorage("orgAccessCode") var orgAccessCode: String = ""
         @AppStorage("orgSlug") var orgSlug: String = ""
-        
+
         @Published var accessCode: String = ""
         @Published var buttonEnabled: Bool = false
         @Published var isAuthenticated: Bool = false
@@ -26,28 +26,28 @@ extension OrgsLoginView {
         @Published var showErrorMessage: Bool = false
         @Published var showSpinner: Bool = false
         @Published var slug: String = ""
-        @Published var organization: Organization? = nil
-        
+        @Published var organization: Organization?
+
         var orgLoginInfo: [String] {[
             accessCode,
             slug
         ]}
-        
+
         private var networkState: NetworkState?
         private var queryBag = Set<AnyCancellable>()
-        
+
         // MARK: - Logic Constants
-        
+
         private struct Constants {
             static let maxAccessCodeLength: Int = 6
         }
-        
+
         // MARK: - Public Requests
-        
+
         func authenticate(accessCode: String, slug: String) async {
             organization = nil // Reset
             showSpinner = true
-            
+
             Network.shared.publisher(for: CheckAccessCodeQuery(accessCode: accessCode, slug: slug))
                 .compactMap { $0.organization?.fragments.organizationFields }
                 .sink { [weak self] completion in
@@ -65,7 +65,7 @@ extension OrgsLoginView {
                     self?.showErrorMessage = false
                     self?.isAuthenticated = true
                     self?.showSpinner = false
-                    
+
                     // Save/unsave login
                     if let self = self {
                         if self.isInfoSaved {
@@ -79,21 +79,21 @@ extension OrgsLoginView {
                 }
                 .store(in: &queryBag)
         }
-        
+
         // MARK: - Helpers
-        
+
         func updateAuthenticateButton() {
             withAnimation(.easeOut(duration: 0.3)) {
                 buttonEnabled = accessCode.count == Constants.maxAccessCodeLength && !slug.isEmpty
             }
         }
-        
+
         func fetchSavedInfo() {
             accessCode = orgAccessCode
             slug = orgSlug
             isInfoSaved = !orgAccessCode.isEmpty && !orgSlug.isEmpty
         }
-        
+
     }
-    
+
 }
