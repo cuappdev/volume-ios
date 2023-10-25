@@ -48,7 +48,9 @@ struct ReaderToolbarView<Content: ReadableContent>: View {
         )
 
         userData.incrementShoutoutsCounter(article)
-        userData.shoutoutsCache[article.id, default: 0] = numShoutouts(for: article as! Content) + 1
+        if let content = article as? Content {
+            userData.shoutoutsCache[article.id, default: 0] = numShoutouts(for: content) + 1
+        }
         let currentPublicationShoutouts = max(
             userData.shoutoutsCache[article.publication.slug, default: 0],
             article.publication.shoutouts
@@ -75,7 +77,9 @@ struct ReaderToolbarView<Content: ReadableContent>: View {
         )
 
         userData.incrementMagazineShoutoutsCounter(magazine)
-        userData.magazineShoutoutsCache[magazine.id, default: 0] = numShoutouts(for: magazine as! Content) + 1
+        if let content = magazine as? Content {
+            userData.magazineShoutoutsCache[magazine.id, default: 0] = numShoutouts(for: content) + 1
+        }
         let currentPublicationShoutouts = max(
             userData.shoutoutsCache[magazine.publication.slug, default: 0],
             magazine.publication.shoutouts

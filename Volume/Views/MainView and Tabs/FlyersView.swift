@@ -120,6 +120,7 @@ struct FlyersView: View {
                 }
                 .padding(.horizontal, Constants.listHorizontalPadding)
             }
+            // swiftlint:disable:next force_cast
             .environment(\EnvironmentValues.refresh as! WritableKeyPath<EnvironmentValues, RefreshAction?>, nil)
         } header: {
             Header("Today")
@@ -167,6 +168,7 @@ struct FlyersView: View {
                 }
                 .padding(.horizontal, Constants.listHorizontalPadding)
             }
+            // swiftlint:disable:next force_cast
             .environment(\EnvironmentValues.refresh as! WritableKeyPath<EnvironmentValues, RefreshAction?>, nil)
         } header: {
             Header("This Week")
@@ -204,6 +206,7 @@ struct FlyersView: View {
                 }
             }
             .padding(.horizontal, Constants.listHorizontalPadding)
+            // swiftlint:disable:next force_cast
             .environment(\EnvironmentValues.refresh as! WritableKeyPath<EnvironmentValues, RefreshAction?>, nil)
         } header: {
             upcomingHeader

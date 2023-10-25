@@ -108,6 +108,7 @@ struct MagazinesView: View {
                 }
             }
             .padding(.horizontal)
+            // swiftlint:disable:next force_cast
             .environment(\EnvironmentValues.refresh as! WritableKeyPath<EnvironmentValues, RefreshAction?>, nil)
         } header: {
             Header("Featured")
