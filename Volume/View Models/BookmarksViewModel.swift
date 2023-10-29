@@ -10,22 +10,22 @@ import Combine
 import SwiftUI
 
 extension BookmarksView {
-    
+
     @MainActor
     class ViewModel: ObservableObject {
         // MARK: - Properties
-        
-        @Published var articles: [Article]? = nil
-        @Published var flyers: [Flyer]? = nil
-        @Published var magazines: [Magazine]? = nil
+
+        @Published var articles: [Article]?
+        @Published var flyers: [Flyer]?
+        @Published var magazines: [Magazine]?
         @Published var selectedTab: FilterContentType = .articles
         @Published private var queryBag = Set<AnyCancellable>()
-        
+
         private var networkState: NetworkState?
         private var userData: UserData?
-        
+
         // MARK: - Property Helpers
-        
+
         func setupEnvironmentVariables(networkState: NetworkState, userData: UserData) {
             self.networkState = networkState
             self.userData = userData
@@ -46,7 +46,7 @@ extension BookmarksView {
 
             return !userData.savedMagazineIDs.isEmpty
         }
-        
+
         var hasSavedFlyers: Bool {
             guard let userData else {
                 return false
@@ -54,9 +54,9 @@ extension BookmarksView {
 
             return !userData.savedFlyerIDs.isEmpty
         }
-        
+
         // MARK: - Network Requests
-        
+
         func fetchContent() async {
             await fetchArticles(ids: userData?.savedArticleIDs ?? [])
             await fetchMagazines(ids: userData?.savedMagazineIDs ?? [])
@@ -102,7 +102,7 @@ extension BookmarksView {
                 }
                 .store(in: &queryBag)
         }
-        
+
         func fetchFlyers(ids: [String]) async {
             Network.shared.publisher(for: GetFlyersByIDsQuery(ids: ids))
                 .map { $0.flyers.map(\.fragments.flyerFields) }
@@ -116,19 +116,17 @@ extension BookmarksView {
                 }
                 .store(in: &queryBag)
         }
-        
+
         func readFlyer(_ flyer: Flyer) async {
-            guard let uuid = userData?.uuid else { return }
-            
             Network.shared.publisher(for: IncrementTimesClickedMutation(id: flyer.id))
                 .sink { [weak self] completion in
                     self?.networkState?.handleCompletion(screen: .flyers, completion)
                     print("Marked flyer \(flyer.id) read")
-                } receiveValue: { _ in }
+                } receiveValue: { _ in
+                }
                 .store(in: &queryBag)
         }
-        
-    }
-    
-}
 
+    }
+
+}

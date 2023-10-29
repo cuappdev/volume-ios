@@ -9,18 +9,18 @@
 import SwiftUI
 
 struct TrendingFlyerCell: View {
-    
+
     // MARK: - Properties
-    
+
     let flyer: Flyer
-    
+
     @State private var bookmarkRequestInProgress: Bool = false
     @StateObject var urlImageModel: URLImageModel
     @EnvironmentObject private var userData: UserData
     @ObservedObject var viewModel: TrendingView.ViewModel
-    
+
     // MARK: - Constants
-    
+
     private struct Constants {
         static let buttonSize: CGSize = CGSize(width: 24, height: 24)
         static let categoryCornerRadius: CGFloat = 8
@@ -34,9 +34,9 @@ struct TrendingFlyerCell: View {
         static let spacing: CGFloat = 4
         static let titleFont: Font = .newYorkMedium(size: 20)
     }
-    
+
     // MARK: - UI
-    
+
     var body: some View {
         if let url = flyer.flyerUrl {
             cellLinkView(url: url)
@@ -44,7 +44,7 @@ struct TrendingFlyerCell: View {
             cellNoLinkView
         }
     }
-    
+
     private func cellLinkView(url: URL) -> some View {
         Link(destination: url) {
             VStack(alignment: .leading, spacing: Constants.spacing) {
@@ -64,7 +64,7 @@ struct TrendingFlyerCell: View {
             }
         )
     }
-    
+
     private var cellNoLinkView: some View {
         VStack(alignment: .leading, spacing: Constants.spacing) {
             imageFrame
@@ -74,13 +74,13 @@ struct TrendingFlyerCell: View {
             flyerLocation
         }
     }
-    
+
     private var imageFrame: some View {
         ZStack(alignment: .topLeading) {
             if let flyerImage = urlImageModel.image {
                 ZStack(alignment: .center) {
                     Color(uiColor: flyerImage.averageColor ?? .gray)
-                    
+
                     Image(uiImage: urlImageModel.image ?? UIImage())
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -90,7 +90,7 @@ struct TrendingFlyerCell: View {
                 SkeletonView()
                     .shimmer(.largeShimmer())
             }
-            
+
             Text(flyer.categorySlug.titleCase())
                 .padding(.init(
                     top: Constants.categoryVerticalPadding,
@@ -107,58 +107,59 @@ struct TrendingFlyerCell: View {
         }
         .frame(height: Constants.imageHeight)
     }
-    
+
     private var organizationName: some View {
         HStack(alignment: .center) {
             Text(flyer.organization.name)
                 .font(Constants.organizationNameFont)
                 .lineLimit(1)
-            
+
             Spacer()
-            
+
             FlyersBookmark(buttonSize: Constants.buttonSize, flyer: flyer, isPast: false, navigationSource: .trending)
             FlyersShare(buttonSize: Constants.buttonSize, flyer: flyer, isPast: false, navigationSource: .trending)
         }
         .padding(.top, Constants.spacing)
         .padding(.bottom, -Constants.spacing)
     }
-    
+
     private var flyerTitle: some View {
         Text(flyer.title)
             .font(Constants.titleFont)
             .lineLimit(1)
     }
-    
+
     private var flyerDate: some View {
         HStack {
             Image.volume.calendar
                 .foregroundColor(Color.black)
-            
+
             Text(flyer.startDate.flyerDateString)
                 .font(Constants.dateFont)
                 .padding(.trailing, Constants.spacing)
                 .lineLimit(1)
-            
+
+            // swiftlint:disable:next line_length
             Text("\(flyer.startDate.flyerTimeString) - \(flyer.endDate.flyerTimeString)")                .font(Constants.dateFont)
                 .lineLimit(1)
         }
     }
-    
+
     private var flyerLocation: some View {
         HStack {
             Image.volume.location
                 .foregroundColor(Color.black)
-            
+
             Text(flyer.location)
                 .font(Constants.locationFont)
                 .lineLimit(1)
         }
     }
-    
+
 }
 
 extension TrendingFlyerCell {
-    
+
     struct Skeleton: View {
         var body: some View {
             VStack(alignment: .leading, spacing: 8) {
@@ -180,7 +181,7 @@ extension TrendingFlyerCell {
             .shimmer(.largeShimmer())
         }
     }
-    
+
 }
 
 // MARK: - Uncomment below if needed

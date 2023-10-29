@@ -15,7 +15,7 @@ import SwiftUI
 struct Main: App {
     @Environment(\.scenePhase) var scenePhase
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
-    
+
     init() {
         configureFirebase()
         configureNotifications()
@@ -36,7 +36,7 @@ struct Main: App {
             announcementPath: Secrets.announcementsPath
         )
     }
-    
+
     private func configureNotifications() {
         Notifications.shared.requestAuthorization()
         Notifications.shared.registerForRemoteNotifications()

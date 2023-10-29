@@ -14,9 +14,9 @@ struct TrendingMainArticleCell: View {
 
     let article: Article
     @ObservedObject var urlImageModel: URLImageModel
-    
+
     // MARK: - Constants
-    
+
     private struct Constants {
         static let bottomAverageHeight: CGFloat = 60
         static let imageHeight: CGFloat = UIScreen.main.bounds.width
@@ -45,18 +45,18 @@ struct TrendingMainArticleCell: View {
                 .shimmer(.largeShimmer())
         }
     }
-    
+
     @ViewBuilder
     private func articleInfoView(image: UIImage) -> some View {
         VStack(spacing: 0) {
             Color(image.bottomAverageColor(height: Constants.bottomAverageHeight) ?? .gray)
                 .frame(width: Constants.imageHeight, height: Constants.infoGradientHeight)
                 .mask(LinearGradient(gradient: Gradient(colors: [.black, .clear]), startPoint: .bottom, endPoint: .top))
-            
+
             ZStack(alignment: .topLeading) {
                 Color(image.bottomAverageColor(height: Constants.bottomAverageHeight) ?? .gray)
                     .frame(width: Constants.imageHeight)
-                
+
                 VStack(alignment: .leading, spacing: Constants.infoViewSpacing) {
                     Text(article.publication.name)
                         .font(.newYorkMedium(size: 10))

@@ -9,15 +9,15 @@
 import SwiftUI
 
 struct TrendingView: View {
-    
+
     // MARK: - Properties
-    
+
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
     @StateObject private var viewModel = ViewModel()
-    
+
     // MARK: - Constants
-    
+
     private struct Constants {
         static let backgroundColor: Color = Color.volume.backgroundGray
         static let endMessageWidth: CGFloat = 250
@@ -28,9 +28,9 @@ struct TrendingView: View {
         static let sectionSpacing: CGFloat = 40
         static let subArticlesSpacing: CGFloat = 16
     }
-    
+
     // MARK: - UI
-    
+
     var body: some View {
         ScrollView {
             LazyVStack(spacing: Constants.sectionSpacing) {
@@ -63,9 +63,9 @@ struct TrendingView: View {
             }
         }
     }
-    
+
     // MARK: - Sections
-    
+
     private var mainArticleSection: some View {
         Section {
             switch viewModel.mainArticle {
@@ -77,14 +77,17 @@ struct TrendingView: View {
                 NavigationLink {
                     BrowserView(initType: .readyForDisplay(article), navigationSource: .trendingArticles)
                 } label: {
-                    TrendingMainArticleCell(article: article, urlImageModel: URLImageModel(urlString: article.imageUrl?.absoluteString ?? ""))
+                    TrendingMainArticleCell(
+                        article: article,
+                        urlImageModel: URLImageModel(urlString: article.imageUrl?.absoluteString ?? "")
+                    )
                 }
                 .buttonStyle(EmptyButtonStyle())
             }
         }
         .padding(.top, 0.5 * Constants.sectionSpacing)
     }
-    
+
     private var subArticlesSection: some View {
         Section {
             VStack(spacing: Constants.subArticlesSpacing) {
@@ -105,7 +108,7 @@ struct TrendingView: View {
             }
         }
     }
-    
+
     private var flyersSection: some View {
         Section {
             VStack(spacing: Constants.sectionSpacing) {
@@ -134,12 +137,12 @@ struct TrendingView: View {
             switch viewModel.flyers {
             case .none:
                 await viewModel.fetchFlyers()
-            case .some(_):
+            case .some:
                 break
             }
         }
     }
-    
+
     private var magazinesSection: some View {
         Section {
             LazyVGrid(columns: Constants.gridColumns, spacing: Constants.magazineVerticalSpacing) {
@@ -152,7 +155,10 @@ struct TrendingView: View {
                 case .some(let magazines):
                     ForEach(magazines) { magazine in
                         NavigationLink {
-                            MagazineReaderView(initType: .readyForDisplay(magazine), navigationSource: .featuredMagazines)
+                            MagazineReaderView(
+                                initType: .readyForDisplay(magazine),
+                                navigationSource: .featuredMagazines
+                            )
                         } label: {
                             MagazineCell(magazine: magazine)
                         }
@@ -165,12 +171,12 @@ struct TrendingView: View {
             switch viewModel.magazines {
             case .none:
                 await viewModel.fetchMagazines()
-            case .some(_):
+            case .some:
                 break
             }
         }
     }
-    
+
     private var endSection: some View {
         Section {
             Group {
@@ -182,7 +188,7 @@ struct TrendingView: View {
             .padding(.bottom, 2 * Constants.sectionSpacing)
         }
     }
-    
+
 }
 
 // MARK: - Uncomment below if needed

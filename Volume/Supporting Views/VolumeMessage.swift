@@ -9,7 +9,7 @@
 import SwiftUI
 
 enum Message {
-    
+
     case noBookmarkedArticles
     case noBookmarkedFlyers
     case noBookmarkedMagazines
@@ -58,15 +58,15 @@ enum Message {
             return "If you want to see your organization’s events on Volume, email us at volumeappdev@gmail.com."
         }
     }
-    
+
 }
 
 struct VolumeMessage: View {
-    
+
     @State var image: Image = Image.volume.feed
     @State var message: Message
-    @State var largeFont : Bool
-    @State var fullWidth : Bool
+    @State var largeFont: Bool
+    @State var fullWidth: Bool
 
     var body: some View {
         HStack {
@@ -75,12 +75,12 @@ struct VolumeMessage: View {
             VStack(spacing: 10) {
                 image
                     .foregroundColor(.volume.orange)
-                
+
                 Text(message.title)
                     .font(.newYorkMedium(size: largeFont ? 24 : 18))
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
-                
+
                 Text(message.subtitle)
                     .font(.helveticaRegular(size: 12))
                     .multilineTextAlignment(.center)
@@ -91,5 +91,5 @@ struct VolumeMessage: View {
             Spacer()
         }
     }
-    
+
 }

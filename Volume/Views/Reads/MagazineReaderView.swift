@@ -59,7 +59,7 @@ struct MagazineReaderView: View {
     }
 
     // MARK: - Data
-    
+
     private func fetchPDF(url: URL) async {
         pdfDoc = PDFDocument(url: url)
     }
@@ -69,7 +69,8 @@ struct MagazineReaderView: View {
         cancellableReadMutation = Network.shared.publisher(
             for: ReadMagazineMutation(
                 id: magazineID,
-                uuid: uuid)
+                uuid: uuid
+            )
         )
         .map(\.readMagazine?.id)
         .sink { completion in
@@ -77,9 +78,9 @@ struct MagazineReaderView: View {
                 print("Error: ReadMagazineMutation failed on MagazineReaderView: \(error.localizedDescription)")
             }
         } receiveValue: { id in
-            #if DEBUG
+#if DEBUG
             print("Marked magazine read with ID: \(id ?? "nil")")
-            #endif
+#endif
         }
     }
 
@@ -104,7 +105,11 @@ struct MagazineReaderView: View {
         ZStack {
             Rectangle()
                 .foregroundColor(.white)
-                .shadow(color: .black.opacity(Constants.navbarOpacity), radius: Constants.navbarRadius, y: Constants.navbarY)
+                .shadow(
+                    color: .black.opacity(Constants.navbarOpacity),
+                    radius: Constants.navbarRadius,
+                    y: Constants.navbarY
+                )
 
             HStack {
                 Button {
@@ -154,11 +159,19 @@ struct MagazineReaderView: View {
                     .frame(height: Constants.navbarHeight)
 
                 if let pdfDoc = pdfDoc {
-                    PDFKitView(pdfView: pdfView, pdfDoc: pdfDoc)
-                        .overlay(showScrollbar
-                                 ? PageIndicatorView(totalPage: pdfDoc.pageCount, pdfView: pdfView).padding([.top, .trailing])
-                                 : nil,
-                                 alignment: .topTrailing)
+                    PDFKitView(
+                        pdfView: pdfView,
+                        pdfDoc: pdfDoc
+                    )
+                    .overlay(
+                        showScrollbar
+                             ? PageIndicatorView(
+                                totalPage: pdfDoc.pageCount,
+                                pdfView: pdfView
+                             ).padding([.top, .trailing])
+                             : nil,
+                             alignment: .topTrailing
+                    )
                 } else {
                     PDFKitView(pdfView: pdfView, pdfDoc: PDFDocument())
                         .overlay(ProgressView())
@@ -190,8 +203,14 @@ struct MagazineReaderView: View {
                 case .readyForDisplay(let magazine):
                     self.magazine = magazine
 
-                    AppDevAnalytics.log(VolumeEvent.openMagazine.toEvent(.magazine, value: magazine.id, navigationSource: navigationSource))
-                    
+                    AppDevAnalytics.log(
+                        VolumeEvent.openMagazine.toEvent(
+                            .magazine,
+                            value: magazine.id,
+                            navigationSource: navigationSource
+                        )
+                    )
+
                     Task {
                         await markMagazineRead()
                     }

@@ -11,7 +11,7 @@ import Foundation
 typealias FlyerID = String
 
 struct Flyer: Hashable, Identifiable {
-    
+
     let id: String
     let categorySlug: String
     let endDate: Date
@@ -24,7 +24,7 @@ struct Flyer: Hashable, Identifiable {
     let timesClicked: Int
     let title: String
     let trendiness: Int
-    
+
     init(from flyer: FlyerFields) {
         self.id = flyer.id
         self.categorySlug = flyer.categorySlug
@@ -42,11 +42,11 @@ struct Flyer: Hashable, Identifiable {
         self.title = flyer.title
         self.trendiness = Int(flyer.trendiness)
     }
-    
+
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
-    
+
 }
 
 extension Array where Element == Flyer {
@@ -54,5 +54,5 @@ extension Array where Element == Flyer {
     init(_ flyers: [FlyerFields]) {
         self.init(flyers.map(Flyer.init))
     }
-    
+
 }

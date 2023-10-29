@@ -20,7 +20,7 @@ struct PublicationDetail: View {
     let navigationSource: NavigationSource
 
     var body: some View {
-        GeometryReader { proxy in
+        GeometryReader { _ in
             ScrollView {
                 coverImageHeader
                 contentSection
@@ -30,7 +30,8 @@ struct PublicationDetail: View {
             .background(Color.white)
             .gesture(
                 DragGesture().updating($dragOffset) { value, _, _ in
-                    if value.startLocation.x < Constants.dragGestureMinX && value.translation.width > Constants.dragGestureMaxX {
+                    if value.startLocation.x < Constants.dragGestureMinX,
+                       value.translation.width > Constants.dragGestureMaxX {
                         presentationMode.wrappedValue.dismiss()
                     }
                 }
@@ -68,7 +69,7 @@ struct PublicationDetail: View {
                         .frame(width: geometry.size.width, height: headerHeight)
                         .clipped()
                 } else {
-                    Rectangle() // TODO: Custom image
+                    Rectangle()
                         .foregroundColor(.blue)
                 }
             }

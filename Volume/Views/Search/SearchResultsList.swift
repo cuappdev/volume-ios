@@ -10,9 +10,9 @@ import Combine
 import SwiftUI
 
 struct SearchResultsList: View {
-    
+
     let searchText: String
-    
+
     @EnvironmentObject private var networkState: NetworkState
     @State private var sectionQueries: SectionQueries = (nil, nil, nil)
     @State private var sectionStates: SectionStates = (.loading, .loading, .loading)
@@ -45,7 +45,7 @@ struct SearchResultsList: View {
             return searchedMagazines.count > 0
         }
     }
-    
+
     private var hasFlyerSearchResults: Bool {
         switch sectionStates.flyers {
         case .loading, .reloading:
@@ -100,7 +100,7 @@ struct SearchResultsList: View {
                 }
             }
     }
-    
+
     private func fetchSearchedFlyers(_ done: @escaping () -> Void = { }) {
         sectionQueries.flyers = Network.shared.publisher(for: SearchFlyersQuery(query: searchText))
             .compactMap {
@@ -122,7 +122,7 @@ struct SearchResultsList: View {
     var body: some View {
         VStack {
             ContentFilterBarView(selectedTab: $selectedTab, showFlyerTab: true)
-            
+
             ScrollView {
                 switch selectedTab {
                 case .articles:
@@ -137,16 +137,16 @@ struct SearchResultsList: View {
                 if case let .results(articles) = sectionStates.articles,
                    case let .results(magazines) = sectionStates.magazines,
                    case let .results(flyers) = sectionStates.flyers {
-                    
+
                     sectionStates.articles = .reloading(articles)
                     sectionStates.magazines = .reloading(magazines)
                     sectionStates.flyers = .reloading(flyers)
                 }
-                
+
                 sectionStates.articles = .loading
                 sectionStates.magazines = .loading
                 sectionStates.flyers = .loading
-                
+
                 fetchContent()
             }
             .onAppear {
@@ -171,12 +171,17 @@ struct SearchResultsList: View {
             switch sectionStates.articles {
             case .loading:
                 ForEach(0..<Constants.articleSkeletonSize, id: \.self) { _ in
-                     ArticleRow.Skeleton()
+                    ArticleRow.Skeleton()
                 }
             case .reloading(let searchedArticles), .results(let searchedArticles):
                 LazyVStack {
                     ForEach(searchedArticles) { article in
-                        NavigationLink(destination: BrowserView(initType: .readyForDisplay(article), navigationSource: .searchArticles)) {
+                        NavigationLink(
+                            destination: BrowserView(
+                                initType: .readyForDisplay(article),
+                                navigationSource: .searchArticles
+                            )
+                        ) {
                             ArticleRow(article: article, navigationSource: .searchArticles)
                                 .padding(.vertical)
                         }
@@ -226,7 +231,7 @@ struct SearchResultsList: View {
             }
         }
     }
-    
+
     @ViewBuilder
     private var flyerSection: some View {
         if hasFlyerSearchResults {
@@ -236,7 +241,7 @@ struct SearchResultsList: View {
                 .padding(.vertical, Constants.emptyResultsMessagePadding)
         }
     }
-    
+
     private var flyerList: some View {
         VStack(spacing: Constants.rowVerticalPadding) {
             switch sectionStates.flyers {
@@ -264,12 +269,14 @@ struct SearchResultsList: View {
 
 extension SearchResultsList {
 
+    // swiftlint:disable:next large_tuple
     typealias SectionStates = (
         articles: MainView.TabState<[Article]>,
         magazines: MainView.TabState<[Magazine]>,
         flyers: MainView.TabState<[Flyer]>
     )
 
+    // swiftlint:disable:next large_tuple
     typealias SectionQueries = (
         articles: AnyCancellable?,
         magazines: AnyCancellable?,
@@ -277,4 +284,3 @@ extension SearchResultsList {
     )
 
 }
-

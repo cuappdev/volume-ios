@@ -21,7 +21,7 @@ class LinkItemSource: NSObject, UIActivityItemSource {
         metadata.title = article.title
         self.url = url
     }
-    
+
     init(url: URL, magazine: Magazine) {
         item = "magazine"
         metadata.originalURL = url
@@ -29,7 +29,7 @@ class LinkItemSource: NSObject, UIActivityItemSource {
         metadata.title = magazine.title
         self.url = url
     }
-    
+
     init(url: URL, flyer: Flyer) {
         item = "flyer"
         metadata.originalURL = url
@@ -43,13 +43,15 @@ class LinkItemSource: NSObject, UIActivityItemSource {
         metadata
     }
 
-    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any
-    {
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
         "Placeholder"
     }
 
     // What is presented when user actually shares (i.e. like on iMessage, Twitter, etc.)
-    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
+    func activityViewController(
+        _ activityViewController: UIActivityViewController,
+        itemForActivityType activityType: UIActivity.ActivityType?
+    ) -> Any? {
         if let title = metadata.title {
             return """
                 Check out this \(item) on Volume:
@@ -66,7 +68,10 @@ class LinkItemSource: NSObject, UIActivityItemSource {
             """
     }
 
-    func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivity.ActivityType?) -> String {
+    func activityViewController(
+        _ activityViewController: UIActivityViewController,
+        subjectForActivityType activityType: UIActivity.ActivityType?
+    ) -> String {
         metadata.title ?? "Check out this \(item) on Volume!"
     }
 }

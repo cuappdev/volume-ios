@@ -18,7 +18,7 @@ struct PublicationDetailHeader: View {
     let publication: Publication
     // Takes into account any new user taps of the following button
     private var isFollowed: Bool {
-        userData.isPublicationFollowed(publication) 
+        userData.isPublicationFollowed(publication)
     }
     private var shoutouts: Int {
         max(publication.shoutouts, userData.shoutoutsCache[publication.slug, default: 0])
@@ -63,9 +63,17 @@ struct PublicationDetailHeader: View {
                     followRequestInProgress = true
                     userData.togglePublicationFollowed(publication, $followRequestInProgress)
                     AppDevAnalytics.log(
-                        userData.isPublicationFollowed(publication) ?
-                            VolumeEvent.followPublication.toEvent(.publication, value: publication.slug, navigationSource: navigationSource) :
-                            VolumeEvent.unfollowPublication.toEvent(.publication, value: publication.slug, navigationSource: navigationSource)
+                        userData.isPublicationFollowed(publication)
+                        ? VolumeEvent.followPublication.toEvent(
+                            .publication,
+                            value: publication.slug,
+                            navigationSource: navigationSource
+                        )
+                        : VolumeEvent.unfollowPublication.toEvent(
+                            .publication,
+                            value: publication.slug,
+                            navigationSource: navigationSource
+                        )
                     )
                 }, label: {
                     Text(isFollowed ? "Following" : "+  Follow")
@@ -77,7 +85,7 @@ struct PublicationDetailHeader: View {
                 .foregroundColor(isFollowed ? .volume.buttonGray: .volume.orange)
                 .background(
                     isFollowed ?
-                        AnyView(RoundedRectangle(cornerRadius: 10).fill(Color.volume.orange)) :
+                    AnyView(RoundedRectangle(cornerRadius: 10).fill(Color.volume.orange)) :
                         AnyView(RoundedRectangle(cornerRadius: 10).stroke(Color.volume.orange, lineWidth: 1.5))
                 )
             }
@@ -97,7 +105,7 @@ struct PublicationDetailHeader: View {
 struct MediaText: View {
     let title: String
     let url: URL
-    
+
     var body: some View {
         Link(title, destination: url)
             .font(.helveticaRegular(size: 12))

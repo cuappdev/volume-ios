@@ -10,40 +10,41 @@ import Combine
 import SwiftUI
 
 extension ArticlesView {
-    
+
     @MainActor
     class ViewModel: ObservableObject {
         // MARK: - Properties
-        
+
+        // swiftlint:disable:next line_length
         typealias ArticlesResultPublisher = Publishers.Map<OperationPublisher<GetArticlesByPublicationSlugsQuery.Data>, [ArticleFields]>
-        
-        @Published var deeplinkID: String? = nil
-        @Published var followedArticles: [Article]? = nil
+
+        @Published var deeplinkID: String?
+        @Published var followedArticles: [Article]?
         @Published var hasMoreFollowedArticlePages = true
         @Published var hasMoreUnfollowedArticlePages = true
         @Published var isWeeklyDebriefOpen: Bool = false
         @Published var openArticleFromDeeplink: Bool = false
         @Published var searchState: SearchView.SearchState = .searching
         @Published var searchText: String = ""
-        @Published var trendingArticles: [Article]? = nil
-        @Published var unfollowedArticles: [Article]? = nil
-        @Published var weeklyDebrief: WeeklyDebrief? = nil
+        @Published var trendingArticles: [Article]?
+        @Published var unfollowedArticles: [Article]?
+        @Published var weeklyDebrief: WeeklyDebrief?
 
         private var networkState: NetworkState?
-        private var publicationSlugs: [String]? = nil
+        private var publicationSlugs: [String]?
         private var queryBag = Set<AnyCancellable>()
         private var userData: UserData?
-        
+
         // MARK: - Constants
-        
+
         private struct Constants {
             static let followedArticlesLimit: Int = 20
             static let pageSize: Double = 10
             static let trendingArticleLimit: Double = 7
         }
-        
+
         // MARK: - Property Helpers
-        
+
         func setupEnvironment(networkState: NetworkState, userData: UserData) {
             if self.networkState == nil || self.userData == nil {
                 self.networkState = networkState
@@ -68,13 +69,13 @@ extension ArticlesView {
         var disableScrolling: Bool {
             trendingArticles == .none
         }
-        
+
         // MARK: - Requests
-        
+
         func fetchContent() async {
             await fetchTrendingArticles()
             await fetchWeeklyDebrief()
-            
+
             if followedArticles == nil {
                 await fetchFirstPage()
             }
@@ -103,7 +104,7 @@ extension ArticlesView {
                 }
                 .store(in: &queryBag)
         }
-        
+
         func fetchWeeklyDebrief() async {
             func fetch() {
                 guard let uuid = userData?.uuid else {
@@ -189,20 +190,18 @@ extension ArticlesView {
                 }
                 .store(in: &queryBag)
         }
-        
+
         // MARK: - Deeplink
-        
+
         func handleURL(_ url: URL) {
-            if url.isDeeplink,
-               url.contentType == .article,
-               let id = url.parameters["id"] {
+            if url.isDeeplink, url.contentType == .article, let id = url.parameters["id"] {
                 deeplinkID = id
                 openArticleFromDeeplink = true
             }
         }
-        
+
         // MARK: - Helpers
-        
+
         private func offset(for articles: [Article]?) -> Double {
             Double(articles?.count ?? 0)
         }
@@ -232,11 +231,11 @@ extension ArticlesView {
                     hasMoreUnfollowedArticlePages = false
                 }
             }
-            
+
             if followedArticles?.count ?? 0 > Constants.followedArticlesLimit {
                 hasMoreFollowedArticlePages = false
             }
         }
     }
-    
+
 }

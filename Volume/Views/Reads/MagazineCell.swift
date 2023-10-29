@@ -28,7 +28,7 @@ struct MagazineCell: View {
         static let pubTextSize: CGFloat = 12
         static let magazineTitleSize: CGFloat = 14
         static let infoTextSize: CGFloat = 10
-        
+
         static let cellWidth: CGFloat = 152
         static let cellHeight: CGFloat = 278
     }
@@ -46,7 +46,12 @@ struct MagazineCell: View {
                 }
             }
             .scaledToFill()
-            .shadow(color: Color.black.opacity(Constants.pdfviewOpacity), radius: Constants.pdfviewRadius, x: Constants.pdfviewX, y: Constants.pdfviewY)
+            .shadow(
+                color: Color.black.opacity(Constants.pdfviewOpacity),
+                radius: Constants.pdfviewRadius,
+                x: Constants.pdfviewX,
+                y: Constants.pdfviewY
+            )
             .disabled(true)
 
             Spacer()
@@ -66,6 +71,7 @@ struct MagazineCell: View {
             Spacer()
                 .frame(height: Constants.titleInfoPadding)
 
+            // swiftlint:disable:next line_length
             Text("\(magazine.date.fullString) • \(max(magazine.shoutouts, userData.shoutoutsCache[magazine.id, default: 0])) shout-outs")
                 .font(.helveticaRegular(size: Constants.infoTextSize))
                 .foregroundColor(.volume.lightGray)
