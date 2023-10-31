@@ -388,7 +388,7 @@ struct FlyerUploadView: View {
                     Text(success ? "Flyer Published!" : "Oh no, something went wrong.")
                         .font(.newYorkMedium(size: 20))
 
-                    Text(success ? "Thank you for using Volume." : "Please try again later.")
+                    Text(success ? "Thank you for using Volume." : "Please try again with a smaller image size.")
                         .font(.helveticaRegular(size: 14))
                         .foregroundColor(Color.volume.lightGray)
                 }

@@ -9,6 +9,7 @@ target 'Volume' do
   use_frameworks!
 
   # Pods for Volume
+  pod 'Alamofire'
   pod 'Apollo'
   pod 'AppDevAnalytics', :git => 'https://github.com/cuappdev/analytics-ios.git', :commit => '5d459c0475'
   pod 'AppDevAnnouncements', :git => 'https://github.com/cuappdev/appdev-announcements.git'
