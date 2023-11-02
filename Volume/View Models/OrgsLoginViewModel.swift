@@ -47,6 +47,7 @@ extension OrgsLoginView {
         func authenticate(accessCode: String, slug: String) async {
             organization = nil // Reset
             showSpinner = true
+            buttonEnabled = false
 
             Network.shared.publisher(for: CheckAccessCodeQuery(accessCode: accessCode, slug: slug))
                 .compactMap { $0.organization?.fragments.organizationFields }
@@ -57,6 +58,7 @@ extension OrgsLoginView {
                         self?.showErrorMessage = true
                         self?.isAuthenticated = false
                         self?.showSpinner = false
+                        self?.buttonEnabled = true
                     default:
                         break
                     }
@@ -65,6 +67,7 @@ extension OrgsLoginView {
                     self?.showErrorMessage = false
                     self?.isAuthenticated = true
                     self?.showSpinner = false
+                    self?.buttonEnabled = true
 
                     // Save/unsave login
                     if let self = self {
