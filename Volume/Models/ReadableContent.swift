@@ -16,7 +16,7 @@ extension ReadableContent {
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
-    
+
 }
 
 enum ReaderViewInitType<Content: ReadableContent> {

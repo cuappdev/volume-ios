@@ -10,16 +10,16 @@ import PhotosUI
 import SwiftUI
 
 struct FlyerUploadView: View {
-    
+
     // MARK: - Properties
-    
+
     @Environment(\.dismiss) var dismiss
     @StateObject var viewModel = ViewModel()
-    
+
     let organization: Organization?
-    
+
     // MARK: - Constants
-    
+
     private struct Constants {
         static let backgroundColor: Color = Color.volume.backgroundGray
         static let borderWidth: CGFloat = 1
@@ -35,13 +35,13 @@ struct FlyerUploadView: View {
         static let textFieldPadding: EdgeInsets = .init(top: 12, leading: 16, bottom: 12, trailing: 16)
         static let topPadding: CGFloat = 28
     }
-    
+
     // MARK: - UI
-    
+
     var body: some View {
         ZStack(alignment: .center) {
             mainContent
-            
+
             if viewModel.showSpinner {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle())
@@ -61,7 +61,7 @@ struct FlyerUploadView: View {
                 Text("Upload Flyer")
                     .font(.newYorkMedium(size: 20))
             }
-            
+
             ToolbarItem(placement: .topBarLeading) {
                 Button {
                     dismiss()
@@ -85,22 +85,29 @@ struct FlyerUploadView: View {
         }
         .onChange(of: viewModel.flyerStringInfo) { _ in
             withAnimation(.easeOut(duration: 0.3)) {
-                viewModel.buttonEnabled = !viewModel.flyerName.isEmpty && !viewModel.flyerLocation.isEmpty && !viewModel.flyerCategory.isEmpty && (viewModel.flyerStart < viewModel.flyerEnd) && viewModel.flyerImageItem != nil
+                viewModel.buttonEnabled = !viewModel.flyerName.isEmpty &&
+                !viewModel.flyerLocation.isEmpty && !viewModel.flyerCategory.isEmpty &&
+                (viewModel.flyerStart < viewModel.flyerEnd) && viewModel.flyerImageItem != nil
             }
         }
         .onChange(of: viewModel.flyerDateInfo) { _ in
             withAnimation(.easeOut(duration: 0.3)) {
-                viewModel.buttonEnabled = !viewModel.flyerName.isEmpty && !viewModel.flyerLocation.isEmpty && !viewModel.flyerCategory.isEmpty && (viewModel.flyerStart < viewModel.flyerEnd) && viewModel.flyerImageItem != nil
+                viewModel.buttonEnabled = !viewModel.flyerName.isEmpty &&
+                !viewModel.flyerLocation.isEmpty && !viewModel.flyerCategory.isEmpty &&
+                (viewModel.flyerStart < viewModel.flyerEnd) && viewModel.flyerImageItem != nil
+
                 viewModel.showErrorMessage = viewModel.flyerStart > viewModel.flyerEnd
             }
         }
         .onChange(of: viewModel.flyerImageItem) { _ in
             withAnimation(.easeOut(duration: 0.3)) {
-                viewModel.buttonEnabled = !viewModel.flyerName.isEmpty && !viewModel.flyerLocation.isEmpty && !viewModel.flyerCategory.isEmpty && (viewModel.flyerStart < viewModel.flyerEnd) && viewModel.flyerImageItem != nil
+                viewModel.buttonEnabled = !viewModel.flyerName.isEmpty &&
+                !viewModel.flyerLocation.isEmpty && !viewModel.flyerCategory.isEmpty &&
+                (viewModel.flyerStart < viewModel.flyerEnd) && viewModel.flyerImageItem != nil
             }
         }
     }
-    
+
     private var mainContent: some View {
         GeometryReader { geometry in
             ScrollView {
@@ -111,25 +118,25 @@ struct FlyerUploadView: View {
                     VStack(alignment: .leading, spacing: Constants.inputSpacing) {
                         organizationName
                         flyerNameInput
-                        
+
                         VStack(alignment: .leading, spacing: 8) {
-                            HStack(spacing: Constants.inputSpacing) {
+                            HStack(spacing: 16) {
                                 startTimeInput
                                 endTimeInput
                             }
-                            
+
                             viewModel.showErrorMessage ? errorMessage : nil
                         }
-                        
+
                         locationInput
                         categoryInput
                         redirectInput
-                        
+
                         VStack(alignment: .leading, spacing: 40) {
                             imagePicker
                             uploadButton
                         }
-                        
+
                         Spacer()
                     }
                     .padding(.top, Constants.topPadding)
@@ -142,43 +149,50 @@ struct FlyerUploadView: View {
             .frame(width: geometry.size.width)
         }
     }
-    
+
     private var organizationName: some View {
         VStack(alignment: .leading, spacing: Constants.labelSpacing) {
             Text("Organization")
                 .font(Constants.labelFont)
                 .foregroundColor(Constants.textColor)
-            
+
             Text(organization?.name ?? "Invalid Organization")
                 .font(.newYorkMedium(size: 24))
         }
     }
-    
+
     private var flyerNameInput: some View {
         VStack(alignment: .leading, spacing: Constants.labelSpacing) {
             Text("Flyer Name")
                 .font(Constants.labelFont)
-            
+
             TextField("Enter flyer name", text: $viewModel.flyerName)
                 .font(Constants.textFieldFont)
                 .padding(Constants.textFieldPadding)
                 .background(
                     RoundedRectangle(cornerRadius: 4)
-                        .strokeBorder( Constants.textFieldBorderColor, style: StrokeStyle(lineWidth: Constants.borderWidth)
+                        .strokeBorder(
+                            Constants.textFieldBorderColor,
+                            style: StrokeStyle(lineWidth: Constants.borderWidth)
                         )
                 )
         }
         .foregroundColor(Constants.textColor)
     }
-    
+
     private var startTimeInput: some View {
         VStack(alignment: .leading, spacing: Constants.labelSpacing) {
             Text("Start Time")
                 .font(Constants.labelFont)
-            
+
             Button {
-                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                
+                UIApplication.shared.sendAction(
+                    #selector(UIResponder.resignFirstResponder),
+                    to: nil,
+                    from: nil,
+                    for: nil
+                )
+
                 withAnimation(.easeOut(duration: 0.3)) {
                     viewModel.startIsFocused = true
                     viewModel.endIsFocused = false
@@ -199,15 +213,20 @@ struct FlyerUploadView: View {
         }
         .foregroundColor(Constants.textColor)
     }
-    
+
     private var endTimeInput: some View {
         VStack(alignment: .leading, spacing: Constants.labelSpacing) {
             Text("End Time")
                 .font(Constants.labelFont)
-            
+
             Button {
-                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                
+                UIApplication.shared.sendAction(
+                    #selector(UIResponder.resignFirstResponder),
+                    to: nil,
+                    from: nil,
+                    for: nil
+                )
+
                 withAnimation(.easeOut(duration: 0.3)) {
                     viewModel.startIsFocused = false
                     viewModel.endIsFocused = true
@@ -228,12 +247,12 @@ struct FlyerUploadView: View {
         }
         .foregroundColor(Constants.textColor)
     }
-    
+
     private var locationInput: some View {
         VStack(alignment: .leading, spacing: Constants.labelSpacing) {
             Text("Location")
                 .font(Constants.labelFont)
-            
+
             TextField("Enter location", text: $viewModel.flyerLocation)
                 .font(Constants.textFieldFont)
                 .padding(Constants.textFieldPadding)
@@ -246,12 +265,12 @@ struct FlyerUploadView: View {
         }
         .foregroundColor(Constants.textColor)
     }
-    
+
     private var categoryInput: some View {
         VStack(alignment: .leading, spacing: Constants.labelSpacing) {
             Text("Category")
                 .font(Constants.labelFont)
-            
+
             if let firstCategory = viewModel.allCategories.first {
                 CategoryDropdown(
                     borderColor: Constants.textFieldBorderColor,
@@ -267,18 +286,18 @@ struct FlyerUploadView: View {
         }
         .foregroundColor(Constants.textColor)
     }
-    
+
     private var redirectInput: some View {
         VStack(alignment: .leading, spacing: Constants.labelSpacing) {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Flyer Redirect Link")
                     .font(Constants.labelFont)
-                
+
                 Text("Optional: Clicking on the flyer in app will take you to this link")
                     .font(.helveticaRegular(size: 12))
                     .foregroundColor(Color.volume.lightGray)
             }
-            
+
             TextField("", text: $viewModel.flyerURL)
                 .font(Constants.textFieldFont)
                 .padding(Constants.textFieldPadding)
@@ -291,7 +310,7 @@ struct FlyerUploadView: View {
         }
         .foregroundColor(Constants.textColor)
     }
-    
+
     private var imagePicker: some View {
         PhotosPicker(selection: $viewModel.flyerImageItem, matching: .images) {
             HStack(alignment: .center) {
@@ -323,7 +342,7 @@ struct FlyerUploadView: View {
             }
         }
     }
-    
+
     private var uploadButton: some View {
         Button {
             Task {
@@ -337,28 +356,30 @@ struct FlyerUploadView: View {
                 .frame(maxWidth: .infinity)
                 .background(
                     RoundedRectangle(cornerRadius: 4)
-                        .foregroundColor(viewModel.buttonEnabled ? Color.volume.orange : Color.volume.buttonDisabledGray)
+                        .foregroundColor(
+                            viewModel.buttonEnabled ? Color.volume.orange : Color.volume.buttonDisabledGray
+                        )
                 )
         }
         .padding(.top, 8)
         .disabled(!viewModel.buttonEnabled)
     }
-    
+
     private var errorMessage: some View {
-        HStack(alignment: .center,spacing: 4) {
+        HStack(alignment: .center, spacing: 4) {
             Image.volume.error
                 .frame(width: 16, height: 16)
-            
+
             Text("End time must be after start time.")
                 .font(.helveticaRegular(size: 14))
                 .foregroundColor(Constants.textColor)
         }
     }
-    
+
     private var stateMessage: some View {
         VStack {
             Spacer()
-            
+
             VStack(alignment: .center, spacing: 8) {
                 switch viewModel.uploadSuccessful {
                 case .none:
@@ -366,24 +387,24 @@ struct FlyerUploadView: View {
                 case .some(let success):
                     Text(success ? "Flyer Published!" : "Oh no, something went wrong.")
                         .font(.newYorkMedium(size: 20))
-                    
-                    Text(success ? "Thank you for using Volume." : "Please try again later.")
+
+                    Text(success ? "Thank you for using Volume." : "Please reduce the image file size and try again.")
                         .font(.helveticaRegular(size: 14))
                         .foregroundColor(Color.volume.lightGray)
                 }
             }
-            
+
             Spacer()
         }
         .background(Constants.backgroundColor)
     }
-    
+
     // MARK: - Supporting Views
-    
+
     private var startDatePicker: some View {
         VStack {
             Spacer()
-            
+
             DatePicker(">>>", selection: $viewModel.flyerStart)
                 .datePickerStyle(.wheel)
                 .frame(maxWidth: .infinity)
@@ -391,11 +412,11 @@ struct FlyerUploadView: View {
                 .background(Color(.systemGray5))
         }
     }
-    
+
     private var endDatePicker: some View {
         VStack {
             Spacer()
-            
+
             DatePicker(">>>", selection: $viewModel.flyerEnd)
                 .datePickerStyle(.wheel)
                 .frame(maxWidth: .infinity)
@@ -403,7 +424,7 @@ struct FlyerUploadView: View {
                 .background(Color(.systemGray5))
         }
     }
-    
+
 }
 
 // MARK: - Uncomment below if needed

@@ -10,24 +10,24 @@ import Combine
 import SwiftUI
 
 struct OnboardingPublicationsView: View {
-    
+
     // MARK: - Properties
-    
+
     @State private var cancellableQuery: AnyCancellable?
     @State private var contentOffset: CGPoint = .zero
     @State private var publications: [Publication]?
-    
+
     private let scrollViewCoordinateSpace = "scrollViewCoordinateSpace"
-    
+
     // MARK: - Constants
-    
+
     private struct Constants {
         static let spacing: CGFloat = 24
         static let verticalPadding: CGFloat = 30
     }
-    
+
     // MARK: - UI
-    
+
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             LazyVStack(spacing: Constants.spacing) {
@@ -63,9 +63,9 @@ struct OnboardingPublicationsView: View {
                         .opacity(contentOffset.y > 0 ? 1 : 0)
                         .transition(.opacity)
                 }
-                
+
                 Spacer()
-                
+
                 ScrollFadingView(fadesDown: true)
             }
         )
@@ -76,30 +76,31 @@ struct OnboardingPublicationsView: View {
             }
         }
     }
-    
+
     // MARK: - Helpers
-    
+
     private func fetchPublications() async {
         cancellableQuery = Network.shared.publisher(for: GetAllPublicationsQuery())
             .map { data in data.publications.compactMap { $0.fragments.publicationFields } }
             .sink { completion in
                 if case let .failure(error) = completion {
+                    // swiftlint:disable:next line_length
                     print("Error: GetAllPublicationsQuery failed on OnboardingPublicationsView: \(error.localizedDescription)")
                 }
             } receiveValue: { publicationFields in
-                publications = [Publication] (publicationFields)
+                publications = [Publication](publicationFields)
             }
     }
-    
+
 }
 
 extension OnboardingPublicationsView {
-    
+
     private struct OffsetPreferenceKey: PreferenceKey {
         static var defaultValue: CGFloat = .zero
         static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {}
     }
-    
+
 }
 
 // MARK: - Uncomment below if needed

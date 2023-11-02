@@ -11,7 +11,7 @@ import SwiftUI
 import PDFKit
 
 struct PDFKitView: UIViewRepresentable {
-    
+
     @ObservedObject var pdfView: PDFViewUnselectable
     let pdfDoc: PDFDocument
 
@@ -28,7 +28,7 @@ struct PDFKitView: UIViewRepresentable {
         let scrollView = pdfView.subviews.first?.subviews.first as? UIScrollView
         scrollView?.showsVerticalScrollIndicator = false
         scrollView?.showsHorizontalScrollIndicator = false
-        
+
         return pdfView
     }
 
@@ -41,7 +41,7 @@ class PDFViewUnselectable: PDFView, ObservableObject {
 
     /// prevent users from copy+pasting content from PDF documents
     override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        return false
+        false
     }
 
     override func addGestureRecognizer(_ gestureRecognizer: UIGestureRecognizer) {

@@ -9,18 +9,18 @@
 import SwiftUI
 
 extension ReadsView {
-    
+
     @MainActor
     class ViewModel: ObservableObject {
         // MARK: - Properties
-        
-        @Published var deeplinkID: String? = nil
+
+        @Published var deeplinkID: String?
         @Published var openArticleFromDeeplink: Bool = false
         @Published var openMagazineFromDeeplink: Bool = false
         @Published var selectedTab: FilterContentType = .articles
-        
+
         // MARK: - Deeplink
-        
+
         func handleURL(_ url: URL) {
             if url.isDeeplink {
                 let id = url.parameters["id"]
@@ -37,5 +37,5 @@ extension ReadsView {
         }
 
     }
-    
+
 }

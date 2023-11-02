@@ -10,20 +10,20 @@ import AppDevAnalytics
 import SwiftUI
 
 struct FlyersBookmark: View {
-    
+
     // MARK: - Properties
-    
+
     let buttonSize: CGSize
     let flyer: Flyer
     let isPast: Bool
     let navigationSource: NavigationSource
-    
+
     @State private var bookmarkRequestInProgress: Bool = false
     @State private var isFlyerSaved: Bool = false
     @EnvironmentObject private var userData: UserData
-    
+
     // MARK: - UI
-    
+
     var body: some View {
         Group {
             if isPast {
@@ -39,7 +39,7 @@ struct FlyersBookmark: View {
             isFlyerSaved = saved
         }
     }
-    
+
     @ViewBuilder
     private var pastBookmark: some View {
         if isFlyerSaved {
@@ -68,7 +68,7 @@ struct FlyersBookmark: View {
                 }
         }
     }
-    
+
     private var upcomingBookmark: some View {
         Button {
             Haptics.shared.play(.light)
@@ -95,9 +95,9 @@ struct FlyersBookmark: View {
             }
         }
     }
-    
+
     // MARK: - Bookmarking Logic
-    
+
     private func toggleSaved(for flyer: Flyer) {
         bookmarkRequestInProgress = true
         isFlyerSaved.toggle()
@@ -106,20 +106,20 @@ struct FlyersBookmark: View {
             VolumeEvent.bookmarkFlyer.toEvent(.flyer, value: flyer.id, navigationSource: navigationSource)
         )
     }
-    
+
 }
 
 struct FlyersShare: View {
-    
+
     // MARK: - Properties
-    
+
     let buttonSize: CGSize
     let flyer: Flyer
     let isPast: Bool
     let navigationSource: NavigationSource
-    
+
     // MARK: - UI
-    
+
     var body: some View {
         if isPast {
             pastShare
@@ -127,7 +127,7 @@ struct FlyersShare: View {
             upcomingShare
         }
     }
-    
+
     private var pastShare: some View {
         Image.volume.share
             .resizable()
@@ -143,7 +143,7 @@ struct FlyersShare: View {
                 }
             }
     }
-    
+
     private var upcomingShare: some View {
         Button {
             Haptics.shared.play(.light)
@@ -157,5 +157,5 @@ struct FlyersShare: View {
                 .frame(width: buttonSize.width, height: buttonSize.height)
         }
     }
-    
+
 }

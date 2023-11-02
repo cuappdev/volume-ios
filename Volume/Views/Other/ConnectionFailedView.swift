@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ConnectionFailedView: View {
-    
+
     var body: some View {
         VStack(spacing: 0) {
             Spacer()
@@ -33,5 +33,5 @@ struct ConnectionFailedView: View {
         .offset(x: 0, y: -20)
         .background(Color.volume.backgroundGray)
     }
-    
+
 }

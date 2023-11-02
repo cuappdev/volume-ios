@@ -34,6 +34,7 @@
 		2E3D327129DE058D00E7B0A1 /* TrendingMainArticleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3D327029DE058D00E7B0A1 /* TrendingMainArticleCell.swift */; };
 		2E3D327329DE1BD600E7B0A1 /* TrendingFlyerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3D327229DE1BD600E7B0A1 /* TrendingFlyerCell.swift */; };
 		2E4B30DE29CCEE9B000D6AA6 /* HapticTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4B30DD29CCEE9B000D6AA6 /* HapticTouch.swift */; };
+		2E4BAAA82ADB292D000ECCBD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E4BAAA72ADB292D000ECCBD /* GoogleService-Info.plist */; };
 		2E4BAE8429DE7FA700EB16D6 /* EmptyButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4BAE8329DE7FA600EB16D6 /* EmptyButtonStyle.swift */; };
 		2E531A3129CCC1920043EB85 /* ShimmerEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E531A3029CCC1920043EB85 /* ShimmerEffect.swift */; };
 		2E6A7D5029D9E3D3002F5250 /* TrendingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6A7D4F29D9E3D3002F5250 /* TrendingView.swift */; };
@@ -122,7 +123,6 @@
 		95AC9DCB2637C09B000B4BEE /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95AC9DCA2637C09B000B4BEE /* NetworkExtension.framework */; };
 		95AC9DCF2637C120000B4BEE /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95AC9DCE2637C120000B4BEE /* Main.swift */; };
 		95E4DA492638816500584E5C /* LinkItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E4DA482638816500584E5C /* LinkItemSource.swift */; };
-		95F1DC8A2608F4DD000B3D91 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 95F1DC892608F4DD000B3D91 /* GoogleService-Info.plist */; };
 		990081EF25E5C31600BF8362 /* Events.md in Resources */ = {isa = PBXBuildFile; fileRef = 990081EE25E5C31600BF8362 /* Events.md */; };
 		995C9A0025E5770D00F6FBA5 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995C99FF25E5770D00F6FBA5 /* Analytics.swift */; };
 		A2A4CB1C27D5276D00774C70 /* Magazine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A4CB1B27D5276D00774C70 /* Magazine.swift */; };
@@ -166,6 +166,7 @@
 		2E3D327029DE058D00E7B0A1 /* TrendingMainArticleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingMainArticleCell.swift; sourceTree = "<group>"; };
 		2E3D327229DE1BD600E7B0A1 /* TrendingFlyerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingFlyerCell.swift; sourceTree = "<group>"; };
 		2E4B30DD29CCEE9B000D6AA6 /* HapticTouch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticTouch.swift; sourceTree = "<group>"; };
+		2E4BAAA72ADB292D000ECCBD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2E4BAE8329DE7FA600EB16D6 /* EmptyButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyButtonStyle.swift; sourceTree = "<group>"; };
 		2E531A3029CCC1920043EB85 /* ShimmerEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerEffect.swift; sourceTree = "<group>"; };
 		2E6A7D4F29D9E3D3002F5250 /* TrendingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingView.swift; sourceTree = "<group>"; };
@@ -259,7 +260,6 @@
 		95AC9DCA2637C09B000B4BEE /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		95AC9DCE2637C120000B4BEE /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		95E4DA482638816500584E5C /* LinkItemSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkItemSource.swift; sourceTree = "<group>"; };
-		95F1DC892608F4DD000B3D91 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		990081EE25E5C31600BF8362 /* Events.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Events.md; sourceTree = "<group>"; };
 		995C99FF25E5770D00F6FBA5 /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		A2A4CB1B27D5276D00774C70 /* Magazine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Magazine.swift; sourceTree = "<group>"; };
@@ -326,13 +326,13 @@
 				7E9E473126294423007E8E6C /* AboutConstants.swift */,
 				3334F49F2705269800CF0987 /* AppDelegate.swift */,
 				95E4DA482638816500584E5C /* LinkItemSource.swift */,
+				2E4BAAA72ADB292D000ECCBD /* GoogleService-Info.plist */,
 				95AC9DCE2637C120000B4BEE /* Main.swift */,
 				33538BF12745DD27009DD191 /* Notifications.swift */,
 				06662887257F204E006FEBCF /* Secrets.swift */,
 				06DBC683257DE35F00B6A453 /* UserData.swift */,
 				7ED7C341252D117B0078B1BD /* LaunchScreen.storyboard */,
 				063EED22257BF870002136EE /* Podfile */,
-				95F1DC892608F4DD000B3D91 /* GoogleService-Info.plist */,
 				7ED7C344252D117B0078B1BD /* Info.plist */,
 				7E369E1625EED97500FC0419 /* Secrets.plist */,
 			);
@@ -660,6 +660,7 @@
 				7ED7C330252D117A0078B1BD /* Frameworks */,
 				7ED7C331252D117A0078B1BD /* Resources */,
 				0E352471C2B40ACE3197DD16 /* [CP] Embed Pods Frameworks */,
+				2E48371D2AE95F3C00F18F17 /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -676,8 +677,9 @@
 		7ED7C32B252D117A0078B1BD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1210;
+				LastUpgradeCheck = 1500;
 				ORGANIZATIONNAME = "Cornell AppDev";
 				TargetAttributes = {
 					7ED7C332252D117A0078B1BD = {
@@ -716,9 +718,8 @@
 				922FE30D29342F9200E14911 /* schema.json in Resources */,
 				2EF894BA2A1F087F001DD2A1 /* FlyerMutations.graphql in Resources */,
 				7ED7C340252D117B0078B1BD /* Preview Assets.xcassets in Resources */,
-				95F1DC8A2608F4DD000B3D91 /* GoogleService-Info.plist in Resources */,
 				BC2C4C192909E74D0083C6AA /* MagazineQueries.graphql in Resources */,
-				95F1DC8A2608F4DD000B3D91 /* GoogleService-Info.plist in Resources */,
+				2E4BAAA82ADB292D000ECCBD /* GoogleService-Info.plist in Resources */,
 				922FE3092931E67A00E14911 /* SearchQueries.graphql in Resources */,
 				2EF894B62A1E9E43001DD2A1 /* OrganizationQueries.graphql in Resources */,
 				2E38E14F29E5CE4C006323E5 /* LaunchScreen.storyboard in Resources */,
@@ -767,6 +768,25 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Volume/Pods-Volume-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		2E48371D2AE95F3C00F18F17 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n\nif which swiftlint >/dev/null; then\n    swiftlint --fix && swiftlint\nelse\n    echo \"WARNING: SwiftLint not installed\"\nfi\n";
 		};
 		C92B9A3063AB65C12C9F9C94 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -958,6 +978,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1019,6 +1040,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1046,7 +1068,7 @@
 				CODE_SIGN_ENTITLEMENTS = Volume/Volume.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_ASSET_PATHS = "\"Volume/Preview Content\"";
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
 				ENABLE_PREVIEWS = YES;
@@ -1058,7 +1080,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.8;
+				MARKETING_VERSION = 1.3.9;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cornellappdev.volume-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1076,7 +1098,7 @@
 				CODE_SIGN_ENTITLEMENTS = Volume/Volume.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_ASSET_PATHS = "\"Volume/Preview Content\"";
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
 				ENABLE_PREVIEWS = YES;
@@ -1088,7 +1110,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.8;
+				MARKETING_VERSION = 1.3.9;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cornellappdev.volume-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";

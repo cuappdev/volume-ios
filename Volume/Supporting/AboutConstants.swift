@@ -9,9 +9,17 @@
 import Foundation
 
 struct AboutConstants {
-    
-    static let missionStatement = "Created by Cornell AppDev, Volume aims to amplify the voices of student publications and organizations by making it easy and accessible to digest student created content.\n\nVolume believes in the unique power that lies in the sharing and distribution of content by students and for students to spark conversation, experiences, and connections that improve the collegiate experience."
-    
+
+    static let missionStatement =
+    """
+    Created by Cornell AppDev, Volume aims to amplify the voices of student \
+    publications and organizations by making it easy and accessible to digest \
+    student created content.\n\nVolume believes in the unique power that lies \
+    in the sharing and distribution of content by students and for students to \
+    spark conversation, experiences, and connections that improve the collegiate \
+    experience.
+    """
+
     static let volumeRoster: [PodRoster] = [
         PodRoster(
             semester: "Fall 2023",
@@ -192,25 +200,25 @@ struct AboutConstants {
             ]
         )
     ]
-    
+
 }
 
 extension AboutConstants {
-    
+
     struct PodRoster: Hashable, Codable {
         var id: UUID = UUID()
         let semester: String
         let subteams: [Subteam]
-        
+
         static func == (lhs: AboutConstants.PodRoster, rhs: AboutConstants.PodRoster) -> Bool {
             lhs.id == rhs.id
         }
-        
+
         func hash(into hasher: inout Hasher) {
             hasher.combine(id)
         }
     }
-    
+
     enum Subteam: Codable, Hashable {
         case android([String])
         case backend([String])
@@ -219,5 +227,5 @@ extension AboutConstants {
         case marketing([String])
         case podLead(String)
     }
-    
+
 }

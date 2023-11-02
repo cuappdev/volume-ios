@@ -66,9 +66,16 @@ struct MorePublicationRow: View {
                     followRequestInProgress = true
                     userData.togglePublicationFollowed(publication, $followRequestInProgress)
                     AppDevAnalytics.log(
-                        userData.isPublicationFollowed(publication) ?
-                            VolumeEvent.followPublication.toEvent(.publication, value: publication.slug, navigationSource: navigationSource) :
-                            VolumeEvent.unfollowPublication.toEvent(.publication, value: publication.slug, navigationSource: navigationSource)
+                        userData.isPublicationFollowed(publication)
+                        ? VolumeEvent.followPublication.toEvent(
+                            .publication,
+                            value: publication.slug,
+                            navigationSource: navigationSource
+                        ) : VolumeEvent.unfollowPublication.toEvent(
+                            .publication,
+                            value: publication.slug,
+                            navigationSource: navigationSource
+                        )
                     )
                 }
             } label: {
@@ -116,7 +123,7 @@ extension MorePublicationRow {
                     .frame(width: 24, height: 24)
                     .cornerRadius(8)
             }.padding([.leading, .trailing])
-            .shimmer(.smallShimmer())
+                .shimmer(.smallShimmer())
         }
     }
 }

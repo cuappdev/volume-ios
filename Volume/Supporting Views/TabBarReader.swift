@@ -17,7 +17,10 @@ struct TabBarReader: UIViewControllerRepresentable {
         return proxy
     }
 
-    func updateUIViewController(_ uiViewController: UIViewController, context: UIViewControllerRepresentableContext<TabBarReader>) { }
+    func updateUIViewController(
+        _ uiViewController: UIViewController,
+        context: UIViewControllerRepresentableContext<TabBarReader>
+    ) { }
 }
 
 extension TabBarReader {

@@ -10,7 +10,7 @@ import SwiftUI
 
 extension Image {
     static let volume = Volume()
-    
+
     // Add new image assets to this set of constants
     struct Volume {
         // socials not included b/c names are specified by backend strings

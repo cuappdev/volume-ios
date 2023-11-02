@@ -9,22 +9,22 @@
 import SwiftUI
 
 struct FlyerCellThisWeek: View {
-    
+
     // MARK: - Properties
-    
+
     let buttonSize: CGSize
     let cellSize: CGSize
     let flyer: Flyer
     let imageSize: CGSize
     let organizationNameFont: Font
-    
+
     @State private var bookmarkRequestInProgress: Bool = false
     @StateObject var urlImageModel: URLImageModel
     @EnvironmentObject private var userData: UserData
     @ObservedObject var viewModel: FlyersView.ViewModel
-    
+
     // MARK: - Constants
-    
+
     private struct Constants {
         static let categoryCornerRadius: CGFloat = 8
         static let categoryFont: Font = .helveticaRegular(size: 10)
@@ -35,9 +35,9 @@ struct FlyerCellThisWeek: View {
         static let spacing: CGFloat = 4
         static let titleFont: Font = .newYorkMedium(size: 20)
     }
-    
+
     // MARK: - UI
-    
+
     var body: some View {
         if let url = flyer.flyerUrl {
             cellLinkView(url: url)
@@ -45,7 +45,7 @@ struct FlyerCellThisWeek: View {
             cellNoLinkView
         }
     }
-    
+
     private func cellLinkView(url: URL) -> some View {
         Link(destination: url) {
             VStack(alignment: .leading, spacing: Constants.spacing) {
@@ -66,7 +66,7 @@ struct FlyerCellThisWeek: View {
             }
         )
     }
-    
+
     private var cellNoLinkView: some View {
         VStack(alignment: .leading, spacing: Constants.spacing) {
             imageFrame
@@ -77,13 +77,13 @@ struct FlyerCellThisWeek: View {
         }
         .frame(width: cellSize.width, height: cellSize.height)
     }
-    
+
     private var imageFrame: some View {
         ZStack(alignment: .topLeading) {
             if let flyerImage = urlImageModel.image {
                 ZStack(alignment: .center) {
                     Color(uiColor: flyerImage.averageColor ?? .gray)
-                    
+
                     Image(uiImage: urlImageModel.image ?? UIImage())
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -93,7 +93,7 @@ struct FlyerCellThisWeek: View {
                 SkeletonView()
                     .shimmer(.largeShimmer())
             }
-            
+
             Text(flyer.categorySlug.titleCase())
                 .padding(.init(
                     top: Constants.categoryVerticalPadding,
@@ -109,64 +109,64 @@ struct FlyerCellThisWeek: View {
         }
         .frame(width: imageSize.width, height: imageSize.height)
     }
-    
+
     private var organizationName: some View {
         HStack(alignment: .top) {
             Text(flyer.organization.name)
                 .font(organizationNameFont)
                 .lineLimit(1)
-            
+
             Spacer()
-            
+
             FlyersBookmark(buttonSize: buttonSize, flyer: flyer, isPast: false, navigationSource: .flyersTab)
             FlyersShare(buttonSize: buttonSize, flyer: flyer, isPast: false, navigationSource: .flyersTab)
         }
         .padding(.top, Constants.spacing)
         .padding(.bottom, -Constants.spacing)
     }
-    
+
     private var flyerTitle: some View {
         Text(flyer.title)
             .font(Constants.titleFont)
             .lineLimit(1)
     }
-    
+
     private var flyerDate: some View {
         HStack {
             Image.volume.calendar
                 .foregroundColor(Color.black)
-            
+
             Text(flyer.startDate.flyerDateString)
                 .font(Constants.dateFont)
                 .padding(.trailing, Constants.spacing)
                 .lineLimit(1)
-            
+
             Text("\(flyer.startDate.flyerTimeString) - \(flyer.endDate.flyerTimeString)")
                 .font(Constants.dateFont)
                 .lineLimit(1)
         }
     }
-    
+
     private var flyerLocation: some View {
         HStack {
             Image.volume.location
                 .foregroundColor(Color.black)
-            
+
             Text(flyer.location)
                 .font(Constants.locationFont)
                 .lineLimit(1)
         }
     }
-    
+
 }
 
 extension FlyerCellThisWeek {
-    
+
     struct Skeleton: View {
-        
+
         let cellSize: CGSize
         let imageSize: CGSize
-        
+
         var body: some View {
             VStack(alignment: .leading) {
                 SkeletonView()
@@ -188,7 +188,7 @@ extension FlyerCellThisWeek {
             .shimmer(.largeShimmer())
         }
     }
-    
+
 }
 
 // MARK: Uncomment below if needed

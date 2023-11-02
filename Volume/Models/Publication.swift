@@ -23,12 +23,12 @@ struct Publication: Hashable, Identifiable {
     let slug: String
     let socials: [Social]
     let websiteUrl: URL?
-    
+
     struct Social: Equatable, Hashable {
         let name: String
         let url: URL
     }
-    
+
     init(from publication: PublicationFields) {
         backgroundImageUrl = URL(string: publication.backgroundImageUrl)
         bio = publication.bio
@@ -65,5 +65,5 @@ extension Array where Element == Publication {
     init(_ articles: [PublicationFields]) {
         self.init(articles.map(Publication.init))
     }
-    
+
 }

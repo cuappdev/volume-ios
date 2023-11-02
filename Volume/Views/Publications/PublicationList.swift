@@ -33,7 +33,7 @@ struct PublicationList: View {
                 let publications = [Publication](value.map(\.fragments.publicationFields))
                 let followedPublications = publications.filter(userData.isPublicationFollowed)
                 let morePublications = publications.filter { !userData.isPublicationFollowed($0) }
-                
+
                 done()
                 withAnimation(.linear(duration: 0.1)) {
                     state = .results((followedPublications, morePublications))
@@ -86,7 +86,12 @@ struct PublicationList: View {
                     }
                 }
             } else {
-                VolumeMessage(image: Image.volume.pen, message: .noFollowingPublications, largeFont: false, fullWidth: true)
+                VolumeMessage(
+                    image: Image.volume.pen,
+                    message: .noFollowingPublications,
+                    largeFont: false,
+                    fullWidth: true
+                )
             }
         }
     }
@@ -131,10 +136,10 @@ struct PublicationList: View {
         ScrollView {
             VStack {
                 followedPublicationsSection
-                
+
                 Spacer()
                     .frame(height: 16)
-                
+
                 morePublicationsSection
             }
         }
@@ -155,7 +160,7 @@ struct PublicationList: View {
             fetch()
         }
     }
-    
+
 }
 
 extension PublicationList {

@@ -10,17 +10,17 @@ import Combine
 import SwiftUI
 
 struct OrgsLoginView: View {
-    
+
     // MARK: - Properties
-    
+
     @Environment(\.dismiss) var dismiss
     @StateObject var viewModel = ViewModel()
-    
+
     @FocusState private var accessCodeIsFocused: Bool
     @FocusState private var slugIsFocused: Bool
-    
+
     // MARK: - Constants
-    
+
     private struct Constants {
         static let borderWidth: CGFloat = 1
         static let buttonTextFont: Font = .helveticaNeueMedium(size: 16)
@@ -36,9 +36,9 @@ struct OrgsLoginView: View {
         static let textFieldPadding: EdgeInsets = .init(top: 12, leading: 16, bottom: 12, trailing: 16)
         static let topPadding: CGFloat = 28
     }
-    
+
     // MARK: - UI
-    
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -46,15 +46,15 @@ struct OrgsLoginView: View {
                     slugInput
                     codeInput
                     saveInfo
-                    
+
                     VStack(alignment: .leading, spacing: 8) {
                         authenticateButton
                         viewModel.showErrorMessage ? errorMessage : nil
                     }
-                    
+
                     Spacer()
                 }
-                
+
                 if viewModel.showSpinner {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle())
@@ -68,7 +68,7 @@ struct OrgsLoginView: View {
                     Text("Organization Login")
                         .font(.newYorkMedium(size: 20))
                 }
-                
+
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
                         dismiss()
@@ -94,40 +94,48 @@ struct OrgsLoginView: View {
             viewModel.fetchSavedInfo()
         }
     }
-    
+
     private var slugInput: some View {
         VStack(alignment: .leading, spacing: Constants.labelSpacing) {
             Text("Organization Slug")
                 .font(Constants.labelFont)
-            
+
             TextField("Enter your slug", text: $viewModel.slug)
                 .font(Constants.textFieldFont)
                 .padding(Constants.textFieldPadding)
                 .background(
                     RoundedRectangle(cornerRadius: 4)
                         .strokeBorder(
-                            viewModel.showErrorMessage ? Color.volume.errorRed :
-                                slugIsFocused ? Color.volume.orange : Constants.textFieldBorderColor, style: StrokeStyle(lineWidth: Constants.borderWidth)
+                            viewModel.showErrorMessage
+                            ? Color.volume.errorRed
+                            : slugIsFocused
+                                ? Color.volume.orange
+                                : Constants.textFieldBorderColor,
+                            style: StrokeStyle(lineWidth: Constants.borderWidth)
                         )
                 )
                 .focused($slugIsFocused)
         }
         .foregroundColor(Constants.textColor)
     }
-    
+
     private var codeInput: some View {
         VStack(alignment: .leading, spacing: Constants.labelSpacing) {
             Text("Access Code")
                 .font(Constants.labelFont)
-            
+
             SecureField("Enter your access code", text: $viewModel.accessCode)
                 .font(Constants.textFieldFont)
                 .padding(Constants.textFieldPadding)
                 .background(
                     RoundedRectangle(cornerRadius: 4)
                         .strokeBorder(
-                            viewModel.showErrorMessage ? Color.volume.errorRed :
-                                accessCodeIsFocused ? Color.volume.orange : Constants.textFieldBorderColor, style: StrokeStyle(lineWidth: Constants.borderWidth)
+                            viewModel.showErrorMessage
+                            ? Color.volume.errorRed
+                            : accessCodeIsFocused
+                                ? Color.volume.orange
+                                : Constants.textFieldBorderColor,
+                            style: StrokeStyle(lineWidth: Constants.borderWidth)
                         )
                 )
                 .focused($accessCodeIsFocused)
@@ -140,7 +148,7 @@ struct OrgsLoginView: View {
         }
         .foregroundColor(Constants.textColor)
     }
-    
+
     private var authenticateButton: some View {
         Button {
             Task {
@@ -154,24 +162,28 @@ struct OrgsLoginView: View {
                 .frame(maxWidth: .infinity)
                 .background(
                     RoundedRectangle(cornerRadius: 4)
-                        .foregroundColor(viewModel.buttonEnabled ? Color.volume.orange : Color.volume.buttonDisabledGray)
+                        .foregroundColor(
+                            viewModel.buttonEnabled
+                            ? Color.volume.orange
+                            : Color.volume.buttonDisabledGray
+                        )
                 )
         }
         .padding(.top, 8)
         .disabled(!viewModel.buttonEnabled)
     }
-    
+
     private var errorMessage: some View {
-        HStack(alignment: .center,spacing: 4) {
+        HStack(alignment: .center, spacing: 4) {
             Image.volume.error
                 .frame(width: 16, height: 16)
-            
+
             Text("Invalid slug or code. Please try again.")
                 .font(Constants.errorMessageFont)
                 .foregroundColor(Constants.textColor)
         }
     }
-    
+
     private var saveInfo: some View {
         HStack(alignment: .center, spacing: 16) {
             Button {
@@ -179,8 +191,13 @@ struct OrgsLoginView: View {
             } label: {
                 ZStack {
                     RoundedRectangle(cornerRadius: 4)
-                        .strokeBorder(viewModel.isInfoSaved ? Color.volume.orange : Constants.textFieldBorderColor, style: StrokeStyle(lineWidth: Constants.borderWidth))
-                    
+                        .strokeBorder(
+                            viewModel.isInfoSaved
+                            ? Color.volume.orange
+                            : Constants.textFieldBorderColor,
+                            style: StrokeStyle(lineWidth: Constants.borderWidth)
+                        )
+
                     if viewModel.isInfoSaved {
                         Image.volume.checkmark
                             .resizable()
@@ -192,13 +209,13 @@ struct OrgsLoginView: View {
             .background(viewModel.isInfoSaved ? Color.volume.orange : nil)
             .cornerRadius(4)
             .frame(width: 24, height: 24)
-            
+
             Text("Save login info")
                 .font(Constants.textFieldFont)
                 .foregroundColor(Constants.textColor)
         }
     }
-    
+
 }
 
 // MARK: - Uncomment below if needed

@@ -9,9 +9,9 @@
 import SwiftUI
 
 struct OnboardingWelcomeView: View {
-    
+
     // MARK: - Constants
-    
+
     private struct Constants {
         static let boldTextFont: Font = .newYorkBold(size: 16)
         static let iconSize: CGSize = CGSize(width: 36, height: 36)
@@ -20,9 +20,9 @@ struct OnboardingWelcomeView: View {
         static let verticalSpacing: CGFloat = 49
         static let sidePadding: CGFloat = 48
     }
-    
+
     // MARK: - UI
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: Constants.verticalSpacing) {
             featureRow(
@@ -30,13 +30,13 @@ struct OnboardingWelcomeView: View {
                 textBold: "Stay updated ",
                 textRegular: "with Cornell student publications and organizations, all in one place"
             )
-            
+
             featureRow(
                 image: "feed",
                 textBold: "Read up ",
                 textRegular: "on what's trending in the community and from the publications that you follow"
             )
-            
+
             featureRow(
                 image: "shout-out",
                 textBold: "Give shoutouts ",
@@ -45,7 +45,7 @@ struct OnboardingWelcomeView: View {
         }
         .transition(.asymmetric(insertion: .opacity, removal: .move(edge: .leading)))
     }
-    
+
     private func featureRow(image: String, textBold: String, textRegular: String) -> some View {
         HStack(alignment: .top, spacing: Constants.rowSpacing) {
             Image(image)
@@ -53,13 +53,13 @@ struct OnboardingWelcomeView: View {
                 .scaledToFit()
                 .frame(width: Constants.iconSize.width, height: Constants.iconSize.height)
                 .foregroundColor(Color.volume.orange)
-            
+
             Group {(
                 Text(textBold)
                     .font(Constants.boldTextFont)
-                
+
                 +
-                
+
                 Text(textRegular)
                     .font(Constants.regularTextFont))
             }
@@ -67,7 +67,7 @@ struct OnboardingWelcomeView: View {
         }
         .padding(.horizontal, Constants.sidePadding)
     }
-    
+
 }
 
 // MARK: - Uncomment below if needed

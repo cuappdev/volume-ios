@@ -13,7 +13,7 @@ struct ContentFilterBarView: View {
     var showArticleTab: Bool = true
     var showMagazineTab: Bool = true
     var showFlyerTab: Bool = true
-    
+
     var body: some View {
         SlidingTabBarView(
             selectedTab: $selectedTab,
@@ -36,7 +36,7 @@ struct ContentFilterBarView: View {
             ].compactMap { $0 }
         )
     }
-    
+
     private struct Constants {
         static let articlesTabWidth: CGFloat = 80
         static let flyersTabWidth: CGFloat = 70

@@ -23,7 +23,7 @@ struct BrowserView: View {
     @State private var cancellableReadMutation: AnyCancellable?
     @State private var state: BrowserViewState<Article> = .loading
     @State private var showToolbars = true
-    
+
     private var navigationTitle: String {
         switch state {
         case .loading:
@@ -32,15 +32,15 @@ struct BrowserView: View {
             return article.publication.name
         }
     }
-    
+
     // MARK: UI Components
-    
+
     private var navbar: some View {
         ZStack {
             Rectangle()
                 .foregroundColor(.white)
                 .shadow(color: .black.opacity(0.2), radius: 2, y: 3)
-            
+
             if showToolbars {
                 HStack {
                     Button {
@@ -52,9 +52,9 @@ struct BrowserView: View {
                             .frame(height: 24)
                             .foregroundColor(.black)
                     }
-                    
+
                     Spacer()
-                    
+
                     if case let .results(article) = state, let url = article.articleUrl {
                         Link(destination: url) {
                             Image.volume.compass
@@ -72,7 +72,7 @@ struct BrowserView: View {
                     }
                 }
                 .padding(.horizontal, 16)
-                
+
                 VStack {
                     Text(navigationTitle)
                         .font(.newYorkBold(size: 12))
@@ -91,7 +91,7 @@ struct BrowserView: View {
         .background(Color.white)
         .frame(height: showToolbars ? 40 : 20)
     }
-    
+
     private var toolbar: some View {
         Group {
             if case .results(let article) = state {
@@ -101,13 +101,13 @@ struct BrowserView: View {
             }
         }
     }
-    
+
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
                 Spacer()
                     .frame(height: showToolbars ? 40 : 20)
-                
+
                 switch state {
                 case .loading:
                     SkeletonView()
@@ -115,7 +115,13 @@ struct BrowserView: View {
                     if let articleUrl = article.articleUrl {
                         WebView(url: articleUrl, showToolbars: $showToolbars)
                             .onAppear {
-                                AppDevAnalytics.log(VolumeEvent.openArticle.toEvent(.article, value: article.id, navigationSource: navigationSource))
+                                AppDevAnalytics.log(
+                                    VolumeEvent.openArticle.toEvent(
+                                        .article,
+                                        value: article.id,
+                                        navigationSource: navigationSource
+                                    )
+                                )
                                 markArticleRead(id: article.id)
                             }
                     }
@@ -126,7 +132,7 @@ struct BrowserView: View {
             }
             VStack(spacing: 0) {
                 navbar
-                
+
                 Spacer()
             }
         }
@@ -148,9 +154,9 @@ struct BrowserView: View {
             }
         }
     }
-    
+
     // MARK: Actions
-    
+
     private func fetchArticleBy(id: String) {
         state = .loading
         cancellableArticleQuery = Network.shared.publisher(for: GetArticleByIdQuery(id: id))
@@ -165,7 +171,7 @@ struct BrowserView: View {
                 }
             }
     }
-    
+
     private func markArticleRead(id: String) {
         guard let uuid = userData.uuid else { return }
         cancellableReadMutation = Network.shared.publisher(for: ReadArticleMutation(id: id, uuid: uuid))
@@ -175,9 +181,9 @@ struct BrowserView: View {
                     print("Error: ReadArticleMutation failed on BrowserView: \(error.localizedDescription)")
                 }
             } receiveValue: { id in
-                #if DEBUG
+#if DEBUG
                 print("Marked article read with ID: \(id ?? "nil")")
-                #endif
+#endif
             }
     }
 }

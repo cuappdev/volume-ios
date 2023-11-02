@@ -11,20 +11,20 @@ import Combine
 import SwiftUI
 
 struct OnboardingMainView: View {
-    
+
     // MARK: - Properties
-    
+
     @State private var nextButtonMessage: String = "Next"
     @State private var createUserMutation: AnyCancellable?
     @State private var isShowingSplash: Bool = true
     @State private var onboardingPage: OnboardingPage = .welcome
-    
+
     @AppStorage("isFirstLaunch") private var isFirstLaunch: Bool = true
     @Namespace private var namespace
     @EnvironmentObject private var userData: UserData
-    
+
     // MARK: - Constants
-    
+
     private struct Constants {
         static let animationDelay: Double = 3
         static let buttonCornerRadius: CGFloat = 10
@@ -39,9 +39,9 @@ struct OnboardingMainView: View {
         static let sidePadding: CGFloat = 16
         static let volumeLogoID: String = "volume-logo"
     }
-    
+
     // MARK: - UI
-    
+
     var body: some View {
         VStack {
             if isShowingSplash {
@@ -59,24 +59,24 @@ struct OnboardingMainView: View {
             }
         }
     }
-    
+
     @ViewBuilder
     private var splashView: some View {
         Spacer()
-        
+
         LottieView(filename: Constants.lottieFilename, play: true)
             .frame(width: Constants.lottieViewSize.width, height: Constants.lottieViewSize.height)
             .matchedGeometryEffect(id: Constants.volumeLogoID, in: namespace)
-        
+
         Spacer()
     }
-    
+
     private var contentView: some View {
         VStack {
             headerSection
-            
+
             Spacer()
-            
+
             switch onboardingPage {
             case .welcome:
                 OnboardingWelcomeView()
@@ -86,10 +86,10 @@ struct OnboardingMainView: View {
                 OnboardingPublicationsView()
                     .padding(.horizontal, Constants.sidePadding)
             }
-            
+
             Spacer()
             Spacer()
-            
+
             Group {
                 switch onboardingPage {
                 case .welcome:
@@ -101,13 +101,13 @@ struct OnboardingMainView: View {
                 }
             }
             .padding(.bottom)
-            
+
             nextButton
-            
+
             Spacer()
         }
     }
-    
+
     @ViewBuilder
     private var nextButton: some View {
         Button {
@@ -131,13 +131,13 @@ struct OnboardingMainView: View {
         }
         .padding(.bottom)
     }
-    
+
     @ViewBuilder
     private var headerSection: some View {
         LottieView(filename: Constants.lottieFilename, play: false)
             .frame(width: Constants.lottieViewSize.width, height: Constants.lottieViewSize.height)
             .matchedGeometryEffect(id: Constants.volumeLogoID, in: namespace)
-        
+
         Group {
             switch onboardingPage {
             case .welcome:
@@ -152,14 +152,14 @@ struct OnboardingMainView: View {
         .font(Constants.messageFont)
         .fixedSize(horizontal: false, vertical: true)
         .padding(.horizontal, 2 * Constants.sidePadding)
-        
+
         Divider()
             .background(Color.volume.buttonGray)
             .frame(width: Constants.dividerWidth)
     }
-    
+
     // MARK: - Helpers
-    
+
     private func setNextButton() {
         switch onboardingPage {
         case .welcome:
@@ -174,7 +174,7 @@ struct OnboardingMainView: View {
             nextButtonMessage = "Start reading"
         }
     }
-    
+
     private func createUser() {
         guard let fcmToken = userData.fcmToken else {
             #if DEBUG
@@ -183,31 +183,36 @@ struct OnboardingMainView: View {
             return
         }
 
-        createUserMutation = Network.shared.publisher(for: CreateUserMutation(deviceToken: fcmToken, followedPublicationSlugs: userData.followedPublicationSlugs))
-            .map { $0.user.uuid }
-            .sink { completion in
-                if case let .failure(error) = completion {
-                    print("Error: failed to create user: \(error.localizedDescription)")
-                }
-            } receiveValue: { uuid in
-                userData.uuid = uuid
-                #if DEBUG
-                print("User successfully created with UUID: \(uuid)")
-                #endif
-                withAnimation(.spring()) {
-                    isFirstLaunch = false
-                }
+        createUserMutation = Network.shared.publisher(
+            for: CreateUserMutation(
+                deviceToken: fcmToken,
+                followedPublicationSlugs: userData.followedPublicationSlugs
+            )
+        )
+        .map { $0.user.uuid }
+        .sink { completion in
+            if case let .failure(error) = completion {
+                print("Error: failed to create user: \(error.localizedDescription)")
             }
+        } receiveValue: { uuid in
+            userData.uuid = uuid
+            #if DEBUG
+            print("User successfully created with UUID: \(uuid)")
+            #endif
+            withAnimation(.spring()) {
+                isFirstLaunch = false
+            }
+        }
     }
-    
+
 }
 
 extension OnboardingMainView {
-    
+
     enum OnboardingPage {
         case welcome, flyers, publications
     }
-    
+
     struct PageControl: View {
         private let selectedColor = Color(white: 153 / 255)
         private let unselectedColor = Color(white: 196 / 255)
@@ -225,7 +230,7 @@ extension OnboardingMainView {
             }
         }
     }
-    
+
 }
 
 // MARK: - Uncomment below if needed

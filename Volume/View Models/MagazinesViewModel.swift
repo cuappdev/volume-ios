@@ -10,52 +10,52 @@ import Combine
 import SwiftUI
 
 extension MagazinesView {
-    
+
     @MainActor
     class ViewModel: ObservableObject {
-        
+
         // MARK: - Publishers
         typealias ResultsPublisher = Publishers.Zip3<
             Publishers.Map<OperationPublisher<GetFeaturedMagazinesQuery.Data>, MagazineFields>,
             Publishers.Map<OperationPublisher<GetMagazinesBySemesterQuery.Data>, MagazineFields>,
             Publishers.Map<OperationPublisher<GetAllMagazinesQuery.Data>, MagazineFields>
         >
-        
+
         // MARK: - Properties
-        
-        @Published var allSemesters: [String]? = nil
-        @Published var featuredMagazines: [Magazine]? = nil
-        @Published var moreMagazines: [Magazine]? = nil
-        
+
+        @Published var allSemesters: [String]?
+        @Published var featuredMagazines: [Magazine]?
+        @Published var moreMagazines: [Magazine]?
+
         @Published var hasMoreMagazines: Bool = true
         @Published var selectedSemester: String? = Constants.allSemestersIdentifier
-        
+
         @Published var searchState: SearchView.SearchState = .searching
         @Published var searchText: String = ""
-        
+
         var networkState: NetworkState?
         private var queryBag: Set = Set<AnyCancellable>()
-        
+
         // MARK: - Logic Constants
-        
+
         private struct Constants {
             static let featuredMagazinesLimit: Double = 7
-            static let semesterCountLimit: Double = 50  // TODO: Change this value when backend implements getMagazineSemesters
+            static let semesterCountLimit: Double = 50
             static let moreMagazinesLimit: Double = 4
             static let allSemestersIdentifier: String = "all"
         }
-        
+
         // MARK: - Public Requests
 
         func fetchContent() async {
             await fetchFeaturedMagazines()
             await fetchMagazineSemesters()
-            
+
             if moreMagazines == nil {
                 await fetchMoreMagazinesSection()
             }
         }
-        
+
         func refreshContent() async {
             Network.shared.clearCache()
             queryBag.removeAll()
@@ -68,18 +68,18 @@ extension MagazinesView {
                 await fetchContent()
             }
         }
-        
+
         func fetchMoreMagazinesSection() async {
             moreMagazines = nil
             hasMoreMagazines = true
-            
+
             if selectedSemester == Constants.allSemestersIdentifier {
                 await fetchAllSemestersMagazines()
             } else {
                 await fetchSemesterMagazines()
             }
         }
-        
+
         func fetchNextPage() async {
             if selectedSemester == Constants.allSemestersIdentifier {
                 await fetchAllSemestersNextPage()
@@ -87,9 +87,9 @@ extension MagazinesView {
                 await fetchSemesterNextPage()
             }
         }
-        
+
         // MARK: - Hidden Requests
-        
+
         private func fetchFeaturedMagazines() async {
             Network.shared.publisher(for: GetFeaturedMagazinesQuery(limit: Constants.featuredMagazinesLimit))
                 .compactMap { $0.magazines?.map(\.fragments.magazineFields) }
@@ -102,7 +102,7 @@ extension MagazinesView {
                 }
                 .store(in: &queryBag)
         }
-        
+
         private func fetchMagazineSemesters() async {
             Network.shared.publisher(for: GetAllMagazineSemestersQuery(limit: Constants.semesterCountLimit))
                 .map { $0.magazines.map(\.semester) }
@@ -115,7 +115,7 @@ extension MagazinesView {
                 }
                 .store(in: &queryBag)
         }
-        
+
         private func fetchSemesterMagazines() async {
             guard let selectedSemester = selectedSemester else { return }
             Network.shared
@@ -136,7 +136,7 @@ extension MagazinesView {
                 }
                 .store(in: &queryBag)
         }
-        
+
         private func fetchAllSemestersMagazines() async {
             Network.shared
                 .publisher(
@@ -155,7 +155,7 @@ extension MagazinesView {
                 }
                 .store(in: &queryBag)
         }
-        
+
         private func fetchSemesterNextPage() async {
             guard let selectedSemester = selectedSemester else { return }
             Network.shared
@@ -177,7 +177,7 @@ extension MagazinesView {
                 }
                 .store(in: &queryBag)
         }
-        
+
         private func fetchAllSemestersNextPage() async {
             Network.shared
                 .publisher(
@@ -197,9 +197,9 @@ extension MagazinesView {
                 }
                 .store(in: &queryBag)
         }
-        
+
         // MARK: - Helpers
-        
+
         private func loadMoreMagazines(with newMagazines: [Magazine]) {
             switch moreMagazines {
             case .none:
@@ -212,11 +212,11 @@ extension MagazinesView {
                 hasMoreMagazines = false
             }
         }
-        
+
         private func offset(for mags: [Magazine]?) -> Double {
             Double(mags?.count ?? 0)
         }
-        
+
         private func compareSemesters(_ s1: String, _ s2: String) -> Bool {
             if let s1Year = Int(s1.suffix(2)),
                let s2Year = Int(s2.suffix(2)),
@@ -233,5 +233,5 @@ extension MagazinesView {
             return false
         }
     }
-    
+
 }
