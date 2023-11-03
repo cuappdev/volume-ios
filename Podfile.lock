@@ -13,6 +13,9 @@ PODS:
     - FirebaseAnalytics (= 7.7.0)
   - Firebase/CoreOnly (7.7.0):
     - FirebaseCore (= 7.7.0)
+  - Firebase/Crashlytics (7.7.0):
+    - Firebase/CoreOnly
+    - FirebaseCrashlytics (~> 7.7.0)
   - Firebase/Messaging (7.7.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 7.7.0)
@@ -34,6 +37,12 @@ PODS:
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Logger (~> 7.0)
     - nanopb (~> 2.30907.0)
+  - FirebaseCrashlytics (7.7.0):
+    - FirebaseCore (~> 7.0)
+    - FirebaseInstallations (~> 7.0)
+    - GoogleDataTransport (~> 8.0)
+    - nanopb (~> 2.30907.0)
+    - PromisesObjC (~> 1.2)
   - FirebaseInstallations (7.11.0):
     - FirebaseCore (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
@@ -101,6 +110,7 @@ DEPENDENCIES:
   - Apollo
   - AppDevAnalytics (from `https://github.com/cuappdev/analytics-ios.git`, commit `5d459c0475`)
   - AppDevAnnouncements (from `https://github.com/cuappdev/appdev-announcements.git`)
+  - Firebase/Crashlytics
   - Firebase/Messaging
   - lottie-ios
   - SDWebImageSVGCoder
@@ -115,6 +125,7 @@ SPEC REPOS:
     - FirebaseAnalytics
     - FirebaseCore
     - FirebaseCoreDiagnostics
+    - FirebaseCrashlytics
     - FirebaseInstallations
     - FirebaseInstanceID
     - FirebaseMessaging
@@ -153,6 +164,7 @@ SPEC CHECKSUMS:
   FirebaseAnalytics: f3f8f75de34fe04141a69bb1c4bd7e24a80178e1
   FirebaseCore: ac35d680a0bf32319a59966a1478e0741536b97b
   FirebaseCoreDiagnostics: 3d36e05da74cb8b7ce30e6594a8f201b982c725c
+  FirebaseCrashlytics: 47af228115805e190b566db12c028263531b8ce0
   FirebaseInstallations: a58d4f72ec5861840b84df489f2668d970df558a
   FirebaseInstanceID: ad5135045a498d7775903efd39762d2cdfa1be27
   FirebaseMessaging: ce33c2537fdda1d1a4bc82b2245e3c3bf9107684
@@ -167,6 +179,6 @@ SPEC CHECKSUMS:
   SDWebImageSwiftUI: 76c824afd24d896710e47f240755a31b80e056a0
   SwiftLint: 5ce4d6a8ff83f1b5fd5ad5dbf30965d35af65e44
 
-PODFILE CHECKSUM: 29e5a1268dded9c09557327e9889513b2e18c020
+PODFILE CHECKSUM: 83e01124e33a0aaf765354abbfd2699d4b80cfee
 
 COCOAPODS: 1.12.1
