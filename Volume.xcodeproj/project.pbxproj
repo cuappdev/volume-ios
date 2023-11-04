@@ -442,14 +442,14 @@
 			path = Flyers;
 			sourceTree = "<group>";
 		};
-		2EC811EA2AC6873600ED1ACC /* Orgs Login */ = {
+		2EC811EA2AC6873600ED1ACC /* Orgs Admin */ = {
 			isa = PBXGroup;
 			children = (
 				2E9349A92AC718C70098CAC8 /* FlyerUploadView.swift */,
 				2E6C36102AF5E355004A54BB /* OrgsAdminView.swift */,
 				2EC811EB2AC6875500ED1ACC /* OrgsLoginView.swift */,
 			);
-			path = "Orgs Login";
+			path = "Orgs Admin";
 			sourceTree = "<group>";
 		};
 		2EE2078A2AB4196F009A8ED3 /* ci_scripts */ = {
@@ -509,7 +509,7 @@
 				2E6A7D6F29DAAFB5002F5250 /* Flyers */,
 				0647BF8C2577F60400D44BC7 /* MainView and Tabs */,
 				060FFDD82577EC800052F3EA /* Onboarding */,
-				2EC811EA2AC6873600ED1ACC /* Orgs Login */,
+				2EC811EA2AC6873600ED1ACC /* Orgs Admin */,
 				2E6A7D5829D9E7CA002F5250 /* Other */,
 				3360B9D62926129100A923A6 /* Publications */,
 				2E6A7D5729D9E796002F5250 /* Reads */,
@@ -1101,7 +1101,7 @@
 				CODE_SIGN_ENTITLEMENTS = Volume/Volume.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 33;
+				CURRENT_PROJECT_VERSION = 34;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"Volume/Preview Content\"";
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
@@ -1114,7 +1114,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.9;
+				MARKETING_VERSION = 1.4.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cornellappdev.volume-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1132,7 +1132,7 @@
 				CODE_SIGN_ENTITLEMENTS = Volume/Volume.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 33;
+				CURRENT_PROJECT_VERSION = 34;
 				DEVELOPMENT_ASSET_PATHS = "\"Volume/Preview Content\"";
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
 				ENABLE_PREVIEWS = YES;
@@ -1144,7 +1144,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.9;
+				MARKETING_VERSION = 1.4.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cornellappdev.volume-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
