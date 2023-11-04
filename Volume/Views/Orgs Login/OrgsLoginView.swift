@@ -81,7 +81,7 @@ struct OrgsLoginView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(isPresented: $viewModel.isAuthenticated) {
-                FlyerUploadView(organization: viewModel.organization)
+                OrgsAdminView(organization: viewModel.organization)
             }
         }
         .navigationBarBackButtonHidden(true)
