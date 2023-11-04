@@ -11,3 +11,7 @@ import Foundation
 enum FilterContentType {
     case articles, magazines, flyers
 }
+
+enum FilterFlyerType {
+    case  past, upcoming
+}

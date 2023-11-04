@@ -6,6 +6,7 @@
 //  Copyright © 2023 Cornell AppDev. All rights reserved.
 //
 
+import Alamofire
 import Combine
 import PhotosUI
 import SwiftUI
@@ -66,32 +67,43 @@ extension FlyerUploadView {
             uploadSuccessful = nil
             showSpinner = true
 
-            if let flyerImageB64 = flyerImageData?.base64EncodedString(),
-               let organizationID = organizationID {
-                Network.shared.publisher(
-                    for: CreateFlyerMutation(
-                        title: flyerName,
-                        startDate: flyerStart.flyerUTCISOString,
-                        organizationID: organizationID,
-                        location: flyerLocation,
-                        imageB64: flyerImageB64,
-                        flyerURL: formatFlyerURL(flyerURL),
-                        endDate: flyerEnd.flyerUTCISOString,
-                        categorySlug: flyerCategory
-                    )
+            if let imageData = flyerImageData,
+               let organizationID = organizationID,
+               let url = URL(string: "\(Secrets.endpointServer)/flyers/") {
+
+                // Create HTTP Request
+                let parameters = [
+                    "title": flyerName,
+                    "startDate": flyerStart.flyerUTCISOString,
+                    "organizationID": organizationID,
+                    "location": flyerLocation,
+                    "flyerURL": formatFlyerURL(flyerURL),
+                    "endDate": flyerEnd.flyerUTCISOString,
+                    "categorySlug": flyerCategory ?? ""
+                ]
+
+                AF.upload(
+                    multipartFormData: { formData in
+                        formData.append(imageData, withName: "image", fileName: "file.png", mimeType: "image/png")
+                        for (key, value) in parameters {
+                            formData.append(value.data(using: String.Encoding.utf8)!, withName: key)
+                        }
+                    },
+                    to: url,
+                    method: .post
                 )
-                .map(\.createFlyer.fragments.flyerFields)
-                .sink { [weak self] completion in
-                    if case let .failure(error) = completion {
-                        print("Error: CreateFlyerMutation failed on FlyerUploadView: \(error)")
+                .validate()
+                .response { [weak self] response in
+                    switch response.result {
+                    case .success:
+                        self?.uploadSuccessful = true
+                        self?.showSpinner = false
+                    case .failure(let error):
+                        print("Error: CreateFlyerRequest failed on FlyerUploadView: \(error)")
                         self?.uploadSuccessful = false
                         self?.showSpinner = false
                     }
-                } receiveValue: { [weak self] _ in
-                    self?.uploadSuccessful = true
-                    self?.showSpinner = false
                 }
-                .store(in: &queryBag)
             }
         }
 

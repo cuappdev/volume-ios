@@ -15,7 +15,7 @@ import Foundation
 /// Provides an API to create Publishers that execute GraphQL requests and return responses via ApolloClient
 class Network {
     static let shared = Network()
-    private let apollo = ApolloClient(url: Secrets.endpoint)
+    private let apollo = ApolloClient(url: Secrets.endpointGraphQL)
 
     /// Create a Publisher using a GraphQLQuery
     func publisher<Query: GraphQLQuery>(for query: Query) -> OperationPublisher<Query.Data> {
@@ -155,7 +155,7 @@ class NetworkState: ObservableObject {
     @Published var networkScreenFailed: [Screen: Bool] = [:]
 
     public enum Screen: String, CaseIterable {
-        case trending, flyers, reads, publications, bookmarks, publicationDetail, search
+        case bookmarks, flyers, publicationDetail, publications, reads, search, trending
     }
 
     func handleCompletion(screen: Screen, _ completion: Subscribers.Completion<WrappedGraphQLError>) {

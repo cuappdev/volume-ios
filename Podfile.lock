@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (5.8.0)
   - Apollo (0.53.0):
     - Apollo/Core (= 0.53.0)
   - Apollo/Core (0.53.0)
@@ -12,6 +13,9 @@ PODS:
     - FirebaseAnalytics (= 7.7.0)
   - Firebase/CoreOnly (7.7.0):
     - FirebaseCore (= 7.7.0)
+  - Firebase/Crashlytics (7.7.0):
+    - Firebase/CoreOnly
+    - FirebaseCrashlytics (~> 7.7.0)
   - Firebase/Messaging (7.7.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 7.7.0)
@@ -33,6 +37,12 @@ PODS:
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Logger (~> 7.0)
     - nanopb (~> 2.30907.0)
+  - FirebaseCrashlytics (7.7.0):
+    - FirebaseCore (~> 7.0)
+    - FirebaseInstallations (~> 7.0)
+    - GoogleDataTransport (~> 8.0)
+    - nanopb (~> 2.30907.0)
+    - PromisesObjC (~> 1.2)
   - FirebaseInstallations (7.11.0):
     - FirebaseCore (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
@@ -96,9 +106,11 @@ PODS:
   - SwiftLint (0.53.0)
 
 DEPENDENCIES:
+  - Alamofire
   - Apollo
   - AppDevAnalytics (from `https://github.com/cuappdev/analytics-ios.git`, commit `5d459c0475`)
   - AppDevAnnouncements (from `https://github.com/cuappdev/appdev-announcements.git`)
+  - Firebase/Crashlytics
   - Firebase/Messaging
   - lottie-ios
   - SDWebImageSVGCoder
@@ -107,11 +119,13 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Alamofire
     - Apollo
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
     - FirebaseCoreDiagnostics
+    - FirebaseCrashlytics
     - FirebaseInstallations
     - FirebaseInstanceID
     - FirebaseMessaging
@@ -142,6 +156,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/cuappdev/appdev-announcements.git
 
 SPEC CHECKSUMS:
+  Alamofire: 0e92e751b3e9e66d7982db43919d01f313b8eb91
   Apollo: 204819ea82022fbc59ad05056820df867f19bd02
   AppDevAnalytics: 994c1ca730d79fbe530ce06b7bbffd5d05deff80
   AppDevAnnouncements: e17a7f441fb0664583bb08e21dc709214d15b70f
@@ -149,6 +164,7 @@ SPEC CHECKSUMS:
   FirebaseAnalytics: f3f8f75de34fe04141a69bb1c4bd7e24a80178e1
   FirebaseCore: ac35d680a0bf32319a59966a1478e0741536b97b
   FirebaseCoreDiagnostics: 3d36e05da74cb8b7ce30e6594a8f201b982c725c
+  FirebaseCrashlytics: 47af228115805e190b566db12c028263531b8ce0
   FirebaseInstallations: a58d4f72ec5861840b84df489f2668d970df558a
   FirebaseInstanceID: ad5135045a498d7775903efd39762d2cdfa1be27
   FirebaseMessaging: ce33c2537fdda1d1a4bc82b2245e3c3bf9107684
@@ -163,6 +179,6 @@ SPEC CHECKSUMS:
   SDWebImageSwiftUI: 76c824afd24d896710e47f240755a31b80e056a0
   SwiftLint: 5ce4d6a8ff83f1b5fd5ad5dbf30965d35af65e44
 
-PODFILE CHECKSUM: ebac97803ecf8b32500a82053a8a33e45a2bc400
+PODFILE CHECKSUM: 83e01124e33a0aaf765354abbfd2699d4b80cfee
 
 COCOAPODS: 1.12.1

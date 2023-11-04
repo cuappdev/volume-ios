@@ -117,5 +117,8 @@ enum NavigationSource: String {
     case flyersTab = "flyers_tab"
     case searchFlyers = "search_flyers"
 
+    // Orgs Admin Entry Points
+    case orgsAdmin = "orgs_admin"
+
     case unspecified
 }

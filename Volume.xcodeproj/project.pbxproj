@@ -52,6 +52,8 @@
 		2E6A7D7329DAB5BC002F5250 /* FlyerCellThisWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6A7D7229DAB5BC002F5250 /* FlyerCellThisWeek.swift */; };
 		2E6A7D7529DABB23002F5250 /* FlyerCellUpcoming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6A7D7429DABB23002F5250 /* FlyerCellUpcoming.swift */; };
 		2E6A7D7729DAC784002F5250 /* FlyerCellPast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6A7D7629DAC784002F5250 /* FlyerCellPast.swift */; };
+		2E6C36112AF5E355004A54BB /* OrgsAdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C36102AF5E355004A54BB /* OrgsAdminView.swift */; };
+		2E6C36132AF5FF45004A54BB /* OrgsAdminViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C36122AF5FF45004A54BB /* OrgsAdminViewModel.swift */; };
 		2E81EB6229F4DA5300A288C1 /* OnboardingMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E81EB6129F4DA5300A288C1 /* OnboardingMainView.swift */; };
 		2E81EB6429F4EC8000A288C1 /* OnboardingWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E81EB6329F4EC8000A288C1 /* OnboardingWelcomeView.swift */; };
 		2E81EB6629F4F4A800A288C1 /* OnboardingFlyersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E81EB6529F4F4A800A288C1 /* OnboardingFlyersView.swift */; };
@@ -185,6 +187,8 @@
 		2E6A7D7229DAB5BC002F5250 /* FlyerCellThisWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerCellThisWeek.swift; sourceTree = "<group>"; };
 		2E6A7D7429DABB23002F5250 /* FlyerCellUpcoming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerCellUpcoming.swift; sourceTree = "<group>"; };
 		2E6A7D7629DAC784002F5250 /* FlyerCellPast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerCellPast.swift; sourceTree = "<group>"; };
+		2E6C36102AF5E355004A54BB /* OrgsAdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgsAdminView.swift; sourceTree = "<group>"; };
+		2E6C36122AF5FF45004A54BB /* OrgsAdminViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgsAdminViewModel.swift; sourceTree = "<group>"; };
 		2E81EB6129F4DA5300A288C1 /* OnboardingMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingMainView.swift; sourceTree = "<group>"; };
 		2E81EB6329F4EC8000A288C1 /* OnboardingWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWelcomeView.swift; sourceTree = "<group>"; };
 		2E81EB6529F4F4A800A288C1 /* OnboardingFlyersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFlyersView.swift; sourceTree = "<group>"; };
@@ -440,14 +444,16 @@
 			path = Flyers;
 			sourceTree = "<group>";
 		};
-		2EC811EA2AC6873600ED1ACC /* Orgs Login */ = {
+		2EC811EA2AC6873600ED1ACC /* Orgs Admin */ = {
 			isa = PBXGroup;
 			children = (
 				2E9349A92AC718C70098CAC8 /* FlyerUploadView.swift */,
 				2EC811EB2AC6875500ED1ACC /* OrgsLoginView.swift */,
 				EEC1C03B2AF6D1E800EDDCCC /* OrgFlyerCellView.swift */,
+				2E6C36102AF5E355004A54BB /* OrgsAdminView.swift */,
+				2EC811EB2AC6875500ED1ACC /* OrgsLoginView.swift */,
 			);
-			path = "Orgs Login";
+			path = "Orgs Admin";
 			sourceTree = "<group>";
 		};
 		2EE2078A2AB4196F009A8ED3 /* ci_scripts */ = {
@@ -507,7 +513,7 @@
 				2E6A7D6F29DAAFB5002F5250 /* Flyers */,
 				0647BF8C2577F60400D44BC7 /* MainView and Tabs */,
 				060FFDD82577EC800052F3EA /* Onboarding */,
-				2EC811EA2AC6873600ED1ACC /* Orgs Login */,
+				2EC811EA2AC6873600ED1ACC /* Orgs Admin */,
 				2E6A7D5829D9E7CA002F5250 /* Other */,
 				3360B9D62926129100A923A6 /* Publications */,
 				2E6A7D5729D9E796002F5250 /* Reads */,
@@ -532,13 +538,13 @@
 			isa = PBXGroup;
 			children = (
 				7EA73D27254C9C67009E8F9F /* Article.swift */,
+				925DBDB029EB7E860019763A /* Filter.swift */,
 				2E6A7D6B29DAA2E7002F5250 /* Flyer.swift */,
 				A2A4CB1B27D5276D00774C70 /* Magazine.swift */,
 				2E6A7D6D29DAA334002F5250 /* Organization.swift */,
 				7E8658AD254B71FF002DEE68 /* Publication.swift */,
 				3392D71D2937C021005165F6 /* ReadableContent.swift */,
 				33538BED2745C477009DD191 /* WeeklyDebrief.swift */,
-				925DBDB029EB7E860019763A /* Filter.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -551,6 +557,7 @@
 				2E6A7D7029DAB2AB002F5250 /* FlyersViewModel.swift */,
 				2E9349AB2AC718D70098CAC8 /* FlyerUploadViewModel.swift */,
 				2E05005A29C65B82001B4131 /* MagazinesViewModel.swift */,
+				2E6C36122AF5FF45004A54BB /* OrgsAdminViewModel.swift */,
 				2EC811ED2AC6B20600ED1ACC /* OrgsLoginViewModel.swift */,
 				3360B9DD29274B9500A923A6 /* PublicationContentViewModel.swift */,
 				2E6A7D6529DA46E6002F5250 /* ReadsViewModel.swift */,
@@ -664,6 +671,7 @@
 				7ED7C331252D117A0078B1BD /* Resources */,
 				0E352471C2B40ACE3197DD16 /* [CP] Embed Pods Frameworks */,
 				2E48371D2AE95F3C00F18F17 /* SwiftLint */,
+				2EF6AC562AF4177F00CC4095 /* Crashlytics */,
 			);
 			buildRules = (
 			);
@@ -791,6 +799,29 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n\nif which swiftlint >/dev/null; then\n    swiftlint --fix && swiftlint\nelse\n    echo \"WARNING: SwiftLint not installed\"\nfi\n";
 		};
+		2EF6AC562AF4177F00CC4095 /* Crashlytics */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
+				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
+			);
+			name = Crashlytics;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
+		};
 		C92B9A3063AB65C12C9F9C94 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -821,6 +852,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				06B80D13257DC18600F3BF9B /* WebImage+Extension.swift in Sources */,
+				2E6C36132AF5FF45004A54BB /* OrgsAdminViewModel.swift in Sources */,
 				2E6A7D7129DAB2AB002F5250 /* FlyersViewModel.swift in Sources */,
 				2E6A7D6E29DAA334002F5250 /* Organization.swift in Sources */,
 				33538BF22745DD27009DD191 /* Notifications.swift in Sources */,
@@ -881,6 +913,7 @@
 				2E6A7D6329DA39D3002F5250 /* BookmarksViewModel.swift in Sources */,
 				06662888257F204E006FEBCF /* Secrets.swift in Sources */,
 				2E6A7D5629D9E73E002F5250 /* ReadsView.swift in Sources */,
+				2E6C36112AF5E355004A54BB /* OrgsAdminView.swift in Sources */,
 				061DB39725571D760038BEF5 /* Font+Extension.swift in Sources */,
 				3334F4A02705269800CF0987 /* AppDelegate.swift in Sources */,
 				3349BF6F290DC1E900B0FD3A /* WeeklyDebriefButton.swift in Sources */,
@@ -1047,6 +1080,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1072,7 +1106,8 @@
 				CODE_SIGN_ENTITLEMENTS = Volume/Volume.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 34;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"Volume/Preview Content\"";
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
 				ENABLE_PREVIEWS = YES;
@@ -1084,7 +1119,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.8;
+				MARKETING_VERSION = 1.4.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cornellappdev.volume-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1102,7 +1137,7 @@
 				CODE_SIGN_ENTITLEMENTS = Volume/Volume.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 34;
 				DEVELOPMENT_ASSET_PATHS = "\"Volume/Preview Content\"";
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
 				ENABLE_PREVIEWS = YES;
@@ -1114,7 +1149,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.8;
+				MARKETING_VERSION = 1.4.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cornellappdev.volume-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
