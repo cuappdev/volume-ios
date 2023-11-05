@@ -30,7 +30,7 @@ struct OrgFlyerCellView: View {
         HStack(alignment: .top, spacing: Constants.horizontalSpacing) {
             imageFrame
 
-            VStack(alignment: .leading, spacing: Constants.verticalSpacing) {
+            VStack(alignment: .leading, spacing: 8) {
                 organizationName
                 flyerTitle
                 flyerDate
@@ -53,7 +53,7 @@ struct OrgFlyerCellView: View {
                     .shimmer(.mediumShimmer())
             }
         }
-        .frame(width: 123, height: 123)
+        .frame(width: 80, height: 80)
     }
     private var organizationName: some View {
         HStack(alignment: .top) {
@@ -62,8 +62,17 @@ struct OrgFlyerCellView: View {
                 .lineLimit(2)
 
             Spacer()
-            
-            Image(systemName: "more_horiz")
+            HStack(alignment: .center, spacing: 2) {
+                Circle()
+                    .fill().foregroundColor(Color.gray)
+                    .frame(width: 3, height: 3)
+                Circle()
+                    .fill().foregroundColor(Color.gray)
+                    .frame(width: 3, height: 3)
+                Circle()
+                    .fill().foregroundColor(Color.gray)
+                    .frame(width: 3, height: 3)
+            }
 
         }
         .padding(.bottom, -Constants.verticalSpacing)
@@ -103,11 +112,6 @@ struct OrgFlyerCellView: View {
 
 // MARK: - Uncomment below if needed
 
-//struct FlyerCellPast_Previews: PreviewProvider {
-//    static var previews: some View {
-//        OrgFlyerCellView(flyer: Flyer(from: <#FlyerFields#>))
-//    }
-//}
 
 //#Preview {
 //    OrgFlyerCellView()

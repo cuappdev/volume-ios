@@ -448,10 +448,9 @@
 			isa = PBXGroup;
 			children = (
 				2E9349A92AC718C70098CAC8 /* FlyerUploadView.swift */,
-				2EC811EB2AC6875500ED1ACC /* OrgsLoginView.swift */,
 				EEC1C03B2AF6D1E800EDDCCC /* OrgFlyerCellView.swift */,
 				2E6C36102AF5E355004A54BB /* OrgsAdminView.swift */,
-				2EC811EB2AC6875500ED1ACC /* OrgsLoginView.swift */,
+                2EC811EB2AC6875500ED1ACC /* OrgsLoginView.swift */,
 			);
 			path = "Orgs Admin";
 			sourceTree = "<group>";
