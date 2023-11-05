@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct OrgFlyerCellView: View {
+    
     // MARK: - Properties
 
     let flyer: Flyer
@@ -17,16 +18,15 @@ struct OrgFlyerCellView: View {
     @StateObject var urlImageModel: URLImageModel
     @EnvironmentObject private var userData: UserData
     @ObservedObject var viewModel: FlyersView.ViewModel
-    
     // MARK: - Constants
 
     private struct Constants {
         static let horizontalSpacing: CGFloat = 8
         static let verticalSpacing: CGFloat = 8
+        static let circleSize: CGFloat = 3
     }
     
     var body: some View {
-        
         HStack(alignment: .top, spacing: Constants.horizontalSpacing) {
             imageFrame
 
@@ -38,8 +38,8 @@ struct OrgFlyerCellView: View {
             }
         }
         .padding(.bottom, 16)
-        
     }
+    
     private var imageFrame: some View {
         ZStack(alignment: .center) {
             if let flyerImage = urlImageModel.image {
@@ -55,6 +55,7 @@ struct OrgFlyerCellView: View {
         }
         .frame(width: 80, height: 80)
     }
+    
     private var organizationName: some View {
         HStack(alignment: .top) {
             Text(flyer.organization.name)
@@ -62,26 +63,29 @@ struct OrgFlyerCellView: View {
                 .lineLimit(2)
 
             Spacer()
-            HStack(alignment: .center, spacing: 2) {
-                Circle()
-                    .fill().foregroundColor(Color.gray)
-                    .frame(width: 3, height: 3)
-                Circle()
-                    .fill().foregroundColor(Color.gray)
-                    .frame(width: 3, height: 3)
-                Circle()
-                    .fill().foregroundColor(Color.gray)
-                    .frame(width: 3, height: 3)
-            }
-
+            
+            tripleDotsButton
         }
         .padding(.bottom, -Constants.verticalSpacing)
     }
+    
+    private var tripleDotsButton: some View {
+        HStack(alignment: .center, spacing: 2) {
+            ForEach(0..<3) { _ in
+                Circle()
+                    .fill()
+                    .foregroundColor(Color.gray)
+                    .frame(width: Constants.circleSize, height: Constants.circleSize)
+            }
+        }
+    }
+    
     private var flyerTitle: some View {
         Text(flyer.title)
             .font(.newYorkMedium(size: 16))
             .lineLimit(1)
     }
+    
     private var flyerDate: some View {
         HStack {
             Image.volume.calendar
@@ -108,6 +112,7 @@ struct OrgFlyerCellView: View {
                 .lineLimit(1)
         }
     }
+    
 }
 
 // MARK: - Uncomment below if needed
