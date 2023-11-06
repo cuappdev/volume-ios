@@ -10,10 +10,19 @@ import SwiftUI
 
 struct SlidingTabBarView<T: Hashable>: View {
 
-    @Namespace var namespace
+    // MARK: - Properties
 
+    @Namespace var namespace
     @Binding var selectedTab: T
+
     let items: [Item]
+
+    var addSidePadding: Bool = true
+    var font: Font = .newYorkMedium(size: 18)
+    var selectedColor: Color = Color.volume.orange
+    var unselectedColor: Color = Color.black
+
+    // MARK: - UI
 
     var body: some View {
         HStack(spacing: 0) {
@@ -28,14 +37,14 @@ struct SlidingTabBarView<T: Hashable>: View {
 
             Spacer()
         }
-        .padding(.horizontal)
+        .padding(.horizontal, addSidePadding ? 16 : 0)
     }
 
     private func tab(for item: Item) -> some View {
         VStack(alignment: .center, spacing: 8) {
             Text(item.title)
-                .font(.newYorkMedium(size: 18))
-                .foregroundColor(selectedTab == item.tab ? Color.volume.orange : .black)
+                .font(font)
+                .foregroundColor(selectedTab == item.tab ? selectedColor : unselectedColor)
                 .padding(.top)
 
             if selectedTab == item.tab {
