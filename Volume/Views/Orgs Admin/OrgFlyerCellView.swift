@@ -17,7 +17,6 @@ struct OrgFlyerCellView: View {
 
     @StateObject var urlImageModel: URLImageModel
     @EnvironmentObject private var userData: UserData
-    @ObservedObject var viewModel: FlyersView.ViewModel
     // MARK: - Constants
 
     private struct Constants {

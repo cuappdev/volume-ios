@@ -156,8 +156,7 @@ struct OrgsAdminView: View {
                             OrgFlyerCellView(
                                 flyer: flyer,
                                 navigationSource: .orgsAdmin,
-                                urlImageModel: URLImageModel(urlString: urlString),
-                                viewModel: FlyersView.ViewModel()
+                                urlImageModel: URLImageModel(urlString: urlString)
                             )
                         }
                     }
