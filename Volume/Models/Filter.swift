@@ -13,5 +13,5 @@ enum FilterContentType {
 }
 
 enum FilterFlyerType {
-    case  past, upcoming
+    case past, upcoming
 }

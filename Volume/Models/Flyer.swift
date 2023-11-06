@@ -59,7 +59,7 @@ extension Array where Element == Flyer {
 
 extension [Flyer] {
 
-    /// Returns this  list of Flyers sorted by date descending
+    /// Returns this list of Flyers sorted by date descending
     var sortByDateDesc: [Flyer] {
         self.sorted(by: { $0.startDate.compare($1.startDate) == .orderedDescending })
     }
