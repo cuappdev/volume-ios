@@ -17,6 +17,7 @@ struct OrgFlyerCellView: View {
 
     @StateObject var urlImageModel: URLImageModel
     @EnvironmentObject private var userData: UserData
+
     // MARK: - Constants
 
     private struct Constants {
@@ -115,7 +116,6 @@ struct OrgFlyerCellView: View {
 }
 
 // MARK: - Uncomment below if needed
-
 
 //#Preview {
 //    OrgFlyerCellView()
