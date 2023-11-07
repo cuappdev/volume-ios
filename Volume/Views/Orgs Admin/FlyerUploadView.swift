@@ -17,7 +17,7 @@ struct FlyerUploadView: View {
     @StateObject var viewModel = ViewModel()
 
     var flyer: Flyer?
-    var isEditing: Bool = false
+    var isEditing: Bool
     let organization: Organization?
 
     // MARK: - Constants

@@ -104,7 +104,7 @@ struct OrgsAdminView: View {
 
     private var uploadFlyerButton: some View {
         NavigationLink {
-            FlyerUploadView(organization: organization)
+            FlyerUploadView(isEditing: false, organization: organization)
         } label: {
             VStack(alignment: .center, spacing: 8) {
                 Image.volume.upload

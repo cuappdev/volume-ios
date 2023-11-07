@@ -60,6 +60,7 @@ extension FlyerUploadView {
                     self?.networkState?.handleCompletion(screen: .bookmarks, completion)
                 } receiveValue: { [weak self] categories in
                     guard let self = self else { return }
+
                     if self.flyerCategory == nil || self.flyerCategory.isEmpty {
                         self.flyerCategory = categories.first
                     }
