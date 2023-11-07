@@ -18,6 +18,7 @@ extension OrgsAdminView {
 
         @Published var displayedFlyers: [Flyer]?
         @Published var selectedTab: FilterFlyerType = .upcoming
+        @Published var showSpinner: Bool = false
 
         private var pastFlyers: [Flyer]?
         private var upcomingFlyers: [Flyer]?
@@ -60,6 +61,26 @@ extension OrgsAdminView {
 
             await fetchContent(for: organization)
         }
+
+        func deleteFlyer(flyerID: String, organization: Organization) async {
+            showSpinner = true
+
+            Network.shared.publisher(for: DeleteFlyerMutation(id: flyerID))
+                .sink { [weak self] completion in
+                    if case let .failure(error) = completion {
+                        print("Error: DeleteFlyerMutation failed on OrgsAdminView: \(error)")
+                        self?.showSpinner = false
+                    }
+                } receiveValue: { [weak self] _ in
+                    self?.showSpinner = false
+                    Task {
+                        await self?.refreshContent(for: organization)
+                    }
+                }
+                .store(in: &queryBag)
+        }
+
+        // MARK: - Helpers
 
         func filterContentSelection() {
             switch selectedTab {

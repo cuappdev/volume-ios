@@ -16,6 +16,8 @@ struct FlyerUploadView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject var viewModel = ViewModel()
 
+    var flyer: Flyer?
+    var isEditing: Bool = false
     let organization: Organization?
 
     // MARK: - Constants
@@ -58,7 +60,7 @@ struct FlyerUploadView: View {
         )
         .toolbar {
             ToolbarItem(placement: .principal) {
-                Text("Upload Flyer")
+                Text(isEditing ? "Edit Flyer" : "Upload Flyer")
                     .font(.newYorkMedium(size: 20))
             }
 
@@ -80,30 +82,35 @@ struct FlyerUploadView: View {
                 viewModel.endIsFocused = false
             }
         }
-        .task {
-            await viewModel.fetchCategories()
+        .onAppear {
+            if let flyer {
+                viewModel.loadEdit(flyer)
+            }
+
+            Task {
+                await viewModel.fetchCategories()
+            }
         }
         .onChange(of: viewModel.flyerStringInfo) { _ in
             withAnimation(.easeOut(duration: 0.3)) {
-                viewModel.buttonEnabled = !viewModel.flyerName.isEmpty &&
-                !viewModel.flyerLocation.isEmpty && !viewModel.flyerCategory.isEmpty &&
-                (viewModel.flyerStart < viewModel.flyerEnd) && viewModel.flyerImageItem != nil
+                viewModel.checkCriteria(isEditing)
             }
         }
         .onChange(of: viewModel.flyerDateInfo) { _ in
             withAnimation(.easeOut(duration: 0.3)) {
-                viewModel.buttonEnabled = !viewModel.flyerName.isEmpty &&
-                !viewModel.flyerLocation.isEmpty && !viewModel.flyerCategory.isEmpty &&
-                (viewModel.flyerStart < viewModel.flyerEnd) && viewModel.flyerImageItem != nil
-
+                viewModel.checkCriteria(isEditing)
                 viewModel.showErrorMessage = viewModel.flyerStart > viewModel.flyerEnd
             }
         }
         .onChange(of: viewModel.flyerImageItem) { _ in
             withAnimation(.easeOut(duration: 0.3)) {
-                viewModel.buttonEnabled = !viewModel.flyerName.isEmpty &&
-                !viewModel.flyerLocation.isEmpty && !viewModel.flyerCategory.isEmpty &&
-                (viewModel.flyerStart < viewModel.flyerEnd) && viewModel.flyerImageItem != nil
+                viewModel.checkCriteria(isEditing)
+            }
+        }
+        .onChange(of: viewModel.deleteEditSuccess) { success in
+            if success {
+                viewModel.deleteEditSuccess = false
+                dismiss()
             }
         }
     }
@@ -117,6 +124,7 @@ struct FlyerUploadView: View {
                 } else {
                     VStack(alignment: .leading, spacing: Constants.inputSpacing) {
                         organizationName
+                        isEditing ? removeFlyerButton : nil
                         flyerNameInput
 
                         VStack(alignment: .leading, spacing: 8) {
@@ -271,18 +279,16 @@ struct FlyerUploadView: View {
             Text("Category")
                 .font(Constants.labelFont)
 
-            if let firstCategory = viewModel.allCategories.first {
-                CategoryDropdown(
-                    borderColor: Constants.textFieldBorderColor,
-                    categories: viewModel.allCategories,
-                    defaultSelected: firstCategory,
-                    font: Constants.textFieldFont,
-                    insets: Constants.textFieldPadding,
-                    selected: $viewModel.flyerCategory,
-                    strokeWidth: Constants.borderWidth,
-                    textColor: Constants.textColor
-                )
-            }
+            CategoryDropdown(
+                borderColor: Constants.textFieldBorderColor,
+                categories: viewModel.allCategories,
+                defaultSelected: viewModel.flyerCategory,
+                font: Constants.textFieldFont,
+                insets: Constants.textFieldPadding,
+                selected: $viewModel.flyerCategory,
+                strokeWidth: Constants.borderWidth,
+                textColor: Constants.textColor
+            )
         }
         .foregroundColor(Constants.textColor)
     }
@@ -346,10 +352,15 @@ struct FlyerUploadView: View {
     private var uploadButton: some View {
         Button {
             Task {
-                await viewModel.uploadFlyer(for: organization?.id)
+                if let flyer {
+                    await viewModel.editFlyer(flyer)
+                } else {
+                    await viewModel.uploadFlyer(for: organization?.id)
+                }
             }
+
         } label: {
-            Text("Upload Flyer")
+            Text(isEditing ? "Edit Flyer" : "Upload Flyer")
                 .font(Constants.buttonTextFont)
                 .foregroundColor(viewModel.buttonEnabled ? Color.white : Constants.textColor)
                 .padding(.vertical, 12)
@@ -397,6 +408,42 @@ struct FlyerUploadView: View {
             Spacer()
         }
         .background(Constants.backgroundColor)
+    }
+
+    private var removeFlyerButton: some View {
+        Button {
+            viewModel.showConfirmation = true
+        } label: {
+            HStack(alignment: .center) {
+                Image.volume.trash
+                    .frame(width: 16, height: 16)
+
+                Text("Remove Flyer")
+                    .font(.helveticaRegular(size: 16))
+                    .padding(Constants.textFieldPadding)
+            }
+            .foregroundColor(Color.volume.errorRed)
+            .frame(maxWidth: .infinity)
+            .background(
+                RoundedRectangle(cornerRadius: 4)
+                    .strokeBorder(
+                        Color.volume.errorRed, style: StrokeStyle(lineWidth: Constants.borderWidth)
+                    )
+            )
+        }
+        .confirmationDialog(
+            "Removing a flyer will delete it from Volume’s feed.",
+            isPresented: $viewModel.showConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button("Remove", role: .destructive) {
+                if let flyer {
+                    Task {
+                        await viewModel.deleteFlyer(flyerID: flyer.id)
+                    }
+                }
+            }
+        }
     }
 
     // MARK: - Supporting Views

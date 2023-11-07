@@ -9,23 +9,28 @@
 import SwiftUI
 
 struct OrgFlyerCellView: View {
-    
+
     // MARK: - Properties
 
     let flyer: Flyer
     let navigationSource: NavigationSource
 
+    @State private var showConfirmation: Bool = false
     @StateObject var urlImageModel: URLImageModel
     @EnvironmentObject private var userData: UserData
+    @ObservedObject var viewModel: OrgsAdminView.ViewModel
 
     // MARK: - Constants
 
     private struct Constants {
+        static let circleSize: CGFloat = 4
         static let horizontalSpacing: CGFloat = 8
+        static let imageSize: CGFloat = 80
         static let verticalSpacing: CGFloat = 8
-        static let circleSize: CGFloat = 3
     }
-    
+
+    // MARK: - UI
+
     var body: some View {
         HStack(alignment: .top, spacing: Constants.horizontalSpacing) {
             imageFrame
@@ -39,7 +44,7 @@ struct OrgFlyerCellView: View {
         }
         .padding(.bottom, 16)
     }
-    
+
     private var imageFrame: some View {
         ZStack(alignment: .center) {
             if let flyerImage = urlImageModel.image {
@@ -53,9 +58,9 @@ struct OrgFlyerCellView: View {
                     .shimmer(.mediumShimmer())
             }
         }
-        .frame(width: 80, height: 80)
+        .frame(width: Constants.imageSize, height: Constants.imageSize)
     }
-    
+
     private var organizationName: some View {
         HStack(alignment: .top) {
             Text(flyer.organization.name)
@@ -63,29 +68,52 @@ struct OrgFlyerCellView: View {
                 .lineLimit(2)
 
             Spacer()
-            
+
             tripleDotsButton
         }
         .padding(.bottom, -Constants.verticalSpacing)
     }
-    
+
     private var tripleDotsButton: some View {
-        HStack(alignment: .center, spacing: 2) {
-            ForEach(0..<3) { _ in
-                Circle()
-                    .fill()
-                    .foregroundColor(Color.gray)
-                    .frame(width: Constants.circleSize, height: Constants.circleSize)
+        Menu {
+            NavigationLink {
+                FlyerUploadView(flyer: flyer, isEditing: true, organization: flyer.organization)
+            } label: {
+                Text("Edit Flyer")
+            }
+
+            Button("Delete Flyer", role: .destructive) {
+                showConfirmation = true
+            }
+        } label: {
+            HStack(alignment: .center, spacing: 2) {
+                ForEach(0..<3) { _ in
+                    Circle()
+                        .fill()
+                        .foregroundColor(Color.gray)
+                        .frame(width: Constants.circleSize, height: Constants.circleSize)
+                }
+            }
+        }
+        .confirmationDialog(
+            "Removing a flyer will delete it from Volume’s feed.",
+            isPresented: $showConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button("Remove", role: .destructive) {
+                Task {
+                    await viewModel.deleteFlyer(flyerID: flyer.id, organization: flyer.organization)
+                }
             }
         }
     }
-    
+
     private var flyerTitle: some View {
         Text(flyer.title)
             .font(.newYorkMedium(size: 16))
             .lineLimit(1)
     }
-    
+
     private var flyerDate: some View {
         HStack {
             Image.volume.calendar
@@ -112,7 +140,35 @@ struct OrgFlyerCellView: View {
                 .lineLimit(1)
         }
     }
-    
+
+}
+
+extension OrgFlyerCellView {
+
+    struct Skeleton: View {
+        var body: some View {
+            HStack {
+                SkeletonView()
+                    .frame(width: Constants.imageSize, height: Constants.imageSize)
+
+                VStack(alignment: .leading) {
+                    SkeletonView()
+                        .frame(width: 130, height: 15)
+
+                    SkeletonView()
+                        .frame(width: 200, height: 15)
+
+                    SkeletonView()
+                        .frame(width: 180, height: 15)
+
+                    SkeletonView()
+                        .frame(width: 100, height: 15)
+                }
+            }
+            .shimmer(.mediumShimmer())
+        }
+    }
+
 }
 
 // MARK: - Uncomment below if needed

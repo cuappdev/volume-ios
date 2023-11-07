@@ -44,6 +44,7 @@ extension Image {
         let share = Image("share")
         let shared = Image("shared")
         let shoutout = Image("shout-out")
+        let trash = Image(systemName: "trash")
         let underline = Image("underline")
         let upload = Image("upload")
         let weeklyDebriefCurves = Image("weekly-debrief-curves")
