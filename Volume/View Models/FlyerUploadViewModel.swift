@@ -131,37 +131,44 @@ extension FlyerUploadView {
         }
 
         func editFlyer(_ flyer: Flyer) async {
-            // TODO: Replace when backend implements edit flyer
-            // Note that the backend must implement this since bookmarks and notifications
-            // are based on the flyer ID. A delete then create will make a new ID which we
-            // don't want.
-
             showSpinner = true
 
-            Network.shared.publisher(
-                for: EditFlyerMutation(
-                    id: flyer.id,
-                    title: flyerName,
-                    startDate: flyerStart.flyerUTCISOString,
-                    location: flyerLocation,
-                    imageB64: flyerImageData?.base64EncodedString(),
-                    flyerURL: formatFlyerURL(flyerURL),
-                    endDate: flyerEnd.flyerUTCISOString,
-                    categorySlug: flyerCategory
-                )
+            // Create HTTP Request
+            guard let url = URL(string: "\(Secrets.endpointServer)/flyers/edit/") else { return }
+            let parameters = [
+                "flyerID": flyer.id,
+                "title": flyerName,
+                "startDate": flyerStart.flyerUTCISOString,
+                "location": flyerLocation,
+                "flyerURL": formatFlyerURL(flyerURL),
+                "endDate": flyerEnd.flyerUTCISOString,
+                "categorySlug": flyerCategory ?? ""
+            ]
+
+            AF.upload(
+                multipartFormData: { [weak self] formData in
+                    if let imageData = self?.flyerImageData {
+                        formData.append(imageData, withName: "image", fileName: "file.png", mimeType: "image/png")
+                    }
+                    for (key, value) in parameters {
+                        formData.append(value.data(using: String.Encoding.utf8)!, withName: key)
+                    }
+                },
+                to: url,
+                method: .post
             )
-            .map(\.editFlyer.fragments.flyerFields)
-            .sink { [weak self] completion in
-                if case let .failure(error) = completion {
-                    print("Error: EditFlyerMutation failed on FlyerUploadView: \(error)")
+            .validate()
+            .response { [weak self] response in
+                switch response.result {
+                case .success:
+                    self?.deleteEditSuccess = true
+                    self?.showSpinner = false
+                case .failure(let error):
+                    print("Error: EditFlyerRequest failed on FlyerUploadView: \(error)")
                     self?.deleteEditSuccess = false
                     self?.showSpinner = false
                 }
-            } receiveValue: { [weak self] _ in
-                self?.deleteEditSuccess = true
-                self?.showSpinner = false
             }
-            .store(in: &queryBag)
         }
 
         // MARK: - Helpers

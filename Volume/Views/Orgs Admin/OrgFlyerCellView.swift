@@ -16,7 +16,7 @@ struct OrgFlyerCellView: View {
     let navigationSource: NavigationSource
 
     @State private var showConfirmation: Bool = false
-    @StateObject var urlImageModel: URLImageModel
+    @ObservedObject var urlImageModel: URLImageModel
     @EnvironmentObject private var userData: UserData
     @ObservedObject var viewModel: OrgsAdminView.ViewModel
 
