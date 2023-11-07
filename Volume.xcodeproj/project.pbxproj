@@ -134,6 +134,7 @@
 		BC72AEB82920519900209573 /* PDFKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC72AEB72920519900209573 /* PDFKitView.swift */; };
 		BC72AEBA29259D4500209573 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC72AEB929259D4500209573 /* API.swift */; };
 		BC72AEBC29259E8000209573 /* MagazineMutations.graphql in Resources */ = {isa = PBXBuildFile; fileRef = BC72AEBB29259E8000209573 /* MagazineMutations.graphql */; };
+		EEC1C03C2AF6D1E800EDDCCC /* OrgFlyerCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC1C03B2AF6D1E800EDDCCC /* OrgFlyerCellView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -276,6 +277,7 @@
 		BC72AEB72920519900209573 /* PDFKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFKitView.swift; sourceTree = "<group>"; };
 		BC72AEB929259D4500209573 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		BC72AEBB29259E8000209573 /* MagazineMutations.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = MagazineMutations.graphql; sourceTree = "<group>"; };
+		EEC1C03B2AF6D1E800EDDCCC /* OrgFlyerCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgFlyerCellView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -446,6 +448,7 @@
 			isa = PBXGroup;
 			children = (
 				2E9349A92AC718C70098CAC8 /* FlyerUploadView.swift */,
+				EEC1C03B2AF6D1E800EDDCCC /* OrgFlyerCellView.swift */,
 				2E6C36102AF5E355004A54BB /* OrgsAdminView.swift */,
 				2EC811EB2AC6875500ED1ACC /* OrgsLoginView.swift */,
 			);
@@ -939,6 +942,7 @@
 				2E6A7D6C29DAA2E7002F5250 /* Flyer.swift in Sources */,
 				502E3EA32757D3C6005DA441 /* WeeklyDebriefView.swift in Sources */,
 				7ED7C33B252D117A0078B1BD /* ContentView.swift in Sources */,
+				EEC1C03C2AF6D1E800EDDCCC /* OrgFlyerCellView.swift in Sources */,
 				06EC2D24259CED0500FE0A71 /* PublicationDetailHeader.swift in Sources */,
 				2EE8411F2A2EA0DE00691BB7 /* FlyersSupporting.swift in Sources */,
 				2E6A7D6629DA46E6002F5250 /* ReadsViewModel.swift in Sources */,

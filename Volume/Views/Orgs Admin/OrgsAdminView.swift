@@ -153,11 +153,10 @@ struct OrgsAdminView: View {
                 } else {
                     ForEach(flyers) { flyer in
                         if let urlString = flyer.imageUrl?.absoluteString {
-                            FlyerCellPast(
+                            OrgFlyerCellView(
                                 flyer: flyer,
                                 navigationSource: .orgsAdmin,
-                                urlImageModel: URLImageModel(urlString: urlString),
-                                viewModel: FlyersView.ViewModel()
+                                urlImageModel: URLImageModel(urlString: urlString)
                             )
                         }
                     }
