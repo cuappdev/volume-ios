@@ -13,6 +13,7 @@ enum Message {
     case noBookmarkedArticles
     case noBookmarkedFlyers
     case noBookmarkedMagazines
+    case noFlyersOrgAdmin
     case noFlyersPast
     case noFlyersUpcoming
     case noFollowingHome
@@ -35,6 +36,8 @@ enum Message {
             return "No past flyers"
         case .noFlyersUpcoming:
             return "No upcoming flyers for this category"
+        case .noFlyersOrgAdmin:
+            return "No flyers to display"
         }
     }
 
@@ -56,6 +59,8 @@ enum Message {
             return "We could not find any results."
         case .upToDateFlyers, .noFlyersPast, .noFlyersUpcoming:
             return "If you want to see your organization’s events on Volume, email us at volumeappdev@gmail.com."
+        case .noFlyersOrgAdmin:
+            return "Upload a flyer by above to see them displayed here"
         }
     }
 

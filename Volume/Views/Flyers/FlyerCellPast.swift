@@ -15,7 +15,7 @@ struct FlyerCellPast: View {
     let flyer: Flyer
     let navigationSource: NavigationSource
 
-    @StateObject var urlImageModel: URLImageModel
+    @ObservedObject var urlImageModel: URLImageModel
     @EnvironmentObject private var userData: UserData
     @ObservedObject var viewModel: FlyersView.ViewModel
 

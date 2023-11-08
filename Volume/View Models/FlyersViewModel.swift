@@ -88,7 +88,7 @@ extension FlyersView {
                             $0.organization.categorySlug == self?.selectedCategory
                         }
                     }
-                    self?.upcomingFlyers = self?.sortFlyersByDateAsc(for: upcoming)
+                    self?.upcomingFlyers = upcoming.sortByDateAsc
                 }
                 .store(in: &queryBag)
         }
@@ -113,7 +113,7 @@ extension FlyersView {
                 } receiveValue: { [weak self] flyerFields in
                     var upcomingFlyers = [Flyer](flyerFields)
                     upcomingFlyers = upcomingFlyers.filter { Calendar.current.isDateInToday($0.endDate) }
-                    self?.dailyFlyers = self?.sortFlyersByDateAsc(for: upcomingFlyers)
+                    self?.dailyFlyers = upcomingFlyers.sortByDateAsc
                 }
                 .store(in: &queryBag)
         }
@@ -129,7 +129,7 @@ extension FlyersView {
                         // In this week but not today
                         Calendar.current.isDateInThisWeek($0.endDate) && !Calendar.current.isDateInToday($0.endDate)
                     }
-                    self?.thisWeekFlyers = self?.sortFlyersByDateAsc(for: upcomingFlyers)
+                    self?.thisWeekFlyers = upcomingFlyers.sortByDateAsc
                 }
                 .store(in: &queryBag)
         }
@@ -167,16 +167,6 @@ extension FlyersView {
         /// Calculate the offset for the GraphQL query
         private func offset(for flyers: [Flyer]?) -> Double {
             Double(flyers?.count ?? 0)
-        }
-
-        /// Returns a list of Flyers sorted by date descending
-        private func sortFlyersByDateDesc(for flyers: [Flyer]) -> [Flyer] {
-            flyers.sorted(by: { $0.startDate.compare($1.startDate) == .orderedDescending })
-        }
-
-        /// Returns a list of Flyers sorted by date ascending
-        private func sortFlyersByDateAsc(for flyers: [Flyer]) -> [Flyer] {
-            flyers.sorted(by: { $0.startDate.compare($1.startDate) == .orderedAscending })
         }
 
         static func displayShareScreen(for flyer: Flyer) {

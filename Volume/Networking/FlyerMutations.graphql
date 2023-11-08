@@ -15,3 +15,15 @@ mutation CreateFlyer($title: String!, $startDate: String!, $organizationID: Stri
     ...flyerFields
   }
 }
+
+mutation DeleteFlyer($id: String!) {
+  deleteFlyer(id: $id) {
+    id
+  }
+}
+
+mutation EditFlyer($id: String!, $title: String, $startDate: String, $location: String, $imageB64: String, $flyerURL: String, $endDate: String, $categorySlug: String) {
+  editFlyer(id: $id, title: $title, startDate: $startDate, location: $location, imageB64: $imageB64, flyerURL: $flyerURL, endDate: $endDate, categorySlug: $categorySlug) {
+    ...flyerFields
+  }
+}
