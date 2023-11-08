@@ -32,16 +32,13 @@ struct OrgsAdminView: View {
     // MARK: - UI
 
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            VStack(alignment: .leading, spacing: Constants.sectionSpacing) {
-                titleUploadSection
-                slidingTabBar
-                flyersSection
+        ZStack(alignment: .center) {
+            mainContent
 
-                Spacer()
+            if viewModel.showSpinner {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
             }
-            .padding(.top, Constants.topPadding)
-            .padding(.horizontal, Constants.sidePadding)
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
@@ -67,7 +64,7 @@ struct OrgsAdminView: View {
 
             viewModel.setupEnvironment(networkState: networkState)
             Task {
-                await viewModel.fetchContent(for: organization)
+                await viewModel.refreshContent(for: organization)
             }
         }
         .onChange(of: viewModel.selectedTab) { _ in
@@ -82,6 +79,20 @@ struct OrgsAdminView: View {
         }
     }
 
+    private var mainContent: some View {
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack(alignment: .leading, spacing: Constants.sectionSpacing) {
+                titleUploadSection
+                slidingTabBar
+                flyersSection
+
+                Spacer()
+            }
+            .padding(.top, Constants.topPadding)
+            .padding(.horizontal, Constants.sidePadding)
+        }
+    }
+
     private var titleUploadSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text(organization?.name ?? "")
@@ -93,7 +104,7 @@ struct OrgsAdminView: View {
 
     private var uploadFlyerButton: some View {
         NavigationLink {
-            FlyerUploadView(organization: organization)
+            FlyerUploadView(isEditing: false, organization: organization)
         } label: {
             VStack(alignment: .center, spacing: 8) {
                 Image.volume.upload
@@ -140,12 +151,10 @@ struct OrgsAdminView: View {
         LazyVStack(alignment: .leading, spacing: 16) {
             flyersSectionTitle
 
-            // TODO: Replace with Cindy's custom flyer cell
-
             switch viewModel.displayedFlyers {
             case .none:
                 ForEach(0..<3) { _ in
-                    FlyerCellPast.Skeleton()
+                    OrgFlyerCellView.Skeleton()
                 }
             case .some(let flyers):
                 if flyers.isEmpty {
@@ -156,7 +165,8 @@ struct OrgsAdminView: View {
                             OrgFlyerCellView(
                                 flyer: flyer,
                                 navigationSource: .orgsAdmin,
-                                urlImageModel: URLImageModel(urlString: urlString)
+                                urlImageModel: URLImageModel(urlString: urlString),
+                                viewModel: viewModel
                             )
                         }
                     }

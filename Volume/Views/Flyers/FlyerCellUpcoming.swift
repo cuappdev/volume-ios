@@ -16,7 +16,7 @@ struct FlyerCellUpcoming: View {
     let navigationSource: NavigationSource
 
     @State private var bookmarkRequestInProgress: Bool = false
-    @StateObject var urlImageModel: URLImageModel
+    @ObservedObject var urlImageModel: URLImageModel
     @EnvironmentObject private var userData: UserData
     @ObservedObject var viewModel: FlyersView.ViewModel
 

@@ -20,6 +20,7 @@ extension FlyerUploadView {
 
         @Published var allCategories: [String] = []
         @Published var buttonEnabled: Bool = false
+        @Published var deleteEditSuccess: Bool = false
         @Published var endIsFocused: Bool = false
         @Published var flyerCategory: String! = ""
         @Published var flyerEnd: Date = Date.now
@@ -29,6 +30,7 @@ extension FlyerUploadView {
         @Published var flyerName: String = ""
         @Published var flyerStart: Date = Date.now
         @Published var flyerURL: String = ""
+        @Published var showConfirmation: Bool = false
         @Published var showErrorMessage: Bool = false
         @Published var showSpinner: Bool = false
         @Published var startIsFocused: Bool = false
@@ -55,10 +57,14 @@ extension FlyerUploadView {
             Network.shared.publisher(for: GetAllFlyerCategoriesQuery())
                 .map { $0.getAllFlyerCategories }
                 .sink { [weak self] completion in
-                    self?.networkState?.handleCompletion(screen: .flyers, completion)
+                    self?.networkState?.handleCompletion(screen: .bookmarks, completion)
                 } receiveValue: { [weak self] categories in
-                    self?.flyerCategory = categories.first
-                    self?.allCategories = categories.sorted { $0 < $1 }
+                    guard let self = self else { return }
+
+                    if self.flyerCategory == nil || self.flyerCategory.isEmpty {
+                        self.flyerCategory = categories.first
+                    }
+                    self.allCategories = categories.sorted { $0 < $1 }
                 }
                 .store(in: &queryBag)
         }
@@ -107,7 +113,86 @@ extension FlyerUploadView {
             }
         }
 
+        func deleteFlyer(flyerID: String) async {
+            showSpinner = true
+
+            Network.shared.publisher(for: DeleteFlyerMutation(id: flyerID))
+                .sink { [weak self] completion in
+                    if case let .failure(error) = completion {
+                        print("Error: DeleteFlyerMutation failed on FlyerUploadView: \(error)")
+                        self?.showSpinner = false
+                        self?.deleteEditSuccess = false
+                    }
+                } receiveValue: { [weak self] _ in
+                    self?.deleteEditSuccess = true
+                    self?.showSpinner = false
+                }
+                .store(in: &queryBag)
+        }
+
+        func editFlyer(_ flyer: Flyer) async {
+            showSpinner = true
+
+            // Create HTTP Request
+            guard let url = URL(string: "\(Secrets.endpointServer)/flyers/edit/") else { return }
+            let parameters = [
+                "flyerID": flyer.id,
+                "title": flyerName,
+                "startDate": flyerStart.flyerUTCISOString,
+                "location": flyerLocation,
+                "flyerURL": formatFlyerURL(flyerURL),
+                "endDate": flyerEnd.flyerUTCISOString,
+                "categorySlug": flyerCategory ?? ""
+            ]
+
+            AF.upload(
+                multipartFormData: { [weak self] formData in
+                    if let imageData = self?.flyerImageData {
+                        formData.append(imageData, withName: "image", fileName: "file.png", mimeType: "image/png")
+                    }
+                    for (key, value) in parameters {
+                        formData.append(value.data(using: String.Encoding.utf8)!, withName: key)
+                    }
+                },
+                to: url,
+                method: .post
+            )
+            .validate()
+            .response { [weak self] response in
+                switch response.result {
+                case .success:
+                    self?.deleteEditSuccess = true
+                    self?.showSpinner = false
+                case .failure(let error):
+                    print("Error: EditFlyerRequest failed on FlyerUploadView: \(error)")
+                    self?.deleteEditSuccess = false
+                    self?.showSpinner = false
+                }
+            }
+        }
+
         // MARK: - Helpers
+
+        func checkCriteria(_ isEditing: Bool) {
+            if isEditing {
+                buttonEnabled = !flyerName.isEmpty &&
+                !flyerLocation.isEmpty && !flyerCategory.isEmpty &&
+                (flyerStart < flyerEnd)
+            } else {
+                buttonEnabled = !flyerName.isEmpty &&
+                !flyerLocation.isEmpty && !flyerCategory.isEmpty &&
+                (flyerStart < flyerEnd) && flyerImageItem != nil
+            }
+        }
+
+        func loadEdit(_ flyer: Flyer) {
+            flyerCategory = flyer.categorySlug.titleCase()
+            flyerEnd = flyer.endDate
+            flyerLocation = flyer.location
+            flyerName = flyer.title
+            flyerStart = flyer.startDate
+            flyerURL = flyer.flyerUrl?.absoluteString ?? ""
+        }
 
         /**
          Format the given string to be passed into the network request
