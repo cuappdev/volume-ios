@@ -113,6 +113,11 @@ struct FlyerUploadView: View {
                 dismiss()
             }
         }
+        .onChange(of: viewModel.flyerStart) { start in
+            if start > viewModel.flyerEnd {
+                viewModel.flyerEnd = start
+            }
+        }
     }
 
     private var mainContent: some View {
@@ -457,6 +462,9 @@ struct FlyerUploadView: View {
                 .frame(maxWidth: .infinity)
                 .padding([.bottom, .horizontal])
                 .background(Color(.systemGray5))
+                .onAppear {
+                    UIDatePicker.appearance().minuteInterval = 5
+                }
         }
     }
 
@@ -469,6 +477,9 @@ struct FlyerUploadView: View {
                 .frame(maxWidth: .infinity)
                 .padding([.bottom, .horizontal])
                 .background(Color(.systemGray5))
+                .onAppear {
+                    UIDatePicker.appearance().minuteInterval = 5
+                }
         }
     }
 
