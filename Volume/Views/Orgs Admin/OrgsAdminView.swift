@@ -114,14 +114,14 @@ struct OrgsAdminView: View {
                     .font(.helveticaNeueMedium(size: 16))
                     .foregroundStyle(Color.volume.orange)
             }
+            .frame(maxWidth: .infinity)
+            .frame(height: 120)
+            .background(Color.volume.orange.opacity(0.05))
+            .overlay(
+                RoundedRectangle(cornerRadius: 4)
+                    .stroke(Color.volume.orange.opacity(0.2), lineWidth: 1)
+            )
         }
-        .frame(maxWidth: .infinity)
-        .frame(height: 120)
-        .background(Color.volume.orange.opacity(0.05))
-        .overlay(
-            RoundedRectangle(cornerRadius: 4)
-                .stroke(Color.volume.orange.opacity(0.2), lineWidth: 1)
-        )
     }
 
     private var slidingTabBar: some View {

@@ -31,7 +31,6 @@ extension FlyerUploadView {
         @Published var flyerStart: Date = Date.now
         @Published var flyerURL: String = ""
         @Published var showConfirmation: Bool = false
-        @Published var showErrorMessage: Bool = false
         @Published var showSpinner: Bool = false
         @Published var startIsFocused: Bool = false
         @Published var uploadSuccessful: Bool?
@@ -182,6 +181,10 @@ extension FlyerUploadView {
                 buttonEnabled = !flyerName.isEmpty &&
                 !flyerLocation.isEmpty && !flyerCategory.isEmpty &&
                 (flyerStart < flyerEnd) && flyerImageItem != nil
+            }
+
+            if flyerStart > flyerEnd {
+                flyerEnd = flyerStart
             }
         }
 
