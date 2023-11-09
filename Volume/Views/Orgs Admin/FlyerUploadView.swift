@@ -99,7 +99,6 @@ struct FlyerUploadView: View {
         .onChange(of: viewModel.flyerDateInfo) { _ in
             withAnimation(.easeOut(duration: 0.3)) {
                 viewModel.checkCriteria(isEditing)
-                viewModel.showErrorMessage = viewModel.flyerStart > viewModel.flyerEnd
             }
         }
         .onChange(of: viewModel.flyerImageItem) { _ in
@@ -111,11 +110,6 @@ struct FlyerUploadView: View {
             if success {
                 viewModel.deleteEditSuccess = false
                 dismiss()
-            }
-        }
-        .onChange(of: viewModel.flyerStart) { start in
-            if start > viewModel.flyerEnd {
-                viewModel.flyerEnd = start
             }
         }
     }
@@ -132,13 +126,9 @@ struct FlyerUploadView: View {
                         isEditing ? removeFlyerButton : nil
                         flyerNameInput
 
-                        VStack(alignment: .leading, spacing: 8) {
-                            HStack(spacing: 16) {
-                                startTimeInput
-                                endTimeInput
-                            }
-
-                            viewModel.showErrorMessage ? errorMessage : nil
+                        HStack(spacing: 16) {
+                            startTimeInput
+                            endTimeInput
                         }
 
                         locationInput

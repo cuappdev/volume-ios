@@ -94,6 +94,7 @@ struct OrgFlyerCellView: View {
                         .frame(width: Constants.circleSize, height: Constants.circleSize)
                 }
             }
+            .padding(EdgeInsets(top: 6, leading: 8, bottom: 6, trailing: 8))
         }
         .confirmationDialog(
             "Removing a flyer will delete it from Volume’s feed.",
