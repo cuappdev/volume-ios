@@ -130,6 +130,7 @@ struct BookmarksView: View {
                         case .none:
                             ForEach(0..<6) { _ in
                                 FlyerCellUpcoming.Skeleton()
+                                    .padding(.leading, Constants.sidePadding)
                             }
                         case .some(let flyers):
                             ForEach(flyers) { flyer in
