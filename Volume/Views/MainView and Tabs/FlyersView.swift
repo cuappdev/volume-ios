@@ -25,7 +25,6 @@ struct FlyersView: View {
         static let dailyImageSize: CGSize = CGSize(width: 340, height: 340)
         static let dropdownWidth: CGFloat = 128
         static let endMessageWidth: CGFloat = 250
-        static let gridRows: Array = Array(repeating: GridItem(.flexible()), count: 3)
         static let listHorizontalPadding: CGFloat = 16
         static let rowVerticalPadding: CGFloat = 6
         static let spacing: CGFloat = 16

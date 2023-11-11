@@ -16,11 +16,19 @@ struct BookmarksView: View {
     @EnvironmentObject private var userData: UserData
     @StateObject private var viewModel = ViewModel()
 
+    enum FlyerSection {
+        case past
+        case upcoming
+    }
+
     // MARK: - Constants
 
     private struct Constants {
         static let articlesTabWidth: CGFloat = 80
+        static let dropdownWidth: CGFloat = 128
+        static let flyerSpacing: CGFloat = 16
         static let flyersTabWidth: CGFloat = 70
+        static let gridRows: Array = Array(repeating: GridItem(.flexible()), count: 3)
         static let magazinesTabWidth: CGFloat = 110
         static let noSavedMessageLength: CGFloat = 250
         static let sidePadding: CGFloat = 16
@@ -97,31 +105,82 @@ struct BookmarksView: View {
     // MARK: - Sections
 
     private var flyerContent: some View {
-        Group {
-            if viewModel.hasSavedFlyers {
-                switch viewModel.flyers {
-                case .none:
-                    ForEach(0..<4) { _ in
-                        FlyerCellPast.Skeleton()
-                            .padding(.bottom, 16)
-                    }
-                case .some(let flyers):
-                    ForEach(flyers) { flyer in
-                        if let urlString = flyer.imageUrl?.absoluteString {
-                            FlyerCellPast(
-                                flyer: flyer,
-                                navigationSource: .bookmarkFlyers,
-                                urlImageModel: URLImageModel(urlString: urlString),
-                                viewModel: FlyersView.ViewModel()
-                            )
+        VStack {
+            flyerSection(.upcoming)
+            flyerSection(.past)
+        }
+    }
+
+    private func flyerSection(_ flyerSection: FlyerSection) -> some View {
+        Section {
+            let selectedFlyers = flyerSection == .upcoming ? viewModel.upcomingFlyers : viewModel.pastFlyers
+
+            if let selectedFlyers, selectedFlyers.isEmpty {
+                VolumeMessage(
+                    image: Image.volume.flyer,
+                    message: .noBookmarkedFlyers,
+                    largeFont: true,
+                    fullWidth: true
+                )
+                .padding(EdgeInsets(top: 32, leading: 0, bottom: 48, trailing: 0))
+            } else {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    LazyHGrid(rows: Constants.gridRows, spacing: Constants.flyerSpacing) {
+                        switch selectedFlyers {
+                        case .none:
+                            ForEach(0..<6) { _ in
+                                FlyerCellUpcoming.Skeleton()
+                            }
+                        case .some(let flyers):
+                            ForEach(flyers) { flyer in
+                                FlyerCellUpcoming(
+                                    flyer: flyer,
+                                    navigationSource: .bookmarkFlyers,
+                                    urlImageModel: URLImageModel(urlString: flyer.imageUrl?.absoluteString ?? ""),
+                                    viewModel: FlyersView.ViewModel()
+                                )
+                                .padding(.leading, Constants.sidePadding)
+                            }
                         }
                     }
+                    .frame(height: 308)
+                    .padding(.bottom, Constants.flyerSpacing)
                 }
-            } else {
-                noSavedContentView
+                // swiftlint:disable:next force_cast
+                .environment(\EnvironmentValues.refresh as! WritableKeyPath<EnvironmentValues, RefreshAction?>, nil)
             }
+        } header: {
+            flyerSectionHeader(for: flyerSection)
         }
+        .onChange(of: viewModel.selectedUpcomingCategory) { _ in
+            viewModel.filterUpcoming()
+        }
+        .onChange(of: viewModel.selectedPastCategory) { _ in
+            viewModel.filterPast()
+        }
+    }
+
+    private func flyerSectionHeader(for flyerSection: FlyerSection) -> some View {
+        HStack {
+            Header(flyerSection == .upcoming ? "Upcoming" : "Past Flyers")
+
+            Spacer()
+
+            CategoryDropdown(
+                categories: flyerSection == .upcoming
+                    ? viewModel.upcomingCategories
+                    : viewModel.pastCategories,
+                defaultSelected: ViewModel.Constants.defaultCategory,
+                selected: flyerSection == .upcoming
+                    ? $viewModel.selectedUpcomingCategory
+                    : $viewModel.selectedPastCategory
+            )
+            .frame(maxWidth: Constants.dropdownWidth)
+        }
+        .foregroundStyle(.black)
+        .textCase(nil)
         .padding(.horizontal, Constants.sidePadding)
+        .padding(.top, flyerSection == .upcoming ? 0 : 32)
     }
 
     private var articleContent: some View {
