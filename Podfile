@@ -27,7 +27,6 @@ target 'VolumeWidgetExtension' do
 
   # Pods for VolumeWidgetExtension
   pod 'Apollo'
-  pod 'SDWebImageSwiftUI'
   pod 'SwiftLint', :inhibit_warnings => false
 
 end

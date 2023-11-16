@@ -69,6 +69,7 @@
 		2E81EB6629F4F4A800A288C1 /* OnboardingFlyersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E81EB6529F4F4A800A288C1 /* OnboardingFlyersView.swift */; };
 		2E81EB6829F4FC0900A288C1 /* ScrollFadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E81EB6729F4FC0900A288C1 /* ScrollFadingView.swift */; };
 		2E81EB6A29F4FD1600A288C1 /* OnboardingPublicationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E81EB6929F4FD1600A288C1 /* OnboardingPublicationsView.swift */; };
+		2E9216392B05D9C700400C1D /* FlyerWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7EE82B01361100E82ABE /* FlyerWidgetIntent.swift */; };
 		2E9349AA2AC718C70098CAC8 /* FlyerUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9349A92AC718C70098CAC8 /* FlyerUploadView.swift */; };
 		2E9349AC2AC718D70098CAC8 /* FlyerUploadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9349AB2AC718D70098CAC8 /* FlyerUploadViewModel.swift */; };
 		2EA7DB7329DBEF7C001D7B8A /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7DB7229DBEF7C001D7B8A /* UIImage+Extension.swift */; };
@@ -79,6 +80,8 @@
 		2EC811EE2AC6B20600ED1ACC /* OrgsLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC811ED2AC6B20600ED1ACC /* OrgsLoginViewModel.swift */; };
 		2EE2FA66B7CA5419A27F3812 /* Pods_VolumeWidgetExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2509BAEF6B2AABDAFE25F568 /* Pods_VolumeWidgetExtension.framework */; };
 		2EE8411F2A2EA0DE00691BB7 /* FlyersSupporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE8411E2A2EA0DE00691BB7 /* FlyersSupporting.swift */; };
+		2EF114D42B05FD5C007AD8F9 /* WidgetImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF114D32B05FD5C007AD8F9 /* WidgetImage.swift */; };
+		2EF114D52B05FDE5007AD8F9 /* WidgetImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF114D32B05FD5C007AD8F9 /* WidgetImage.swift */; };
 		2EF894B42A1E9DCF001DD2A1 /* FlyerQueries.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 2EF894B32A1E9DCF001DD2A1 /* FlyerQueries.graphql */; };
 		2EF894B62A1E9E43001DD2A1 /* OrganizationQueries.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 2EF894B52A1E9E43001DD2A1 /* OrganizationQueries.graphql */; };
 		2EF894B82A1EE7ED001DD2A1 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF894B72A1EE7ED001DD2A1 /* Calendar+Extension.swift */; };
@@ -107,6 +110,7 @@
 		2EFA7EE52B00BD9300E82ABE /* Widget+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7EDF2B00BD3300E82ABE /* Widget+Extension.swift */; };
 		2EFA7EE62B00BDA900E82ABE /* Flyer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6A7D6B29DAA2E7002F5250 /* Flyer.swift */; };
 		2EFA7EE72B00BDA900E82ABE /* Organization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6A7D6D29DAA334002F5250 /* Organization.swift */; };
+		2EFA7EE92B01361100E82ABE /* FlyerWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7EE82B01361100E82ABE /* FlyerWidgetIntent.swift */; };
 		331159D727D41C89003B0F06 /* Image+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331159D627D41C89003B0F06 /* Image+Extensions.swift */; };
 		3334F4A02705269800CF0987 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3334F49F2705269800CF0987 /* AppDelegate.swift */; };
 		3349BF6F290DC1E900B0FD3A /* WeeklyDebriefButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3349BF6E290DC1E900B0FD3A /* WeeklyDebriefButton.swift */; };
@@ -272,6 +276,7 @@
 		2EC811ED2AC6B20600ED1ACC /* OrgsLoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgsLoginViewModel.swift; sourceTree = "<group>"; };
 		2EE2078B2AB41984009A8ED3 /* ci_post_clone.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_clone.sh; sourceTree = "<group>"; };
 		2EE8411E2A2EA0DE00691BB7 /* FlyersSupporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyersSupporting.swift; sourceTree = "<group>"; };
+		2EF114D32B05FD5C007AD8F9 /* WidgetImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetImage.swift; sourceTree = "<group>"; };
 		2EF894B32A1E9DCF001DD2A1 /* FlyerQueries.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FlyerQueries.graphql; sourceTree = "<group>"; };
 		2EF894B52A1E9E43001DD2A1 /* OrganizationQueries.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OrganizationQueries.graphql; sourceTree = "<group>"; };
 		2EF894B72A1EE7ED001DD2A1 /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
@@ -285,6 +290,7 @@
 		2EFA7EDB2B00BC8D00E82ABE /* FlyerWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerWidget.swift; sourceTree = "<group>"; };
 		2EFA7EDD2B00BCC900E82ABE /* FlyerWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerWidgetView.swift; sourceTree = "<group>"; };
 		2EFA7EDF2B00BD3300E82ABE /* Widget+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Widget+Extension.swift"; sourceTree = "<group>"; };
+		2EFA7EE82B01361100E82ABE /* FlyerWidgetIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerWidgetIntent.swift; sourceTree = "<group>"; };
 		331159D627D41C89003B0F06 /* Image+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extensions.swift"; sourceTree = "<group>"; };
 		3334F49F2705269800CF0987 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3349BF6E290DC1E900B0FD3A /* WeeklyDebriefButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyDebriefButton.swift; sourceTree = "<group>"; };
@@ -452,6 +458,7 @@
 				2EFA7EC32B0075FD00E82ABE /* ArticleWidget */,
 				2EFA7ED62B00BB7A00E82ABE /* FlyerWidget */,
 				2E0B00CE2B00633D00CFC6EA /* VolumeWidgetBundle.swift */,
+				2EF114D32B05FD5C007AD8F9 /* WidgetImage.swift */,
 				2EFA7EDF2B00BD3300E82ABE /* Widget+Extension.swift */,
 				2E0B00D42B00633F00CFC6EA /* Assets.xcassets */,
 				2E0B00D62B00633F00CFC6EA /* Info.plist */,
@@ -580,6 +587,7 @@
 			children = (
 				2EFA7EDB2B00BC8D00E82ABE /* FlyerWidget.swift */,
 				2EFA7ED72B00BB9900E82ABE /* FlyerWidgetEntry.swift */,
+				2EFA7EE82B01361100E82ABE /* FlyerWidgetIntent.swift */,
 				2EFA7ED92B00BBC000E82ABE /* FlyerWidgetProvider.swift */,
 				2EFA7EDD2B00BCC900E82ABE /* FlyerWidgetView.swift */,
 			);
@@ -1012,6 +1020,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EF114D52B05FDE5007AD8F9 /* WidgetImage.swift in Sources */,
+				2E9216392B05D9C700400C1D /* FlyerWidgetIntent.swift in Sources */,
 				2EFA7EE62B00BDA900E82ABE /* Flyer.swift in Sources */,
 				2EFA7EE72B00BDA900E82ABE /* Organization.swift in Sources */,
 				2EFA7EE12B00BD9300E82ABE /* FlyerWidget.swift in Sources */,
@@ -1075,6 +1085,7 @@
 				95A79FB82622296800CADF88 /* ConnectionFailedView.swift in Sources */,
 				2E38E14A29E5CBB8006323E5 /* LottieView.swift in Sources */,
 				922FE3072931D07100E14911 /* SearchView.swift in Sources */,
+				2EF114D42B05FD5C007AD8F9 /* WidgetImage.swift in Sources */,
 				922FE2FB2931529000E14911 /* SearchBar.swift in Sources */,
 				0685AA9E259EA84900DD55C4 /* BrowserView.swift in Sources */,
 				2E6A7D7729DAC784002F5250 /* FlyerCellPast.swift in Sources */,
@@ -1145,6 +1156,7 @@
 				2EB5568829B9485700794423 /* MagsScrollbarView.swift in Sources */,
 				2EFA7EDC2B00BC8D00E82ABE /* FlyerWidget.swift in Sources */,
 				95A79FB42622255D00CADF88 /* TabContainer.swift in Sources */,
+				2EFA7EE92B01361100E82ABE /* FlyerWidgetIntent.swift in Sources */,
 				2EFA7EE02B00BD3300E82ABE /* Widget+Extension.swift in Sources */,
 				33913A0C27D89E0A00C5718D /* TabBarReader.swift in Sources */,
 				A2A5CC1027D567EA0000F377 /* MagazineCell.swift in Sources */,

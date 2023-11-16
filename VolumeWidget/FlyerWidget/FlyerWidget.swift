@@ -9,12 +9,13 @@
 import SwiftUI
 import WidgetKit
 
+@available(iOS 17.0, *)
 struct FlyerWidget: Widget {
 
     let kind: String = "FlyerWidget"
 
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: FlyerWidgetProvider()) { entry in
+        AppIntentConfiguration(kind: kind, provider: FlyerWidgetProvider()) { entry in
             FlyerWidgetView(entry: entry)
         }
         .configurationDisplayName("Flyers")

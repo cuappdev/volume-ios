@@ -9,6 +9,7 @@
 import SwiftUI
 import WidgetKit
 
+@available(iOS 17.0, *)
 struct ArticleWidget: Widget {
 
     let kind: String = "ArticleWidget"

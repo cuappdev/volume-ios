@@ -9,9 +9,15 @@
 import Combine
 import WidgetKit
 
-struct FlyerWidgetProvider: TimelineProvider {
+@available(iOS 17.0, *)
+struct FlyerWidgetProvider: AppIntentTimelineProvider {
 
     // MARK: - Properties
+
+    private let flyersLimit: Int = 4
+
+    typealias Entry = FlyerEntry
+    typealias Intent = FlyerIntent
 
     class ProviderCancellable {
         static var queryBag = Set<AnyCancellable>()
@@ -25,66 +31,57 @@ struct FlyerWidgetProvider: TimelineProvider {
     }
 
     /// Provides a Flyer entry representing the current time and state of the Flyer widget.
-    func getSnapshot(in context: Context, completion: @escaping (FlyerEntry) -> Void) {
-        let entry = FlyerEntry(date: .now, flyer: FlyerWidgetProvider.dummyFlyer!)
-        completion(entry)
+    func snapshot(for configuration: FlyerIntent, in context: Context) async -> FlyerEntry {
+        FlyerEntry(date: .now, flyer: FlyerWidgetProvider.dummyFlyer!)
     }
 
     /// Provides an array of Flyer entries for the current time and any future times to update the Flyer widget.
-    func getTimeline(in context: Context, completion: @escaping (Timeline<FlyerEntry>) -> Void) {
-        fetchPastFlyers { flyers in
-            var entries: [FlyerEntry] = []
+    func timeline(for configuration: FlyerIntent, in context: Context) async -> Timeline<FlyerEntry> {
+        await withCheckedContinuation { continuation in
+            fetchAllFlyers(forSlug: configuration.selectedOrg.organization.slug) { flyers in
+                var entries: [FlyerEntry] = []
 
-            // Generate a timeline with at most 4 entries every hour
-            for hourOffset in 0..<flyers.count {
-                let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: .now)
-                let entry = FlyerEntry(date: entryDate!, flyer: flyers[hourOffset])
-                entries.append(entry)
+                // Generate a timeline with at most 4 entries every hour
+                for hourOffset in 0..<flyers.count {
+                    let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: .now)
+                    let entry = FlyerEntry(date: entryDate!, flyer: flyers[hourOffset])
+                    entries.append(entry)
+                }
+
+                let timeline = Timeline(entries: entries, policy: .atEnd)
+                continuation.resume(returning: timeline)
             }
-
-            let timeline = Timeline(entries: entries, policy: .atEnd)
-            completion(timeline)
         }
     }
 
     // MARK: - Network Requests
 
-    private func fetchUpcomingFlyers(completion: @escaping ([Flyer]) -> Void) {
-        Network.shared.publisher(
-            for: GetFlyersAfterDateQuery(limit: 4, since: Date().flyerUTCISOString)
-        )
-        .compactMap { $0.flyers.map(\.fragments.flyerFields) }
-        .sink { completion in
-            if case let .failure(error) = completion {
-                print("Error: GetFlyersAfterDateQuery failed in FlyerWidgetProvider: \(error)")
-            }
-        } receiveValue: { flyerFields in
-            var flyers = [Flyer](flyerFields)
-            flyers = flyers.sorted { $0.startDate < $1.startDate }
-            completion(flyers)
-        }
-        .store(in: &ProviderCancellable.queryBag)
-    }
+    private func fetchAllFlyers(forSlug slug: String, completion: @escaping ([Flyer]) -> Void) {
+        Network.shared.publisher(for: GetFlyersByOrganizationSlugQuery(slug: slug))
+            .map { $0.flyers.map(\.fragments.flyerFields) }
+            .sink { completion in
+                if case let .failure(error) = completion {
+                    print("Error: GetFlyersByOrganizationSlugQuery failed in FlyerWidgetProvider: \(error)")
+                }
+            } receiveValue: { flyerFields in
+                var flyers = [Flyer](flyerFields)
 
-    private func fetchPastFlyers(completion: @escaping ([Flyer]) -> Void) {
-        Network.shared.publisher(
-            for: GetFlyersBeforeDateQuery(limit: 4, before: Date().flyerUTCISOString)
-        )
-        .compactMap { $0.flyers.map(\.fragments.flyerFields) }
-        .sink { completion in
-            if case let .failure(error) = completion {
-                print("Error: GetFlyersBeforeDateQuery failed in FlyerWidgetProvider: \(error)")
+                // Get upcoming flyers - if none, get the most recent
+                let upcomingFlyers = flyers.filter { $0.endDate > Date.now }
+                if upcomingFlyers.count > 0 {
+                    flyers = upcomingFlyers.sorted { $0.startDate > $1.startDate }
+                } else {
+                    flyers = flyers.sorted { $0.startDate > $1.startDate }
+                }
+
+                completion(Array(flyers.prefix(flyersLimit)))
             }
-        } receiveValue: { flyerFields in
-            var flyers = [Flyer](flyerFields)
-            flyers = flyers.sorted { $0.startDate < $1.startDate }
-            completion(flyers)
-        }
-        .store(in: &ProviderCancellable.queryBag)
+            .store(in: &ProviderCancellable.queryBag)
     }
 
 }
 
+@available(iOS 17.0, *)
 extension FlyerWidgetProvider {
 
     // swiftlint:disable line_length

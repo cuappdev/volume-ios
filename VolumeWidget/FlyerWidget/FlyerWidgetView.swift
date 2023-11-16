@@ -6,10 +6,10 @@
 //  Copyright © 2023 Cornell AppDev. All rights reserved.
 //
 
-import SDWebImageSwiftUI
 import SwiftUI
 import WidgetKit
 
+@available(iOS 17.0, *)
 struct FlyerWidgetView: View {
 
     // MARK: - Properties
@@ -32,7 +32,8 @@ struct FlyerWidgetView: View {
 
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(entry.flyer.organization.name)
+                    // swiftlint:disable:next line_length
+                    Text("\(entry.flyer.startDate.simpleString) ∙ \(entry.flyer.startDate.flyerTimeString) - \(entry.flyer.endDate.flyerTimeString)")
                         .font(.newYorkRegular(size: 12))
                         .lineLimit(1)
 
@@ -46,6 +47,9 @@ struct FlyerWidgetView: View {
         }
         .foregroundStyle(Color.white)
         .addWidgetContentMargins()
+        .containerBackground(for: .widget, alignment: .center) {
+            background
+        }
         .background(background)
     }
 
@@ -53,17 +57,15 @@ struct FlyerWidgetView: View {
         ZStack {
             Color.black.opacity(0.6)
 
-            WebImage(url: entry.flyer.imageUrl)
-                .resizable()
-                .scaledToFill()
+            WidgetImage(url: entry.flyer.imageUrl)
 
             Rectangle()
                 .fill(
                     LinearGradient(
                         gradient: Gradient(colors: [
                             .clear,
-                            .black.opacity(0.1),
-                            .black.opacity(0.3),
+                            .black.opacity(0.2),
+                            .black.opacity(0.5),
                             .black.opacity(0.7),
                             .black
                         ]),
