@@ -25,7 +25,7 @@ struct FlyerWidgetProvider: AppIntentTimelineProvider {
 
     // MARK: - TimelineProvider Methods
 
-    /// Provides a Flyer  entry  representing a placeholder version of the Flyer widget.
+    /// Provides a Flyer entry representing a placeholder version of the Flyer widget.
     func placeholder(in context: Context) -> FlyerEntry {
         FlyerEntry(date: .now, flyer: FlyerWidgetProvider.dummyFlyer!)
     }

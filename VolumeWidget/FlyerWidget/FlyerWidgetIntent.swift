@@ -73,7 +73,7 @@ struct WidgetOrganizationQuery: EntityStringQuery {
     func defaultResult() async -> WidgetOrganization? {
         await withCheckedContinuation { continuation in
             fetchOrganizationNames { organizations in
-                guard let org = organizations.first else { return }
+                guard let org = organizations.first(where: { $0.slug == "appdev" }) else { return }
 
                 let widgetOrg = WidgetOrganization(id: org.name, organization: org)
                 continuation.resume(returning: widgetOrg)

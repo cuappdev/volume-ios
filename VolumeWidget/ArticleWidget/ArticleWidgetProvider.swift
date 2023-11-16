@@ -13,13 +13,15 @@ struct ArticleWidgetProvider: TimelineProvider {
 
     // MARK: - Properties
 
+    private let articlesLimit: Double = 4
+
     class ProviderCancellable {
         static var queryBag = Set<AnyCancellable>()
     }
 
     // MARK: - TimelineProvider Methods
 
-    /// Provides an Article entry  representing a placeholder version of the Article widget.
+    /// Provides an Article entry representing a placeholder version of the Article widget.
     func placeholder(in context: Context) -> ArticleEntry {
         ArticleEntry(date: .now, article: ArticleWidgetProvider.dummyArticle!)
     }
@@ -50,7 +52,7 @@ struct ArticleWidgetProvider: TimelineProvider {
     // MARK: - Network Requests
 
     private func fetchTrendingArticles(completion: @escaping ([Article]) -> Void) {
-        Network.shared.publisher(for: GetTrendingArticlesQuery(limit: 4))
+        Network.shared.publisher(for: GetTrendingArticlesQuery(limit: articlesLimit))
             .compactMap { $0.articles.map(\.fragments.articleFields) }
             .sink { completion in
                 if case let .failure(error) = completion {
