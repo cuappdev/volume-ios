@@ -37,6 +37,9 @@ struct WidgetOrganizationQuery: EntityStringQuery {
     func entities(matching string: String) async throws -> [WidgetOrganization] {
         await withCheckedContinuation { continuation in
             fetchOrganizationNames { organizations in
+                let organizations = organizations.filter {
+                    $0.name.lowercased().hasPrefix(string.lowercased())
+                }
                 let widgetOrgs = organizations.map { org in
                     WidgetOrganization(id: org.name, organization: org)
                 }
