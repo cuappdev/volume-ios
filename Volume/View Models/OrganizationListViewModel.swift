@@ -58,7 +58,9 @@ extension OrganizationList {
                 .sink { [weak self] completion in
                     self?.networkState?.handleCompletion(screen: .flyers, completion)
                 } receiveValue: { [weak self] organizationFields in
-                    let orgs = [Organization](organizationFields)
+                    var orgs = [Organization](organizationFields)
+                    orgs = orgs.sorted { $0.name < $1.name }
+
                     self?.followedOrgs = orgs.filter { userData.isOrganizationFollowed($0) }
                     self?.unfollowedOrgs = orgs.filter { !userData.isOrganizationFollowed($0) }
                 }

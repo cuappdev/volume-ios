@@ -127,12 +127,18 @@ struct OrganizationList: View {
     // MARK: - Supporting Views
 
     private var noFollowedOrgsMessage: some View {
-        VolumeMessage(
-            image: Image.volume.flyer,
-            message: .noFollowingOrganizations,
-            largeFont: false,
-            fullWidth: true
-        )
+        HStack {
+            Spacer()
+
+            VolumeMessage(
+                image: Image.volume.flyer,
+                message: .noFollowingOrganizations,
+                largeFont: false,
+                fullWidth: true
+            )
+
+            Spacer()
+        }
     }
 
 }

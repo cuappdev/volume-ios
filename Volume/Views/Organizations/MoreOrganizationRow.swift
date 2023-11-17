@@ -66,7 +66,7 @@ struct MoreOrganizationRow: View {
     private var followButton: some View {
         Button {
             Haptics.shared.play(.light)
-            
+
             withAnimation {
                 followRequestInProgress = true
                 userData.toggleOrganizationFollowed(organization, $followRequestInProgress)
