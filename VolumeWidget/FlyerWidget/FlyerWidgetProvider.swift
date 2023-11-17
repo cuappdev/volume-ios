@@ -14,8 +14,6 @@ struct FlyerWidgetProvider: AppIntentTimelineProvider {
 
     // MARK: - Properties
 
-    private let flyersLimit: Int = 4
-
     typealias Entry = FlyerEntry
     typealias Intent = FlyerIntent
 
@@ -38,7 +36,7 @@ struct FlyerWidgetProvider: AppIntentTimelineProvider {
     /// Provides an array of Flyer entries for the current time and any future times to update the Flyer widget.
     func timeline(for configuration: FlyerIntent, in context: Context) async -> Timeline<FlyerEntry> {
         await withCheckedContinuation { continuation in
-            fetchAllFlyers(forSlug: configuration.selectedOrg.organization.slug) { flyers in
+            WidgetViewModel.shared.fetchAllFlyers(forSlug: configuration.selectedOrg.organization.slug) { flyers in
                 var entries: [FlyerEntry] = []
 
                 // Generate a timeline with at most 4 entries every hour
@@ -52,31 +50,6 @@ struct FlyerWidgetProvider: AppIntentTimelineProvider {
                 continuation.resume(returning: timeline)
             }
         }
-    }
-
-    // MARK: - Network Requests
-
-    private func fetchAllFlyers(forSlug slug: String, completion: @escaping ([Flyer]) -> Void) {
-        Network.shared.publisher(for: GetFlyersByOrganizationSlugQuery(slug: slug))
-            .map { $0.flyers.map(\.fragments.flyerFields) }
-            .sink { completion in
-                if case let .failure(error) = completion {
-                    print("Error: GetFlyersByOrganizationSlugQuery failed in FlyerWidgetProvider: \(error)")
-                }
-            } receiveValue: { flyerFields in
-                var flyers = [Flyer](flyerFields)
-
-                // Get upcoming flyers - if none, get the most recent
-                let upcomingFlyers = flyers.filter { $0.endDate > Date.now }
-                if upcomingFlyers.count > 0 {
-                    flyers = upcomingFlyers.sorted { $0.startDate > $1.startDate }
-                } else {
-                    flyers = flyers.sorted { $0.startDate > $1.startDate }
-                }
-
-                completion(Array(flyers.prefix(flyersLimit)))
-            }
-            .store(in: &ProviderCancellable.queryBag)
     }
 
 }

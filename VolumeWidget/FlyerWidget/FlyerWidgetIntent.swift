@@ -36,10 +36,11 @@ struct WidgetOrganizationQuery: EntityStringQuery {
 
     func entities(matching string: String) async throws -> [WidgetOrganization] {
         await withCheckedContinuation { continuation in
-            fetchOrganizationNames { organizations in
+            WidgetViewModel.shared.fetchOrganizationNames { organizations in
                 let organizations = organizations.filter {
                     $0.name.lowercased().hasPrefix(string.lowercased())
                 }
+
                 let widgetOrgs = organizations.map { org in
                     WidgetOrganization(id: org.name, organization: org)
                 }
@@ -51,7 +52,7 @@ struct WidgetOrganizationQuery: EntityStringQuery {
 
     func entities(for identifiers: [WidgetOrganization.ID]) async throws -> [WidgetOrganization] {
         await withCheckedContinuation { continuation in
-            fetchOrganizationNames { organizations in
+            WidgetViewModel.shared.fetchOrganizationNames { organizations in
                 let widgetOrgs = organizations.map { org in
                     WidgetOrganization(id: org.name, organization: org)
                 }
@@ -63,7 +64,7 @@ struct WidgetOrganizationQuery: EntityStringQuery {
 
     func suggestedEntities() async throws -> [WidgetOrganization] {
         await withCheckedContinuation { continuation in
-            fetchOrganizationNames { organizations in
+            WidgetViewModel.shared.fetchOrganizationNames { organizations in
                 let widgetOrgs = organizations.map { org in
                     WidgetOrganization(id: org.name, organization: org)
                 }
@@ -75,31 +76,13 @@ struct WidgetOrganizationQuery: EntityStringQuery {
 
     func defaultResult() async -> WidgetOrganization? {
         await withCheckedContinuation { continuation in
-            fetchOrganizationNames { organizations in
+            WidgetViewModel.shared.fetchOrganizationNames { organizations in
                 guard let org = organizations.first(where: { $0.slug == "appdev" }) else { return }
 
                 let widgetOrg = WidgetOrganization(id: org.name, organization: org)
                 continuation.resume(returning: widgetOrg)
             }
         }
-    }
-
-    // MARK: - Network Requests
-
-    private func fetchOrganizationNames(completion: @escaping ([Organization]) -> Void) {
-        Network.shared.publisher(for: GetAllOrganizationNamesQuery())
-            .map { $0.organizations.map(\.fragments.organizationFields) }
-            .sink { completion in
-                if case let .failure(error) = completion {
-                    print("Error: GetAllOrganizationNamesQuery failed in WidgetOrganizationQuery: \(error)")
-                }
-            } receiveValue: { organizationFields in
-                var orgs = [Organization](organizationFields)
-                orgs = orgs.sorted { $0.name < $1.name }
-
-                completion(orgs)
-            }
-            .store(in: &ProviderCancellable.queryBag)
     }
 
 }
