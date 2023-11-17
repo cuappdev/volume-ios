@@ -16,13 +16,25 @@ extension BookmarksView {
         // MARK: - Properties
 
         @Published var articles: [Article]?
-        @Published var flyers: [Flyer]?
         @Published var magazines: [Magazine]?
+        @Published var pastCategories: [String] = []
+        @Published var pastFlyers: [Flyer]?
+        @Published var selectedPastCategory: String? = Constants.defaultCategory
         @Published var selectedTab: FilterContentType = .articles
-        @Published private var queryBag = Set<AnyCancellable>()
+        @Published var selectedUpcomingCategory: String? = Constants.defaultCategory
+        @Published var upcomingCategories: [String] = []
+        @Published var upcomingFlyers: [Flyer]?
 
+        private var allFlyers: [Flyer] = []
         private var networkState: NetworkState?
+        private var queryBag = Set<AnyCancellable>()
         private var userData: UserData?
+
+        // MARK: - Logic Constants
+
+        struct Constants {
+            static let defaultCategory: String = "All"
+        }
 
         // MARK: - Property Helpers
 
@@ -110,8 +122,21 @@ extension BookmarksView {
                     self?.networkState?.handleCompletion(screen: .bookmarks, completion)
                 } receiveValue: { [weak self] flyerFields in
                     let flyers = [Flyer](flyerFields)
+                    let upcomingFlyers = flyers.filter { $0.endDate > Date() }
+                    let pastFlyers = flyers.filter { $0.endDate < Date() }
+
+                    var upcomingCategories = Array(Set(upcomingFlyers.map(\.categorySlug)))
+                    var pastCategories = Array(Set(pastFlyers.map(\.categorySlug)))
+                    upcomingCategories.insert(Constants.defaultCategory, at: 0)
+                    pastCategories.insert(Constants.defaultCategory, at: 0)
+
+                    self?.upcomingCategories = upcomingCategories
+                    self?.pastCategories = pastCategories
+                    self?.allFlyers = flyers
+
                     withAnimation(.linear(duration: 0.1)) {
-                        self?.flyers = flyers
+                        self?.upcomingFlyers = upcomingFlyers
+                        self?.pastFlyers = pastFlyers
                     }
                 }
                 .store(in: &queryBag)
@@ -125,6 +150,28 @@ extension BookmarksView {
                 } receiveValue: { _ in
                 }
                 .store(in: &queryBag)
+        }
+
+        // MARK: - Helpers
+
+        func filterUpcoming() {
+            if selectedUpcomingCategory == Constants.defaultCategory {
+                upcomingFlyers = allFlyers.filter { $0.endDate > Date() }
+            } else {
+                upcomingFlyers = allFlyers.filter {
+                    $0.endDate > Date() && $0.categorySlug == selectedUpcomingCategory
+                }
+            }
+        }
+
+        func filterPast() {
+            if selectedPastCategory == Constants.defaultCategory {
+                pastFlyers = allFlyers.filter { $0.endDate < Date() }
+            } else {
+                pastFlyers = allFlyers.filter {
+                    $0.endDate < Date() && $0.categorySlug == selectedPastCategory
+                }
+            }
         }
 
     }

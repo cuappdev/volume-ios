@@ -44,7 +44,7 @@ enum Message {
     var subtitle: String {
         switch self {
         case .noBookmarkedFlyers:
-            return "You have no saved flyers"
+            return "You have no saved flyers for this section"
         case .noBookmarkedArticles:
             return "You have no saved articles"
         case .noBookmarkedMagazines:
@@ -60,7 +60,7 @@ enum Message {
         case .upToDateFlyers, .noFlyersPast, .noFlyersUpcoming:
             return "If you want to see your organization’s events on Volume, email us at volumeappdev@gmail.com."
         case .noFlyersOrgAdmin:
-            return "Upload a flyer by above to see them displayed here"
+            return "Upload a flyer above to see them displayed here"
         }
     }
 
