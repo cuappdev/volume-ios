@@ -28,7 +28,6 @@ struct BookmarksView: View {
         static let dropdownWidth: CGFloat = 128
         static let flyerSpacing: CGFloat = 16
         static let flyersTabWidth: CGFloat = 70
-        static let gridRows: Array = Array(repeating: GridItem(.flexible()), count: 3)
         static let magazinesTabWidth: CGFloat = 110
         static let noSavedMessageLength: CGFloat = 250
         static let sidePadding: CGFloat = 16
@@ -106,50 +105,45 @@ struct BookmarksView: View {
 
     private var flyerContent: some View {
         VStack {
-            flyerSection(.upcoming)
-            flyerSection(.past)
+            if let upcomingFlyers = viewModel.upcomingFlyers,
+               let pastFlyers = viewModel.pastFlyers {
+
+                if pastFlyers.isEmpty && upcomingFlyers.isEmpty {
+                    noSavedContentView
+                } else if pastFlyers.isEmpty {
+                    flyerSection(.upcoming)
+                } else if upcomingFlyers.isEmpty {
+                    flyerSection(.past)
+                } else {
+                    flyerSection(.upcoming)
+                    flyerSection(.past)
+                }
+            }
         }
     }
 
     private func flyerSection(_ flyerSection: FlyerSection) -> some View {
         Section {
-            let selectedFlyers = flyerSection == .upcoming ? viewModel.upcomingFlyers : viewModel.pastFlyers
+            let selectedFlyers = (flyerSection == .upcoming) ? viewModel.upcomingFlyers : viewModel.pastFlyers
 
-            if let selectedFlyers, selectedFlyers.isEmpty {
-                VolumeMessage(
-                    image: Image.volume.flyer,
-                    message: .noBookmarkedFlyers,
-                    largeFont: true,
-                    fullWidth: true
-                )
-                .padding(EdgeInsets(top: 32, leading: 0, bottom: 48, trailing: 0))
-            } else {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    LazyHGrid(rows: Constants.gridRows, spacing: Constants.flyerSpacing) {
-                        switch selectedFlyers {
-                        case .none:
-                            ForEach(0..<6) { _ in
-                                FlyerCellUpcoming.Skeleton()
-                                    .padding(.leading, Constants.sidePadding)
-                            }
-                        case .some(let flyers):
-                            ForEach(flyers) { flyer in
-                                FlyerCellUpcoming(
-                                    flyer: flyer,
-                                    navigationSource: .bookmarkFlyers,
-                                    urlImageModel: URLImageModel(urlString: flyer.imageUrl?.absoluteString ?? ""),
-                                    viewModel: FlyersView.ViewModel()
-                                )
-                                .padding(.leading, Constants.sidePadding)
-                            }
-                        }
+            Group {
+                switch selectedFlyers {
+                case .none:
+                    ForEach(0..<4) { _ in
+                        FlyerCellPast.Skeleton()
                     }
-                    .frame(height: 308)
-                    .padding(.bottom, Constants.flyerSpacing)
+                case .some(let flyers):
+                    ForEach(flyers) { flyer in
+                        FlyerCellPast(
+                            flyer: flyer,
+                            navigationSource: .bookmarkFlyers,
+                            urlImageModel: URLImageModel(urlString: flyer.imageUrl?.absoluteString ?? ""),
+                            viewModel: FlyersView.ViewModel()
+                        )
+                    }
                 }
-                // swiftlint:disable:next force_cast
-                .environment(\EnvironmentValues.refresh as! WritableKeyPath<EnvironmentValues, RefreshAction?>, nil)
             }
+            .padding(.bottom, Constants.flyerSpacing)
         } header: {
             flyerSectionHeader(for: flyerSection)
         }
@@ -159,6 +153,7 @@ struct BookmarksView: View {
         .onChange(of: viewModel.selectedPastCategory) { _ in
             viewModel.filterPast()
         }
+        .padding(.horizontal, Constants.sidePadding)
     }
 
     private func flyerSectionHeader(for flyerSection: FlyerSection) -> some View {
@@ -178,10 +173,9 @@ struct BookmarksView: View {
             )
             .frame(maxWidth: Constants.dropdownWidth)
         }
+        .padding(.bottom, 4)
         .foregroundStyle(.black)
         .textCase(nil)
-        .padding(.horizontal, Constants.sidePadding)
-        .padding(.top, flyerSection == .upcoming ? 0 : 32)
     }
 
     private var articleContent: some View {
