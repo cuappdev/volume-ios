@@ -32,7 +32,6 @@ struct FlyerWidgetView: View {
 
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    // swiftlint:disable:next line_length
                     Text(formatFlyerWidgetDate(for: entry.flyer))
                         .font(.newYorkRegular(size: 12))
                         .lineLimit(1)
