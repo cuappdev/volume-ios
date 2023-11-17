@@ -128,7 +128,7 @@ struct BookmarksView: View {
 
     private func flyerSection(_ flyerSection: FlyerSection) -> some View {
         Section {
-            let selectedFlyers = flyerSection == .upcoming ? viewModel.upcomingFlyers : viewModel.pastFlyers
+            let selectedFlyers = (flyerSection == .upcoming) ? viewModel.upcomingFlyers : viewModel.pastFlyers
 
             Group {
                 switch selectedFlyers {
