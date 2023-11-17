@@ -43,8 +43,8 @@ query GetAllFlyerCategories {
   getAllFlyerCategories
 }
 
-query GetFlyersByOrganizationSlug($limit: Float, $slug: String!) {
-  flyers: getFlyersByOrganizationSlug(limit: $limit, slug: $slug) {
+query GetFlyersByOrganizationSlug($limit: Float, $slug: String!, $offset: Float) {
+  flyers: getFlyersByOrganizationSlug(limit: $limit, slug: $slug, offset: $offset) {
     ...flyerFields
   }
 }

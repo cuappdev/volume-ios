@@ -24,7 +24,7 @@ struct FlyerCellUpcoming: View {
 
     private struct Constants {
         static let buttonSize: CGSize = CGSize(width: 18, height: 18)
-        static let cellWidth: CGFloat = 352
+        static let cellWidth: CGFloat = UIScreen.main.bounds.width - 32
         static let cellHeight: CGFloat = 92
         static let dateFont: Font = .helveticaRegular(size: 12)
         static let imageHeight: CGFloat = 92

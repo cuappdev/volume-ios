@@ -28,7 +28,7 @@ query CheckAccessCode($accessCode: String!, $slug: String!) {
   }
 }
 
-query GetAllOrganizationNames {
+query GetAllOrganizations {
   organizations: getAllOrganizations {
     ...organizationFields
   }

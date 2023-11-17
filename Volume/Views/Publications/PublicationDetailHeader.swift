@@ -101,16 +101,3 @@ struct PublicationDetailHeader: View {
         .padding([.top, .horizontal])
     }
 }
-
-struct MediaText: View {
-    let title: String
-    let url: URL
-
-    var body: some View {
-        Link(title, destination: url)
-            .font(.helveticaRegular(size: 12))
-            .foregroundColor(.volume.orange)
-            .padding(.trailing, 10)
-            .lineLimit(1)
-    }
-}
