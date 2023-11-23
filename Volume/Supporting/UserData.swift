@@ -281,7 +281,7 @@ class UserData: ObservableObject {
         }
 
         if isSaved {
-            cancellables[.bookmarkArticle(article)] = Network.shared.publisher(for: BookmarkArticleMutation(uuid: uuid))
+            cancellables[.bookmarkArticle(article)] = Network.shared.publisher(for: BookmarkArticleMutation(uuid: uuid, articleID: article.id))
                 .sink { completion in
                     if case let .failure(error) = completion {
                         print("Error: BookmarkArticleMutation failed on UserData: \(error.localizedDescription)")
@@ -312,7 +312,7 @@ class UserData: ObservableObject {
 
         if isSaved {
             cancellables[.bookmarkMagazine(magazine)] = Network.shared.publisher(
-                for: BookmarkMagazineMutation(uuid: uuid)
+                for: BookmarkMagazineMutation(uuid: uuid, magazineID: magazine.id)
             )
             .sink { completion in
                 if case let .failure(error) = completion {
@@ -343,7 +343,7 @@ class UserData: ObservableObject {
         }
 
         if isSaved {
-            cancellables[.bookmarkFlyer(flyer)] = Network.shared.publisher(for: BookmarkFlyerMutation(uuid: uuid))
+            cancellables[.bookmarkFlyer(flyer)] = Network.shared.publisher(for: BookmarkFlyerMutation(uuid: uuid, flyerID: flyer.id))
                 .sink { completion in
                     if case let .failure(error) = completion {
                         print("Error: BookmarkFlyerMutation failed on UserData: \(error.localizedDescription)")

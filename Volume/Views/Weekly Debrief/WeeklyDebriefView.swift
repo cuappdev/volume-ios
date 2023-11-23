@@ -66,12 +66,6 @@ struct WeeklyDebriefView: View {
                     number: weeklyDebrief.numShoutouts,
                     rightText: "shout-outs"
                 )
-                StatisticView(
-                    image: .volume.bookmark,
-                    leftText: "bookmarked",
-                    number: weeklyDebrief.numBookmarkedArticles,
-                    rightText: "articles"
-                )
 
                 HStack {
                     Text("Keep up the volume! 📣")

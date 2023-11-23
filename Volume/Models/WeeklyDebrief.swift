@@ -11,7 +11,6 @@ import Foundation
 struct WeeklyDebrief: Codable {
     let creationDate: Date
     let expirationDate: Date
-    let numBookmarkedArticles: Int
     let numReadArticles: Int
     let numShoutouts: Int
     let readArticleIDs: [ArticleID]
@@ -21,7 +20,6 @@ struct WeeklyDebrief: Codable {
     init(from weeklyDebrief: GetWeeklyDebriefQuery.Data.User.WeeklyDebrief) {
         creationDate = Date.from(iso8601: weeklyDebrief.creationDate)
         expirationDate = Date.from(iso8601: weeklyDebrief.expirationDate)
-        numBookmarkedArticles = Int(weeklyDebrief.numBookmarkedArticles)
         numReadArticles = Int(weeklyDebrief.numReadArticles)
         numShoutouts = Int(weeklyDebrief.numShoutouts)
         readArticleIDs = weeklyDebrief.readArticles.map(\.fragments.articleFields.id)

@@ -5,7 +5,6 @@ query GetWeeklyDebrief($uuid:String!) {
             expirationDate
             numReadArticles
             numShoutouts
-            numBookmarkedArticles
             readArticles {
                 ...articleFields
             }
