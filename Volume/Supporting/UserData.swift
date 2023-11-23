@@ -281,17 +281,19 @@ class UserData: ObservableObject {
         }
 
         if isSaved {
-            cancellables[.bookmarkArticle(article)] = Network.shared.publisher(for: BookmarkArticleMutation(uuid: uuid, articleID: article.id))
-                .sink { completion in
-                    if case let .failure(error) = completion {
-                        print("Error: BookmarkArticleMutation failed on UserData: \(error.localizedDescription)")
-                    }
-                    requestInProgress = false
-                } receiveValue: { _ in
-                    if !self.savedArticleIDs.contains(article.id) {
-                        self.savedArticleIDs.insert(article.id, at: 0)
-                    }
+            cancellables[.bookmarkArticle(article)] = Network.shared.publisher(
+                for: BookmarkArticleMutation(uuid: uuid, articleID: article.id)
+            )
+            .sink { completion in
+                if case let .failure(error) = completion {
+                    print("Error: BookmarkArticleMutation failed on UserData: \(error.localizedDescription)")
                 }
+                requestInProgress = false
+            } receiveValue: { _ in
+                if !self.savedArticleIDs.contains(article.id) {
+                    self.savedArticleIDs.insert(article.id, at: 0)
+                }
+            }
         } else {
             requestInProgress = false
             self.savedArticleIDs.removeAll(where: { $0 == article.id })
@@ -343,17 +345,19 @@ class UserData: ObservableObject {
         }
 
         if isSaved {
-            cancellables[.bookmarkFlyer(flyer)] = Network.shared.publisher(for: BookmarkFlyerMutation(uuid: uuid, flyerID: flyer.id))
-                .sink { completion in
-                    if case let .failure(error) = completion {
-                        print("Error: BookmarkFlyerMutation failed on UserData: \(error.localizedDescription)")
-                    }
-                    requestInProgress = false
-                } receiveValue: { _ in
-                    if !self.savedFlyerIDs.contains(flyer.id) {
-                        self.savedFlyerIDs.insert(flyer.id, at: 0)
-                    }
+            cancellables[.bookmarkFlyer(flyer)] = Network.shared.publisher(
+                for: BookmarkFlyerMutation(uuid: uuid, flyerID: flyer.id)
+            )
+            .sink { completion in
+                if case let .failure(error) = completion {
+                    print("Error: BookmarkFlyerMutation failed on UserData: \(error.localizedDescription)")
                 }
+                requestInProgress = false
+            } receiveValue: { _ in
+                if !self.savedFlyerIDs.contains(flyer.id) {
+                    self.savedFlyerIDs.insert(flyer.id, at: 0)
+                }
+            }
         } else {
             requestInProgress = false
             self.savedFlyerIDs.removeAll(where: { $0 == flyer.id })
