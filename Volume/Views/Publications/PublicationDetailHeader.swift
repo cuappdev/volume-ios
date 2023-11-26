@@ -64,12 +64,12 @@ struct PublicationDetailHeader: View {
                     userData.togglePublicationFollowed(publication, $followRequestInProgress)
                     AppDevAnalytics.log(
                         userData.isPublicationFollowed(publication)
-                        ? VolumeEvent.followPublication.toEvent(
+                        ? VolumeEvent.unfollowPublication.toEvent(
                             .publication,
                             value: publication.slug,
                             navigationSource: navigationSource
                         )
-                        : VolumeEvent.unfollowPublication.toEvent(
+                        : VolumeEvent.followPublication.toEvent(
                             .publication,
                             value: publication.slug,
                             navigationSource: navigationSource

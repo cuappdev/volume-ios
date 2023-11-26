@@ -82,12 +82,12 @@ struct OrganizationDetailHeader: View {
 
             AppDevAnalytics.log(
                 userData.isOrganizationFollowed(organization)
-                ? VolumeEvent.followOrganization.toEvent(
+                ? VolumeEvent.unfollowOrganization.toEvent(
                     .organization,
                     value: organization.slug,
                     navigationSource: navigationSource
                 )
-                : VolumeEvent.unfollowOrganization.toEvent(
+                : VolumeEvent.followOrganization.toEvent(
                     .organization,
                     value: organization.slug,
                     navigationSource: navigationSource
