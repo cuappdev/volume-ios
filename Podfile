@@ -13,6 +13,7 @@ target 'Volume' do
   pod 'Apollo'
   pod 'AppDevAnalytics', :git => 'https://github.com/cuappdev/analytics-ios.git', :commit => '5d459c0475'
   pod 'AppDevAnnouncements', :git => 'https://github.com/cuappdev/appdev-announcements.git'
+  pod 'Firebase/Crashlytics'
   pod 'Firebase/Messaging'
   pod 'lottie-ios'
   pod 'SDWebImageSwiftUI'

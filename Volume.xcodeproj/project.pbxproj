@@ -88,6 +88,8 @@
 		2EC811EC2AC6875500ED1ACC /* OrgsLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC811EB2AC6875500ED1ACC /* OrgsLoginView.swift */; };
 		2EC811EE2AC6B20600ED1ACC /* OrgsLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC811ED2AC6B20600ED1ACC /* OrgsLoginViewModel.swift */; };
 		2EE2FA66B7CA5419A27F3812 /* Pods_VolumeWidgetExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2509BAEF6B2AABDAFE25F568 /* Pods_VolumeWidgetExtension.framework */; };
+		2EE3DF772B07ED280084FE12 /* WidgetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE3DF762B07EC8C0084FE12 /* WidgetViewModel.swift */; };
+		2EE3DF792B07EDF40084FE12 /* WidgetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE3DF762B07EC8C0084FE12 /* WidgetViewModel.swift */; };
 		2EE8411F2A2EA0DE00691BB7 /* FlyersSupporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE8411E2A2EA0DE00691BB7 /* FlyersSupporting.swift */; };
 		2EF114D42B05FD5C007AD8F9 /* WidgetImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF114D32B05FD5C007AD8F9 /* WidgetImage.swift */; };
 		2EF114D52B05FDE5007AD8F9 /* WidgetImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF114D32B05FD5C007AD8F9 /* WidgetImage.swift */; };
@@ -293,6 +295,7 @@
 		2EC811EB2AC6875500ED1ACC /* OrgsLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgsLoginView.swift; sourceTree = "<group>"; };
 		2EC811ED2AC6B20600ED1ACC /* OrgsLoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgsLoginViewModel.swift; sourceTree = "<group>"; };
 		2EE2078B2AB41984009A8ED3 /* ci_post_clone.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_clone.sh; sourceTree = "<group>"; };
+		2EE3DF762B07EC8C0084FE12 /* WidgetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetViewModel.swift; sourceTree = "<group>"; };
 		2EE8411E2A2EA0DE00691BB7 /* FlyersSupporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyersSupporting.swift; sourceTree = "<group>"; };
 		2EF114D32B05FD5C007AD8F9 /* WidgetImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetImage.swift; sourceTree = "<group>"; };
 		2EF894B32A1E9DCF001DD2A1 /* FlyerQueries.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FlyerQueries.graphql; sourceTree = "<group>"; };
@@ -477,6 +480,7 @@
 				2EFA7ED62B00BB7A00E82ABE /* FlyerWidget */,
 				2E0B00CE2B00633D00CFC6EA /* VolumeWidgetBundle.swift */,
 				2EF114D32B05FD5C007AD8F9 /* WidgetImage.swift */,
+				2EE3DF762B07EC8C0084FE12 /* WidgetViewModel.swift */,
 				2EFA7EDF2B00BD3300E82ABE /* Widget+Extension.swift */,
 				2E0B00D42B00633F00CFC6EA /* Assets.xcassets */,
 				2E0B00D62B00633F00CFC6EA /* Info.plist */,
@@ -1055,6 +1059,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EE3DF772B07ED280084FE12 /* WidgetViewModel.swift in Sources */,
 				2EF114D52B05FDE5007AD8F9 /* WidgetImage.swift in Sources */,
 				2E9216392B05D9C700400C1D /* FlyerWidgetIntent.swift in Sources */,
 				2EFA7EE62B00BDA900E82ABE /* Flyer.swift in Sources */,
@@ -1084,6 +1089,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EE3DF792B07EDF40084FE12 /* WidgetViewModel.swift in Sources */,
 				06B80D13257DC18600F3BF9B /* WebImage+Extension.swift in Sources */,
 				2E6C36132AF5FF45004A54BB /* OrgsAdminViewModel.swift in Sources */,
 				2E6A7D7129DAB2AB002F5250 /* FlyersViewModel.swift in Sources */,

@@ -36,10 +36,11 @@ struct WidgetOrganizationQuery: EntityStringQuery {
 
     func entities(matching string: String) async throws -> [WidgetOrganization] {
         await withCheckedContinuation { continuation in
-            fetchOrganizationNames { organizations in
+            WidgetViewModel.shared.fetchOrganizationNames { organizations in
                 let organizations = organizations.filter {
                     $0.name.lowercased().hasPrefix(string.lowercased())
                 }
+
                 let widgetOrgs = organizations.map { org in
                     WidgetOrganization(id: org.name, organization: org)
                 }
@@ -51,7 +52,7 @@ struct WidgetOrganizationQuery: EntityStringQuery {
 
     func entities(for identifiers: [WidgetOrganization.ID]) async throws -> [WidgetOrganization] {
         await withCheckedContinuation { continuation in
-            fetchOrganizationNames { organizations in
+            WidgetViewModel.shared.fetchOrganizationNames { organizations in
                 let widgetOrgs = organizations.map { org in
                     WidgetOrganization(id: org.name, organization: org)
                 }
@@ -63,7 +64,7 @@ struct WidgetOrganizationQuery: EntityStringQuery {
 
     func suggestedEntities() async throws -> [WidgetOrganization] {
         await withCheckedContinuation { continuation in
-            fetchOrganizationNames { organizations in
+            WidgetViewModel.shared.fetchOrganizationNames { organizations in
                 let widgetOrgs = organizations.map { org in
                     WidgetOrganization(id: org.name, organization: org)
                 }
@@ -75,7 +76,7 @@ struct WidgetOrganizationQuery: EntityStringQuery {
 
     func defaultResult() async -> WidgetOrganization? {
         await withCheckedContinuation { continuation in
-            fetchOrganizationNames { organizations in
+            WidgetViewModel.shared.fetchOrganizationNames { organizations in
                 guard let org = organizations.first(where: { $0.slug == "appdev" }) else { return }
 
                 let widgetOrg = WidgetOrganization(id: org.name, organization: org)

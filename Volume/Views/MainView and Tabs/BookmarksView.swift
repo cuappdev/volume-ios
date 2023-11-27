@@ -109,12 +109,16 @@ struct BookmarksView: View {
                let pastFlyers = viewModel.pastFlyers {
 
                 if pastFlyers.isEmpty && upcomingFlyers.isEmpty {
+                    // No past and upcoming
                     noSavedContentView
                 } else if pastFlyers.isEmpty {
+                    // No past only
                     flyerSection(.upcoming)
                 } else if upcomingFlyers.isEmpty {
+                    // No upcoming only
                     flyerSection(.past)
                 } else {
+                    // Both upcoming and past
                     flyerSection(.upcoming)
                     flyerSection(.past)
                 }

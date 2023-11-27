@@ -32,8 +32,7 @@ struct FlyerWidgetView: View {
 
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    // swiftlint:disable:next line_length
-                    Text("\(entry.flyer.startDate.simpleString) ∙ \(entry.flyer.startDate.flyerTimeString) - \(entry.flyer.endDate.flyerTimeString)")
+                    Text(formatFlyerWidgetDate(for: entry.flyer))
                         .font(.newYorkRegular(size: 12))
                         .lineLimit(1)
 
@@ -76,6 +75,12 @@ struct FlyerWidgetView: View {
                 .opacity(0.8)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    // MARK: - Helpers
+
+    private func formatFlyerWidgetDate(for flyer: Flyer) -> String {
+        "\(flyer.startDate.simpleString) ∙ \(flyer.startDate.flyerTimeString) - \(flyer.endDate.flyerTimeString)"
     }
 
 }

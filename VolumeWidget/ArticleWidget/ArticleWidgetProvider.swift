@@ -11,14 +11,6 @@ import WidgetKit
 
 struct ArticleWidgetProvider: TimelineProvider {
 
-    // MARK: - Properties
-
-    private let articlesLimit: Double = 4
-
-    class ProviderCancellable {
-        static var queryBag = Set<AnyCancellable>()
-    }
-
     // MARK: - TimelineProvider Methods
 
     /// Provides an Article entry representing a placeholder version of the Article widget.
@@ -34,36 +26,19 @@ struct ArticleWidgetProvider: TimelineProvider {
 
     /// Provides an array of Article entries for the current time and any future times to update the Article widget.
     func getTimeline(in context: Context, completion: @escaping (Timeline<ArticleEntry>) -> Void) {
-        fetchTrendingArticles { articles in
+        WidgetViewModel.shared.fetchTrendingArticles { articles in
             var entries: [ArticleEntry] = []
 
             // Generate a timeline with at most 4 entries every hour
             for hourOffset in 0..<articles.count {
-                let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: .now)
-                let entry = ArticleEntry(date: entryDate!, article: articles[hourOffset])
+                let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: .now)!
+                let entry = ArticleEntry(date: entryDate, article: articles[hourOffset])
                 entries.append(entry)
             }
 
             let timeline = Timeline(entries: entries, policy: .atEnd)
             completion(timeline)
         }
-    }
-
-    // MARK: - Network Requests
-
-    private func fetchTrendingArticles(completion: @escaping ([Article]) -> Void) {
-        Network.shared.publisher(for: GetTrendingArticlesQuery(limit: articlesLimit))
-            .compactMap { $0.articles.map(\.fragments.articleFields) }
-            .sink { completion in
-                if case let .failure(error) = completion {
-                    print("Error: GetTrendingArticlesQuery failed in ArticleWidgetProvider: \(error)")
-                }
-            } receiveValue: { articleFields in
-                var articles = [Article](articleFields)
-                articles = articles.sorted { $0.date < $1.date }
-                completion(articles)
-            }
-            .store(in: &ProviderCancellable.queryBag)
     }
 
 }
