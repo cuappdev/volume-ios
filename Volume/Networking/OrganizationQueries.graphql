@@ -4,6 +4,7 @@ fragment organizationFields on Organization {
   bio
   categorySlug
   name
+  numFlyers
   profileImageURL
   slug
   shoutouts

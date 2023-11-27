@@ -55,8 +55,7 @@ struct OrganizationDetailHeader: View {
                 followButton
             }
 
-            // TODO: Wait till backend creates a metric for num flyers
-            Text("\(3) events  •  \(3) upcoming events")
+            Text("\(organization.numFlyers) events")
                 .font(.helveticaRegular(size: 12))
                 .foregroundColor(Color(white: 151 / 255))
 
