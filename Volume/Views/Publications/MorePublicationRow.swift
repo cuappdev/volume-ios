@@ -1,5 +1,5 @@
 //
-//  PublicationRow.swift
+//  MorePublicationRow.swift
 //  Volume
 //
 //  Created by Cameron Russell on 10/29/20.
@@ -12,6 +12,7 @@ import SwiftUI
 
 /// `MorePublicationRow` displays the basis information about a publications the user is not currently following
 struct MorePublicationRow: View {
+
     @EnvironmentObject private var userData: UserData
     @State private var followRequestInProgress = false
 
@@ -67,11 +68,11 @@ struct MorePublicationRow: View {
                     userData.togglePublicationFollowed(publication, $followRequestInProgress)
                     AppDevAnalytics.log(
                         userData.isPublicationFollowed(publication)
-                        ? VolumeEvent.followPublication.toEvent(
+                        ? VolumeEvent.unfollowPublication.toEvent(
                             .publication,
                             value: publication.slug,
                             navigationSource: navigationSource
-                        ) : VolumeEvent.unfollowPublication.toEvent(
+                        ) : VolumeEvent.followPublication.toEvent(
                             .publication,
                             value: publication.slug,
                             navigationSource: navigationSource
@@ -88,6 +89,7 @@ struct MorePublicationRow: View {
 }
 
 extension MorePublicationRow {
+
     struct Skeleton: View {
         var body: some View {
             HStack(alignment: .top) {
@@ -122,10 +124,12 @@ extension MorePublicationRow {
                 SkeletonView()
                     .frame(width: 24, height: 24)
                     .cornerRadius(8)
-            }.padding([.leading, .trailing])
-                .shimmer(.smallShimmer())
+            }
+            .padding([.leading, .trailing])
+            .shimmer(.smallShimmer())
         }
     }
+
 }
 
 //struct MorePublicationRow_Previews: PreviewProvider {

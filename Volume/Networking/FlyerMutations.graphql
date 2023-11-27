@@ -1,5 +1,5 @@
-mutation BookmarkFlyer($uuid: String!) {
-  bookmarkArticle(uuid: $uuid) {
+mutation BookmarkFlyer($uuid: String!, $flyerID: String!) {
+  bookmarkFlyer(uuid: $uuid, flyerID: $flyerID) {
     id
   }
 }

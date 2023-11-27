@@ -14,6 +14,7 @@ struct MainView: View {
 
     @State private var offset: CGFloat = 0
     @State private var selectedTab: Screen = .trending
+    @State private var showOrganization: Bool = false
     @State private var showPublication: Bool = false
     @State private var tabBarHeight: CGFloat = UIScreen.main.bounds.height * 0.10
     @EnvironmentObject private var notifications: Notifications
@@ -26,12 +27,12 @@ struct MainView: View {
             .tag(Screen.trending)
 
             TabContainer(screen: .flyers) {
-                FlyersView()
+                FlyersView(showHamburger: $showOrganization)
             }
             .tag(Screen.flyers)
 
             TabContainer(screen: .reads) {
-                ReadsView(showPublication: $showPublication)
+                ReadsView(showHamburger: $showPublication)
             }
             .tag(Screen.reads)
 
@@ -110,17 +111,30 @@ struct MainView: View {
                             .ignoresSafeArea(.all)
                             .contentShape(Rectangle())
                             .onTapGesture {
-                                withAnimation { showPublication.toggle() }
+                                withAnimation {
+                                    showOrganization ? (showOrganization = false) : nil
+                                    showPublication ? (showPublication = false) : nil
+                                }
                             }
 
                         Rectangle()
                             .frame(width: geometry.size.width * 0.8)
                             .shadow(radius: 10)
 
-                        PublicationList(showPublication: $showPublication)
-                            .frame(width: geometry.size.width * 0.8)
+                        switch selectedTab {
+                        case .flyers:
+                            OrganizationList()
+                                .frame(width: geometry.size.width * 0.8)
+                        case .reads:
+                            PublicationList()
+                                .frame(width: geometry.size.width * 0.8)
+                        default:
+                            EmptyView()
+                        }
+
                     }
-                    .offset(x: showPublication ? offset : UIScreen.main.bounds.width)
+                    .offset(x: (showOrganization || showPublication) ? offset : UIScreen.main.bounds.width)
+                    .animation(.spring(), value: showOrganization)
                     .animation(.spring(), value: showPublication)
                     .gesture(
                         DragGesture()
@@ -131,7 +145,8 @@ struct MainView: View {
                             }
                             .onEnded { _ in
                                 if offset > 125 {
-                                    showPublication = false
+                                    showPublication ? showPublication = false : nil
+                                    showOrganization ? showOrganization = false : nil
                                 }
                                 withAnimation { offset = 0 }
                             }
@@ -178,7 +193,7 @@ struct MainView: View {
 extension MainView {
     /// An enum to keep track of which tab the user is currently on
     private enum Screen {
-        case trending, flyers, reads, publications, bookmarks, weeklyDebriefPopup
+        case trending, flyers, reads, bookmarks, weeklyDebriefPopup
     }
 
     enum TabState<Results> {

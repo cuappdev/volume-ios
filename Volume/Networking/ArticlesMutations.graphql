@@ -10,8 +10,8 @@ mutation ReadArticle($id: String!, $uuid: String!) {
   }
 }
 
-mutation BookmarkArticle($uuid: String!) {
-  bookmarkArticle(uuid: $uuid) {
+mutation BookmarkArticle($uuid: String!, $articleID: String!) {
+  bookmarkArticle(uuid: $uuid, articleID: $articleID) {
     id
   }
 }

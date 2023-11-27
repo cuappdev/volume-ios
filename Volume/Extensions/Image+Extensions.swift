@@ -28,6 +28,7 @@ extension Image {
         let follow = Image("follow")
         let followed = Image("followed")
         let info = Image("info")
+        let insta = Image("insta")
         let leftArrow = Image("left-arrow")
         let link = Image(systemName: "link")
         let location = Image("location")

@@ -16,10 +16,17 @@ struct BookmarksView: View {
     @EnvironmentObject private var userData: UserData
     @StateObject private var viewModel = ViewModel()
 
+    enum FlyerSection {
+        case past
+        case upcoming
+    }
+
     // MARK: - Constants
 
     private struct Constants {
         static let articlesTabWidth: CGFloat = 80
+        static let dropdownWidth: CGFloat = 128
+        static let flyerSpacing: CGFloat = 16
         static let flyersTabWidth: CGFloat = 70
         static let magazinesTabWidth: CGFloat = 110
         static let noSavedMessageLength: CGFloat = 250
@@ -97,31 +104,82 @@ struct BookmarksView: View {
     // MARK: - Sections
 
     private var flyerContent: some View {
-        Group {
-            if viewModel.hasSavedFlyers {
-                switch viewModel.flyers {
+        VStack {
+            if let upcomingFlyers = viewModel.upcomingFlyers,
+               let pastFlyers = viewModel.pastFlyers {
+
+                if pastFlyers.isEmpty && upcomingFlyers.isEmpty {
+                    // No past and upcoming
+                    noSavedContentView
+                } else if pastFlyers.isEmpty {
+                    // No past only
+                    flyerSection(.upcoming)
+                } else if upcomingFlyers.isEmpty {
+                    // No upcoming only
+                    flyerSection(.past)
+                } else {
+                    // Both upcoming and past
+                    flyerSection(.upcoming)
+                    flyerSection(.past)
+                }
+            }
+        }
+    }
+
+    private func flyerSection(_ flyerSection: FlyerSection) -> some View {
+        Section {
+            let selectedFlyers = (flyerSection == .upcoming) ? viewModel.upcomingFlyers : viewModel.pastFlyers
+
+            Group {
+                switch selectedFlyers {
                 case .none:
                     ForEach(0..<4) { _ in
                         FlyerCellPast.Skeleton()
-                            .padding(.bottom, 16)
                     }
                 case .some(let flyers):
                     ForEach(flyers) { flyer in
-                        if let urlString = flyer.imageUrl?.absoluteString {
-                            FlyerCellPast(
-                                flyer: flyer,
-                                navigationSource: .bookmarkFlyers,
-                                urlImageModel: URLImageModel(urlString: urlString),
-                                viewModel: FlyersView.ViewModel()
-                            )
-                        }
+                        FlyerCellPast(
+                            flyer: flyer,
+                            navigationSource: .bookmarkFlyers,
+                            urlImageModel: URLImageModel(urlString: flyer.imageUrl?.absoluteString ?? ""),
+                            viewModel: FlyersView.ViewModel()
+                        )
                     }
                 }
-            } else {
-                noSavedContentView
             }
+            .padding(.bottom, Constants.flyerSpacing)
+        } header: {
+            flyerSectionHeader(for: flyerSection)
+        }
+        .onChange(of: viewModel.selectedUpcomingCategory) { _ in
+            viewModel.filterUpcoming()
+        }
+        .onChange(of: viewModel.selectedPastCategory) { _ in
+            viewModel.filterPast()
         }
         .padding(.horizontal, Constants.sidePadding)
+    }
+
+    private func flyerSectionHeader(for flyerSection: FlyerSection) -> some View {
+        HStack {
+            Header(flyerSection == .upcoming ? "Upcoming" : "Past Flyers")
+
+            Spacer()
+
+            CategoryDropdown(
+                categories: flyerSection == .upcoming
+                    ? viewModel.upcomingCategories
+                    : viewModel.pastCategories,
+                defaultSelected: ViewModel.Constants.defaultCategory,
+                selected: flyerSection == .upcoming
+                    ? $viewModel.selectedUpcomingCategory
+                    : $viewModel.selectedPastCategory
+            )
+            .frame(maxWidth: Constants.dropdownWidth)
+        }
+        .padding(.bottom, 4)
+        .foregroundStyle(.black)
+        .textCase(nil)
     }
 
     private var articleContent: some View {

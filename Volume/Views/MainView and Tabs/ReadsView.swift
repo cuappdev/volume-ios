@@ -12,7 +12,7 @@ struct ReadsView: View {
 
     // MARK: - Properties
 
-    @Binding var showPublication: Bool
+    @Binding var showHamburger: Bool
     @StateObject private var viewModel = ViewModel()
 
     let navBarAppearance: UINavigationBarAppearance = {
@@ -62,7 +62,7 @@ struct ReadsView: View {
                         .onTapGesture {
                             Haptics.shared.play(.light)
                             withAnimation(.spring()) {
-                                showPublication.toggle()
+                                showHamburger.toggle()
                             }
                         }
 

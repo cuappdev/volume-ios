@@ -22,6 +22,7 @@ class UserData: ObservableObject {
     private let isFirstLaunchKey = "isFirstLaunch"
     private let magazineShoutoutsKey = "magazineShoutoutsCounter"
     private let magazinesKey = "savedMagazineIds"
+    private let organizationsKey = "savedOrganizationSlugs"
     private let publicationsKey = "savedPublicationSlugs"
     private let recentSearchesKey = "recentSearchQueries"
     private let userUUIDKey = "userUUID"
@@ -47,6 +48,13 @@ class UserData: ObservableObject {
     @Published private(set) var followedPublicationSlugs: [String] = [] {
         willSet {
             UserDefaults.standard.setValue(newValue, forKey: publicationsKey)
+            self.objectWillChange.send()
+        }
+    }
+
+    @Published private(set) var followedOrganizationSlugs: [String] = [] {
+        willSet {
+            UserDefaults.standard.setValue(newValue, forKey: organizationsKey)
             self.objectWillChange.send()
         }
     }
@@ -133,6 +141,10 @@ class UserData: ObservableObject {
             followedPublicationSlugs = slugs
         }
 
+        if let slugs = UserDefaults.standard.object(forKey: organizationsKey) as? [String] {
+            followedOrganizationSlugs = slugs
+        }
+
         if let shoutoutsCounter = UserDefaults.standard.object(forKey: articleShoutoutsKey) as? [String: Int] {
             articleShoutoutsCounter = shoutoutsCounter
         }
@@ -178,6 +190,10 @@ class UserData: ObservableObject {
         followedPublicationSlugs.contains(publication.slug)
     }
 
+    func isOrganizationFollowed(_ organization: Organization) -> Bool {
+        followedOrganizationSlugs.contains(organization.slug)
+    }
+
     func toggleArticleSaved(_ article: Article, _ bookmarkRequestInProgress: Binding<Bool>) {
         Task {
             await set(
@@ -209,6 +225,16 @@ class UserData: ObservableObject {
             await set(
                 publication: publication,
                 isFollowed: !isPublicationFollowed(publication),
+                followRequestInProgress: followRequestInProgress
+            )
+        }
+    }
+
+    func toggleOrganizationFollowed(_ organization: Organization, _ followRequestInProgress: Binding<Bool>) {
+        Task {
+            await set(
+                organization: organization,
+                isFollowed: !isOrganizationFollowed(organization),
                 followRequestInProgress: followRequestInProgress
             )
         }
@@ -255,17 +281,19 @@ class UserData: ObservableObject {
         }
 
         if isSaved {
-            cancellables[.bookmarkArticle(article)] = Network.shared.publisher(for: BookmarkArticleMutation(uuid: uuid))
-                .sink { completion in
-                    if case let .failure(error) = completion {
-                        print("Error: BookmarkArticleMutation failed on UserData: \(error.localizedDescription)")
-                    }
-                    requestInProgress = false
-                } receiveValue: { _ in
-                    if !self.savedArticleIDs.contains(article.id) {
-                        self.savedArticleIDs.insert(article.id, at: 0)
-                    }
+            cancellables[.bookmarkArticle(article)] = Network.shared.publisher(
+                for: BookmarkArticleMutation(uuid: uuid, articleID: article.id)
+            )
+            .sink { completion in
+                if case let .failure(error) = completion {
+                    print("Error: BookmarkArticleMutation failed on UserData: \(error.localizedDescription)")
                 }
+                requestInProgress = false
+            } receiveValue: { _ in
+                if !self.savedArticleIDs.contains(article.id) {
+                    self.savedArticleIDs.insert(article.id, at: 0)
+                }
+            }
         } else {
             requestInProgress = false
             self.savedArticleIDs.removeAll(where: { $0 == article.id })
@@ -286,7 +314,7 @@ class UserData: ObservableObject {
 
         if isSaved {
             cancellables[.bookmarkMagazine(magazine)] = Network.shared.publisher(
-                for: BookmarkMagazineMutation(uuid: uuid)
+                for: BookmarkMagazineMutation(uuid: uuid, magazineID: magazine.id)
             )
             .sink { completion in
                 if case let .failure(error) = completion {
@@ -317,17 +345,19 @@ class UserData: ObservableObject {
         }
 
         if isSaved {
-            cancellables[.bookmarkFlyer(flyer)] = Network.shared.publisher(for: BookmarkFlyerMutation(uuid: uuid))
-                .sink { completion in
-                    if case let .failure(error) = completion {
-                        print("Error: BookmarkFlyerMutation failed on UserData: \(error.localizedDescription)")
-                    }
-                    requestInProgress = false
-                } receiveValue: { _ in
-                    if !self.savedFlyerIDs.contains(flyer.id) {
-                        self.savedFlyerIDs.insert(flyer.id, at: 0)
-                    }
+            cancellables[.bookmarkFlyer(flyer)] = Network.shared.publisher(
+                for: BookmarkFlyerMutation(uuid: uuid, flyerID: flyer.id)
+            )
+            .sink { completion in
+                if case let .failure(error) = completion {
+                    print("Error: BookmarkFlyerMutation failed on UserData: \(error.localizedDescription)")
                 }
+                requestInProgress = false
+            } receiveValue: { _ in
+                if !self.savedFlyerIDs.contains(flyer.id) {
+                    self.savedFlyerIDs.insert(flyer.id, at: 0)
+                }
+            }
         } else {
             requestInProgress = false
             self.savedFlyerIDs.removeAll(where: { $0 == flyer.id })
@@ -353,7 +383,7 @@ class UserData: ObservableObject {
 
         if isFollowed {
             let followMutation = FollowPublicationMutation(slug: publication.slug, uuid: uuid)
-            cancellables[.follow(publication)] = Network.shared.publisher(for: followMutation)
+            cancellables[.followPublication(publication)] = Network.shared.publisher(for: followMutation)
                 .sink { completion in
                     if case let .failure(error) = completion {
                         print("Error: FollowPublicationMutation failed on UserData: \(error.localizedDescription)")
@@ -367,7 +397,7 @@ class UserData: ObservableObject {
 
         } else {
             let unfollowMutation = UnfollowPublicationMutation(slug: publication.slug, uuid: uuid)
-            cancellables[.unfollow(publication)] = Network.shared.publisher(for: unfollowMutation)
+            cancellables[.unfollowPublication(publication)] = Network.shared.publisher(for: unfollowMutation)
                 .sink { completion in
                     if case let .failure(error) = completion {
                         print("Error: UnfollowPublicationMutation failed on UserData: \(error.localizedDescription)")
@@ -378,14 +408,64 @@ class UserData: ObservableObject {
                 }
         }
     }
+
+    func set(organization: Organization, isFollowed: Bool, followRequestInProgress: Binding<Bool>) async {
+        @Binding var requestInProgress: Bool
+        _requestInProgress = followRequestInProgress
+
+        guard let uuid = uuid else {
+            // User has not finished onboarding
+            if isFollowed {
+                if !self.followedOrganizationSlugs.contains(organization.slug) {
+                    self.followedOrganizationSlugs.insert(organization.slug, at: 0)
+                }
+            } else {
+                self.followedOrganizationSlugs.removeAll(where: { $0 == organization.slug })
+            }
+            requestInProgress = false
+            return
+        }
+
+        if isFollowed {
+            let followMutation = FollowOrganizationMutation(slug: organization.slug, uuid: uuid)
+            cancellables[.followOrganization(organization)] = Network.shared.publisher(for: followMutation)
+                .sink { completion in
+                    if case let .failure(error) = completion {
+                        print("Error: FollowOrganizationMutation failed on UserData: \(error.localizedDescription)")
+                    }
+                    requestInProgress = false
+                } receiveValue: { _ in
+                    if !self.followedOrganizationSlugs.contains(organization.slug) {
+                        self.followedOrganizationSlugs.insert(organization.slug, at: 0)
+                    }
+                }
+
+        } else {
+            let unfollowMutation = UnfollowOrganizationMutation(slug: organization.slug, uuid: uuid)
+            cancellables[.unfollowOrganization(organization)] = Network.shared.publisher(for: unfollowMutation)
+                .sink { completion in
+                    if case let .failure(error) = completion {
+                        print("Error: UnfollowOrganizationMutation failed on UserData: \(error.localizedDescription)")
+                    }
+                    requestInProgress = false
+                } receiveValue: { _ in
+                    self.followedOrganizationSlugs.removeAll(where: { $0 == organization.slug })
+                }
+        }
+    }
+
 }
 
 extension UserData {
+
     private enum Mutation: Hashable {
-        case follow(Publication)
-        case unfollow(Publication)
+        case followPublication(Publication)
+        case unfollowPublication(Publication)
+        case followOrganization(Organization)
+        case unfollowOrganization(Organization)
         case bookmarkArticle(Article)
         case bookmarkMagazine(Magazine)
         case bookmarkFlyer(Flyer)
     }
+
 }

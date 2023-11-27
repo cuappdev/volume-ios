@@ -12,6 +12,8 @@ struct FlyersView: View {
 
     // MARK: - Properties
 
+    @Binding var showHamburger: Bool
+
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
     @StateObject private var viewModel = ViewModel()
@@ -25,7 +27,6 @@ struct FlyersView: View {
         static let dailyImageSize: CGSize = CGSize(width: 340, height: 340)
         static let dropdownWidth: CGFloat = 128
         static let endMessageWidth: CGFloat = 250
-        static let gridRows: Array = Array(repeating: GridItem(.flexible()), count: 3)
         static let listHorizontalPadding: CGFloat = 16
         static let rowVerticalPadding: CGFloat = 6
         static let spacing: CGFloat = 16
@@ -56,7 +57,22 @@ struct FlyersView: View {
     private var listContent: some View {
         List {
             Group {
-                searchBar
+                HStack {
+                    searchBar
+
+                    Spacer()
+
+                    HamburgerMenuView()
+                        .onTapGesture {
+                            Haptics.shared.play(.light)
+                            withAnimation(.spring()) {
+                                showHamburger.toggle()
+                            }
+                        }
+
+                    Spacer()
+                    Spacer()
+                }
                 if let flyers = viewModel.dailyFlyers {
                     !flyers.isEmpty ? todaySection : nil
                 }

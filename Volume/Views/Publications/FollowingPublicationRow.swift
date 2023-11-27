@@ -1,5 +1,5 @@
 //
-//  PublicationRow.swift
+//  FollowingPublicationRow.swift
 //  Volume
 //
 //  Created by Cameron Russell on 10/29/20.

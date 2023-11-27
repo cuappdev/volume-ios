@@ -86,7 +86,7 @@ extension PublicationContentView {
             )
             .map { $0.articles.map(\.fragments.articleFields) }
             .sink { [weak self] completion in
-                self?.networkState?.handleCompletion(screen: .publications, completion)
+                self?.networkState?.handleCompletion(screen: .reads, completion)
             } receiveValue: { [weak self] articleFields in
                 let newArticles = [Article](articleFields.sorted { $0.date > $1.date })
 

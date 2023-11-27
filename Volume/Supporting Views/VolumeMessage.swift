@@ -14,9 +14,11 @@ enum Message {
     case noBookmarkedFlyers
     case noBookmarkedMagazines
     case noFlyersOrgAdmin
+    case noFlyersOrgDetail
     case noFlyersPast
     case noFlyersUpcoming
     case noFollowingHome
+    case noFollowingOrganizations
     case noFollowingPublications
     case noSearchResults
     case upToDateArticles
@@ -26,33 +28,37 @@ enum Message {
         switch self {
         case .noBookmarkedArticles, .noBookmarkedMagazines, .noFollowingHome, .noSearchResults, .noBookmarkedFlyers:
             return "Nothing to see here!"
+        case .noFollowingOrganizations:
+            return "No followed organizations."
         case .noFollowingPublications:
-            return "No Followed Publications"
+            return "No followed publications."
         case .upToDateArticles:
             return "You're up to date!"
         case .upToDateFlyers:
             return "Are you an organization?"
         case .noFlyersPast:
-            return "No past flyers"
+            return "No past flyers."
         case .noFlyersUpcoming:
-            return "No upcoming flyers for this category"
+            return "No upcoming flyers for this category."
         case .noFlyersOrgAdmin:
-            return "No flyers to display"
+            return "No flyers to display."
+        case .noFlyersOrgDetail:
+            return "There's nothing here."
         }
     }
 
     var subtitle: String {
         switch self {
         case .noBookmarkedFlyers:
-            return "You have no saved flyers"
+            return "You have no saved flyers for this section."
         case .noBookmarkedArticles:
-            return "You have no saved articles"
+            return "You have no saved articles."
         case .noBookmarkedMagazines:
-            return "You have no saved magazines"
+            return "You have no saved magazines."
         case .noFollowingHome:
-            return "Follow some student publications that you are interested in"
-        case .noFollowingPublications:
-            return "Follow some below and we'll display them here"
+            return "Follow some student publications that you are interested in."
+        case .noFollowingOrganizations, .noFollowingPublications:
+            return "Follow some below and we'll display them here."
         case .upToDateArticles:
             return "You've seen all new articles from the publications you're following."
         case .noSearchResults:
@@ -60,7 +66,9 @@ enum Message {
         case .upToDateFlyers, .noFlyersPast, .noFlyersUpcoming:
             return "If you want to see your organization’s events on Volume, email us at volumeappdev@gmail.com."
         case .noFlyersOrgAdmin:
-            return "Upload a flyer by above to see them displayed here"
+            return "Upload a flyer above to see them displayed here."
+        case .noFlyersOrgDetail:
+            return "It seems like this organization hasn’t published any flyers yet."
         }
     }
 

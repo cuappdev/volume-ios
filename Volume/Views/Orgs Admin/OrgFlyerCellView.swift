@@ -32,17 +32,48 @@ struct OrgFlyerCellView: View {
     // MARK: - UI
 
     var body: some View {
-        HStack(alignment: .top, spacing: Constants.horizontalSpacing) {
-            imageFrame
-
-            VStack(alignment: .leading, spacing: 8) {
-                organizationName
-                flyerTitle
-                flyerDate
-                flyerLocation
-            }
+        if let url = flyer.flyerUrl {
+            cellLinkView(url: url)
+        } else {
+            cellNoLinkView
         }
-        .padding(.bottom, 16)
+    }
+
+    private func cellLinkView(url: URL) -> some View {
+        ZStack(alignment: .topTrailing) {
+            Link(destination: url) {
+                HStack(alignment: .top, spacing: Constants.horizontalSpacing) {
+                    imageFrame
+
+                    VStack(alignment: .leading, spacing: 8) {
+                        organizationName
+                        flyerTitle
+                        flyerDate
+                        flyerLocation
+                    }
+                }
+            }
+            .buttonStyle(EmptyButtonStyle())
+
+            tripleDotsButton
+        }
+    }
+
+    private var cellNoLinkView: some View {
+        ZStack(alignment: .topTrailing) {
+            HStack(alignment: .top, spacing: Constants.horizontalSpacing) {
+                imageFrame
+
+                VStack(alignment: .leading, spacing: 8) {
+                    organizationName
+                    flyerTitle
+                    flyerDate
+                    flyerLocation
+                }
+            }
+
+            tripleDotsButton
+        }
     }
 
     private var imageFrame: some View {
@@ -68,8 +99,6 @@ struct OrgFlyerCellView: View {
                 .lineLimit(2)
 
             Spacer()
-
-            tripleDotsButton
         }
         .padding(.bottom, -Constants.verticalSpacing)
     }
@@ -94,7 +123,7 @@ struct OrgFlyerCellView: View {
                         .frame(width: Constants.circleSize, height: Constants.circleSize)
                 }
             }
-            .padding(EdgeInsets(top: 6, leading: 8, bottom: 6, trailing: 8))
+            .padding(EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 0))
         }
         .confirmationDialog(
             "Removing a flyer will delete it from Volume’s feed.",

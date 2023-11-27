@@ -19,9 +19,19 @@
 		06B80D13257DC18600F3BF9B /* WebImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B80D12257DC18600F3BF9B /* WebImage+Extension.swift */; };
 		06DBC684257DE35F00B6A453 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DBC683257DE35F00B6A453 /* UserData.swift */; };
 		06EC2D24259CED0500FE0A71 /* PublicationDetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EC2D23259CED0500FE0A71 /* PublicationDetailHeader.swift */; };
-		2B90359FBF290B2523E30D3D /* Pods_Volume.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B914088E2630133CD59D961C /* Pods_Volume.framework */; };
+		2C79A37F0C96B477E7E75D03 /* Pods_Volume.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99591EEE9A4D2C4088BD70B6 /* Pods_Volume.framework */; };
 		2E05005B29C65B82001B4131 /* MagazinesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E05005A29C65B82001B4131 /* MagazinesViewModel.swift */; };
 		2E05005D29C66999001B4131 /* MagazinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E05005C29C66999001B4131 /* MagazinesView.swift */; };
+		2E0B00CA2B00633C00CFC6EA /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E0B00C92B00633C00CFC6EA /* WidgetKit.framework */; };
+		2E0B00CC2B00633C00CFC6EA /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E0B00CB2B00633C00CFC6EA /* SwiftUI.framework */; };
+		2E0B00CF2B00633D00CFC6EA /* VolumeWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0B00CE2B00633D00CFC6EA /* VolumeWidgetBundle.swift */; };
+		2E0B00D52B00633F00CFC6EA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E0B00D42B00633F00CFC6EA /* Assets.xcassets */; };
+		2E0B00DA2B00633F00CFC6EA /* VolumeWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2E0B00C82B00633C00CFC6EA /* VolumeWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2E0B00DE2B00639A00CFC6EA /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA73D27254C9C67009E8F9F /* Article.swift */; };
+		2E0B00DF2B0063A000CFC6EA /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC72AEB929259D4500209573 /* API.swift */; };
+		2E0B00E22B00648500CFC6EA /* ReadableContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3392D71D2937C021005165F6 /* ReadableContent.swift */; };
+		2E0B00E32B00648B00CFC6EA /* Publication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8658AD254B71FF002DEE68 /* Publication.swift */; };
+		2E0B00E42B00649D00CFC6EA /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E416C2E2561D47C0010D70B /* Date+Extension.swift */; };
 		2E0D036D29F1CFA6008EAF69 /* JSONDecoder+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0D036C29F1CFA6008EAF69 /* JSONDecoder+Extension.swift */; };
 		2E1DDD612AD0525B00627C52 /* CategoryDropdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1DDD602AD0525B00627C52 /* CategoryDropdown.swift */; };
 		2E1DDD632AD0546300627C52 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1DDD622AD0546300627C52 /* String+Extension.swift */; };
@@ -59,19 +69,59 @@
 		2E81EB6629F4F4A800A288C1 /* OnboardingFlyersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E81EB6529F4F4A800A288C1 /* OnboardingFlyersView.swift */; };
 		2E81EB6829F4FC0900A288C1 /* ScrollFadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E81EB6729F4FC0900A288C1 /* ScrollFadingView.swift */; };
 		2E81EB6A29F4FD1600A288C1 /* OnboardingPublicationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E81EB6929F4FD1600A288C1 /* OnboardingPublicationsView.swift */; };
+		2E9216392B05D9C700400C1D /* FlyerWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7EE82B01361100E82ABE /* FlyerWidgetIntent.swift */; };
 		2E9349AA2AC718C70098CAC8 /* FlyerUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9349A92AC718C70098CAC8 /* FlyerUploadView.swift */; };
 		2E9349AC2AC718D70098CAC8 /* FlyerUploadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9349AB2AC718D70098CAC8 /* FlyerUploadViewModel.swift */; };
 		2EA7DB7329DBEF7C001D7B8A /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7DB7229DBEF7C001D7B8A /* UIImage+Extension.swift */; };
 		2EA7DB7929DC0EE5001D7B8A /* URLImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7DB7829DC0EE5001D7B8A /* URLImageModel.swift */; };
+		2EAA0CC22B0723E500379F0B /* OrganizationList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA0CC12B0723E500379F0B /* OrganizationList.swift */; };
+		2EAA0CC42B0725E100379F0B /* OrganizationListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA0CC32B0725E100379F0B /* OrganizationListViewModel.swift */; };
+		2EAA0CC62B072FA500379F0B /* FollowingOrganizationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA0CC52B072FA400379F0B /* FollowingOrganizationRow.swift */; };
+		2EAA0CC82B0732C100379F0B /* MoreOrganizationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA0CC72B0732C100379F0B /* MoreOrganizationRow.swift */; };
+		2EAA0CCA2B073E1000379F0B /* OrganizationDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA0CC92B073E1000379F0B /* OrganizationDetail.swift */; };
+		2EAA0CCD2B07416600379F0B /* OrganizationDetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA0CCC2B07416600379F0B /* OrganizationDetailHeader.swift */; };
+		2EAA0CCF2B0741D600379F0B /* OrganizationContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA0CCE2B0741D600379F0B /* OrganizationContentView.swift */; };
+		2EAA0CD12B07468200379F0B /* MediaText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA0CD02B07468200379F0B /* MediaText.swift */; };
+		2EAA0CD32B074CDA00379F0B /* OrganizationContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA0CD22B074CDA00379F0B /* OrganizationContentViewModel.swift */; };
 		2EB5568829B9485700794423 /* MagsScrollbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB5568729B9485700794423 /* MagsScrollbarView.swift */; };
 		2EB5568C29B94A5600794423 /* PageIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB5568B29B94A5600794423 /* PageIndicatorView.swift */; };
 		2EC811EC2AC6875500ED1ACC /* OrgsLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC811EB2AC6875500ED1ACC /* OrgsLoginView.swift */; };
 		2EC811EE2AC6B20600ED1ACC /* OrgsLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC811ED2AC6B20600ED1ACC /* OrgsLoginViewModel.swift */; };
+		2EE2FA66B7CA5419A27F3812 /* Pods_VolumeWidgetExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2509BAEF6B2AABDAFE25F568 /* Pods_VolumeWidgetExtension.framework */; };
+		2EE3DF772B07ED280084FE12 /* WidgetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE3DF762B07EC8C0084FE12 /* WidgetViewModel.swift */; };
+		2EE3DF792B07EDF40084FE12 /* WidgetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE3DF762B07EC8C0084FE12 /* WidgetViewModel.swift */; };
 		2EE8411F2A2EA0DE00691BB7 /* FlyersSupporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE8411E2A2EA0DE00691BB7 /* FlyersSupporting.swift */; };
+		2EF114D42B05FD5C007AD8F9 /* WidgetImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF114D32B05FD5C007AD8F9 /* WidgetImage.swift */; };
+		2EF114D52B05FDE5007AD8F9 /* WidgetImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF114D32B05FD5C007AD8F9 /* WidgetImage.swift */; };
 		2EF894B42A1E9DCF001DD2A1 /* FlyerQueries.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 2EF894B32A1E9DCF001DD2A1 /* FlyerQueries.graphql */; };
 		2EF894B62A1E9E43001DD2A1 /* OrganizationQueries.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 2EF894B52A1E9E43001DD2A1 /* OrganizationQueries.graphql */; };
 		2EF894B82A1EE7ED001DD2A1 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF894B72A1EE7ED001DD2A1 /* Calendar+Extension.swift */; };
 		2EF894BA2A1F087F001DD2A1 /* FlyerMutations.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 2EF894B92A1F087F001DD2A1 /* FlyerMutations.graphql */; };
+		2EFA7EC12B0075A700E82ABE /* ArticleWidgetEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7EC02B0075A700E82ABE /* ArticleWidgetEntry.swift */; };
+		2EFA7EC22B0075A700E82ABE /* ArticleWidgetEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7EC02B0075A700E82ABE /* ArticleWidgetEntry.swift */; };
+		2EFA7EC82B00764300E82ABE /* ArticleWidgetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7EC72B00764300E82ABE /* ArticleWidgetProvider.swift */; };
+		2EFA7EC92B00764300E82ABE /* ArticleWidgetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7EC72B00764300E82ABE /* ArticleWidgetProvider.swift */; };
+		2EFA7ECB2B007E0D00E82ABE /* ArticleWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7ECA2B007E0D00E82ABE /* ArticleWidget.swift */; };
+		2EFA7ECC2B007E0D00E82ABE /* ArticleWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7ECA2B007E0D00E82ABE /* ArticleWidget.swift */; };
+		2EFA7ECE2B007EDC00E82ABE /* ArticleWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7ECD2B007EDC00E82ABE /* ArticleWidgetView.swift */; };
+		2EFA7ECF2B007EDC00E82ABE /* ArticleWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7ECD2B007EDC00E82ABE /* ArticleWidgetView.swift */; };
+		2EFA7ED02B008AD700E82ABE /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061DB39625571D760038BEF5 /* Font+Extension.swift */; };
+		2EFA7ED22B00ACAC00E82ABE /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063EED24257BF8A7002136EE /* Network.swift */; };
+		2EFA7ED32B00AE2700E82ABE /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06662887257F204E006FEBCF /* Secrets.swift */; };
+		2EFA7ED52B00B3AE00E82ABE /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E369E1625EED97500FC0419 /* Secrets.plist */; };
+		2EFA7ED82B00BB9900E82ABE /* FlyerWidgetEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7ED72B00BB9900E82ABE /* FlyerWidgetEntry.swift */; };
+		2EFA7EDA2B00BBC000E82ABE /* FlyerWidgetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7ED92B00BBC000E82ABE /* FlyerWidgetProvider.swift */; };
+		2EFA7EDC2B00BC8D00E82ABE /* FlyerWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7EDB2B00BC8D00E82ABE /* FlyerWidget.swift */; };
+		2EFA7EDE2B00BCC900E82ABE /* FlyerWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7EDD2B00BCC900E82ABE /* FlyerWidgetView.swift */; };
+		2EFA7EE02B00BD3300E82ABE /* Widget+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7EDF2B00BD3300E82ABE /* Widget+Extension.swift */; };
+		2EFA7EE12B00BD9300E82ABE /* FlyerWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7EDB2B00BC8D00E82ABE /* FlyerWidget.swift */; };
+		2EFA7EE22B00BD9300E82ABE /* FlyerWidgetEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7ED72B00BB9900E82ABE /* FlyerWidgetEntry.swift */; };
+		2EFA7EE32B00BD9300E82ABE /* FlyerWidgetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7ED92B00BBC000E82ABE /* FlyerWidgetProvider.swift */; };
+		2EFA7EE42B00BD9300E82ABE /* FlyerWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7EDD2B00BCC900E82ABE /* FlyerWidgetView.swift */; };
+		2EFA7EE52B00BD9300E82ABE /* Widget+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7EDF2B00BD3300E82ABE /* Widget+Extension.swift */; };
+		2EFA7EE62B00BDA900E82ABE /* Flyer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6A7D6B29DAA2E7002F5250 /* Flyer.swift */; };
+		2EFA7EE72B00BDA900E82ABE /* Organization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6A7D6D29DAA334002F5250 /* Organization.swift */; };
+		2EFA7EE92B01361100E82ABE /* FlyerWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7EE82B01361100E82ABE /* FlyerWidgetIntent.swift */; };
 		331159D727D41C89003B0F06 /* Image+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331159D627D41C89003B0F06 /* Image+Extensions.swift */; };
 		3334F4A02705269800CF0987 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3334F49F2705269800CF0987 /* AppDelegate.swift */; };
 		3349BF6F290DC1E900B0FD3A /* WeeklyDebriefButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3349BF6E290DC1E900B0FD3A /* WeeklyDebriefButton.swift */; };
@@ -137,6 +187,30 @@
 		EEC1C03C2AF6D1E800EDDCCC /* OrgFlyerCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC1C03B2AF6D1E800EDDCCC /* OrgFlyerCellView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		2E0B00D72B00633F00CFC6EA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7ED7C32B252D117A0078B1BD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2E0B00C72B00633C00CFC6EA;
+			remoteInfo = VolumeWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2E0B00D92B00633F00CFC6EA /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				2E0B00DA2B00633F00CFC6EA /* VolumeWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		060B738A256340580035E252 /* BubblePeriodText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubblePeriodText.swift; sourceTree = "<group>"; };
 		061233A02553127C0025F7E0 /* UnderlinedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlinedText.swift; sourceTree = "<group>"; };
@@ -155,8 +229,17 @@
 		06B80D12257DC18600F3BF9B /* WebImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebImage+Extension.swift"; sourceTree = "<group>"; };
 		06DBC683257DE35F00B6A453 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		06EC2D23259CED0500FE0A71 /* PublicationDetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicationDetailHeader.swift; sourceTree = "<group>"; };
+		1F47CAE4FE4D2EBA1F9C829B /* Pods-VolumeWidgetExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VolumeWidgetExtension.release.xcconfig"; path = "Target Support Files/Pods-VolumeWidgetExtension/Pods-VolumeWidgetExtension.release.xcconfig"; sourceTree = "<group>"; };
+		2509BAEF6B2AABDAFE25F568 /* Pods_VolumeWidgetExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VolumeWidgetExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E05005A29C65B82001B4131 /* MagazinesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazinesViewModel.swift; sourceTree = "<group>"; };
 		2E05005C29C66999001B4131 /* MagazinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazinesView.swift; sourceTree = "<group>"; };
+		2E0B00C82B00633C00CFC6EA /* VolumeWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = VolumeWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E0B00C92B00633C00CFC6EA /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		2E0B00CB2B00633C00CFC6EA /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		2E0B00CE2B00633D00CFC6EA /* VolumeWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeWidgetBundle.swift; sourceTree = "<group>"; };
+		2E0B00D42B00633F00CFC6EA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2E0B00D62B00633F00CFC6EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2E0B00E02B00643800CFC6EA /* Apollo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Apollo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E0D036C29F1CFA6008EAF69 /* JSONDecoder+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+Extension.swift"; sourceTree = "<group>"; };
 		2E1DDD602AD0525B00627C52 /* CategoryDropdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDropdown.swift; sourceTree = "<group>"; };
 		2E1DDD622AD0546300627C52 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
@@ -198,16 +281,37 @@
 		2E9349AB2AC718D70098CAC8 /* FlyerUploadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerUploadViewModel.swift; sourceTree = "<group>"; };
 		2EA7DB7229DBEF7C001D7B8A /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		2EA7DB7829DC0EE5001D7B8A /* URLImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImageModel.swift; sourceTree = "<group>"; };
+		2EAA0CC12B0723E500379F0B /* OrganizationList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationList.swift; sourceTree = "<group>"; };
+		2EAA0CC32B0725E100379F0B /* OrganizationListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationListViewModel.swift; sourceTree = "<group>"; };
+		2EAA0CC52B072FA400379F0B /* FollowingOrganizationRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingOrganizationRow.swift; sourceTree = "<group>"; };
+		2EAA0CC72B0732C100379F0B /* MoreOrganizationRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreOrganizationRow.swift; sourceTree = "<group>"; };
+		2EAA0CC92B073E1000379F0B /* OrganizationDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationDetail.swift; sourceTree = "<group>"; };
+		2EAA0CCC2B07416600379F0B /* OrganizationDetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationDetailHeader.swift; sourceTree = "<group>"; };
+		2EAA0CCE2B0741D600379F0B /* OrganizationContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationContentView.swift; sourceTree = "<group>"; };
+		2EAA0CD02B07468200379F0B /* MediaText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaText.swift; sourceTree = "<group>"; };
+		2EAA0CD22B074CDA00379F0B /* OrganizationContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationContentViewModel.swift; sourceTree = "<group>"; };
 		2EB5568729B9485700794423 /* MagsScrollbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagsScrollbarView.swift; sourceTree = "<group>"; };
 		2EB5568B29B94A5600794423 /* PageIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicatorView.swift; sourceTree = "<group>"; };
 		2EC811EB2AC6875500ED1ACC /* OrgsLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgsLoginView.swift; sourceTree = "<group>"; };
 		2EC811ED2AC6B20600ED1ACC /* OrgsLoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgsLoginViewModel.swift; sourceTree = "<group>"; };
 		2EE2078B2AB41984009A8ED3 /* ci_post_clone.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_clone.sh; sourceTree = "<group>"; };
+		2EE3DF762B07EC8C0084FE12 /* WidgetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetViewModel.swift; sourceTree = "<group>"; };
 		2EE8411E2A2EA0DE00691BB7 /* FlyersSupporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyersSupporting.swift; sourceTree = "<group>"; };
+		2EF114D32B05FD5C007AD8F9 /* WidgetImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetImage.swift; sourceTree = "<group>"; };
 		2EF894B32A1E9DCF001DD2A1 /* FlyerQueries.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FlyerQueries.graphql; sourceTree = "<group>"; };
 		2EF894B52A1E9E43001DD2A1 /* OrganizationQueries.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OrganizationQueries.graphql; sourceTree = "<group>"; };
 		2EF894B72A1EE7ED001DD2A1 /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
 		2EF894B92A1F087F001DD2A1 /* FlyerMutations.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FlyerMutations.graphql; sourceTree = "<group>"; };
+		2EFA7EC02B0075A700E82ABE /* ArticleWidgetEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleWidgetEntry.swift; sourceTree = "<group>"; };
+		2EFA7EC72B00764300E82ABE /* ArticleWidgetProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleWidgetProvider.swift; sourceTree = "<group>"; };
+		2EFA7ECA2B007E0D00E82ABE /* ArticleWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleWidget.swift; sourceTree = "<group>"; };
+		2EFA7ECD2B007EDC00E82ABE /* ArticleWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleWidgetView.swift; sourceTree = "<group>"; };
+		2EFA7ED72B00BB9900E82ABE /* FlyerWidgetEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerWidgetEntry.swift; sourceTree = "<group>"; };
+		2EFA7ED92B00BBC000E82ABE /* FlyerWidgetProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerWidgetProvider.swift; sourceTree = "<group>"; };
+		2EFA7EDB2B00BC8D00E82ABE /* FlyerWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerWidget.swift; sourceTree = "<group>"; };
+		2EFA7EDD2B00BCC900E82ABE /* FlyerWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerWidgetView.swift; sourceTree = "<group>"; };
+		2EFA7EDF2B00BD3300E82ABE /* Widget+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Widget+Extension.swift"; sourceTree = "<group>"; };
+		2EFA7EE82B01361100E82ABE /* FlyerWidgetIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerWidgetIntent.swift; sourceTree = "<group>"; };
 		331159D627D41C89003B0F06 /* Image+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extensions.swift"; sourceTree = "<group>"; };
 		3334F49F2705269800CF0987 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3349BF6E290DC1E900B0FD3A /* WeeklyDebriefButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyDebriefButton.swift; sourceTree = "<group>"; };
@@ -266,27 +370,38 @@
 		95AC9DCE2637C120000B4BEE /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		95E4DA482638816500584E5C /* LinkItemSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkItemSource.swift; sourceTree = "<group>"; };
 		990081EE25E5C31600BF8362 /* Events.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Events.md; sourceTree = "<group>"; };
+		99591EEE9A4D2C4088BD70B6 /* Pods_Volume.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Volume.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		995C99FF25E5770D00F6FBA5 /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		A2A4CB1B27D5276D00774C70 /* Magazine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Magazine.swift; sourceTree = "<group>"; };
 		A2A5CC0F27D567EA0000F377 /* MagazineCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagazineCell.swift; sourceTree = "<group>"; };
 		A2B4DF3127D9AAB000440184 /* MagazineReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagazineReaderView.swift; sourceTree = "<group>"; };
-		A89FBE8FD6C1DE45D6E3153A /* Pods-Volume.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Volume.release.xcconfig"; path = "Target Support Files/Pods-Volume/Pods-Volume.release.xcconfig"; sourceTree = "<group>"; };
-		B914088E2630133CD59D961C /* Pods_Volume.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Volume.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BC047B5C9F5D01B78799352E /* Pods-Volume.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Volume.debug.xcconfig"; path = "Target Support Files/Pods-Volume/Pods-Volume.debug.xcconfig"; sourceTree = "<group>"; };
+		B3353C8E410FCB6B819C9DD5 /* Pods-Volume.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Volume.debug.xcconfig"; path = "Target Support Files/Pods-Volume/Pods-Volume.debug.xcconfig"; sourceTree = "<group>"; };
+		B68D62D389E08A3609AD9795 /* Pods-VolumeWidgetExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VolumeWidgetExtension.debug.xcconfig"; path = "Target Support Files/Pods-VolumeWidgetExtension/Pods-VolumeWidgetExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		BC2C4C182909E74D0083C6AA /* MagazineQueries.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MagazineQueries.graphql; sourceTree = "<group>"; };
 		BC72AEB72920519900209573 /* PDFKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFKitView.swift; sourceTree = "<group>"; };
 		BC72AEB929259D4500209573 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		BC72AEBB29259E8000209573 /* MagazineMutations.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = MagazineMutations.graphql; sourceTree = "<group>"; };
+		C5CA34ACFBE9B7D1BD04CF25 /* Pods-Volume.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Volume.release.xcconfig"; path = "Target Support Files/Pods-Volume/Pods-Volume.release.xcconfig"; sourceTree = "<group>"; };
 		EEC1C03B2AF6D1E800EDDCCC /* OrgFlyerCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgFlyerCellView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2E0B00C52B00633C00CFC6EA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2E0B00CC2B00633C00CFC6EA /* SwiftUI.framework in Frameworks */,
+				2E0B00CA2B00633C00CFC6EA /* WidgetKit.framework in Frameworks */,
+				2EE2FA66B7CA5419A27F3812 /* Pods_VolumeWidgetExtension.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7ED7C330252D117A0078B1BD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				95AC9DCB2637C09B000B4BEE /* NetworkExtension.framework in Frameworks */,
-				2B90359FBF290B2523E30D3D /* Pods_Volume.framework in Frameworks */,
+				2C79A37F0C96B477E7E75D03 /* Pods_Volume.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,6 +471,21 @@
 				2E6A7D4F29D9E3D3002F5250 /* TrendingView.swift */,
 			);
 			path = "MainView and Tabs";
+			sourceTree = "<group>";
+		};
+		2E0B00CD2B00633D00CFC6EA /* VolumeWidget */ = {
+			isa = PBXGroup;
+			children = (
+				2EFA7EC32B0075FD00E82ABE /* ArticleWidget */,
+				2EFA7ED62B00BB7A00E82ABE /* FlyerWidget */,
+				2E0B00CE2B00633D00CFC6EA /* VolumeWidgetBundle.swift */,
+				2EF114D32B05FD5C007AD8F9 /* WidgetImage.swift */,
+				2EE3DF762B07EC8C0084FE12 /* WidgetViewModel.swift */,
+				2EFA7EDF2B00BD3300E82ABE /* Widget+Extension.swift */,
+				2E0B00D42B00633F00CFC6EA /* Assets.xcassets */,
+				2E0B00D62B00633F00CFC6EA /* Info.plist */,
+			);
+			path = VolumeWidget;
 			sourceTree = "<group>";
 		};
 		2E37058B29F77A0D002D2D42 /* Settings */ = {
@@ -444,6 +574,19 @@
 			path = Flyers;
 			sourceTree = "<group>";
 		};
+		2EAA0CCB2B07413600379F0B /* Organizations */ = {
+			isa = PBXGroup;
+			children = (
+				2EAA0CC52B072FA400379F0B /* FollowingOrganizationRow.swift */,
+				2EAA0CC72B0732C100379F0B /* MoreOrganizationRow.swift */,
+				2EAA0CCE2B0741D600379F0B /* OrganizationContentView.swift */,
+				2EAA0CC92B073E1000379F0B /* OrganizationDetail.swift */,
+				2EAA0CCC2B07416600379F0B /* OrganizationDetailHeader.swift */,
+				2EAA0CC12B0723E500379F0B /* OrganizationList.swift */,
+			);
+			path = Organizations;
+			sourceTree = "<group>";
+		};
 		2EC811EA2AC6873600ED1ACC /* Orgs Admin */ = {
 			isa = PBXGroup;
 			children = (
@@ -463,6 +606,29 @@
 			path = ci_scripts;
 			sourceTree = "<group>";
 		};
+		2EFA7EC32B0075FD00E82ABE /* ArticleWidget */ = {
+			isa = PBXGroup;
+			children = (
+				2EFA7ECA2B007E0D00E82ABE /* ArticleWidget.swift */,
+				2EFA7EC02B0075A700E82ABE /* ArticleWidgetEntry.swift */,
+				2EFA7EC72B00764300E82ABE /* ArticleWidgetProvider.swift */,
+				2EFA7ECD2B007EDC00E82ABE /* ArticleWidgetView.swift */,
+			);
+			path = ArticleWidget;
+			sourceTree = "<group>";
+		};
+		2EFA7ED62B00BB7A00E82ABE /* FlyerWidget */ = {
+			isa = PBXGroup;
+			children = (
+				2EFA7EDB2B00BC8D00E82ABE /* FlyerWidget.swift */,
+				2EFA7ED72B00BB9900E82ABE /* FlyerWidgetEntry.swift */,
+				2EFA7EE82B01361100E82ABE /* FlyerWidgetIntent.swift */,
+				2EFA7ED92B00BBC000E82ABE /* FlyerWidgetProvider.swift */,
+				2EFA7EDD2B00BCC900E82ABE /* FlyerWidgetView.swift */,
+			);
+			path = FlyerWidget;
+			sourceTree = "<group>";
+		};
 		3360B9D62926129100A923A6 /* Publications */ = {
 			isa = PBXGroup;
 			children = (
@@ -479,8 +645,12 @@
 		6F79DE515D107F0F5CFED02D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2E0B00E02B00643800CFC6EA /* Apollo.framework */,
 				95AC9DCA2637C09B000B4BEE /* NetworkExtension.framework */,
-				B914088E2630133CD59D961C /* Pods_Volume.framework */,
+				99591EEE9A4D2C4088BD70B6 /* Pods_Volume.framework */,
+				2E0B00C92B00633C00CFC6EA /* WidgetKit.framework */,
+				2E0B00CB2B00633C00CFC6EA /* SwiftUI.framework */,
+				2509BAEF6B2AABDAFE25F568 /* Pods_VolumeWidgetExtension.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -512,6 +682,7 @@
 				2E6A7D6F29DAAFB5002F5250 /* Flyers */,
 				0647BF8C2577F60400D44BC7 /* MainView and Tabs */,
 				060FFDD82577EC800052F3EA /* Onboarding */,
+				2EAA0CCB2B07413600379F0B /* Organizations */,
 				2EC811EA2AC6873600ED1ACC /* Orgs Admin */,
 				2E6A7D5829D9E7CA002F5250 /* Other */,
 				3360B9D62926129100A923A6 /* Publications */,
@@ -556,6 +727,8 @@
 				2E6A7D7029DAB2AB002F5250 /* FlyersViewModel.swift */,
 				2E9349AB2AC718D70098CAC8 /* FlyerUploadViewModel.swift */,
 				2E05005A29C65B82001B4131 /* MagazinesViewModel.swift */,
+				2EAA0CD22B074CDA00379F0B /* OrganizationContentViewModel.swift */,
+				2EAA0CC32B0725E100379F0B /* OrganizationListViewModel.swift */,
 				2E6C36122AF5FF45004A54BB /* OrgsAdminViewModel.swift */,
 				2EC811ED2AC6B20600ED1ACC /* OrgsLoginViewModel.swift */,
 				3360B9DD29274B9500A923A6 /* PublicationContentViewModel.swift */,
@@ -576,6 +749,7 @@
 				2E6A7D6929DA893B002F5250 /* HamburgerMenuView.swift */,
 				7E416C312561D7870010D70B /* Header.swift */,
 				2E38E14929E5CBB8006323E5 /* LottieView.swift */,
+				2EAA0CD02B07468200379F0B /* MediaText.swift */,
 				3392D71B2937BF4E005165F6 /* ReaderToolbarView.swift */,
 				2E81EB6729F4FC0900A288C1 /* ScrollFadingView.swift */,
 				3375EC042937F7C9005A046F /* SemesterMenuView.swift */,
@@ -596,6 +770,7 @@
 			children = (
 				2EE2078A2AB4196F009A8ED3 /* ci_scripts */,
 				7ED7C335252D117A0078B1BD /* Volume */,
+				2E0B00CD2B00633D00CFC6EA /* VolumeWidget */,
 				7ED7C334252D117A0078B1BD /* Products */,
 				83C84BDB5D19AF58134A64D3 /* Pods */,
 				7E369DFB25EED6FC00FC0419 /* Recovered References */,
@@ -607,6 +782,7 @@
 			isa = PBXGroup;
 			children = (
 				7ED7C333252D117A0078B1BD /* Volume.app */,
+				2E0B00C82B00633C00CFC6EA /* VolumeWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -641,8 +817,10 @@
 		83C84BDB5D19AF58134A64D3 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				BC047B5C9F5D01B78799352E /* Pods-Volume.debug.xcconfig */,
-				A89FBE8FD6C1DE45D6E3153A /* Pods-Volume.release.xcconfig */,
+				B3353C8E410FCB6B819C9DD5 /* Pods-Volume.debug.xcconfig */,
+				C5CA34ACFBE9B7D1BD04CF25 /* Pods-Volume.release.xcconfig */,
+				B68D62D389E08A3609AD9795 /* Pods-VolumeWidgetExtension.debug.xcconfig */,
+				1F47CAE4FE4D2EBA1F9C829B /* Pods-VolumeWidgetExtension.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -659,22 +837,41 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7ED7C332252D117A0078B1BD /* Volume */ = {
+		2E0B00C72B00633C00CFC6EA /* VolumeWidgetExtension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7ED7C347252D117B0078B1BD /* Build configuration list for PBXNativeTarget "Volume" */;
+			buildConfigurationList = 2E0B00DD2B00633F00CFC6EA /* Build configuration list for PBXNativeTarget "VolumeWidgetExtension" */;
 			buildPhases = (
-				C92B9A3063AB65C12C9F9C94 /* [CP] Check Pods Manifest.lock */,
-				063EED1A257BF7F7002136EE /* Generate Apollo GraphQL API */,
-				7ED7C32F252D117A0078B1BD /* Sources */,
-				7ED7C330252D117A0078B1BD /* Frameworks */,
-				7ED7C331252D117A0078B1BD /* Resources */,
-				0E352471C2B40ACE3197DD16 /* [CP] Embed Pods Frameworks */,
-				2E48371D2AE95F3C00F18F17 /* SwiftLint */,
-				2EF6AC562AF4177F00CC4095 /* Crashlytics */,
+				44206EE306F7BF868746E67A /* [CP] Check Pods Manifest.lock */,
+				2E0B00C42B00633C00CFC6EA /* Sources */,
+				2E0B00C52B00633C00CFC6EA /* Frameworks */,
+				2E0B00C62B00633C00CFC6EA /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+			);
+			name = VolumeWidgetExtension;
+			productName = VolumeWidgetExtension;
+			productReference = 2E0B00C82B00633C00CFC6EA /* VolumeWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		7ED7C332252D117A0078B1BD /* Volume */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7ED7C347252D117B0078B1BD /* Build configuration list for PBXNativeTarget "Volume" */;
+			buildPhases = (
+				1236447DEBC795ACF6B34FD4 /* [CP] Check Pods Manifest.lock */,
+				063EED1A257BF7F7002136EE /* Generate Apollo GraphQL API */,
+				7ED7C32F252D117A0078B1BD /* Sources */,
+				7ED7C330252D117A0078B1BD /* Frameworks */,
+				7ED7C331252D117A0078B1BD /* Resources */,
+				2E48371D2AE95F3C00F18F17 /* SwiftLint */,
+				2F77F46DDD95FAB16576BF0E /* [CP] Embed Pods Frameworks */,
+				2E0B00D92B00633F00CFC6EA /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2E0B00D82B00633F00CFC6EA /* PBXTargetDependency */,
 			);
 			name = Volume;
 			productName = Volume;
@@ -688,10 +885,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastSwiftUpdateCheck = 1130;
+				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1500;
 				ORGANIZATIONNAME = "Cornell AppDev";
 				TargetAttributes = {
+					2E0B00C72B00633C00CFC6EA = {
+						CreatedOnToolsVersion = 15.0;
+					};
 					7ED7C332252D117A0078B1BD = {
 						CreatedOnToolsVersion = 11.3.1;
 					};
@@ -711,11 +911,21 @@
 			projectRoot = "";
 			targets = (
 				7ED7C332252D117A0078B1BD /* Volume */,
+				2E0B00C72B00633C00CFC6EA /* VolumeWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2E0B00C62B00633C00CFC6EA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2EFA7ED52B00B3AE00E82ABE /* Secrets.plist in Resources */,
+				2E0B00D52B00633F00CFC6EA /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7ED7C331252D117A0078B1BD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -762,66 +972,7 @@
 			shellScript = "SCRIPT_PATH=\"${PODS_ROOT}/Apollo/scripts\"\ncd \"${SRCROOT}/${TARGET_NAME}\"\n\n\"${SCRIPT_PATH}\"/run-bundled-codegen.sh codegen:generate --target=swift --includes=./**/*.graphql --localSchemaFile=\"Networking/schema.json\" Networking/API.swift\n";
 			showEnvVarsInLog = 0;
 		};
-		0E352471C2B40ACE3197DD16 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Volume/Pods-Volume-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Volume/Pods-Volume-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Volume/Pods-Volume-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2E48371D2AE95F3C00F18F17 /* SwiftLint */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = SwiftLint;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n\nif which swiftlint >/dev/null; then\n    swiftlint --fix && swiftlint\nelse\n    echo \"WARNING: SwiftLint not installed\"\nfi\n";
-		};
-		2EF6AC562AF4177F00CC4095 /* Crashlytics */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
-				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
-				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
-			);
-			name = Crashlytics;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
-		};
-		C92B9A3063AB65C12C9F9C94 /* [CP] Check Pods Manifest.lock */ = {
+		1236447DEBC795ACF6B34FD4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -843,13 +994,102 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		2E48371D2AE95F3C00F18F17 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n\nif which swiftlint >/dev/null; then\n    swiftlint --fix && swiftlint\nelse\n    echo \"WARNING: SwiftLint not installed\"\nfi\n";
+		};
+		2F77F46DDD95FAB16576BF0E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Volume/Pods-Volume-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Volume/Pods-Volume-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Volume/Pods-Volume-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		44206EE306F7BF868746E67A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-VolumeWidgetExtension-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		2E0B00C42B00633C00CFC6EA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2EE3DF772B07ED280084FE12 /* WidgetViewModel.swift in Sources */,
+				2EF114D52B05FDE5007AD8F9 /* WidgetImage.swift in Sources */,
+				2E9216392B05D9C700400C1D /* FlyerWidgetIntent.swift in Sources */,
+				2EFA7EE62B00BDA900E82ABE /* Flyer.swift in Sources */,
+				2EFA7EE72B00BDA900E82ABE /* Organization.swift in Sources */,
+				2EFA7EE12B00BD9300E82ABE /* FlyerWidget.swift in Sources */,
+				2EFA7EE22B00BD9300E82ABE /* FlyerWidgetEntry.swift in Sources */,
+				2EFA7EE32B00BD9300E82ABE /* FlyerWidgetProvider.swift in Sources */,
+				2EFA7EE42B00BD9300E82ABE /* FlyerWidgetView.swift in Sources */,
+				2EFA7EE52B00BD9300E82ABE /* Widget+Extension.swift in Sources */,
+				2EFA7ED32B00AE2700E82ABE /* Secrets.swift in Sources */,
+				2EFA7ED22B00ACAC00E82ABE /* Network.swift in Sources */,
+				2EFA7ED02B008AD700E82ABE /* Font+Extension.swift in Sources */,
+				2E0B00E42B00649D00CFC6EA /* Date+Extension.swift in Sources */,
+				2EFA7EC92B00764300E82ABE /* ArticleWidgetProvider.swift in Sources */,
+				2EFA7ECC2B007E0D00E82ABE /* ArticleWidget.swift in Sources */,
+				2EFA7ECF2B007EDC00E82ABE /* ArticleWidgetView.swift in Sources */,
+				2E0B00E32B00648B00CFC6EA /* Publication.swift in Sources */,
+				2E0B00E22B00648500CFC6EA /* ReadableContent.swift in Sources */,
+				2EFA7EC22B0075A700E82ABE /* ArticleWidgetEntry.swift in Sources */,
+				2E0B00DF2B0063A000CFC6EA /* API.swift in Sources */,
+				2E0B00DE2B00639A00CFC6EA /* Article.swift in Sources */,
+				2E0B00CF2B00633D00CFC6EA /* VolumeWidgetBundle.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7ED7C32F252D117A0078B1BD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EE3DF792B07EDF40084FE12 /* WidgetViewModel.swift in Sources */,
 				06B80D13257DC18600F3BF9B /* WebImage+Extension.swift in Sources */,
 				2E6C36132AF5FF45004A54BB /* OrgsAdminViewModel.swift in Sources */,
 				2E6A7D7129DAB2AB002F5250 /* FlyersViewModel.swift in Sources */,
@@ -871,23 +1111,30 @@
 				2E6A7D5029D9E3D3002F5250 /* TrendingView.swift in Sources */,
 				2E4BAE8429DE7FA700EB16D6 /* EmptyButtonStyle.swift in Sources */,
 				7EC15DA1257767ED0053BA0B /* MorePublicationRow.swift in Sources */,
+				2EAA0CCA2B073E1000379F0B /* OrganizationDetail.swift in Sources */,
 				3360B9E229288DA900A923A6 /* SlidingTabBarView.swift in Sources */,
 				7EC15DA2257767ED0053BA0B /* PublicationDetail.swift in Sources */,
 				2E6A7D5229D9E6F8002F5250 /* BookmarksView.swift in Sources */,
 				95E4DA492638816500584E5C /* LinkItemSource.swift in Sources */,
 				7EC15DA3257767ED0053BA0B /* PublicationList.swift in Sources */,
+				2EFA7EC12B0075A700E82ABE /* ArticleWidgetEntry.swift in Sources */,
 				335E692627DFDC2700FBDE3A /* UIFont+Extension.swift in Sources */,
+				2EAA0CC22B0723E500379F0B /* OrganizationList.swift in Sources */,
 				2E9349AA2AC718C70098CAC8 /* FlyerUploadView.swift in Sources */,
+				2EAA0CD32B074CDA00379F0B /* OrganizationContentViewModel.swift in Sources */,
+				2EFA7ED82B00BB9900E82ABE /* FlyerWidgetEntry.swift in Sources */,
 				0685AAA1259EBA3800DD55C4 /* WebView.swift in Sources */,
 				2E3D327329DE1BD600E7B0A1 /* TrendingFlyerCell.swift in Sources */,
 				BC72AEB82920519900209573 /* PDFKitView.swift in Sources */,
 				95A79FB82622296800CADF88 /* ConnectionFailedView.swift in Sources */,
 				2E38E14A29E5CBB8006323E5 /* LottieView.swift in Sources */,
 				922FE3072931D07100E14911 /* SearchView.swift in Sources */,
+				2EF114D42B05FD5C007AD8F9 /* WidgetImage.swift in Sources */,
 				922FE2FB2931529000E14911 /* SearchBar.swift in Sources */,
 				0685AA9E259EA84900DD55C4 /* BrowserView.swift in Sources */,
 				2E6A7D7729DAC784002F5250 /* FlyerCellPast.swift in Sources */,
 				2E3D327129DE058D00E7B0A1 /* TrendingMainArticleCell.swift in Sources */,
+				2EAA0CD12B07468200379F0B /* MediaText.swift in Sources */,
 				2E4B30DE29CCEE9B000D6AA6 /* HapticTouch.swift in Sources */,
 				2E6A7D7329DAB5BC002F5250 /* FlyerCellThisWeek.swift in Sources */,
 				7E23DFD2254A05EF0001C3A3 /* Color+Extension.swift in Sources */,
@@ -896,8 +1143,10 @@
 				3360B9DE29274B9500A923A6 /* PublicationContentViewModel.swift in Sources */,
 				2E1DDD612AD0525B00627C52 /* CategoryDropdown.swift in Sources */,
 				334AFCD72991AAAD00C0BB71 /* Sequence+Extension.swift in Sources */,
+				2EFA7ECB2B007E0D00E82ABE /* ArticleWidget.swift in Sources */,
 				2E6A7D5429D9E723002F5250 /* FlyersView.swift in Sources */,
 				33538BEE2745C477009DD191 /* WeeklyDebrief.swift in Sources */,
+				2EFA7EDE2B00BCC900E82ABE /* FlyerWidgetView.swift in Sources */,
 				2E81EB6A29F4FD1600A288C1 /* OnboardingPublicationsView.swift in Sources */,
 				7E416C322561D7870010D70B /* Header.swift in Sources */,
 				2E05005B29C65B82001B4131 /* MagazinesViewModel.swift in Sources */,
@@ -907,6 +1156,7 @@
 				2E37058F29F78642002D2D42 /* AboutVolumeView.swift in Sources */,
 				33E851A6290AE6ED004453D2 /* ListBackgroundModifier.swift in Sources */,
 				BC72AEBA29259D4500209573 /* API.swift in Sources */,
+				2EAA0CC62B072FA500379F0B /* FollowingOrganizationRow.swift in Sources */,
 				2E05005D29C66999001B4131 /* MagazinesView.swift in Sources */,
 				2EC811EC2AC6875500ED1ACC /* OrgsLoginView.swift in Sources */,
 				2E6A7D6329DA39D3002F5250 /* BookmarksViewModel.swift in Sources */,
@@ -914,6 +1164,7 @@
 				2E6A7D5629D9E73E002F5250 /* ReadsView.swift in Sources */,
 				2E6C36112AF5E355004A54BB /* OrgsAdminView.swift in Sources */,
 				061DB39725571D760038BEF5 /* Font+Extension.swift in Sources */,
+				2EAA0CC82B0732C100379F0B /* MoreOrganizationRow.swift in Sources */,
 				3334F4A02705269800CF0987 /* AppDelegate.swift in Sources */,
 				3349BF6F290DC1E900B0FD3A /* WeeklyDebriefButton.swift in Sources */,
 				061233A12553127C0025F7E0 /* UnderlinedText.swift in Sources */,
@@ -922,6 +1173,7 @@
 				06DBC684257DE35F00B6A453 /* UserData.swift in Sources */,
 				A2A4CB1C27D5276D00774C70 /* Magazine.swift in Sources */,
 				7EA73D31254CA7E2009E8F9F /* ArticleInfo.swift in Sources */,
+				2EFA7EC82B00764300E82ABE /* ArticleWidgetProvider.swift in Sources */,
 				925DBDB129EB7E860019763A /* Filter.swift in Sources */,
 				3375EC052937F7C9005A046F /* SemesterMenuView.swift in Sources */,
 				7EA73D28254C9C67009E8F9F /* Article.swift in Sources */,
@@ -935,8 +1187,11 @@
 				7EA73D25254C9C5B009E8F9F /* BigReadArticleRow.swift in Sources */,
 				2E3D326E29DDFE9600E7B0A1 /* TrendingViewModel.swift in Sources */,
 				06A8E2532575429200C28C68 /* MainView.swift in Sources */,
+				2EFA7EDA2B00BBC000E82ABE /* FlyerWidgetProvider.swift in Sources */,
 				2E0D036D29F1CFA6008EAF69 /* JSONDecoder+Extension.swift in Sources */,
+				2EFA7ECE2B007EDC00E82ABE /* ArticleWidgetView.swift in Sources */,
 				3360B9DC29274B8200A923A6 /* PublicationContentView.swift in Sources */,
+				2EAA0CCF2B0741D600379F0B /* OrganizationContentView.swift in Sources */,
 				2E6A7D7529DABB23002F5250 /* FlyerCellUpcoming.swift in Sources */,
 				331159D727D41C89003B0F06 /* Image+Extensions.swift in Sources */,
 				2E6A7D6C29DAA2E7002F5250 /* Flyer.swift in Sources */,
@@ -947,10 +1202,15 @@
 				2EE8411F2A2EA0DE00691BB7 /* FlyersSupporting.swift in Sources */,
 				2E6A7D6629DA46E6002F5250 /* ReadsViewModel.swift in Sources */,
 				2EB5568829B9485700794423 /* MagsScrollbarView.swift in Sources */,
+				2EFA7EDC2B00BC8D00E82ABE /* FlyerWidget.swift in Sources */,
 				95A79FB42622255D00CADF88 /* TabContainer.swift in Sources */,
+				2EFA7EE92B01361100E82ABE /* FlyerWidgetIntent.swift in Sources */,
+				2EFA7EE02B00BD3300E82ABE /* Widget+Extension.swift in Sources */,
+				2EAA0CCD2B07416600379F0B /* OrganizationDetailHeader.swift in Sources */,
 				33913A0C27D89E0A00C5718D /* TabBarReader.swift in Sources */,
 				A2A5CC1027D567EA0000F377 /* MagazineCell.swift in Sources */,
 				50C360542759482A006CDB2E /* DebriefArticleView.swift in Sources */,
+				2EAA0CC42B0725E100379F0B /* OrganizationListViewModel.swift in Sources */,
 				063EED25257BF8A7002136EE /* Network.swift in Sources */,
 				2E1DDD632AD0546300627C52 /* String+Extension.swift in Sources */,
 				922FE2FD29316B0D00E14911 /* SearchDropdownView.swift in Sources */,
@@ -965,6 +1225,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		2E0B00D82B00633F00CFC6EA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2E0B00C72B00633C00CFC6EA /* VolumeWidgetExtension */;
+			targetProxy = 2E0B00D72B00633F00CFC6EA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		7ED7C341252D117B0078B1BD /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -977,6 +1245,77 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		2E0B00DB2B00633F00CFC6EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B68D62D389E08A3609AD9795 /* Pods-VolumeWidgetExtension.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZGMCXU7X3U;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = VolumeWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = VolumeWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Cornell AppDev. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cornellappdev.volume-ios.VolumeWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2E0B00DC2B00633F00CFC6EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1F47CAE4FE4D2EBA1F9C829B /* Pods-VolumeWidgetExtension.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZGMCXU7X3U;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = VolumeWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = VolumeWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Cornell AppDev. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cornellappdev.volume-ios.VolumeWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		7ED7C345252D117B0078B1BD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1099,13 +1438,14 @@
 		};
 		7ED7C348252D117B0078B1BD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BC047B5C9F5D01B78799352E /* Pods-Volume.debug.xcconfig */;
+			baseConfigurationReference = B3353C8E410FCB6B819C9DD5 /* Pods-Volume.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Volume/Volume.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 36;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"Volume/Preview Content\"";
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
@@ -1118,7 +1458,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cornellappdev.volume-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1130,13 +1470,14 @@
 		};
 		7ED7C349252D117B0078B1BD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A89FBE8FD6C1DE45D6E3153A /* Pods-Volume.release.xcconfig */;
+			baseConfigurationReference = C5CA34ACFBE9B7D1BD04CF25 /* Pods-Volume.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Volume/Volume.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 36;
 				DEVELOPMENT_ASSET_PATHS = "\"Volume/Preview Content\"";
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
 				ENABLE_PREVIEWS = YES;
@@ -1148,7 +1489,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cornellappdev.volume-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1163,6 +1504,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2E0B00DD2B00633F00CFC6EA /* Build configuration list for PBXNativeTarget "VolumeWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2E0B00DB2B00633F00CFC6EA /* Debug */,
+				2E0B00DC2B00633F00CFC6EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		7ED7C32E252D117A0078B1BD /* Build configuration list for PBXProject "Volume" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
