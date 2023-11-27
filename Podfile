@@ -22,6 +22,16 @@ target 'Volume' do
 
 end
 
+target 'VolumeWidgetExtension' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for VolumeWidgetExtension
+  pod 'Apollo'
+  pod 'SwiftLint', :inhibit_warnings => false
+
+end
+
 # Supported range of deployment target versions: 11.0 - 16.1.99
 post_install do |installer|
   installer.pods_project.targets.each do |target|
