@@ -40,7 +40,7 @@ final class WidgetViewModel {
     }
 
     func fetchOrganizationNames(completion: @escaping ([Organization]) -> Void) {
-        Network.shared.publisher(for: GetAllOrganizationNamesQuery())
+        Network.shared.publisher(for: GetAllOrganizationsQuery())
             .map { $0.organizations.map(\.fragments.organizationFields) }
             .sink { completion in
                 if case let .failure(error) = completion {
