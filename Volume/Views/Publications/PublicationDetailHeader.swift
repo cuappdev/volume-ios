@@ -64,12 +64,12 @@ struct PublicationDetailHeader: View {
                     userData.togglePublicationFollowed(publication, $followRequestInProgress)
                     AppDevAnalytics.log(
                         userData.isPublicationFollowed(publication)
-                        ? VolumeEvent.followPublication.toEvent(
+                        ? VolumeEvent.unfollowPublication.toEvent(
                             .publication,
                             value: publication.slug,
                             navigationSource: navigationSource
                         )
-                        : VolumeEvent.unfollowPublication.toEvent(
+                        : VolumeEvent.followPublication.toEvent(
                             .publication,
                             value: publication.slug,
                             navigationSource: navigationSource
@@ -99,18 +99,5 @@ struct PublicationDetailHeader: View {
             externalLinks
         }
         .padding([.top, .horizontal])
-    }
-}
-
-struct MediaText: View {
-    let title: String
-    let url: URL
-
-    var body: some View {
-        Link(title, destination: url)
-            .font(.helveticaRegular(size: 12))
-            .foregroundColor(.volume.orange)
-            .padding(.trailing, 10)
-            .lineLimit(1)
     }
 }

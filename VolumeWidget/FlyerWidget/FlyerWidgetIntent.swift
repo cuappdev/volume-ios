@@ -85,6 +85,24 @@ struct WidgetOrganizationQuery: EntityStringQuery {
         }
     }
 
+    // MARK: - Network Requests
+
+    private func fetchOrganizationNames(completion: @escaping ([Organization]) -> Void) {
+        Network.shared.publisher(for: GetAllOrganizationsQuery())
+            .map { $0.organizations.map(\.fragments.organizationFields) }
+            .sink { completion in
+                if case let .failure(error) = completion {
+                    print("Error: GetAllOrganizationNamesQuery failed in WidgetOrganizationQuery: \(error)")
+                }
+            } receiveValue: { organizationFields in
+                var orgs = [Organization](organizationFields)
+                orgs = orgs.sorted { $0.name < $1.name }
+
+                completion(orgs)
+            }
+            .store(in: &ProviderCancellable.queryBag)
+    }
+
 }
 
 @available(iOS 17.0, *)

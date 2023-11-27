@@ -4,6 +4,7 @@ fragment organizationFields on Organization {
   bio
   categorySlug
   name
+  numFlyers
   profileImageURL
   slug
   shoutouts
@@ -28,7 +29,7 @@ query CheckAccessCode($accessCode: String!, $slug: String!) {
   }
 }
 
-query GetAllOrganizationNames {
+query GetAllOrganizations {
   organizations: getAllOrganizations {
     ...organizationFields
   }

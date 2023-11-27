@@ -4,8 +4,8 @@ mutation IncrementMagazineShoutouts($id: String!, $uuid: String!) {
   }
 }
 
-mutation BookmarkMagazine($uuid: String!) {
-  bookmarkArticle(uuid: $uuid) {
+mutation BookmarkMagazine($uuid: String!, $magazineID: String!) {
+  bookmarkMagazine(uuid: $uuid, magazineID: $magazineID) {
     id
   }
 }

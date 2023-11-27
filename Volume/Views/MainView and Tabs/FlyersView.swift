@@ -12,6 +12,8 @@ struct FlyersView: View {
 
     // MARK: - Properties
 
+    @Binding var showHamburger: Bool
+
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
     @StateObject private var viewModel = ViewModel()
@@ -55,7 +57,22 @@ struct FlyersView: View {
     private var listContent: some View {
         List {
             Group {
-                searchBar
+                HStack {
+                    searchBar
+
+                    Spacer()
+
+                    HamburgerMenuView()
+                        .onTapGesture {
+                            Haptics.shared.play(.light)
+                            withAnimation(.spring()) {
+                                showHamburger.toggle()
+                            }
+                        }
+
+                    Spacer()
+                    Spacer()
+                }
                 if let flyers = viewModel.dailyFlyers {
                     !flyers.isEmpty ? todaySection : nil
                 }

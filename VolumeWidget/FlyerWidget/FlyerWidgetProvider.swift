@@ -76,6 +76,7 @@ extension FlyerWidgetProvider {
                 "bio": "",
                 "categorySlug": "cultural",
                 "name": "Cornell Filipino Association",
+                "numFlyers": 3,
                 "profileImageURL": "https://raw.githubusercontent.com/cuappdev/assets/master/volume/cfa/profile.png",
                 "slug": "cfa",
                 "shoutouts": 0,

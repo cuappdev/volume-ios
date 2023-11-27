@@ -10,8 +10,8 @@ import Combine
 import SwiftUI
 
 struct PublicationList: View {
+
     @State private var cancellableQuery: AnyCancellable?
-    @Binding var showPublication: Bool
     @State private var state: MainView.TabState<Results> = .loading
     @EnvironmentObject private var networkState: NetworkState
     @EnvironmentObject private var userData: UserData
@@ -27,9 +27,9 @@ struct PublicationList: View {
 
         cancellableQuery = Network.shared.publisher(for: GetAllPublicationsQuery())
             .map { data in data.publications.compactMap { $0 } }
-            .sink(receiveCompletion: { completion in
-                networkState.handleCompletion(screen: .publications, completion)
-            }, receiveValue: { value in
+            .sink { completion in
+                networkState.handleCompletion(screen: .reads, completion)
+            } receiveValue: { value in
                 let publications = [Publication](value.map(\.fragments.publicationFields))
                 let followedPublications = publications.filter(userData.isPublicationFollowed)
                 let morePublications = publications.filter { !userData.isPublicationFollowed($0) }
@@ -38,7 +38,7 @@ struct PublicationList: View {
                 withAnimation(.linear(duration: 0.1)) {
                     state = .results((followedPublications, morePublications))
                 }
-            })
+            }
     }
 
     // Whether, given the state, at least 1 publication is followed. These two may differ if a
@@ -54,11 +54,7 @@ struct PublicationList: View {
 
     /// The publications a user is following
     private var followedPublicationsSection: some View {
-        Section(
-            header: Header("Following")
-                .padding([.leading, .top, .trailing])
-                .padding(.bottom, 6)
-        ) {
+        Section {
             if someFollowedPublications {
                 ScrollView(.horizontal, showsIndicators: false) {
                     switch state {
@@ -93,20 +89,20 @@ struct PublicationList: View {
                     fullWidth: true
                 )
             }
+        } header: {
+            Header("Following")
+                .padding([.leading, .top, .trailing])
+                .padding(.bottom, 6)
         }
     }
 
     /// The publications a user is not following
     private var morePublicationsSection: some View {
-        Section(
-            header: Header("More publications")
-                .padding([.leading, .top, .trailing])
-                .padding(.bottom, 6)
-        ) {
+        Section {
             switch state {
             case .loading:
                 VStack {
-                    ForEach(0..<4) { _ in
+                    ForEach(0..<5) { _ in
                         MorePublicationRow.Skeleton()
                             .padding(.bottom, 15)
                     }
@@ -129,6 +125,10 @@ struct PublicationList: View {
                     }
                 }
             }
+        } header: {
+            Header("More publications")
+                .padding([.leading, .top, .trailing])
+                .padding(.bottom, 6)
         }
     }
 
@@ -164,8 +164,10 @@ struct PublicationList: View {
 }
 
 extension PublicationList {
+
     typealias Results = (
         followedPublications: [Publication],
         morePublications: [Publication]
     )
+
 }

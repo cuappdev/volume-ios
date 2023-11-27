@@ -74,6 +74,15 @@
 		2E9349AC2AC718D70098CAC8 /* FlyerUploadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9349AB2AC718D70098CAC8 /* FlyerUploadViewModel.swift */; };
 		2EA7DB7329DBEF7C001D7B8A /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7DB7229DBEF7C001D7B8A /* UIImage+Extension.swift */; };
 		2EA7DB7929DC0EE5001D7B8A /* URLImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7DB7829DC0EE5001D7B8A /* URLImageModel.swift */; };
+		2EAA0CC22B0723E500379F0B /* OrganizationList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA0CC12B0723E500379F0B /* OrganizationList.swift */; };
+		2EAA0CC42B0725E100379F0B /* OrganizationListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA0CC32B0725E100379F0B /* OrganizationListViewModel.swift */; };
+		2EAA0CC62B072FA500379F0B /* FollowingOrganizationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA0CC52B072FA400379F0B /* FollowingOrganizationRow.swift */; };
+		2EAA0CC82B0732C100379F0B /* MoreOrganizationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA0CC72B0732C100379F0B /* MoreOrganizationRow.swift */; };
+		2EAA0CCA2B073E1000379F0B /* OrganizationDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA0CC92B073E1000379F0B /* OrganizationDetail.swift */; };
+		2EAA0CCD2B07416600379F0B /* OrganizationDetailHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA0CCC2B07416600379F0B /* OrganizationDetailHeader.swift */; };
+		2EAA0CCF2B0741D600379F0B /* OrganizationContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA0CCE2B0741D600379F0B /* OrganizationContentView.swift */; };
+		2EAA0CD12B07468200379F0B /* MediaText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA0CD02B07468200379F0B /* MediaText.swift */; };
+		2EAA0CD32B074CDA00379F0B /* OrganizationContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA0CD22B074CDA00379F0B /* OrganizationContentViewModel.swift */; };
 		2EB5568829B9485700794423 /* MagsScrollbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB5568729B9485700794423 /* MagsScrollbarView.swift */; };
 		2EB5568C29B94A5600794423 /* PageIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB5568B29B94A5600794423 /* PageIndicatorView.swift */; };
 		2EC811EC2AC6875500ED1ACC /* OrgsLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC811EB2AC6875500ED1ACC /* OrgsLoginView.swift */; };
@@ -272,6 +281,15 @@
 		2E9349AB2AC718D70098CAC8 /* FlyerUploadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerUploadViewModel.swift; sourceTree = "<group>"; };
 		2EA7DB7229DBEF7C001D7B8A /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		2EA7DB7829DC0EE5001D7B8A /* URLImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImageModel.swift; sourceTree = "<group>"; };
+		2EAA0CC12B0723E500379F0B /* OrganizationList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationList.swift; sourceTree = "<group>"; };
+		2EAA0CC32B0725E100379F0B /* OrganizationListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationListViewModel.swift; sourceTree = "<group>"; };
+		2EAA0CC52B072FA400379F0B /* FollowingOrganizationRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingOrganizationRow.swift; sourceTree = "<group>"; };
+		2EAA0CC72B0732C100379F0B /* MoreOrganizationRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreOrganizationRow.swift; sourceTree = "<group>"; };
+		2EAA0CC92B073E1000379F0B /* OrganizationDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationDetail.swift; sourceTree = "<group>"; };
+		2EAA0CCC2B07416600379F0B /* OrganizationDetailHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationDetailHeader.swift; sourceTree = "<group>"; };
+		2EAA0CCE2B0741D600379F0B /* OrganizationContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationContentView.swift; sourceTree = "<group>"; };
+		2EAA0CD02B07468200379F0B /* MediaText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaText.swift; sourceTree = "<group>"; };
+		2EAA0CD22B074CDA00379F0B /* OrganizationContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationContentViewModel.swift; sourceTree = "<group>"; };
 		2EB5568729B9485700794423 /* MagsScrollbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagsScrollbarView.swift; sourceTree = "<group>"; };
 		2EB5568B29B94A5600794423 /* PageIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicatorView.swift; sourceTree = "<group>"; };
 		2EC811EB2AC6875500ED1ACC /* OrgsLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgsLoginView.swift; sourceTree = "<group>"; };
@@ -556,6 +574,19 @@
 			path = Flyers;
 			sourceTree = "<group>";
 		};
+		2EAA0CCB2B07413600379F0B /* Organizations */ = {
+			isa = PBXGroup;
+			children = (
+				2EAA0CC52B072FA400379F0B /* FollowingOrganizationRow.swift */,
+				2EAA0CC72B0732C100379F0B /* MoreOrganizationRow.swift */,
+				2EAA0CCE2B0741D600379F0B /* OrganizationContentView.swift */,
+				2EAA0CC92B073E1000379F0B /* OrganizationDetail.swift */,
+				2EAA0CCC2B07416600379F0B /* OrganizationDetailHeader.swift */,
+				2EAA0CC12B0723E500379F0B /* OrganizationList.swift */,
+			);
+			path = Organizations;
+			sourceTree = "<group>";
+		};
 		2EC811EA2AC6873600ED1ACC /* Orgs Admin */ = {
 			isa = PBXGroup;
 			children = (
@@ -651,6 +682,7 @@
 				2E6A7D6F29DAAFB5002F5250 /* Flyers */,
 				0647BF8C2577F60400D44BC7 /* MainView and Tabs */,
 				060FFDD82577EC800052F3EA /* Onboarding */,
+				2EAA0CCB2B07413600379F0B /* Organizations */,
 				2EC811EA2AC6873600ED1ACC /* Orgs Admin */,
 				2E6A7D5829D9E7CA002F5250 /* Other */,
 				3360B9D62926129100A923A6 /* Publications */,
@@ -695,6 +727,8 @@
 				2E6A7D7029DAB2AB002F5250 /* FlyersViewModel.swift */,
 				2E9349AB2AC718D70098CAC8 /* FlyerUploadViewModel.swift */,
 				2E05005A29C65B82001B4131 /* MagazinesViewModel.swift */,
+				2EAA0CD22B074CDA00379F0B /* OrganizationContentViewModel.swift */,
+				2EAA0CC32B0725E100379F0B /* OrganizationListViewModel.swift */,
 				2E6C36122AF5FF45004A54BB /* OrgsAdminViewModel.swift */,
 				2EC811ED2AC6B20600ED1ACC /* OrgsLoginViewModel.swift */,
 				3360B9DD29274B9500A923A6 /* PublicationContentViewModel.swift */,
@@ -715,6 +749,7 @@
 				2E6A7D6929DA893B002F5250 /* HamburgerMenuView.swift */,
 				7E416C312561D7870010D70B /* Header.swift */,
 				2E38E14929E5CBB8006323E5 /* LottieView.swift */,
+				2EAA0CD02B07468200379F0B /* MediaText.swift */,
 				3392D71B2937BF4E005165F6 /* ReaderToolbarView.swift */,
 				2E81EB6729F4FC0900A288C1 /* ScrollFadingView.swift */,
 				3375EC042937F7C9005A046F /* SemesterMenuView.swift */,
@@ -1076,6 +1111,7 @@
 				2E6A7D5029D9E3D3002F5250 /* TrendingView.swift in Sources */,
 				2E4BAE8429DE7FA700EB16D6 /* EmptyButtonStyle.swift in Sources */,
 				7EC15DA1257767ED0053BA0B /* MorePublicationRow.swift in Sources */,
+				2EAA0CCA2B073E1000379F0B /* OrganizationDetail.swift in Sources */,
 				3360B9E229288DA900A923A6 /* SlidingTabBarView.swift in Sources */,
 				7EC15DA2257767ED0053BA0B /* PublicationDetail.swift in Sources */,
 				2E6A7D5229D9E6F8002F5250 /* BookmarksView.swift in Sources */,
@@ -1083,7 +1119,9 @@
 				7EC15DA3257767ED0053BA0B /* PublicationList.swift in Sources */,
 				2EFA7EC12B0075A700E82ABE /* ArticleWidgetEntry.swift in Sources */,
 				335E692627DFDC2700FBDE3A /* UIFont+Extension.swift in Sources */,
+				2EAA0CC22B0723E500379F0B /* OrganizationList.swift in Sources */,
 				2E9349AA2AC718C70098CAC8 /* FlyerUploadView.swift in Sources */,
+				2EAA0CD32B074CDA00379F0B /* OrganizationContentViewModel.swift in Sources */,
 				2EFA7ED82B00BB9900E82ABE /* FlyerWidgetEntry.swift in Sources */,
 				0685AAA1259EBA3800DD55C4 /* WebView.swift in Sources */,
 				2E3D327329DE1BD600E7B0A1 /* TrendingFlyerCell.swift in Sources */,
@@ -1096,6 +1134,7 @@
 				0685AA9E259EA84900DD55C4 /* BrowserView.swift in Sources */,
 				2E6A7D7729DAC784002F5250 /* FlyerCellPast.swift in Sources */,
 				2E3D327129DE058D00E7B0A1 /* TrendingMainArticleCell.swift in Sources */,
+				2EAA0CD12B07468200379F0B /* MediaText.swift in Sources */,
 				2E4B30DE29CCEE9B000D6AA6 /* HapticTouch.swift in Sources */,
 				2E6A7D7329DAB5BC002F5250 /* FlyerCellThisWeek.swift in Sources */,
 				7E23DFD2254A05EF0001C3A3 /* Color+Extension.swift in Sources */,
@@ -1117,6 +1156,7 @@
 				2E37058F29F78642002D2D42 /* AboutVolumeView.swift in Sources */,
 				33E851A6290AE6ED004453D2 /* ListBackgroundModifier.swift in Sources */,
 				BC72AEBA29259D4500209573 /* API.swift in Sources */,
+				2EAA0CC62B072FA500379F0B /* FollowingOrganizationRow.swift in Sources */,
 				2E05005D29C66999001B4131 /* MagazinesView.swift in Sources */,
 				2EC811EC2AC6875500ED1ACC /* OrgsLoginView.swift in Sources */,
 				2E6A7D6329DA39D3002F5250 /* BookmarksViewModel.swift in Sources */,
@@ -1124,6 +1164,7 @@
 				2E6A7D5629D9E73E002F5250 /* ReadsView.swift in Sources */,
 				2E6C36112AF5E355004A54BB /* OrgsAdminView.swift in Sources */,
 				061DB39725571D760038BEF5 /* Font+Extension.swift in Sources */,
+				2EAA0CC82B0732C100379F0B /* MoreOrganizationRow.swift in Sources */,
 				3334F4A02705269800CF0987 /* AppDelegate.swift in Sources */,
 				3349BF6F290DC1E900B0FD3A /* WeeklyDebriefButton.swift in Sources */,
 				061233A12553127C0025F7E0 /* UnderlinedText.swift in Sources */,
@@ -1150,6 +1191,7 @@
 				2E0D036D29F1CFA6008EAF69 /* JSONDecoder+Extension.swift in Sources */,
 				2EFA7ECE2B007EDC00E82ABE /* ArticleWidgetView.swift in Sources */,
 				3360B9DC29274B8200A923A6 /* PublicationContentView.swift in Sources */,
+				2EAA0CCF2B0741D600379F0B /* OrganizationContentView.swift in Sources */,
 				2E6A7D7529DABB23002F5250 /* FlyerCellUpcoming.swift in Sources */,
 				331159D727D41C89003B0F06 /* Image+Extensions.swift in Sources */,
 				2E6A7D6C29DAA2E7002F5250 /* Flyer.swift in Sources */,
@@ -1164,9 +1206,11 @@
 				95A79FB42622255D00CADF88 /* TabContainer.swift in Sources */,
 				2EFA7EE92B01361100E82ABE /* FlyerWidgetIntent.swift in Sources */,
 				2EFA7EE02B00BD3300E82ABE /* Widget+Extension.swift in Sources */,
+				2EAA0CCD2B07416600379F0B /* OrganizationDetailHeader.swift in Sources */,
 				33913A0C27D89E0A00C5718D /* TabBarReader.swift in Sources */,
 				A2A5CC1027D567EA0000F377 /* MagazineCell.swift in Sources */,
 				50C360542759482A006CDB2E /* DebriefArticleView.swift in Sources */,
+				2EAA0CC42B0725E100379F0B /* OrganizationListViewModel.swift in Sources */,
 				063EED25257BF8A7002136EE /* Network.swift in Sources */,
 				2E1DDD632AD0546300627C52 /* String+Extension.swift in Sources */,
 				922FE2FD29316B0D00E14911 /* SearchDropdownView.swift in Sources */,
@@ -1401,7 +1445,7 @@
 				CODE_SIGN_ENTITLEMENTS = Volume/Volume.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 36;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"Volume/Preview Content\"";
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
@@ -1414,7 +1458,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cornellappdev.volume-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1433,7 +1477,7 @@
 				CODE_SIGN_ENTITLEMENTS = Volume/Volume.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 36;
 				DEVELOPMENT_ASSET_PATHS = "\"Volume/Preview Content\"";
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
 				ENABLE_PREVIEWS = YES;
@@ -1445,7 +1489,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.0;
+				MARKETING_VERSION = 1.4.1;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cornellappdev.volume-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";

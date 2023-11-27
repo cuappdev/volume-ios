@@ -1,21 +1,25 @@
 //
-//  FollowingPublicationRow.swift
+//  FollowingOrganizationRow.swift
 //  Volume
 //
-//  Created by Cameron Russell on 10/29/20.
-//  Copyright © 2020 Cornell AppDev. All rights reserved.
+//  Created by Vin Bui on 11/17/23.
+//  Copyright © 2023 Cornell AppDev. All rights reserved.
 //
 
 import SDWebImageSwiftUI
 import SwiftUI
 
-/// `FollowingPublicationRow` displays the images and name of a publication a user is currently following
-struct FollowingPublicationRow: View {
-    let publication: Publication
+struct FollowingOrganizationRow: View {
+
+    // MARK: - Properties
+
+    let organization: Organization
+
+    // MARK: - UI
 
     var body: some View {
         VStack(spacing: 5) {
-            if let url = publication.profileImageUrl {
+            if let url = organization.profileImageUrl {
                 WebImage(url: url)
                     .resizable()
                     .grayBackground()
@@ -25,24 +29,32 @@ struct FollowingPublicationRow: View {
                     .transition(.fade(duration: 0.5))
                     .padding(.top, 4)
             } else {
-                Circle()
-                    .foregroundColor(.gray)
-                    .frame(width: 75, height: 75)
-                    .shadow(color: Color(white: 0, opacity: 0.1), radius: 5)
-                    .padding(.top, 4)
+                noProfileImageView
             }
-            Text(publication.name)
+
+            Text(organization.name)
                 .font(.newYorkMedium(size: 12))
                 .foregroundColor(.black)
                 .lineLimit(2)
                 .multilineTextAlignment(.center)
+
             Spacer()
         }
         .frame(width: 90, height: 135)
     }
+
+    private var noProfileImageView: some View {
+        Circle()
+            .foregroundColor(.gray)
+            .frame(width: 75, height: 75)
+            .shadow(color: Color(white: 0, opacity: 0.1), radius: 5)
+            .padding(.top, 4)
+    }
+
 }
 
-extension FollowingPublicationRow {
+extension FollowingOrganizationRow {
+
     struct Skeleton: View {
         var body: some View {
             VStack(spacing: 5) {
@@ -51,26 +63,15 @@ extension FollowingPublicationRow {
                     .shadow(color: Color(white: 0, opacity: 0.1), radius: 5)
                     .frame(width: 75, height: 75)
                     .padding(.top, 4)
+
                 SkeletonView()
                     .frame(width: 65, height: 14)
+
                 Spacer()
             }
             .frame(width: 90, height: 135)
             .shimmer(.smallShimmer())
         }
     }
-}
 
-//struct FollowingPublicationRow_Previews: PreviewProvider {
-//    static var previews: some View {
-//        FollowingPublicationRow(
-//            publication: Publication(
-//                description: "CU",
-//                name: "CUNooz",
-//                id: "sdfsdf",
-//                imageURL: nil,
-//                recent: "Sandpaper Tastes Like What?!"
-//            )
-//        )
-//    }
-//}
+}

@@ -31,6 +31,10 @@ enum VolumeEvent: String {
     case followPublication = "follow_publication"
     case unfollowPublication = "unfollow_publication"
 
+    // Organization-specific events
+    case followOrganization = "follow_organization"
+    case unfollowOrganization = "unfollow_organization"
+
     // Article-specific events
     case openArticle = "open_article"
     case shareArticle = "share_article"
@@ -54,7 +58,15 @@ enum VolumeEvent: String {
     case bookmarkFlyer = "bookmark_flyer"
 
     enum EventType {
-        case article, flyer, general, magazine, notification, notificationInterval, publication, page
+        case article
+        case flyer
+        case general
+        case magazine
+        case notification
+        case notificationInterval
+        case organization
+        case publication
+        case page
     }
 
     func toEvent(
@@ -72,6 +84,8 @@ enum VolumeEvent: String {
             parameters = ["magazineID": value]
         case .notificationInterval:
             parameters = ["duration": value]
+        case .organization:
+            parameters = ["organizationSlug": value]
         case .publication:
             parameters = ["publicationSlug": value]
         default:

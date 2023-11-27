@@ -15,6 +15,7 @@ struct Organization: Hashable, Identifiable {
     let bio: String?
     let categorySlug: String
     let name: String
+    let numFlyers: Int
     let profileImageUrl: URL?
     let slug: String
     let shoutouts: Int
@@ -29,6 +30,7 @@ struct Organization: Hashable, Identifiable {
         self.bio = organization.bio
         self.categorySlug = organization.categorySlug
         self.name = organization.name
+        self.numFlyers = Int(organization.numFlyers)
         self.profileImageUrl = {
             guard let stringUrl = organization.profileImageUrl else { return nil }
             return URL(string: stringUrl)
