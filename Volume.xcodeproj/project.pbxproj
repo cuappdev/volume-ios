@@ -64,6 +64,7 @@
 		2E6A7D7729DAC784002F5250 /* FlyerCellPast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6A7D7629DAC784002F5250 /* FlyerCellPast.swift */; };
 		2E6C36112AF5E355004A54BB /* OrgsAdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C36102AF5E355004A54BB /* OrgsAdminView.swift */; };
 		2E6C36132AF5FF45004A54BB /* OrgsAdminViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6C36122AF5FF45004A54BB /* OrgsAdminViewModel.swift */; };
+		2E7043502BB75F10003AC1D6 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 2E70434F2BB75F10003AC1D6 /* PrivacyInfo.xcprivacy */; };
 		2E81EB6229F4DA5300A288C1 /* OnboardingMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E81EB6129F4DA5300A288C1 /* OnboardingMainView.swift */; };
 		2E81EB6429F4EC8000A288C1 /* OnboardingWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E81EB6329F4EC8000A288C1 /* OnboardingWelcomeView.swift */; };
 		2E81EB6629F4F4A800A288C1 /* OnboardingFlyersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E81EB6529F4F4A800A288C1 /* OnboardingFlyersView.swift */; };
@@ -272,6 +273,7 @@
 		2E6A7D7629DAC784002F5250 /* FlyerCellPast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerCellPast.swift; sourceTree = "<group>"; };
 		2E6C36102AF5E355004A54BB /* OrgsAdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgsAdminView.swift; sourceTree = "<group>"; };
 		2E6C36122AF5FF45004A54BB /* OrgsAdminViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgsAdminViewModel.swift; sourceTree = "<group>"; };
+		2E70434F2BB75F10003AC1D6 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		2E81EB6129F4DA5300A288C1 /* OnboardingMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingMainView.swift; sourceTree = "<group>"; };
 		2E81EB6329F4EC8000A288C1 /* OnboardingWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWelcomeView.swift; sourceTree = "<group>"; };
 		2E81EB6529F4F4A800A288C1 /* OnboardingFlyersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFlyersView.swift; sourceTree = "<group>"; };
@@ -790,8 +792,9 @@
 		7ED7C335252D117A0078B1BD /* Volume */ = {
 			isa = PBXGroup;
 			children = (
-				2E38E14E29E5CE4C006323E5 /* LaunchScreen.storyboard */,
 				7ED7C33C252D117B0078B1BD /* Assets.xcassets */,
+				2E38E14E29E5CE4C006323E5 /* LaunchScreen.storyboard */,
+				2E70434F2BB75F10003AC1D6 /* PrivacyInfo.xcprivacy */,
 				995C99FE25E576E600F6FBA5 /* Analytics */,
 				2E38E14B29E5CC2A006323E5 /* Lottie */,
 				7E51586325589D3F003A0F4A /* Models */,
@@ -938,6 +941,7 @@
 				922FE30D29342F9200E14911 /* schema.json in Resources */,
 				2EF894BA2A1F087F001DD2A1 /* FlyerMutations.graphql in Resources */,
 				7ED7C340252D117B0078B1BD /* Preview Assets.xcassets in Resources */,
+				2E7043502BB75F10003AC1D6 /* PrivacyInfo.xcprivacy in Resources */,
 				BC2C4C192909E74D0083C6AA /* MagazineQueries.graphql in Resources */,
 				2E4BAAA82ADB292D000ECCBD /* GoogleService-Info.plist in Resources */,
 				922FE3092931E67A00E14911 /* SearchQueries.graphql in Resources */,
@@ -1445,7 +1449,7 @@
 				CODE_SIGN_ENTITLEMENTS = Volume/Volume.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 36;
+				CURRENT_PROJECT_VERSION = 38;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"Volume/Preview Content\"";
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
@@ -1458,7 +1462,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.1;
+				MARKETING_VERSION = 1.4.2;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cornellappdev.volume-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1477,7 +1481,7 @@
 				CODE_SIGN_ENTITLEMENTS = Volume/Volume.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 36;
+				CURRENT_PROJECT_VERSION = 38;
 				DEVELOPMENT_ASSET_PATHS = "\"Volume/Preview Content\"";
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
 				ENABLE_PREVIEWS = YES;
@@ -1489,7 +1493,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.1;
+				MARKETING_VERSION = 1.4.2;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cornellappdev.volume-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
