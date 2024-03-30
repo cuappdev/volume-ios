@@ -7,6 +7,7 @@
 //
 
 import FirebaseMessaging
+import OSLog
 import SwiftUI
 import UserNotifications
 
@@ -36,7 +37,7 @@ class Notifications: NSObject, ObservableObject {
                             )
                         )
                     } else if let error = error {
-                        print("Error: failed to obtain push notification permissions: \(error.localizedDescription)")
+                        Logger.services.error("Error: failed to obtain push notification permissions: \(error.localizedDescription)")
                     }
                 }
             }
@@ -52,31 +53,25 @@ class Notifications: NSObject, ObservableObject {
     }
 
     func handlePushNotification(userInfo: [AnyHashable: Any]) {
-        #if DEBUG
-        print("Notification payload userInfo: \(userInfo)")
-        #endif
+#if DEBUG
+        Logger.services.log("Notification payload userInfo: \(userInfo)")
+#endif
         guard let notificationType = userInfo["notificationType"] as? String
         else {
-            #if DEBUG
-            print("Error: data or notificationType not found in push notification payload")
-            #endif
+            Logger.services.error("Error: data or notificationType not found in push notification payload")
             return
         }
         switch notificationType {
         case NotificationType.newArticle.rawValue:
             guard let articleID = userInfo["articleID"] as? String else {
-                #if DEBUG
-                print("Error: missing articleID in new article notification payload")
-                #endif
+                Logger.services.error("Error: missing articleID in new article notification payload")
                 break
             }
             openArticle(id: articleID)
         case NotificationType.weeklyDebrief.rawValue:
             isWeeklyDebriefOpen = true
         default:
-            #if DEBUG
-            print("Error: unknown notificationType: \(notificationType)")
-            #endif
+            Logger.services.error("Error: unknown notificationType: \(notificationType)")
         }
     }
 
@@ -114,14 +109,12 @@ extension Notifications: MessagingDelegate {
 
     @MainActor func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         if let fcmToken = fcmToken {
-            #if DEBUG
-            print("Firebase Messaging registration token: \(fcmToken)")
-            #endif
+#if DEBUG
+            Logger.services.log("Firebase Messaging registration token: \(fcmToken)")
+#endif
             UserData.shared.fcmToken = fcmToken
         } else {
-            #if DEBUG
-            print("Error: Firebase Messaging failed to register")
-            #endif
+            Logger.services.error("Error: Firebase Messaging failed to register")
             UserData.shared.fcmToken = "debugSimulatorFCMToken"
         }
 

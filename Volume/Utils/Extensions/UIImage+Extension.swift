@@ -11,7 +11,7 @@ import UIKit
 extension UIImage {
 
     /// Returns a `UIColor` representing the average color of this `UIImage, nil if not found
-    var averageColor: UIColor? {
+    func averageColor() -> UIColor? {
         // Convert to CIImage
         guard let inputImage = CIImage(image: self) else { return nil }
 
@@ -63,7 +63,7 @@ extension UIImage {
 
         if let cropCGImage = cropCGImage {
             // Return the average color
-            return UIImage(cgImage: cropCGImage).averageColor
+            return UIImage(cgImage: cropCGImage).averageColor()
         }
         return .gray
     }

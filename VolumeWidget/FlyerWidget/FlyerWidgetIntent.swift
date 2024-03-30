@@ -8,6 +8,7 @@
 
 import AppIntents
 import Combine
+import OSLog
 import WidgetKit
 
 struct WidgetOrganization: AppEntity {
@@ -92,7 +93,7 @@ struct WidgetOrganizationQuery: EntityStringQuery {
             .compactMap { $0.data?.organizations.map(\.fragments.organizationFields) }
             .sink { completion in
                 if case let .failure(error) = completion {
-                    print("Error: GetAllOrganizationNamesQuery failed in WidgetOrganizationQuery: \(error)")
+                    Logger.services.error("Error: GetAllOrganizationNamesQuery failed in WidgetOrganizationQuery: \(error.localizedDescription)")
                 }
             } receiveValue: { organizationFields in
                 var orgs = [Organization](organizationFields)

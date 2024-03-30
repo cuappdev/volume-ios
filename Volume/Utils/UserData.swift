@@ -8,6 +8,7 @@
 
 import Combine
 import Foundation
+import OSLog
 import SwiftUI
 
 @MainActor
@@ -111,7 +112,7 @@ class UserData: ObservableObject {
             if let encoded = try? JSONEncoder().encode(newValue) {
                 UserDefaults.standard.set(encoded, forKey: weeklyDebriefKey)
             } else {
-                print("Error: failed to encode WeeklyDebrief object")
+                Logger.services.error("Error: failed to encode WeeklyDebrief object")
             }
         }
     }
@@ -168,7 +169,7 @@ class UserData: ObservableObject {
 
         if let uuid = UserDefaults.standard.object(forKey: userUUIDKey) as? String {
 #if DEBUG
-            print("Initializing UserData with UUID: \(uuid)")
+            Logger.services.log("Initializing UserData with UUID: \(uuid)")
 #endif
             self.uuid = uuid
         }
@@ -273,9 +274,7 @@ class UserData: ObservableObject {
         _requestInProgress = bookmarkRequestInProgress
 
         guard let uuid = uuid else {
-#if DEBUG
-            print("Error: received nil for UUID in set(article:isSaved)")
-#endif
+            Logger.services.error("Error: received nil for UUID in set(article:isSaved)")
             requestInProgress = false
             return
         }
@@ -288,7 +287,7 @@ class UserData: ObservableObject {
             )
             .sink { completion in
                 if case let .failure(error) = completion {
-                    print("Error: BookmarkArticleMutation failed on UserData: \(error.localizedDescription)")
+                    Logger.services.error("Error: BookmarkArticleMutation failed on UserData: \(error.localizedDescription)")
                 }
                 requestInProgress = false
             } receiveValue: { _ in
@@ -307,9 +306,7 @@ class UserData: ObservableObject {
         _requestInProgress = bookmarkRequestInProgress
 
         guard let uuid = uuid else {
-#if DEBUG
-            print("Error: received nil for UUID in set(magazine :isSaved)")
-#endif
+            Logger.services.error("Error: received nil for UUID in set(magazine :isSaved)")
             requestInProgress = false
             return
         }
@@ -322,7 +319,7 @@ class UserData: ObservableObject {
             )
             .sink { completion in
                 if case let .failure(error) = completion {
-                    print("Error: BookmarkMagazineMutation failed on UserData: \(error.localizedDescription)")
+                    Logger.services.error("Error: BookmarkMagazineMutation failed on UserData: \(error.localizedDescription)")
                 }
                 requestInProgress = false
             } receiveValue: { _ in
@@ -341,9 +338,7 @@ class UserData: ObservableObject {
         _requestInProgress = bookmarkRequestInProgress
 
         guard let uuid = uuid else {
-#if DEBUG
-            print("Error: received nil for UUID in set(flyer :isSaved)")
-#endif
+            Logger.services.error("Error: received nil for UUID in set(flyer :isSaved)")
             requestInProgress = false
             return
         }
@@ -354,7 +349,7 @@ class UserData: ObservableObject {
             )
             .sink { completion in
                 if case let .failure(error) = completion {
-                    print("Error: BookmarkFlyerMutation failed on UserData: \(error.localizedDescription)")
+                    Logger.services.error("Error: BookmarkFlyerMutation failed on UserData: \(error.localizedDescription)")
                 }
                 requestInProgress = false
             } receiveValue: { _ in
@@ -394,7 +389,7 @@ class UserData: ObservableObject {
             )
             .sink { completion in
                 if case let .failure(error) = completion {
-                    print("Error: FollowPublicationMutation failed on UserData: \(error.localizedDescription)")
+                    Logger.services.error("Error: FollowPublicationMutation failed on UserData: \(error.localizedDescription)")
                 }
                 requestInProgress = false
             } receiveValue: { _ in
@@ -411,7 +406,7 @@ class UserData: ObservableObject {
             )
             .sink { completion in
                 if case let .failure(error) = completion {
-                    print("Error: UnfollowPublicationMutation failed on UserData: \(error.localizedDescription)")
+                    Logger.services.error("Error: UnfollowPublicationMutation failed on UserData: \(error.localizedDescription)")
                 }
                 requestInProgress = false
             } receiveValue: { _ in
@@ -446,7 +441,7 @@ class UserData: ObservableObject {
             )
                 .sink { completion in
                     if case let .failure(error) = completion {
-                        print("Error: FollowOrganizationMutation failed on UserData: \(error.localizedDescription)")
+                        Logger.services.error("Error: FollowOrganizationMutation failed on UserData: \(error.localizedDescription)")
                     }
                     requestInProgress = false
                 } receiveValue: { _ in
@@ -464,7 +459,7 @@ class UserData: ObservableObject {
             )
             .sink { completion in
                 if case let .failure(error) = completion {
-                    print("Error: UnfollowOrganizationMutation failed on UserData: \(error.localizedDescription)")
+                    Logger.services.error("Error: UnfollowOrganizationMutation failed on UserData: \(error.localizedDescription)")
                 }
                 requestInProgress = false
             } receiveValue: { _ in

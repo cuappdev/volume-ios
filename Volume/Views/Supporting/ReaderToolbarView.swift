@@ -7,6 +7,7 @@
 //
 
 import Combine
+import OSLog
 import SDWebImageSwiftUI
 import SwiftUI
 
@@ -59,7 +60,7 @@ struct ReaderToolbarView<Content: ReadableContent>: View {
         Network.client.mutationPublisher(mutation: VolumeAPI.IncrementShoutoutsMutation(id: article.id, uuid: uuid))
             .sink { completion in
                 if case let .failure(error) = completion {
-                    print("Error: IncrementShoutoutsMutation failed on BrowserView: \(error.localizedDescription)")
+                    Logger.services.error("Error: IncrementShoutoutsMutation failed on BrowserView: \(error.localizedDescription)")
                 }
             } receiveValue: { _ in
             }
@@ -94,7 +95,7 @@ struct ReaderToolbarView<Content: ReadableContent>: View {
         .sink { completion in
             if case let .failure(error) = completion {
                 // swiftlint:disable:next line_length
-                print("Error: IncrementMagazineShoutoutsMutation failed on MagazineReaderView: \(error.localizedDescription)")
+                Logger.services.error("Error: IncrementMagazineShoutoutsMutation failed on MagazineReaderView: \(error.localizedDescription)")
             }
         } receiveValue: { _ in
         }

@@ -7,6 +7,7 @@
 //
 
 import Combine
+import OSLog
 import SwiftUI
 
 extension OrgsLoginView {
@@ -54,7 +55,7 @@ extension OrgsLoginView {
                 .sink { [weak self] completion in
                     switch completion {
                     case .failure(let error):
-                        print("Error in OrgsLoginViewModel.authenticate: \(error)")
+                        Logger.services.error("Error in OrgsLoginViewModel.authenticate: \(error.localizedDescription)")
                         self?.showErrorMessage = true
                         self?.isAuthenticated = false
                         self?.showSpinner = false

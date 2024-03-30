@@ -8,6 +8,7 @@
 
 import Alamofire
 import Combine
+import OSLog
 import PhotosUI
 import SwiftUI
 
@@ -104,7 +105,7 @@ extension FlyerUploadView {
                         self?.uploadSuccessful = true
                         self?.showSpinner = false
                     case .failure(let error):
-                        print("Error: CreateFlyerRequest failed on FlyerUploadView: \(error)")
+                        Logger.services.error("Error: CreateFlyerRequest failed on FlyerUploadView: \(error.localizedDescription)")
                         self?.uploadSuccessful = false
                         self?.showSpinner = false
                     }
@@ -118,7 +119,7 @@ extension FlyerUploadView {
             Network.client.mutationPublisher(mutation: VolumeAPI.DeleteFlyerMutation(id: flyerID))
                 .sink { [weak self] completion in
                     if case let .failure(error) = completion {
-                        print("Error: DeleteFlyerMutation failed on FlyerUploadView: \(error)")
+                        Logger.services.error("Error: DeleteFlyerMutation failed on FlyerUploadView: \(error.localizedDescription)")
                         self?.showSpinner = false
                         self?.deleteEditSuccess = false
                     }
@@ -163,7 +164,7 @@ extension FlyerUploadView {
                     self?.deleteEditSuccess = true
                     self?.showSpinner = false
                 case .failure(let error):
-                    print("Error: EditFlyerRequest failed on FlyerUploadView: \(error)")
+                    Logger.services.error("Error: EditFlyerRequest failed on FlyerUploadView: \(error.localizedDescription)")
                     self?.deleteEditSuccess = false
                     self?.showSpinner = false
                 }

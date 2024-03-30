@@ -8,6 +8,7 @@
 
 import Combine
 import LinkPresentation
+import OSLog
 import SDWebImageSwiftUI
 import SwiftUI
 import WebKit
@@ -162,7 +163,7 @@ struct BrowserView: View {
             .compactMap { $0.data?.article.map(\.fragments.articleFields) }
             .sink { completion in
                 if case let .failure(error) = completion {
-                    print("Error: GetArticleByIdQuery failed on BrowserView: \(error.localizedDescription)")
+                    Logger.services.error("Error: GetArticleByIdQuery failed on BrowserView: \(error.localizedDescription)")
                 }
             } receiveValue: { articleFields in
                 state = .results(Article(from: articleFields))
@@ -181,11 +182,11 @@ struct BrowserView: View {
         .map(\.data?.readArticle?.id)
         .sink { completion in
             if case let .failure(error) = completion {
-                print("Error: ReadArticleMutation failed on BrowserView: \(error.localizedDescription)")
+                Logger.services.error("Error: ReadArticleMutation failed on BrowserView: \(error.localizedDescription)")
             }
         } receiveValue: { id in
 #if DEBUG
-            print("Marked article read with ID: \(id ?? "nil")")
+            Logger.services.log("Marked article read with ID: \(id ?? "nil")")
 #endif
         }
     }

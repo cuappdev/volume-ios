@@ -9,6 +9,7 @@
 import Combine
 import LinkPresentation
 import PDFKit
+import OSLog
 import SDWebImageSwiftUI
 import SwiftUI
 
@@ -74,11 +75,11 @@ struct MagazineReaderView: View {
         .map(\.data?.readMagazine?.id)
         .sink { completion in
             if case let .failure(error) = completion {
-                print("Error: ReadMagazineMutation failed on MagazineReaderView: \(error.localizedDescription)")
+                Logger.services.error("Error: ReadMagazineMutation failed on MagazineReaderView: \(error.localizedDescription)")
             }
         } receiveValue: { id in
 #if DEBUG
-            print("Marked magazine read with ID: \(id ?? "nil")")
+            Logger.services.log("Marked magazine read with ID: \(id ?? "nil")")
 #endif
         }
     }

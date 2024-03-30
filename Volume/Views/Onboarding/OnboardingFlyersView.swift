@@ -7,6 +7,7 @@
 //
 
 import Combine
+import OSLog
 import SwiftUI
 
 struct OnboardingFlyersView: View {
@@ -76,7 +77,7 @@ struct OnboardingFlyersView: View {
         .compactMap { $0.data?.flyers.map(\.fragments.flyerFields) }
         .sink { completion in
             if case let .failure(error) = completion {
-                print("Error: GetFlyersAfterDateQuery failed on OnboardingFlyersView: \(error.localizedDescription)")
+                Logger.services.error("Error: GetFlyersAfterDateQuery failed on OnboardingFlyersView: \(error.localizedDescription)")
             }
         } receiveValue: { flyerFields in
             flyers = sortFlyersByDateAsc(for: [Flyer](flyerFields))

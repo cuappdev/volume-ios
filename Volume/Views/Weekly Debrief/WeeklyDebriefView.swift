@@ -9,6 +9,7 @@
 import Apollo
 import Combine
 import LinkPresentation
+import OSLog
 import SDWebImageSwiftUI
 import SwiftUI
 import WebKit
@@ -185,7 +186,7 @@ struct WeeklyDebriefView: View {
         .compactMap(\.data?.article?.fragments.articleFields)
         .sink { completion in
             if case let .failure(error) = completion {
-                print("Error: GetArticleByIdQuery failed on WeeklyDebriefView: \(error.localizedDescription)")
+                Logger.services.error("Error: GetArticleByIdQuery failed on WeeklyDebriefView: \(error.localizedDescription)")
             }
         } receiveValue: { articleFields in
             articleStates[articleID] = .results(Article(from: articleFields))

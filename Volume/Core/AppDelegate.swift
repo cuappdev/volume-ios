@@ -7,6 +7,7 @@
 //
 
 import FirebaseMessaging
+import OSLog
 import SDWebImageSVGCoder
 import SwiftUI
 import UIKit
@@ -34,15 +35,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Messaging.messaging().apnsToken = deviceToken
         let deviceTokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
 #if DEBUG
-        print("UIApplicationDelegate didRegisterForRemoteNotifications with deviceToken: \(deviceTokenString)")
+        Logger.services.log("UIApplicationDelegate didRegisterForRemoteNotifications with deviceToken: \(deviceTokenString)")
 #endif
     }
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-#if DEBUG
         // swiftlint:disable:next line_length
-        print("Error: UIApplicationDelegate didFailToRegisterForRemoteNotificationsWithError: \(error.localizedDescription)")
-#endif
+        Logger.services.error("Error: UIApplicationDelegate didFailToRegisterForRemoteNotificationsWithError: \(error.localizedDescription)")
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

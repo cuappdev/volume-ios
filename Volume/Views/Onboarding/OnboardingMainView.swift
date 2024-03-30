@@ -7,6 +7,7 @@
 //
 
 import Combine
+import OSLog
 import SwiftUI
 
 struct OnboardingMainView: View {
@@ -176,9 +177,7 @@ struct OnboardingMainView: View {
 
     private func createUser() {
         guard let fcmToken = userData.fcmToken else {
-#if DEBUG
-            print("Error: received nil for fcmToken from UserData")
-#endif
+            Logger.services.error("Error: received nil for fcmToken from UserData")
             return
         }
 
@@ -191,12 +190,12 @@ struct OnboardingMainView: View {
         .compactMap { $0.data?.user.uuid }
         .sink { completion in
             if case let .failure(error) = completion {
-                print("Error: failed to create user: \(error.localizedDescription)")
+                Logger.services.error("Error: failed to create user: \(error.localizedDescription)")
             }
         } receiveValue: { uuid in
             userData.uuid = uuid
 #if DEBUG
-            print("User successfully created with UUID: \(uuid)")
+            Logger.services.log("User successfully created with UUID: \(uuid)")
 #endif
             withAnimation(.spring()) {
                 isFirstLaunch = false

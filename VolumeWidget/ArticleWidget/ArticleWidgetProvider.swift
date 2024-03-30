@@ -8,6 +8,7 @@
 
 import Apollo
 import Combine
+import OSLog
 import WidgetKit
 
 struct ArticleWidgetProvider: TimelineProvider {
@@ -102,7 +103,7 @@ extension ArticleWidgetProvider {
             let articleFields = try VolumeAPI.ArticleFields(data: data)
             return Article(from: articleFields)
         } catch {
-            print("Error in ArticleWidgetProvider: \(error)")
+            Logger.services.error("Error in ArticleWidgetProvider: \(error.localizedDescription)")
             return nil
         }
     }

@@ -1,89 +1,83 @@
-# Volume
+# Volume - Cornell News
 
-<p align="center"><img src=https://github.com/cuappdev/volume-ios/blob/master/Volume/Assets.xcassets/AppIcon.appiconset/Logo%20%232-1024.png
-width=210/></p>
+<p align="center"><img src="https://github.com/cuappdev/volume-ios/blob/master/Volume/Assets.xcassets/AppIcon.appiconset/Logo%20%232-1024.png" width=210 /></p>
 
-Volume is one of the latest applications by [Cornell AppDev](http://cornellappdev.com), an engineering project team at Cornell University focused on mobile app development. Volume aims to amplify the voice of student publications, helping them reach a broader audience.
+Volume is one of the latest applications by [Cornell AppDev](http://cornellappdev.com), an engineering project team at Cornell University focused on mobile app development. Volume aims to amplify the voice of student publications, helping them reach a broader audience. Download the current release on the [App Store](https://apps.apple.com/us/app/volume-cornell-news/id1547133564)!
 
-## Development
+<br />
 
-### Installation
+## System Requirements
 
-We use [CocoaPods](http://cocoapods.org) for our dependency manager. This should be installed before continuing.
+You must have at least Xcode 14.0, iOS 15.0, and Swift 5.5 to run this app.
 
-To access the project, clone the project, and run `pod install --repo-update` in the project directory.
+## Dependencies
 
-### Configuration
+This app uses Swift Package Manager for dependencies.
 
-#### 1. Secrets
+## Getting Started
 
-To build the project you need a `Supporting/Secrets.plist` file in the project.
+1. Clone the repository.
+2. Go to `VolumeSecrets/` and drag the following four files into **FINDER (NOT Xcode). You must create this folder through Finder.** For AppDev members, you can find these pinned in the `#volume-ios` Slack channel.
+   - `GoogleService-Info.plist`
+   - `Secrets.plist`
+   - `apollo-codegen-config-dev.json`
+   - `apollo-codegen-config-prod.json`
+3. Install Swiftlint with `brew install swiftlint`. As of SP24, there is a bug with SPM involving incompatible OS versions with package dependencies. Because the codebase uses SPM, we don't want to introduce CocoaPods, so Swiftlint will be installed via Homebrew.
+4. Open the **Project**, select **Volume** under Targets, then choose the **Build Phases** tab.
 
-<details>
-  <summary>Secrets.plist Template</summary>
-  
-  ```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-  <key>appdev-website</key>
-	<string>https://www.cornellappdev.com/</string>
-	<key>feedback-form</key>
-	<string>YOUR_FEEDBACK_FORM_URL</string>
-	<key>graphql-endpoint-production</key>
-	<string>YOUR_GRAPHQL_PROD_ENDPOINT</string>
-	<key>graphql-endpoint-debug</key>
-	<string>YOUR_GRAPHQL_DEBUG_ENDPOINT</string>
-	<key>openarticle-url</key>
-	<string>YOUR_OPENARTICLE_URL</string>
-	<key>announcements-scheme</key>
-	<string>YOUR_ANNOUNCEMENTS_SCHEME</string>
-	<key>announcements-host</key>
-	<string>YOUR_ANNOUNCEMENTS_ENDPOINT_HOST</string>
-	<key>announcements-common-path</key>
-	<string>/YOUR_ANNOUNCEMENTS_ENDPOINT_COMMON_PATH</string>
-	<key>announcements-path</key>
-	<string>/YOUR_ANNOUNCEMENTS_ENDPOINT_PATH/</string>
-</dict>
-</plist>
-```
-</details>
-
-AppDev members can access the `Supporting/Secrets.plist` file via a pinned message in the `#volume-ios` channel.
-
-#### 2. Firebase
-
-AppDev uses Firebase for event logging which requires a `GoogleService-Info.plist` file, obtained from a Firebase project.
-
-AppDev members can access the `GoogleService-Info.plist` file via a pinned message in the `#volume-ios` channel.
-Place the file in the `Volume/Supporting/` directory.
-
-#### 3. Apollo
-
-Volume uses GraphQL instead of a RESTful API. To aid with iOS compatibility, we use [Apollo](apollographql.com) to generate Swift objects that correspond to the `schema.json` specification provided by the backend. Follow [this article](https://www.apollographql.com/docs/devtools/cli/) to install the Apollo CLI. Once installed, run this command from the project's home directory (`volume-ios`). 
+- There should be a run script labeled **SwiftLint**. If not, create a **New Run Script Phase** with the following script:
 
 ```bash
-apollo schema:download --endpoint="https://YOUR-BACKEND-URL.com/graphql" Volume/Networking/schema.json
+if [[ "$(uname -m)" == arm64 ]]; then
+    export PATH="/opt/homebrew/bin:$PATH"
+fi
+
+if which swiftlint >/dev/null; then
+    swiftlint --fix && swiftlint
+else
+    echo "ERROR: SwiftLint not installed"
+    exit 1
+fi
+
 ```
 
-Double check that a `schema.json` file has been added to the `Networking` directory in your Xcode project. 
-
-Then, in Xcode, in the Volume target under Build Phases, make sure there is a phase called "Generate Apollo GraphQL API" before "Compile Sources." If not, create one with this script: 
+- There should also be another run script labeled **Generate API** If not, create a **New Run Script Phase** with the following script:
 
 ```bash
-SCRIPT_PATH="${PODS_ROOT}/Apollo/scripts"
-cd "${SRCROOT}/${TARGET_NAME}"
+CLI_PATH="./apollo-ios-cli"
+SECRETS_PATH="${SRCROOT}/VolumeSecrets"
 
-"${SCRIPT_PATH}"/run-bundled-codegen.sh codegen:generate --target=swift --includes=./**/*.graphql --localSchemaFile="Networking/schema.json" Networking/API.swift
+if [ "${CONFIGURATION}" != "Release" ]; then
+  CONFIG_PATH="${SECRETS_PATH}/apollo-codegen-config-dev.json"
+fi
+
+if [ "${CONFIGURATION}" = "Release" ]; then
+  CONFIG_PATH="${SECRETS_PATH}/apollo-codegen-config-prod.json"
+fi
+
+"${CLI_PATH}" generate -p "${CONFIG_PATH}" -f
+
 ```
 
-This will auto-generate an `API.swift` file with Swift objects that correspond to the given `schema.json` and `.graphql` files. 
+- The order in which you the scripts are being ran matters! Make sure that the Crashlytics script is at the very bottom.
 
-## Analytics
+5. Select the `Volume` schema to use our development server and `Volume-Prod` to use our production server.
+6. Run the following code: `./apollo-ios-cli generate -p "VolumeSecrets/apollo-codegen-config-dev.json" -f`
+7. Build the project and you should be good to go.
 
-A custom cocoapod, [`AppDevAnalytics`](https://github.com/cuappdev/analytics-ios), is used to setup Volume's data pipeline.
+## Common Issues
 
-`AppDevAnalytics` uses Google Firebase to log user actions and this data is linked to a Google BigQuery data warehouse.
-All produced data is anonymized with potentially identifying information removed.
-A full list of all events and their associated data is listed under [`Volume/Analytics/Events.md`](./Volume/Analytics/Events.md)
+- If the build script for generating the API folder doesn't work, you can manually generate the API via `./apollo-ios-cli generate -p "VolumeSecrets/apollo-codegen-config-dev.json" -f`
+
+- If VolumeAPI is not detected or if your new written queries/mutations are not generated by Apollo, make sure that the generated VolumeAPI folder is linked to both the main Volume and VolumeWidget targets. You can do this by simply deleting the VolumeAPI group via the project navigator on Xcode and dragging the generated VolumeAPI folder from Finder to Xcode.
+
+## Codebase Outline
+
+- **Configs**: the app environment settings, like production, staging, and development configurations.
+- **Core**: the app’s entry point and LaunchScreen.
+- **Models**: model objects used by the API and throughout the app.
+- **Resources**: the project assets, such as fonts.
+- **Services**: service helpers such as a Networking API service, CoreData, SwiftData, UserDefaults, etc.
+- **Utils**: other helper files such as constants, extensions, custom errors, etc.
+- **ViewModels**: our app’s view models which implement properties and commands to which the view can data bind to and notify the view of any state changes.
+- **Views**: the appearance and UI of the app.

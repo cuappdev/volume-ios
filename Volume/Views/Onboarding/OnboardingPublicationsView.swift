@@ -7,6 +7,7 @@
 //
 
 import Combine
+import OSLog
 import SwiftUI
 
 struct OnboardingPublicationsView: View {
@@ -85,7 +86,7 @@ struct OnboardingPublicationsView: View {
             .sink { completion in
                 if case let .failure(error) = completion {
                     // swiftlint:disable:next line_length
-                    print("Error: GetAllPublicationsQuery failed on OnboardingPublicationsView: \(error.localizedDescription)")
+                    Logger.services.error("Error: GetAllPublicationsQuery failed on OnboardingPublicationsView: \(error.localizedDescription)")
                 }
             } receiveValue: { publicationFields in
                 publications = [Publication](publicationFields)

@@ -8,6 +8,7 @@
 
 import Combine
 import Foundation
+import OSLog
 
 final class WidgetViewModel {
 
@@ -29,7 +30,7 @@ final class WidgetViewModel {
             .compactMap { $0.data?.articles.map(\.fragments.articleFields) }
             .sink { completion in
                 if case let .failure(error) = completion {
-                    print("Error: GetTrendingArticlesQuery failed in ArticleWidgetProvider: \(error)")
+                    Logger.services.error("Error: GetTrendingArticlesQuery failed in ArticleWidgetProvider: \(error.localizedDescription)")
                 }
             } receiveValue: { articleFields in
                 var articles = [Article](articleFields)
@@ -44,7 +45,7 @@ final class WidgetViewModel {
             .compactMap { $0.data?.organizations.map(\.fragments.organizationFields) }
             .sink { completion in
                 if case let .failure(error) = completion {
-                    print("Error: GetAllOrganizationNamesQuery failed in WidgetOrganizationQuery: \(error)")
+                    Logger.services.error("Error: GetAllOrganizationNamesQuery failed in WidgetOrganizationQuery: \(error.localizedDescription)")
                 }
             } receiveValue: { organizationFields in
                 var orgs = [Organization](organizationFields)
@@ -60,7 +61,7 @@ final class WidgetViewModel {
             .compactMap { $0.data?.flyers.map(\.fragments.flyerFields) }
             .sink { completion in
                 if case let .failure(error) = completion {
-                    print("Error: GetFlyersByOrganizationSlugQuery failed in FlyerWidgetProvider: \(error)")
+                    Logger.services.error("Error: GetFlyersByOrganizationSlugQuery failed in FlyerWidgetProvider: \(error.localizedDescription)")
                 }
             } receiveValue: { [weak self] flyerFields in
                 guard let self = self else { return }

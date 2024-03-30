@@ -7,6 +7,7 @@
 //
 
 import Combine
+import OSLog
 import SwiftUI
 
 extension OrgsAdminView {
@@ -68,7 +69,7 @@ extension OrgsAdminView {
             Network.client.mutationPublisher(mutation: VolumeAPI.DeleteFlyerMutation(id: flyerID))
                 .sink { [weak self] completion in
                     if case let .failure(error) = completion {
-                        print("Error: DeleteFlyerMutation failed on OrgsAdminView: \(error)")
+                        Logger.services.error("Error: DeleteFlyerMutation failed on OrgsAdminView: \(error.localizedDescription)")
                         self?.showSpinner = false
                     }
                 } receiveValue: { [weak self] _ in

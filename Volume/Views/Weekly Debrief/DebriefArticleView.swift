@@ -7,6 +7,7 @@
 //
 
 import Combine
+import OSLog
 import SDWebImageSwiftUI
 import SwiftUI
 
@@ -200,7 +201,7 @@ struct DebriefArticleView: View {
             .sink(receiveCompletion: { completion in
                 if case let .failure(error) = completion {
                     // swiftlint:disable:next line_length
-                    print("Error: IncrementShoutoutsMutation failed on DebriefArticleView: \(error.localizedDescription)")
+                    Logger.services.error("Error: IncrementShoutoutsMutation failed on DebriefArticleView: \(error.localizedDescription)")
                 }
             }, receiveValue: { _ in })
     }

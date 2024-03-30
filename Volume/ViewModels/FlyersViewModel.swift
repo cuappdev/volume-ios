@@ -7,6 +7,7 @@
 //
 
 import Combine
+import OSLog
 import SwiftUI
 
 extension FlyersView {
@@ -96,8 +97,10 @@ extension FlyersView {
             Network.client.mutationPublisher(mutation: VolumeAPI.IncrementTimesClickedMutation(id: flyer.id))
                 .sink { [weak self] completion in
                     self?.networkState?.handleCompletion(screen: .flyers, completion)
-                    print("Marked flyer \(flyer.id) read")
                 } receiveValue: { _ in
+#if DEBUG
+                    Logger.services.log("Marked flyer \(flyer.id) read")
+#endif
                 }
                 .store(in: &queryBag)
         }

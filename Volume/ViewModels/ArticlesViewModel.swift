@@ -7,6 +7,7 @@
 //
 
 import Combine
+import OSLog
 import SwiftUI
 
 extension ArticlesView {
@@ -74,7 +75,6 @@ extension ArticlesView {
             await fetchWeeklyDebrief()
 
             if followedArticles == nil {
-                await fetchPublications()
                 await fetchFirstPage()
             }
         }
@@ -110,9 +110,7 @@ extension ArticlesView {
         func fetchWeeklyDebrief() async {
             func fetch() {
                 guard let uuid = userData?.uuid else {
-#if DEBUG
-                    print("Error: received nil UUID from UserData")
-#endif
+                    Logger.services.error("Error: received nil UUID from UserData")
                     return
                 }
 
@@ -122,9 +120,7 @@ extension ArticlesView {
                         self?.networkState?.handleCompletion(screen: .reads, completion)
                     } receiveValue: { [weak self] weeklyDebriefFields in
                         guard let weeklyDebriefFields else {
-#if DEBUG
-                            print("Error: GetWeeklyDebrief failed on ArticlesView: field \"weeklyDebrief\" is nil.")
-#endif
+                            Logger.services.error("Error: GetWeeklyDebrief failed on ArticlesView: field \"weeklyDebrief\" is nil.")
                             self?.weeklyDebrief = nil
                             return
                         }
@@ -151,18 +147,19 @@ extension ArticlesView {
             }
         }
 
-        func fetchPublications() async {
+        func fetchFirstPage() async {
             Network.client.queryPublisher(query: VolumeAPI.GetAllPublicationsQuery())
                 .compactMap { $0.data?.publications.map(\.slug) }
                 .sink { [weak self] completion in
                     self?.networkState?.handleCompletion(screen: .reads, completion)
                 } receiveValue: { [weak self] slugs in
                     self?.publicationSlugs = slugs
+                    self?.fetchFirstAritcles()
                 }
                 .store(in: &queryBag)
         }
 
-        func fetchFirstPage() async {
+        private func fetchFirstAritcles() {
             Network.client.queryPublisher(
                 query: VolumeAPI.GetArticlesByPublicationSlugsQuery(
                     slugs: followedPublicationSlugs,
@@ -185,8 +182,10 @@ extension ArticlesView {
                     query: VolumeAPI.GetShuffledArticlesByPublicationSlugsQuery(
                         slugs: slugs,
                         limit: Constants.pageSize,
-                        offset: GraphQLNullable<Double>(floatLiteral: offset(
-                            for: followed ? followedArticles : unfollowedArticles)
+                        offset: GraphQLNullable<Double>(
+                            floatLiteral: offset(
+                                for: followed ? followedArticles : unfollowedArticles
+                            )
                         )
                     )
                 )

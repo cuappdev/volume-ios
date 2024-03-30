@@ -7,6 +7,7 @@
 //
 
 import Combine
+import OSLog
 import SwiftUI
 
 extension TrendingView {
@@ -96,8 +97,10 @@ extension TrendingView {
             Network.client.mutationPublisher(mutation: VolumeAPI.IncrementTimesClickedMutation(id: flyer.id))
                 .sink { [weak self] completion in
                     self?.networkState?.handleCompletion(screen: .flyers, completion)
-                    print("Marked flyer \(flyer.id) read")
                 } receiveValue: { _ in
+#if DEBUG
+                    Logger.services.log("Marked flyer \(flyer.id) read")
+#endif
                 }
                 .store(in: &queryBag)
         }
@@ -105,7 +108,7 @@ extension TrendingView {
         // MARK: - Private Requests
 
         private func fetchMainArticle() async {
-            // MARK: Currently uncommented in case trending is not working on backend
+            // TODO: Currently uncommented in case trending is not working on backend
             //            Network.shared.publisher(for: GetTrendingArticlesQuery(limit: Constants.mainArticleLimit))
             //                .map { $0.articles.map(\.fragments.articleFields) }
             //                .sink { [weak self] completion in
