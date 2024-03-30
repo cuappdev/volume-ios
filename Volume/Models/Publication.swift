@@ -10,11 +10,12 @@ import Foundation
 
 struct Publication: Hashable, Identifiable {
 
-    let backgroundImageUrl: URL?
-    let bio: String
     var id: String {
         slug
     }
+
+    let backgroundImageUrl: URL?
+    let bio: String
     let name: String
     let numArticles: Int
     let profileImageUrl: URL?
@@ -29,12 +30,12 @@ struct Publication: Hashable, Identifiable {
         let url: URL
     }
 
-    init(from publication: PublicationFields) {
-        backgroundImageUrl = URL(string: publication.backgroundImageUrl)
+    init(from publication: VolumeAPI.PublicationFields) {
+        backgroundImageUrl = URL(string: publication.backgroundImageURL)
         bio = publication.bio
         name = publication.name
         numArticles = Int(publication.numArticles)
-        profileImageUrl = URL(string: publication.profileImageUrl)
+        profileImageUrl = URL(string: publication.profileImageURL)
         recent = publication.mostRecentArticle?.title
         shoutouts = Int(publication.shoutouts)
         slug = publication.slug
@@ -44,12 +45,13 @@ struct Publication: Hashable, Identifiable {
             }
             return nil
         }
-        websiteUrl = URL(string: publication.websiteUrl)
+        websiteUrl = URL(string: publication.websiteURL)
     }
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
+
 }
 
 extension Publication {
@@ -62,7 +64,7 @@ extension Publication {
 
 extension Array where Element == Publication {
 
-    init(_ articles: [PublicationFields]) {
+    init(_ articles: [VolumeAPI.PublicationFields]) {
         self.init(articles.map(Publication.init))
     }
 

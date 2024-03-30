@@ -62,12 +62,16 @@ struct PublicationDetail: View {
 
             Group {
                 if let url = publication.backgroundImageUrl {
-                    WebImage(url: url)
-                        .resizable()
-                        .grayBackground()
-                        .scaledToFill()
-                        .frame(width: geometry.size.width, height: headerHeight)
-                        .clipped()
+                    WebImage(url: url) { image in
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    } placeholder: {
+                        Rectangle()
+                            .foregroundColor(.gray)
+                    }
+                    .frame(width: geometry.size.width, height: headerHeight)
+                    .clipped()
                 } else {
                     Rectangle()
                         .foregroundColor(.blue)
@@ -96,10 +100,14 @@ struct PublicationDetail: View {
 
                 Group {
                     if let imageUrl = publication.profileImageUrl {
-                        WebImage(url: imageUrl)
-                            .grayBackground()
-                            .resizable()
-                            .clipShape(Circle())
+                        WebImage(url: imageUrl) { image in
+                            image
+                                .resizable()
+                        } placeholder: {
+                            Rectangle()
+                                .foregroundColor(.gray)
+                        }
+                        .clipShape(Circle())
                     } else {
                         Circle()
                     }

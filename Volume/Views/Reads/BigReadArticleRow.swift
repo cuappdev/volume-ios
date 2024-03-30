@@ -16,18 +16,26 @@ struct BigReadArticleRow: View {
     var body: some View {
         VStack(spacing: 16) {
             if let url = article.imageUrl {
-                WebImage(url: url)
-                    .resizable()
-                    .grayBackground()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 180, height: 180)
-                    .clipped()
+                WebImage(url: url) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                } placeholder: {
+                    Rectangle()
+                        .foregroundColor(.gray)
+                }
+                .frame(width: 180, height: 180)
+                .clipped()
             } else {
-                WebImage(url: article.publication.profileImageUrl)
-                    .resizable()
-                    .grayBackground()
-                    .frame(width: 120, height: 120)
-                    .padding(30)
+                WebImage(url: article.publication.profileImageUrl) { image in
+                    image
+                        .resizable()
+                } placeholder: {
+                    Rectangle()
+                        .foregroundColor(.gray)
+                }
+                .frame(width: 120, height: 120)
+                .padding(30)
             }
             ArticleInfo(article: article, showsPublicationName: true, isDebrief: false)
         }

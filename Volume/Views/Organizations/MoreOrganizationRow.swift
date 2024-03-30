@@ -6,7 +6,6 @@
 //  Copyright © 2023 Cornell AppDev. All rights reserved.
 //
 
-import AppDevAnalytics
 import SDWebImageSwiftUI
 import SwiftUI
 
@@ -36,11 +35,16 @@ struct MoreOrganizationRow: View {
     @ViewBuilder
     private var orgImageView: some View {
         if let imageUrl = organization.profileImageUrl {
-            WebImage(url: imageUrl)
-                .grayBackground()
-                .resizable()
-                .clipShape(Circle())
-                .frame(width: 60, height: 60)
+            WebImage(url: imageUrl) { image in
+                image
+                    .resizable()
+            } placeholder: {
+                Rectangle()
+                    .foregroundColor(.gray)
+            }
+            .clipShape(Circle())
+            .frame(width: 60, height: 60)
+
         } else {
             noProfileImageView
         }
@@ -71,14 +75,14 @@ struct MoreOrganizationRow: View {
                 followRequestInProgress = true
                 userData.toggleOrganizationFollowed(organization, $followRequestInProgress)
 
-                AppDevAnalytics.log(
+                AnalyticsManager.shared.log(
                     userData.isOrganizationFollowed(organization)
                     ? VolumeEvent.unfollowOrganization.toEvent(
-                        .organization,
+                        type: .organization,
                         value: organization.slug,
                         navigationSource: navigationSource
                     ) : VolumeEvent.followOrganization.toEvent(
-                        .organization,
+                        type: .organization,
                         value: organization.slug,
                         navigationSource: navigationSource
                     )

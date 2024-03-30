@@ -68,9 +68,9 @@ struct SearchResultsList: View {
     }
 
     private func fetchSearchedArticles(_ done: @escaping () -> Void = { }) {
-        sectionQueries.articles = Network.shared.publisher(for: SearchArticlesQuery(query: searchText))
+        sectionQueries.articles = Network.client.queryPublisher(query: VolumeAPI.SearchArticlesQuery(query: searchText))
             .compactMap {
-                $0.article.map(\.fragments.articleFields)
+                $0.data?.article.map(\.fragments.articleFields)
             }
             .sink { completion in
                 networkState.handleCompletion(screen: .search, completion)
@@ -84,27 +84,31 @@ struct SearchResultsList: View {
     }
 
     private func fetchSearchedMagazines(_ done: @escaping () -> Void = { }) {
-        sectionQueries.magazines = Network.shared.publisher(for: SearchMagazinesQuery(query: searchText))
-            .compactMap {
-                $0.magazine.map(\.fragments.magazineFields)
-            }
-            .sink { completion in
-                networkState.handleCompletion(screen: .search, completion)
-            } receiveValue: { magazineFields in
-                Task {
-                    let searchedMagazines = await [Magazine](magazineFields)
-                    withAnimation(.linear(duration: Constants.animationDuration)) {
-                        sectionStates.magazines = .results(searchedMagazines)
-                    }
-                    done()
+        sectionQueries.magazines = Network.client.queryPublisher(
+            query: VolumeAPI.SearchMagazinesQuery(
+                query: searchText
+            )
+        )
+        .compactMap {
+            $0.data?.magazine.map(\.fragments.magazineFields)
+        }
+        .sink { completion in
+            networkState.handleCompletion(screen: .search, completion)
+        } receiveValue: { magazineFields in
+            Task {
+                let searchedMagazines = await [Magazine](magazineFields)
+                withAnimation(.linear(duration: Constants.animationDuration)) {
+                    sectionStates.magazines = .results(searchedMagazines)
                 }
+                done()
             }
+        }
     }
 
     private func fetchSearchedFlyers(_ done: @escaping () -> Void = { }) {
-        sectionQueries.flyers = Network.shared.publisher(for: SearchFlyersQuery(query: searchText))
+        sectionQueries.flyers = Network.client.queryPublisher(query: VolumeAPI.SearchFlyersQuery(query: searchText))
             .compactMap {
-                $0.flyer.map(\.fragments.flyerFields)
+                $0.data?.flyer.map(\.fragments.flyerFields)
             }
             .sink { completion in
                 networkState.handleCompletion(screen: .search, completion)

@@ -25,15 +25,15 @@ struct Flyer: Hashable, Identifiable {
     let title: String
     let trendiness: Int
 
-    init(from flyer: FlyerFields) {
+    init(from flyer: VolumeAPI.FlyerFields) {
         self.id = flyer.id
         self.categorySlug = flyer.categorySlug
         self.endDate = Date.from(iso8601: flyer.endDate)
         self.flyerUrl = {
-            guard let stringUrl = flyer.flyerUrl else { return nil }
+            guard let stringUrl = flyer.flyerURL else { return nil }
             return URL(string: stringUrl)
         }()
-        self.imageUrl = URL(string: flyer.imageUrl)
+        self.imageUrl = URL(string: flyer.imageURL)
         self.location = flyer.location
         self.organization = Organization(from: flyer.organization.fragments.organizationFields)
         self.organizationSlug = flyer.organizationSlug
@@ -51,7 +51,7 @@ struct Flyer: Hashable, Identifiable {
 
 extension Array where Element == Flyer {
 
-    init(_ flyers: [FlyerFields]) {
+    init(_ flyers: [VolumeAPI.FlyerFields]) {
         self.init(flyers.map(Flyer.init))
     }
 

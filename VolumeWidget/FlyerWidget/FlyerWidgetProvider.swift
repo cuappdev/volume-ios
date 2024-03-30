@@ -6,6 +6,7 @@
 //  Copyright © 2023 Cornell AppDev. All rights reserved.
 //
 
+import Apollo
 import Combine
 import WidgetKit
 
@@ -92,8 +93,8 @@ extension FlyerWidgetProvider {
         // swiftlint:enable line_length
 
         do {
-            let flyerQuery = try GetFlyersByIDsQuery.Data.Flyer(jsonObject: data)
-            return Flyer(from: flyerQuery.fragments.flyerFields)
+            let flyerFields = try VolumeAPI.FlyerFields(data: data)
+            return Flyer(from: flyerFields)
         } catch {
             print("Error in FlyerWidgetProvider: \(error)")
             return nil

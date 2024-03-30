@@ -28,14 +28,14 @@ struct Magazine: ReadableContent {
     let title: String
     let trendiness: Int
 
-    init(from magazine: MagazineFields) async {
-        date = Date.from(iso8601: magazine.date)
+    init(from magazine: VolumeAPI.MagazineFields) async {
         id = magazine.id
-        imageUrl = URL(string: magazine.imageUrl)
+        date = Date.from(iso8601: magazine.date)
+        imageUrl = URL(string: magazine.imageURL)
         isFeatured = magazine.isFeatured
         isFiltered = magazine.isFiltered
         isNSFW = magazine.nsfw
-        pdfUrl = URL(string: magazine.pdfUrl)
+        pdfUrl = URL(string: magazine.pdfURL)
         publication = Publication(from: magazine.publication.fragments.publicationFields)
         publicationSlug = magazine.publicationSlug
         semester = magazine.semester
@@ -48,7 +48,7 @@ struct Magazine: ReadableContent {
 
 extension Array where Element == Magazine {
 
-    init(_ magazines: [MagazineFields]) async {
+    init(_ magazines: [VolumeAPI.MagazineFields]) async {
         await self.init(magazines.asyncMap(Magazine.init))
     }
 

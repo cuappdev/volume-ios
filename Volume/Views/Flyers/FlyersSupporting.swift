@@ -6,7 +6,6 @@
 //  Copyright © 2023 Cornell AppDev. All rights reserved.
 //
 
-import AppDevAnalytics
 import SwiftUI
 
 struct FlyersBookmark: View {
@@ -102,8 +101,8 @@ struct FlyersBookmark: View {
         bookmarkRequestInProgress = true
         isFlyerSaved.toggle()
         userData.toggleFlyerSaved(flyer, $bookmarkRequestInProgress)
-        AppDevAnalytics.log(
-            VolumeEvent.bookmarkFlyer.toEvent(.flyer, value: flyer.id, navigationSource: navigationSource)
+        AnalyticsManager.shared.log(
+            VolumeEvent.bookmarkFlyer.toEvent(type: .flyer, value: flyer.id, navigationSource: navigationSource)
         )
     }
 
@@ -135,8 +134,8 @@ struct FlyersShare: View {
             .frame(width: buttonSize.width, height: buttonSize.height)
             .onTapGesture {
                 Haptics.shared.play(.light)
-                AppDevAnalytics.log(
-                    VolumeEvent.shareFlyer.toEvent(.flyer, value: flyer.id, navigationSource: navigationSource)
+                AnalyticsManager.shared.log(
+                    VolumeEvent.shareFlyer.toEvent(type: .flyer, value: flyer.id, navigationSource: navigationSource)
                 )
                 Task {
                     await FlyersView.ViewModel.displayShareScreen(for: flyer)

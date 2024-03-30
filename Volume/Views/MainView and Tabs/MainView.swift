@@ -6,8 +6,6 @@
 //  Copyright © 2020 Cornell AppDev. All rights reserved.
 //
 
-import AppDevAnalytics
-import AppDevAnnouncements
 import SwiftUI
 
 struct MainView: View {
@@ -58,7 +56,7 @@ struct MainView: View {
                         .foregroundColor(selectedTab == .trending ? .volume.orange : .volume.lightGray)
                         .onTapGesture {
                             selectedTab = .trending
-                            AppDevAnalytics.log(VolumeEvent.tapTrendingPage.toEvent(.page))
+                            AnalyticsManager.shared.log(VolumeEvent.tapTrendingPage.toEvent(type: .page))
                         }
 
                     Spacer()
@@ -67,7 +65,7 @@ struct MainView: View {
                         .foregroundColor(selectedTab == .flyers ? .volume.orange : .volume.lightGray)
                         .onTapGesture {
                             selectedTab = .flyers
-                            AppDevAnalytics.log(VolumeEvent.tapFlyersPage.toEvent(.page))
+                            AnalyticsManager.shared.log(VolumeEvent.tapFlyersPage.toEvent(type: .page))
                         }
 
                     Spacer()
@@ -76,7 +74,7 @@ struct MainView: View {
                         .foregroundColor(selectedTab == .reads ? .volume.orange : .volume.lightGray)
                         .onTapGesture {
                             selectedTab = .reads
-                            AppDevAnalytics.log(VolumeEvent.tapReadsPage.toEvent(.page))
+                            AnalyticsManager.shared.log(VolumeEvent.tapReadsPage.toEvent(type: .page))
                         }
 
                     Spacer()
@@ -85,7 +83,7 @@ struct MainView: View {
                         .foregroundColor(selectedTab == .bookmarks ? .volume.orange : .volume.lightGray)
                         .onTapGesture {
                             selectedTab = .bookmarks
-                            AppDevAnalytics.log(VolumeEvent.tapBookmarksPage.toEvent(.page))
+                            AnalyticsManager.shared.log(VolumeEvent.tapBookmarksPage.toEvent(type: .page))
                         }
 
                     Spacer()
@@ -152,13 +150,14 @@ struct MainView: View {
                             }
                     )
                 }
-                .onAppear {
-                    SwiftUIAnnounce.presentAnnouncement { presented in
-                        if presented {
-                            AppDevAnalytics.log(VolumeEvent.announcementPresented.toEvent(.general))
-                        }
-                    }
-                }
+//                .onAppear {
+//                    // TODO: Uncomment this once Announcements is fixed
+//                    SwiftUIAnnounce.presentAnnouncement { presented in
+//                        if presented {
+//                            AppDevAnalytics.log(VolumeEvent.announcementPresented.toEvent(.general))
+//                        }
+//                    }
+//                }
                 .onOpenURL { url in
                     guard url.isDeeplink else {
                         return

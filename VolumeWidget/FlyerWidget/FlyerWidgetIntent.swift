@@ -88,8 +88,8 @@ struct WidgetOrganizationQuery: EntityStringQuery {
     // MARK: - Network Requests
 
     private func fetchOrganizationNames(completion: @escaping ([Organization]) -> Void) {
-        Network.shared.publisher(for: GetAllOrganizationsQuery())
-            .map { $0.organizations.map(\.fragments.organizationFields) }
+        Network.client.queryPublisher(query: VolumeAPI.GetAllOrganizationsQuery())
+            .compactMap { $0.data?.organizations.map(\.fragments.organizationFields) }
             .sink { completion in
                 if case let .failure(error) = completion {
                     print("Error: GetAllOrganizationNamesQuery failed in WidgetOrganizationQuery: \(error)")

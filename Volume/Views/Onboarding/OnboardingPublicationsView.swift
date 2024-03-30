@@ -80,8 +80,8 @@ struct OnboardingPublicationsView: View {
     // MARK: - Helpers
 
     private func fetchPublications() async {
-        cancellableQuery = Network.shared.publisher(for: GetAllPublicationsQuery())
-            .map { data in data.publications.compactMap { $0.fragments.publicationFields } }
+        cancellableQuery = Network.client.queryPublisher(query: VolumeAPI.GetAllPublicationsQuery())
+            .compactMap { $0.data?.publications.map(\.fragments.publicationFields) }
             .sink { completion in
                 if case let .failure(error) = completion {
                     // swiftlint:disable:next line_length

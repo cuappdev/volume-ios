@@ -6,7 +6,6 @@
 //  Copyright © 2023 Cornell AppDev. All rights reserved.
 //
 
-import AppDevAnalytics
 import Combine
 import SwiftUI
 
@@ -52,7 +51,7 @@ struct OnboardingMainView: View {
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + Constants.animationDelay) {
-                AppDevAnalytics.log(VolumeEvent.startOnboarding.toEvent(.general))
+                AnalyticsManager.shared.log(VolumeEvent.startOnboarding.toEvent(type: .general))
                 withAnimation(.spring()) {
                     isShowingSplash = false
                 }
@@ -169,7 +168,7 @@ struct OnboardingMainView: View {
             onboardingPage = .publications
             nextButtonMessage = "Start reading"
         case .publications:
-            AppDevAnalytics.log(VolumeEvent.completeOnboarding.toEvent(.general))
+            AnalyticsManager.shared.log(VolumeEvent.completeOnboarding.toEvent(type: .general))
             createUser()
             nextButtonMessage = "Start reading"
         }
@@ -177,28 +176,28 @@ struct OnboardingMainView: View {
 
     private func createUser() {
         guard let fcmToken = userData.fcmToken else {
-            #if DEBUG
+#if DEBUG
             print("Error: received nil for fcmToken from UserData")
-            #endif
+#endif
             return
         }
 
-        createUserMutation = Network.shared.publisher(
-            for: CreateUserMutation(
+        createUserMutation = Network.client.mutationPublisher(
+            mutation: VolumeAPI.CreateUserMutation(
                 deviceToken: fcmToken,
                 followedPublicationSlugs: userData.followedPublicationSlugs
             )
         )
-        .map { $0.user.uuid }
+        .compactMap { $0.data?.user.uuid }
         .sink { completion in
             if case let .failure(error) = completion {
                 print("Error: failed to create user: \(error.localizedDescription)")
             }
         } receiveValue: { uuid in
             userData.uuid = uuid
-            #if DEBUG
+#if DEBUG
             print("User successfully created with UUID: \(uuid)")
-            #endif
+#endif
             withAnimation(.spring()) {
                 isFirstLaunch = false
             }

@@ -25,8 +25,8 @@ final class WidgetViewModel {
     // MARK: - Network Requests
 
     func fetchTrendingArticles(completion: @escaping ([Article]) -> Void) {
-        Network.shared.publisher(for: GetTrendingArticlesQuery(limit: articlesLimit))
-            .compactMap { $0.articles.map(\.fragments.articleFields) }
+        Network.client.queryPublisher(query: VolumeAPI.GetTrendingArticlesQuery(limit: articlesLimit))
+            .compactMap { $0.data?.articles.map(\.fragments.articleFields) }
             .sink { completion in
                 if case let .failure(error) = completion {
                     print("Error: GetTrendingArticlesQuery failed in ArticleWidgetProvider: \(error)")
@@ -40,8 +40,8 @@ final class WidgetViewModel {
     }
 
     func fetchOrganizationNames(completion: @escaping ([Organization]) -> Void) {
-        Network.shared.publisher(for: GetAllOrganizationsQuery())
-            .map { $0.organizations.map(\.fragments.organizationFields) }
+        Network.client.queryPublisher(query: VolumeAPI.GetAllOrganizationsQuery())
+            .compactMap { $0.data?.organizations.map(\.fragments.organizationFields) }
             .sink { completion in
                 if case let .failure(error) = completion {
                     print("Error: GetAllOrganizationNamesQuery failed in WidgetOrganizationQuery: \(error)")
@@ -56,8 +56,8 @@ final class WidgetViewModel {
     }
 
     func fetchAllFlyers(forSlug slug: String, completion: @escaping ([Flyer]) -> Void) {
-        Network.shared.publisher(for: GetFlyersByOrganizationSlugQuery(slug: slug))
-            .map { $0.flyers.map(\.fragments.flyerFields) }
+        Network.client.queryPublisher(query: VolumeAPI.GetFlyersByOrganizationSlugQuery(slug: slug))
+            .compactMap { $0.data?.flyers.map(\.fragments.flyerFields) }
             .sink { completion in
                 if case let .failure(error) = completion {
                     print("Error: GetFlyersByOrganizationSlugQuery failed in FlyerWidgetProvider: \(error)")

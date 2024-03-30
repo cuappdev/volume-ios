@@ -7,7 +7,6 @@
 //
 
 import Apollo
-import AppDevAnalytics
 import Combine
 import LinkPresentation
 import SDWebImageSwiftUI
@@ -178,21 +177,18 @@ struct WeeklyDebriefView: View {
 
     private func fetchArticle(articleID: ArticleID) {
         articleStates[articleID] = .loading
-        cancellableArticleQueries[articleID] = Network.shared.publisher(for: GetArticleByIdQuery(id: articleID))
-            .map(\.article?.fragments.articleFields)
-            .sink { completion in
-                if case let .failure(error) = completion {
-                    print("Error: GetArticleByIdQuery failed on WeeklyDebriefView: \(error.localizedDescription)")
-                }
-            } receiveValue: { articleFields in
-                guard let articleFields = articleFields else {
-                    #if DEBUG
-                    print("Error: received nil for articleID \(articleID) on WeeklyDebriefView")
-                    #endif
-                    return
-                }
-
-                articleStates[articleID] = .results(Article(from: articleFields))
+        cancellableArticleQueries[articleID] = Network.client.queryPublisher(
+            query: VolumeAPI.GetArticleByIDQuery(
+                id: articleID
+            )
+        )
+        .compactMap(\.data?.article?.fragments.articleFields)
+        .sink { completion in
+            if case let .failure(error) = completion {
+                print("Error: GetArticleByIdQuery failed on WeeklyDebriefView: \(error.localizedDescription)")
             }
+        } receiveValue: { articleFields in
+            articleStates[articleID] = .results(Article(from: articleFields))
+        }
     }
 }
