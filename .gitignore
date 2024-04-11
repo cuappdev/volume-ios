@@ -1,56 +1,11 @@
-# Secrets
-Volume/Supporting/Secrets.plist
-Volume/Networking/schema.json
-Volume/Supporting/GoogleService-Info.plist
-
-# API
-Volume/Networking/API.swift
-
-# OS X
-.DS_Store
-*/.DS_Store
-
-*.xcodeproj/project.xcworkspace/xcuserdata/
-*.xcodeproj/xcuserdata/
-*.xcworkspace/xcuserdata/
-
-# Fastlane
-
-*.cer
-*.mobileprovision
-*.dSYM.zip
-*.ipa
-/report.xml
-report.xml
-
-# Xcode
-#
-# gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
-
 ## Build generated
-build/
-DerivedData
-
-## Various settings
-*.pbxuser
-!default.pbxuser
-*.mode1v3
-!default.mode1v3
-*.mode2v3
-!default.mode2v3
-*.perspectivev3
-!default.perspectivev3
+*.DS_Store
+.build/
 xcuserdata/
+build/
 
-## Other
-*.xccheckout
-*.moved-aside
-*.xcuserstate
-*.xcscmblueprint
+## Secrets
+VolumeSecrets/*
 
-## Obj-C/Swift specific
-*.hmap
-*.ipa
-
-## Pods
-Pods
+## API
+VolumeAPI

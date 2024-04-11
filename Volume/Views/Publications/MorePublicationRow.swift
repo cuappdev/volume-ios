@@ -6,7 +6,6 @@
 //  Copyright © 2020 Cornell AppDev. All rights reserved.
 //
 
-import AppDevAnalytics
 import SDWebImageSwiftUI
 import SwiftUI
 
@@ -22,11 +21,15 @@ struct MorePublicationRow: View {
     var body: some View {
         HStack(alignment: .top) {
             if let imageUrl = publication.profileImageUrl {
-                WebImage(url: imageUrl)
-                    .grayBackground()
-                    .resizable()
-                    .clipShape(Circle())
-                    .frame(width: 60, height: 60)
+                WebImage(url: imageUrl) { image in
+                    image
+                        .resizable()
+                } placeholder: {
+                    Rectangle()
+                        .foregroundColor(.gray)
+                }
+                .clipShape(Circle())
+                .frame(width: 60, height: 60)
             } else {
                 Circle()
                     .fill(Color.gray)
@@ -66,14 +69,14 @@ struct MorePublicationRow: View {
                 withAnimation {
                     followRequestInProgress = true
                     userData.togglePublicationFollowed(publication, $followRequestInProgress)
-                    AppDevAnalytics.log(
+                    AnalyticsManager.shared.log(
                         userData.isPublicationFollowed(publication)
                         ? VolumeEvent.unfollowPublication.toEvent(
-                            .publication,
+                            type: .publication,
                             value: publication.slug,
                             navigationSource: navigationSource
                         ) : VolumeEvent.followPublication.toEvent(
-                            .publication,
+                            type: .publication,
                             value: publication.slug,
                             navigationSource: navigationSource
                         )

@@ -6,9 +6,9 @@
 //  Copyright © 2020 Cornell AppDev. All rights reserved.
 //
 
-import AppDevAnalytics
 import Combine
 import LinkPresentation
+import OSLog
 import SDWebImageSwiftUI
 import SwiftUI
 import WebKit
@@ -115,9 +115,9 @@ struct BrowserView: View {
                     if let articleUrl = article.articleUrl {
                         WebView(url: articleUrl, showToolbars: $showToolbars)
                             .onAppear {
-                                AppDevAnalytics.log(
+                                AnalyticsManager.shared.log(
                                     VolumeEvent.openArticle.toEvent(
-                                        .article,
+                                        type: .article,
                                         value: article.id,
                                         navigationSource: navigationSource
                                     )
@@ -159,32 +159,36 @@ struct BrowserView: View {
 
     private func fetchArticleBy(id: String) {
         state = .loading
-        cancellableArticleQuery = Network.shared.publisher(for: GetArticleByIdQuery(id: id))
+        cancellableArticleQuery = Network.client.queryPublisher(query: VolumeAPI.GetArticleByIDQuery(id: id))
+            .compactMap { $0.data?.article.map(\.fragments.articleFields) }
             .sink { completion in
                 if case let .failure(error) = completion {
-                    print("Error: GetArticleByIdQuery failed on BrowserView: \(error.localizedDescription)")
+                    Logger.services.error("Error: GetArticleByIdQuery failed on BrowserView: \(error.localizedDescription)")
                 }
-            } receiveValue: { article in
-                if let fields = article.article?.fragments.articleFields {
-                    state = .results(Article(from: fields))
-                    markArticleRead(id: id)
-                }
+            } receiveValue: { articleFields in
+                state = .results(Article(from: articleFields))
+                markArticleRead(id: id)
             }
     }
 
     private func markArticleRead(id: String) {
         guard let uuid = userData.uuid else { return }
-        cancellableReadMutation = Network.shared.publisher(for: ReadArticleMutation(id: id, uuid: uuid))
-            .map(\.readArticle?.id)
-            .sink { completion in
-                if case let .failure(error) = completion {
-                    print("Error: ReadArticleMutation failed on BrowserView: \(error.localizedDescription)")
-                }
-            } receiveValue: { id in
-#if DEBUG
-                print("Marked article read with ID: \(id ?? "nil")")
-#endif
+        cancellableReadMutation = Network.client.mutationPublisher(
+            mutation: VolumeAPI.ReadArticleMutation(
+                id: id,
+                uuid: uuid
+            )
+        )
+        .map(\.data?.readArticle?.id)
+        .sink { completion in
+            if case let .failure(error) = completion {
+                Logger.services.error("Error: ReadArticleMutation failed on BrowserView: \(error.localizedDescription)")
             }
+        } receiveValue: { id in
+#if DEBUG
+            Logger.services.log("Marked article read with ID: \(id ?? "nil")")
+#endif
+        }
     }
 }
 

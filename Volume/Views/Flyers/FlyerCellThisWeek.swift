@@ -82,7 +82,7 @@ struct FlyerCellThisWeek: View {
         ZStack(alignment: .topLeading) {
             if let flyerImage = urlImageModel.image {
                 ZStack(alignment: .center) {
-                    Color(uiColor: flyerImage.averageColor ?? .gray)
+                    Color(uiColor: flyerImage.averageColor() ?? .gray)
 
                     Image(uiImage: urlImageModel.image ?? UIImage())
                         .resizable()

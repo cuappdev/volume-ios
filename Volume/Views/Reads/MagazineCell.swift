@@ -37,12 +37,16 @@ struct MagazineCell: View {
         VStack(alignment: .leading) {
             Group {
                 if let url = magazine.imageUrl {
-                    WebImage(url: url)
-                        .resizable()
-                        .grayBackground()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
-                        .clipped()
+                    WebImage(url: url) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                    } placeholder: {
+                        Rectangle()
+                            .foregroundColor(.gray)
+                    }
+                    .frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
+                    .clipped()
                 }
             }
             .scaledToFill()

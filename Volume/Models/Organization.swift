@@ -21,10 +21,10 @@ struct Organization: Hashable, Identifiable {
     let shoutouts: Int
     let websiteUrl: URL?
 
-    init(from organization: OrganizationFields) {
+    init(from organization: VolumeAPI.OrganizationFields) {
         self.id = organization.id
         self.backgroundImageUrl = {
-            guard let stringUrl = organization.backgroundImageUrl else { return nil }
+            guard let stringUrl = organization.backgroundImageURL else { return nil }
             return URL(string: stringUrl)
         }()
         self.bio = organization.bio
@@ -32,12 +32,12 @@ struct Organization: Hashable, Identifiable {
         self.name = organization.name
         self.numFlyers = Int(organization.numFlyers)
         self.profileImageUrl = {
-            guard let stringUrl = organization.profileImageUrl else { return nil }
+            guard let stringUrl = organization.profileImageURL else { return nil }
             return URL(string: stringUrl)
         }()
         self.slug = organization.slug
         self.shoutouts = Int(organization.shoutouts)
-        self.websiteUrl = URL(string: organization.websiteUrl)
+        self.websiteUrl = URL(string: organization.websiteURL)
     }
 
     func hash(into hasher: inout Hasher) {
@@ -48,7 +48,7 @@ struct Organization: Hashable, Identifiable {
 
 extension Array where Element == Organization {
 
-    init(_ organizations: [OrganizationFields]) {
+    init(_ organizations: [VolumeAPI.OrganizationFields]) {
         self.init(organizations.map(Organization.init))
     }
 

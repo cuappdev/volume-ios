@@ -1,0 +1,74 @@
+fragment magazineFields on Magazine {
+  id
+  imageURL
+  date
+  semester
+  pdfURL
+  publication {
+    ...publicationFields
+  }
+  publicationSlug
+  shoutouts
+  title
+  nsfw
+  isFeatured
+  trendiness
+  isFiltered
+}
+
+# MARK: - Mag Page
+
+query GetAllMagazines($limit: Float!, $offset: Float!) {
+  magazines: getAllMagazines(limit: $limit, offset: $offset) {
+    ...magazineFields
+  }
+}
+
+query GetAllMagazineSemesters($limit: Float!) {
+  magazines: getAllMagazines(limit: $limit) {
+    semester
+  }
+}
+
+query GetFeaturedMagazines($limit: Float!) {
+  magazines: getFeaturedMagazines(limit: $limit) {
+    ...magazineFields
+  }
+}
+
+query GetMagazinesBySemester($semester: String!, $limit: Float!, $offset: Float!) {
+  magazines: getMagazinesBySemester(semester: $semester, limit: $limit, offset: $offset) {
+    ...magazineFields
+  }
+}
+
+
+# MARK: - Pub Page
+
+query GetMagazinesByPublicationSlug($slug: String!) {
+  magazines: getMagazinesByPublicationSlug(slug: $slug) {
+    ...magazineFields
+  }
+}
+
+query GetMagazinesByPublicationSlugs($slugs: [String!]!) {
+  magazines: getMagazinesByPublicationSlugs(slugs: $slugs) {
+    ...magazineFields
+  }
+}
+
+# MARK: - BookmarksList
+
+query GetMagazineByID($id: String!) {
+  magazine: getMagazineByID(id: $id) {
+    ...magazineFields
+  }
+}
+
+query GetMagazinesByIDs($ids: [String!]!) {
+  magazines: getMagazinesByIDs(ids: $ids) {
+    ...magazineFields
+  }
+}
+
+

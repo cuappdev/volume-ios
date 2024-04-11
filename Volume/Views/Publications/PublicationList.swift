@@ -25,12 +25,12 @@ struct PublicationList: View {
             state = .results((followedPublications, morePublications))
         }
 
-        cancellableQuery = Network.shared.publisher(for: GetAllPublicationsQuery())
-            .map { data in data.publications.compactMap { $0 } }
+        cancellableQuery = Network.client.queryPublisher(query: VolumeAPI.GetAllPublicationsQuery())
+            .compactMap { $0.data?.publications.map(\.fragments.publicationFields) }
             .sink { completion in
                 networkState.handleCompletion(screen: .reads, completion)
-            } receiveValue: { value in
-                let publications = [Publication](value.map(\.fragments.publicationFields))
+            } receiveValue: { publicationFields in
+                let publications = [Publication](publicationFields)
                 let followedPublications = publications.filter(userData.isPublicationFollowed)
                 let morePublications = publications.filter { !userData.isPublicationFollowed($0) }
 

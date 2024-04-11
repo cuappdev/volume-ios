@@ -6,7 +6,9 @@
 //  Copyright © 2023 Cornell AppDev. All rights reserved.
 //
 
+import Apollo
 import Combine
+import OSLog
 import WidgetKit
 
 @available(iOS 17.0, *)
@@ -92,10 +94,10 @@ extension FlyerWidgetProvider {
         // swiftlint:enable line_length
 
         do {
-            let flyerQuery = try GetFlyersByIDsQuery.Data.Flyer(jsonObject: data)
-            return Flyer(from: flyerQuery.fragments.flyerFields)
+            let flyerFields = try VolumeAPI.FlyerFields(data: data)
+            return Flyer(from: flyerFields)
         } catch {
-            print("Error in FlyerWidgetProvider: \(error)")
+            Logger.services.error("Error in FlyerWidgetProvider: \(error.localizedDescription)")
             return nil
         }
     }

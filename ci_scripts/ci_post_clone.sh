@@ -6,20 +6,17 @@
 #  Created by Vin Bui on 9/14/23.
 #  Copyright © 2023 Cornell AppDev. All rights reserved.
 
-echo "Installing Cocoapods Dependencies"
-brew install cocoapods
-pod deintegrate
-pod install
-
-echo "Installing Apollo Client Dependencies"
-brew install node
-npm install -g apollo
-npm install -g graphql
+echo "Installing Swiftlint via Homebrew"
+brew install swiftlint
 
 echo "Downloading Secrets"
 brew install wget
-cd $CI_WORKSPACE/ci_scripts
-apollo schema:download --endpoint=$PROD_ENDPOINT ../Volume/Networking/schema.json
-apollo codegen:generate --target=swift --includes='../**/*.graphql' --localSchemaFile='../Volume/Networking/schema.json' ../Volume/Networking/API.swift
-wget -O ../Volume/Supporting/GoogleService-Info.plist "$GOOGLE_SERVICE_PLIST"
-wget -O ../Volume/Supporting/Secrets.plist "$SECRETS_PLIST"
+cd $CI_PRIMARY_REPOSITORY_PATH/ci_scripts
+mkdir ../VolumeSecrets
+wget -O ../VolumeSecrets/apollo-codegen-config-dev.json "$CODEGEN_DEV"
+wget -O ../VolumeSecrets/apollo-codegen-config-prod.json "$CODEGEN_PROD"
+wget -O ../VolumeSecrets/Secrets.plsit "$SECRETS_PLIST"
+wget -O ../VolumeSecrets/GoogleService-Info.plist "$GOOGLE_SERVICE_PLIST"
+
+echo "Generating API file"
+../apollo-ios-cli generate -p "../VolumeSecrets/apollo-codegen-config-prod.json" -f

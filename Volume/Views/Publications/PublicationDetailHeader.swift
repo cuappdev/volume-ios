@@ -6,7 +6,6 @@
 //  Copyright © 2020 Cornell AppDev. All rights reserved.
 //
 
-import AppDevAnalytics
 import SwiftUI
 
 struct PublicationDetailHeader: View {
@@ -62,15 +61,15 @@ struct PublicationDetailHeader: View {
                     Haptics.shared.play(.light)
                     followRequestInProgress = true
                     userData.togglePublicationFollowed(publication, $followRequestInProgress)
-                    AppDevAnalytics.log(
+                    AnalyticsManager.shared.log(
                         userData.isPublicationFollowed(publication)
                         ? VolumeEvent.unfollowPublication.toEvent(
-                            .publication,
+                            type: .publication,
                             value: publication.slug,
                             navigationSource: navigationSource
                         )
                         : VolumeEvent.followPublication.toEvent(
-                            .publication,
+                            type: .publication,
                             value: publication.slug,
                             navigationSource: navigationSource
                         )

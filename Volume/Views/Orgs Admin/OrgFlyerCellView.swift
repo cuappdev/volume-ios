@@ -79,7 +79,7 @@ struct OrgFlyerCellView: View {
     private var imageFrame: some View {
         ZStack(alignment: .center) {
             if let flyerImage = urlImageModel.image {
-                Color(uiColor: flyerImage.averageColor ?? .gray)
+                Color(uiColor: flyerImage.averageColor() ?? .gray)
 
                 Image(uiImage: urlImageModel.image ?? UIImage())
                     .resizable()
