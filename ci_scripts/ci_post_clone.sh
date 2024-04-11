@@ -15,7 +15,7 @@ cd $CI_PRIMARY_REPOSITORY_PATH/ci_scripts
 mkdir ../VolumeSecrets
 wget -O ../VolumeSecrets/apollo-codegen-config-dev.json "$CODEGEN_DEV"
 wget -O ../VolumeSecrets/apollo-codegen-config-prod.json "$CODEGEN_PROD"
-wget -O ../VolumeSecrets/Secrets.plsit "$SECRETS_PLIST"
+wget -O ../VolumeSecrets/Secrets.plist "$SECRETS_PLIST"
 wget -O ../VolumeSecrets/GoogleService-Info.plist "$GOOGLE_SERVICE_PLIST"
 
 echo "Generating API file"
