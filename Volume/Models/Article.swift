@@ -13,9 +13,9 @@ typealias ArticleID = String
 
 struct Article: ReadableContent {
 
+    let id: String
     let articleUrl: URL?
     let date: Date
-    let id: String
     let imageUrl: URL?
     let isTrending: Bool
     let isNsfw: Bool
@@ -25,11 +25,11 @@ struct Article: ReadableContent {
     let title: String
     let trendiness: Int
 
-    init(from article: ArticleFields) {
-        articleUrl = URL(string: article.articleUrl)
-        date = Date.from(iso8601: article.date)
+    init(from article: VolumeAPI.ArticleFields) {
         id = article.id
-        imageUrl = URL(string: article.imageUrl)
+        articleUrl = URL(string: article.articleURL)
+        date = Date.from(iso8601: article.date)
+        imageUrl = URL(string: article.imageURL)
         isTrending = article.isTrending
         isNsfw = article.nsfw
         publication = Publication(from: article.publication.fragments.publicationFields)
@@ -43,7 +43,7 @@ struct Article: ReadableContent {
 
 extension Array where Element == Article {
 
-    init(_ articles: [ArticleFields]) {
+    init(_ articles: [VolumeAPI.ArticleFields]) {
         self.init(articles.map(Article.init))
     }
 

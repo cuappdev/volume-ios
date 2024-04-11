@@ -26,12 +26,16 @@ struct ArticleRow: View {
             ArticleInfo(article: article, showsPublicationName: showsPublicationName, isDebrief: false)
 
             if let url = article.imageUrl {
-                WebImage(url: url)
-                    .resizable()
-                    .grayBackground()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: imageSize, height: imageSize)
-                    .clipped()
+                WebImage(url: url) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                } placeholder: {
+                    Rectangle()
+                        .foregroundColor(.gray)
+                }
+                .frame(width: imageSize, height: imageSize)
+                .clipped()
             }
         }
         .frame(maxWidth: .infinity, idealHeight: imageSize, alignment: .leading)

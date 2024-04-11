@@ -9,6 +9,7 @@
 import Foundation
 
 struct WeeklyDebrief: Codable {
+
     let creationDate: Date
     let expirationDate: Date
     let numReadArticles: Int
@@ -17,7 +18,7 @@ struct WeeklyDebrief: Codable {
     let randomArticleIDs: [ArticleID]
     let readMagazineIDs: [MagazineID]
 
-    init(from weeklyDebrief: GetWeeklyDebriefQuery.Data.User.WeeklyDebrief) {
+    init(from weeklyDebrief: VolumeAPI.GetWeeklyDebriefQuery.Data.User.WeeklyDebrief) {
         creationDate = Date.from(iso8601: weeklyDebrief.creationDate)
         expirationDate = Date.from(iso8601: weeklyDebrief.expirationDate)
         numReadArticles = Int(weeklyDebrief.numReadArticles)
@@ -31,4 +32,5 @@ struct WeeklyDebrief: Codable {
         let comparisonResult = Calendar.current.compare(expirationDate, to: Date.now, toGranularity: .day)
         return comparisonResult != .orderedDescending
     }
+
 }

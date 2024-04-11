@@ -16,14 +16,18 @@ struct FollowingPublicationRow: View {
     var body: some View {
         VStack(spacing: 5) {
             if let url = publication.profileImageUrl {
-                WebImage(url: url)
-                    .resizable()
-                    .grayBackground()
-                    .clipShape(Circle())
-                    .frame(width: 75, height: 75)
-                    .shadow(color: Color(white: 0, opacity: 0.1), radius: 5)
-                    .transition(.fade(duration: 0.5))
-                    .padding(.top, 4)
+                WebImage(url: url) { image in
+                    image
+                        .resizable()
+                } placeholder: {
+                    Rectangle()
+                        .foregroundColor(.gray)
+                }
+                .clipShape(Circle())
+                .frame(width: 75, height: 75)
+                .shadow(color: Color(white: 0, opacity: 0.1), radius: 5)
+                .transition(.fade(duration: 0.5))
+                .padding(.top, 4)
             } else {
                 Circle()
                     .foregroundColor(.gray)

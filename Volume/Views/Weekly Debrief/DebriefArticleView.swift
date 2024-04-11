@@ -6,8 +6,8 @@
 //  Copyright © 2021 Cornell AppDev. All rights reserved.
 //
 
-import AppDevAnalytics
 import Combine
+import OSLog
 import SDWebImageSwiftUI
 import SwiftUI
 
@@ -48,8 +48,8 @@ struct DebriefArticleView: View {
             Haptics.shared.play(.light)
             bookmarkRequestInProgress = true
             userData.toggleArticleSaved(article, $bookmarkRequestInProgress)
-            AppDevAnalytics.log(
-                VolumeEvent.bookmarkArticle.toEvent(.article, value: article.id, navigationSource: .weeklyDebrief)
+            AnalyticsManager.shared.log(
+                VolumeEvent.bookmarkArticle.toEvent(type: .article, value: article.id, navigationSource: .weeklyDebrief)
             )
         }, label: {
             Image.volume.bookmark
@@ -69,9 +69,9 @@ struct DebriefArticleView: View {
     var shareButton: some View {
         Button {
             Haptics.shared.play(.light)
-            AppDevAnalytics.log(
+            AnalyticsManager.shared.log(
                 VolumeEvent.shareArticle.toEvent(
-                    .article,
+                    type: .article,
                     value: article.id,
                     navigationSource: .weeklyDebrief
                 )
@@ -121,18 +121,26 @@ struct DebriefArticleView: View {
             ) {
                 VStack(spacing: 16) {
                     if let url = article.imageUrl {
-                        WebImage(url: url)
-                            .resizable()
-                            .grayBackground()
-                            .scaledToFit()
-                            .frame(width: Self.bodyFrameSize, height: Self.bodyFrameSize)
-                            .clipped()
+                        WebImage(url: url) { image in
+                            image
+                                .resizable()
+                                .scaledToFit()
+                        } placeholder: {
+                            Rectangle()
+                                .foregroundColor(.gray)
+                        }
+                        .frame(width: Self.bodyFrameSize, height: Self.bodyFrameSize)
+                        .clipped()
                     } else {
-                        WebImage(url: article.publication.profileImageUrl)
-                            .resizable()
-                            .grayBackground()
-                            .frame(width: Self.bodyFrameSize, height: Self.bodyFrameSize)
-                            .padding(Self.bodySpacing)
+                        WebImage(url: article.publication.profileImageUrl) { image in
+                            image
+                                .resizable()
+                        } placeholder: {
+                            Rectangle()
+                                .foregroundColor(.gray)
+                        }
+                        .frame(width: Self.bodyFrameSize, height: Self.bodyFrameSize)
+                        .padding(Self.bodySpacing)
                     }
                     ArticleInfo(article: article, showsPublicationName: true, isDebrief: true)
                 }
@@ -169,9 +177,9 @@ struct DebriefArticleView: View {
     private func incrementShoutouts(for article: Article) async {
         guard let uuid = userData.uuid else { return }
 
-        AppDevAnalytics.log(
+        AnalyticsManager.shared.log(
             VolumeEvent.shoutoutArticle.toEvent(
-                .article, value: article.id, navigationSource: .weeklyDebrief
+                type: .article, value: article.id, navigationSource: .weeklyDebrief
             )
         )
         userData.incrementShoutoutsCounter(article)
@@ -185,15 +193,15 @@ struct DebriefArticleView: View {
         )
         userData.shoutoutsCache[article.publication.slug, default: 0] = currentPublicationShoutouts + 1
 
-        cancellableShoutoutMutation = Network.shared.publisher(
-            for: IncrementShoutoutsMutation(
+        cancellableShoutoutMutation = Network.client.mutationPublisher(
+            mutation: VolumeAPI.IncrementShoutoutsMutation(
                 id: article.id, uuid: uuid
             )
         )
             .sink(receiveCompletion: { completion in
                 if case let .failure(error) = completion {
                     // swiftlint:disable:next line_length
-                    print("Error: IncrementShoutoutsMutation failed on DebriefArticleView: \(error.localizedDescription)")
+                    Logger.services.error("Error: IncrementShoutoutsMutation failed on DebriefArticleView: \(error.localizedDescription)")
                 }
             }, receiveValue: { _ in })
     }

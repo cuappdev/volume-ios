@@ -7,6 +7,7 @@
 //
 
 import Combine
+import OSLog
 import SwiftUI
 
 struct OnboardingPublicationsView: View {
@@ -80,12 +81,12 @@ struct OnboardingPublicationsView: View {
     // MARK: - Helpers
 
     private func fetchPublications() async {
-        cancellableQuery = Network.shared.publisher(for: GetAllPublicationsQuery())
-            .map { data in data.publications.compactMap { $0.fragments.publicationFields } }
+        cancellableQuery = Network.client.queryPublisher(query: VolumeAPI.GetAllPublicationsQuery())
+            .compactMap { $0.data?.publications.map(\.fragments.publicationFields) }
             .sink { completion in
                 if case let .failure(error) = completion {
                     // swiftlint:disable:next line_length
-                    print("Error: GetAllPublicationsQuery failed on OnboardingPublicationsView: \(error.localizedDescription)")
+                    Logger.services.error("Error: GetAllPublicationsQuery failed on OnboardingPublicationsView: \(error.localizedDescription)")
                 }
             } receiveValue: { publicationFields in
                 publications = [Publication](publicationFields)

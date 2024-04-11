@@ -6,10 +6,10 @@
 //  Copyright © 2022 Cornell AppDev. All rights reserved.
 //
 
-import AppDevAnalytics
 import Combine
 import LinkPresentation
 import PDFKit
+import OSLog
 import SDWebImageSwiftUI
 import SwiftUI
 
@@ -66,29 +66,29 @@ struct MagazineReaderView: View {
 
     private func markMagazineRead() async {
         guard let uuid = userData.uuid, let magazineID = magazine?.id else { return }
-        cancellableReadMutation = Network.shared.publisher(
-            for: ReadMagazineMutation(
+        cancellableReadMutation = Network.client.mutationPublisher(
+            mutation: VolumeAPI.ReadMagazineMutation(
                 id: magazineID,
                 uuid: uuid
             )
         )
-        .map(\.readMagazine?.id)
+        .map(\.data?.readMagazine?.id)
         .sink { completion in
             if case let .failure(error) = completion {
-                print("Error: ReadMagazineMutation failed on MagazineReaderView: \(error.localizedDescription)")
+                Logger.services.error("Error: ReadMagazineMutation failed on MagazineReaderView: \(error.localizedDescription)")
             }
         } receiveValue: { id in
 #if DEBUG
-            print("Marked magazine read with ID: \(id ?? "nil")")
+            Logger.services.log("Marked magazine read with ID: \(id ?? "nil")")
 #endif
         }
     }
 
     private func fetchMagazineById(_ magazineId: String) {
-        Network.shared.publisher(
-            for: GetMagazineByIdQuery(id: magazineId)
+        Network.client.queryPublisher(
+            query: VolumeAPI.GetMagazineByIDQuery(id: magazineId)
         )
-        .compactMap(\.magazine?.fragments.magazineFields)
+        .compactMap(\.data?.magazine?.fragments.magazineFields)
         .sink { completion in
             networkState.handleCompletion(screen: .reads, completion)
         } receiveValue: { magazineFields in
@@ -165,12 +165,12 @@ struct MagazineReaderView: View {
                     )
                     .overlay(
                         showScrollbar
-                             ? PageIndicatorView(
-                                totalPage: pdfDoc.pageCount,
-                                pdfView: pdfView
-                             ).padding([.top, .trailing])
-                             : nil,
-                             alignment: .topTrailing
+                        ? PageIndicatorView(
+                            totalPage: pdfDoc.pageCount,
+                            pdfView: pdfView
+                        ).padding([.top, .trailing])
+                        : nil,
+                        alignment: .topTrailing
                     )
                 } else {
                     PDFKitView(pdfView: pdfView, pdfDoc: PDFDocument())
@@ -203,9 +203,9 @@ struct MagazineReaderView: View {
                 case .readyForDisplay(let magazine):
                     self.magazine = magazine
 
-                    AppDevAnalytics.log(
+                    AnalyticsManager.shared.log(
                         VolumeEvent.openMagazine.toEvent(
-                            .magazine,
+                            type: .magazine,
                             value: magazine.id,
                             navigationSource: navigationSource
                         )

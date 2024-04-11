@@ -25,9 +25,8 @@ opt_in_rules:
 
 excluded: 
   - Volume/AppDelegate.swift
-  - Volume/Networking/API.swift
+  - VolumeAPI
   - Volume/SceneDelegate.swift
-  - Pods
 
 identifier_name:
   min_length: 1

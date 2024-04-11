@@ -6,7 +6,6 @@
 //  Copyright © 2023 Cornell AppDev. All rights reserved.
 //
 
-import AppDevAnalytics
 import SwiftUI
 
 struct OrganizationDetailHeader: View {
@@ -79,15 +78,15 @@ struct OrganizationDetailHeader: View {
             followRequestInProgress = true
             userData.toggleOrganizationFollowed(organization, $followRequestInProgress)
 
-            AppDevAnalytics.log(
+            AnalyticsManager.shared.log(
                 userData.isOrganizationFollowed(organization)
                 ? VolumeEvent.unfollowOrganization.toEvent(
-                    .organization,
+                    type: .organization,
                     value: organization.slug,
                     navigationSource: navigationSource
                 )
                 : VolumeEvent.followOrganization.toEvent(
-                    .organization,
+                    type: .organization,
                     value: organization.slug,
                     navigationSource: navigationSource
                 )

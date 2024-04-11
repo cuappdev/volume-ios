@@ -76,13 +76,17 @@ struct OrganizationDetail: View {
             let headerOffset = scrollOffset > 0 ? -scrollOffset : 0
             let headerHeight = geometry.size.height + max(scrollOffset, 0)
 
-            WebImage(url: organization.backgroundImageUrl)
-                .resizable()
-                .grayBackground()
-                .scaledToFill()
-                .frame(width: geometry.size.width, height: headerHeight)
-                .clipped()
-                .offset(y: headerOffset)
+            WebImage(url: organization.backgroundImageUrl) { image in
+                image
+                    .resizable()
+                    .scaledToFill()
+            } placeholder: {
+                Rectangle()
+                    .foregroundColor(.gray)
+            }
+            .frame(width: geometry.size.width, height: headerHeight)
+            .clipped()
+            .offset(y: headerOffset)
         }
         .frame(height: Constants.coverImageHeight)
     }
@@ -102,17 +106,21 @@ struct OrganizationDetail: View {
 
                 Spacer()
 
-                WebImage(url: organization.profileImageUrl)
-                    .grayBackground()
-                    .resizable()
-                    .clipShape(Circle())
-                    .frame(width: Constants.profileImageDimension, height: Constants.profileImageDimension)
-                    .overlay(
-                        Circle()
-                            .stroke(Color.white, lineWidth: Constants.profileImageStrokeWidth)
-                    )
-                    .shadow(color: Color.volume.shadowBlack, radius: Constants.shadowRadius)
-                    .padding(.leading, Constants.horizontalPadding)
+                WebImage(url: organization.profileImageUrl) { image in
+                    image
+                        .resizable()
+                } placeholder: {
+                    Rectangle()
+                        .foregroundColor(.gray)
+                }
+                .clipShape(Circle())
+                .frame(width: Constants.profileImageDimension, height: Constants.profileImageDimension)
+                .overlay(
+                    Circle()
+                        .stroke(Color.white, lineWidth: Constants.profileImageStrokeWidth)
+                )
+                .shadow(color: Color.volume.shadowBlack, radius: Constants.shadowRadius)
+                .padding(.leading, Constants.horizontalPadding)
             }
 
             Spacer()

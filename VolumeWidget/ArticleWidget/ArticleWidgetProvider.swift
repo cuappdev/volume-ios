@@ -6,7 +6,9 @@
 //  Copyright © 2023 Cornell AppDev. All rights reserved.
 //
 
+import Apollo
 import Combine
+import OSLog
 import WidgetKit
 
 struct ArticleWidgetProvider: TimelineProvider {
@@ -98,10 +100,10 @@ extension ArticleWidgetProvider {
         // swiftlint:enable line_length
 
         do {
-            let articleQuery = try GetArticleByIdQuery.Data.Article(jsonObject: data)
-            return Article(from: articleQuery.fragments.articleFields)
+            let articleFields = try VolumeAPI.ArticleFields(data: data)
+            return Article(from: articleFields)
         } catch {
-            print("Error in ArticleWidgetProvider: \(error)")
+            Logger.services.error("Error in ArticleWidgetProvider: \(error.localizedDescription)")
             return nil
         }
     }
