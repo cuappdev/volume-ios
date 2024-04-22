@@ -1,6 +1,6 @@
 # Volume - Cornell News
 
-<p align="center"><img src="https://github.com/cuappdev/volume-ios/blob/master/Volume/Assets.xcassets/AppIcon.appiconset/Logo%20%232-1024.png" width=210 /></p>
+<p align="center"><img src="https://github.com/cuappdev/volume-ios/blob/master/Volume/Resources/Assets.xcassets/AppIcon.appiconset/Logo%20%232-1024.png" width=210 /></p>
 
 Volume is one of the latest applications by [Cornell AppDev](http://cornellappdev.com), an engineering project team at Cornell University focused on mobile app development. Volume aims to amplify the voice of student publications, helping them reach a broader audience. Download the current release on the [App Store](https://apps.apple.com/us/app/volume-cornell-news/id1547133564)!
 
@@ -17,7 +17,7 @@ This app uses Swift Package Manager for dependencies.
 ## Getting Started
 
 1. Clone the repository.
-2. Go to `VolumeSecrets/` and drag the following four files into **FINDER (NOT Xcode). You must create this folder through Finder.** For AppDev members, you can find these pinned in the `#volume-ios` Slack channel.
+2. Create a `VolumeSecrets` folder in the root directory and drag the following four files into **FINDER (NOT Xcode). You must create this folder through Finder.** For AppDev members, you can find these pinned in the `#volume-ios` Slack channel.
    - `GoogleService-Info.plist`
    - `Secrets.plist`
    - `apollo-codegen-config-dev.json`
