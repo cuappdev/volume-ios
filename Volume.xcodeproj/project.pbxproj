@@ -57,6 +57,8 @@
 		2E4B30DE29CCEE9B000D6AA6 /* HapticTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4B30DD29CCEE9B000D6AA6 /* HapticTouch.swift */; };
 		2E4BAE8429DE7FA700EB16D6 /* EmptyButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4BAE8329DE7FA600EB16D6 /* EmptyButtonStyle.swift */; };
 		2E531A3129CCC1920043EB85 /* ShimmerEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E531A3029CCC1920043EB85 /* ShimmerEffect.swift */; };
+		2E6638BC2BD71DB40036443D /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E6638BA2BD71DB40036443D /* Secrets.plist */; };
+		2E6638BD2BD71DB40036443D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E6638BB2BD71DB40036443D /* GoogleService-Info.plist */; };
 		2E6A7D5029D9E3D3002F5250 /* TrendingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6A7D4F29D9E3D3002F5250 /* TrendingView.swift */; };
 		2E6A7D5229D9E6F8002F5250 /* BookmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6A7D5129D9E6F8002F5250 /* BookmarksView.swift */; };
 		2E6A7D5429D9E723002F5250 /* FlyersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6A7D5329D9E723002F5250 /* FlyersView.swift */; };
@@ -80,10 +82,6 @@
 		2E81EB6629F4F4A800A288C1 /* OnboardingFlyersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E81EB6529F4F4A800A288C1 /* OnboardingFlyersView.swift */; };
 		2E81EB6829F4FC0900A288C1 /* ScrollFadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E81EB6729F4FC0900A288C1 /* ScrollFadingView.swift */; };
 		2E81EB6A29F4FD1600A288C1 /* OnboardingPublicationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E81EB6929F4FD1600A288C1 /* OnboardingPublicationsView.swift */; };
-		2E83EFEC2BB8219500F06EF7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E83EFE92BB8219500F06EF7 /* GoogleService-Info.plist */; };
-		2E83EFED2BB8219500F06EF7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E83EFE92BB8219500F06EF7 /* GoogleService-Info.plist */; };
-		2E83EFEE2BB8219500F06EF7 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E83EFEA2BB8219500F06EF7 /* Secrets.plist */; };
-		2E83EFEF2BB8219500F06EF7 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E83EFEA2BB8219500F06EF7 /* Secrets.plist */; };
 		2E9216392B05D9C700400C1D /* FlyerWidgetIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7EE82B01361100E82ABE /* FlyerWidgetIntent.swift */; };
 		2E9349AA2AC718C70098CAC8 /* FlyerUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9349A92AC718C70098CAC8 /* FlyerUploadView.swift */; };
 		2E9349AC2AC718D70098CAC8 /* FlyerUploadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9349AB2AC718D70098CAC8 /* FlyerUploadViewModel.swift */; };
@@ -402,6 +400,8 @@
 		2E4B30DD29CCEE9B000D6AA6 /* HapticTouch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticTouch.swift; sourceTree = "<group>"; };
 		2E4BAE8329DE7FA600EB16D6 /* EmptyButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyButtonStyle.swift; sourceTree = "<group>"; };
 		2E531A3029CCC1920043EB85 /* ShimmerEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerEffect.swift; sourceTree = "<group>"; };
+		2E6638BA2BD71DB40036443D /* Secrets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
+		2E6638BB2BD71DB40036443D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2E6A7D4F29D9E3D3002F5250 /* TrendingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingView.swift; sourceTree = "<group>"; };
 		2E6A7D5129D9E6F8002F5250 /* BookmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksView.swift; sourceTree = "<group>"; };
 		2E6A7D5329D9E723002F5250 /* FlyersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyersView.swift; sourceTree = "<group>"; };
@@ -425,8 +425,6 @@
 		2E81EB6529F4F4A800A288C1 /* OnboardingFlyersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFlyersView.swift; sourceTree = "<group>"; };
 		2E81EB6729F4FC0900A288C1 /* ScrollFadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollFadingView.swift; sourceTree = "<group>"; };
 		2E81EB6929F4FD1600A288C1 /* OnboardingPublicationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPublicationsView.swift; sourceTree = "<group>"; };
-		2E83EFE92BB8219500F06EF7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		2E83EFEA2BB8219500F06EF7 /* Secrets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		2E9349A92AC718C70098CAC8 /* FlyerUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerUploadView.swift; sourceTree = "<group>"; };
 		2E9349AB2AC718D70098CAC8 /* FlyerUploadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyerUploadViewModel.swift; sourceTree = "<group>"; };
 		2EA7DB7229DBEF7C001D7B8A /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
@@ -825,8 +823,8 @@
 		2E83EFEB2BB8219500F06EF7 /* VolumeSecrets */ = {
 			isa = PBXGroup;
 			children = (
-				2E83EFE92BB8219500F06EF7 /* GoogleService-Info.plist */,
-				2E83EFEA2BB8219500F06EF7 /* Secrets.plist */,
+				2E6638BB2BD71DB40036443D /* GoogleService-Info.plist */,
+				2E6638BA2BD71DB40036443D /* Secrets.plist */,
 			);
 			path = VolumeSecrets;
 			sourceTree = "<group>";
@@ -1300,8 +1298,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E0B00D52B00633F00CFC6EA /* Assets.xcassets in Resources */,
-				2E83EFEF2BB8219500F06EF7 /* Secrets.plist in Resources */,
-				2E83EFED2BB8219500F06EF7 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1309,12 +1305,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E83EFEC2BB8219500F06EF7 /* GoogleService-Info.plist in Resources */,
 				BC72AEBC29259E8000209573 /* MagazineMutations.graphql in Resources */,
-				2E83EFEE2BB8219500F06EF7 /* Secrets.plist in Resources */,
 				33538BF02745C579009DD191 /* UserQueries.graphql in Resources */,
 				2E38E14D29E5CC67006323E5 /* volume_logo.json in Resources */,
 				2EF894BA2A1F087F001DD2A1 /* FlyerMutations.graphql in Resources */,
+				2E6638BC2BD71DB40036443D /* Secrets.plist in Resources */,
 				7ED7C340252D117B0078B1BD /* Preview Assets.xcassets in Resources */,
 				2E7043502BB75F10003AC1D6 /* PrivacyInfo.xcprivacy in Resources */,
 				BC2C4C192909E74D0083C6AA /* MagazineQueries.graphql in Resources */,
@@ -1323,6 +1318,7 @@
 				2E38E14F29E5CE4C006323E5 /* LaunchScreen.storyboard in Resources */,
 				2EF894B42A1E9DCF001DD2A1 /* FlyerQueries.graphql in Resources */,
 				7ED7C33D252D117B0078B1BD /* Assets.xcassets in Resources */,
+				2E6638BD2BD71DB40036443D /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
