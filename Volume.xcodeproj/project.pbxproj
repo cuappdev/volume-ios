@@ -10,7 +10,6 @@
 		060B738B256340580035E252 /* BubblePeriodText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060B738A256340580035E252 /* BubblePeriodText.swift */; };
 		061233A12553127C0025F7E0 /* UnderlinedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061233A02553127C0025F7E0 /* UnderlinedText.swift */; };
 		061DB39725571D760038BEF5 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061DB39625571D760038BEF5 /* Font+Extension.swift */; };
-		06662888257F204E006FEBCF /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06662887257F204E006FEBCF /* Secrets.swift */; };
 		0685AA9E259EA84900DD55C4 /* BrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0685AA9D259EA84900DD55C4 /* BrowserView.swift */; };
 		0685AAA1259EBA3800DD55C4 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0685AAA0259EBA3800DD55C4 /* WebView.swift */; };
 		06A8E2532575429200C28C68 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A8E2522575429200C28C68 /* MainView.swift */; };
@@ -29,6 +28,8 @@
 		2E0B00E32B00648B00CFC6EA /* Publication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8658AD254B71FF002DEE68 /* Publication.swift */; };
 		2E0B00E42B00649D00CFC6EA /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E416C2E2561D47C0010D70B /* Date+Extension.swift */; };
 		2E0D036D29F1CFA6008EAF69 /* JSONDecoder+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0D036C29F1CFA6008EAF69 /* JSONDecoder+Extension.swift */; };
+		2E18FF122BD87B9200834B50 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E18FF112BD87B9200834B50 /* Secrets.swift */; };
+		2E18FF132BD87B9200834B50 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E18FF112BD87B9200834B50 /* Secrets.swift */; };
 		2E1DDD612AD0525B00627C52 /* CategoryDropdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1DDD602AD0525B00627C52 /* CategoryDropdown.swift */; };
 		2E1DDD632AD0546300627C52 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1DDD622AD0546300627C52 /* String+Extension.swift */; };
 		2E34236E2BB7E5D700D02938 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 2E34236D2BB7E5D700D02938 /* SDWebImage */; };
@@ -261,7 +262,6 @@
 		2EFA7ECE2B007EDC00E82ABE /* ArticleWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7ECD2B007EDC00E82ABE /* ArticleWidgetView.swift */; };
 		2EFA7ECF2B007EDC00E82ABE /* ArticleWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7ECD2B007EDC00E82ABE /* ArticleWidgetView.swift */; };
 		2EFA7ED02B008AD700E82ABE /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061DB39625571D760038BEF5 /* Font+Extension.swift */; };
-		2EFA7ED32B00AE2700E82ABE /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06662887257F204E006FEBCF /* Secrets.swift */; };
 		2EFA7ED82B00BB9900E82ABE /* FlyerWidgetEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7ED72B00BB9900E82ABE /* FlyerWidgetEntry.swift */; };
 		2EFA7EDA2B00BBC000E82ABE /* FlyerWidgetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7ED92B00BBC000E82ABE /* FlyerWidgetProvider.swift */; };
 		2EFA7EDC2B00BC8D00E82ABE /* FlyerWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFA7EDB2B00BC8D00E82ABE /* FlyerWidget.swift */; };
@@ -363,7 +363,6 @@
 		061233A02553127C0025F7E0 /* UnderlinedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlinedText.swift; sourceTree = "<group>"; };
 		061DB39625571D760038BEF5 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
 		063EED49257BFDA9002136EE /* PublicationsQueries.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = PublicationsQueries.graphql; sourceTree = "<group>"; };
-		06662887257F204E006FEBCF /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Secrets.swift; path = ../Supporting/Secrets.swift; sourceTree = "<group>"; };
 		0685AA9D259EA84900DD55C4 /* BrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserView.swift; sourceTree = "<group>"; };
 		0685AAA0259EBA3800DD55C4 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		0685AAA3259EC2AF00DD55C4 /* ArticlesMutations.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = ArticlesMutations.graphql; sourceTree = "<group>"; };
@@ -382,6 +381,7 @@
 		2E0B00D62B00633F00CFC6EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E0B00E02B00643800CFC6EA /* Apollo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Apollo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E0D036C29F1CFA6008EAF69 /* JSONDecoder+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+Extension.swift"; sourceTree = "<group>"; };
+		2E18FF112BD87B9200834B50 /* Secrets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		2E1DDD602AD0525B00627C52 /* CategoryDropdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDropdown.swift; sourceTree = "<group>"; };
 		2E1DDD622AD0546300627C52 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		2E3423742BB7ED1600D02938 /* ApolloClientProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApolloClientProtocol.swift; sourceTree = "<group>"; };
@@ -684,6 +684,14 @@
 			path = VolumeWidget;
 			sourceTree = "<group>";
 		};
+		2E18FF0E2BD87B6F00834B50 /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+				2E18FF112BD87B9200834B50 /* Secrets.swift */,
+			);
+			path = Configs;
+			sourceTree = "<group>";
+		};
 		2E34245C2BB800CF00D02938 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -729,14 +737,6 @@
 				95AC9DCE2637C120000B4BEE /* Main.swift */,
 			);
 			path = Core;
-			sourceTree = "<group>";
-		};
-		2E50B1F32BB81BF200A7FBF3 /* Configs */ = {
-			isa = PBXGroup;
-			children = (
-				06662887257F204E006FEBCF /* Secrets.swift */,
-			);
-			path = Configs;
 			sourceTree = "<group>";
 		};
 		2E50B1F42BB81C4000A7FBF3 /* Resources */ = {
@@ -1167,7 +1167,7 @@
 			children = (
 				2E70434F2BB75F10003AC1D6 /* PrivacyInfo.xcprivacy */,
 				7ED7C344252D117B0078B1BD /* Info.plist */,
-				2E50B1F32BB81BF200A7FBF3 /* Configs */,
+				2E18FF0E2BD87B6F00834B50 /* Configs */,
 				2E50B1F22BB81B8400A7FBF3 /* Core */,
 				7E51586325589D3F003A0F4A /* Models */,
 				2E50B1F42BB81C4000A7FBF3 /* Resources */,
@@ -1411,6 +1411,7 @@
 				2EF114D52B05FDE5007AD8F9 /* WidgetImage.swift in Sources */,
 				2E9216392B05D9C700400C1D /* FlyerWidgetIntent.swift in Sources */,
 				2EC372702BB80D490074F628 /* SearchFlyersQuery.graphql.swift in Sources */,
+				2E18FF132BD87B9200834B50 /* Secrets.swift in Sources */,
 				2EC3725A2BB80D490074F628 /* GetMagazinesByIDsQuery.graphql.swift in Sources */,
 				2EFA7EE62B00BDA900E82ABE /* Flyer.swift in Sources */,
 				2EC372402BB80D490074F628 /* GetAllPublicationSlugsQuery.graphql.swift in Sources */,
@@ -1442,7 +1443,6 @@
 				2EC3722E2BB80D490074F628 /* ReadMagazineMutation.graphql.swift in Sources */,
 				2EC372262BB80D490074F628 /* IncrementMagazineShoutoutsMutation.graphql.swift in Sources */,
 				2EFA7EE52B00BD9300E82ABE /* Widget+Extension.swift in Sources */,
-				2EFA7ED32B00AE2700E82ABE /* Secrets.swift in Sources */,
 				2EC3724E2BB80D490074F628 /* GetFeaturedMagazinesQuery.graphql.swift in Sources */,
 				2EC372662BB80D490074F628 /* GetShuffledArticlesByPublicationSlugsQuery.graphql.swift in Sources */,
 				2EFA7ED02B008AD700E82ABE /* Font+Extension.swift in Sources */,
@@ -1536,6 +1536,7 @@
 				2EC372152BB80D490074F628 /* BookmarkFlyerMutation.graphql.swift in Sources */,
 				7EC15DA3257767ED0053BA0B /* PublicationList.swift in Sources */,
 				2E3424572BB7FD8500D02938 /* AnalyticsManager.swift in Sources */,
+				2E18FF122BD87B9200834B50 /* Secrets.swift in Sources */,
 				2EFA7EC12B0075A700E82ABE /* ArticleWidgetEntry.swift in Sources */,
 				2EC3723D2BB80D490074F628 /* GetAllOrganizationsQuery.graphql.swift in Sources */,
 				2EC372132BB80D490074F628 /* BookmarkArticleMutation.graphql.swift in Sources */,
@@ -1604,7 +1605,6 @@
 				2EC3725D2BB80D490074F628 /* GetMagazinesByPublicationSlugsQuery.graphql.swift in Sources */,
 				2EC811EC2AC6875500ED1ACC /* OrgsLoginView.swift in Sources */,
 				2E6A7D6329DA39D3002F5250 /* BookmarksViewModel.swift in Sources */,
-				06662888257F204E006FEBCF /* Secrets.swift in Sources */,
 				2E6A7D5629D9E73E002F5250 /* ReadsView.swift in Sources */,
 				2E6C36112AF5E355004A54BB /* OrgsAdminView.swift in Sources */,
 				2EC3722B2BB80D490074F628 /* ReadArticleMutation.graphql.swift in Sources */,
