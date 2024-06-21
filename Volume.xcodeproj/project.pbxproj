@@ -1219,7 +1219,6 @@
 				7ED7C330252D117A0078B1BD /* Frameworks */,
 				7ED7C331252D117A0078B1BD /* Resources */,
 				2E48371D2AE95F3C00F18F17 /* SwiftLint */,
-				063EED1A257BF7F7002136EE /* Generate API */,
 				2E0B00D92B00633F00CFC6EA /* Embed Foundation Extensions */,
 				2E34236F2BB7E99E00D02938 /* Crashlytics */,
 			);
@@ -1325,26 +1324,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		063EED1A257BF7F7002136EE /* Generate API */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Generate API";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "CLI_PATH=\"./apollo-ios-cli\"\nSECRETS_PATH=\"${SRCROOT}/VolumeSecrets\"\n\nif [ \"${CONFIGURATION}\" != \"Release\" ]; then\n  CONFIG_PATH=\"${SECRETS_PATH}/apollo-codegen-config-dev.json\"\nfi\n\nif [ \"${CONFIGURATION}\" = \"Release\" ]; then\n  CONFIG_PATH=\"${SECRETS_PATH}/apollo-codegen-config-prod.json\"\nfi\n\n\"${CLI_PATH}\" generate -p \"${CONFIG_PATH}\" -f\n";
-			showEnvVarsInLog = 0;
-		};
 		2E34236F2BB7E99E00D02938 /* Crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
